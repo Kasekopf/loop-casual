@@ -16,6 +16,7 @@ export type Task = {
   choices?: { [id: number]: number };
   combat?: CombatStrategy;
   modifier?: string;
+  equip?: Item[];
 };
 
 export function step(questName: StringProperty): number {
