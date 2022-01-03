@@ -16,18 +16,21 @@ export const FriarQuest: Quest = {
       after: "Start",
       completed: () => have($item`box of birthday candles`),
       do: $location`The Dark Heart of the Woods`,
+      modifier: "-combat",
     },
     {
       name: "Neck",
       after: "Start",
       completed: () => have($item`dodecagram`),
       do: $location`The Dark Neck of the Woods`,
+      modifier: "-combat",
     },
     {
       name: "Elbow",
       after: "Start",
       completed: () => have($item`eldritch butterknife`),
       do: $location`The Dark Elbow of the Woods`,
+      modifier: "-combat",
     },
     {
       name: "Finish",

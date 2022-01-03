@@ -15,6 +15,7 @@ export type Task = {
   do: Location | (() => void);
   choices?: { [id: number]: number };
   combat?: CombatStrategy;
+  modifier?: string;
 };
 
 export function step(questName: StringProperty): number {

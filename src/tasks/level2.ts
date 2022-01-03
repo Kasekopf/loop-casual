@@ -23,6 +23,7 @@ export const MosquitoQuest: Quest = {
       completed: () => have($item`mosquito larva`),
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },
+      modifier: "-combat",
     },
     {
       name: "Finish",
