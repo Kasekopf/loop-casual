@@ -14,6 +14,7 @@ export type Task = {
   prepare?: () => void;
   do: Location | (() => void);
   choices?: { [id: number]: number };
+  combat?: CombatStrategy;
 };
 
 export function step(questName: StringProperty): number {
@@ -26,5 +27,17 @@ export function step(questName: StringProperty): number {
       throw "Quest state parsing error.";
     }
     return parseInt(stringStep.substring(4), 10);
+  }
+}
+
+enum MonsterStrategy {
+  Kill,
+}
+
+export class CombatStrategy {
+  strategy: { [id: number]: MonsterStrategy } = {};
+  public kill(monster: Monster): CombatStrategy {
+    this.strategy[monster.id] = MonsterStrategy.Kill;
+    return this;
   }
 }

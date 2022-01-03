@@ -1,6 +1,6 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $item, $location, have } from "libram";
-import { Quest, step } from "./structure";
+import { $item, $location, $monster, have } from "libram";
+import { CombatStrategy, Quest, step } from "./structure";
 
 export const MosquitoQuest: Quest = {
   name: "Bat Quest",
@@ -23,6 +23,7 @@ export const MosquitoQuest: Quest = {
       after: "Use Sonar",
       completed: () => step("questL04Bat") === 4,
       do: $location`The Boss Bat's Lair`,
+      combat: new CombatStrategy().kill($monster`Boss Bat`),
     },
     {
       name: "Finish",
