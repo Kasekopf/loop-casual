@@ -33,12 +33,24 @@ export function step(questName: StringProperty): number {
 
 enum MonsterStrategy {
   Kill,
+  Banish,
 }
 
 export class CombatStrategy {
   strategy: { [id: number]: MonsterStrategy } = {};
-  public kill(monster: Monster): CombatStrategy {
-    this.strategy[monster.id] = MonsterStrategy.Kill;
+  apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
+    if (monsters.length === 0) {
+      this.strategy[-1] = strategy;
+    }
+    for (const monster of monsters) {
+      this.strategy[monster.id] = strategy;
+    }
     return this;
+  }
+  public kill(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.Kill, ...monsters);
+  }
+  public banish(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.Banish, ...monsters);
   }
 }
