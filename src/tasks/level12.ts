@@ -42,6 +42,7 @@ export const WarQuest: Quest = {
       ready: () => myLevel() >= 12,
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Unlock Island",
@@ -50,6 +51,7 @@ export const WarQuest: Quest = {
       do: (): void => {
         cliExecute("acquire skeletal skiff");
       },
+      cap: 1,
     },
     {
       name: "Start War",
@@ -73,6 +75,7 @@ export const WarQuest: Quest = {
           use($item`stuffing fluffer`);
         }
       },
+      cap: 1,
     },
     {
       name: "Boss",
@@ -81,6 +84,7 @@ export const WarQuest: Quest = {
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: $location`Hippy Camp`,
       combat: new CombatStrategy().kill(),
+      cap: 1,
     },
   ],
 };

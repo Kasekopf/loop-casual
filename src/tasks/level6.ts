@@ -10,6 +10,7 @@ export const FriarQuest: Quest = {
       ready: () => myLevel() >= 6,
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Heart",
@@ -17,6 +18,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`box of birthday candles`),
       do: $location`The Dark Heart of the Woods`,
       modifier: "-combat",
+      cap: 17,
     },
     {
       name: "Neck",
@@ -24,6 +26,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`dodecagram`),
       do: $location`The Dark Neck of the Woods`,
       modifier: "-combat",
+      cap: 17,
     },
     {
       name: "Elbow",
@@ -31,12 +34,14 @@ export const FriarQuest: Quest = {
       completed: () => have($item`eldritch butterknife`),
       do: $location`The Dark Elbow of the Woods`,
       modifier: "-combat",
+      cap: 17,
     },
     {
       name: "Finish",
       after: ["Heart", "Neck", "Elbow"],
       completed: () => step("questL06Friar") === 999,
       do: () => visitUrl("friars.php?action=ritual&pwd"),
+      cap: 1,
     },
   ],
 };

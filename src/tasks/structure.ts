@@ -18,6 +18,7 @@ export type Task = {
   modifier?: string;
   equip?: Item[];
   familiar?: Familiar;
+  cap?: number;
 };
 
 export function step(questName: StringProperty): number {

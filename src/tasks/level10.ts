@@ -10,6 +10,7 @@ export const GiantQuest: Quest = {
       ready: () => myLevel() >= 10,
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Grow Beanstalk",
@@ -17,11 +18,12 @@ export const GiantQuest: Quest = {
       ready: () => have($item`enchanted bean`),
       completed: () => step("questL10Garbage") === 1,
       do: () => use($item`enchanted bean`),
+      cap: 1,
     },
     {
       name: "Airship",
       after: "Grow Beanstalk",
-      completed: () => step("questL10Garbage") >= 7,
+      completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
       modifier: "-combat",
     },
@@ -36,6 +38,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       modifier: "-combat",
       choices: { 670: 4, 669: 1, 671: 4 },
+      cap: 10,
     },
     {
       name: "Basement Finish",
@@ -44,6 +47,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       equip: $items`amulet of extreme plot significance`,
       choices: { 670: 1 },
+      cap: 1,
     },
     {
       name: "Ground",
@@ -51,6 +55,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 9,
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
+      cap: 11,
     },
     {
       name: "Top Floor",
@@ -65,6 +70,7 @@ export const GiantQuest: Quest = {
       after: "Top Floor",
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
+      cap: 10,
     },
   ],
 };

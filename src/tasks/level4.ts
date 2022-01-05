@@ -10,6 +10,7 @@ export const MosquitoQuest: Quest = {
       ready: () => myLevel() >= 4,
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Use Sonar",
@@ -17,6 +18,7 @@ export const MosquitoQuest: Quest = {
       ready: () => have($item`sonar-in-a-biscuit`),
       completed: () => step("questL04Bat") >= 3,
       do: () => use($item`sonar-in-a-biscuit`),
+      cap: 3,
     },
     {
       name: "Boss Bat",
@@ -24,12 +26,14 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL04Bat") === 4,
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`),
+      cap: 7,
     },
     {
       name: "Finish",
       after: "Boss Bat",
       completed: () => step("questL04Bat") === 999,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
   ],
 };

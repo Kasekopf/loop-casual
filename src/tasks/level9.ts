@@ -12,6 +12,7 @@ const ABoo: Task[] = [
       use($item`11-leaf clover`);
     },
     do: $location`A-Boo Peak`,
+    cap: 2,
   },
   {
     name: "ABoo Horror",
@@ -24,12 +25,14 @@ const ABoo: Task[] = [
     do: $location`A-Boo Peak`,
     modifier: "spooky, cold",
     choices: { 611: 1 },
+    cap: 4,
   },
   {
     name: "ABoo Peak",
     after: "ABoo Horror",
     completed: () => get("booPeakLit"),
     do: $location`A-Boo Peak`,
+    cap: 1,
   },
 ];
 
@@ -41,12 +44,14 @@ const Oil: Task[] = [
     do: $location`Oil Peak`,
     modifier: "ML",
     combat: new CombatStrategy().kill(),
+    cap: 5,
   },
   {
     name: "Oil Peak",
     after: "Oil Kill",
     completed: () => get("oilPeakLit"),
     do: $location`Oil Peak`,
+    cap: 1,
   },
 ];
 
@@ -60,6 +65,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 1, 607: 1 },
     modifier: "stench res min 4",
+    cap: 1,
   },
   {
     name: "Twin Item",
@@ -70,6 +76,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 2, 608: 1 },
     modifier: "item min 50",
+    cap: 1,
   },
   {
     name: "Twin Oil",
@@ -80,6 +87,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 3, 609: 1, 616: 1 },
+    cap: 1,
   },
   {
     name: "Twin Init",
@@ -89,6 +97,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
+    cap: 1,
   },
 ];
 
@@ -100,6 +109,7 @@ export const ChasmQuest: Quest = {
       ready: () => myLevel() >= 9,
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Bridge",
@@ -112,12 +122,14 @@ export const ChasmQuest: Quest = {
         cliExecute(`acquire ${count} snow boards`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`);
       },
+      cap: 1,
     },
     {
       name: "Start Peaks",
       after: ["Bridge"],
       completed: () => step("questL09Topping") === 2,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
+      cap: 1,
     },
     ...ABoo,
     ...Oil,
@@ -127,6 +139,7 @@ export const ChasmQuest: Quest = {
       after: ["ABoo Peak", "Oil Peak", "Twin Init"],
       completed: () => step("questL09Topping") === 999,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
+      cap: 1,
     },
   ],
 };

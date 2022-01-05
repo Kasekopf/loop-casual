@@ -23,6 +23,7 @@ export const LevelingQuest: Quest = {
       ready: () => get("daycareOpen"),
       completed: () => get("_daycareGymScavenges") !== 0,
       do: () => visitUrl("choice.php?whichchoice=1336&option=2"),
+      cap: 1,
     },
     {
       name: "Bastille",
@@ -30,11 +31,12 @@ export const LevelingQuest: Quest = {
       completed: () => get("_bastilleGames") !== 0,
       do: () =>
         cliExecute(`bastille ${myPrimestat() === $stat`Mysticality` ? "myst" : myPrimestat()}`),
+      cap: 1,
     },
     {
       name: "Chateau",
       ready: () => ChateauMantegna.have(),
-      completed: () => get("timesRested") < totalFreeRests(),
+      completed: () => get("timesRested") >= totalFreeRests(),
       prepare: (): void => {
         let nightstand = null;
         if (myPrimestat() === $stat`Muscle`) {
@@ -57,6 +59,7 @@ export const LevelingQuest: Quest = {
       do: $location`The Tunnel of L.O.V.E.`,
       choices: { 1222: 1, 1223: 1, 1224: 1, 1225: 1, 1226: 2, 1227: 1, 1228: 3 }, // TODO: Set 1224 to mainstat
       combat: new CombatStrategy().kill(),
+      cap: 1,
     },
     {
       name: "God Lobster",
@@ -68,6 +71,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`God Lobster`,
+      cap: 3,
     },
     {
       name: "Sausage Fights",
@@ -83,6 +87,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
       familiar: $familiar`Pocket Professor`,
+      cap: 1,
     },
     {
       name: "Neverending Party",
@@ -93,6 +98,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
+      cap: 11,
     },
     {
       name: "Machine Elf",
@@ -103,6 +109,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Machine Elf`,
+      cap: 5,
     },
   ],
 };

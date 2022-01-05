@@ -10,12 +10,14 @@ export const MosquitoQuest: Quest = {
       ready: () => myLevel() >= 2,
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     {
       name: "Burn Delay",
       after: "Start",
       completed: () => $location`The Spooky Forest`.turnsSpent >= 5,
       do: $location`The Spooky Forest`,
+      cap: 5,
     },
     {
       name: "Mosquito",
@@ -30,6 +32,7 @@ export const MosquitoQuest: Quest = {
       after: "Mosquito",
       completed: () => step("questL02Larva") === 999,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
   ],
 };

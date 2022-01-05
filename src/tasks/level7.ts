@@ -8,9 +8,10 @@ const Alcove: Task[] = [
     after: "Start",
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
-    modifier: "+combat, init max 850",
+    modifier: "init max 850",
     choices: { 153: 4 },
     combat: new CombatStrategy().kill($monster`modern zmobie`),
+    cap: 25,
   },
   {
     name: "Alcove Boss",
@@ -18,6 +19,7 @@ const Alcove: Task[] = [
     completed: () => get("cyrptAlcoveEvilness") === 0,
     do: $location`The Defiled Alcove`,
     combat: new CombatStrategy().kill(),
+    cap: 1,
   },
 ];
 
@@ -32,6 +34,7 @@ const Cranny: Task[] = [
     combat: new CombatStrategy().kill(
       ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps`
     ),
+    cap: 25,
   },
   {
     name: "Cranny Boss",
@@ -39,6 +42,7 @@ const Cranny: Task[] = [
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
     combat: new CombatStrategy().kill(),
+    cap: 1,
   },
 ];
 
@@ -53,6 +57,7 @@ const Niche: Task[] = [
     combat: new CombatStrategy()
       .kill($monster`dirty old lihc`)
       .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+    cap: 25,
   },
   {
     name: "Niche Boss",
@@ -60,6 +65,7 @@ const Niche: Task[] = [
     completed: () => get("cyrptNicheEvilness") === 0,
     do: $location`The Defiled Niche`,
     combat: new CombatStrategy().kill(),
+    cap: 1,
   },
 ];
 
@@ -74,6 +80,7 @@ const Nook: Task[] = [
     combat: new CombatStrategy()
       .kill(...$monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
+    cap: 25,
   },
   {
     name: "Nook Eye",
@@ -88,6 +95,7 @@ const Nook: Task[] = [
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy().kill(),
+    cap: 1,
   },
 ];
 
@@ -99,6 +107,7 @@ export const CryptQuest: Quest = {
       ready: () => myLevel() >= 7,
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
     ...Alcove,
     ...Cranny,
@@ -110,12 +119,14 @@ export const CryptQuest: Quest = {
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
       combat: new CombatStrategy().kill(),
+      cap: 1,
     },
     {
       name: "Finish",
       after: ["Bonerdagon"],
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
+      cap: 1,
     },
   ],
 };
