@@ -117,16 +117,10 @@ export const CryptQuest: Quest = {
     {
       name: "Bonerdagon",
       after: ["Alcove Boss", "Cranny Boss", "Niche Boss", "Nook Boss"],
+      completed: () => step("questL07Cyrptic") === 999,
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
       combat: new CombatStrategy().kill(),
-      cap: 1,
-    },
-    {
-      name: "Finish",
-      after: ["Bonerdagon"],
-      completed: () => step("questL07Cyrptic") === 999,
-      do: () => visitUrl("council.php"),
       cap: 1,
     },
   ],

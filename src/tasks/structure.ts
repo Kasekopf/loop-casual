@@ -10,8 +10,8 @@ export type Task = {
   name: string;
   after: string[];
   ready?: () => boolean;
-  completed?: () => boolean;
   prepare?: () => void;
+  completed: () => boolean;
   do: Location | (() => void);
   choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
