@@ -15,6 +15,18 @@ import {
 } from "libram";
 import { CombatStrategy, Quest } from "./structure";
 
+function primestat_id(): number {
+  switch (myPrimestat()) {
+    case $stat`Muscle`:
+      return 1;
+    case $stat`Mysticality`:
+      return 2;
+    case $stat`Moxie`:
+      return 3;
+  }
+  return 1;
+}
+
 export const LevelingQuest: Quest = {
   name: "Leveling",
   tasks: [
@@ -61,7 +73,7 @@ export const LevelingQuest: Quest = {
       ready: () => get("loveTunnelAvailable"),
       completed: () => get("_loveTunnelUsed"),
       do: $location`The Tunnel of L.O.V.E.`,
-      choices: { 1222: 1, 1223: 1, 1224: 1, 1225: 1, 1226: 2, 1227: 1, 1228: 3 }, // TODO: Set 1224 to mainstat
+      choices: { 1222: 1, 1223: 1, 1224: primestat_id, 1225: 1, 1226: 2, 1227: 1, 1228: 3 },
       combat: new CombatStrategy().kill(),
       cap: 1,
     },

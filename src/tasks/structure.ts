@@ -13,7 +13,7 @@ export type Task = {
   completed?: () => boolean;
   prepare?: () => void;
   do: Location | (() => void);
-  choices?: { [id: number]: number };
+  choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
   modifier?: string;
   equip?: Item[];
