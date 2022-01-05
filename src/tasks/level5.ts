@@ -10,14 +10,14 @@ export const KnobQuest: Quest = {
       name: "Start",
       after: [],
       ready: () => myLevel() >= 5,
-      completed: () => have($item`Cobb's Knob map`),
+      completed: () => step("questL05Goblin") > 0,
       do: () => visitUrl("council.php"),
       cap: 1,
     },
     {
       name: "Outskirts",
       after: [],
-      completed: () => have($item`Knob Goblin encryption key`),
+      completed: () => have($item`Knob Goblin encryption key`) || step("questL05Goblin") > 0,
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
       cap: 12, // TODO: Should be 11 if choice 118 counts for delay
@@ -25,7 +25,7 @@ export const KnobQuest: Quest = {
     {
       name: "Open Knob",
       after: ["Start", "Outskirts"],
-      completed: () => !have($item`Cobb's Knob map`) && step("questL05Goblin") >= 0,
+      completed: () => step("questL05Goblin") >= 1,
       do: () => use($item`Cobb's Knob map`),
       cap: 1,
     },

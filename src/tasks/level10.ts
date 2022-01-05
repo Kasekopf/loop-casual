@@ -17,7 +17,7 @@ export const GiantQuest: Quest = {
       name: "Grow Beanstalk",
       after: ["Start"],
       ready: () => have($item`enchanted bean`),
-      completed: () => step("questL10Garbage") === 1,
+      completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
       cap: 1,
     },
@@ -35,7 +35,7 @@ export const GiantQuest: Quest = {
         containsText(
           $location`The Castle in the Clouds in the Sky (Basement)`.noncombatQueue,
           "Mess Around with Gym"
-        ),
+        ) || step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       modifier: "-combat",
       choices: { 670: 4, 669: 1, 671: 4 },

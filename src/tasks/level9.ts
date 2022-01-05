@@ -7,7 +7,7 @@ const ABoo: Task[] = [
   {
     name: "ABoo Clues",
     after: ["Start Peaks"],
-    completed: () => itemAmount($item`A-Boo clue`) * 30 > get("booPeakProgress"),
+    completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     prepare: () => {
       // eslint-disable-next-line libram/verify-constants
       use($item`11-leaf clover`);
@@ -129,7 +129,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Start Peaks",
       after: ["Bridge"],
-      completed: () => step("questL09Topping") === 2,
+      completed: () => step("questL09Topping") >= 2,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
       cap: 1,
     },

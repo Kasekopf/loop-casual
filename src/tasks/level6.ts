@@ -16,7 +16,7 @@ export const FriarQuest: Quest = {
     {
       name: "Heart",
       after: ["Start"],
-      completed: () => have($item`box of birthday candles`),
+      completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
       modifier: "-combat",
       cap: 17,
@@ -24,7 +24,7 @@ export const FriarQuest: Quest = {
     {
       name: "Neck",
       after: ["Start"],
-      completed: () => have($item`dodecagram`),
+      completed: () => have($item`dodecagram`) || step("questL06Friar") === 999,
       do: $location`The Dark Neck of the Woods`,
       modifier: "-combat",
       cap: 17,
@@ -32,7 +32,7 @@ export const FriarQuest: Quest = {
     {
       name: "Elbow",
       after: ["Start"],
-      completed: () => have($item`eldritch butterknife`),
+      completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
       modifier: "-combat",
       cap: 17,

@@ -1,5 +1,5 @@
 import { myLevel, visitUrl } from "kolmafia";
-import { $item, $location, have } from "libram";
+import { $location } from "libram";
 import { Quest, step } from "./structure";
 
 export const MosquitoQuest: Quest = {
@@ -23,7 +23,7 @@ export const MosquitoQuest: Quest = {
     {
       name: "Mosquito",
       after: ["Burn Delay"],
-      completed: () => have($item`mosquito larva`),
+      completed: () => step("questL02Larva") >= 1,
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },
       modifier: "-combat",

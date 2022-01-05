@@ -29,7 +29,9 @@ export function all_tasks(): { [name: string]: Task } {
     for (const task of quest.tasks) {
       // Include quest name in task names and dependencies (unless dependency quest is given)
       task.name = `${quest.name}/${task.name}`;
-      task.after = task.after.map((after) => (after.includes("/") ? after : `${quest}/${after}`));
+      task.after = task.after.map((after) =>
+        after.includes("/") ? after : `${quest.name}/${after}`
+      );
       result[task.name] = task;
     }
   }
