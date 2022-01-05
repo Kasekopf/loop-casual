@@ -1,6 +1,7 @@
 import { availableAmount, cliExecute, create, mallPrice, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, get, have } from "libram";
-import { CombatStrategy, Quest, step } from "./structure";
+import { Quest, step } from "./structure";
+import { CombatStrategy } from "../combat";
 
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual

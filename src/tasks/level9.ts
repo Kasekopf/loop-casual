@@ -1,6 +1,7 @@
 import { buy, cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $location, get, have } from "libram";
-import { CombatStrategy, Quest, step, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
+import { CombatStrategy } from "../combat";
 
 const ABoo: Task[] = [
   {

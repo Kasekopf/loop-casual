@@ -13,7 +13,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { CombatStrategy, Quest } from "./structure";
+import { Quest } from "./structure";
+import { CombatStrategy } from "../combat";
 
 function primestat_id(): number {
   switch (myPrimestat()) {

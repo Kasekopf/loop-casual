@@ -1,6 +1,7 @@
 import { myLevel, use, visitUrl } from "kolmafia";
 import { $item, $location, $monster, $monsters, get, have } from "libram";
-import { CombatStrategy, Quest, step, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
+import { CombatStrategy } from "../combat";
 
 const Alcove: Task[] = [
   {
