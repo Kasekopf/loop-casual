@@ -5,7 +5,7 @@ import { CombatStrategy, Quest, step, Task } from "./structure";
 const ABoo: Task[] = [
   {
     name: "ABoo Clues",
-    after: "Start Peaks",
+    after: ["Start Peaks"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 > get("booPeakProgress"),
     prepare: () => {
       // eslint-disable-next-line libram/verify-constants
@@ -16,7 +16,7 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Horror",
-    after: "ABoo Clues",
+    after: ["ABoo Clues"],
     ready: () => have($item`A-Boo clue`),
     completed: () => get("booPeakProgress") === 0,
     prepare: () => {
@@ -29,7 +29,7 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Peak",
-    after: "ABoo Horror",
+    after: ["ABoo Horror"],
     completed: () => get("booPeakLit"),
     do: $location`A-Boo Peak`,
     cap: 1,
@@ -39,7 +39,7 @@ const ABoo: Task[] = [
 const Oil: Task[] = [
   {
     name: "Oil Kill",
-    after: "Start Peaks",
+    after: ["Start Peaks"],
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
     modifier: "ML",
@@ -48,7 +48,7 @@ const Oil: Task[] = [
   },
   {
     name: "Oil Peak",
-    after: "Oil Kill",
+    after: ["Oil Kill"],
     completed: () => get("oilPeakLit"),
     do: $location`Oil Peak`,
     cap: 1,
@@ -58,7 +58,7 @@ const Oil: Task[] = [
 const Twin: Task[] = [
   {
     name: "Twin Stench",
-    after: "Start Peaks",
+    after: ["Start Peaks"],
     completed: () => !!(get("twinPeakProgress") & 1),
     do: () => {
       use($item`rusty hedge trimmers`);
@@ -69,7 +69,7 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Item",
-    after: "Start Peaks",
+    after: ["Start Peaks"],
     completed: () => !!(get("twinPeakProgress") & 2),
     do: () => {
       use($item`rusty hedge trimmers`);
@@ -80,7 +80,7 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Oil",
-    after: "Start Peaks",
+    after: ["Start Peaks"],
     ready: () => have($item`jar of oil`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: () => {
@@ -102,10 +102,11 @@ const Twin: Task[] = [
 ];
 
 export const ChasmQuest: Quest = {
-  name: "Orc Chasm Quest",
+  name: "Orc Chasm",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 9,
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
@@ -113,7 +114,7 @@ export const ChasmQuest: Quest = {
     },
     {
       name: "Bridge",
-      after: "Start",
+      after: ["Start"],
       completed: () => step("questL09Topping") >= 1,
       do: (): void => {
         const count = floor((34 - get("chasmBridgeProgress")) / 5);

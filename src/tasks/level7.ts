@@ -5,7 +5,7 @@ import { CombatStrategy, Quest, step, Task } from "./structure";
 const Alcove: Task[] = [
   {
     name: "Alcove",
-    after: "Start",
+    after: ["Start"],
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     modifier: "init max 850",
@@ -15,7 +15,7 @@ const Alcove: Task[] = [
   },
   {
     name: "Alcove Boss",
-    after: "Alcove",
+    after: ["Alcove"],
     completed: () => get("cyrptAlcoveEvilness") === 0,
     do: $location`The Defiled Alcove`,
     combat: new CombatStrategy().kill(),
@@ -26,7 +26,7 @@ const Alcove: Task[] = [
 const Cranny: Task[] = [
   {
     name: "Cranny",
-    after: "Start",
+    after: ["Start"],
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
     modifier: "-combat, ML",
@@ -38,7 +38,7 @@ const Cranny: Task[] = [
   },
   {
     name: "Cranny Boss",
-    after: "Cranny",
+    after: ["Cranny"],
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
     combat: new CombatStrategy().kill(),
@@ -49,7 +49,7 @@ const Cranny: Task[] = [
 const Niche: Task[] = [
   {
     name: "Niche",
-    after: "Start",
+    after: ["Start"],
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     modifier: "-combat, ML",
@@ -61,7 +61,7 @@ const Niche: Task[] = [
   },
   {
     name: "Niche Boss",
-    after: "Niche",
+    after: ["Niche"],
     completed: () => get("cyrptNicheEvilness") === 0,
     do: $location`The Defiled Niche`,
     combat: new CombatStrategy().kill(),
@@ -72,7 +72,7 @@ const Niche: Task[] = [
 const Nook: Task[] = [
   {
     name: "Nook",
-    after: "Start",
+    after: ["Start"],
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     modifier: "item max 400",
@@ -84,14 +84,14 @@ const Nook: Task[] = [
   },
   {
     name: "Nook Eye",
-    after: "Start",
+    after: ["Start"],
     ready: () => have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: () => use($item`evil eye`),
   },
   {
     name: "Nook Boss",
-    after: "Nook",
+    after: ["Nook"],
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy().kill(),
@@ -100,10 +100,11 @@ const Nook: Task[] = [
 ];
 
 export const CryptQuest: Quest = {
-  name: "Crypt Quest",
+  name: "Crypt",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 7,
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),

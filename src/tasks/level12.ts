@@ -35,10 +35,11 @@ function clamp(n: number, min: number, max: number): number {
 }
 
 export const WarQuest: Quest = {
-  name: "War Quest",
+  name: "War",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 12,
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
@@ -46,6 +47,7 @@ export const WarQuest: Quest = {
     },
     {
       name: "Unlock Island",
+      after: ["Start"],
       completed: () =>
         have($item`dingy dinghy`) || have($item`junk junk`) || have($item`skeletal skiff`),
       do: (): void => {
@@ -54,7 +56,7 @@ export const WarQuest: Quest = {
       cap: 1,
     },
     {
-      name: "Start War",
+      name: "Enrage",
       after: ["Start", "Unlock Island"],
       completed: () => step("questL12War") >= 1,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
@@ -64,7 +66,7 @@ export const WarQuest: Quest = {
     },
     {
       name: "Fluffers",
-      after: "Start War",
+      after: ["Enrage"],
       completed: () => get("hippiesDefeated") >= 1000,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: (): void => {
@@ -79,7 +81,7 @@ export const WarQuest: Quest = {
     },
     {
       name: "Boss",
-      after: "Fluffers",
+      after: ["Fluffers"],
       completed: () => step("questL12War") === 999,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: $location`Hippy Camp`,

@@ -3,10 +3,11 @@ import { $item, $location, have } from "libram";
 import { CombatStrategy, Quest, step } from "./structure";
 
 export const McLargeHugeQuest: Quest = {
-  name: "McLargeHuge Quest",
+  name: "McLargeHuge",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 8,
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
@@ -14,7 +15,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Ores",
-      after: "Start",
+      after: ["Start"],
       completed: () => step("questL08Trapper") >= 2,
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // request ore
@@ -24,7 +25,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Climb",
-      after: "Ores",
+      after: ["Ores"],
       ready: () =>
         have($item`ninja rope`) && have($item`ninja carabiner`) && have($item`ninja crampons`),
       completed: () => step("questL08Trapper") >= 3,
@@ -36,7 +37,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Peak",
-      after: "Climb",
+      after: ["Climb"],
       completed: () => step("questL08Trapper") >= 5,
       do: $location`Mist-Shrouded Peak`,
       modifier: "cold res min 5 max 5",

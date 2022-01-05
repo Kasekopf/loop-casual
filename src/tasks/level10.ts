@@ -3,10 +3,11 @@ import { $item, $items, $location, have } from "libram";
 import { Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {
-  name: "Giant Quest",
+  name: "Giant",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 10,
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
@@ -14,7 +15,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Grow Beanstalk",
-      after: "Start",
+      after: ["Start"],
       ready: () => have($item`enchanted bean`),
       completed: () => step("questL10Garbage") === 1,
       do: () => use($item`enchanted bean`),
@@ -22,14 +23,14 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Airship",
-      after: "Grow Beanstalk",
+      after: ["Grow Beanstalk"],
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
       modifier: "-combat",
     },
     {
       name: "Basement Search",
-      after: "Airship",
+      after: ["Airship"],
       completed: () =>
         containsText(
           $location`The Castle in the Clouds in the Sky (Basement)`.noncombatQueue,
@@ -42,7 +43,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Basement Finish",
-      after: "Basement Search",
+      after: ["Basement Search"],
       completed: () => step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       equip: $items`amulet of extreme plot significance`,
@@ -51,7 +52,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Ground",
-      after: "Basement Finish",
+      after: ["Basement Finish"],
       completed: () => step("questL10Garbage") >= 9,
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
@@ -59,7 +60,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Top Floor",
-      after: "Ground",
+      after: ["Ground"],
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       equip: $items`Mohawk wig`,
@@ -67,7 +68,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Finish",
-      after: "Top Floor",
+      after: ["Top Floor"],
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
       cap: 10,

@@ -20,6 +20,7 @@ export const LevelingQuest: Quest = {
   tasks: [
     {
       name: "Daycare",
+      after: [],
       ready: () => get("daycareOpen"),
       completed: () => get("_daycareGymScavenges") !== 0,
       do: () => visitUrl("choice.php?whichchoice=1336&option=2"),
@@ -27,6 +28,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Bastille",
+      after: [],
       ready: () => have($item`Bastille Battalion control rig`),
       completed: () => get("_bastilleGames") !== 0,
       do: () =>
@@ -35,6 +37,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Chateau",
+      after: [],
       ready: () => ChateauMantegna.have(),
       completed: () => get("timesRested") >= totalFreeRests(),
       prepare: (): void => {
@@ -54,6 +57,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "LOV Tunnel",
+      after: [],
       ready: () => get("loveTunnelAvailable"),
       completed: () => get("_loveTunnelUsed"),
       do: $location`The Tunnel of L.O.V.E.`,
@@ -63,6 +67,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "God Lobster",
+      after: [],
       ready: () => have($familiar`God Lobster`),
       completed: () => get("_godLobsterFights") >= 3,
       do: () => visitUrl("main.php?fightgodlobster=1"), // TODO: handle fight
@@ -75,6 +80,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Sausage Fights",
+      after: [],
       ready: () =>
         have($familiar`Pocket Professor`) &&
         have($item`Kramco Sausage-o-Matic™`) &&
@@ -91,6 +97,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Neverending Party",
+      after: [],
       completed: () => get("_neverendingPartyFreeTurns") === 0,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
@@ -102,6 +109,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Machine Elf",
+      after: [],
       ready: () => have($familiar`Machine Elf`),
       completed: () => get("_machineTunnelsAdv") >= 5,
       do: $location`The Deep Machine Tunnels`,

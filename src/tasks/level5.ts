@@ -2,11 +2,12 @@ import { myLevel, use, visitUrl } from "kolmafia";
 import { $item, $location, $monster, have } from "libram";
 import { CombatStrategy, Quest, step } from "./structure";
 
-export const MosquitoQuest: Quest = {
-  name: "Knob Quest",
+export const KnobQuest: Quest = {
+  name: "Knob",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 5,
       completed: () => have($item`Cobb's Knob map`),
       do: () => visitUrl("council.php"),
@@ -14,6 +15,7 @@ export const MosquitoQuest: Quest = {
     },
     {
       name: "Outskirts",
+      after: [],
       completed: () => have($item`Knob Goblin encryption key`),
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
@@ -28,7 +30,7 @@ export const MosquitoQuest: Quest = {
     },
     {
       name: "King",
-      after: "Open Knob",
+      after: ["Open Knob"],
       ready: () =>
         have($item`Knob Goblin harem veil`) &&
         have($item`Knob Goblin harem pants`) &&

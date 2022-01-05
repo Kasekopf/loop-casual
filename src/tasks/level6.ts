@@ -3,10 +3,11 @@ import { $item, $location, have } from "libram";
 import { Quest, step } from "./structure";
 
 export const FriarQuest: Quest = {
-  name: "Friar Quest",
+  name: "Friar",
   tasks: [
     {
       name: "Start",
+      after: [],
       ready: () => myLevel() >= 6,
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
@@ -14,7 +15,7 @@ export const FriarQuest: Quest = {
     },
     {
       name: "Heart",
-      after: "Start",
+      after: ["Start"],
       completed: () => have($item`box of birthday candles`),
       do: $location`The Dark Heart of the Woods`,
       modifier: "-combat",
@@ -22,7 +23,7 @@ export const FriarQuest: Quest = {
     },
     {
       name: "Neck",
-      after: "Start",
+      after: ["Start"],
       completed: () => have($item`dodecagram`),
       do: $location`The Dark Neck of the Woods`,
       modifier: "-combat",
@@ -30,7 +31,7 @@ export const FriarQuest: Quest = {
     },
     {
       name: "Elbow",
-      after: "Start",
+      after: ["Start"],
       completed: () => have($item`eldritch butterknife`),
       do: $location`The Dark Elbow of the Woods`,
       modifier: "-combat",

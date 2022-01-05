@@ -1,4 +1,5 @@
 import { myMp, print } from "kolmafia";
+import { all_tasks } from "./tasks/all";
 
 export function checkMP(): string {
   if (myMp() < 200) {
@@ -9,5 +10,15 @@ export function checkMP(): string {
 }
 
 export function main(): void {
-  print(checkMP());
+  const tasks = all_tasks();
+  for (const key in tasks) {
+    print(key);
+    for (const after in tasks[key].after) {
+      if (after in tasks) {
+        print(`  ${after}`, "blue");
+      } else {
+        print(`  ${after}`, "red");
+      }
+    }
+  }
 }

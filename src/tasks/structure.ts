@@ -8,7 +8,7 @@ export type Quest = {
 
 export type Task = {
   name: string;
-  after?: string | string[];
+  after: string[];
   ready?: () => boolean;
   completed?: () => boolean;
   prepare?: () => void;
