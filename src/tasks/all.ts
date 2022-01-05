@@ -1,7 +1,7 @@
 import { MosquitoQuest } from "./level2";
 import { BatQuest } from "./level4";
 import { KnobQuest } from "./level5";
-import { FriarQuest } from "./level6";
+import { FriarQuest, OrganQuest } from "./level6";
 import { CryptQuest } from "./level7";
 import { McLargeHugeQuest } from "./level8";
 import { ChasmQuest } from "./level9";
@@ -17,6 +17,7 @@ export function all_tasks(): { [name: string]: Task } {
     BatQuest,
     KnobQuest,
     FriarQuest,
+    OrganQuest,
     CryptQuest,
     McLargeHugeQuest,
     ChasmQuest,
