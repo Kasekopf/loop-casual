@@ -11,7 +11,7 @@ const Alcove: Task[] = [
     do: $location`The Defiled Alcove`,
     modifier: "init max 850",
     choices: { 153: 4 },
-    combat: new CombatStrategy().kill($monster`modern zmobie`),
+    combat: new CombatStrategy().kill(...$monsters`modern zmobie, conjoined zmombie`),
     cap: 25,
   },
   {
@@ -33,7 +33,7 @@ const Cranny: Task[] = [
     modifier: "-combat, ML",
     choices: { 523: 4 },
     combat: new CombatStrategy().kill(
-      ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps`
+      ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
     ),
     cap: 25,
   },
@@ -55,9 +55,7 @@ const Niche: Task[] = [
     do: $location`The Defiled Niche`,
     modifier: "-combat, ML",
     choices: { 157: 4 },
-    combat: new CombatStrategy()
-      .kill($monster`dirty old lihc`)
-      .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+    combat: new CombatStrategy().kill().banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     cap: 25,
   },
   {
@@ -78,9 +76,7 @@ const Nook: Task[] = [
     do: $location`The Defiled Nook`,
     modifier: "item max 400",
     choices: { 155: 5 },
-    combat: new CombatStrategy()
-      .kill(...$monsters`spiny skelelton, toothy sklelton`)
-      .banish($monster`party skelteon`),
+    combat: new CombatStrategy().kill().banish($monster`party skelteon`),
     cap: 25,
   },
   {
