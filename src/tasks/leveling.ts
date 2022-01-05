@@ -111,7 +111,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Neverending Party",
       after: [],
-      completed: () => get("_neverendingPartyFreeTurns") === 0,
+      completed: () => get("_neverendingPartyFreeTurns") >= 10,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
       combat: new CombatStrategy().kill(),
