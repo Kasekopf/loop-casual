@@ -1,4 +1,4 @@
-import { get } from "libram";
+import { get, Macro } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
 
 export type Quest = {
@@ -17,6 +17,7 @@ export type Task = {
   combat?: CombatStrategy;
   modifier?: string;
   equip?: Item[];
+  familiar?: Familiar;
 };
 
 export function step(questName: StringProperty): number {
@@ -35,11 +36,12 @@ export function step(questName: StringProperty): number {
 enum MonsterStrategy {
   Kill,
   Banish,
+  Abort,
 }
 
 export class CombatStrategy {
-  strategy: { [id: number]: MonsterStrategy } = {};
-  apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
+  strategy: { [id: number]: MonsterStrategy | Macro } = {};
+  apply(strategy: MonsterStrategy | Macro, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
       this.strategy[-1] = strategy;
     }
@@ -53,5 +55,11 @@ export class CombatStrategy {
   }
   public banish(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Banish, ...monsters);
+  }
+  public abort(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.Abort, ...monsters);
+  }
+  public macro(strategy: Macro, ...monsters: Monster[]): CombatStrategy {
+    return this.apply(strategy, ...monsters);
   }
 }
