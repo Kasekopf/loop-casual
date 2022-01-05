@@ -24,7 +24,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    modifier: "spooky, cold",
+    modifier: "spooky res, cold res",
     choices: { 611: 1 },
     cap: 4,
   },
