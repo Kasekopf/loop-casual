@@ -1,5 +1,5 @@
-import {} from "kolmafia";
-import { $effects, ensureEffect } from "libram";
+import { myEffects, toSkill } from "kolmafia";
+import { $class, $effects, ensureEffect, have, uneffect } from "libram";
 
 const relevantEffects: { [modifier: string]: Effect[] } = {
   "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
@@ -15,25 +15,51 @@ const relevantEffects: { [modifier: string]: Effect[] } = {
   moxie: $effects`Pomp & Circumsands, Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
 };
 
-function ensure(effects: Effect[]) {
-  for (const effect of effects) {
-    ensureEffect(effect);
-  }
+function isSong(effect: Effect) {
+  return toSkill(effect).class === $class`Accordion Thief` && toSkill(effect).buff;
 }
 
 function shrug(effects: Effect[]) {
   for (const effect of effects) {
-    ensureEffect(effect);
+    if (have(effect)) uneffect(effect);
   }
 }
 
 export function applyEffects(modifier: string): void {
+  const useful_effects = [];
   for (const key in relevantEffects) {
     if (modifier.includes(key)) {
-      ensure(relevantEffects[key]);
+      useful_effects.push(...relevantEffects[key]);
     }
   }
 
+  // Remove wrong combat effects
   if (modifier.includes("+combat")) shrug(relevantEffects["-combat"]);
   if (modifier.includes("-combat")) shrug(relevantEffects["+combat"]);
+
+  // Make room for songs
+  const songs = [];
+  for (const effect of useful_effects) {
+    if (isSong(effect)) songs.push(effect);
+  }
+  if (songs.length > 3) throw "Too many AT songs.";
+  if (songs.length > 0) {
+    const extra_songs = [];
+    for (const effect_name of Object.keys(myEffects())) {
+      const effect = Effect.get(effect_name);
+      if (isSong(effect) && !songs.includes(effect)) {
+        extra_songs.push(effect);
+      }
+    }
+    while (songs.length + extra_songs.length > 3) {
+      const to_remove = extra_songs.pop();
+      if (to_remove === undefined) break;
+      else uneffect(to_remove);
+    }
+  }
+
+  // Apply all relevant effects
+  for (const effect of useful_effects) {
+    ensureEffect(effect);
+  }
 }
