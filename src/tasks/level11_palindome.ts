@@ -45,7 +45,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The Stankara Stone`),
     completed: () => step("questL11Shen") === 999,
     do: $location`The Batrat and Ratbat Burrow`,
-    combat: new CombatStrategy().kill().banish(...$monsters`batrat, ratbat, screambat`),
+    combat: new CombatStrategy().kill(), // .banish(...$monsters`batrat, ratbat, screambat`),
   },
   {
     name: "Cold Snake",
@@ -53,11 +53,10 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999,
     do: $location`Lair of the Ninja Snowmen`,
-    combat: new CombatStrategy()
-      .kill()
-      .banish(
-        ...$monsters`Ninja Snowman (Chopsticks), Ninja Snowman (Hilt), Ninja Snowman (Mask), Ninja Snowman Janitor, Ninja Snowman Weaponmaster, ninja snowman assassin`
-      ),
+    combat: new CombatStrategy().kill(),
+    //.banish(
+    //  ...$monsters`Ninja Snowman (Chopsticks), Ninja Snowman (Hilt), Ninja Snowman (Mask), Ninja Snowman Janitor, Ninja Snowman Weaponmaster, ninja snowman assassin`
+    //),
   },
   {
     name: "Hot Snake Precastle",
@@ -68,9 +67,8 @@ const Copperhead: Task[] = [
     equip: $items`Mohawk wig`,
     modifier: "-combat",
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1 },
-    combat: new CombatStrategy()
-      .kill()
-      .banish(...$monsters`Goth Giant, Punk Rock Giant, Raver Giant, Steampunk Giant`),
+    combat: new CombatStrategy().kill(),
+    //  .banish(...$monsters`Goth Giant, Punk Rock Giant, Raver Giant, Steampunk Giant`),
   },
   {
     name: "Hot Snake Postcastle",
