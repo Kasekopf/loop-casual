@@ -19,6 +19,7 @@ export const MosquitoQuest: Quest = {
       completed: () => $location`The Spooky Forest`.turnsSpent >= 5,
       do: $location`The Spooky Forest`,
       cap: 5,
+      delay: 5,
     },
     {
       name: "Mosquito",

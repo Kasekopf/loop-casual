@@ -21,6 +21,7 @@ export const KnobQuest: Quest = {
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
       cap: 12, // TODO: Should be 11 if choice 118 counts for delay
+      delay: 10,
     },
     {
       name: "Open Knob",

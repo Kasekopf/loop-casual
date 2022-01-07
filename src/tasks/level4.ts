@@ -29,6 +29,7 @@ export const BatQuest: Quest = {
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`),
       cap: 7,
+      delay: 4,
     },
     {
       name: "Finish",

@@ -27,6 +27,8 @@ export const GiantQuest: Quest = {
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
       modifier: "-combat",
+      delay: () =>
+        have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
     },
     {
       name: "Basement Search",
@@ -57,6 +59,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
       cap: 11,
+      delay: 10,
     },
     {
       name: "Top Floor",

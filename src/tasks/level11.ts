@@ -44,6 +44,7 @@ const Desert: Task[] = [
     equip: $items`ornate dowsing rod`, // TODO: get
     familiar: $familiar`Melodramedary`,
     combat: new CombatStrategy().kill(),
+    delay: 18,
   },
   {
     name: "Gnasir Paint",
@@ -85,6 +86,7 @@ const Pyramid: Task[] = [
     completed: () => get("controlRoomUnlock"),
     do: $location`The Middle Chamber`,
     cap: 10,
+    delay: 9,
   },
   {
     name: "Get Token",

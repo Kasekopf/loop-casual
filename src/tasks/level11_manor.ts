@@ -59,6 +59,7 @@ const Manor2: Task[] = [
     do: $location`The Haunted Gallery`,
     choices: { 89: 4 }, // TODO: louvre
     modifier: "-combat",
+    delay: 5,
   },
   {
     name: "Bathroom",
@@ -68,6 +69,7 @@ const Manor2: Task[] = [
     choices: { 881: 1, 105: 1 },
     modifier: "-combat",
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
+    delay: 5,
   },
   {
     name: "Bedroom",
@@ -81,6 +83,7 @@ const Manor2: Task[] = [
       .banish(
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       ),
+    delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
   },
   {
     name: "Open Ballroom",
@@ -105,6 +108,7 @@ const ManorBasement: Task[] = [
     completed: () => step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
     modifier: "-combat",
+    delay: 5,
   },
   {
     name: "Learn Recipe",

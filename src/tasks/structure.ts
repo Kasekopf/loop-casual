@@ -20,6 +20,7 @@ export type Task = {
   equip?: Item[];
   familiar?: Familiar;
   cap?: number;
+  delay?: number | (() => number);
 };
 
 export function step(questName: StringProperty): number {
