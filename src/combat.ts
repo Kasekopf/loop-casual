@@ -3,6 +3,7 @@ import { Macro } from "libram";
 enum MonsterStrategy {
   RunAway,
   Kill,
+  KillBanish,
   Banish,
   Abort,
 }
@@ -12,6 +13,8 @@ function to_macro(strategy: MonsterStrategy): Macro {
     case MonsterStrategy.RunAway:
       return new Macro().runaway();
     case MonsterStrategy.Kill:
+      return new Macro().attack().repeat();
+    case MonsterStrategy.KillBanish:
       return new Macro().attack().repeat();
     case MonsterStrategy.Banish:
       return new Macro().attack().repeat();
@@ -41,8 +44,14 @@ export class CombatStrategy {
   public banish(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Banish, ...monsters);
   }
+  public killBanish(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.KillBanish, ...monsters);
+  }
   public flee(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAway, ...monsters);
+  }
+  public item(item: Item, ...monsters: Monster[]): CombatStrategy {
+    return this.macro(new Macro().item(item), ...monsters);
   }
   public abort(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Abort, ...monsters);

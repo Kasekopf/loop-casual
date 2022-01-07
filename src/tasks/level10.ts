@@ -64,6 +64,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       equip: $items`Mohawk wig`,
+      modifier: "-combat",
       choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1 },
     },
     {
