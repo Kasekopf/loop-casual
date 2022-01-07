@@ -53,7 +53,7 @@ const Niche: Task[] = [
     after: ["Start"],
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
-    modifier: "-combat, ML",
+    modifier: "-combat",
     choices: { 157: 4 },
     combat: new CombatStrategy().kill().banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     cap: 25,
