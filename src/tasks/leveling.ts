@@ -1,4 +1,4 @@
-import { cliExecute, myPrimestat, totalFreeRests, visitUrl } from "kolmafia";
+import { cliExecute, myLevel, myPrimestat, totalFreeRests, visitUrl } from "kolmafia";
 import {
   $familiar,
   $item,
@@ -35,7 +35,7 @@ export const LevelingQuest: Quest = {
       name: "Daycare",
       after: [],
       ready: () => get("daycareOpen"),
-      completed: () => get("_daycareGymScavenges") !== 0,
+      completed: () => get("_daycareGymScavenges") !== 0 || myLevel() >= 13,
       do: () => visitUrl("choice.php?whichchoice=1336&option=2"),
       cap: 1,
     },
@@ -43,7 +43,7 @@ export const LevelingQuest: Quest = {
       name: "Bastille",
       after: [],
       ready: () => have($item`Bastille Battalion control rig`),
-      completed: () => get("_bastilleGames") !== 0,
+      completed: () => get("_bastilleGames") !== 0 || myLevel() >= 13,
       do: () =>
         cliExecute(`bastille ${myPrimestat() === $stat`Mysticality` ? "myst" : myPrimestat()}`),
       cap: 1,
@@ -52,7 +52,7 @@ export const LevelingQuest: Quest = {
       name: "Chateau",
       after: [],
       ready: () => ChateauMantegna.have(),
-      completed: () => get("timesRested") >= totalFreeRests(),
+      completed: () => get("timesRested") >= totalFreeRests() || myLevel() >= 13,
       prepare: (): void => {
         let nightstand = null;
         if (myPrimestat() === $stat`Muscle`) {
@@ -72,7 +72,7 @@ export const LevelingQuest: Quest = {
       name: "LOV Tunnel",
       after: [],
       ready: () => get("loveTunnelAvailable"),
-      completed: () => get("_loveTunnelUsed"),
+      completed: () => get("_loveTunnelUsed") || myLevel() >= 13,
       do: $location`The Tunnel of L.O.V.E.`,
       choices: { 1222: 1, 1223: 1, 1224: primestat_id, 1225: 1, 1226: 2, 1227: 1, 1228: 3 },
       combat: new CombatStrategy().kill(),
@@ -82,7 +82,7 @@ export const LevelingQuest: Quest = {
       name: "God Lobster",
       after: [],
       ready: () => have($familiar`God Lobster`),
-      completed: () => get("_godLobsterFights") >= 3,
+      completed: () => get("_godLobsterFights") >= 3 || myLevel() >= 13,
       do: () => visitUrl("main.php?fightgodlobster=1"), // TODO: handle fight
       choices: { 1310: 3 },
       combat: new CombatStrategy().kill(),
@@ -98,7 +98,7 @@ export const LevelingQuest: Quest = {
         have($familiar`Pocket Professor`) &&
         have($item`Kramco Sausage-o-Matic™`) &&
         getKramcoWandererChance() === 1,
-      completed: () => get("_sausageFights") > 0,
+      completed: () => get("_sausageFights") > 0 || myLevel() >= 13,
       do: $location`The Outskirts of Cobb's Knob`,
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`lecture on relativity`), $monster`sausage goblin`)
@@ -111,7 +111,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Neverending Party",
       after: [],
-      completed: () => get("_neverendingPartyFreeTurns") >= 10,
+      completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
       combat: new CombatStrategy().kill(),
@@ -124,7 +124,7 @@ export const LevelingQuest: Quest = {
       name: "Machine Elf",
       after: [],
       ready: () => have($familiar`Machine Elf`),
-      completed: () => get("_machineTunnelsAdv") >= 5,
+      completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= 13,
       do: $location`The Deep Machine Tunnels`,
       combat: new CombatStrategy().kill(),
       modifier: "mainstat, 4exp",
