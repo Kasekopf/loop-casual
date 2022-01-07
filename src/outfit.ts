@@ -1,6 +1,6 @@
 import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, getKramcoWandererChance, have } from "libram";
-import { CombatStrategy } from "./combat";
+import { BuiltCombatStrategy } from "./combat";
 import { Task } from "./tasks/structure";
 
 // Adapted from phccs
@@ -78,12 +78,14 @@ export class Outfit {
     }
   }
 
-  static create(task: Task, combat: CombatStrategy): Outfit {
+  static create(task: Task, combat: BuiltCombatStrategy): Outfit {
     const outfit = new Outfit();
     if (task.equip) for (const item of task.equip) outfit.equip(item);
     if (task.familiar) outfit.equip(task.familiar);
 
-    if (combat.can_run_away()) {
+    for (const item of combat.equip) outfit.equip(item);
+
+    if (combat.can_run_away) {
       outfit.equip($item`Greatest American Pants`) ||
         outfit.equip($item`navel ring of navel gazing`);
     }
