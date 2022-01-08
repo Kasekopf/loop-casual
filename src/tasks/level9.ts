@@ -65,7 +65,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
-    modifier: "stench res min 4",
+    modifier: "stench res 4min",
     cap: 1,
   },
   {
@@ -76,7 +76,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 2, 608: 1 },
-    modifier: "item min 50",
+    modifier: "item 50min",
     cap: 1,
   },
   {

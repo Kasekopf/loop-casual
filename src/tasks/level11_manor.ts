@@ -21,6 +21,7 @@ const Manor1: Task[] = [
     do: $location`The Haunted Kitchen`,
     modifier: "stench res, hot res",
     choices: { 893: 2 },
+    combat: new CombatStrategy().kill(),
     cap: 6,
   },
   {
@@ -162,7 +163,7 @@ const ManorBasement: Task[] = [
     after: ["Learn Recipe"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: $location`The Haunted Laundry Room`,
-    modifier: "ML max 81",
+    modifier: "ML 81min",
     equip: $items`unstable fulminate`,
     choices: { 902: 2 },
     combat: new CombatStrategy().kill($monster`monstrous boiler`).banish($monster`coaltergeist`),

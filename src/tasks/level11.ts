@@ -11,7 +11,7 @@ const Diary: Task[] = [
     do: $location`The Black Forest`,
     equip: $items`blackberry galoshes`,
     familiar: $familiar`Reassembled Blackbird`,
-    modifier: "+combat min 5 max 5",
+    modifier: "+combat 5min",
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().flee($monster`blackberry bush`).kill(),
   },

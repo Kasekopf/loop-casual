@@ -93,7 +93,7 @@ const Zepplin: Task[] = [
     combat: new CombatStrategy().item($item`cigarette lighter`).kill($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 1432: 2 },
     equip: $items`lynyrdskin breeches, lynyrdskin cap, lynyrdskin tunic`,
-    modifier: "sleaze dmg, sleaze spell dmg, -combat max 25",
+    modifier: "sleaze dmg, sleaze spell dmg, -combat 25max5",
   },
   {
     name: "Zepplin",
