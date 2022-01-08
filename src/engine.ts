@@ -1,9 +1,23 @@
 import { Task } from "./tasks/structure";
-import { PropertiesManager } from "libram";
+import { $skill, PropertiesManager } from "libram";
 import { CombatStrategy } from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
-import { adv1, choiceFollowsFight, inMultiFight, runCombat, visitUrl } from "kolmafia";
+import {
+  adv1,
+  choiceFollowsFight,
+  inMultiFight,
+  myHp,
+  myMaxhp,
+  myMaxmp,
+  myMaxpp,
+  myMp,
+  restoreMp,
+  runCombat,
+  use,
+  useSkill,
+  visitUrl,
+} from "kolmafia";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -53,6 +67,10 @@ export class Engine {
     // Prepare equipment
     const outfit = Outfit.create(task, combat);
     outfit.dress();
+
+    // Simple HP/MP upkeep
+    if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
+    restoreMp(myMaxmp() < 100 ? myMaxmp() : 100);
 
     // Do any task-specific preparation
     if (task.prepare) task.prepare();
