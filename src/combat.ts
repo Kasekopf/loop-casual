@@ -1,5 +1,5 @@
-import { outfit } from "kolmafia";
 import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
+import { debug } from "./lib";
 
 enum MonsterStrategy {
   RunAway,
@@ -106,8 +106,9 @@ export class BuiltCombatStrategy {
         }
       }
     });
-
     if (to_banish.length === 0) return; // All monsters banished.
+    debug(`Banish targets: ${to_banish}`);
+    debug(`Banishes used: ${used_banishes}`);
 
     // Choose the next banish to use
     const banishes_available = banishSources.filter(
@@ -119,6 +120,7 @@ export class BuiltCombatStrategy {
 
     // Prepare to use the banish on all needed monsters
     const banish = banishes_available[0];
+    debug(`Banish chosen: ${banish}`);
     const use_banish =
       banish.do instanceof Item ? new Macro().item(banish.do) : new Macro().skill(banish.do);
     if (banish.equip) this.equip.push(banish.equip);
