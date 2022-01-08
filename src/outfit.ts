@@ -1,5 +1,22 @@
-import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, getKramcoWandererChance, have } from "libram";
+import {
+  equip,
+  equipAllFamiliars,
+  equippedAmount,
+  equippedItem,
+  toSlot,
+  useFamiliar,
+  weaponHands,
+} from "kolmafia";
+import {
+  $familiar,
+  $item,
+  $skill,
+  $slot,
+  $slots,
+  getKramcoWandererChance,
+  have,
+  Requirement,
+} from "libram";
 import { BuiltCombatStrategy } from "./combat";
 import { Task } from "./tasks/structure";
 
@@ -8,6 +25,7 @@ export class Outfit {
   equips: Map<Slot, Item> = new Map<Slot, Item>();
   accesories: Item[] = [];
   familiar?: Familiar;
+  modifier?: string;
 
   equip(item: Item | Familiar): boolean {
     if (!have(item)) return false;
@@ -76,6 +94,17 @@ export class Outfit {
         equip(slot, toEquip);
       }
     }
+
+    if (this.modifier) {
+      const requirements = Requirement.merge([
+        new Requirement([this.modifier], {
+          forceEquip: targetEquipment.concat(...accessoryEquips),
+        }),
+      ]);
+      if (!requirements.maximize()) {
+        throw `Unable to maximize ${this.modifier}`;
+      }
+    }
   }
 
   static create(task: Task, combat: BuiltCombatStrategy): Outfit {
@@ -103,7 +132,7 @@ export class Outfit {
       if (task.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (task.modifier.includes("res")) outfit.equip($familiar`Exotic Parrot`);
       if (task.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
-      // TODO: run maximizer
+      outfit.modifier = task.modifier;
     } else {
       // Default outfit
       outfit.equip($item`Fourth of May Cosplay Saber`);
