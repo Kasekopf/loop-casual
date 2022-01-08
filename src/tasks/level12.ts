@@ -71,8 +71,7 @@ export const WarQuest: Quest = {
       completed: () => get("hippiesDefeated") >= 1000,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: (): void => {
-        const count = clamp((1000 - get("hippiesDefeated")) / 46, 0, 24);
-        ensureFluffers(count);
+        // const count = clamp((1000 - get("hippiesDefeated")) / 46, 0, 24);
         while (get("hippiesDefeated") < 1000) {
           ensureFluffers(1);
           use($item`stuffing fluffer`);
@@ -85,7 +84,10 @@ export const WarQuest: Quest = {
       after: ["Fluffers"],
       completed: () => step("questL12War") === 999,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
-      do: $location`Hippy Camp`,
+      do: (): void => {
+        visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
+        visitUrl("bigisland.php?action=bossfight&pwd");
+      },
       combat: new CombatStrategy().kill(),
       cap: 1,
     },

@@ -1,4 +1,4 @@
-import { buy, myLevel, use, visitUrl } from "kolmafia";
+import { buy, itemAmount, myLevel, use, visitUrl } from "kolmafia";
 import { $familiar, $item, $items, $location, $monster, get, have } from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -65,6 +65,25 @@ const Desert: Task[] = [
   },
 ];
 
+function rotatePyramid(goal: number): void {
+  const ratchets = (goal - get("pyramidPosition") + 5) % 5;
+  const to_buy =
+    ratchets - itemAmount($item`tomb ratchet`) - itemAmount($item`crumbling wooden wheel`);
+  if (to_buy > 0) {
+    buy($item`tomb ratchet`, to_buy);
+  }
+  visitUrl("place.php?whichplace=pyramid&action=pyramid_control");
+  for (let i = 0; i < ratchets; i++) {
+    if (have($item`crumbling wooden wheel`)) {
+      visitUrl("choice.php?whichchoice=929&option=1&pwd");
+    } else {
+      visitUrl("choice.php?whichchoice=929&option=2&pwd");
+    }
+  }
+  if (get("pyramidPosition") !== goal) throw `Failed to rotate pyramid to ${goal}`;
+  visitUrl("choice.php?whichchoice=929&option=5&pwd");
+}
+
 const Pyramid: Task[] = [
   {
     name: "Open Pyramid",
@@ -93,28 +112,22 @@ const Pyramid: Task[] = [
     name: "Get Token",
     after: ["Middle Chamber"],
     completed: () =>
-      have($item`ancient bronze token`) || have($item`ancient bomb`) || get("lowerChamberUnlock"),
-    do: () => {
-      throw "Pyramid not implemented";
-    },
+      have($item`ancient bronze token`) || have($item`ancient bomb`) || get("pyramidBombUsed"),
+    do: () => rotatePyramid(4),
     cap: 1,
   },
   {
     name: "Get Bomb",
     after: ["Get Token"],
-    completed: () => have($item`ancient bomb`) || get("lowerChamberUnlock"),
-    do: () => {
-      throw "Pyramid not implemented";
-    },
+    completed: () => have($item`ancient bomb`) || get("pyramidBombUsed"),
+    do: () => rotatePyramid(3),
     cap: 1,
   },
   {
     name: "Use Bomb",
     after: ["Get Bomb"],
-    completed: () => get("lowerChamberUnlock"),
-    do: () => {
-      throw "Pyramid not implemented";
-    },
+    completed: () => get("pyramidBombUsed"),
+    do: () => rotatePyramid(1),
     cap: 1,
   },
   {

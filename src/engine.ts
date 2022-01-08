@@ -92,6 +92,7 @@ export class Engine {
     } else {
       adv1(task.do, 0, "");
     }
+    runCombat();
     while (inMultiFight()) runCombat();
     if (choiceFollowsFight()) visitUrl("choice.php");
 
