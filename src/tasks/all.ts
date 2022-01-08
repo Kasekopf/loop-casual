@@ -14,7 +14,7 @@ import { WarQuest } from "./level12";
 import { Task } from "./structure";
 import { LevelingQuest } from "./leveling";
 
-export function all_tasks(): { [name: string]: Task } {
+export function all_tasks(): Task[] {
   const quests = [
     LevelingQuest,
     MosquitoQuest,
@@ -33,7 +33,7 @@ export function all_tasks(): { [name: string]: Task } {
     WarQuest,
   ];
 
-  const result: { [name: string]: Task } = {};
+  const result: Task[] = [];
   for (const quest of quests) {
     for (const task of quest.tasks) {
       // Include quest name in task names and dependencies (unless dependency quest is given)
@@ -41,7 +41,7 @@ export function all_tasks(): { [name: string]: Task } {
       task.after = task.after.map((after) =>
         after.includes("/") ? after : `${quest.name}/${after}`
       );
-      result[task.name] = task;
+      result.push(task);
     }
   }
   return result;
