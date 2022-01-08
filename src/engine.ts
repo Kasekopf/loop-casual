@@ -10,11 +10,8 @@ import {
   myHp,
   myMaxhp,
   myMaxmp,
-  myMaxpp,
-  myMp,
   restoreMp,
   runCombat,
-  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -68,7 +65,7 @@ export class Engine {
     const outfit = Outfit.create(task, combat);
     outfit.dress();
 
-    // Simple HP/MP upkeep
+    // HP/MP upkeep
     if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
     restoreMp(myMaxmp() < 100 ? myMaxmp() : 100);
 

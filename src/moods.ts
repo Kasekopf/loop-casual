@@ -1,5 +1,5 @@
-import { myEffects, toSkill } from "kolmafia";
-import { $class, $effects, ensureEffect, have, uneffect } from "libram";
+import { myEffects, myPrimestat, toSkill } from "kolmafia";
+import { $class, $effects, $stat, ensureEffect, have, uneffect } from "libram";
 
 const relevantEffects: { [modifier: string]: Effect[] } = {
   "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
@@ -30,6 +30,19 @@ export function applyEffects(modifier: string): void {
   for (const key in relevantEffects) {
     if (modifier.includes(key)) {
       useful_effects.push(...relevantEffects[key]);
+    }
+  }
+  if (modifier.includes("mainstat")) {
+    switch (myPrimestat()) {
+      case $stat`Muscle`:
+        useful_effects.push(...relevantEffects["muscle"]);
+        break;
+      case $stat`Mysticality`:
+        useful_effects.push(...relevantEffects["mysticality"]);
+        break;
+      case $stat`Moxie`:
+        useful_effects.push(...relevantEffects["moxie"]);
+        break;
     }
   }
 
