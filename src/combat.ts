@@ -4,6 +4,7 @@ import { debug } from "./lib";
 enum MonsterStrategy {
   RunAway,
   Kill,
+  KillHard,
   KillBanish,
   Banish,
   Abort,
@@ -136,8 +137,10 @@ export class BuiltCombatStrategy {
         return new Macro().runaway();
       case MonsterStrategy.Kill:
         if (monster && monster.physicalResistance > 10)
-          return new Macro().skill($skill`Saucegeyser`);
+          return new Macro().skill($skill`Saucegeyser`).repeat();
         else return new Macro().attack().repeat();
+      case MonsterStrategy.KillHard:
+        return new Macro().skill($skill`Saucegeyser`).repeat();
       case MonsterStrategy.KillBanish:
         this.equip.push($item`Pantsgiving`);
         return new Macro().skill($skill`Talk About Politics`);
@@ -166,6 +169,9 @@ export class CombatStrategy {
   }
   public kill(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Kill, ...monsters);
+  }
+  public killHard(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.KillHard, ...monsters);
   }
   public banish(...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) throw `Must specify list of monsters to banish`;

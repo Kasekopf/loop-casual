@@ -75,7 +75,7 @@ export const LevelingQuest: Quest = {
       completed: () => get("_loveTunnelUsed") || myLevel() >= 13,
       do: $location`The Tunnel of L.O.V.E.`,
       choices: { 1222: 1, 1223: 1, 1224: primestat_id, 1225: 1, 1226: 2, 1227: 1, 1228: 3 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       cap: 1,
     },
     {
@@ -83,9 +83,9 @@ export const LevelingQuest: Quest = {
       after: [],
       ready: () => have($familiar`God Lobster`),
       completed: () => get("_godLobsterFights") >= 3 || myLevel() >= 13,
-      do: () => visitUrl("main.php?fightgodlobster=1"), // TODO: handle fight
+      do: () => visitUrl("main.php?fightgodlobster=1"),
       choices: { 1310: 3 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`God Lobster`,
@@ -101,7 +101,13 @@ export const LevelingQuest: Quest = {
       completed: () => get("_sausageFights") > 0 || myLevel() >= 13,
       do: $location`The Outskirts of Cobb's Knob`,
       combat: new CombatStrategy()
-        .macro(new Macro().trySkill($skill`lecture on relativity`), $monster`sausage goblin`)
+        .macro(
+          new Macro()
+            .trySkill($skill`lecture on relativity`)
+            .trySkill($skill`Saucegeyser`)
+            .repeat(),
+          $monster`sausage goblin`
+        )
         .abort(), // error on everything except sausage goblin
       modifier: "mainstat, 4exp",
       equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
@@ -114,7 +120,7 @@ export const LevelingQuest: Quest = {
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
@@ -126,7 +132,7 @@ export const LevelingQuest: Quest = {
       ready: () => have($familiar`Machine Elf`),
       completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= 13,
       do: $location`The Deep Machine Tunnels`,
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Machine Elf`,
