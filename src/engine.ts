@@ -1,6 +1,4 @@
-import { adventureMacro } from "libram";
 import { Task } from "./tasks/structure";
-
 import { PropertiesManager } from "libram";
 import { CombatStrategy } from "./combat";
 import { Outfit } from "./outfit";

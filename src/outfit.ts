@@ -1,12 +1,4 @@
-import {
-  equip,
-  equipAllFamiliars,
-  equippedAmount,
-  equippedItem,
-  toSlot,
-  useFamiliar,
-  weaponHands,
-} from "kolmafia";
+import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
 import {
   $familiar,
   $item,
