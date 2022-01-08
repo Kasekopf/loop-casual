@@ -1,4 +1,4 @@
-import { myAdventures } from "kolmafia";
+import { myAdventures, print } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";

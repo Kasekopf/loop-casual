@@ -134,7 +134,10 @@ export class BuiltCombatStrategy {
     switch (strategy) {
       case MonsterStrategy.RunAway:
         this.can_run_away = true;
-        return new Macro().runaway();
+        return new Macro()
+          .skill($skill`Saucestorm`)
+          .attack()
+          .repeat();
       case MonsterStrategy.Kill:
         if (monster && monster.physicalResistance > 10)
           return new Macro().skill($skill`Saucegeyser`).repeat();
