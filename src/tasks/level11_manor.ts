@@ -10,7 +10,7 @@ import {
   get,
   have,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const Manor1: Task[] = [
@@ -22,7 +22,7 @@ const Manor1: Task[] = [
     modifier: "stench res, hot res",
     choices: { 893: 2 },
     combat: new CombatStrategy().kill(),
-    cap: 6,
+    cap: new Limit(5),
   },
   {
     name: "Billiards",
@@ -45,14 +45,20 @@ const Manor1: Task[] = [
     combat: new CombatStrategy().banish(...$monsters`banshee librarian, bookbat`).kill(),
     choices: { 163: 4, 888: 4, 889: 4, 894: 1 },
   },
+  {
+    name: "Finish Floor1",
+    after: ["Library"],
+    completed: () => step("questM20Necklace") === 999,
+    do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
+  },
 ];
 
 const Manor2: Task[] = [
   {
     name: "Start Floor2",
-    after: ["Library"],
+    after: ["Finish Floor1"],
     completed: () => step("questM21Dance") >= 1,
-    do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
+    do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
   },
   {
     name: "Gallery",
@@ -77,7 +83,7 @@ const Manor2: Task[] = [
     name: "Bedroom",
     after: ["Start Floor2"],
     completed: () => have($item`Lady Spookyraven's finest gown`) || step("questM21Dance") >= 2,
-    do: () => $location`The Haunted Bedroom`,
+    do: $location`The Haunted Bedroom`,
     choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
     combat: new CombatStrategy()
       .kill(...$monsters`tumbleweed, elegant animated nightstand`)
@@ -95,11 +101,11 @@ const Manor2: Task[] = [
     cap: 1,
   },
   {
-    name: "Finsh Floor2",
+    name: "Finish Floor2",
     after: ["Open Ballroom"],
     completed: () => step("questM21Dance") >= 4,
     do: $location`The Haunted Ballroom`,
-    cap: 2, // Lights Out might occur
+    cap: new Limit(1),
   },
 ];
 
@@ -117,7 +123,10 @@ const ManorBasement: Task[] = [
     name: "Learn Recipe",
     after: ["Ballroom"],
     completed: () => get("spookyravenRecipeUsed") === "with_glasses",
-    do: () => use($item`recipe: mortar-dissolving solution`),
+    do: () => {
+      visitUrl("place.php?whichplace=manor4&action=manor4_chamberwall");
+      use($item`recipe: mortar-dissolving solution`);
+    },
     equip: $items`Lord Spookyraven's spectacles`,
   },
   {
@@ -162,8 +171,8 @@ const ManorBasement: Task[] = [
     name: "Boiler Room",
     after: ["Learn Recipe"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
-    do: $location`The Haunted Laundry Room`,
-    modifier: "ML 81min",
+    do: $location`The Haunted Boiler Room`,
+    modifier: "ML 81max",
     equip: $items`unstable fulminate`,
     choices: { 902: 2 },
     combat: new CombatStrategy().kill($monster`monstrous boiler`).banish($monster`coaltergeist`),

@@ -1,4 +1,4 @@
-import { Task } from "./tasks/structure";
+import { Limit, Task } from "./tasks/structure";
 import { $skill, PropertiesManager } from "libram";
 import { CombatStrategy } from "./combat";
 import { Outfit } from "./outfit";
@@ -12,6 +12,7 @@ import {
   myMaxmp,
   restoreMp,
   runCombat,
+  setAutoAttack,
   useSkill,
   visitUrl,
 } from "kolmafia";
@@ -41,8 +42,15 @@ export class Engine {
   public execute(task: Task): void {
     if (!(task.name in this.attempts)) {
       this.attempts[task.name] = 0;
-    } else if (task.cap && this.attempts[task.name] >= task.cap) {
+    } else if (task.cap && typeof task.cap === "number" && this.attempts[task.name] >= task.cap) {
       throw `Task ${task.name} did not complete within ${task.cap} attempts. Please check what went wrong.`;
+    } else if (
+      task.cap &&
+      task.cap instanceof Limit &&
+      task.do instanceof Location &&
+      task.do.turnsSpent >= task.cap.turns_spent
+    ) {
+      throw `Task ${task.name} did not complete within ${task.cap.turns_spent} attempts. Please check what went wrong.`;
     }
     this.attempts[task.name]++;
 
@@ -55,6 +63,8 @@ export class Engine {
       else choices[choice_id] = choice();
     }
     this.propertyManager.setChoices(choices);
+    const seen_halloweener =
+      task.do instanceof Location && task.do.noncombatQueue.includes("Wooof! Wooooooof!");
 
     // Prepare combat macro
     const combat = (task.combat || new CombatStrategy()).build();
@@ -75,7 +85,8 @@ export class Engine {
 
     // Do the task
     debug(combat.macro.toString(), "blue");
-    combat.macro.setAutoAttack();
+    setAutoAttack(0);
+    combat.macro.save();
     if (typeof task.do === "function") {
       task.do();
     } else {
@@ -83,5 +94,14 @@ export class Engine {
     }
     while (inMultiFight()) runCombat();
     if (choiceFollowsFight()) visitUrl("choice.php");
+
+    // If the Halloweener dog triggered, do not count this as a task attempt
+    if (
+      !seen_halloweener &&
+      task.do instanceof Location &&
+      task.do.noncombatQueue.includes("Wooof! Wooooooof!")
+    ) {
+      this.attempts[task.name] -= 1;
+    }
   }
 }

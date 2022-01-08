@@ -10,7 +10,7 @@ export const KnobQuest: Quest = {
       name: "Start",
       after: [],
       ready: () => myLevel() >= 5,
-      completed: () => step("questL05Goblin") > 0,
+      completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
       cap: 1,
     },

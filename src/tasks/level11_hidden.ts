@@ -21,14 +21,17 @@ const Temple: Task[] = [
   {
     name: "Forest Coin",
     after: ["Mosquito/Mosquito"],
-    completed: () => have($item`tree-holed coin`) || step("questM16Temple") === 999,
+    completed: () =>
+      have($item`tree-holed coin`) ||
+      have($item`Spooky Temple map`) ||
+      step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 2, 505: 2, 334: 1 },
     modifier: "-combat",
   },
   {
     name: "Forest Map",
-    after: ["Mosquito/Mosquito"],
+    after: ["Forest Coin"],
     completed: () => have($item`Spooky Temple map`) || step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 3, 506: 3, 507: 1, 334: 1 },
@@ -131,7 +134,7 @@ const Office: Task[] = [
         have($item`McClusky file (page 5)`)) ||
       have($item`McClusky file (complete)`) ||
       get("hiddenOfficeProgress") >= 7,
-    do: $location`The Hidden Apartment Building`,
+    do: $location`The Hidden Office Building`,
     combat: new CombatStrategy()
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
@@ -145,7 +148,7 @@ const Office: Task[] = [
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||
       get("hiddenOfficeProgress") >= 7,
-    do: $location`The Hidden Apartment Building`,
+    do: $location`The Hidden Office Building`,
     choices: { 786: 2 },
     cap: 9,
   },
@@ -153,7 +156,7 @@ const Office: Task[] = [
     name: "Office Boss",
     after: ["Office Clip"],
     completed: () => get("hiddenOfficeProgress") >= 7,
-    do: $location`The Hidden Apartment Building`,
+    do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
     combat: new CombatStrategy().kill(
       $monster`ancient protector spirit (The Hidden Office Building)`
@@ -184,7 +187,7 @@ const Hospital: Task[] = [
     name: "Hospital",
     after: ["Open Hospital"],
     completed: () => get("hiddenHospitalProgress") >= 7,
-    do: $location`The Hidden Apartment Building`,
+    do: $location`The Hidden Hospital`,
     combat: new CombatStrategy().kill($monster`ancient protector spirit (The Hidden Hospital)`),
     equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
     choices: { 784: 1 },

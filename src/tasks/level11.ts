@@ -1,6 +1,6 @@
 import { buy, myLevel, use, visitUrl } from "kolmafia";
 import { $familiar, $item, $items, $location, $monster, get, have } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const Diary: Task[] = [
@@ -18,7 +18,7 @@ const Diary: Task[] = [
   {
     name: "Buy Documents",
     after: ["Forest"],
-    completed: () => step("questL11Black") >= 3,
+    completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
     do: () => buy($item`forged identification documents`),
     cap: 1,
   },
@@ -36,6 +36,7 @@ const Desert: Task[] = [
   {
     name: "Desert",
     after: ["Diary"],
+    ready: () => have($item`ornate dowsing rod`),
     completed: () => get("desertExploration") >= 100,
     prepare: (): void => {
       if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
@@ -85,7 +86,7 @@ const Pyramid: Task[] = [
     after: ["Upper Chamber"],
     completed: () => get("controlRoomUnlock"),
     do: $location`The Middle Chamber`,
-    cap: 10,
+    cap: new Limit(11),
     delay: 9,
   },
   {

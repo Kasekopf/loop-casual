@@ -65,6 +65,11 @@ const banishSources: BanishSource[] = [
     do: $skill`Show them your ring`,
     equip: $item`mafia middle finger ring`,
   },
+  {
+    name: "Crystal Skull",
+    available: () => have($item`crystal skull`),
+    do: $item`crystal skull`,
+  },
 ];
 
 export class BuiltCombatStrategy {
@@ -108,8 +113,8 @@ export class BuiltCombatStrategy {
       }
     });
     if (to_banish.length === 0) return; // All monsters banished.
-    debug(`Banish targets: ${to_banish}`);
-    debug(`Banishes used: ${used_banishes}`);
+    debug(`Banish targets: ${to_banish.join(", ")}`);
+    debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
 
     // Choose the next banish to use
     const banishes_available = banishSources.filter(
@@ -139,7 +144,7 @@ export class BuiltCombatStrategy {
           .attack()
           .repeat();
       case MonsterStrategy.Kill:
-        if (monster && monster.physicalResistance > 10)
+        if (monster && monster.physicalResistance > 50)
           return new Macro().skill($skill`Saucegeyser`).repeat();
         else return new Macro().attack().repeat();
       case MonsterStrategy.KillHard:

@@ -37,7 +37,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999,
     do: $location`The Copperhead Club`,
     choices: { 852: 1, 853: 1, 854: 1 },
-    cap: 1,
+    cap: 16,
   },
   {
     name: "Bat Snake",
@@ -66,7 +66,7 @@ const Copperhead: Task[] = [
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     equip: $items`Mohawk wig`,
     modifier: "-combat",
-    choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1 },
+    choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     combat: new CombatStrategy().kill(),
     //  .banish(...$monsters`Goth Giant, Punk Rock Giant, Raver Giant, Steampunk Giant`),
   },
@@ -77,9 +77,8 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999,
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     modifier: "+combat",
-    combat: new CombatStrategy()
-      .kill()
-      .banish(...$monsters`Goth Giant, Punk Rock Giant, Raver Giant, Steampunk Giant`),
+    combat: new CombatStrategy().kill(),
+    //  .banish(...$monsters`Goth Giant, Punk Rock Giant, Raver Giant, Steampunk Giant`),
   },
 ];
 
@@ -93,7 +92,7 @@ const Zepplin: Task[] = [
     combat: new CombatStrategy().item($item`cigarette lighter`).kill($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 1432: 2 },
     equip: $items`lynyrdskin breeches, lynyrdskin cap, lynyrdskin tunic`,
-    modifier: "sleaze dmg, sleaze spell dmg, -combat 25max5",
+    modifier: "sleaze dmg, sleaze spell dmg, -combat",
   },
   {
     name: "Zepplin",
@@ -172,7 +171,7 @@ const Dome: Task[] = [
   },
   {
     name: "Open Alarm",
-    after: ["Shelves"],
+    after: ["Alarm Gem"],
     completed: () => step("questL11Palindome") >= 5,
     do: () => {
       if (!have($item`wet stunt nut stew`)) create($item`wet stunt nut stew`);
@@ -192,7 +191,10 @@ export const PalindomeQuest: Quest = {
       name: "Boss",
       after: ["Open Alarm"],
       completed: () => step("questL11Palindome") === 999,
-      do: () => visitUrl("place.php?whichplace=palindome&action=pal_drlabel"),
+      do: (): void => {
+        visitUrl("place.php?whichplace=palindome&action=pal_drlabel");
+        visitUrl("choice.php");
+      },
       equip: $items`Talisman o' Namsilat, Mega Gem`,
       choices: { 131: 1 },
       combat: new CombatStrategy().kill(),

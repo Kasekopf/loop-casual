@@ -28,6 +28,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`dodecagram`) || step("questL06Friar") === 999,
       do: $location`The Dark Neck of the Woods`,
       modifier: "-combat",
+      choices: { 1428: 2 },
       cap: 17,
     },
     {
@@ -53,8 +54,8 @@ export const OrganQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: ["Friar/Start"],
-      completed: () => step("questM10Azazel") > 0,
+      after: ["Friar/Finish"],
+      completed: () => step("questM10Azazel") >= 0,
       do: (): void => {
         visitUrl("pandamonium.php?action=temp");
         visitUrl("pandamonium.php?action=sven");
@@ -67,7 +68,7 @@ export const OrganQuest: Quest = {
       completed: () => have($item`Azazel's tutu`) || step("questM10Azazel") === 999,
       ready: () => itemAmount($item`imp air`) >= 5 && itemAmount($item`bus pass`) >= 5,
       do: () => visitUrl("pandamonium.php?action=moan"),
-      cap: 1,
+      cap: 2,
     },
     {
       name: "Arena",
@@ -91,15 +92,15 @@ export const OrganQuest: Quest = {
       completed: () => have($item`Azazel's unicorn`) || step("questM10Azazel") === 999,
       do: (): void => {
         const goals: { [name: string]: Item[] } = {
-          Bognort: $items`giant marshmallow, gin-soaked blotter paper`.filter(have),
-          Stinkface: $items`beer-scented teddy bear, gin-soaked blotter paper`.filter(have),
-          Flargwurm: $items`booze-soaked cherry, gin-soaked blotter paper`.filter(have),
-          Jim: $items`comfy pillow, sponge cake`.filter(have),
+          Bognort: $items`giant marshmallow, gin-soaked blotter paper`,
+          Stinkface: $items`beer-scented teddy bear, gin-soaked blotter paper`,
+          Flargwurm: $items`booze-soaked cherry, gin-soaked blotter paper`,
+          Jim: $items`comfy pillow, sponge cake`,
         };
         visitUrl("pandamonium.php?action=sven");
         for (const member of Object.keys(goals)) {
           if (goals[member].length === 0) throw `Unable to solve Azazel's arena quest`;
-          const item = toInt(goals[member][0]);
+          const item = have(goals[member][0]) ? toInt(goals[member][0]) : toInt(goals[member][1]);
           visitUrl(`pandamonium.php?action=sven&bandmember=${member}&togive=${item}&preaction=try`);
         }
       },

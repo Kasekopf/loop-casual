@@ -5,8 +5,17 @@ import { CombatStrategy } from "../combat";
 
 const ABoo: Task[] = [
   {
-    name: "ABoo Clues",
+    name: "ABoo Start",
     after: ["Start Peaks"],
+    completed: () =>
+      $location`A-Boo Peak`.noncombatQueue.includes("Faction Traction = Inaction") ||
+      get("booPeakProgress") === 0,
+    do: $location`A-Boo Peak`,
+    cap: 1,
+  },
+  {
+    name: "ABoo Clues",
+    after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     prepare: () => {
       // eslint-disable-next-line libram/verify-constants
@@ -44,8 +53,8 @@ const Oil: Task[] = [
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
     modifier: "ML",
-    combat: new CombatStrategy().kill(),
-    cap: 5,
+    combat: new CombatStrategy().killHard(),
+    cap: 6,
   },
   {
     name: "Oil Peak",

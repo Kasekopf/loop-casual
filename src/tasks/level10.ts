@@ -1,6 +1,6 @@
 import { containsText, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, have } from "libram";
-import { Quest, step } from "./structure";
+import { Limit, Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -49,7 +49,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       equip: $items`amulet of extreme plot significance`,
-      choices: { 670: 1 },
+      choices: { 670: 4 },
       cap: 1,
     },
     {
@@ -58,7 +58,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 9,
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
-      cap: 11,
+      cap: new Limit(11),
       delay: 10,
     },
     {
@@ -68,7 +68,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       equip: $items`Mohawk wig`,
       modifier: "-combat",
-      choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1 },
+      choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     },
     {
       name: "Finish",

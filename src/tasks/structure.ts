@@ -7,6 +7,13 @@ export type Quest = {
   tasks: Task[];
 };
 
+export class Limit {
+  turns_spent: number;
+  constructor(turns_spent: number) {
+    this.turns_spent = turns_spent;
+  }
+}
+
 export type Task = {
   name: string;
   after: string[];
@@ -19,7 +26,7 @@ export type Task = {
   modifier?: string;
   equip?: Item[];
   familiar?: Familiar;
-  cap?: number;
+  cap?: number | Limit;
   delay?: number | (() => number);
 };
 

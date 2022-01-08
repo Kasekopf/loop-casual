@@ -9,7 +9,7 @@ const Alcove: Task[] = [
     after: ["Start"],
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
-    modifier: "init max 850",
+    modifier: "init 850max",
     choices: { 153: 4 },
     combat: new CombatStrategy().kill(...$monsters`modern zmobie, conjoined zmombie`),
     cap: 25,
@@ -30,9 +30,9 @@ const Cranny: Task[] = [
     after: ["Start"],
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
-    modifier: "-combat, ML",
+    modifier: "-combat -25min, ML",
     choices: { 523: 4 },
-    combat: new CombatStrategy().kill(
+    combat: new CombatStrategy().killHard(
       ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
     ),
     cap: 25,
@@ -53,7 +53,6 @@ const Niche: Task[] = [
     after: ["Start"],
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
-    modifier: "-combat",
     choices: { 157: 4 },
     combat: new CombatStrategy().kill().banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     cap: 25,
@@ -72,9 +71,10 @@ const Nook: Task[] = [
   {
     name: "Nook",
     after: ["Start"],
+    ready: () => !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
-    modifier: "item max 400",
+    modifier: "item 400max",
     choices: { 155: 5 },
     combat: new CombatStrategy().kill().banish($monster`party skelteon`),
     cap: 25,
