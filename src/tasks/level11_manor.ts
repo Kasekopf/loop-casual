@@ -20,6 +20,7 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") >= 1,
     do: $location`The Haunted Kitchen`,
     modifier: "stench res, hot res",
+    choices: { 893: 2 },
     cap: 6,
   },
   {
@@ -32,7 +33,7 @@ const Manor1: Task[] = [
       ensureEffect($effect`Influence of Sphere`);
     },
     do: $location`The Haunted Billiards Room`,
-    choices: { 875: 1 },
+    choices: { 875: 1, 900: 2 },
     modifier: "-combat",
   },
   {
@@ -41,7 +42,7 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") >= 4,
     do: $location`The Haunted Library`,
     combat: new CombatStrategy().banish(...$monsters`banshee librarian, bookbat`).kill(),
-    choices: { 163: 4, 888: 4, 889: 4 },
+    choices: { 163: 4, 888: 4, 889: 4, 894: 1 },
   },
 ];
 
@@ -57,7 +58,7 @@ const Manor2: Task[] = [
     after: ["Start Floor2"],
     completed: () => have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
-    choices: { 89: 4 }, // TODO: louvre
+    choices: { 89: 4, 896: 1 }, // TODO: louvre
     modifier: "-combat",
     delay: 5,
   },
@@ -66,7 +67,7 @@ const Manor2: Task[] = [
     after: ["Start Floor2"],
     completed: () => have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
-    choices: { 881: 1, 105: 1 },
+    choices: { 881: 1, 105: 1, 892: 1 },
     modifier: "-combat",
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
     delay: 5,
@@ -76,7 +77,7 @@ const Manor2: Task[] = [
     after: ["Start Floor2"],
     completed: () => have($item`Lady Spookyraven's finest gown`) || step("questM21Dance") >= 2,
     do: () => $location`The Haunted Bedroom`,
-    choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1 },
+    choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
     combat: new CombatStrategy()
       .kill(...$monsters`tumbleweed, elegant animated nightstand`)
       .killBanish($monster`animated ornate nightstand`)
@@ -108,6 +109,7 @@ const ManorBasement: Task[] = [
     completed: () => step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
     modifier: "-combat",
+    choices: { 90: 3, 106: 4, 921: 1 },
     delay: 5,
   },
   {
@@ -127,6 +129,7 @@ const ManorBasement: Task[] = [
       step("questL11Manor") >= 3,
     do: $location`The Haunted Wine Cellar`,
     modifier: "items",
+    choices: { 901: 2 },
     combat: new CombatStrategy()
       .kill($monster`possessed wine rack`)
       .banish(...$monsters`mad wino, skeletal sommelier`),
@@ -141,6 +144,7 @@ const ManorBasement: Task[] = [
       step("questL11Manor") >= 3,
     do: $location`The Haunted Laundry Room`,
     modifier: "items",
+    choices: { 891: 2 },
     combat: new CombatStrategy()
       .kill($monster`cabinet of Dr. Limpieza`)
       .banish(...$monsters`plaid ghost, possessed laundry press`),
@@ -160,6 +164,7 @@ const ManorBasement: Task[] = [
     do: $location`The Haunted Laundry Room`,
     modifier: "ML max 81",
     equip: $items`unstable fulminate`,
+    choices: { 902: 2 },
     combat: new CombatStrategy().kill($monster`monstrous boiler`).banish($monster`coaltergeist`),
   },
   {
