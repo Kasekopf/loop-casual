@@ -1,4 +1,5 @@
-import { $item, $skill, get, have, Macro } from "libram";
+import { outfit } from "kolmafia";
+import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
 
 enum MonsterStrategy {
   RunAway,
@@ -11,7 +12,7 @@ enum MonsterStrategy {
 export type BanishSource = {
   name: string;
   available: () => boolean;
-  do: Macro;
+  do: Item | Skill;
   equip?: Item;
 };
 
@@ -21,46 +22,46 @@ const banishSources: BanishSource[] = [
     // eslint-disable-next-line libram/verify-constants
     available: () => have($item`cosmic bowling ball`),
     // eslint-disable-next-line libram/verify-constants
-    do: new Macro().skill($skill`Bowl a Curveball`),
+    do: $skill`Bowl a Curveball`,
   },
   {
     name: "Louder Than Bomb",
     available: () => have($item`Louder Than Bomb`),
-    do: new Macro().item($item`Louder Than Bomb`),
+    do: $item`Louder Than Bomb`,
   },
   {
     name: "Feel Hatred",
     available: () => get("_feelHatredUsed") < 3 && have($skill`Emotionally Chipped`),
-    do: new Macro().skill($skill`Feel Hatred`),
+    do: $skill`Feel Hatred`,
   },
   {
     name: "Reflex Hammer",
     available: () => get("_reflexHammerUsed") < 3 && have($item`Lil' Doctor™ bag`),
-    do: new Macro().skill($skill`Reflex Hammer`),
+    do: $skill`Reflex Hammer`,
     equip: $item`Lil' Doctor™ bag`,
   },
   {
     name: "Snokebomb",
     available: () => get("_snokebombUsed") < 3 && have($skill`Snokebomb`),
-    do: new Macro().skill($skill`Snokebomb`),
+    do: $skill`Snokebomb`,
   },
   {
     name: "KGB dart",
     available: () =>
       get("_kgbTranquilizerDartUses") < 3 && have($item`Kremlin's Greatest Briefcase`),
-    do: new Macro().skill($skill`KGB tranquilizer dart`),
+    do: $skill`KGB tranquilizer dart`,
     equip: $item`Kremlin's Greatest Briefcase`,
   },
   {
     name: "Latte",
     available: () => !get("_latteBanishUsed") && have($item`latte lovers member's mug`),
-    do: new Macro().skill($skill`Throw Latte on Opponent`),
+    do: $skill`Throw Latte on Opponent`,
     equip: $item`latte lovers member's mug`,
   },
   {
     name: "Middle Finger",
     available: () => !get("_mafiaMiddleFingerRingUsed") && have($item`mafia middle finger ring`),
-    do: new Macro().skill($skill`Show them your ring`),
+    do: $skill`Show them your ring`,
     equip: $item`mafia middle finger ring`,
   },
 ];
@@ -69,18 +70,61 @@ export class BuiltCombatStrategy {
   macro: Macro = new Macro();
   equip: Item[] = [];
   can_run_away = false;
-  used_banishes: Set<string> = new Set<string>();
 
   constructor(abstract: CombatStrategy) {
+    // Setup the macro for non-banish targets
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, value);
     });
-    abstract.strategy.forEach((value, key) => {
-      this.macro = this.macro.if_(key, this.prepare_macro(value, key));
+    abstract.strategy.forEach((strat, monster) => {
+      if (strat !== MonsterStrategy.Banish) {
+        this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
+      }
     });
+
+    this.assign_banishes(abstract.strategy);
 
     if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
+  }
+
+  assign_banishes(strategy: Map<Monster, MonsterStrategy>): void {
+    const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
+    const to_banish: Monster[] = [];
+    const already_banished = new Map(
+      Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
+    );
+
+    // Record monsters that still need to be banished, and the banishes used
+    strategy.forEach((strat, monster) => {
+      if (strat === MonsterStrategy.Banish) {
+        const banished_with = already_banished.get(monster);
+        if (banished_with === undefined) {
+          to_banish.push(monster);
+        } else {
+          used_banishes.add(banished_with);
+        }
+      }
+    });
+
+    if (to_banish.length === 0) return; // All monsters banished.
+
+    // Choose the next banish to use
+    const banishes_available = banishSources.filter(
+      (banish) => banish.available() && !used_banishes.has(banish.do)
+    );
+    if (banishes_available.length === 0) {
+      throw `Out of banishes; unable to banish ${to_banish}`;
+    }
+
+    // Prepare to use the banish on all needed monsters
+    const banish = banishes_available[0];
+    const use_banish =
+      banish.do instanceof Item ? new Macro().item(banish.do) : new Macro().skill(banish.do);
+    if (banish.equip) this.equip.push(banish.equip);
+    for (const monster of to_banish) {
+      this.macro = this.macro.if_(monster, use_banish);
+    }
   }
 
   prepare_macro(strategy: MonsterStrategy, monster?: Monster): Macro {
@@ -96,15 +140,7 @@ export class BuiltCombatStrategy {
         this.equip.push($item`Pantsgiving`);
         return new Macro().skill($skill`Talk About Politics`);
       case MonsterStrategy.Banish:
-        for (const banish of banishSources) {
-          if (!banish.available()) continue;
-          if (this.used_banishes.has(banish.name)) continue;
-
-          this.used_banishes.add(banish.name);
-          if (banish.equip) this.equip.push(banish.equip);
-          return banish.do;
-        }
-        throw `Out of banishes; unable to banish ${monster}`;
+        throw `Banishes should be assigned by assign_banishes`;
       case MonsterStrategy.Abort:
         return new Macro().abort();
     }
