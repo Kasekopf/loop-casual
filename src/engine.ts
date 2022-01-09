@@ -11,10 +11,10 @@ import {
   myMaxhp,
   myMaxmp,
   restoreMp,
+  runChoice,
   runCombat,
   setAutoAttack,
   useSkill,
-  visitUrl,
 } from "kolmafia";
 import { debug } from "./lib";
 
@@ -94,7 +94,7 @@ export class Engine {
     }
     runCombat();
     while (inMultiFight()) runCombat();
-    if (choiceFollowsFight()) visitUrl("choice.php");
+    if (choiceFollowsFight()) runChoice(-1);
 
     // If the Halloweener dog triggered, do not count this as a task attempt
     if (

@@ -1,4 +1,5 @@
 import { MosquitoQuest } from "./level2";
+import { TavernQuest } from "./level3";
 import { BatQuest } from "./level4";
 import { KnobQuest } from "./level5";
 import { FriarQuest, OrganQuest } from "./level6";
@@ -18,6 +19,7 @@ export function all_tasks(): Task[] {
   const quests = [
     LevelingQuest,
     MosquitoQuest,
+    TavernQuest,
     BatQuest,
     KnobQuest,
     FriarQuest,
