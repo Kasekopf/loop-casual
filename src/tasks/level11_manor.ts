@@ -1,15 +1,5 @@
 import { create, myInebriety, use, visitUrl } from "kolmafia";
-import {
-  $effect,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  ensureEffect,
-  get,
-  have,
-} from "libram";
+import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -29,13 +19,10 @@ const Manor1: Task[] = [
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
     ready: () => myInebriety() <= 10,
-    prepare: (): void => {
-      ensureEffect($effect`Chalky Hand`);
-      ensureEffect($effect`Influence of Sphere`);
-    },
     do: $location`The Haunted Billiards Room`,
     choices: { 875: 1, 900: 2 },
     modifier: "-combat",
+    effects: $effects`Chalky Hand, Influence of Sphere`,
   },
   {
     name: "Library",
@@ -59,7 +46,8 @@ const Manor2: Task[] = [
     name: "Start Floor2",
     after: ["Finish Floor1"],
     completed: () => step("questM21Dance") >= 1,
-    do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
+    do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
+    cap: 1,
   },
   {
     name: "Gallery",
@@ -176,7 +164,9 @@ const ManorBasement: Task[] = [
     modifier: "ML 81max",
     equip: $items`unstable fulminate`,
     choices: { 902: 2 },
-    combat: new CombatStrategy().kill($monster`monstrous boiler`).banish($monster`coaltergeist`),
+    combat: new CombatStrategy()
+      .kill($monster`monstrous boiler`)
+      .banish(...$monsters`coaltergeist, steam elemental`),
   },
   {
     name: "Blow Wall",

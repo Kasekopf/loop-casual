@@ -70,7 +70,7 @@ export class Engine {
     const combat = (task.combat || new CombatStrategy()).build();
 
     // Prepare mood
-    if (task.modifier) applyEffects(task.modifier);
+    applyEffects(task.modifier || "", task.effects || []);
 
     // Prepare equipment
     const outfit = Outfit.create(task, combat);

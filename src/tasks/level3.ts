@@ -1,5 +1,5 @@
 import { getProperty, myLevel, runChoice, runCombat, visitUrl } from "kolmafia";
-import { $effect, ensureEffect } from "libram";
+import { $effects } from "libram";
 import { Quest, step } from "./structure";
 
 export const TavernQuest: Quest = {
@@ -24,16 +24,12 @@ export const TavernQuest: Quest = {
       name: "Basement",
       after: ["Tavernkeep"],
       completed: () => step("questL03Rat") >= 2,
-      prepare: (): void => {
-        ensureEffect($effect`Belch the Rainbow™`);
-        ensureEffect($effect`Benetton's Medley of Diversity`);
-      },
       do: (): void => {
+        visitUrl("cellar.php");
         const layout = getProperty("tavernLayout");
         const path = [3, 2, 1, 0, 5, 10, 15, 20, 16, 21];
         for (let i = 0; i < path.length; i++) {
           if (layout.charAt(path[i]) === "0") {
-            visitUrl("cellar.php");
             visitUrl(`cellar.php?action=explore&whichspot=${path[i] + 1}`);
             runCombat();
             runChoice(-1);
@@ -41,6 +37,7 @@ export const TavernQuest: Quest = {
           }
         }
       },
+      effects: $effects`Belch the Rainbow™, Benetton's Medley of Diversity`,
       modifier: "-combat",
       choices: { 509: 1, 510: 1, 511: 2, 514: 2, 515: 2, 496: 2, 513: 2 },
       cap: 10,

@@ -24,6 +24,7 @@ export type Task = {
   choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
   modifier?: string;
+  effects?: Effect[];
   equip?: Item[];
   familiar?: Familiar;
   cap?: number | Limit;

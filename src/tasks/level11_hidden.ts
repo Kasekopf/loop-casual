@@ -1,15 +1,5 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import {
-  $effect,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  ensureEffect,
-  get,
-  have,
-} from "libram";
+import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -55,16 +45,15 @@ const Temple: Task[] = [
   {
     name: "Temple Nostril",
     after: ["Open Temple", "Macguffin/Diary"],
-    prepare: () => ensureEffect($effect`Stone-Faced`),
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
     choices: { 579: 2, 582: 1 },
+    effects: $effects`Stone-Faced`,
     cap: 1,
   },
   {
     name: "Open City",
     after: ["Temple Nostril"],
-    prepare: () => ensureEffect($effect`Stone-Faced`),
     completed: () => step("questL11Worship") >= 3,
     do: () => {
       visitUrl("adventure.php?snarfblat=280");
@@ -77,6 +66,7 @@ const Temple: Task[] = [
       cliExecute("dvorak");
       manualChoice(125, 3);
     },
+    effects: $effects`Stone-Faced`,
     cap: 1,
   },
 ];
@@ -101,7 +91,6 @@ const Apartment: Task[] = [
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
       .flee($monster`pygmy shaman`),
     choices: { 780: 1 },
-    cap: 9,
   },
   {
     name: "Finish Apartment",

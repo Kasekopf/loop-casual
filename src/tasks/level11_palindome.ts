@@ -1,14 +1,15 @@
-import { buy, create, myHash, use, visitUrl } from "kolmafia";
+import { buy, create, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
+  $effects,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
-  ensureEffect,
   get,
   have,
+  uneffect,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -87,17 +88,18 @@ const Zepplin: Task[] = [
     name: "Protesters",
     after: ["Macguffin/Diary"],
     completed: () => step("questL11Ron") >= 2,
-    prepare: () => ensureEffect($effect`Musky`),
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy().item($item`cigarette lighter`).kill($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 1432: 2 },
     equip: $items`lynyrdskin breeches, lynyrdskin cap, lynyrdskin tunic`,
+    effects: $effects`Musky`,
     modifier: "sleaze dmg, sleaze spell dmg, -combat",
   },
   {
     name: "Zepplin",
     after: ["Protesters"],
     completed: () => step("questL11Ron") >= 5,
+    ready: () => get("_glarkCableUses") < 5,
     prepare: () => {
       if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
     },
@@ -106,7 +108,20 @@ const Zepplin: Task[] = [
       .kill($monster`Ron "The Weasel" Copperhead`)
       .banish(...$monsters`Red Herring, Red Snapper`)
       .item($item`glark cable`, ...$monsters`man with the red buttons, red skeleton, red butler`),
-    cap: 7,
+  },
+  {
+    name: "Zepplin NoGlark",
+    after: ["Protesters"],
+    completed: () => step("questL11Ron") >= 5,
+    ready: () => get("_glarkCableUses") >= 5,
+    prepare: () => {
+      if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
+    },
+    do: $location`The Red Zeppelin`,
+    combat: new CombatStrategy()
+      .kill($monster`Ron "The Weasel" Copperhead`)
+      .banish(...$monsters`Red Herring, Red Snapper`)
+      .kill(...$monsters`man with the red buttons, red skeleton, red butler`),
   },
 ];
 
@@ -165,7 +180,8 @@ const Dome: Task[] = [
       );
       use(1, Item.get(7270));
       visitUrl("place.php?whichplace=palindome&action=pal_mroffice");
-      return true;
+      visitUrl("clan_viplounge.php?action=hottub");
+      uneffect($effect`Beaten Up`);
     },
     equip: $items`Talisman o' Namsilat`,
   },
@@ -193,7 +209,7 @@ export const PalindomeQuest: Quest = {
       completed: () => step("questL11Palindome") === 999,
       do: (): void => {
         visitUrl("place.php?whichplace=palindome&action=pal_drlabel");
-        visitUrl("choice.php");
+        runChoice(-1);
       },
       equip: $items`Talisman o' Namsilat, Mega Gem`,
       choices: { 131: 1 },

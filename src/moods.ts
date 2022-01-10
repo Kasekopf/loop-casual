@@ -25,8 +25,9 @@ function shrug(effects: Effect[]) {
   }
 }
 
-export function applyEffects(modifier: string): void {
+export function applyEffects(modifier: string, required: Effect[]): void {
   const useful_effects = [];
+  useful_effects.push(...required);
   for (const key in relevantEffects) {
     if (modifier.includes(key)) {
       useful_effects.push(...relevantEffects[key]);

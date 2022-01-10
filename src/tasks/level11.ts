@@ -1,7 +1,8 @@
-import { buy, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $familiar, $item, $items, $location, $monster, get, have } from "libram";
+import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
+import { $coinmaster, $familiar, $item, $items, $location, $monster, get, have } from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { debug } from "../lib";
 
 const Diary: Task[] = [
   {
@@ -32,11 +33,76 @@ const Diary: Task[] = [
   },
 ];
 
+const DowsingRod: Task[] = [
+  {
+    name: "Mask",
+    after: [],
+    completed: () => get("grimstoneMaskPath") === "stepmother" || have($item`ornate dowsing rod`),
+    do: () => use($item`grimstone mask`),
+    choices: { 829: 1 },
+    cap: 1,
+  },
+  {
+    name: "Coin1",
+    after: ["Mask"],
+    completed: () =>
+      $location`The Prince's Restroom`.turnsSpent > 0 || have($item`ornate dowsing rod`),
+    do: $location`The Prince's Restroom`,
+    choices: { 822: 1 },
+    cap: 1,
+  },
+  {
+    name: "Coin2",
+    after: ["Mask"],
+    completed: () =>
+      $location`The Prince's Dance Floor`.turnsSpent > 0 || have($item`ornate dowsing rod`),
+    do: $location`The Prince's Dance Floor`,
+    choices: { 823: 1 },
+    cap: 1,
+  },
+  {
+    name: "Coin3",
+    after: ["Mask"],
+    completed: () =>
+      $location`The Prince's Kitchen`.turnsSpent > 0 || have($item`ornate dowsing rod`),
+    do: $location`The Prince's Kitchen`,
+    choices: { 824: 1 },
+    cap: 1,
+  },
+  {
+    name: "Coin4",
+    after: ["Mask"],
+    completed: () =>
+      $location`The Prince's Balcony`.turnsSpent > 0 || have($item`ornate dowsing rod`),
+    do: $location`The Prince's Balcony`,
+    choices: { 825: 1 },
+    cap: 1,
+  },
+  {
+    name: "Coin5",
+    after: ["Mask"],
+    completed: () =>
+      $location`The Prince's Lounge`.turnsSpent > 0 || have($item`ornate dowsing rod`),
+    do: $location`The Prince's Lounge`,
+    choices: { 826: 1 },
+    cap: 1,
+  },
+  {
+    name: "Dowsing Rod",
+    after: ["Coin1", "Coin2", "Coin3", "Coin4", "Coin5"],
+    completed: () => have($item`ornate dowsing rod`),
+    do: () => buy($coinmaster`Paul's Boutique`, 1, $item`ornate dowsing rod`),
+    cap: 1,
+  },
+];
+
 const Desert: Task[] = [
   {
     name: "Desert",
-    after: ["Diary"],
-    ready: () => have($item`ornate dowsing rod`),
+    after: ["Diary", "Dowsing Rod"],
+    ready: () =>
+      get("desertExploration") < 20 ||
+      ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0),
     completed: () => get("desertExploration") >= 100,
     prepare: (): void => {
       if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
@@ -48,19 +114,20 @@ const Desert: Task[] = [
     delay: 18,
   },
   {
-    name: "Gnasir Paint",
+    name: "Gnasir",
     after: ["Diary"],
-    completed: () => (get("gnasirProgress") & 2) === 1 || get("desertExploration") >= 100,
+    completed: () =>
+      ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0) ||
+      get("desertExploration") >= 100,
     ready: () => $location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"),
-    do: () => visitUrl("place.php?whichplace=desertbeach&action=db_gnasir"),
-    cap: 1,
-  },
-  {
-    name: "Gnasir Killing Jar",
-    after: ["Diary"],
-    completed: () => (get("gnasirProgress") & 4) === 1 || get("desertExploration") >= 100,
-    ready: () => $location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"),
-    do: () => visitUrl("place.php?whichplace=desertbeach&action=db_gnasir"),
+    do: () => {
+      let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
+      while (res.includes("value=2")) {
+        res = runChoice(2);
+      }
+      runChoice(1);
+      cliExecute("use * desert sightseeing pamphlet");
+    },
     cap: 1,
   },
 ];
@@ -152,11 +219,12 @@ export const MacguffinQuest: Quest = {
       cap: 1,
     },
     ...Diary,
+    ...DowsingRod,
     ...Desert,
     ...Pyramid,
     {
       name: "Finish",
-      after: [],
+      after: ["Boss"],
       completed: () => step("questL11MacGuffin") === 999,
       do: () => visitUrl("council.php"),
       cap: 1,

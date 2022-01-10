@@ -25,8 +25,9 @@ export const routing: string[] = [
   "Palindome/Hot Snake Postcastle",
   "Palindome/Hot Snake Postcastle",
 
-  // Open bowling for optional free fights
-  "Hidden City/Open Bowling",
+  "Organ/Finish", // Get steel organ
+  "Hidden City/Open Bowling", // Open bowling for optional free fights
+  "Hidden City/Apartment", // Get this out of the way
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
