@@ -2,7 +2,6 @@ import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "
 import { $coinmaster, $familiar, $item, $items, $location, $monster, get, have } from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
-import { debug } from "../lib";
 
 const Diary: Task[] = [
   {

@@ -114,6 +114,7 @@ export class Outfit {
       if (task.modifier.includes("-combat")) outfit.equip($familiar`Disgeist`);
       if (task.modifier.includes("item")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (task.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
+      if (task.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
       if (task.modifier.includes("res")) outfit.equip($familiar`Exotic Parrot`);
       if (task.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       outfit.modifier = task.modifier;
