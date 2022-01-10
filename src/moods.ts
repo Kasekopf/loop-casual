@@ -1,5 +1,5 @@
 import { myEffects, myPrimestat, toSkill } from "kolmafia";
-import { $class, $effects, $stat, ensureEffect, have, uneffect } from "libram";
+import { $class, $effect, $effects, $stat, ensureEffect, have, uneffect } from "libram";
 
 const relevantEffects: { [modifier: string]: Effect[] } = {
   "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
@@ -32,18 +32,24 @@ export function applyEffects(modifier: string): void {
       useful_effects.push(...relevantEffects[key]);
     }
   }
-  if (modifier.includes("mainstat")) {
-    switch (myPrimestat()) {
-      case $stat`Muscle`:
-        useful_effects.push(...relevantEffects["muscle"]);
-        break;
-      case $stat`Mysticality`:
-        useful_effects.push(...relevantEffects["mysticality"]);
-        break;
-      case $stat`Moxie`:
-        useful_effects.push(...relevantEffects["moxie"]);
-        break;
-    }
+
+  // Handle mainstat buffing and equalizing
+  switch (myPrimestat()) {
+    case $stat`Muscle`:
+      if (modifier.includes("mainstat")) useful_effects.push(...relevantEffects["muscle"]);
+      if (modifier.includes("moxie") || modifier.includes("myst"))
+        useful_effects.push($effect`Stabilizing Oiliness`);
+      break;
+    case $stat`Mysticality`:
+      if (modifier.includes("mainstat")) useful_effects.push(...relevantEffects["mysticality"]);
+      if (modifier.includes("moxie") || modifier.includes("muscle"))
+        useful_effects.push($effect`Expert Oiliness`);
+      break;
+    case $stat`Moxie`:
+      if (modifier.includes("mainstat")) useful_effects.push(...relevantEffects["moxie"]);
+      if (modifier.includes("muscle") || modifier.includes("myst"))
+        useful_effects.push($effect`Slippery Oiliness`);
+      break;
   }
 
   // Remove wrong combat effects
