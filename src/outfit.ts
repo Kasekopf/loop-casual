@@ -122,6 +122,7 @@ export class Outfit {
       outfit.equip($item`Fourth of May Cosplay Saber`);
       outfit.equip($item`vampyric cloake`);
       outfit.equip($item`Mr. Cheeng's spectacles`);
+      outfit.equip($familiar`Galloping Grill`);
     }
 
     return outfit;

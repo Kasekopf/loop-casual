@@ -12,12 +12,14 @@ import { ManorQuest } from "./level11_manor";
 import { PalindomeQuest } from "./level11_palindome";
 import { MacguffinQuest } from "./level11";
 import { WarQuest } from "./level12";
+import { MiscQuest } from "./misc";
 import { Task } from "./structure";
 import { LevelingQuest } from "./leveling";
 
 export function all_tasks(): Task[] {
   const quests = [
     LevelingQuest,
+    MiscQuest,
     MosquitoQuest,
     TavernQuest,
     BatQuest,

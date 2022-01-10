@@ -1,5 +1,5 @@
 import { availableAmount, cliExecute, create, mallPrice, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, get, have } from "libram";
+import { $item, $items, $location, get } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -47,18 +47,8 @@ export const WarQuest: Quest = {
       cap: 1,
     },
     {
-      name: "Unlock Island",
-      after: ["Start"],
-      completed: () =>
-        have($item`dingy dinghy`) || have($item`junk junk`) || have($item`skeletal skiff`),
-      do: (): void => {
-        cliExecute("acquire skeletal skiff");
-      },
-      cap: 1,
-    },
-    {
       name: "Enrage",
-      after: ["Start", "Unlock Island"],
+      after: ["Start", "Misc/Unlock Island"],
       completed: () => step("questL12War") >= 1,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: $location`Hippy Camp`,

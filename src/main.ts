@@ -1,10 +1,11 @@
-import { myAdventures } from "kolmafia";
+import { cliExecute, myAdventures } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { debug } from "./lib";
 
 export function main(): void {
+  cliExecute("ccs garbo");
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
   while (myAdventures() > 0) {

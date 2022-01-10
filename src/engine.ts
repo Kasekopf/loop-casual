@@ -1,5 +1,5 @@
 import { Limit, Task } from "./tasks/structure";
-import { $skill, PropertiesManager } from "libram";
+import { $effect, $skill, have, PropertiesManager } from "libram";
 import { CombatStrategy } from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
@@ -96,12 +96,14 @@ export class Engine {
     while (inMultiFight()) runCombat();
     if (choiceFollowsFight()) runChoice(-1);
 
-    // If the Halloweener dog triggered, do not count this as a task attempt
+    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+
     if (
       !seen_halloweener &&
       task.do instanceof Location &&
       task.do.noncombatQueue.includes("Wooof! Wooooooof!")
     ) {
+      // If the Halloweener dog triggered, do not count this as a task attempt
       this.attempts[task.name] -= 1;
     }
   }

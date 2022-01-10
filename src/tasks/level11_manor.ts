@@ -22,7 +22,7 @@ const Manor1: Task[] = [
     modifier: "stench res, hot res",
     choices: { 893: 2 },
     combat: new CombatStrategy().kill(),
-    cap: new Limit(5),
+    cap: new Limit(7),
   },
   {
     name: "Billiards",
@@ -49,7 +49,8 @@ const Manor1: Task[] = [
     name: "Finish Floor1",
     after: ["Library"],
     completed: () => step("questM20Necklace") === 999,
-    do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
+    do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
+    cap: 1,
   },
 ];
 

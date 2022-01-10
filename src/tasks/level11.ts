@@ -24,7 +24,7 @@ const Diary: Task[] = [
   },
   {
     name: "Diary",
-    after: ["Buy Documents"],
+    after: ["Buy Documents", "Misc/Unlock Beach"],
     completed: () => step("questL11Black") >= 4,
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },

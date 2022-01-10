@@ -126,7 +126,7 @@ export class BuiltCombatStrategy {
 
     // Prepare to use the banish on all needed monsters
     const banish = banishes_available[0];
-    debug(`Banish chosen: ${banish}`);
+    debug(`Banish chosen: ${banish.do}`);
     const use_banish =
       banish.do instanceof Item ? new Macro().item(banish.do) : new Macro().skill(banish.do);
     if (banish.equip) this.equip.push(banish.equip);

@@ -15,6 +15,7 @@ export const routing: string[] = [
 
   // Do the billards room first, before drinking
   "Manor/Billiards",
+  "Misc/Consume",
 
   // Start Shen next
   "Palindome/Copperhead",
@@ -22,6 +23,10 @@ export const routing: string[] = [
   "Palindome/Cold Snake",
   "Palindome/Hot Snake Precastle",
   "Palindome/Hot Snake Postcastle",
+  "Palindome/Hot Snake Postcastle",
+
+  // Open bowling for optional free fights
+  "Hidden City/Open Bowling",
 ];
 
 export function prioritize(tasks: Task[]): Task[] {

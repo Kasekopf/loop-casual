@@ -40,7 +40,7 @@ export const GiantQuest: Quest = {
         ) || step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       modifier: "-combat",
-      choices: { 670: 4, 669: 1, 671: 4 },
+      choices: { 670: 5, 669: 1, 671: 4 },
       cap: 10,
     },
     {
