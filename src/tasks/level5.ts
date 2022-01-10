@@ -1,5 +1,5 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $effects, $item, $location, $monster, have } from "libram";
+import { $effects, $item, $items, $location, $monster, have } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -33,10 +33,7 @@ export const KnobQuest: Quest = {
     {
       name: "King",
       after: ["Open Knob"],
-      ready: () =>
-        have($item`Knob Goblin harem veil`) &&
-        have($item`Knob Goblin harem pants`) &&
-        have($item`Knob Goblin perfume`),
+      acquire: $items`Knob Goblin harem veil, Knob Goblin harem pants, Knob Goblin perfume`,
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy().kill($monster`Knob Goblin King`),

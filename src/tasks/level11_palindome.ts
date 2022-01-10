@@ -87,6 +87,7 @@ const Zepplin: Task[] = [
   {
     name: "Protesters",
     after: ["Macguffin/Diary"],
+    acquire: $items`cigarette lighter`,
     completed: () => step("questL11Ron") >= 2,
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy().item($item`cigarette lighter`).kill($monster`The Nuge`),
@@ -98,6 +99,7 @@ const Zepplin: Task[] = [
   {
     name: "Zepplin",
     after: ["Protesters"],
+    acquire: $items`glark cable`,
     completed: () => step("questL11Ron") >= 5,
     ready: () => get("_glarkCableUses") < 5,
     prepare: () => {
@@ -136,6 +138,7 @@ const Dome: Task[] = [
   {
     name: "Palindome Dog",
     after: ["Talisman"],
+    acquire: $items`disposable instant camera`,
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
     equip: $items`Talisman o' Namsilat`,

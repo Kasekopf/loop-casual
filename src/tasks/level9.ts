@@ -1,5 +1,5 @@
-import { buy, cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $location, get, have } from "libram";
+import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { $item, $items, $location, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -22,6 +22,8 @@ const ABoo: Task[] = [
       use($item`11-leaf clover`);
     },
     do: $location`A-Boo Peak`,
+    // eslint-disable-next-line libram/verify-constants
+    acquire: $items`11-leaf clover`,
     cap: 2,
   },
   {
@@ -74,6 +76,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
+    acquire: $items`rusty hedge trimmers`,
     modifier: "stench res 4min",
     cap: 1,
   },
@@ -85,6 +88,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 2, 608: 1 },
+    acquire: $items`rusty hedge trimmers`,
     modifier: "item 50min",
     cap: 1,
   },
@@ -97,6 +101,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 3, 609: 1, 616: 1 },
+    acquire: $items`rusty hedge trimmers, jar of oil`,
     cap: 1,
   },
   {
@@ -107,6 +112,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
+    acquire: $items`rusty hedge trimmers`,
     cap: 1,
   },
 ];
@@ -129,10 +135,10 @@ export const ChasmQuest: Quest = {
       do: (): void => {
         const count = floor((34 - get("chasmBridgeProgress")) / 5);
         if (count <= 0) return;
-        buy(2 * count, $item`snow berries`, 6000);
         cliExecute(`acquire ${count} snow boards`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`);
       },
+      acquire: [[12, $item`snow berries`]],
       cap: 1,
     },
     {

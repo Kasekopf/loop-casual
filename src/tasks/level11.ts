@@ -7,6 +7,7 @@ const Diary: Task[] = [
   {
     name: "Forest",
     after: [],
+    acquire: $items`blackberry galoshes`,
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
     equip: $items`blackberry galoshes`,
@@ -36,6 +37,7 @@ const DowsingRod: Task[] = [
   {
     name: "Mask",
     after: [],
+    acquire: $items`grimstone mask`,
     completed: () => get("grimstoneMaskPath") === "stepmother" || have($item`ornate dowsing rod`),
     do: () => use($item`grimstone mask`),
     choices: { 829: 1 },
@@ -176,6 +178,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Get Token",
+    acquire: [[3, $item`tomb ratchet`]],
     after: ["Middle Chamber"],
     completed: () =>
       have($item`ancient bronze token`) || have($item`ancient bomb`) || get("pyramidBombUsed"),
@@ -184,6 +187,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Get Bomb",
+    acquire: [[4, $item`tomb ratchet`]],
     after: ["Get Token"],
     completed: () => have($item`ancient bomb`) || get("pyramidBombUsed"),
     do: () => rotatePyramid(3),
@@ -191,6 +195,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Use Bomb",
+    acquire: [[3, $item`tomb ratchet`]],
     after: ["Get Bomb"],
     completed: () => get("pyramidBombUsed"),
     do: () => rotatePyramid(1),

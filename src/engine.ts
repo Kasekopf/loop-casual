@@ -6,6 +6,7 @@ import { applyEffects } from "./moods";
 import {
   adv1,
   choiceFollowsFight,
+  cliExecute,
   inMultiFight,
   myHp,
   myMaxhp,
@@ -53,6 +54,12 @@ export class Engine {
       throw `Task ${task.name} did not complete within ${task.cap.turns_spent} attempts. Please check what went wrong.`;
     }
     this.attempts[task.name]++;
+
+    // Get needed items
+    for (const item of task.acquire || []) {
+      if (item instanceof Item) cliExecute(`acquire ${item.name}`);
+      else cliExecute(`acquire ${item[0]} ${item[1].name}`);
+    }
 
     // Prepare choice selections
     const choices: { [choice: number]: number } = {};

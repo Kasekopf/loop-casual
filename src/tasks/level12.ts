@@ -49,6 +49,7 @@ export const WarQuest: Quest = {
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island"],
+      acquire: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       completed: () => step("questL12War") >= 1,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: $location`Hippy Camp`,

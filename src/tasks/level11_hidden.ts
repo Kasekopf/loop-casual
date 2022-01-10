@@ -38,6 +38,7 @@ const Temple: Task[] = [
   {
     name: "Open Temple",
     after: ["Forest Coin", "Forest Map", "Forest Sapling"],
+    acquire: $items`Spooky-Gro fertilizer`,
     completed: () => step("questM16Temple") === 999,
     do: () => use($item`Spooky Temple map`),
     cap: 1,
@@ -45,6 +46,7 @@ const Temple: Task[] = [
   {
     name: "Temple Nostril",
     after: ["Open Temple", "Macguffin/Diary"],
+    acquire: $items`stone wool`,
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
     choices: { 579: 2, 582: 1 },
@@ -54,6 +56,7 @@ const Temple: Task[] = [
   {
     name: "Open City",
     after: ["Temple Nostril"],
+    acquire: $items`stone wool`,
     completed: () => step("questL11Worship") >= 3,
     do: () => {
       visitUrl("adventure.php?snarfblat=280");
@@ -175,6 +178,7 @@ const Hospital: Task[] = [
   {
     name: "Hospital",
     after: ["Open Hospital"],
+    acquire: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy().kill($monster`ancient protector spirit (The Hidden Hospital)`),
@@ -204,7 +208,7 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling"],
-    prepare: () => cliExecute("acquire 1 bowling ball"),
+    acquire: $items`bowling ball`,
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy().kill(
