@@ -158,7 +158,7 @@ const ChallengeBosses: Task[] = [
 const Door: Task[] = [
   {
     name: "Boris Lock",
-    after: ["Maze"],
+    after: ["Maze", "Keys/Finish"],
     acquire: $items`Boris's key`,
     completed: () => get("nsTowerDoorKeysUsed").includes("Boris"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock1"),
@@ -166,7 +166,7 @@ const Door: Task[] = [
   },
   {
     name: "Jarlsberg Lock",
-    after: ["Maze"],
+    after: ["Maze", "Keys/Finish"],
     acquire: $items`Jarlsberg's key`,
     completed: () => get("nsTowerDoorKeysUsed").includes("Jarlsberg"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock2"),
@@ -174,7 +174,7 @@ const Door: Task[] = [
   },
   {
     name: "Sneaky Pete Lock",
-    after: ["Maze"],
+    after: ["Maze", "Keys/Finish"],
     acquire: $items`Sneaky Pete's key`,
     completed: () => get("nsTowerDoorKeysUsed").includes("Sneaky Pete"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock3"),

@@ -1,5 +1,15 @@
-import { cliExecute, myDaycount, myFullness, myInebriety, mySpleenUse } from "kolmafia";
-import { $item, have, set } from "libram";
+import { CombatStrategy } from "../combat";
+import {
+  cliExecute,
+  itemAmount,
+  myDaycount,
+  myFullness,
+  myInebriety,
+  mySpleenUse,
+  runChoice,
+  useSkill,
+} from "kolmafia";
+import { $item, $items, $location, $skill, get, have, Macro, set } from "libram";
 import { Quest } from "./structure";
 
 export const MiscQuest: Quest = {
@@ -31,6 +41,71 @@ export const MiscQuest: Quest = {
         cliExecute("CONSUME ALL NOMEAT");
         set("spiceMelangeUsed", false);
         set("currentMojoFilters", 0);
+      },
+      cap: 1,
+    },
+  ],
+};
+
+function keyCount(): number {
+  let count = itemAmount($item`fat loot token`);
+  if (have($item`Boris's key`)) count++;
+  if (have($item`Jarlsberg's key`)) count++;
+  if (have($item`Sneaky Pete's key`)) count++;
+  return count;
+}
+export const KeysQuest: Quest = {
+  name: "Keys",
+  tasks: [
+    {
+      name: "Deck Key",
+      after: [],
+      completed: () => get("_deckCardsDrawn") > 0,
+      do: () => cliExecute("cheat tower"),
+      cap: 1,
+    },
+    {
+      name: "Lockpicking",
+      after: ["Deck"],
+      completed: () => !have($skill`Lock Picking`) || get("lockPicked"),
+      do: (): void => {
+        useSkill($skill`Lock Picking`);
+        if (!have($item`Boris's key`)) runChoice(1);
+        else if (!have($item`Jarlsberg's key`)) runChoice(2);
+        else runChoice(3);
+      },
+      cap: 1,
+    },
+    {
+      name: "Malware",
+      after: [],
+      acquire: $items`daily dungeon malware`,
+      completed: () => get("_dailyDungeonMalwareUsed"),
+      do: $location`The Daily Dungeon`,
+      equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
+      combat: new CombatStrategy().macro(
+        new Macro()
+          .item($item`daily dungeon malware`)
+          .attack()
+          .repeat()
+      ),
+      choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+    },
+    {
+      name: "Daily Dungeon",
+      after: ["Deck", "Lockpicking", "Malware"],
+      completed: () => keyCount() > 3,
+      do: $location`The Daily Dungeon`,
+      equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
+      combat: new CombatStrategy().kill(),
+      choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+    },
+    {
+      name: "Finish",
+      after: ["Deck", "Lockpicking", "Malware", "Daily Dungeon"],
+      completed: () => keyCount() > 3,
+      do: (): void => {
+        throw "Unable to obtain enough fat loot tokens";
       },
       cap: 1,
     },
