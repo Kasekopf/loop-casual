@@ -11,9 +11,9 @@ const relevantEffects: { [modifier: string]: Effect[] } = {
   item: $effects`Fat Leon's Phat Loot Lyric, Singer's Faithful Ocelot`,
   meat: $effects`Polka of Plenty`,
   mainstat: $effects`Song of Bravado, Big, Having a Ball!, Tomato Power, Trivia Master, Gr8ness, Favored by Lyle, Starry-Eyed, Carol of the Hells, Carol of the Thrills`,
-  muscle: $effects`Lack of Body-Building, Go Get 'Em\, Tiger!, Phorcefullness, Incredibly Hulking, Muscle Unbound`,
-  mysticality: $effects`We're All Made of Starfish, Inscrutable Gaze, Glittering Eyelashes, Mystically Oiled, On the Shoulders of Giants`,
-  moxie: $effects`Pomp & Circumsands, Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
+  muscle: $effects`Go Get 'Em\, Tiger!, Phorcefullness, Incredibly Hulking`,
+  mysticality: $effects`Glittering Eyelashes, Mystically Oiled, On the Shoulders of Giants`,
+  moxie: $effects`Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
 };
 
 function isSong(effect: Effect) {
