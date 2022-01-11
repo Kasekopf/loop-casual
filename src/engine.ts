@@ -1,6 +1,6 @@
 import { Limit, Task } from "./tasks/structure";
 import { $effect, $skill, have, PropertiesManager } from "libram";
-import { CombatStrategy } from "./combat";
+import { CombatStrategy, MonsterStrategy } from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
@@ -18,6 +18,7 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
+import { WandererSource } from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -47,7 +48,10 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task): void {
+  public execute(task: Task, wanderer?: WandererSource): void {
+    debug(``);
+    debug(`Executing ${task.name}`, "blue");
+
     if (!(task.name in this.attempts)) {
       this.attempts[task.name] = 0;
     } else if (task.cap && typeof task.cap === "number" && this.attempts[task.name] >= task.cap) {
@@ -95,12 +99,13 @@ export class Engine {
     } else {
       // Prepare combat macro
       const combat = (task.combat || new CombatStrategy()).build();
+      if (wanderer) combat.handle_monster(wanderer.monster, MonsterStrategy.KillHard);
 
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare equipment
-      const outfit = Outfit.create(task, combat);
+      const outfit = Outfit.create(task, combat, wanderer);
       outfit.dress();
 
       // HP/MP upkeep
@@ -134,5 +139,8 @@ export class Engine {
       // If the Halloweener dog triggered, do not count this as a task attempt
       this.attempts[task.name] -= 1;
     }
+
+    if (task.completed()) debug(`${task.name} completed!`, "blue");
+    else debug(`${task.name} not completed!`, "blue");
   }
 }

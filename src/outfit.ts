@@ -1,16 +1,7 @@
 import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
-import {
-  $familiar,
-  $item,
-  $monster,
-  $skill,
-  $slot,
-  $slots,
-  getKramcoWandererChance,
-  have,
-  Requirement,
-} from "libram";
-import { BuiltCombatStrategy, MonsterStrategy } from "./combat";
+import { $familiar, $item, $skill, $slot, $slots, have, Requirement } from "libram";
+import { BuiltCombatStrategy } from "./combat";
+import { WandererSource } from "./resources";
 import { Task } from "./tasks/structure";
 
 // Adapted from phccs
@@ -107,18 +98,15 @@ export class Outfit {
     return outfit;
   }
 
-  static create(task: Task, combat: BuiltCombatStrategy): Outfit {
+  static create(task: Task, combat: BuiltCombatStrategy, wanderer?: WandererSource): Outfit {
     const outfit = this.create_mandatory(task);
 
     for (const item of combat.equip) outfit.equip(item);
+    if (wanderer && wanderer.equip) outfit.equip(wanderer.equip);
 
     if (combat.can_run_away) {
       outfit.equip($item`Greatest American Pants`) ||
         outfit.equip($item`navel ring of navel gazing`);
-    }
-    if (getKramcoWandererChance() === 1) {
-      outfit.equip($item`Kramco Sausage-o-Matic™`);
-      combat.handle_monster($monster`sausage goblin`, MonsterStrategy.KillHard);
     }
 
     // eslint-disable-next-line libram/verify-constants
