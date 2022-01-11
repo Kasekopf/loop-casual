@@ -13,6 +13,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Use Sonar",
@@ -21,6 +22,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") >= 3,
       do: () => use($item`sonar-in-a-biscuit`),
       cap: 3,
+      freeaction: true,
     },
     {
       name: "Boss Bat",
@@ -37,6 +39,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") === 999,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

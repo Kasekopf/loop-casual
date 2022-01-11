@@ -127,6 +127,7 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Bridge",
@@ -140,6 +141,7 @@ export const ChasmQuest: Quest = {
       },
       acquire: [[12, $item`snow berries`]],
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Start Peaks",
@@ -147,6 +149,7 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") >= 2,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
       cap: 1,
+      freeaction: true,
     },
     ...ABoo,
     ...Oil,
@@ -157,6 +160,7 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") === 999,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

@@ -32,9 +32,11 @@ const Cranny: Task[] = [
     do: $location`The Defiled Cranny`,
     modifier: "-combat -25min, ML",
     choices: { 523: 4 },
-    combat: new CombatStrategy().killHard(
-      ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
-    ),
+    combat: new CombatStrategy()
+      .killHard(
+        ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
+      )
+      .killHard(),
     cap: 25,
   },
   {
@@ -42,7 +44,7 @@ const Cranny: Task[] = [
     after: ["Cranny"],
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy().killHard(),
     cap: 1,
   },
 ];
@@ -75,7 +77,7 @@ const Nook: Task[] = [
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     modifier: "item 400max",
-    choices: { 155: 5 },
+    choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy().kill().banish($monster`party skelteon`),
     cap: 25,
   },
@@ -85,6 +87,7 @@ const Nook: Task[] = [
     ready: () => have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: () => use($item`evil eye`),
+    freeaction: true,
   },
   {
     name: "Nook Boss",
@@ -106,6 +109,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     ...Alcove,
     ...Cranny,
@@ -126,6 +130,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

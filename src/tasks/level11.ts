@@ -20,8 +20,9 @@ const Diary: Task[] = [
     name: "Buy Documents",
     after: ["Forest"],
     completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
-    do: () => buy($item`forged identification documents`),
+    do: () => buy($coinmaster`Black Market`, 1, $item`forged identification documents`),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Diary",
@@ -42,6 +43,7 @@ const DowsingRod: Task[] = [
     do: () => use($item`grimstone mask`),
     choices: { 829: 1 },
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Coin1",
@@ -94,6 +96,7 @@ const DowsingRod: Task[] = [
     completed: () => have($item`ornate dowsing rod`),
     do: () => buy($coinmaster`Paul's Boutique`, 1, $item`ornate dowsing rod`),
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -130,6 +133,7 @@ const Desert: Task[] = [
       cliExecute("use * desert sightseeing pamphlet");
     },
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -159,6 +163,7 @@ const Pyramid: Task[] = [
     completed: () => step("questL11Pyramid") >= 0,
     do: () => visitUrl("place.php?whichplace=desertbeach&action=db_pyramid1"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Upper Chamber",
@@ -221,6 +226,7 @@ export const MacguffinQuest: Quest = {
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     ...Diary,
     ...DowsingRod,
@@ -232,6 +238,7 @@ export const MacguffinQuest: Quest = {
       completed: () => step("questL11MacGuffin") === 999,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

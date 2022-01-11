@@ -45,6 +45,7 @@ export const WarQuest: Quest = {
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Enrage",
@@ -69,6 +70,7 @@ export const WarQuest: Quest = {
         }
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Boss",

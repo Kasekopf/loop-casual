@@ -134,6 +134,7 @@ const Dome: Task[] = [
     completed: () => have($item`Talisman o' Namsilat`),
     do: () => create($item`Talisman o' Namsilat`),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Palindome Dog",
@@ -187,6 +188,7 @@ const Dome: Task[] = [
       uneffect($effect`Beaten Up`);
     },
     equip: $items`Talisman o' Namsilat`,
+    freeaction: true,
   },
   {
     name: "Open Alarm",
@@ -197,6 +199,7 @@ const Dome: Task[] = [
       visitUrl("place.php?whichplace=palindome&action=pal_mrlabel");
     },
     equip: $items`Talisman o' Namsilat`,
+    freeaction: true,
   },
 ];
 

@@ -38,6 +38,7 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") === 999,
     do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -48,6 +49,7 @@ const Manor2: Task[] = [
     completed: () => step("questM21Dance") >= 1,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Gallery",
@@ -155,6 +157,7 @@ const ManorBasement: Task[] = [
       have($item`unstable fulminate`) || have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: () => create($item`unstable fulminate`),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Boiler Room",
@@ -174,6 +177,7 @@ const ManorBasement: Task[] = [
     completed: () => step("questL11Manor") >= 3,
     do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberwall"),
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -186,6 +190,7 @@ export const ManorQuest: Quest = {
       completed: () => step("questM20Necklace") >= 0,
       do: () => use($item`telegram from Lady Spookyraven`),
       cap: 1,
+      freeaction: true,
     },
     ...Manor1,
     ...Manor2,

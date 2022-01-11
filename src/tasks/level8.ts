@@ -13,6 +13,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Ores",
@@ -28,6 +29,7 @@ export const McLargeHugeQuest: Quest = {
         visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // provide
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Climb",
@@ -55,6 +57,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") === 999,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

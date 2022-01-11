@@ -42,6 +42,7 @@ const Temple: Task[] = [
     completed: () => step("questM16Temple") === 999,
     do: () => use($item`Spooky Temple map`),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Temple Nostril",
@@ -102,6 +103,7 @@ const Apartment: Task[] = [
     do: $location`An Overgrown Shrine (Northwest)`,
     choices: { 781: 2 },
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -162,6 +164,7 @@ const Office: Task[] = [
     do: $location`An Overgrown Shrine (Northeast)`,
     choices: { 785: 2 },
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -192,6 +195,7 @@ const Hospital: Task[] = [
     do: $location`An Overgrown Shrine (Southwest)`,
     choices: { 783: 2 },
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -223,6 +227,7 @@ const Bowling: Task[] = [
     do: $location`An Overgrown Shrine (Southeast)`,
     choices: { 787: 2 },
     cap: 1,
+    freeaction: true,
   },
 ];
 

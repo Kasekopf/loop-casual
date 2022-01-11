@@ -163,6 +163,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("Boris"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock1"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Jarlsberg Lock",
@@ -171,6 +172,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("Jarlsberg"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock2"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Sneaky Pete Lock",
@@ -179,6 +181,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("Sneaky Pete"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock3"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Star Lock",
@@ -187,6 +190,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("Richard's star key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock4"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Digital Lock",
@@ -195,6 +199,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock5"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Skeleton Lock",
@@ -203,6 +208,7 @@ const Door: Task[] = [
     completed: () => get("nsTowerDoorKeysUsed").includes("skeleton key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock6"),
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Door",
@@ -217,6 +223,7 @@ const Door: Task[] = [
     completed: () => step("questL13Final") > 5,
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_doorknob"),
     cap: 1,
+    freeaction: true,
   },
 ];
 
@@ -242,6 +249,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     ...Challenges,
     ...ChallengeBosses,
@@ -319,6 +327,7 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 4`,
       choices: { 1015: 2 },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Shadow",

@@ -30,6 +30,7 @@ export type Task = {
   familiar?: Familiar;
   cap?: number | Limit;
   delay?: number | (() => number);
+  freeaction?: boolean;
 };
 
 export function step(questName: StringProperty): number {

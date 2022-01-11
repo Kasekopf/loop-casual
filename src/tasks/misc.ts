@@ -58,11 +58,12 @@ export const KeysQuest: Quest = {
   name: "Keys",
   tasks: [
     {
-      name: "Deck Key",
+      name: "Deck",
       after: [],
       completed: () => get("_deckCardsDrawn") > 0,
       do: () => cliExecute("cheat tower"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Lockpicking",
@@ -75,6 +76,7 @@ export const KeysQuest: Quest = {
         else runChoice(3);
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Malware",
@@ -108,6 +110,7 @@ export const KeysQuest: Quest = {
         throw "Unable to obtain enough fat loot tokens";
       },
       cap: 1,
+      freeaction: true,
     },
   ],
 };

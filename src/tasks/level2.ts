@@ -12,6 +12,7 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Burn Delay",
@@ -35,6 +36,7 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL02Larva") === 999,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

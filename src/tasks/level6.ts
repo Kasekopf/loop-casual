@@ -13,6 +13,7 @@ export const FriarQuest: Quest = {
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Heart",
@@ -45,6 +46,7 @@ export const FriarQuest: Quest = {
       completed: () => step("questL06Friar") === 999,
       do: () => visitUrl("friars.php?action=ritual&pwd"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };
@@ -61,6 +63,7 @@ export const OrganQuest: Quest = {
         visitUrl("pandamonium.php?action=sven");
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Tutu",
@@ -72,6 +75,7 @@ export const OrganQuest: Quest = {
       ],
       do: () => visitUrl("pandamonium.php?action=moan"),
       cap: 2,
+      freeaction: true,
     },
     {
       name: "Arena",
@@ -97,7 +101,7 @@ export const OrganQuest: Quest = {
         const goals: { [name: string]: Item[] } = {
           Bognort: $items`giant marshmallow, gin-soaked blotter paper`,
           Stinkface: $items`beer-scented teddy bear, gin-soaked blotter paper`,
-          Flargwurm: $items`booze-soaked cherry, gin-soaked blotter paper`,
+          Flargwurm: $items`booze-soaked cherry, sponge cake`,
           Jim: $items`comfy pillow, sponge cake`,
         };
         visitUrl("pandamonium.php?action=sven");
@@ -108,6 +112,7 @@ export const OrganQuest: Quest = {
         }
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Comedy Club",
@@ -138,6 +143,7 @@ export const OrganQuest: Quest = {
       completed: () => have($skill`Liver of Steel`),
       do: () => drink($item`steel margarita`),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

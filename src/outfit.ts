@@ -90,10 +90,15 @@ export class Outfit {
     }
   }
 
-  static create(task: Task, combat: BuiltCombatStrategy): Outfit {
+  static create_mandatory(task: Task): Outfit {
     const outfit = new Outfit();
     if (task.equip) for (const item of task.equip) outfit.equip(item);
     if (task.familiar) outfit.equip(task.familiar);
+    return outfit;
+  }
+
+  static create(task: Task, combat: BuiltCombatStrategy): Outfit {
+    const outfit = this.create_mandatory(task);
 
     for (const item of combat.equip) outfit.equip(item);
 

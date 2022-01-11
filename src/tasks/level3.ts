@@ -12,6 +12,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Tavernkeep",
@@ -19,6 +20,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 1,
       do: () => visitUrl("tavern.php?place=barkeep"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Basement",
@@ -48,6 +50,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") === 999,
       do: () => visitUrl("tavern.php?place=barkeep"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };

@@ -73,37 +73,51 @@ export class Engine {
     const seen_halloweener =
       task.do instanceof Location && task.do.noncombatQueue.includes("Wooof! Wooooooof!");
 
-    // Prepare combat macro
-    const combat = (task.combat || new CombatStrategy()).build();
+    if (task.freeaction) {
+      // Prepare equipment
+      const outfit = Outfit.create_mandatory(task);
+      outfit.dress();
 
-    // Prepare mood
-    applyEffects(task.modifier || "", task.effects || []);
+      if (task.prepare) task.prepare();
 
-    // Prepare equipment
-    const outfit = Outfit.create(task, combat);
-    outfit.dress();
-
-    // HP/MP upkeep
-    if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
-    restoreMp(myMaxmp() < 100 ? myMaxmp() : 100);
-
-    // Do any task-specific preparation
-    if (task.prepare) task.prepare();
-
-    // Do the task
-    debug(combat.macro.toString(), "blue");
-    setAutoAttack(0);
-    combat.macro.save();
-    if (typeof task.do === "function") {
-      task.do();
+      if (typeof task.do === "function") {
+        task.do();
+      } else {
+        adv1(task.do, 0, "");
+      }
     } else {
-      adv1(task.do, 0, "");
-    }
-    runCombat();
-    while (inMultiFight()) runCombat();
-    if (choiceFollowsFight()) runChoice(-1);
+      // Prepare combat macro
+      const combat = (task.combat || new CombatStrategy()).build();
 
-    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+      // Prepare mood
+      applyEffects(task.modifier || "", task.effects || []);
+
+      // Prepare equipment
+      const outfit = Outfit.create(task, combat);
+      outfit.dress();
+
+      // HP/MP upkeep
+      if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
+      restoreMp(myMaxmp() < 100 ? myMaxmp() : 100);
+
+      // Do any task-specific preparation
+      if (task.prepare) task.prepare();
+
+      // Do the task
+      debug(combat.macro.toString(), "blue");
+      setAutoAttack(0);
+      combat.macro.save();
+      if (typeof task.do === "function") {
+        task.do();
+      } else {
+        adv1(task.do, 0, "");
+      }
+      runCombat();
+      while (inMultiFight()) runCombat();
+      if (choiceFollowsFight()) runChoice(-1);
+
+      if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+    }
 
     if (
       !seen_halloweener &&

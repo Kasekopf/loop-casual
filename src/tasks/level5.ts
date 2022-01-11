@@ -13,6 +13,7 @@ export const KnobQuest: Quest = {
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Outskirts",
@@ -29,6 +30,7 @@ export const KnobQuest: Quest = {
       completed: () => step("questL05Goblin") >= 1,
       do: () => use($item`Cobb's Knob map`),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "King",

@@ -12,6 +12,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Grow Beanstalk",
@@ -20,6 +21,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Airship",
@@ -78,6 +80,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
       cap: 10,
+      freeaction: true,
     },
   ],
 };
