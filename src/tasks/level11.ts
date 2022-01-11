@@ -112,14 +112,16 @@ const Desert: Task[] = [
       if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
     },
     do: $location`The Arid, Extra-Dry Desert`,
-    equip: $items`ornate dowsing rod`, // TODO: get
+    equip: $items`ornate dowsing rod`,
     familiar: $familiar`Melodramedary`,
     combat: new CombatStrategy().kill(),
+    choices: { 805: 2 },
     delay: 18,
   },
   {
     name: "Gnasir",
     after: ["Diary"],
+    acquire: $items`can of black paint, killing jar`,
     completed: () =>
       ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0) ||
       get("desertExploration") >= 100,

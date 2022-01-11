@@ -6,7 +6,6 @@ import {
   myFullness,
   myInebriety,
   mySpleenUse,
-  runChoice,
   useSkill,
 } from "kolmafia";
 import { $item, $items, $location, $skill, get, have, Macro, set } from "libram";
@@ -71,9 +70,13 @@ export const KeysQuest: Quest = {
       completed: () => !have($skill`Lock Picking`) || get("lockPicked"),
       do: (): void => {
         useSkill($skill`Lock Picking`);
-        if (!have($item`Boris's key`)) runChoice(1);
-        else if (!have($item`Jarlsberg's key`)) runChoice(2);
-        else runChoice(3);
+      },
+      choices: {
+        1414: (): number => {
+          if (!have($item`Boris's key`)) return 1;
+          else if (!have($item`Jarlsberg's key`)) return 2;
+          else return 3;
+        },
       },
       cap: 1,
       freeaction: true,
@@ -82,7 +85,7 @@ export const KeysQuest: Quest = {
       name: "Malware",
       after: [],
       acquire: $items`daily dungeon malware`,
-      completed: () => get("_dailyDungeonMalwareUsed"),
+      completed: () => get("_dailyDungeonMalwareUsed") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().macro(
@@ -96,7 +99,7 @@ export const KeysQuest: Quest = {
     {
       name: "Daily Dungeon",
       after: ["Deck", "Lockpicking", "Malware"],
-      completed: () => keyCount() > 3,
+      completed: () => keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().kill(),
@@ -105,7 +108,7 @@ export const KeysQuest: Quest = {
     {
       name: "Finish",
       after: ["Deck", "Lockpicking", "Malware", "Daily Dungeon"],
-      completed: () => keyCount() > 3,
+      completed: () => keyCount() >= 3,
       do: (): void => {
         throw "Unable to obtain enough fat loot tokens";
       },
