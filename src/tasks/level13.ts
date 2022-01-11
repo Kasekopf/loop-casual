@@ -359,6 +359,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") === 999,
       do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
       cap: 1,
+      freeaction: true,
     },
   ],
 };
