@@ -1,5 +1,16 @@
 import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
-import { $coinmaster, $familiar, $item, $items, $location, $monster, get, have } from "libram";
+import {
+  $coinmaster,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -115,7 +126,7 @@ const Desert: Task[] = [
     equip: $items`ornate dowsing rod`,
     familiar: $familiar`Melodramedary`,
     combat: new CombatStrategy().kill(),
-    choices: { 805: 2 },
+    choices: { 805: 1 },
   },
   {
     name: "Gnasir",
@@ -212,7 +223,12 @@ const Pyramid: Task[] = [
     after: ["Use Bomb"],
     completed: () => step("questL11Pyramid") === 999,
     do: () => visitUrl("place.php?whichplace=pyramid&action=pyramid_state1a"),
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy().macro(
+      new Macro()
+        .trySkill($skill`Saucegeyser`)
+        .attack()
+        .repeat()
+    ),
     cap: 1,
   },
 ];

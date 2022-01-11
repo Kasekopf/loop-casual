@@ -60,7 +60,7 @@ export const WarQuest: Quest = {
     {
       name: "Fluffers",
       after: ["Enrage"],
-      completed: () => get("hippiesDefeated") >= 1000,
+      completed: () => get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: (): void => {
         // const count = clamp((1000 - get("hippiesDefeated")) / 46, 0, 24);
@@ -72,13 +72,28 @@ export const WarQuest: Quest = {
       cap: 1,
       freeaction: true,
     },
+    // Kill whichever side the fluffers finish off first
     {
-      name: "Boss",
+      name: "Boss Hippie",
       after: ["Fluffers"],
       completed: () => step("questL12War") === 999,
+      ready: () => get("hippiesDefeated") >= 1000,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
+        visitUrl("bigisland.php?action=bossfight&pwd");
+      },
+      combat: new CombatStrategy().kill(),
+      cap: 1,
+    },
+    {
+      name: "Boss Frat",
+      after: ["Fluffers"],
+      completed: () => step("questL12War") === 999,
+      ready: () => get("fratboysDefeated") >= 1000,
+      equip: $items`reinforced beaded headband, bullet-proof corduroys, round purple sunglasses`,
+      do: (): void => {
+        visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
       combat: new CombatStrategy().kill(),

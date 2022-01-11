@@ -95,7 +95,6 @@ const Twin: Task[] = [
   {
     name: "Twin Oil",
     after: ["Start Peaks"],
-    ready: () => have($item`jar of oil`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: () => {
       use($item`rusty hedge trimmers`);
