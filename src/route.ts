@@ -34,6 +34,7 @@ export const routing: string[] = [
 export function prioritize(tasks: Task[]): Task[] {
   const priorities = new Map<string, [number, Task]>();
   for (const task of tasks) {
+    if (task.delay !== undefined) priorities.set(task.name, [2000, task]); // Finish delay as late as possible
     priorities.set(task.name, [1000, task]);
   }
 

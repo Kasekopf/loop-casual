@@ -1,7 +1,7 @@
 import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
 import { debug } from "./lib";
 
-enum MonsterStrategy {
+export enum MonsterStrategy {
   RunAway,
   Kill,
   KillHard,
@@ -94,6 +94,10 @@ export class BuiltCombatStrategy {
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
 
+  public handle_monster(monster: Monster, strategy: MonsterStrategy | Macro): void {
+    this.macro = new Macro().if_(monster, this.prepare_macro(strategy, monster)).step(this.macro);
+  }
+
   assign_banishes(strategy: Map<Monster, MonsterStrategy>): void {
     const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
     const to_banish: Monster[] = [];
@@ -135,7 +139,9 @@ export class BuiltCombatStrategy {
     }
   }
 
-  prepare_macro(strategy: MonsterStrategy, monster?: Monster): Macro {
+  prepare_macro(strategy: MonsterStrategy | Macro, monster?: Monster): Macro {
+    if (strategy instanceof Macro) return strategy;
+
     switch (strategy) {
       case MonsterStrategy.RunAway:
         this.can_run_away = true;

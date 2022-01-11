@@ -3,13 +3,21 @@ import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { debug } from "./lib";
+import { getKramcoWandererChance } from "libram";
 
 export function main(): void {
   cliExecute("ccs garbo");
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
   while (myAdventures() > 0) {
-    const todo = tasks.find((task) => engine.available(task));
+    let todo = tasks.find((task) => engine.available(task));
+    if (getKramcoWandererChance() === 1) {
+      const delay_burning = tasks.find((task) => engine.available_delay(task));
+      if (delay_burning !== undefined) {
+        todo = delay_burning;
+      }
+    }
+
     if (todo === undefined) {
       const remaining_tasks = tasks.filter((task) => !task.completed());
       if (remaining_tasks.length === 0) break;

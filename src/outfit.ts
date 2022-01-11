@@ -1,6 +1,16 @@
 import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, have, Requirement } from "libram";
-import { BuiltCombatStrategy } from "./combat";
+import {
+  $familiar,
+  $item,
+  $monster,
+  $skill,
+  $slot,
+  $slots,
+  getKramcoWandererChance,
+  have,
+  Requirement,
+} from "libram";
+import { BuiltCombatStrategy, MonsterStrategy } from "./combat";
 import { Task } from "./tasks/structure";
 
 // Adapted from phccs
@@ -106,9 +116,10 @@ export class Outfit {
       outfit.equip($item`Greatest American Pants`) ||
         outfit.equip($item`navel ring of navel gazing`);
     }
-    /* if (getKramcoWandererChance() === 1) {
+    if (getKramcoWandererChance() === 1) {
       outfit.equip($item`Kramco Sausage-o-Matic™`);
-    } */ // Todo: kill hard
+      combat.handle_monster($monster`sausage goblin`, MonsterStrategy.KillHard);
+    }
 
     // eslint-disable-next-line libram/verify-constants
     outfit.equip($item`carnivorous potted plant`);

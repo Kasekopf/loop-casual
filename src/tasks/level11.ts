@@ -116,7 +116,6 @@ const Desert: Task[] = [
     familiar: $familiar`Melodramedary`,
     combat: new CombatStrategy().kill(),
     choices: { 805: 2 },
-    delay: 18,
   },
   {
     name: "Gnasir",

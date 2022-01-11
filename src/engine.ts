@@ -40,6 +40,13 @@ export class Engine {
     return !task.completed();
   }
 
+  public available_delay(task: Task): boolean {
+    if (!this.available(task)) return false;
+    if (!task.delay) return false;
+    if (!(task.do instanceof Location)) return false;
+    return task.do.turnsSpent < task.delay;
+  }
+
   public execute(task: Task): void {
     if (!(task.name in this.attempts)) {
       this.attempts[task.name] = 0;
