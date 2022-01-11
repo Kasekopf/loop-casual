@@ -28,6 +28,7 @@ export const routing: string[] = [
   "Organ/Finish", // Get steel organ
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
+  "Manor/Bedroom", // Open delay options
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
