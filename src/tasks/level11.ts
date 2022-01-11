@@ -6,7 +6,7 @@ import { CombatStrategy } from "../combat";
 const Diary: Task[] = [
   {
     name: "Forest",
-    after: [],
+    after: ["Start"],
     acquire: $items`blackberry galoshes`,
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
@@ -20,7 +20,7 @@ const Diary: Task[] = [
     name: "Buy Documents",
     after: ["Forest"],
     completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
-    do: () => buy($coinmaster`Black Market`, 1, $item`forged identification documents`),
+    do: () => cliExecute("buy forged identification documents"),
     cap: 1,
     freeaction: true,
   },

@@ -1,14 +1,19 @@
 import { Task } from "./tasks/structure";
 
 export const routing: string[] = [
+  "Toot/Finish",
+
   // Start with the basic leveling tasks
+  "Leveling/Cloud Talk",
   "Leveling/Daycare",
   "Leveling/Bastille",
   "Leveling/Leaflet",
+  "Leveling/Snojo",
   "Leveling/Chateau",
 
   // Then do the scaling leveling
   "Leveling/LOV Tunnel",
+  "Leveling/Witchess",
   "Leveling/God Lobster",
   "Leveling/Neverending Party",
   "Leveling/Machine Elf",

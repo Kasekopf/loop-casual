@@ -1,4 +1,4 @@
-import {} from "kolmafia";
+import { myLevel } from "kolmafia";
 import { $item, $monster, $skill, get, getKramcoWandererChance, have } from "libram";
 
 export type BanishSource = {
@@ -73,7 +73,7 @@ export type WandererSource = {
 export const wandererSources: WandererSource[] = [
   {
     name: "Kramco",
-    available: () => getKramcoWandererChance() === 1,
+    available: () => getKramcoWandererChance() === 1 && myLevel() >= 10,
     equip: $item`Kramco Sausage-o-Matic™`,
     monster: $monster`sausage goblin`,
   },

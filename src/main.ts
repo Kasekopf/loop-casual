@@ -17,6 +17,7 @@ export function main(): void {
     } else {
       const todo = tasks.find((task) => engine.available(task));
       if (todo === undefined) break;
+      engine.execute(todo);
     }
   }
 

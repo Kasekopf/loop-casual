@@ -21,6 +21,7 @@ export type Task = {
   prepare?: () => void;
   completed: () => boolean;
   do: Location | (() => void);
+  post?: () => void;
   choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
   modifier?: string;

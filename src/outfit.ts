@@ -1,5 +1,13 @@
-import { equip, equippedAmount, equippedItem, toSlot, useFamiliar, weaponHands } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, have, Requirement } from "libram";
+import {
+  equip,
+  equippedAmount,
+  equippedItem,
+  myBasestat,
+  toSlot,
+  useFamiliar,
+  weaponHands,
+} from "kolmafia";
+import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
 import { BuiltCombatStrategy } from "./combat";
 import { WandererSource } from "./resources";
 import { Task } from "./tasks/structure";
@@ -111,7 +119,7 @@ export class Outfit {
 
     // eslint-disable-next-line libram/verify-constants
     outfit.equip($item`carnivorous potted plant`);
-    outfit.equip($item`mafia thumb ring`);
+    if (myBasestat($stat`muscle`) >= 40) outfit.equip($item`mafia thumb ring`);
     outfit.equip($item`lucky gold ring`);
     if (task.modifier) {
       // Run maximizer

@@ -1,0 +1,33 @@
+import { use, visitUrl } from "kolmafia";
+import { $item, have } from "libram";
+import { Quest, step } from "./structure";
+
+export const TootQuest: Quest = {
+  name: "Toot",
+  tasks: [
+    {
+      name: "Start",
+      after: [],
+      completed: () => step("questM05Toot") !== -1,
+      do: () => visitUrl("council.php"),
+      cap: 1,
+      freeaction: true,
+    },
+    {
+      name: "Toot",
+      after: ["Start"],
+      completed: () => step("questM05Toot") > 0,
+      do: () => visitUrl("tutorial.php?action=toot"),
+      cap: 1,
+      freeaction: true,
+    },
+    {
+      name: "Finish",
+      after: ["Toot"],
+      completed: () => step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`),
+      do: () => use($item`letter from King Ralph XI`),
+      cap: 1,
+      freeaction: true,
+    },
+  ],
+};

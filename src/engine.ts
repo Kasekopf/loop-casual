@@ -96,6 +96,8 @@ export class Engine {
       } else {
         adv1(task.do, 0, "");
       }
+
+      if (task.post) task.post();
     } else {
       // Prepare combat macro
       const combat = (task.combat || new CombatStrategy()).build();
@@ -110,7 +112,7 @@ export class Engine {
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
-      restoreMp(myMaxmp() < 100 ? myMaxmp() : 100);
+      restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
 
       // Do any task-specific preparation
       if (task.prepare) task.prepare();
@@ -127,6 +129,7 @@ export class Engine {
       runCombat();
       while (inMultiFight()) runCombat();
       if (choiceFollowsFight()) runChoice(-1);
+      if (task.post) task.post();
 
       if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
     }
@@ -134,7 +137,8 @@ export class Engine {
     if (
       !seen_halloweener &&
       task.do instanceof Location &&
-      task.do.noncombatQueue.includes("Wooof! Wooooooof!")
+      (task.do.noncombatQueue.includes("Wooof! Wooooooof!") ||
+        task.do.noncombatQueue.includes("Seeing-Eyes Dog")) // TODO: Add more?
     ) {
       // If the Halloweener dog triggered, do not count this as a task attempt
       this.attempts[task.name] -= 1;
