@@ -12,6 +12,7 @@ import {
   getKramcoWandererChance,
   have,
   Macro,
+  set,
 } from "libram";
 import { Quest } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -137,6 +138,18 @@ export const LevelingQuest: Quest = {
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Machine Elf`,
       cap: 5,
+    },
+    {
+      name: "Leaflet",
+      after: [],
+      ready: () => myLevel() >= 9,
+      completed: () => get("leafletCompleted"),
+      do: (): void => {
+        visitUrl("council.php");
+        cliExecute("leaflet");
+        set("leafletCompleted", true);
+      },
+      cap: 1,
     },
   ],
 };

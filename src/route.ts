@@ -4,6 +4,7 @@ export const routing: string[] = [
   // Start with the basic leveling tasks
   "Leveling/Daycare",
   "Leveling/Bastille",
+  "Leveling/Leaflet",
   "Leveling/Chateau",
 
   // Then do the scaling leveling
