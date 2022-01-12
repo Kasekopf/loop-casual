@@ -86,6 +86,7 @@ export class Engine {
 
     // Prepare basic equipment
     const outfit = Outfit.create(task);
+    if (!outfit.equip(wanderer?.equip)) throw `Wanderer equipment conflicts with ${task.name}`;
 
     if (!task.freeaction) {
       // Prepare combat macro
@@ -106,7 +107,6 @@ export class Engine {
 
       // Prepare full outfit
       outfit.equip(banisher?.equip);
-      outfit.equip(wanderer?.equip);
       outfit.equip(runaway?.equip);
       outfit.equip_defaults();
 
