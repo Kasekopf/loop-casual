@@ -1,5 +1,16 @@
 import { create, myInebriety, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
+import {
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Limit, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -78,10 +89,11 @@ const Manor2: Task[] = [
     choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
     combat: new CombatStrategy()
       .kill(...$monsters`tumbleweed, elegant animated nightstand`)
-      .killBanish($monster`animated ornate nightstand`)
+      .macro(new Macro().skill($skill`Talk About Politics`), $monster`animated ornate nightstand`)
       .banish(
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       ),
+    equip: $items`Pantsgiving`,
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
   },
   {

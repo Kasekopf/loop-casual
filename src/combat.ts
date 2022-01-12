@@ -1,18 +1,16 @@
-import { $item, $skill, Macro } from "libram";
+import { $skill, Macro } from "libram";
 import { BanishSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
   RunAway,
   Kill,
   KillHard,
-  KillBanish,
   Banish,
   Abort,
 }
 
 export class BuiltCombatStrategy {
   macro: Macro = new Macro();
-  equip: Item[] = [];
 
   use_banish?: Macro;
   use_runaway?: Macro;
@@ -64,9 +62,6 @@ export class BuiltCombatStrategy {
         else return new Macro().attack().repeat();
       case MonsterStrategy.KillHard:
         return new Macro().skill($skill`Saucegeyser`).repeat();
-      case MonsterStrategy.KillBanish:
-        this.equip.push($item`Pantsgiving`);
-        return new Macro().skill($skill`Talk About Politics`);
       case MonsterStrategy.Banish:
         if (this.use_banish === undefined) throw `No banish found.`;
         return this.use_banish;
@@ -100,10 +95,6 @@ export class CombatStrategy {
   public banish(...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) throw `Must specify list of monsters to banish`;
     return this.apply(MonsterStrategy.Banish, ...monsters);
-  }
-  public killBanish(...monsters: Monster[]): CombatStrategy {
-    if (monsters.length === 0) throw `Must specify list of monsters to banish`;
-    return this.apply(MonsterStrategy.KillBanish, ...monsters);
   }
   public flee(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAway, ...monsters);

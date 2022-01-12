@@ -114,7 +114,6 @@ export class Outfit {
   ): Outfit {
     const outfit = this.create_mandatory(task);
 
-    for (const item of combat.equip) outfit.equip(item);
     if (wanderer && wanderer.equip) outfit.equip(wanderer.equip);
     if (runaway && runaway.equip) outfit.equip(runaway.equip);
 
