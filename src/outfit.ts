@@ -49,6 +49,34 @@ export class Outfit {
     }
   }
 
+  can_equip(item?: Item | Familiar): boolean {
+    if (item === undefined) return true;
+    if (!have(item)) return false;
+
+    if (item instanceof Item) {
+      const slot = toSlot(item);
+      if (slot === $slot`acc1`) {
+        if (this.accesories.length >= 3) return false;
+        return true;
+      }
+      if (!this.equips.has(slot)) {
+        return true;
+      }
+      if (
+        slot === $slot`weapon` &&
+        !this.equips.has($slot`off-hand`) &&
+        have($skill`Double-Fisted Skull Smashing`) &&
+        weaponHands(item)
+      ) {
+        return true;
+      }
+      return false;
+    } else {
+      if (this.familiar) return false;
+      return true;
+    }
+  }
+
   dress(): void {
     if (this.familiar) useFamiliar(this.familiar);
     const targetEquipment = Array.from(this.equips.values());

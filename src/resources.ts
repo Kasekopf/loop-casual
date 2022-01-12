@@ -11,13 +11,18 @@ import {
   Macro,
 } from "libram";
 import { debug } from "./lib";
+import { Outfit } from "./outfit";
 
-export type BanishSource = {
+interface Resource {
   name: string;
   available: () => boolean;
+  equip?: Item | Familiar;
+  chance?: () => number;
+}
+
+export interface BanishSource extends Resource {
   do: Item | Skill;
-  equip?: Item;
-};
+}
 
 export const banishSources: BanishSource[] = [
   {
@@ -74,7 +79,7 @@ export const banishSources: BanishSource[] = [
   },
 ];
 
-export function chooseBanish(to_banish: Monster[]): BanishSource | undefined {
+export function chooseBanish(to_banish: Monster[], outfit: Outfit): BanishSource | undefined {
   const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
   const already_banished = new Map(
     Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
@@ -95,16 +100,15 @@ export function chooseBanish(to_banish: Monster[]): BanishSource | undefined {
   debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
 
   // Choose the next banish to use
-  return banishSources.find((banish) => banish.available() && !used_banishes.has(banish.do));
+  return compatible(banishSources, outfit).find(
+    (banish) => banish.available() && !used_banishes.has(banish.do)
+  );
 }
 
-export type WandererSource = {
-  name: string;
-  available: () => boolean;
-  equip?: Item | Familiar;
+export interface WandererSource extends Resource {
   monster: Monster | string;
   chance: () => number;
-};
+}
 
 export const wandererSources: WandererSource[] = [
   {
@@ -123,13 +127,10 @@ export const wandererSources: WandererSource[] = [
   },
 ];
 
-export type RunawaySource = {
-  name: string;
-  available: () => boolean;
+export interface RunawaySource extends Resource {
   do: Macro;
-  equip?: Item;
   chance: () => number;
-};
+}
 
 export const runawaySource: RunawaySource[] = [
   {
@@ -140,3 +141,7 @@ export const runawaySource: RunawaySource[] = [
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
 ];
+
+export function compatible<T extends Resource>(resources: T[], outfit: Outfit): T[] {
+  return resources.filter((resource) => resource.available() && outfit.can_equip(resource.equip));
+}

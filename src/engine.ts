@@ -97,7 +97,7 @@ export class Engine {
         : new CombatStrategy();
 
       // Set up a banish if needed
-      const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish));
+      const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish), outfit);
       outfit.equip(banisher?.equip);
 
       // Set up a runaway if needed
