@@ -95,8 +95,23 @@ export class Engine {
           ? task.combat
           : task.combat()
         : new CombatStrategy();
+
+      // Set up a banish if needed
       const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish));
-      const runaway = runawaySource.find((source) => source.available);
+      outfit.equip(banisher?.equip);
+
+      // Set up a runaway if needed
+      let runaway = undefined;
+      if (task_combat.can(MonsterStrategy.RunAway)) {
+        for (const source of runawaySource) {
+          if (!source.available()) continue;
+          if (outfit.equip(source.equip)) {
+            runaway = source;
+            break;
+          }
+        }
+      }
+
       const combat = new BuiltCombatStrategy(task_combat, banisher, runaway, wanderer);
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
@@ -106,8 +121,6 @@ export class Engine {
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare full outfit
-      outfit.equip(banisher?.equip);
-      outfit.equip(runaway?.equip);
       outfit.equip_defaults();
 
       // HP/MP upkeep
