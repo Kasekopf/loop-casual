@@ -112,11 +112,6 @@ export class Outfit {
     for (const item of combat.equip) outfit.equip(item);
     if (wanderer && wanderer.equip) outfit.equip(wanderer.equip);
 
-    if (combat.can_run_away) {
-      outfit.equip($item`Greatest American Pants`) ||
-        outfit.equip($item`navel ring of navel gazing`);
-    }
-
     // eslint-disable-next-line libram/verify-constants
     outfit.equip($item`carnivorous potted plant`);
     if (myBasestat($stat`muscle`) >= 40) outfit.equip($item`mafia thumb ring`);

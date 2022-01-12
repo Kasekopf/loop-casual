@@ -1,6 +1,5 @@
-import { $item, $skill, getBanishedMonsters, Macro } from "libram";
-import { debug } from "./lib";
-import { banishSources } from "./resources";
+import { $item, $skill, Macro } from "libram";
+import { BanishSource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
   RunAway,
@@ -14,68 +13,30 @@ export enum MonsterStrategy {
 export class BuiltCombatStrategy {
   macro: Macro = new Macro();
   equip: Item[] = [];
-  can_run_away = false;
 
-  constructor(abstract: CombatStrategy) {
-    // Setup the macro for non-banish targets
+  use_banish?: Macro;
+
+  constructor(abstract: CombatStrategy, banish?: BanishSource, wanderer?: WandererSource) {
+    if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
+    if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
+
+    // Setup the macros
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, value);
     });
     abstract.strategy.forEach((strat, monster) => {
-      if (strat !== MonsterStrategy.Banish) {
-        this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
-      }
+      this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
-
-    this.assign_banishes(abstract.strategy);
 
     if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
+
+    if (wanderer !== undefined)
+      this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
   }
 
   public handle_monster(monster: Monster, strategy: MonsterStrategy | Macro): void {
     this.macro = new Macro().if_(monster, this.prepare_macro(strategy, monster)).step(this.macro);
-  }
-
-  assign_banishes(strategy: Map<Monster, MonsterStrategy>): void {
-    const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
-    const to_banish: Monster[] = [];
-    const already_banished = new Map(
-      Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
-    );
-
-    // Record monsters that still need to be banished, and the banishes used
-    strategy.forEach((strat, monster) => {
-      if (strat === MonsterStrategy.Banish) {
-        const banished_with = already_banished.get(monster);
-        if (banished_with === undefined) {
-          to_banish.push(monster);
-        } else {
-          used_banishes.add(banished_with);
-        }
-      }
-    });
-    if (to_banish.length === 0) return; // All monsters banished.
-    debug(`Banish targets: ${to_banish.join(", ")}`);
-    debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
-
-    // Choose the next banish to use
-    const banishes_available = banishSources.filter(
-      (banish) => banish.available() && !used_banishes.has(banish.do)
-    );
-    if (banishes_available.length === 0) {
-      throw `Out of banishes; unable to banish ${to_banish}`;
-    }
-
-    // Prepare to use the banish on all needed monsters
-    const banish = banishes_available[0];
-    debug(`Banish chosen: ${banish.do}`);
-    const use_banish =
-      banish.do instanceof Item ? new Macro().item(banish.do) : new Macro().skill(banish.do);
-    if (banish.equip) this.equip.push(banish.equip);
-    for (const monster of to_banish) {
-      this.macro = this.macro.if_(monster, use_banish);
-    }
   }
 
   prepare_macro(strategy: MonsterStrategy | Macro, monster?: Monster): Macro {
@@ -83,7 +44,6 @@ export class BuiltCombatStrategy {
 
     switch (strategy) {
       case MonsterStrategy.RunAway:
-        this.can_run_away = true;
         return new Macro()
           .skill($skill`Saucestorm`)
           .attack()
@@ -98,7 +58,8 @@ export class BuiltCombatStrategy {
         this.equip.push($item`Pantsgiving`);
         return new Macro().skill($skill`Talk About Politics`);
       case MonsterStrategy.Banish:
-        throw `Banishes should be assigned by assign_banishes`;
+        if (this.use_banish === undefined) throw `No banish found.`;
+        return this.use_banish;
       case MonsterStrategy.Abort:
         return new Macro().abort();
     }
@@ -154,5 +115,14 @@ export class CombatStrategy {
   }
   public build(): BuiltCombatStrategy {
     return new BuiltCombatStrategy(this);
+  }
+
+  public can(do_this: MonsterStrategy): boolean {
+    if (do_this === this.default_strategy) return true;
+    return Array.from(this.strategy.values()).includes(do_this);
+  }
+
+  public where(do_this: MonsterStrategy): Monster[] {
+    return Array.from(this.strategy.keys()).filter((key) => this.strategy.get(key) === do_this);
   }
 }

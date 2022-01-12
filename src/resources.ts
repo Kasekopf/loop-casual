@@ -1,5 +1,14 @@
 import { myLevel } from "kolmafia";
-import { $item, $monster, $skill, get, getKramcoWandererChance, have } from "libram";
+import {
+  $item,
+  $monster,
+  $skill,
+  get,
+  getBanishedMonsters,
+  getKramcoWandererChance,
+  have,
+} from "libram";
+import { debug } from "./lib";
 
 export type BanishSource = {
   name: string;
@@ -62,6 +71,30 @@ export const banishSources: BanishSource[] = [
     do: $item`crystal skull`,
   },
 ];
+
+export function chooseBanish(to_banish: Monster[]): BanishSource | undefined {
+  const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
+  const already_banished = new Map(
+    Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
+  );
+
+  // Record monsters that still need to be banished, and the banishes used
+  to_banish.forEach((monster) => {
+    const banished_with = already_banished.get(monster);
+    if (banished_with === undefined) {
+      to_banish.push(monster);
+    } else {
+      used_banishes.add(banished_with);
+    }
+  });
+  if (to_banish.length === 0) return; // All monsters banished.
+
+  debug(`Banish targets: ${to_banish.join(", ")}`);
+  debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
+
+  // Choose the next banish to use
+  return banishSources.find((banish) => banish.available() && !used_banishes.has(banish.do));
+}
 
 export type WandererSource = {
   name: string;

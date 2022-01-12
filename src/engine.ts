@@ -1,6 +1,6 @@
 import { Limit, Task } from "./tasks/structure";
 import { $effect, $skill, have, PropertiesManager } from "libram";
-import { CombatStrategy, MonsterStrategy } from "./combat";
+import { BuiltCombatStrategy, CombatStrategy, MonsterStrategy } from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
@@ -18,7 +18,7 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
-import { WandererSource } from "./resources";
+import { chooseBanish, WandererSource } from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -100,14 +100,13 @@ export class Engine {
       if (task.post) task.post();
     } else {
       // Prepare combat macro
-      const combat = (
-        task.combat
-          ? task.combat instanceof CombatStrategy
-            ? task.combat
-            : task.combat()
-          : new CombatStrategy()
-      ).build();
-      if (wanderer) combat.handle_monster(wanderer.monster, MonsterStrategy.KillHard);
+      const task_combat = task.combat
+        ? task.combat instanceof CombatStrategy
+          ? task.combat
+          : task.combat()
+        : new CombatStrategy();
+      const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish));
+      const combat = new BuiltCombatStrategy(task_combat, banisher, wanderer);
 
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
