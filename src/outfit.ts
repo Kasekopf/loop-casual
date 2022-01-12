@@ -134,7 +134,7 @@ export class Outfit {
       // Default outfit
       outfit.equip($item`Fourth of May Cosplay Saber`);
       outfit.equip($item`vampyric cloake`);
-      outfit.equip($item`Mr. Cheeng's spectacles`);
+      if (myBasestat($stat`mysticality`) >= 25) outfit.equip($item`Mr. Cheeng's spectacles`);
       outfit.equip($familiar`Galloping Grill`);
     }
 

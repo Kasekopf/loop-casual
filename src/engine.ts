@@ -100,7 +100,13 @@ export class Engine {
       if (task.post) task.post();
     } else {
       // Prepare combat macro
-      const combat = (task.combat || new CombatStrategy()).build();
+      const combat = (
+        task.combat
+          ? task.combat instanceof CombatStrategy
+            ? task.combat
+            : task.combat()
+          : new CombatStrategy()
+      ).build();
       if (wanderer) combat.handle_monster(wanderer.monster, MonsterStrategy.KillHard);
 
       // Prepare mood
