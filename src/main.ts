@@ -10,7 +10,7 @@ export function main(): void {
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
   while (myAdventures() > 0) {
-    const wanderer = wandererSources.find((source) => source.available());
+    const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = tasks.find((task) => engine.available_delay(task));
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);

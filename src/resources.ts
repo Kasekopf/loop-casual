@@ -1,5 +1,6 @@
 import { myLevel } from "kolmafia";
 import {
+  $familiar,
   $item,
   $monster,
   $skill,
@@ -99,15 +100,24 @@ export function chooseBanish(to_banish: Monster[]): BanishSource | undefined {
 export type WandererSource = {
   name: string;
   available: () => boolean;
-  equip?: Item;
-  monster: Monster;
+  equip?: Item | Familiar;
+  monster: Monster | string;
+  chance: () => number;
 };
 
 export const wandererSources: WandererSource[] = [
   {
     name: "Kramco",
-    available: () => getKramcoWandererChance() === 1 && myLevel() >= 10,
+    available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
     equip: $item`Kramco Sausage-o-Matic™`,
     monster: $monster`sausage goblin`,
+    chance: () => getKramcoWandererChance(),
+  },
+  {
+    name: "Goth",
+    available: () => have($familiar`Artistic Goth Kid`) && get("_gothKidFights") < 7,
+    equip: $familiar`Artistic Goth Kid`,
+    monster: "Black Crayon",
+    chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1][get("_gothKidFights")],
   },
 ];
