@@ -8,6 +8,7 @@ import {
   getBanishedMonsters,
   getKramcoWandererChance,
   have,
+  Macro,
 } from "libram";
 import { debug } from "./lib";
 
@@ -119,5 +120,23 @@ export const wandererSources: WandererSource[] = [
     equip: $familiar`Artistic Goth Kid`,
     monster: "Black Crayon",
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1][get("_gothKidFights")],
+  },
+];
+
+export type RunawaySource = {
+  name: string;
+  available: () => boolean;
+  do: Macro;
+  equip?: Item;
+  chance: () => number;
+};
+
+export const runawaySource: RunawaySource[] = [
+  {
+    name: "GAP",
+    available: () => have($item`Greatest American Pants`),
+    equip: $item`Greatest American Pants`,
+    do: new Macro().runaway(),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
 ];

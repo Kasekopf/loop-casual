@@ -9,7 +9,7 @@ import {
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
 import { BuiltCombatStrategy } from "./combat";
-import { WandererSource } from "./resources";
+import { RunawaySource, WandererSource } from "./resources";
 import { Task } from "./tasks/structure";
 
 // Adapted from phccs
@@ -106,11 +106,17 @@ export class Outfit {
     return outfit;
   }
 
-  static create(task: Task, combat: BuiltCombatStrategy, wanderer?: WandererSource): Outfit {
+  static create(
+    task: Task,
+    combat: BuiltCombatStrategy,
+    runaway?: RunawaySource,
+    wanderer?: WandererSource
+  ): Outfit {
     const outfit = this.create_mandatory(task);
 
     for (const item of combat.equip) outfit.equip(item);
     if (wanderer && wanderer.equip) outfit.equip(wanderer.equip);
+    if (runaway && runaway.equip) outfit.equip(runaway.equip);
 
     // eslint-disable-next-line libram/verify-constants
     outfit.equip($item`carnivorous potted plant`);

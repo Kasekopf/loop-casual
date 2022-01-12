@@ -1,5 +1,5 @@
 import { $item, $skill, Macro } from "libram";
-import { BanishSource, WandererSource } from "./resources";
+import { BanishSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
   RunAway,
@@ -15,10 +15,17 @@ export class BuiltCombatStrategy {
   equip: Item[] = [];
 
   use_banish?: Macro;
+  use_runaway?: Macro;
 
-  constructor(abstract: CombatStrategy, banish?: BanishSource, wanderer?: WandererSource) {
+  constructor(
+    abstract: CombatStrategy,
+    banish?: BanishSource,
+    runaway?: RunawaySource,
+    wanderer?: WandererSource
+  ) {
     if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
     if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
+    this.use_runaway = runaway?.do;
 
     // Setup the macros
     abstract.macros.forEach((value, key) => {
@@ -44,10 +51,13 @@ export class BuiltCombatStrategy {
 
     switch (strategy) {
       case MonsterStrategy.RunAway:
-        return new Macro()
-          .skill($skill`Saucestorm`)
-          .attack()
-          .repeat();
+        if (this.use_runaway === undefined)
+          return new Macro()
+            .runaway()
+            .skill($skill`Saucestorm`)
+            .attack()
+            .repeat();
+        else return this.use_runaway;
       case MonsterStrategy.Kill:
         if (monster && monster.physicalResistance > 50)
           return new Macro().skill($skill`Saucegeyser`).repeat();

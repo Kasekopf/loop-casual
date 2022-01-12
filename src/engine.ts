@@ -18,7 +18,7 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
-import { chooseBanish, WandererSource } from "./resources";
+import { chooseBanish, runawaySource, WandererSource } from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -106,13 +106,14 @@ export class Engine {
           : task.combat()
         : new CombatStrategy();
       const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish));
-      const combat = new BuiltCombatStrategy(task_combat, banisher, wanderer);
+      const runaway = runawaySource.find((source) => source.available);
+      const combat = new BuiltCombatStrategy(task_combat, banisher, runaway, wanderer);
 
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare equipment
-      const outfit = Outfit.create(task, combat, wanderer);
+      const outfit = Outfit.create(task, combat, runaway, wanderer);
       outfit.dress();
 
       // HP/MP upkeep
