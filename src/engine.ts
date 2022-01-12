@@ -84,21 +84,10 @@ export class Engine {
     const seen_halloweener =
       task.do instanceof Location && task.do.noncombatQueue.includes("Wooof! Wooooooof!");
 
-    if (task.freeaction) {
-      // Prepare equipment
-      const outfit = Outfit.create(task);
-      outfit.dress();
+    // Prepare basic equipment
+    const outfit = Outfit.create(task);
 
-      if (task.prepare) task.prepare();
-
-      if (typeof task.do === "function") {
-        task.do();
-      } else {
-        adv1(task.do, 0, "");
-      }
-
-      if (task.post) task.post();
-    } else {
+    if (!task.freeaction) {
       // Prepare combat macro
       const task_combat = task.combat
         ? task.combat instanceof CombatStrategy
@@ -108,41 +97,41 @@ export class Engine {
       const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish));
       const runaway = runawaySource.find((source) => source.available);
       const combat = new BuiltCombatStrategy(task_combat, banisher, runaway, wanderer);
+      debug(combat.macro.toString(), "blue");
+      setAutoAttack(0);
+      combat.macro.save();
 
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
 
-      // Prepare equipment
-      const outfit = Outfit.create(task);
+      // Prepare full outfit
       outfit.equip(banisher?.equip);
       outfit.equip(wanderer?.equip);
       outfit.equip(runaway?.equip);
       outfit.equip_defaults();
-      outfit.dress();
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
       restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
-
-      // Do any task-specific preparation
-      if (task.prepare) task.prepare();
-
-      // Do the task
-      debug(combat.macro.toString(), "blue");
-      setAutoAttack(0);
-      combat.macro.save();
-      if (typeof task.do === "function") {
-        task.do();
-      } else {
-        adv1(task.do, 0, "");
-      }
-      runCombat();
-      while (inMultiFight()) runCombat();
-      if (choiceFollowsFight()) runChoice(-1);
-      if (task.post) task.post();
-
-      if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
     }
+
+    outfit.dress();
+
+    // Do any task-specific preparation
+    if (task.prepare) task.prepare();
+
+    // Do the task
+    if (typeof task.do === "function") {
+      task.do();
+    } else {
+      adv1(task.do, 0, "");
+    }
+    runCombat();
+    while (inMultiFight()) runCombat();
+    if (choiceFollowsFight()) runChoice(-1);
+    if (task.post) task.post();
+
+    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 
     if (
       !seen_halloweener &&
