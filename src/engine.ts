@@ -86,7 +86,7 @@ export class Engine {
 
     if (task.freeaction) {
       // Prepare equipment
-      const outfit = Outfit.create_mandatory(task);
+      const outfit = Outfit.create(task);
       outfit.dress();
 
       if (task.prepare) task.prepare();
@@ -113,7 +113,11 @@ export class Engine {
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare equipment
-      const outfit = Outfit.create(task, combat, runaway, wanderer);
+      const outfit = Outfit.create(task);
+      outfit.equip(banisher?.equip);
+      outfit.equip(wanderer?.equip);
+      outfit.equip(runaway?.equip);
+      outfit.equip_defaults();
       outfit.dress();
 
       // HP/MP upkeep

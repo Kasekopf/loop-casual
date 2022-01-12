@@ -8,8 +8,6 @@ import {
   weaponHands,
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
-import { BuiltCombatStrategy } from "./combat";
-import { RunawaySource, WandererSource } from "./resources";
 import { Task } from "./tasks/structure";
 
 // Adapted from phccs
@@ -19,7 +17,8 @@ export class Outfit {
   familiar?: Familiar;
   modifier?: string;
 
-  equip(item: Item | Familiar): boolean {
+  equip(item?: Item | Familiar): boolean {
+    if (item === undefined) return true;
     if (!have(item)) return false;
 
     if (item instanceof Item) {
@@ -99,28 +98,11 @@ export class Outfit {
     }
   }
 
-  static create_mandatory(task: Task): Outfit {
+  static create(task: Task): Outfit {
     const outfit = new Outfit();
     if (task.equip) for (const item of task.equip) outfit.equip(item);
     if (task.familiar) outfit.equip(task.familiar);
-    return outfit;
-  }
 
-  static create(
-    task: Task,
-    combat: BuiltCombatStrategy,
-    runaway?: RunawaySource,
-    wanderer?: WandererSource
-  ): Outfit {
-    const outfit = this.create_mandatory(task);
-
-    if (wanderer && wanderer.equip) outfit.equip(wanderer.equip);
-    if (runaway && runaway.equip) outfit.equip(runaway.equip);
-
-    // eslint-disable-next-line libram/verify-constants
-    outfit.equip($item`carnivorous potted plant`);
-    if (myBasestat($stat`muscle`) >= 40) outfit.equip($item`mafia thumb ring`);
-    outfit.equip($item`lucky gold ring`);
     if (task.modifier) {
       // Run maximizer
       if (task.modifier.includes("-combat")) outfit.equip($familiar`Disgeist`);
@@ -130,14 +112,23 @@ export class Outfit {
       if (task.modifier.includes("res")) outfit.equip($familiar`Exotic Parrot`);
       if (task.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       outfit.modifier = task.modifier;
-    } else {
-      // Default outfit
-      outfit.equip($item`Fourth of May Cosplay Saber`);
-      outfit.equip($item`vampyric cloake`);
-      if (myBasestat($stat`mysticality`) >= 25) outfit.equip($item`Mr. Cheeng's spectacles`);
-      outfit.equip($familiar`Galloping Grill`);
     }
 
     return outfit;
+  }
+
+  public equip_defaults(): void {
+    // eslint-disable-next-line libram/verify-constants
+    this.equip($item`carnivorous potted plant`);
+    if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
+    this.equip($item`lucky gold ring`);
+
+    if (!this.modifier) {
+      // Default outfit
+      this.equip($item`Fourth of May Cosplay Saber`);
+      this.equip($item`vampyric cloake`);
+      if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
+      this.equip($familiar`Galloping Grill`);
+    }
   }
 }
