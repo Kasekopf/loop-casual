@@ -9,6 +9,7 @@ import {
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
+import { Resource } from "./resources";
 
 // Adapted from phccs
 export class Outfit {
@@ -47,6 +48,28 @@ export class Outfit {
       this.familiar = item;
       return true;
     }
+  }
+
+  equip_first<T extends Resource>(resources: T[]): T | undefined {
+    for (const resource of resources) {
+      if (!resource.available()) continue;
+      if (resource.chance && resource.chance() === 0) continue;
+      if (!this.equip(resource.equip)) continue;
+      return resource;
+    }
+    return undefined;
+  }
+
+  equip_until_capped<T extends Resource>(resources: T[]): T[] {
+    const result: T[] = [];
+    for (const resource of resources) {
+      if (!resource.available()) continue;
+      if (resource.chance && resource.chance() === 0) continue;
+      if (!this.equip(resource.equip)) continue;
+      result.push(resource);
+      if (resource.chance && resource.chance() === 1) break;
+    }
+    return result;
   }
 
   can_equip(item?: Item | Familiar): boolean {

@@ -11,9 +11,8 @@ import {
   Macro,
 } from "libram";
 import { debug } from "./lib";
-import { Outfit } from "./outfit";
 
-interface Resource {
+export interface Resource {
   name: string;
   available: () => boolean;
   equip?: Item | Familiar;
@@ -79,7 +78,7 @@ export const banishSources: BanishSource[] = [
   },
 ];
 
-export function chooseBanish(to_banish: Monster[], outfit: Outfit): BanishSource | undefined {
+export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
   const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
   const already_banished = new Map(
     Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
@@ -94,15 +93,11 @@ export function chooseBanish(to_banish: Monster[], outfit: Outfit): BanishSource
       used_banishes.add(banished_with);
     }
   });
-  if (to_banish.length === 0) return; // All monsters banished.
+  if (to_banish.length === 0) return []; // All monsters banished.
 
   debug(`Banish targets: ${to_banish.join(", ")}`);
   debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
-
-  // Choose the next banish to use
-  return compatible(banishSources, outfit).find(
-    (banish) => banish.available() && !used_banishes.has(banish.do)
-  );
+  return banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do));
 }
 
 export interface WandererSource extends Resource {
@@ -132,7 +127,7 @@ export interface RunawaySource extends Resource {
   chance: () => number;
 }
 
-export const runawaySource: RunawaySource[] = [
+export const runawaySources: RunawaySource[] = [
   {
     name: "GAP",
     available: () => have($item`Greatest American Pants`),
@@ -141,7 +136,3 @@ export const runawaySource: RunawaySource[] = [
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
 ];
-
-export function compatible<T extends Resource>(resources: T[], outfit: Outfit): T[] {
-  return resources.filter((resource) => resource.available() && outfit.can_equip(resource.equip));
-}

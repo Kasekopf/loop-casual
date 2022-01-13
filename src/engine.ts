@@ -18,7 +18,7 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
-import { chooseBanish, runawaySource, WandererSource } from "./resources";
+import { runawaySources, unusedBanishes, WandererSource } from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -97,22 +97,14 @@ export class Engine {
         : new CombatStrategy();
 
       // Set up a banish if needed
-      const banisher = chooseBanish(task_combat.where(MonsterStrategy.Banish), outfit);
-      outfit.equip(banisher?.equip);
+      const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
+      const banish = outfit.equip_first(banishers);
 
       // Set up a runaway if needed
       let runaway = undefined;
-      if (task_combat.can(MonsterStrategy.RunAway)) {
-        for (const source of runawaySource) {
-          if (!source.available()) continue;
-          if (outfit.equip(source.equip)) {
-            runaway = source;
-            break;
-          }
-        }
-      }
+      if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
 
-      const combat = new BuiltCombatStrategy(task_combat, banisher, runaway, wanderer);
+      const combat = new BuiltCombatStrategy(task_combat, banish, runaway, wanderer);
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
       combat.macro.save();

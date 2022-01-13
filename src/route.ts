@@ -15,8 +15,8 @@ export const routing: string[] = [
   "Leveling/LOV Tunnel",
   "Leveling/Witchess",
   "Leveling/God Lobster",
-  "Leveling/Neverending Party",
   "Leveling/Machine Elf",
+  "Leveling/Neverending Party",
   "Leveling/Sausage Fights",
 
   // Do the billards room first, before drinking

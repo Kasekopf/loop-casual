@@ -63,7 +63,7 @@ export class BuiltCombatStrategy {
       case MonsterStrategy.KillHard:
         return new Macro().skill($skill`Saucegeyser`).repeat();
       case MonsterStrategy.Banish:
-        if (this.use_banish === undefined) throw `No banish found.`;
+        if (this.use_banish === undefined) return new Macro().abort(); // should already be banished
         return this.use_banish;
       case MonsterStrategy.Abort:
         return new Macro().abort();
