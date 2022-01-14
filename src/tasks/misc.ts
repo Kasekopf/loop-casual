@@ -20,6 +20,7 @@ export const MiscQuest: Quest = {
       completed: () => have($item`bitchin' meatcar`) || have($item`Desert Bus pass`),
       do: () => cliExecute("acquire 1 bitchin' meatcar"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Unlock Island",
@@ -28,6 +29,7 @@ export const MiscQuest: Quest = {
         have($item`dingy dinghy`) || have($item`junk junk`) || have($item`skeletal skiff`),
       do: () => cliExecute("acquire skeletal skiff"),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Consume",
@@ -42,6 +44,7 @@ export const MiscQuest: Quest = {
         set("currentMojoFilters", 0);
       },
       cap: 1,
+      freeaction: true,
     },
   ],
 };

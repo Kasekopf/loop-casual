@@ -33,11 +33,11 @@ export class BuiltCombatStrategy {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
 
-    if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
-    this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
-
     if (wanderer !== undefined)
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
+
+    if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
+    this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
 
   public handle_monster(monster: Monster, strategy: MonsterStrategy | Macro): void {
