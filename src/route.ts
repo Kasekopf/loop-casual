@@ -5,6 +5,7 @@ export const routing: string[] = [
 
   // Pickup items
   "Misc/Floundry",
+  "Misc/Voting",
 
   // Start with the basic leveling tasks
   "Leveling/Cloud Talk",

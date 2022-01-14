@@ -1,4 +1,4 @@
-import { myLevel } from "kolmafia";
+import { myLevel, totalTurnsPlayed } from "kolmafia";
 import {
   $familiar,
   $item,
@@ -107,6 +107,19 @@ export interface WandererSource extends Resource {
 
 export const wandererSources: WandererSource[] = [
   {
+    name: "Voted",
+    available: () =>
+      have($item`"I Voted!" sticker`) &&
+      totalTurnsPlayed() % 11 === 1 &&
+      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
+      get("_voteFreeFights") < 3 &&
+      myLevel() >= 10,
+    equip: $item`"I Voted!" sticker`,
+    monster:
+      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    chance: () => 1, // when available
+  },
+  {
     name: "Kramco",
     available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
     equip: $item`Kramco Sausage-o-Matic™`,
@@ -117,7 +130,7 @@ export const wandererSources: WandererSource[] = [
     name: "Goth",
     available: () => have($familiar`Artistic Goth Kid`) && get("_gothKidFights") < 7,
     equip: $familiar`Artistic Goth Kid`,
-    monster: "Black Crayon",
+    monster: "monstername Black Crayon *",
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1][get("_gothKidFights")],
   },
 ];
