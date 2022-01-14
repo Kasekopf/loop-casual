@@ -130,6 +130,7 @@ export const LevelingQuest: Quest = {
         if (get("_snojoFreeFights") === 10) cliExecute("hottub"); // Clean -stat effects
       },
       combat: new CombatStrategy().killHard(),
+      modifier: "mainstat, 4exp",
       cap: 10,
     },
     {
