@@ -71,7 +71,8 @@ export const MiscQuest: Quest = {
     {
       name: "Voting",
       after: [],
-      completed: () => have($item``),
+      ready: () => get("voteAlways"),
+      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
