@@ -1,4 +1,5 @@
-import { $skill, Macro } from "libram";
+import { equippedItem, weaponType } from "kolmafia";
+import { $skill, $slot, $stat, Macro } from "libram";
 import { BanishSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
@@ -56,11 +57,21 @@ export class BuiltCombatStrategy {
             .repeat();
         else return this.use_runaway;
       case MonsterStrategy.Kill:
-        if (monster && monster.physicalResistance > 50)
+        if (monster && monster.physicalResistance >= 70)
           return new Macro().skill($skill`Saucegeyser`).repeat();
         else return new Macro().attack().repeat();
       case MonsterStrategy.KillHard:
-        return new Macro().skill($skill`Saucegeyser`).repeat();
+        if (
+          (!monster || monster.physicalResistance < 70) &&
+          weaponType(equippedItem($slot`Weapon`)) === $stat`muscle`
+        ) {
+          return new Macro()
+            .skill($skill`Curse of Weaksauce`)
+            .skill($skill`Lunging Thrust-Smack`)
+            .repeat();
+        } else {
+          return new Macro().skill($skill`Saucegeyser`).repeat();
+        }
       case MonsterStrategy.Banish:
         if (this.use_banish === undefined) return new Macro().abort(); // should already be banished
         return this.use_banish;

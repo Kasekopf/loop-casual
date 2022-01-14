@@ -109,9 +109,7 @@ export const LevelingQuest: Quest = {
       completed: () => get("_loveTunnelUsed") || myLevel() >= 13,
       do: $location`The Tunnel of L.O.V.E.`,
       choices: { 1222: 1, 1223: 1, 1224: primestatId(), 1225: 1, 1226: 2, 1227: 1, 1228: 3 },
-      combat: new CombatStrategy()
-        .killHard()
-        .macro(new Macro().skill($skill`Weapon of the Pastalord`).repeat(), $monster`LOV Engineer`),
+      combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       cap: 1,
@@ -207,12 +205,7 @@ export const LevelingQuest: Quest = {
           get("_feelPrideUsed") < 3 &&
           have($skill`Feel Pride`)
         )
-          return new CombatStrategy().macro(
-            new Macro()
-              .skill($skill`Feel Pride`)
-              .skill($skill`Saucegeyser`)
-              .repeat()
-          );
+          return new CombatStrategy().macro(new Macro().skill($skill`Feel Pride`)).killHard();
         return new CombatStrategy().killHard();
       },
       modifier: "mainstat, 4exp",

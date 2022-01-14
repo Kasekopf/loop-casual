@@ -104,11 +104,6 @@ export class Engine {
       let runaway = undefined;
       if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
 
-      const combat = new BuiltCombatStrategy(task_combat, banish, runaway, wanderer);
-      debug(combat.macro.toString(), "blue");
-      setAutoAttack(0);
-      combat.macro.save();
-
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
 
@@ -116,13 +111,20 @@ export class Engine {
       // eslint-disable-next-line libram/verify-constants
       if (!task_combat.boss) outfit.equip($item`carnivorous potted plant`);
       outfit.equip_defaults();
+      outfit.dress();
+
+      // Prepare combat macro (after effects and outfit)
+      const combat = new BuiltCombatStrategy(task_combat, banish, runaway, wanderer);
+      debug(combat.macro.toString(), "blue");
+      setAutoAttack(0);
+      combat.macro.save();
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
       restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
+    } else {
+      outfit.dress();
     }
-
-    outfit.dress();
 
     // Do any task-specific preparation
     if (task.prepare) task.prepare();
