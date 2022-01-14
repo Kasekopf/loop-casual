@@ -1,5 +1,5 @@
-import { myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
-import { $class, $effect, $effects, $stat, ensureEffect, get, have, uneffect } from "libram";
+import { mallPrice, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import { $class, $effect, $effects, $item, $stat, ensureEffect, get, have, uneffect } from "libram";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result = {
@@ -28,6 +28,18 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
   if (!get("_lyleFavored")) result["mainstat"].push($effect`Favored by Lyle`);
   if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
+
+  // Potions to be used if cheap
+  if (mallPrice($item`ear candle`) < 2000 || have($item`ear candle`))
+    result["init"].push($effect`Clear Ears, Can't Lose`);
+  if (mallPrice($item`panty raider camouflage` || have($item`panty raider camouflage`)) < 2000)
+    result["init"].push($effect`Hiding in Plain Sight`);
+  if (
+    mallPrice($item`Freddie's blessing of Mercury` || have($item`Freddie's blessing of Mercury`)) <
+    2000
+  )
+    result["init"].push($effect`You're High as a Crow, Marty`);
+
   return result;
 }
 
