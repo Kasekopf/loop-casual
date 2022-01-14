@@ -35,7 +35,6 @@ export class BuiltCombatStrategy {
 
     if (wanderer !== undefined)
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
-
     if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
@@ -76,7 +75,11 @@ export class CombatStrategy {
   default_macro?: Macro;
   strategy: Map<Monster, MonsterStrategy> = new Map(); //  { [id: number]: MonsterStrategy } = {};
   macros: Map<Monster, Macro> = new Map(); // { [id: number]: Macro } = {};
+  boss: boolean;
 
+  constructor(boss?: boolean) {
+    this.boss = boss ?? false;
+  }
   apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
       this.default_strategy = strategy;

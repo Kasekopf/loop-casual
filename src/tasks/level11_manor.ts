@@ -212,7 +212,7 @@ export const ManorQuest: Quest = {
       after: ["Blow Wall"],
       completed: () => step("questL11Manor") >= 999,
       do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberboss"),
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 1,
     },
   ],

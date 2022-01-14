@@ -83,7 +83,7 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 1,
     },
     {
@@ -96,7 +96,7 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 1,
     },
   ],

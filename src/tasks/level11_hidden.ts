@@ -246,7 +246,7 @@ export const HiddenQuest: Quest = {
       do: $location`A Massive Ziggurat`,
       equip: $items`antique machete`,
       choices: { 791: 1 },
-      combat: new CombatStrategy().kill(...$monsters`dense liana, Protector Spectre`),
+      combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
       cap: 4,
     },
   ],

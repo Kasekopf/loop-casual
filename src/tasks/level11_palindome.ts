@@ -219,7 +219,7 @@ export const PalindomeQuest: Quest = {
       },
       equip: $items`Talisman o' Namsilat, Mega Gem`,
       choices: { 131: 1 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 1,
     },
   ],

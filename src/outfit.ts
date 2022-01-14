@@ -169,8 +169,6 @@ export class Outfit {
   }
 
   public equip_defaults(): void {
-    // eslint-disable-next-line libram/verify-constants
-    this.equip($item`carnivorous potted plant`);
     if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
     this.equip($item`lucky gold ring`);
 

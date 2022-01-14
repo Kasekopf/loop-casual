@@ -1,5 +1,5 @@
 import { drink, itemAmount, myLevel, toInt, visitUrl } from "kolmafia";
-import { $item, $items, $location, $skill, have } from "libram";
+import { $item, $items, $location, $monsters, $skill, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step } from "./structure";
 
@@ -120,7 +120,9 @@ export const OrganQuest: Quest = {
       completed: () => have($item`observational glasses`),
       do: $location`The Laugh Floor`,
       modifier: "+combat",
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().kill(
+        ...$monsters`Carbuncle Top, Larry of the Field of Signs, Victor the Insult Comic Hellhound`
+      ),
     },
     {
       name: "Lollipop",

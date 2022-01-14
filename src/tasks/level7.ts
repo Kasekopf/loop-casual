@@ -121,7 +121,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") >= 1,
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 1,
     },
     {
