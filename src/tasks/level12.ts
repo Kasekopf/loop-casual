@@ -1,4 +1,13 @@
-import { availableAmount, cliExecute, create, mallPrice, myLevel, use, visitUrl } from "kolmafia";
+import {
+  availableAmount,
+  cliExecute,
+  create,
+  itemAmount,
+  mallPrice,
+  myLevel,
+  use,
+  visitUrl,
+} from "kolmafia";
 import { $item, $items, $location, get } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -6,6 +15,10 @@ import { CombatStrategy } from "../combat";
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual
   while (availableAmount($item`stuffing fluffer`) < flufferCount) {
+    if (itemAmount($item`cashew`) >= 3) {
+      create(1, $item`stuffing fluffer`);
+      continue;
+    }
     const neededFluffers = flufferCount - availableAmount($item`stuffing fluffer`);
     const stuffingFlufferSources: [Item, number][] = [
       [$item`cashew`, 3],
