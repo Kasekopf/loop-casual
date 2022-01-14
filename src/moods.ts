@@ -1,20 +1,35 @@
-import { myEffects, myPrimestat, toSkill } from "kolmafia";
-import { $class, $effect, $effects, $stat, ensureEffect, have, uneffect } from "libram";
+import { myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import { $class, $effect, $effects, $stat, ensureEffect, get, have, uneffect } from "libram";
 
-const relevantEffects: { [modifier: string]: Effect[] } = {
-  "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
-  "+combat": $effects`Carlweather's Cantata of Confrontation, Musk of the Moose`,
-  "": $effects`Empathy, Leash of Linguini, Astral Shell, Elemental Saucesphere`,
-  "fam weight": $effects`Chorale of Companionship`,
-  init: $effects`Walberg's Dim Bulb, Springy Fusilli`,
-  ML: $effects`Ur-Kel's Aria of Annoyance, Pride of the Puffin, Drescher's Annoying Noise`,
-  item: $effects`Fat Leon's Phat Loot Lyric, Singer's Faithful Ocelot`,
-  meat: $effects`Polka of Plenty`,
-  mainstat: $effects`Big, Having a Ball!, Tomato Power, Trivia Master, Gr8ness, Favored by Lyle, Starry-Eyed, Carol of the Hells, Carol of the Thrills`,
-  muscle: $effects`Go Get 'Em\, Tiger!, Phorcefullness, Incredibly Hulking`,
-  mysticality: $effects`Glittering Eyelashes, Mystically Oiled, On the Shoulders of Giants`,
-  moxie: $effects`Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
-};
+function getRelevantEffects(): { [modifier: string]: Effect[] } {
+  const result = {
+    "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
+    "+combat": $effects`Carlweather's Cantata of Confrontation, Musk of the Moose`,
+    "": $effects`Empathy, Leash of Linguini, Astral Shell, Elemental Saucesphere`,
+    "fam weight": $effects`Chorale of Companionship`,
+    init: $effects`Walberg's Dim Bulb, Springy Fusilli`,
+    ML: $effects`Ur-Kel's Aria of Annoyance, Pride of the Puffin, Drescher's Annoying Noise`,
+    item: $effects`Fat Leon's Phat Loot Lyric, Singer's Faithful Ocelot`,
+    meat: $effects`Polka of Plenty`,
+    mainstat: $effects`Big, Tomato Power, Trivia Master, Gr8ness, Carol of the Hells, Carol of the Thrills`,
+    muscle: $effects`Go Get 'Em\, Tiger!, Phorcefullness, Incredibly Hulking`,
+    mysticality: $effects`Glittering Eyelashes, Mystically Oiled, On the Shoulders of Giants`,
+    moxie: $effects`Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
+  };
+
+  // Glitches if given above
+  result["mainstat"].push($effect`That's Just Cloud-Talk, Man`);
+
+  // Class-specific
+  if (myClass() === $class`Seal Clubber`) result["init"].push($effect`Silent Hunting`);
+  else result["init"].push($effect`Nearly Silent Hunting`);
+
+  // One-per-day
+  if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
+  if (!get("_lyleFavored")) result["mainstat"].push($effect`Favored by Lyle`);
+  if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
+  return result;
+}
 
 function isSong(effect: Effect) {
   return toSkill(effect).class === $class`Accordion Thief` && toSkill(effect).buff;
@@ -27,6 +42,8 @@ function shrug(effects: Effect[]) {
 }
 
 export function applyEffects(modifier: string, required: Effect[]): void {
+  const relevantEffects = getRelevantEffects();
+
   const useful_effects = [];
   useful_effects.push(...required);
   for (const key in relevantEffects) {
