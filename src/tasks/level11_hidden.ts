@@ -10,7 +10,7 @@ function manualChoice(whichchoice: number, option: number) {
 const Temple: Task[] = [
   {
     name: "Forest Coin",
-    after: ["Mosquito/Mosquito"],
+    after: ["Mosquito/Burn Delay"],
     completed: () =>
       have($item`tree-holed coin`) ||
       have($item`Spooky Temple map`) ||
@@ -29,7 +29,7 @@ const Temple: Task[] = [
   },
   {
     name: "Forest Sapling",
-    after: ["Mosquito/Mosquito"],
+    after: ["Mosquito/Burn Delay"],
     completed: () => have($item`spooky sapling`) || step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 1, 503: 3, 504: 3, 334: 1 },
