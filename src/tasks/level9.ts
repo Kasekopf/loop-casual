@@ -1,5 +1,5 @@
 import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, get, have } from "libram";
+import { $item, $items, $location, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -55,7 +55,7 @@ const Oil: Task[] = [
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
     modifier: "ML",
-    combat: new CombatStrategy().killHard(),
+    combat: new CombatStrategy().macro(new Macro().skill($skill`Saucegeyser`).repeat()).killHard(),
     cap: 6,
   },
   {

@@ -1,5 +1,5 @@
 import { Limit, Task } from "./tasks/structure";
-import { $effect, $item, $skill, have, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import { BuiltCombatStrategy, CombatStrategy, MonsterStrategy } from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
@@ -113,8 +113,12 @@ export class Engine {
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare full outfit
-      // eslint-disable-next-line libram/verify-constants
-      if (!task_combat.boss) outfit.equip($item`carnivorous potted plant`);
+      if (task_combat.boss) {
+        outfit.equip($familiar`Machine Elf`);
+      } else {
+        // eslint-disable-next-line libram/verify-constants
+        outfit.equip($item`carnivorous potted plant`);
+      }
       outfit.equip_defaults();
       outfit.dress();
 

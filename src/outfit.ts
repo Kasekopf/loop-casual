@@ -45,6 +45,7 @@ export class Outfit {
       return false;
     } else {
       if (this.familiar) return false;
+      if (!have(item)) return false;
       this.familiar = item;
       return true;
     }
@@ -96,6 +97,7 @@ export class Outfit {
       return false;
     } else {
       if (this.familiar) return false;
+      if (!have(item)) return false;
       return true;
     }
   }
