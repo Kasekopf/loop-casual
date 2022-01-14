@@ -18,7 +18,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   };
 
   // Glitches if given above
-  result["mainstat"].push($effect`That's Just Cloud-Talk, Man`);
+  result["mainstat"].push(Effect.get(2499)); // That's Just Cloud-Talk, Man
 
   // Class-specific
   if (myClass() === $class`Seal Clubber`) result["init"].push($effect`Silent Hunting`);
