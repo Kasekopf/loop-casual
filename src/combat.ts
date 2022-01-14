@@ -18,24 +18,25 @@ export class BuiltCombatStrategy {
 
   constructor(
     abstract: CombatStrategy,
+    wanderers: WandererSource[],
     banish?: BanishSource,
-    runaway?: RunawaySource,
-    wanderer?: WandererSource
+    runaway?: RunawaySource
   ) {
+    // Setup special macros
     if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
     if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
     this.use_runaway = runaway?.do;
+    for (const wanderer of wanderers) {
+      this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
+    }
 
-    // Setup the macros
+    // Setup the generic macros
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, value);
     });
     abstract.strategy.forEach((strat, monster) => {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
-
-    if (wanderer !== undefined)
-      this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
@@ -127,9 +128,6 @@ export class CombatStrategy {
       this.macros.set(monster, strategy);
     }
     return this;
-  }
-  public build(): BuiltCombatStrategy {
-    return new BuiltCombatStrategy(this);
   }
 
   public can(do_this: MonsterStrategy): boolean {

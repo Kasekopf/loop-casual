@@ -11,7 +11,7 @@ export function main(): void {
   const engine = new Engine(tasks);
   while (myAdventures() > 0) {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-    const delay_burning = tasks.find((task) => engine.available_delay(task));
+    const delay_burning = tasks.find((task) => engine.available(task) && engine.has_delay(task));
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);
     } else {

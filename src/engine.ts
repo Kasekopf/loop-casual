@@ -18,7 +18,7 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
-import { runawaySources, unusedBanishes, WandererSource } from "./resources";
+import { runawaySources, unusedBanishes, WandererSource, wandererSources } from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -41,14 +41,13 @@ export class Engine {
     return !task.completed();
   }
 
-  public available_delay(task: Task): boolean {
-    if (!this.available(task)) return false;
+  public has_delay(task: Task): boolean {
     if (!task.delay) return false;
     if (!(task.do instanceof Location)) return false;
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task, wanderer?: WandererSource): void {
+  public execute(task: Task, ...wanderers: WandererSource[]): void {
     debug(``);
     debug(`Executing ${task.name}`, "blue");
 
@@ -86,7 +85,9 @@ export class Engine {
 
     // Prepare basic equipment
     const outfit = Outfit.create(task);
-    if (!outfit.equip(wanderer?.equip)) throw `Wanderer equipment conflicts with ${task.name}`;
+    for (const wanderer of wanderers) {
+      if (!outfit.equip(wanderer?.equip)) throw `Wanderer equipment conflicts with ${task.name}`;
+    }
 
     if (!task.freeaction) {
       // Prepare combat macro
@@ -104,6 +105,10 @@ export class Engine {
       let runaway = undefined;
       if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
 
+      // Set up more wanderers if delay is needed
+      if (wanderers.length === 0 && this.has_delay(task))
+        wanderers = outfit.equip_until_capped(wandererSources);
+
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
 
@@ -114,7 +119,7 @@ export class Engine {
       outfit.dress();
 
       // Prepare combat macro (after effects and outfit)
-      const combat = new BuiltCombatStrategy(task_combat, banish, runaway, wanderer);
+      const combat = new BuiltCombatStrategy(task_combat, wanderers, banish, runaway);
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
       combat.macro.save();
