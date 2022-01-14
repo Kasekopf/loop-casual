@@ -1,4 +1,12 @@
-import { cliExecute, myAdventures } from "kolmafia";
+import {
+  cliExecute,
+  myAdventures,
+  myClosetMeat,
+  myMeat,
+  print,
+  putCloset,
+  takeCloset,
+} from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
@@ -6,6 +14,11 @@ import { debug } from "./lib";
 import { wandererSources } from "./resources";
 
 export function main(): void {
+  if (myMeat() > 2000000) {
+    print("You have too much meat; closeting some during execution.");
+    putCloset(myMeat() - 2000000);
+  }
+
   cliExecute("ccs garbo");
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
@@ -22,6 +35,8 @@ export function main(): void {
   }
 
   // Script is done; ensure we have finished
+  takeCloset(myClosetMeat());
+
   const remaining_tasks = tasks.filter((task) => !task.completed());
   if (remaining_tasks.length === 0) return;
 
