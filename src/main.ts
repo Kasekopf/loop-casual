@@ -1,12 +1,4 @@
-import {
-  cliExecute,
-  myAdventures,
-  myClosetMeat,
-  myMeat,
-  print,
-  putCloset,
-  takeCloset,
-} from "kolmafia";
+import { cliExecute, myAdventures, myClosetMeat, myMeat, print, takeCloset } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
@@ -16,7 +8,7 @@ import { wandererSources } from "./resources";
 export function main(): void {
   if (myMeat() > 2000000) {
     print("You have too much meat; closeting some during execution.");
-    putCloset(myMeat() - 2000000);
+    cliExecute(`closet put ${myMeat() - 2000000} meat`);
   }
 
   cliExecute("ccs garbo");
