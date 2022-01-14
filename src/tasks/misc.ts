@@ -46,6 +46,14 @@ export const MiscQuest: Quest = {
       cap: 1,
       freeaction: true,
     },
+    {
+      name: "Floundry",
+      after: [],
+      completed: () => have($item`fish hatchet`),
+      do: () => cliExecute("acquire 1 fish hatchet"),
+      cap: 1,
+      freeaction: true,
+    },
   ],
 };
 

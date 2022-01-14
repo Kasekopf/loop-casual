@@ -133,6 +133,8 @@ export const ChasmQuest: Quest = {
       after: ["Start"],
       completed: () => step("questL09Topping") >= 1,
       do: (): void => {
+        if (have($item`fish hatchet`)) use($item`fish hatchet`);
+        visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
         const count = floor((34 - get("chasmBridgeProgress")) / 5);
         if (count <= 0) return;
         cliExecute(`acquire ${count} snow boards`);

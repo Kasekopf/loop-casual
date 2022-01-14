@@ -3,6 +3,9 @@ import { Task } from "./tasks/structure";
 export const routing: string[] = [
   "Toot/Finish",
 
+  // Pickup items
+  "Misc/Floundry",
+
   // Start with the basic leveling tasks
   "Leveling/Cloud Talk",
   "Leveling/Daycare",
