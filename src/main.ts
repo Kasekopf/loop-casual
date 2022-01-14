@@ -1,17 +1,32 @@
-import { cliExecute, myAdventures, myClosetMeat, myMeat, print, takeCloset } from "kolmafia";
+import {
+  cliExecute,
+  gametimeToInt,
+  myAdventures,
+  myClosetMeat,
+  myMeat,
+  print,
+  takeCloset,
+  turnsPlayed,
+} from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
-import { debug } from "./lib";
+import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
+import { get, set } from "libram";
+
+const time_property = "_loop_casual_first_start";
 
 export function main(): void {
+  const set_time_now = get(time_property, -1) === -1;
+  if (set_time_now) set(time_property, gametimeToInt());
+
   if (myMeat() > 2000000) {
     print("You have too much meat; closeting some during execution.");
     cliExecute(`closet put ${myMeat() - 2000000} meat`);
   }
-
   cliExecute("ccs garbo");
+
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
   while (myAdventures() > 0) {
@@ -30,10 +45,26 @@ export function main(): void {
   takeCloset(myClosetMeat());
 
   const remaining_tasks = tasks.filter((task) => !task.completed());
-  if (remaining_tasks.length === 0) return;
-
-  for (const task of remaining_tasks) {
-    if (!task.completed()) debug(`${task.name}`, "red");
+  if (remaining_tasks.length > 0) {
+    for (const task of remaining_tasks) {
+      if (!task.completed()) debug(`${task.name}`, "red");
+    }
+    throw `Unable to find available task, but not all tasks are completed.`;
   }
-  throw `Unable to find available task, but not all tasks are completed.`;
+
+  print("Casual complete!", "purple");
+  print(`   Adventures used: ${turnsPlayed()}`, "purple");
+  print(`   Adventures remaining: ${myAdventures()}`, "purple");
+  if (set_time_now)
+    print(
+      `   Time: ${convertMilliseconds(gametimeToInt() - get(time_property, gametimeToInt()))}`,
+      "purple"
+    );
+  else
+    print(
+      `   Time: ${convertMilliseconds(
+        gametimeToInt() - get(time_property, gametimeToInt())
+      )} since first run today started`,
+      "purple"
+    );
 }
