@@ -1,4 +1,4 @@
-import { equippedItem, weaponType } from "kolmafia";
+import { equippedItem, monsterDefense, myBuffedstat, weaponType } from "kolmafia";
 import { $skill, $slot, $stat, Macro } from "libram";
 import { BanishSource, RunawaySource, WandererSource } from "./resources";
 
@@ -47,6 +47,15 @@ export class BuiltCombatStrategy {
 
   prepare_macro(strategy: MonsterStrategy | Macro, monster?: Monster): Macro {
     if (strategy instanceof Macro) return strategy;
+
+    // Upgrade for kills that happen to be difficult
+    if (
+      strategy === MonsterStrategy.Kill &&
+      monster &&
+      monsterDefense(monster) * 1.25 > myBuffedstat(weaponType(equippedItem($slot`Weapon`)))
+    ) {
+      strategy = MonsterStrategy.KillHard;
+    }
 
     switch (strategy) {
       case MonsterStrategy.RunAway:
