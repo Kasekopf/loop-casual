@@ -7,7 +7,7 @@ export const TavernQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Mosquito/Finish"],
       ready: () => myLevel() >= 3,
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
