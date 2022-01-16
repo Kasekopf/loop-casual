@@ -126,28 +126,24 @@ const Desert: Task[] = [
     do: $location`The Arid, Extra-Dry Desert`,
     equip: (): Item[] => {
       if (
-        // eslint-disable-next-line libram/verify-constants
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
-        // eslint-disable-next-line libram/verify-constants
         return $items`industrial fire extinguisher, ornate dowsing rod`;
       else return $items`ornate dowsing rod`;
     },
     familiar: $familiar`Melodramedary`,
     combat: (): CombatStrategy => {
       if (
-        // eslint-disable-next-line libram/verify-constants
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
         return new CombatStrategy().macro(
-          // eslint-disable-next-line libram/verify-constants
-          new Macro().skill($skill`Fire Extinguisher: Take a Drink`)
+          new Macro().skill($skill`Fire Extinguisher: Zone Specific`)
         );
       else return new CombatStrategy().kill();
     },

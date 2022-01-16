@@ -26,9 +26,7 @@ export interface BanishSource extends Resource {
 export const banishSources: BanishSource[] = [
   {
     name: "Bowl Curveball",
-    // eslint-disable-next-line libram/verify-constants
     available: () => have($item`cosmic bowling ball`),
-    // eslint-disable-next-line libram/verify-constants
     do: $skill`Bowl a Curveball`,
   },
   {

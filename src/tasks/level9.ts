@@ -18,11 +18,9 @@ const ABoo: Task[] = [
     after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     prepare: () => {
-      // eslint-disable-next-line libram/verify-constants
       use($item`11-leaf clover`);
     },
     do: $location`A-Boo Peak`,
-    // eslint-disable-next-line libram/verify-constants
     acquire: $items`11-leaf clover`,
     cap: 2,
   },

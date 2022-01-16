@@ -59,25 +59,21 @@ const Niche: Task[] = [
     choices: { 157: 4 },
     equip: (): Item[] => {
       if (
-        // eslint-disable-next-line libram/verify-constants
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherCyrptUsed")
       )
-        // eslint-disable-next-line libram/verify-constants
         return $items`industrial fire extinguisher`;
       else return [];
     },
     combat: (): CombatStrategy => {
       if (
-        // eslint-disable-next-line libram/verify-constants
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherCyrptUsed")
       )
         return new CombatStrategy().macro(
-          // eslint-disable-next-line libram/verify-constants
-          new Macro().skill($skill`Fire Extinguisher: Replace the Chill`)
+          new Macro().skill($skill`Fire Extinguisher: Zone Specific`)
         );
       else
         return new CombatStrategy()

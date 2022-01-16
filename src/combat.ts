@@ -88,7 +88,7 @@ export class BuiltCombatStrategy {
           return delevel.skill($skill`Lunging Thrust-Smack`).repeat();
         }
       case MonsterStrategy.Banish:
-        if (this.use_banish === undefined) return new Macro().abort(); // should already be banished
+        if (this.use_banish === undefined) return new Macro().abort(); // should already be banished, or we are out of banishes
         return this.use_banish;
       case MonsterStrategy.Abort:
         return new Macro().abort();
@@ -99,8 +99,8 @@ export class BuiltCombatStrategy {
 export class CombatStrategy {
   default_strategy: MonsterStrategy = MonsterStrategy.RunAway;
   default_macro?: Macro;
-  strategy: Map<Monster, MonsterStrategy> = new Map(); //  { [id: number]: MonsterStrategy } = {};
-  macros: Map<Monster, Macro> = new Map(); // { [id: number]: Macro } = {};
+  strategy: Map<Monster, MonsterStrategy> = new Map();
+  macros: Map<Monster, Macro> = new Map();
   boss: boolean;
 
   constructor(boss?: boolean) {

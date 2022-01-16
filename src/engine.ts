@@ -116,7 +116,6 @@ export class Engine {
       if (task_combat.boss) {
         outfit.equip($familiar`Machine Elf`);
       } else {
-        // eslint-disable-next-line libram/verify-constants
         outfit.equip($item`carnivorous potted plant`);
       }
       outfit.equip_defaults();
