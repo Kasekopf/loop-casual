@@ -24,6 +24,9 @@ import {
 } from "libram";
 import { Quest } from "./structure";
 
+function max(a: number, b: number) {
+  return a > b ? a : b;
+}
 export const MiscQuest: Quest = {
   name: "Misc",
   tasks: [
@@ -50,11 +53,17 @@ export const MiscQuest: Quest = {
       completed: () =>
         myDaycount() > 1 || myFullness() >= 15 || myInebriety() >= 14 || mySpleenUse() >= 15,
       do: (): void => {
+        // Save cleaners for aftercore
+        const spice = get("spiceMelangeUsed");
+        const mojo = get("currentMojoFilters");
         set("spiceMelangeUsed", true);
         set("currentMojoFilters", 3);
-        cliExecute("CONSUME ALL NOMEAT");
-        set("spiceMelangeUsed", false);
-        set("currentMojoFilters", 0);
+        const food = max(15 - myFullness(), 0);
+        const drink = max(15 - myInebriety(), 0);
+        const spleen = max(5 - mySpleenUse(), 0);
+        cliExecute(`CONSUME ORGANS ${food} ${drink} ${spleen} NOMEAT`);
+        set("spiceMelangeUsed", spice);
+        set("currentMojoFilters", mojo);
       },
       cap: 1,
       freeaction: true,
