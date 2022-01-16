@@ -47,7 +47,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999 || have($item`The Stankara Stone`),
     do: $location`The Batrat and Ratbat Burrow`,
     combat: new CombatStrategy().kill($monster`Batsnake`),
-    delay: 3,
+    delay: 5,
   },
   {
     name: "Cold Snake",
@@ -56,7 +56,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
     combat: new CombatStrategy().kill($monster`Frozen Solid Snake`),
-    delay: 3,
+    delay: 5,
   },
   {
     name: "Hot Snake Precastle",
@@ -68,7 +68,7 @@ const Copperhead: Task[] = [
     modifier: "-combat",
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
-    delay: 3,
+    delay: 5,
   },
   {
     name: "Hot Snake Postcastle",
@@ -78,7 +78,7 @@ const Copperhead: Task[] = [
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     modifier: "+combat",
     combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
-    delay: 3,
+    delay: 5,
   },
 ];
 
