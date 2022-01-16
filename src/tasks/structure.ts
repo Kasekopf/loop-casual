@@ -26,7 +26,7 @@ export type Task = {
   combat?: CombatStrategy | (() => CombatStrategy);
   modifier?: string;
   effects?: Effect[];
-  equip?: Item[];
+  equip?: Item[] | (() => Item[]);
   acquire?: (Item | [number, Item])[];
   familiar?: Familiar;
   cap?: number | Limit;

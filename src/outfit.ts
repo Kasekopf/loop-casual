@@ -153,7 +153,11 @@ export class Outfit {
 
   static create(task: Task): Outfit {
     const outfit = new Outfit();
-    if (task.equip) for (const item of task.equip) outfit.equip(item);
+    if (task.equip && typeof task.equip === "function") {
+      for (const item of task.equip()) outfit.equip(item);
+    } else if (task.equip) {
+      for (const item of task.equip) outfit.equip(item);
+    }
     if (task.familiar) outfit.equip(task.familiar);
 
     if (task.modifier) {

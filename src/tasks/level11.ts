@@ -1,6 +1,7 @@
 import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
+  $effect,
   $familiar,
   $item,
   $items,
@@ -123,9 +124,33 @@ const Desert: Task[] = [
       if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
     },
     do: $location`The Arid, Extra-Dry Desert`,
-    equip: $items`ornate dowsing rod`,
+    equip: (): Item[] => {
+      if (
+        // eslint-disable-next-line libram/verify-constants
+        have($item`industrial fire extinguisher`) &&
+        get("_fireExtinguisherCharge") >= 20 &&
+        !get("fireExtinguisherDesertUsed") &&
+        have($effect`Ultrahydrated`)
+      )
+        // eslint-disable-next-line libram/verify-constants
+        return $items`industrial fire extinguisher, ornate dowsing rod`;
+      else return $items`ornate dowsing rod`;
+    },
     familiar: $familiar`Melodramedary`,
-    combat: new CombatStrategy().kill(),
+    combat: (): CombatStrategy => {
+      if (
+        // eslint-disable-next-line libram/verify-constants
+        have($item`industrial fire extinguisher`) &&
+        get("_fireExtinguisherCharge") >= 20 &&
+        !get("fireExtinguisherDesertUsed") &&
+        have($effect`Ultrahydrated`)
+      )
+        return new CombatStrategy().macro(
+          // eslint-disable-next-line libram/verify-constants
+          new Macro().skill($skill`Fire Extinguisher: Take a Drink`)
+        );
+      else return new CombatStrategy().kill();
+    },
     choices: { 805: 1 },
   },
   {

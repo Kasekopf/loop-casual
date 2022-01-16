@@ -1,5 +1,5 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $item, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
+import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -57,7 +57,33 @@ const Niche: Task[] = [
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
-    combat: new CombatStrategy().kill().banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+    equip: (): Item[] => {
+      if (
+        // eslint-disable-next-line libram/verify-constants
+        have($item`industrial fire extinguisher`) &&
+        get("_fireExtinguisherCharge") >= 20 &&
+        !get("fireExtinguisherCyrptUsed")
+      )
+        // eslint-disable-next-line libram/verify-constants
+        return $items`industrial fire extinguisher`;
+      else return [];
+    },
+    combat: (): CombatStrategy => {
+      if (
+        // eslint-disable-next-line libram/verify-constants
+        have($item`industrial fire extinguisher`) &&
+        get("_fireExtinguisherCharge") >= 20 &&
+        !get("fireExtinguisherCyrptUsed")
+      )
+        return new CombatStrategy().macro(
+          // eslint-disable-next-line libram/verify-constants
+          new Macro().skill($skill`Fire Extinguisher: Replace the Chill`)
+        );
+      else
+        return new CombatStrategy()
+          .kill()
+          .banish(...$monsters`basic lihc, senile lihc, slick lihc`);
+    },
     cap: 25,
   },
   {
