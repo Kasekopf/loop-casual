@@ -63,8 +63,16 @@ const Manor2: Task[] = [
     freeaction: true,
   },
   {
-    name: "Gallery",
+    name: "Gallery Delay",
     after: ["Start Floor2"],
+    completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || step("questM21Dance") >= 2,
+    do: $location`The Haunted Gallery`,
+    choices: { 89: 4, 896: 1 }, // TODO: louvre
+    delay: 5,
+  },
+  {
+    name: "Gallery",
+    after: ["Gallery Delay"],
     completed: () => have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
     choices: { 89: 4, 896: 1 }, // TODO: louvre
@@ -72,8 +80,18 @@ const Manor2: Task[] = [
     delay: 5,
   },
   {
-    name: "Bathroom",
+    name: "Bathroom Delay",
     after: ["Start Floor2"],
+    completed: () => $location`The Haunted Bathroom`.turnsSpent >= 5 || step("questM21Dance") >= 2,
+    do: $location`The Haunted Bathroom`,
+    choices: { 881: 1, 105: 1, 892: 1 },
+    modifier: "-combat",
+    combat: new CombatStrategy().kill($monster`cosmetics wraith`),
+    delay: 5,
+  },
+  {
+    name: "Bathroom",
+    after: ["Bathroom Delay"],
     completed: () => have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
@@ -114,8 +132,16 @@ const Manor2: Task[] = [
 
 const ManorBasement: Task[] = [
   {
-    name: "Ballroom",
+    name: "Ballroom Delay",
     after: ["Macguffin/Diary", "Finish Floor2"],
+    completed: () => $location`The Haunted Ballroom`.turnsSpent >= 5 || step("questL11Manor") >= 1,
+    do: $location`The Haunted Ballroom`,
+    choices: { 90: 3, 106: 4, 921: 1 },
+    delay: 5,
+  },
+  {
+    name: "Ballroom",
+    after: ["Ballrom Delay"],
     completed: () => step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
     modifier: "-combat",
