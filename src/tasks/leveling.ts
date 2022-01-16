@@ -88,16 +88,12 @@ export const LevelingQuest: Quest = {
       ready: () => ChateauMantegna.have(),
       completed: () => get("timesRested") >= totalFreeRests() || myLevel() >= 13,
       prepare: (): void => {
-        let nightstand = null;
         if (myPrimestat() === $stat`Muscle`) {
-          nightstand = $item`electric muscle stimulator`;
+          ChateauMantegna.changeNightstand("electric muscle stimulator");
         } else if (myPrimestat() === $stat`Mysticality`) {
-          nightstand = $item`foreign language tapes`;
+          ChateauMantegna.changeNightstand("foreign language tapes");
         } else if (myPrimestat() === $stat`Moxie`) {
-          nightstand = $item`bowl of potpourri`;
-        }
-        if (nightstand !== null && nightstand !== ChateauMantegna.getNightstand()) {
-          ChateauMantegna.changeNightstand(nightstand);
+          ChateauMantegna.changeNightstand("bowl of potpourri");
         }
       },
       do: () => visitUrl("place.php?whichplace=chateau&action=chateau_restbox"),
