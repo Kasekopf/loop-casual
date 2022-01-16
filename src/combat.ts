@@ -1,5 +1,5 @@
 import { equippedItem, monsterDefense, myBuffedstat, weaponType } from "kolmafia";
-import { $skill, $slot, $stat, Macro } from "libram";
+import { $item, $skill, $slot, $stat, Macro } from "libram";
 import { BanishSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
@@ -57,6 +57,14 @@ export class BuiltCombatStrategy {
       strategy = MonsterStrategy.KillHard;
     }
 
+    const delevel = new Macro()
+      .skill($skill`Curse of Weaksauce`)
+      .trySkill($skill`Pocket Crumbs`)
+      .trySkill($skill`Micrometeorite`)
+      .tryItem($item`Rain-Doh indigo cup`)
+      .trySkill($skill`Summon Love Mosquito`)
+      .tryItem($item`Time-Spinner`);
+
     switch (strategy) {
       case MonsterStrategy.RunAway:
         if (this.use_runaway === undefined)
@@ -68,19 +76,16 @@ export class BuiltCombatStrategy {
         else return this.use_runaway;
       case MonsterStrategy.Kill:
         if (monster && monster.physicalResistance >= 70)
-          return new Macro().skill($skill`Saucegeyser`).repeat();
-        else return new Macro().attack().repeat();
+          return delevel.skill($skill`Saucegeyser`).repeat();
+        else return delevel.attack().repeat();
       case MonsterStrategy.KillHard:
         if (
-          (!monster || monster.physicalResistance < 70) &&
-          weaponType(equippedItem($slot`Weapon`)) === $stat`muscle`
+          (monster && monster.physicalResistance >= 70) ||
+          weaponType(equippedItem($slot`Weapon`)) !== $stat`muscle`
         ) {
-          return new Macro()
-            .skill($skill`Curse of Weaksauce`)
-            .skill($skill`Lunging Thrust-Smack`)
-            .repeat();
+          return delevel.skill($skill`Saucegeyser`).repeat();
         } else {
-          return new Macro().skill($skill`Saucegeyser`).repeat();
+          return delevel.skill($skill`Lunging Thrust-Smack`).repeat();
         }
       case MonsterStrategy.Banish:
         if (this.use_banish === undefined) return new Macro().abort(); // should already be banished

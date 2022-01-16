@@ -1,5 +1,5 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $item, $location, $monster, $monsters, get, have } from "libram";
+import { $item, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -33,7 +33,8 @@ const Cranny: Task[] = [
     modifier: "-combat -25min, ML",
     choices: { 523: 4 },
     combat: new CombatStrategy()
-      .killHard(
+      .macro(
+        new Macro().skill($skill`Saucegeyser`).repeat(),
         ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       )
       .killHard(),

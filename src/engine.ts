@@ -129,7 +129,7 @@ export class Engine {
       combat.macro.save();
 
       // HP/MP upkeep
-      if (myHp() < myMaxhp() - 100) useSkill($skill`Cannelloni Cocoon`);
+      if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
       restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
     } else {
       outfit.dress();

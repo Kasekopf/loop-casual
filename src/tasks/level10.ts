@@ -43,7 +43,6 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       modifier: "-combat",
       choices: { 670: 5, 669: 1, 671: 4 },
-      cap: 10,
     },
     {
       name: "Basement Finish",
