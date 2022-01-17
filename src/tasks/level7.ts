@@ -1,17 +1,43 @@
-import { myLevel, use, visitUrl } from "kolmafia";
+import { cliExecute, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+
+function tuneCape(): void {
+  if (
+    have($item`unwrapped knock-off retro superhero cape`) &&
+    (get("retroCapeSuperhero") !== "vampire" || get("retroCapeWashingInstructions") !== "kill")
+  ) {
+    cliExecute("retrocape vampire kill");
+  }
+}
+
+function tryCape(sword: Item) {
+  return (): Item[] => {
+    if (have($item`unwrapped knock-off retro superhero cape`)) {
+      return [$item`unwrapped knock-off retro superhero cape`, sword];
+    } else {
+      return [];
+    }
+  };
+}
+
+const slay_macro = new Macro()
+  .trySkill($skill`Slay the Dead`)
+  .attack()
+  .repeat();
 
 const Alcove: Task[] = [
   {
     name: "Alcove",
     after: ["Start"],
+    prepare: tuneCape,
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
+    equip: tryCape($item`costume sword`),
     modifier: "init 850max",
     choices: { 153: 4 },
-    combat: new CombatStrategy().kill(...$monsters`modern zmobie, conjoined zmombie`),
+    combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
     cap: 25,
   },
   {
@@ -28,16 +54,21 @@ const Cranny: Task[] = [
   {
     name: "Cranny",
     after: ["Start"],
+    prepare: tuneCape,
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
+    equip: tryCape($item`serpentine sword`),
     modifier: "-combat -25min, ML",
     choices: { 523: 4 },
     combat: new CombatStrategy()
       .macro(
-        new Macro().skill($skill`Saucegeyser`).repeat(),
+        new Macro()
+          .trySkill($skill`Slay the Dead`)
+          .skill($skill`Saucegeyser`)
+          .repeat(),
         ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       )
-      .killHard(),
+      .macro(slay_macro),
     cap: 25,
   },
   {
@@ -54,6 +85,7 @@ const Niche: Task[] = [
   {
     name: "Niche",
     after: ["Start"],
+    prepare: tuneCape,
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
@@ -64,7 +96,7 @@ const Niche: Task[] = [
         !get("fireExtinguisherCyrptUsed")
       )
         return $items`industrial fire extinguisher`;
-      else return [];
+      else return tryCape($item`serpentine sword`)();
     },
     combat: (): CombatStrategy => {
       if (
@@ -77,7 +109,7 @@ const Niche: Task[] = [
         );
       else
         return new CombatStrategy()
-          .kill()
+          .macro(slay_macro)
           .banish(...$monsters`basic lihc, senile lihc, slick lihc`);
     },
     cap: 25,
@@ -96,12 +128,14 @@ const Nook: Task[] = [
   {
     name: "Nook",
     after: ["Start"],
+    prepare: tuneCape,
     ready: () => !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
+    equip: tryCape($item`costume sword`),
     modifier: "item 400max",
     choices: { 155: 5, 1429: 1 },
-    combat: new CombatStrategy().kill().banish($monster`party skelteon`),
+    combat: new CombatStrategy().macro(slay_macro).banish($monster`party skelteon`),
     cap: 25,
   },
   {
