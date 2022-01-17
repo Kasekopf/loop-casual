@@ -131,8 +131,8 @@ const Desert: Task[] = [
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
-        return $items`industrial fire extinguisher, ornate dowsing rod`;
-      else return $items`ornate dowsing rod`;
+        return $items`industrial fire extinguisher, ornate dowsing rod, dromedary drinking helmet`;
+      else return $items`ornate dowsing rod, dromedary drinking helmet`;
     },
     familiar: $familiar`Melodramedary`,
     combat: (): CombatStrategy => {
