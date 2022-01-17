@@ -85,7 +85,6 @@ const Manor2: Task[] = [
     completed: () => $location`The Haunted Bathroom`.turnsSpent >= 5 || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
-    modifier: "-combat",
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
     delay: 5,
   },
@@ -141,7 +140,7 @@ const ManorBasement: Task[] = [
   },
   {
     name: "Ballroom",
-    after: ["Ballrom Delay"],
+    after: ["Ballroom Delay"],
     completed: () => step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
     modifier: "-combat",
