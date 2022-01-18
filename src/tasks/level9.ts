@@ -18,7 +18,7 @@ const ABoo: Task[] = [
     after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
-    modifier: "items",
+    modifier: "item 667max",
     equip: $items`Pantsgiving, A Light that Never Goes Out`,
     effects: $effects`Merry Smithsness`,
     combat: (): CombatStrategy => {

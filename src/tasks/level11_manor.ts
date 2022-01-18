@@ -166,7 +166,9 @@ const ManorBasement: Task[] = [
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
     do: $location`The Haunted Wine Cellar`,
-    modifier: "items",
+    equip: $items`A Light that Never Goes Out`,
+    effects: $effects`Merry Smithsness`,
+    modifier: "item, booze drop",
     choices: { 901: 2 },
     combat: new CombatStrategy()
       .kill($monster`possessed wine rack`)
@@ -181,7 +183,9 @@ const ManorBasement: Task[] = [
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
     do: $location`The Haunted Laundry Room`,
-    modifier: "items",
+    equip: $items`A Light that Never Goes Out`,
+    effects: $effects`Merry Smithsness`,
+    modifier: "item, food drop",
     choices: { 891: 2 },
     combat: new CombatStrategy()
       .kill($monster`cabinet of Dr. Limpieza`)
