@@ -133,7 +133,6 @@ const Office: Task[] = [
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
     choices: { 786: 2 },
-    cap: 9,
   },
   {
     name: "Office Clip",

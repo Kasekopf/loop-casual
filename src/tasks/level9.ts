@@ -44,7 +44,7 @@ const ABoo: Task[] = [
       }
     },
     choices: { 611: 1, 1430: 1 },
-    cap: 2,
+    cap: 4,
   },
   {
     name: "ABoo Horror",

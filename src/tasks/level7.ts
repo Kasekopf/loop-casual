@@ -112,7 +112,6 @@ const Niche: Task[] = [
         return $items`industrial fire extinguisher, gravy boat`;
       else return tryCape($item`serpentine sword`, $item`gravy boat`)();
     },
-    modifier: "sword",
     combat: (): CombatStrategy => {
       if (
         have($item`industrial fire extinguisher`) &&

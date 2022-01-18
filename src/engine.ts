@@ -8,6 +8,7 @@ import {
   choiceFollowsFight,
   cliExecute,
   inMultiFight,
+  itemAmount,
   myHp,
   myMaxhp,
   myMaxmp,
@@ -67,8 +68,11 @@ export class Engine {
 
     // Get needed items
     for (const item of task.acquire || []) {
-      if (item instanceof Item) cliExecute(`acquire ${item.name}`);
-      else cliExecute(`acquire ${item[0]} ${item[1].name}`);
+      if (item instanceof Item) {
+        if (!have(item)) cliExecute(`acquire ${item.name}`);
+      } else {
+        if (itemAmount(item[1]) < item[0]) cliExecute(`acquire ${item[0]} ${item[1].name}`);
+      }
     }
 
     // Prepare choice selections
