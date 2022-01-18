@@ -46,7 +46,7 @@ const Alcove: Task[] = [
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     equip: tryCape($item`costume sword`),
-    modifier: "init 850max",
+    modifier: "init 850max, sword",
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
     cap: 25,
@@ -68,8 +68,8 @@ const Cranny: Task[] = [
     prepare: tuneCape,
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
-    equip: tryCape($item`serpentine sword`),
-    modifier: "-combat -25min, ML",
+    equip: tryCape($item`serpentine sword`, $item`fish hatchet`),
+    modifier: "-combat, ML, sword",
     choices: { 523: 4 },
     combat: new CombatStrategy()
       .macro(
@@ -109,6 +109,7 @@ const Niche: Task[] = [
         return $items`industrial fire extinguisher`;
       else return tryCape($item`serpentine sword`)();
     },
+    modifier: "sword",
     combat: (): CombatStrategy => {
       if (
         have($item`industrial fire extinguisher`) &&
@@ -145,7 +146,7 @@ const Nook: Task[] = [
     do: $location`The Defiled Nook`,
     equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`),
     effects: $effects`Merry Smithsness`,
-    modifier: "item 500max",
+    modifier: "item 500max, sword",
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy().macro(slay_macro).banish($monster`party skelteon`),
     cap: 25,
