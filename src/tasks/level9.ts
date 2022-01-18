@@ -43,6 +43,7 @@ const ABoo: Task[] = [
         );
       }
     },
+    choices: { 611: 1, 1430: 1 },
     cap: 2,
   },
   {
