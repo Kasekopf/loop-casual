@@ -43,9 +43,10 @@ const Alcove: Task[] = [
     name: "Alcove",
     after: ["Start"],
     prepare: tuneCape,
+    acquire: $items`gravy boat`,
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
-    equip: tryCape($item`costume sword`),
+    equip: tryCape($item`costume sword`, $item`gravy boat`),
     modifier: "init 850max, sword",
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
@@ -66,9 +67,10 @@ const Cranny: Task[] = [
     name: "Cranny",
     after: ["Start"],
     prepare: tuneCape,
+    acquire: $items`gravy boat`,
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
-    equip: tryCape($item`serpentine sword`, $item`fish hatchet`),
+    equip: tryCape($item`serpentine sword`, $item`fish hatchet`, $item`gravy boat`),
     modifier: "-combat, ML, sword",
     choices: { 523: 4 },
     combat: new CombatStrategy()
@@ -97,6 +99,7 @@ const Niche: Task[] = [
     name: "Niche",
     after: ["Start"],
     prepare: tuneCape,
+    acquire: $items`gravy boat`,
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
@@ -106,8 +109,8 @@ const Niche: Task[] = [
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherCyrptUsed")
       )
-        return $items`industrial fire extinguisher`;
-      else return tryCape($item`serpentine sword`)();
+        return $items`industrial fire extinguisher, gravy boat`;
+      else return tryCape($item`serpentine sword`, $item`gravy boat`)();
     },
     modifier: "sword",
     combat: (): CombatStrategy => {
@@ -141,10 +144,11 @@ const Nook: Task[] = [
     name: "Nook",
     after: ["Start"],
     prepare: tuneCape,
+    acquire: $items`gravy boat`,
     ready: () => !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
-    equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`),
+    equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`, $item`gravy boat`),
     effects: $effects`Merry Smithsness`,
     modifier: "item 500max, sword",
     choices: { 155: 5, 1429: 1 },
