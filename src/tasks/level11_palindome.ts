@@ -86,14 +86,19 @@ const Zepplin: Task[] = [
   {
     name: "Protesters",
     after: ["Macguffin/Diary"],
-    acquire: $items`cigarette lighter`,
     completed: () => step("questL11Ron") >= 2,
+    acquire: $items`11-leaf clover`,
+    prepare: (): void => {
+      if (!have($effect`Lucky`) && get("zeppelinProtestors") < 80) {
+        use($item`11-leaf clover`);
+      }
+    },
     do: $location`A Mob of Zeppelin Protesters`,
-    combat: new CombatStrategy().item($item`cigarette lighter`).kill($monster`The Nuge`),
-    choices: { 856: 1, 857: 1, 858: 1, 1432: 2 },
-    equip: $items`lynyrdskin breeches, lynyrdskin cap, lynyrdskin tunic`,
-    effects: $effects`Musky`,
-    modifier: "sleaze dmg, sleaze spell dmg, -combat",
+    combat: new CombatStrategy().killHard($monster`The Nuge`),
+    choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
+    modifier: "sleaze dmg, sleaze spell dmg",
+    effects: $effects`Dirty Pear`,
+    freeaction: true, // fully maximize outfit
   },
   {
     name: "Zepplin",
