@@ -55,7 +55,11 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
-    combat: new CombatStrategy().kill($monster`Frozen Solid Snake`),
+    combat: (): CombatStrategy => {
+      const res = new CombatStrategy().kill($monster`Frozen Solid Snake`);
+      if (!have($item`li'l ninja costume`)) return res.kill();
+      else return res;
+    },
     delay: 5,
   },
   {
