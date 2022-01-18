@@ -53,5 +53,16 @@ export function all_tasks(): Task[] {
       result.push(task);
     }
   }
+
+  // Verify the dependency names of all tasks
+  const names = new Set<string>();
+  for (const task of result) names.add(task.name);
+  for (const task of result) {
+    for (const after of task.after) {
+      if (!names.has(after)) {
+        throw `Unknown task dependency ${after} of ${task.name}`;
+      }
+    }
+  }
   return result;
 }
