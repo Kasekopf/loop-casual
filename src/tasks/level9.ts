@@ -1,4 +1,4 @@
-import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { cliExecute, floor, getMonsters, itemAmount, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -17,11 +17,31 @@ const ABoo: Task[] = [
     name: "ABoo Clues",
     after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
-    prepare: () => {
-      use($item`11-leaf clover`);
-    },
     do: $location`A-Boo Peak`,
-    acquire: $items`11-leaf clover`,
+    modifier: "items",
+    equip: $items`Pantsgiving`,
+    combat: (): CombatStrategy => {
+      const last_monster = get("lastCopyableMonster");
+      const ghosts = getMonsters($location`A-Boo Peak`);
+      if (last_monster !== null && ghosts.includes(last_monster)) {
+        return new CombatStrategy()
+          .macro(
+            new Macro()
+              .trySkill($skill`Feel Nostalgic`)
+              .skill($skill`Saucegeyser`)
+              .repeat(),
+            ...ghosts.filter((mon) => mon !== last_monster)
+          )
+          .kill(last_monster);
+      } else {
+        return new CombatStrategy().macro(
+          new Macro()
+            .trySkill($skill`Talk About Politics`)
+            .skill($skill`Saucegeyser`)
+            .repeat()
+        );
+      }
+    },
     cap: 2,
   },
   {
