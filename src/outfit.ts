@@ -163,7 +163,17 @@ export class Outfit {
     if (task.modifier) {
       // Run maximizer
       if (task.modifier.includes("-combat")) outfit.equip($familiar`Disgeist`);
-      if (task.modifier.includes("item")) outfit.equip($familiar`Jumpsuited Hound Dog`);
+      if (task.modifier.includes("item")) {
+        if (
+          outfit.can_equip($item`li'l ninja costume`) &&
+          outfit.can_equip($familiar`Trick-or-Treating Tot`)
+        ) {
+          outfit.equip($item`li'l ninja costume`);
+          outfit.equip($familiar`Trick-or-Treating Tot`);
+        } else {
+          outfit.equip($familiar`Jumpsuited Hound Dog`);
+        }
+      }
       if (task.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (task.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
       if (task.modifier.includes("res")) outfit.equip($familiar`Exotic Parrot`);

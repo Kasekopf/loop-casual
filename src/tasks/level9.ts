@@ -1,5 +1,5 @@
 import { cliExecute, floor, getMonsters, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $skill, get, have, Macro } from "libram";
+import { $effects, $item, $items, $location, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -19,7 +19,8 @@ const ABoo: Task[] = [
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
     modifier: "items",
-    equip: $items`Pantsgiving`,
+    equip: $items`Pantsgiving, A Light that Never Goes Out`,
+    effects: $effects`Merry Smithsness`,
     combat: (): CombatStrategy => {
       const last_monster = get("lastCopyableMonster");
       const ghosts = getMonsters($location`A-Boo Peak`);

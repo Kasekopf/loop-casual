@@ -1,5 +1,16 @@
 import { cliExecute, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
+import {
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -12,13 +23,13 @@ function tuneCape(): void {
   }
 }
 
-function tryCape(sword: Item) {
+function tryCape(sword: Item, ...rest: Item[]) {
   return (): Item[] => {
     if (have($item`unwrapped knock-off retro superhero cape`)) {
-      return [$item`unwrapped knock-off retro superhero cape`, sword];
-    } else {
-      return [];
+      rest.push($item`unwrapped knock-off retro superhero cape`);
+      rest.push(sword);
     }
+    return rest;
   };
 }
 
@@ -132,8 +143,9 @@ const Nook: Task[] = [
     ready: () => !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
-    equip: tryCape($item`costume sword`),
-    modifier: "item 400max",
+    equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`),
+    effects: $effects`Merry Smithsness`,
+    modifier: "item 500max",
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy().macro(slay_macro).banish($monster`party skelteon`),
     cap: 25,
