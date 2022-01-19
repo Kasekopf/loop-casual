@@ -1,11 +1,13 @@
 import { buy, create, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
+  $skill,
   ensureEffect,
   get,
   have,
@@ -93,6 +95,7 @@ const Zepplin: Task[] = [
     completed: () => step("questL11Ron") >= 2,
     acquire: $items`11-leaf clover`,
     prepare: (): void => {
+      if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
       ensureEffect($effect`Dirty Pear`);
       if (get("zeppelinProtestors") < 80) {
         use($item`11-leaf clover`);
@@ -102,6 +105,7 @@ const Zepplin: Task[] = [
     combat: new CombatStrategy().killHard($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     modifier: "sleaze dmg, sleaze spell dmg",
+    familiar: $familiar`Left-Hand Man`,
     freeaction: true, // fully maximize outfit
   },
   {
