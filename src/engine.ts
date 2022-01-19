@@ -5,6 +5,7 @@ import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
   adv1,
+  buy,
   choiceFollowsFight,
   cliExecute,
   inMultiFight,
@@ -70,8 +71,10 @@ export class Engine {
     for (const item of task.acquire || []) {
       if (item instanceof Item) {
         if (!have(item)) cliExecute(`acquire ${item.name}`);
-      } else {
+      } else if (item.length === 2) {
         if (itemAmount(item[1]) < item[0]) cliExecute(`acquire ${item[0]} ${item[1].name}`);
+      } else {
+        if (itemAmount(item[1]) < item[0]) buy(item[0], item[1], item[2]);
       }
     }
 

@@ -27,7 +27,7 @@ export type Task = {
   modifier?: string;
   effects?: Effect[];
   equip?: Item[] | (() => Item[]);
-  acquire?: (Item | [number, Item])[];
+  acquire?: (Item | [number, Item] | [number, Item, number])[];
   familiar?: Familiar;
   cap?: number | Limit;
   delay?: number | (() => number);

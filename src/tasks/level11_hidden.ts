@@ -1,5 +1,5 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
+import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -75,6 +75,9 @@ const Temple: Task[] = [
   },
 ];
 
+const use_writ = new Macro().tryItem($item`short writ of habeas corpus`);
+const get_writ: [Item | [number, Item, number]] = [[1, $item`short writ of habeas corpus`, 4000]];
+
 const Apartment: Task[] = [
   {
     name: "Open Apartment",
@@ -89,11 +92,13 @@ const Apartment: Task[] = [
     name: "Apartment",
     after: ["Open Apartment", "Office Files"], // Wait until after all needed pygmy witch lawyers are done
     completed: () => get("hiddenApartmentProgress") >= 7,
+    acquire: get_writ,
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
       .kill($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
-      .flee($monster`pygmy shaman`),
+      .macro(use_writ, $monster`pygmy shaman`)
+      .flee(),
     choices: { 780: 1 },
   },
   {
@@ -137,23 +142,35 @@ const Office: Task[] = [
   {
     name: "Office Clip",
     after: ["Office Files"],
+    acquire: get_writ,
     completed: () =>
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||
       get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 2 },
+    combat: new CombatStrategy()
+      .macro(
+        use_writ,
+        ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
+      )
+      .flee(),
     cap: 9,
   },
   {
     name: "Office Boss",
     after: ["Office Clip"],
+    acquire: get_writ,
     completed: () => get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
-    combat: new CombatStrategy().kill(
-      $monster`ancient protector spirit (The Hidden Office Building)`
-    ),
+    combat: new CombatStrategy()
+      .kill($monster`ancient protector spirit (The Hidden Office Building)`)
+      .macro(
+        use_writ,
+        ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
+      )
+      .flee(),
     cap: 6,
   },
   {
@@ -180,10 +197,18 @@ const Hospital: Task[] = [
   {
     name: "Hospital",
     after: ["Open Hospital"],
-    acquire: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
+    acquire: get_writ.concat(
+      $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`
+    ),
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
-    combat: new CombatStrategy().kill($monster`ancient protector spirit (The Hidden Hospital)`),
+    combat: new CombatStrategy()
+      .kill($monster`ancient protector spirit (The Hidden Hospital)`)
+      .macro(
+        use_writ,
+        ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse, pygmy witch surgeon`
+      )
+      .flee(),
     equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
     choices: { 784: 1 },
   },
