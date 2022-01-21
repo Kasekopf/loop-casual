@@ -111,6 +111,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       cap: 1,
+      freecombat: true,
     },
     {
       name: "Snojo",
@@ -171,6 +172,7 @@ export const LevelingQuest: Quest = {
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`God Lobster`,
       cap: 3,
+      freecombat: true,
     },
     {
       name: "Witchess",
@@ -182,6 +184,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       cap: 5,
+      freecombat: true,
     },
     {
       name: "Sausage Fights",
@@ -206,6 +209,7 @@ export const LevelingQuest: Quest = {
       equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
       familiar: $familiar`Pocket Professor`,
       cap: 1,
+      freecombat: true,
     },
     {
       name: "Neverending Party",
@@ -227,6 +231,7 @@ export const LevelingQuest: Quest = {
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
       cap: 11,
+      freecombat: true,
     },
     {
       name: "Machine Elf",
@@ -240,6 +245,7 @@ export const LevelingQuest: Quest = {
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Machine Elf`,
       cap: 5,
+      freecombat: true,
     },
     {
       name: "Leaflet",

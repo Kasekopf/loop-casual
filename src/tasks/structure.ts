@@ -32,6 +32,7 @@ export type Task = {
   cap?: number | Limit;
   delay?: number | (() => number);
   freeaction?: boolean;
+  freecombat?: boolean;
 };
 
 export function step(questName: StringProperty): number {

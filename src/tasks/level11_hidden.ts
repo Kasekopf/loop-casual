@@ -87,6 +87,7 @@ const Apartment: Task[] = [
     equip: $items`antique machete`,
     choices: { 781: 1 },
     cap: 4,
+    freecombat: true,
   },
   {
     name: "Apartment",
@@ -121,6 +122,7 @@ const Office: Task[] = [
     equip: $items`antique machete`,
     choices: { 785: 1 },
     cap: 4,
+    freecombat: true,
   },
   {
     name: "Office Files",
@@ -193,6 +195,7 @@ const Hospital: Task[] = [
     equip: $items`antique machete`,
     choices: { 783: 1 },
     cap: 4,
+    freecombat: true,
   },
   {
     name: "Hospital",
@@ -232,6 +235,7 @@ const Bowling: Task[] = [
     equip: $items`antique machete`,
     choices: { 787: 1 },
     cap: 4,
+    freecombat: true,
   },
   {
     name: "Bowling",

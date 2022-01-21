@@ -126,12 +126,10 @@ export class Engine {
       applyEffects(task.modifier || "", task.effects || []);
 
       // Prepare full outfit
-      if (task_combat.boss) {
-        outfit.equip($familiar`Machine Elf`);
-      } else {
-        outfit.equip($item`carnivorous potted plant`);
-      }
-      if (canChargeVoid()) outfit.equip($item`cursed magnifying glass`);
+      if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
+      const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
+      if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
+      if (canChargeVoid() && !freecombat) outfit.equip($item`cursed magnifying glass`);
       outfit.equip_defaults();
       outfit.dress();
 
