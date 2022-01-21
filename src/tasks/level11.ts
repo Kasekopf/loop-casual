@@ -118,7 +118,9 @@ const Desert: Task[] = [
     after: ["Diary", "Dowsing Rod"],
     ready: () =>
       get("desertExploration") < 20 ||
-      ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0),
+      ((get("gnasirProgress") & 2) > 0 &&
+        (get("gnasirProgress") & 4) > 0 &&
+        ((get("gnasirProgress") & 8) > 0 || itemAmount($item`worm-riding manual page`) < 15)),
     completed: () => get("desertExploration") >= 100,
     prepare: (): void => {
       if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
@@ -164,6 +166,27 @@ const Desert: Task[] = [
       }
       runChoice(1);
       cliExecute("use * desert sightseeing pamphlet");
+      if (have($item`worm-riding hooks`)) use($item`drum machine`);
+    },
+    cap: 1,
+    freeaction: true,
+  },
+  {
+    name: "Gnasir Drum",
+    after: ["Diary"],
+    acquire: $items`drum machine`,
+    completed: () =>
+      ((get("gnasirProgress") & 8) > 0 && !have($item`worm-riding hooks`)) ||
+      get("desertExploration") >= 100,
+    ready: () => itemAmount($item`worm-riding manual page`) >= 15 || have($item`worm-riding hooks`),
+    do: () => {
+      let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
+      while (res.includes("value=2")) {
+        res = runChoice(2);
+      }
+      runChoice(1);
+      cliExecute("use * desert sightseeing pamphlet");
+      if (have($item`worm-riding hooks`)) use($item`drum machine`);
     },
     cap: 1,
     freeaction: true,
