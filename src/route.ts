@@ -27,18 +27,35 @@ export const routing: string[] = [
   "Manor/Billiards",
   "Misc/Consume",
 
-  // Start Shen next
+  // Line up noncombats
+  "Friar/Finish",
+  "Giant/Basement Finish",
+  "Organ/Arena",
+  "Crypt/Cranny",
+  "War/Enrage",
+  "Mosquito/Mosquito",
+  "Hidden City/Open Temple",
+  "Tavern/Finish",
+
+  // Burn delay to unlock remaining noncombats
   "Palindome/Copperhead",
   "Palindome/Bat Snake",
   "Palindome/Cold Snake",
-  "Palindome/Hot Snake Precastle",
-  "Palindome/Hot Snake Postcastle",
-  "Palindome/Hot Snake Postcastle",
+  "Giant/Ground",
+  "Manor/Bathroom Delay",
+  "Manor/Gallery Delay",
+  "Manor/Bedroom",
 
-  "Organ/Finish", // Get steel organ
+  // Line up more noncombats
+  "Manor/Gallery", // Gallery first in-case we banished Out in the Garden
+  "Giant/Top Floor",
+  "Manor/Bathroom",
+  "Manor/Ballroom",
+  "Palindome/Palindome Photos",
+
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
-  "Manor/Bedroom", // Open delay options
+  "MacGuffin/Open Pyramid", // Open more delay for lategame
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
