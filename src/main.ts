@@ -7,6 +7,7 @@ import {
   print,
   takeCloset,
   turnsPlayed,
+  visitUrl,
 } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
@@ -14,6 +15,7 @@ import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
 import { get, set } from "libram";
+import { step } from "./tasks/structure";
 
 const time_property = "_loop_casual_first_start";
 
@@ -40,6 +42,10 @@ export function main(): void {
       engine.execute(todo);
     }
   }
+
+  // Can finish the run with 0 adventures, if only the prism is left
+  if (step("questL13Final") > 11 && step("questL13Final") !== 999)
+    visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
 
   // Script is done; ensure we have finished
   takeCloset(myClosetMeat());
