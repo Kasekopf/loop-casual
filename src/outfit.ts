@@ -9,7 +9,7 @@ import {
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
-import { Resource } from "./resources";
+import { canChargeVoid, Resource } from "./resources";
 
 // Adapted from phccs
 export class Outfit {
@@ -48,8 +48,17 @@ export class Outfit {
         this.familiar === undefined &&
         !this.equips.has($slot`familiar equipment`)
       ) {
-        this.familiar = $familiar`Left-Hand Man`;
-        this.equips.set($slot`familiar equipment`, item);
+        if (item === $item`cursed magnifying glass` && !canChargeVoid()) {
+          // Cursed magnifying glass cannot trigger in Lefty
+          this.equips.set(
+            $slot`familiar equipment`,
+            this.equips.get($slot`off-hand`) ?? $item`none`
+          );
+          this.equips.set($slot`off-hand`, item);
+        } else {
+          this.familiar = $familiar`Left-Hand Man`;
+          this.equips.set($slot`familiar equipment`, item);
+        }
         return true;
       }
       return false;

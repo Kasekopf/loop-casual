@@ -118,6 +118,16 @@ export const wandererSources: WandererSource[] = [
     chance: () => 1, // when available
   },
   {
+    name: "Cursed Magnifying Glass",
+    available: () =>
+      have($item`cursed magnifying glass`) &&
+      get("_voidFreeFights") < 5 &&
+      get("cursedMagnifyingGlassCount") >= 13,
+    equip: $item`cursed magnifying glass`,
+    monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
+    chance: () => 1, // when available
+  },
+  {
     name: "Kramco",
     available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
     equip: $item`Kramco Sausage-o-Matic™`,
@@ -132,6 +142,10 @@ export const wandererSources: WandererSource[] = [
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1][get("_gothKidFights")],
   },
 ];
+
+export function canChargeVoid(): boolean {
+  return get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13;
+}
 
 export interface RunawaySource extends Resource {
   do: Macro;

@@ -20,7 +20,13 @@ import {
   useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
-import { runawaySources, unusedBanishes, WandererSource, wandererSources } from "./resources";
+import {
+  canChargeVoid,
+  runawaySources,
+  unusedBanishes,
+  WandererSource,
+  wandererSources,
+} from "./resources";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -124,6 +130,7 @@ export class Engine {
         outfit.equip($familiar`Machine Elf`);
       } else {
         outfit.equip($item`carnivorous potted plant`);
+        if (canChargeVoid()) outfit.equip($item`cursed magnifying glass`);
       }
       outfit.equip_defaults();
       outfit.dress();
