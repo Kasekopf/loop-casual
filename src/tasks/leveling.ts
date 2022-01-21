@@ -1,11 +1,13 @@
 import {
   cliExecute,
+  myHp,
   myLevel,
+  myMaxhp,
   myPrimestat,
-  restoreMp,
   runChoice,
   runCombat,
   totalFreeRests,
+  useSkill,
   visitUrl,
 } from "kolmafia";
 import {
@@ -49,6 +51,7 @@ export const LevelingQuest: Quest = {
       after: [],
       completed: () => have($effect`That's Just Cloud-Talk, Man`) || myLevel() >= 10,
       do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
+      freeaction: true,
     },
     {
       name: "Daycare",
@@ -74,6 +77,7 @@ export const LevelingQuest: Quest = {
         runChoice(2);
       },
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Bastille",
@@ -83,6 +87,7 @@ export const LevelingQuest: Quest = {
       do: () =>
         cliExecute(`bastille ${myPrimestat() === $stat`Mysticality` ? "myst" : myPrimestat()}`),
       cap: 1,
+      freeaction: true,
     },
     {
       name: "Chateau",
@@ -122,8 +127,8 @@ export const LevelingQuest: Quest = {
           visitUrl("place.php?whichplace=snojo&action=snojo_controller");
           runChoice(primestatId());
         }
-        restoreMp(304);
         cliExecute("uneffect ode to booze");
+        if (myHp() < myMaxhp()) useSkill($skill`Cannelloni Cocoon`);
       },
       completed: () => get("_snojoFreeFights") >= 10,
       do: $location`The X-32-F Combat Training Snowman`,
@@ -132,20 +137,17 @@ export const LevelingQuest: Quest = {
       },
       combat: new CombatStrategy().macro(
         new Macro()
-          .trySkill($skill`Gulp Latte`)
+          .skill($skill`Curse of Weaksauce`)
           .skill($skill`Stuffed Mortar Shell`)
-          .while_("!pastround 30 && !mpbelow 30", new Macro().skill($skill`Cannelloni Cannon`))
+          .while_("!pastround 25 && !hpbelow 100", new Macro().skill($skill`Cannelloni Cannon`))
           .trySkill($skill`Saucegeyser`)
           .attack()
           .repeat()
       ), // Grind bandersnatch weight
       familiar: $familiar`Frumious Bandersnatch`,
-      equip: (): Item[] => {
-        if (!get("_latteGulpUsed")) return $items`latte lovers member's mug`;
-        return [];
-      },
-      effects: $effects`Spirit of Peppermint`,
-      modifier: "mainstat, 4exp, MP",
+      equip: $items`Greatest American Pants`,
+      effects: $effects`Spirit of Peppermint, Super Skill`,
+      modifier: "mainstat, 4exp, HP",
       cap: 10,
     },
     {
