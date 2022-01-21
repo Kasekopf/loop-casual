@@ -142,7 +142,14 @@ const Zepplin: Task[] = [
 const Dome: Task[] = [
   {
     name: "Talisman",
-    after: ["Copperhead", "Zepplin"],
+    after: [
+      "Copperhead",
+      "Zepplin",
+      "Bat Snake",
+      "Cold Snake",
+      "Hot Snake Precastle",
+      "Hot Snake Postcastle",
+    ],
     completed: () => have($item`Talisman o' Namsilat`),
     do: () => create($item`Talisman o' Namsilat`),
     cap: 1,
