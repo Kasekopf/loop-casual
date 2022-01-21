@@ -46,18 +46,15 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar equipment`)
+        !this.equips.has($slot`familiar`)
       ) {
         if (item === $item`cursed magnifying glass` && !canChargeVoid()) {
           // Cursed magnifying glass cannot trigger in Lefty
-          this.equips.set(
-            $slot`familiar equipment`,
-            this.equips.get($slot`off-hand`) ?? $item`none`
-          );
+          this.equips.set($slot`familiar`, this.equips.get($slot`off-hand`) ?? $item`none`);
           this.equips.set($slot`off-hand`, item);
         } else {
           this.familiar = $familiar`Left-Hand Man`;
-          this.equips.set($slot`familiar equipment`, item);
+          this.equips.set($slot`familiar`, item);
         }
         return true;
       }
@@ -117,7 +114,7 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar equipment`)
+        !this.equips.has($slot`familiar`)
       ) {
         return true;
       }
