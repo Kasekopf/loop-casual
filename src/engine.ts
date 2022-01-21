@@ -141,7 +141,7 @@ export class Engine {
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
-      restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
+      if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
     } else {
       outfit.dress();
     }
