@@ -42,6 +42,16 @@ export class Outfit {
         this.equips.set($slot`off-hand`, item);
         return true;
       }
+      if (
+        slot === $slot`off-hand` &&
+        have($familiar`Left-Hand Man`) &&
+        this.familiar === undefined &&
+        !this.equips.has($slot`familiar equipment`)
+      ) {
+        this.familiar = $familiar`Left-Hand Man`;
+        this.equips.set($slot`familiar equipment`, item);
+        return true;
+      }
       return false;
     } else {
       if (this.familiar) return false;
@@ -91,6 +101,14 @@ export class Outfit {
         !this.equips.has($slot`off-hand`) &&
         have($skill`Double-Fisted Skull Smashing`) &&
         weaponHands(item)
+      ) {
+        return true;
+      }
+      if (
+        slot === $slot`off-hand` &&
+        have($familiar`Left-Hand Man`) &&
+        this.familiar === undefined &&
+        !this.equips.has($slot`familiar equipment`)
       ) {
         return true;
       }
