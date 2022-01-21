@@ -130,8 +130,8 @@ export class Engine {
         outfit.equip($familiar`Machine Elf`);
       } else {
         outfit.equip($item`carnivorous potted plant`);
-        if (canChargeVoid()) outfit.equip($item`cursed magnifying glass`);
       }
+      if (canChargeVoid()) outfit.equip($item`cursed magnifying glass`);
       outfit.equip_defaults();
       outfit.dress();
 

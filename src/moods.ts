@@ -64,6 +64,10 @@ export function applyEffects(modifier: string, required: Effect[]): void {
     }
   }
 
+  if (modifier.includes("MP")) {
+    useful_effects.push(...relevantEffects["mysticality"]);
+  }
+
   // Handle mainstat buffing and equalizing
   switch (myPrimestat()) {
     case $stat`Muscle`:

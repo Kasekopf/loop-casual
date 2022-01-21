@@ -1,16 +1,19 @@
 import { CombatStrategy } from "../combat";
 import {
   cliExecute,
+  familiarEquippedEquipment,
   itemAmount,
   myDaycount,
   myFullness,
   myInebriety,
   myPrimestat,
   mySpleenUse,
+  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
+  $familiar,
   $item,
   $items,
   $location,
@@ -76,7 +79,19 @@ export const MiscQuest: Quest = {
       cap: 1,
       freeaction: true,
     },
-
+    {
+      name: "Short Cook",
+      after: [],
+      ready: () => have($familiar`Shorter-Order Cook`),
+      completed: () =>
+        familiarEquippedEquipment($familiar`Shorter-Order Cook`) === $item`blue plate`,
+      acquire: $items`blue plate`,
+      do: () => useFamiliar($familiar`Mosquito`), // Switch away to keep blue plate equipped
+      familiar: $familiar`Shorter-Order Cook`,
+      equip: $items`blue plate`,
+      freeaction: true,
+      cap: 1,
+    },
     {
       name: "Voting",
       after: [],

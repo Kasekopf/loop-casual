@@ -2,6 +2,7 @@ import {
   cliExecute,
   myLevel,
   myPrimestat,
+  restoreMp,
   runChoice,
   runCombat,
   totalFreeRests,
@@ -9,6 +10,7 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $items,
@@ -119,14 +121,30 @@ export const LevelingQuest: Quest = {
           visitUrl("place.php?whichplace=snojo&action=snojo_controller");
           runChoice(primestatId());
         }
+        restoreMp(304);
+        cliExecute("uneffect ode to booze");
       },
       completed: () => get("_snojoFreeFights") >= 10,
       do: $location`The X-32-F Combat Training Snowman`,
       post: (): void => {
         if (get("_snojoFreeFights") === 10) cliExecute("hottub"); // Clean -stat effects
       },
-      combat: new CombatStrategy().killHard(),
-      modifier: "mainstat, 4exp",
+      combat: new CombatStrategy().macro(
+        new Macro()
+          .trySkill($skill`Gulp Latte`)
+          .skill($skill`Stuffed Mortar Shell`)
+          .while_("!pastround 30 && !mpbelow 30", new Macro().skill($skill`Cannelloni Cannon`))
+          .trySkill($skill`Saucegeyser`)
+          .attack()
+          .repeat()
+      ), // Grind bandersnatch weight
+      familiar: $familiar`Frumious Bandersnatch`,
+      equip: (): Item[] => {
+        if (!get("_latteGulpUsed")) return $items`latte lovers member's mug`;
+        return [];
+      },
+      effects: $effects`Spirit of Peppermint`,
+      modifier: "mainstat, 4exp, MP",
       cap: 10,
     },
     {
