@@ -215,7 +215,7 @@ function rotatePyramid(goal: number): void {
 const Pyramid: Task[] = [
   {
     name: "Open Pyramid",
-    after: ["Desert", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
+    after: ["Desert", "Gnasir", "Gnasir Drum", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
     completed: () => step("questL11Pyramid") >= 0,
     do: () => visitUrl("place.php?whichplace=desertbeach&action=db_pyramid1"),
     cap: 1,
