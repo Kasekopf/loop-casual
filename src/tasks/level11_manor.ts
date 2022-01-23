@@ -202,7 +202,7 @@ const ManorBasement: Task[] = [
   },
   {
     name: "Boiler Room",
-    after: ["Learn Recipe"],
+    after: ["Fulminate"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: $location`The Haunted Boiler Room`,
     modifier: "ML 81max",
