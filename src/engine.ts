@@ -143,6 +143,8 @@ export class Engine {
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
       if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
     } else {
+      // Prepare only as requested by the task
+      applyEffects(task.modifier || "", task.effects || []);
       outfit.dress();
     }
 

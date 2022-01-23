@@ -15,6 +15,7 @@ const Challenges: Task[] = [
     },
     modifier: "init",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Moxie Challenge",
@@ -28,6 +29,7 @@ const Challenges: Task[] = [
     },
     modifier: "moxie",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Muscle Challenge",
@@ -41,6 +43,7 @@ const Challenges: Task[] = [
     },
     modifier: "muscle",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Mysticality Challenge",
@@ -54,6 +57,7 @@ const Challenges: Task[] = [
     },
     modifier: "mysticality",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Hot Challenge",
@@ -67,6 +71,7 @@ const Challenges: Task[] = [
     },
     modifier: "hot dmg, hot spell dmg",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Cold Challenge",
@@ -80,6 +85,7 @@ const Challenges: Task[] = [
     },
     modifier: "cold dmg, cold spell dmg",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Spooky Challenge",
@@ -93,6 +99,7 @@ const Challenges: Task[] = [
     },
     modifier: "spooky dmg, spooky spell dmg",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Stench Challenge",
@@ -106,6 +113,7 @@ const Challenges: Task[] = [
     },
     modifier: "stench dmg, stench spell dmg",
     cap: 1,
+    freeaction: true,
   },
   {
     name: "Sleaze Challenge",
@@ -119,6 +127,7 @@ const Challenges: Task[] = [
     },
     modifier: "sleaze dmg, sleaze spell dmg",
     cap: 1,
+    freeaction: true,
   },
 ];
 
