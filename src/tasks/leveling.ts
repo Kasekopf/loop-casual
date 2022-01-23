@@ -21,6 +21,7 @@ import {
   $skill,
   $stat,
   ChateauMantegna,
+  ensureEffect,
   get,
   getKramcoWandererChance,
   have,
@@ -127,10 +128,11 @@ export const LevelingQuest: Quest = {
           visitUrl("place.php?whichplace=snojo&action=snojo_controller");
           runChoice(primestatId());
         }
+        ensureEffect($effect`Super Skill`); // after GAP are equipped
         cliExecute("uneffect ode to booze");
         if (myHp() < myMaxhp()) useSkill($skill`Cannelloni Cocoon`);
       },
-      completed: () => get("_snojoFreeFights") >= 10,
+      completed: () => get("_snojoFreeFights") >= 10 || myLevel() >= 13,
       do: $location`The X-32-F Combat Training Snowman`,
       post: (): void => {
         if (get("_snojoFreeFights") === 10) cliExecute("hottub"); // Clean -stat effects
@@ -146,7 +148,7 @@ export const LevelingQuest: Quest = {
       ), // Grind bandersnatch weight
       familiar: $familiar`Frumious Bandersnatch`,
       equip: $items`Greatest American Pants`,
-      effects: $effects`Spirit of Peppermint, Super Skill`,
+      effects: $effects`Spirit of Peppermint`,
       modifier: "mainstat, 4exp, HP",
       cap: 10,
     },
@@ -180,7 +182,7 @@ export const LevelingQuest: Quest = {
       name: "Witchess",
       after: ["Tote"],
       ready: () => Witchess.have(),
-      completed: () => Witchess.fightsDone() >= 5,
+      completed: () => Witchess.fightsDone() >= 5 || myLevel() >= 13,
       do: () => Witchess.fightPiece($monster`Witchess Knight`),
       combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
