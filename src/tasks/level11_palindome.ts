@@ -11,6 +11,7 @@ import {
   ensureEffect,
   get,
   have,
+  Macro,
   uneffect,
 } from "libram";
 import { Quest, step, Task } from "./structure";
@@ -113,7 +114,6 @@ const Zepplin: Task[] = [
     after: ["Protesters"],
     acquire: $items`glark cable`,
     completed: () => step("questL11Ron") >= 5,
-    ready: () => get("_glarkCableUses") < 5,
     prepare: () => {
       if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
     },
@@ -121,21 +121,11 @@ const Zepplin: Task[] = [
     combat: new CombatStrategy()
       .kill($monster`Ron "The Weasel" Copperhead`)
       .banish(...$monsters`Red Herring, Red Snapper`)
-      .item($item`glark cable`, ...$monsters`man with the red buttons, red skeleton, red butler`),
-  },
-  {
-    name: "Zepplin NoGlark",
-    after: ["Protesters"],
-    completed: () => step("questL11Ron") >= 5,
-    ready: () => get("_glarkCableUses") >= 5,
-    prepare: () => {
-      if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
-    },
-    do: $location`The Red Zeppelin`,
-    combat: new CombatStrategy()
-      .kill($monster`Ron "The Weasel" Copperhead`)
-      .banish(...$monsters`Red Herring, Red Snapper`)
-      .kill(...$monsters`man with the red buttons, red skeleton, red butler`),
+      .macro(
+        new Macro().tryItem($item`glark cable`),
+        ...$monsters`man with the red buttons, red skeleton, red butler`
+      )
+      .kill(),
   },
 ];
 
