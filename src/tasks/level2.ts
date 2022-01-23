@@ -17,8 +17,9 @@ export const MosquitoQuest: Quest = {
     {
       name: "Burn Delay",
       after: ["Start"],
-      completed: () => $location`The Spooky Forest`.turnsSpent >= 5,
+      completed: () => $location`The Spooky Forest`.turnsSpent >= 5 || step("questL02Larva") >= 1,
       do: $location`The Spooky Forest`,
+      choices: { 502: 2, 505: 1, 334: 1 },
       cap: 5,
       delay: 5,
     },
