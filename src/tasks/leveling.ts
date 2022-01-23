@@ -141,7 +141,7 @@ export const LevelingQuest: Quest = {
         new Macro()
           .skill($skill`Curse of Weaksauce`)
           .skill($skill`Stuffed Mortar Shell`)
-          .while_("!pastround 25 && !hpbelow 100", new Macro().skill($skill`Cannelloni Cannon`))
+          .while_("!pastround 27 && !hpbelow 100", new Macro().skill($skill`Cannelloni Cannon`))
           .trySkill($skill`Saucegeyser`)
           .attack()
           .repeat()
