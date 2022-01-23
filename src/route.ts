@@ -42,9 +42,10 @@ export const routing: string[] = [
   "Palindome/Bat Snake",
   "Palindome/Cold Snake",
   "Giant/Ground",
+  "Palindome/Zepplin",
+  "Manor/Bedroom",
   "Manor/Bathroom Delay",
   "Manor/Gallery Delay",
-  "Manor/Bedroom",
 
   // Line up more noncombats
   "Manor/Gallery", // Gallery first in-case we banished Out in the Garden
@@ -55,7 +56,7 @@ export const routing: string[] = [
 
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
-  "MacGuffin/Open Pyramid", // Open more delay for lategame
+  "Macguffin/Open Pyramid", // Open more delay for lategame
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
