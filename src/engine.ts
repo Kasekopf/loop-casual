@@ -7,7 +7,6 @@ import {
   adv1,
   buy,
   choiceFollowsFight,
-  cliExecute,
   equippedAmount,
   inMultiFight,
   itemAmount,
@@ -15,6 +14,7 @@ import {
   myMaxhp,
   myMaxmp,
   restoreMp,
+  retrieveItem,
   runChoice,
   runCombat,
   setAutoAttack,
@@ -82,9 +82,10 @@ export class Engine {
       if (to_get.needed !== undefined && !to_get.needed()) continue;
       if (to_get.price !== undefined) {
         debug(`Purchasing ${num_needed - num_have} ${to_get.item} below ${to_get.price}`);
-        buy(to_get.item, num_have - num_needed, to_get.price);
+        buy(to_get.item, num_needed - num_have, to_get.price);
       } else {
-        cliExecute(`acquire ${num_needed - num_have} ${to_get.item}`);
+        debug(`Acquiring ${num_needed} ${to_get.item}`);
+        retrieveItem(to_get.item, num_needed);
       }
       if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed) {
         throw `Task ${task.name} was unable to acquire ${num_needed} ${to_get.item}`;
