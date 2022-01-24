@@ -73,7 +73,7 @@ const Manor2: Task[] = [
     after: ["Start Floor2"],
     completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
-    choices: { 89: 4, 896: 1 }, // TODO: louvre
+    choices: { 89: 6, 896: 1 }, // TODO: louvre
     delay: 5,
   },
   {
@@ -81,7 +81,7 @@ const Manor2: Task[] = [
     after: ["Gallery Delay"],
     completed: () => have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
-    choices: { 89: 4, 896: 1 }, // TODO: louvre
+    choices: { 89: 6, 896: 1 }, // TODO: louvre
     modifier: "-combat",
     delay: 5,
   },
