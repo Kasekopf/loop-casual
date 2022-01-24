@@ -1,5 +1,16 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
+import {
+  $effects,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -83,7 +94,8 @@ const Apartment: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenApartmentProgress") >= 1,
     do: $location`An Overgrown Shrine (Northwest)`,
-    equip: $items`antique machete`,
+    equip: $items`antique machete, dromedary drinking helmet`,
+    familiar: $familiar`Melodramedary`,
     choices: { 781: 1 },
     cap: 4,
     freecombat: true,
@@ -118,7 +130,8 @@ const Office: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenOfficeProgress") >= 1,
     do: $location`An Overgrown Shrine (Northeast)`,
-    equip: $items`antique machete`,
+    equip: $items`antique machete, dromedary drinking helmet`,
+    familiar: $familiar`Melodramedary`,
     choices: { 785: 1 },
     cap: 4,
     freecombat: true,
@@ -191,7 +204,8 @@ const Hospital: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenHospitalProgress") >= 1,
     do: $location`An Overgrown Shrine (Southwest)`,
-    equip: $items`antique machete`,
+    equip: $items`antique machete, dromedary drinking helmet`,
+    familiar: $familiar`Melodramedary`,
     choices: { 783: 1 },
     cap: 4,
     freecombat: true,
@@ -236,7 +250,8 @@ const Bowling: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenBowlingAlleyProgress") >= 1,
     do: $location`An Overgrown Shrine (Southeast)`,
-    equip: $items`antique machete`,
+    equip: $items`antique machete, dromedary drinking helmet`,
+    familiar: $familiar`Melodramedary`,
     choices: { 787: 1 },
     cap: 4,
     freecombat: true,
@@ -276,7 +291,8 @@ export const HiddenQuest: Quest = {
       after: ["Finish Office", "Finish Apartment", "Finish Hospital", "Finish Bowling"],
       completed: () => step("questL11Worship") === 999,
       do: $location`A Massive Ziggurat`,
-      equip: $items`antique machete`,
+      equip: $items`antique machete, dromedary drinking helmet`,
+      familiar: $familiar`Melodramedary`,
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
       cap: 4,
