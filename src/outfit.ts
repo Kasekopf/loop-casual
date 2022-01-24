@@ -18,8 +18,9 @@ export class Outfit {
   familiar?: Familiar;
   modifier?: string;
 
-  equip(item?: Item | Familiar): boolean {
+  equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
+    if (Array.isArray(item)) return item.every((val) => this.equip(val));
     if (!have(item)) return false;
 
     if (item instanceof Item) {
@@ -72,6 +73,7 @@ export class Outfit {
     for (const resource of resources) {
       if (!resource.available()) continue;
       if (resource.chance && resource.chance() === 0) continue;
+      if (!this.can_equip(resource.equip)) continue;
       if (!this.equip(resource.equip)) continue;
       return resource;
     }
@@ -83,6 +85,7 @@ export class Outfit {
     for (const resource of resources) {
       if (!resource.available()) continue;
       if (resource.chance && resource.chance() === 0) continue;
+      if (!this.can_equip(resource.equip)) continue;
       if (!this.equip(resource.equip)) continue;
       result.push(resource);
       if (resource.chance && resource.chance() === 1) break;
@@ -90,8 +93,9 @@ export class Outfit {
     return result;
   }
 
-  can_equip(item?: Item | Familiar): boolean {
+  can_equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
+    if (Array.isArray(item)) return item.every((val) => this.can_equip(val)); // TODO: smarter
     if (!have(item)) return false;
 
     if (item instanceof Item) {

@@ -1,9 +1,12 @@
-import { myLevel, totalTurnsPlayed } from "kolmafia";
+import { familiarWeight, myLevel, totalTurnsPlayed } from "kolmafia";
 import {
+  $effect,
   $familiar,
   $item,
+  $items,
   $monster,
   $skill,
+  ensureEffect,
   get,
   getBanishedMonsters,
   getKramcoWandererChance,
@@ -15,7 +18,8 @@ import { debug } from "./lib";
 export interface Resource {
   name: string;
   available: () => boolean;
-  equip?: Item | Familiar;
+  prepare?: () => void;
+  equip?: Item | Familiar | (Item | Familiar)[];
   chance?: () => number;
 }
 
@@ -152,7 +156,33 @@ export interface RunawaySource extends Resource {
   chance: () => number;
 }
 
+const banderGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
+const banderGearBonus = 45;
+const banderEffects = 10;
+
 export const runawaySources: RunawaySource[] = [
+  {
+    name: "Bandersnatch",
+    available: () =>
+      have($familiar`Frumious Bandersnatch`) &&
+      familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 5 <
+        5 * get("_banderRunaways"),
+    prepare: () => ensureEffect($effect`Ode to Booze`, 5),
+    equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`fish hatchet`],
+    do: new Macro().runaway(),
+    chance: () => 1,
+  },
+  {
+    name: "Bandersnatch Offhand", // Use the potted plant as long as possible
+    available: () =>
+      have($familiar`Frumious Bandersnatch`) &&
+      familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 10 <
+        5 * get("_banderRunaways"),
+    prepare: () => ensureEffect($effect`Ode to Booze`, 5),
+    equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`iFlail`, $item`iFlail`],
+    do: new Macro().runaway(),
+    chance: () => 1,
+  },
   {
     name: "GAP",
     available: () => have($item`Greatest American Pants`),

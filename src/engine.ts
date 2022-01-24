@@ -147,6 +147,11 @@ export class Engine {
       setAutoAttack(0);
       combat.macro.save();
 
+      // Prepare resources if needed
+      wanderers.map((source) => source.prepare && source.prepare());
+      if (banish?.prepare !== undefined) banish?.prepare();
+      if (runaway?.prepare !== undefined) runaway?.prepare();
+
       // HP/MP upkeep
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
       if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
