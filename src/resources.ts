@@ -30,11 +30,6 @@ export const banishSources: BanishSource[] = [
     do: $skill`Bowl a Curveball`,
   },
   {
-    name: "Louder Than Bomb",
-    available: () => have($item`Louder Than Bomb`),
-    do: $item`Louder Than Bomb`,
-  },
-  {
     name: "Feel Hatred",
     available: () => get("_feelHatredUsed") < 3 && have($skill`Emotionally Chipped`),
     do: $skill`Feel Hatred`,
@@ -68,6 +63,11 @@ export const banishSources: BanishSource[] = [
     available: () => !get("_mafiaMiddleFingerRingUsed") && have($item`mafia middle finger ring`),
     do: $skill`Show them your ring`,
     equip: $item`mafia middle finger ring`,
+  },
+  {
+    name: "Louder Than Bomb",
+    available: () => have($item`Louder Than Bomb`),
+    do: $item`Louder Than Bomb`,
   },
   {
     name: "Crystal Skull",
