@@ -31,7 +31,7 @@ const ABoo: Task[] = [
           .macro(
             new Macro()
               .trySkill($skill`Feel Nostalgic`)
-              .trySkill($skill`Feel Pride`)
+              .trySkill($skill`Feel Envy`)
               .skill($skill`Saucegeyser`)
               .repeat(),
             ...ghosts.filter((mon) => mon !== last_monster)
@@ -40,6 +40,7 @@ const ABoo: Task[] = [
       } else {
         return new CombatStrategy().macro(
           new Macro()
+            .trySkill($skill`Feel Envy`)
             .trySkill($skill`Talk About Politics`)
             .skill($skill`Saucegeyser`)
             .repeat()
