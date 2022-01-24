@@ -118,14 +118,18 @@ const Zepplin: Task[] = [
       if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
     },
     do: $location`The Red Zeppelin`,
-    combat: new CombatStrategy()
-      .kill($monster`Ron "The Weasel" Copperhead`)
-      .banish(...$monsters`Red Herring, Red Snapper`)
-      .macro(
-        new Macro().tryItem($item`glark cable`),
-        ...$monsters`man with the red buttons, red skeleton, red butler`
-      )
-      .kill(),
+    combat: (): CombatStrategy => {
+      const result = new CombatStrategy()
+        .kill($monster`Ron "The Weasel" Copperhead`)
+        .banish(...$monsters`Red Herring, Red Snapper`)
+        .kill();
+      if (get("_glarkCableUses") < 5)
+        return result.macro(
+          new Macro().tryItem($item`glark cable`),
+          ...$monsters`man with the red buttons, red skeleton, red butler`
+        );
+      else return result;
+    },
   },
 ];
 
