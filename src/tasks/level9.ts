@@ -29,6 +29,7 @@ const ABoo: Task[] = [
           .macro(
             new Macro()
               .trySkill($skill`Feel Nostalgic`)
+              .trySkill($skill`Feel Pride`)
               .skill($skill`Saucegeyser`)
               .repeat(),
             ...ghosts.filter((mon) => mon !== last_monster)
@@ -45,6 +46,7 @@ const ABoo: Task[] = [
     },
     choices: { 611: 1, 1430: 1 },
     cap: 4,
+    sticky: true,
   },
   {
     name: "ABoo Horror",
