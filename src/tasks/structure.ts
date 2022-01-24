@@ -40,6 +40,7 @@ export type Task = {
   delay?: number | (() => number);
   freeaction?: boolean;
   freecombat?: boolean;
+  sticky?: boolean;
 };
 
 export function step(questName: StringProperty): number {

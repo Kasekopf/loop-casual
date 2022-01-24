@@ -1,6 +1,6 @@
-import { cliExecute, myLevel, visitUrl } from "kolmafia";
+import { cliExecute, myLevel, useSkill, visitUrl } from "kolmafia";
 import {
-  $effects,
+  $familiar,
   $item,
   $items,
   $location,
@@ -10,6 +10,8 @@ import {
   get,
   have,
   Macro,
+  set,
+  SourceTerminal,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -142,19 +144,41 @@ const Nook: Task[] = [
   {
     name: "Nook",
     after: ["Start"],
-    prepare: tuneCape,
+    prepare: (): void => {
+      tuneCape();
+      if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
+        SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
+      useSkill($skill`Map the Monsters`);
+      if (get("lastCopyableMonster") === $monster`spiny skelelton`) {
+        set("choiceAdventure1435", "heyscriptswhatsupwinkwink=186"); // toothy skeleton
+      } else {
+        set("choiceAdventure1435", "heyscriptswhatsupwinkwink=185"); // spiny skelelton
+      }
+    },
     acquire: [{ item: $item`gravy boat` }],
+    ready: () => get("camelSpit") >= 100,
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     post: (): void => {
       while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
     },
-    equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`, $item`gravy boat`),
-    effects: $effects`Merry Smithsness`,
-    modifier: "item 500max, sword",
+    equip: tryCape($item`costume sword`, $item`gravy boat`),
+    familiar: $familiar`Melodramedary`,
     choices: { 155: 5, 1429: 1 },
-    combat: new CombatStrategy().macro(slay_macro).banish($monster`party skelteon`),
-    cap: 25,
+    combat: new CombatStrategy()
+      .macro(slay_macro, $monster`spiny skelelton`)
+      .macro(
+        new Macro()
+          .trySkill($skill`Feel Nostalgic`)
+          .trySkill($skill`Duplicate`)
+          .trySkill($skill`%fn, spit on them!`)
+          .trySkill($skill`Feel Envy`)
+          .step(slay_macro),
+        $monster`toothy sklelton`
+      )
+      .banish($monster`party skelteon`),
+    sticky: true,
+    cap: 2,
   },
   {
     name: "Nook Boss",

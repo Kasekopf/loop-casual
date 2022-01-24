@@ -31,15 +31,29 @@ export function main(): void {
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
+  let last = undefined;
   while (myAdventures() > 0) {
+    // If requested, keep doing the current task
+    if (
+      last !== undefined &&
+      (last.sticky ?? false) &&
+      !last.completed() &&
+      engine.available(last)
+    ) {
+      engine.execute(last);
+      continue;
+    }
+
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = tasks.find((task) => engine.available(task) && engine.has_delay(task));
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);
+      last = delay_burning;
     } else {
       const todo = tasks.find((task) => engine.available(task));
       if (todo === undefined) break;
       engine.execute(todo);
+      last = todo;
     }
   }
 
