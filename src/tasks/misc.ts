@@ -85,7 +85,7 @@ export const MiscQuest: Quest = {
       ready: () => have($familiar`Shorter-Order Cook`),
       completed: () =>
         familiarEquippedEquipment($familiar`Shorter-Order Cook`) === $item`blue plate`,
-      acquire: $items`blue plate`,
+      acquire: [{ item: $item`blue plate` }],
       do: () => useFamiliar($familiar`Mosquito`), // Switch away to keep blue plate equipped
       familiar: $familiar`Shorter-Order Cook`,
       equip: $items`blue plate`,
@@ -222,7 +222,7 @@ export const KeysQuest: Quest = {
     {
       name: "Malware",
       after: [],
-      acquire: $items`daily dungeon malware`,
+      acquire: [{ item: $item`daily dungeon malware` }],
       completed: () => get("_dailyDungeonMalwareUsed") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,

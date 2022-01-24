@@ -96,7 +96,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
-    acquire: $items`rusty hedge trimmers`,
+    acquire: [{ item: $item`rusty hedge trimmers` }],
     modifier: "stench res 4min",
     cap: 1,
   },
@@ -108,7 +108,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 2, 608: 1 },
-    acquire: $items`rusty hedge trimmers`,
+    acquire: [{ item: $item`rusty hedge trimmers` }],
     modifier: "item 50min",
     cap: 1,
   },
@@ -120,7 +120,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 3, 609: 1, 616: 1 },
-    acquire: $items`rusty hedge trimmers, jar of oil`,
+    acquire: [{ item: $item`rusty hedge trimmers` }, { item: $item`jar of oil` }],
     cap: 1,
   },
   {
@@ -131,7 +131,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
-    acquire: $items`rusty hedge trimmers`,
+    acquire: [{ item: $item`rusty hedge trimmers` }],
     cap: 1,
   },
 ];
@@ -160,7 +160,7 @@ export const ChasmQuest: Quest = {
         cliExecute(`acquire ${count} snow boards`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`);
       },
-      acquire: [[12, $item`snow berries`]],
+      acquire: [{ item: $item`snow berries`, num: 12 }],
       cap: 1,
       freeaction: true,
     },

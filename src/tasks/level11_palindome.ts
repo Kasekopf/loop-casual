@@ -94,7 +94,7 @@ const Zepplin: Task[] = [
     name: "Protesters",
     after: ["Macguffin/Diary"],
     completed: () => step("questL11Ron") >= 2,
-    acquire: $items`11-leaf clover`,
+    acquire: [{ item: $item`11-leaf clover` }],
     prepare: (): void => {
       if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
       ensureEffect($effect`Dirty Pear`);
@@ -112,7 +112,7 @@ const Zepplin: Task[] = [
   {
     name: "Zepplin",
     after: ["Protesters"],
-    acquire: $items`glark cable`,
+    acquire: [{ item: $item`glark cable`, needed: () => get("_glarkCableUses") < 5 }],
     completed: () => step("questL11Ron") >= 5,
     prepare: () => {
       if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
@@ -148,7 +148,7 @@ const Dome: Task[] = [
   {
     name: "Palindome Dog",
     after: ["Talisman"],
-    acquire: $items`disposable instant camera`,
+    acquire: [{ item: $item`disposable instant camera` }],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
     equip: $items`Talisman o' Namsilat`,

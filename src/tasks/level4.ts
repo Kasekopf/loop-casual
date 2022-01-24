@@ -1,5 +1,5 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster } from "libram";
+import { $item, $location, $monster } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -18,7 +18,7 @@ export const BatQuest: Quest = {
     {
       name: "Use Sonar",
       after: ["Start"],
-      acquire: $items`sonar-in-a-biscuit`,
+      acquire: [{ item: $item`sonar-in-a-biscuit` }],
       completed: () => step("questL04Bat") >= 3,
       do: () => use($item`sonar-in-a-biscuit`),
       cap: 3,

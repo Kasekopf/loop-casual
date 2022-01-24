@@ -19,7 +19,7 @@ const Diary: Task[] = [
   {
     name: "Forest",
     after: ["Start"],
-    acquire: $items`blackberry galoshes`,
+    acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
     equip: $items`blackberry galoshes`,
@@ -105,7 +105,7 @@ const Desert: Task[] = [
   {
     name: "Gnasir",
     after: ["Diary"],
-    acquire: $items`can of black paint, killing jar`,
+    acquire: [{ item: $item`can of black paint` }, { item: $item`killing jar` }],
     completed: () =>
       ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0) ||
       get("desertExploration") >= 100,
@@ -125,7 +125,7 @@ const Desert: Task[] = [
   {
     name: "Gnasir Drum",
     after: ["Diary"],
-    acquire: $items`drum machine`,
+    acquire: [{ item: $item`drum machine` }],
     completed: () =>
       ((get("gnasirProgress") & 8) > 0 && !have($item`worm-riding hooks`)) ||
       get("desertExploration") >= 100,
@@ -190,7 +190,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Get Token",
-    acquire: [[3, $item`tomb ratchet`]],
+    acquire: [{ item: $item`tomb ratchet`, num: 3 }],
     after: ["Middle Chamber"],
     completed: () =>
       have($item`ancient bronze token`) || have($item`ancient bomb`) || get("pyramidBombUsed"),
@@ -199,7 +199,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Get Bomb",
-    acquire: [[4, $item`tomb ratchet`]],
+    acquire: [{ item: $item`tomb ratchet`, num: 4 }],
     after: ["Get Token"],
     completed: () => have($item`ancient bomb`) || get("pyramidBombUsed"),
     do: () => rotatePyramid(3),
@@ -207,7 +207,7 @@ const Pyramid: Task[] = [
   },
   {
     name: "Use Bomb",
-    acquire: [[3, $item`tomb ratchet`]],
+    acquire: [{ item: $item`tomb ratchet`, num: 3 }],
     after: ["Get Bomb"],
     completed: () => get("pyramidBombUsed"),
     do: () => rotatePyramid(1),

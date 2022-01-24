@@ -70,8 +70,8 @@ export const OrganQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`Azazel's tutu`) || step("questM10Azazel") === 999,
       acquire: [
-        [5, $item`imp air`],
-        [5, $item`bus pass`],
+        { item: $item`imp air`, num: 5 },
+        { item: $item`bus pass`, num: 5 },
       ],
       do: () => visitUrl("pandamonium.php?action=moan"),
       cap: 2,

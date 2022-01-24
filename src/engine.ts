@@ -8,6 +8,7 @@ import {
   buy,
   choiceFollowsFight,
   cliExecute,
+  equippedAmount,
   inMultiFight,
   itemAmount,
   myHp,
@@ -74,13 +75,15 @@ export class Engine {
     this.attempts[task.name]++;
 
     // Get needed items
-    for (const item of task.acquire || []) {
-      if (item instanceof Item) {
-        if (!have(item)) cliExecute(`acquire ${item.name}`);
-      } else if (item.length === 2) {
-        if (itemAmount(item[1]) < item[0]) cliExecute(`acquire ${item[0]} ${item[1].name}`);
+    for (const to_get of task.acquire || []) {
+      const num_needed = to_get.price ?? 1;
+      const num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
+      if (num_needed <= num_have) continue;
+      if (to_get.needed !== undefined && !to_get.needed()) continue;
+      if (to_get.price) {
+        buy(to_get.item, num_have - num_needed, to_get.price);
       } else {
-        if (itemAmount(item[1]) < item[0]) buy(item[0], item[1], item[2]);
+        cliExecute(`acquire ${to_get.item} ${num_needed - num_have}`);
       }
     }
 

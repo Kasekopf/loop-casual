@@ -17,7 +17,7 @@ export const GiantQuest: Quest = {
     {
       name: "Grow Beanstalk",
       after: ["Start"],
-      acquire: $items`enchanted bean`,
+      acquire: [{ item: $item`enchanted bean` }],
       completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
       cap: 1,
@@ -47,7 +47,7 @@ export const GiantQuest: Quest = {
     {
       name: "Basement Finish",
       after: ["Basement Search"],
-      acquire: $items`amulet of extreme plot significance`,
+      acquire: [{ item: $item`amulet of extreme plot significance` }],
       completed: () => step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       equip: $items`amulet of extreme plot significance`,
@@ -66,7 +66,7 @@ export const GiantQuest: Quest = {
     {
       name: "Top Floor",
       after: ["Ground"],
-      acquire: $items`Mohawk wig`,
+      acquire: [{ item: $item`Mohawk wig` }],
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       equip: $items`Mohawk wig`,

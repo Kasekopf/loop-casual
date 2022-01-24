@@ -1,5 +1,5 @@
 import { myLevel, visitUrl } from "kolmafia";
-import { $item, $items, $location } from "libram";
+import { $item, $location } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -19,9 +19,9 @@ export const McLargeHugeQuest: Quest = {
       name: "Ores",
       after: ["Start"],
       acquire: [
-        [3, $item`asbestos ore`],
-        [3, $item`chrome ore`],
-        [3, $item`linoleum ore`],
+        { item: $item`asbestos ore`, num: 3 },
+        { item: $item`chrome ore`, num: 3 },
+        { item: $item`linoleum ore`, num: 3 },
       ],
       completed: () => step("questL08Trapper") >= 2,
       do: (): void => {
@@ -34,7 +34,11 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Climb",
       after: ["Ores"],
-      acquire: $items`ninja rope, ninja carabiner, ninja crampons`,
+      acquire: [
+        { item: $item`ninja rope` },
+        { item: $item`ninja carabiner` },
+        { item: $item`ninja crampons` },
+      ],
       completed: () => step("questL08Trapper") >= 3,
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");

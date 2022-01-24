@@ -38,7 +38,7 @@ const Temple: Task[] = [
   {
     name: "Open Temple",
     after: ["Forest Coin", "Forest Map", "Forest Sapling"],
-    acquire: $items`Spooky-Gro fertilizer`,
+    acquire: [{ item: $item`Spooky-Gro fertilizer` }],
     completed: () => step("questM16Temple") === 999,
     do: () => use($item`Spooky Temple map`),
     cap: 1,
@@ -47,7 +47,7 @@ const Temple: Task[] = [
   {
     name: "Temple Nostril",
     after: ["Open Temple", "Macguffin/Diary"],
-    acquire: $items`stone wool`,
+    acquire: [{ item: $item`stone wool` }],
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
     choices: { 579: 2, 582: 1 },
@@ -57,7 +57,7 @@ const Temple: Task[] = [
   {
     name: "Open City",
     after: ["Temple Nostril"],
-    acquire: $items`stone wool`,
+    acquire: [{ item: $item`stone wool` }],
     completed: () => step("questL11Worship") >= 3,
     do: () => {
       visitUrl("adventure.php?snarfblat=280");
@@ -76,7 +76,6 @@ const Temple: Task[] = [
 ];
 
 const use_writ = new Macro().tryItem($item`short writ of habeas corpus`);
-const get_writ: [Item | [number, Item, number]] = [[1, $item`short writ of habeas corpus`, 4000]];
 
 const Apartment: Task[] = [
   {
@@ -93,7 +92,7 @@ const Apartment: Task[] = [
     name: "Apartment",
     after: ["Open Apartment", "Office Files"], // Wait until after all needed pygmy witch lawyers are done
     completed: () => get("hiddenApartmentProgress") >= 7,
-    acquire: get_writ,
+    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
       .kill($monster`ancient protector spirit (The Hidden Apartment Building)`)
@@ -144,7 +143,7 @@ const Office: Task[] = [
   {
     name: "Office Clip",
     after: ["Office Files"],
-    acquire: get_writ,
+    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
     completed: () =>
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||
@@ -162,7 +161,7 @@ const Office: Task[] = [
   {
     name: "Office Boss",
     after: ["Office Clip"],
-    acquire: get_writ,
+    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
     completed: () => get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
@@ -200,9 +199,14 @@ const Hospital: Task[] = [
   {
     name: "Hospital",
     after: ["Open Hospital"],
-    acquire: get_writ.concat(
-      $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`
-    ),
+    acquire: [
+      { item: $item`short writ of habeas corpus`, num: 1, price: 4000 },
+      { item: $item`half-size scalpel` },
+      { item: $item`head mirror` },
+      { item: $item`surgical mask` },
+      { item: $item`surgical apron` },
+      { item: $item`bloodied surgical dungarees` },
+    ],
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy()
@@ -240,7 +244,7 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling"],
-    acquire: $items`bowling ball`,
+    acquire: [{ item: $item`bowling ball` }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy().kill(

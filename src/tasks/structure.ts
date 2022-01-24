@@ -14,6 +14,13 @@ export class Limit {
   }
 }
 
+export type AcquireItem = {
+  item: Item;
+  num?: number;
+  price?: number;
+  needed?: () => boolean;
+};
+
 export type Task = {
   name: string;
   after: string[];
@@ -27,7 +34,7 @@ export type Task = {
   modifier?: string;
   effects?: Effect[];
   equip?: Item[] | (() => Item[]);
-  acquire?: (Item | [number, Item] | [number, Item, number])[];
+  acquire?: AcquireItem[];
   familiar?: Familiar;
   cap?: number | Limit;
   delay?: number | (() => number);

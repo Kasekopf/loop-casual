@@ -168,7 +168,7 @@ const Door: Task[] = [
   {
     name: "Boris Lock",
     after: ["Maze", "Keys/Finish"],
-    acquire: $items`Boris's key`,
+    acquire: [{ item: $item`Boris's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Boris"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock1"),
     cap: 1,
@@ -177,7 +177,7 @@ const Door: Task[] = [
   {
     name: "Jarlsberg Lock",
     after: ["Maze", "Keys/Finish"],
-    acquire: $items`Jarlsberg's key`,
+    acquire: [{ item: $item`Jarlsberg's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Jarlsberg"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock2"),
     cap: 1,
@@ -186,7 +186,7 @@ const Door: Task[] = [
   {
     name: "Sneaky Pete Lock",
     after: ["Maze", "Keys/Finish"],
-    acquire: $items`Sneaky Pete's key`,
+    acquire: [{ item: $item`Sneaky Pete's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Sneaky Pete"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock3"),
     cap: 1,
@@ -195,7 +195,7 @@ const Door: Task[] = [
   {
     name: "Star Lock",
     after: ["Maze"],
-    acquire: $items`Richard's star key`,
+    acquire: [{ item: $item`Richard's star key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Richard's star key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock4"),
     cap: 1,
@@ -204,7 +204,7 @@ const Door: Task[] = [
   {
     name: "Digital Lock",
     after: ["Maze"],
-    acquire: $items`digital key`,
+    acquire: [{ item: $item`digital key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock5"),
     cap: 1,
@@ -213,7 +213,7 @@ const Door: Task[] = [
   {
     name: "Skeleton Lock",
     after: ["Maze"],
-    acquire: $items`skeleton key`,
+    acquire: [{ item: $item`skeleton key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("skeleton key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock6"),
     cap: 1,
@@ -332,7 +332,7 @@ export const TowerQuest: Quest = {
     {
       name: "Mirror",
       after: ["Wall of Bones"],
-      acquire: $items`Wand of Nagamar`,
+      acquire: [{ item: $item`Wand of Nagamar` }],
       completed: () => step("questL13Final") > 9,
       do: $location`Tower Level 4`,
       choices: { 1015: 2 },
@@ -342,7 +342,7 @@ export const TowerQuest: Quest = {
     {
       name: "Shadow",
       after: ["Mirror"],
-      acquire: [[5, $item`gauze garter`]],
+      acquire: [{ item: $item`gauze garter`, num: 5 }],
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,

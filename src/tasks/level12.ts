@@ -63,7 +63,11 @@ export const WarQuest: Quest = {
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island"],
-      acquire: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      acquire: [
+        { item: $item`beer helmet` },
+        { item: $item`distressed denim pants` },
+        { item: $item`bejeweled pledge pin` },
+      ],
       completed: () => step("questL12War") >= 1,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: $location`Hippy Camp`,
@@ -104,6 +108,11 @@ export const WarQuest: Quest = {
       after: ["Fluffers"],
       completed: () => step("questL12War") === 999,
       ready: () => get("fratboysDefeated") >= 1000,
+      acquire: [
+        { item: $item`reinforced beaded headband` },
+        { item: $item`bullet-proof corduroys` },
+        { item: $item`round purple sunglasses` },
+      ],
       equip: $items`reinforced beaded headband, bullet-proof corduroys, round purple sunglasses`,
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");

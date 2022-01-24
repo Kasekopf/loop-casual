@@ -165,7 +165,7 @@ export const LevelingQuest: Quest = {
     {
       name: "God Lobster",
       after: ["Tote"],
-      acquire: $items`makeshift garbage shirt`,
+      acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () => have($familiar`God Lobster`),
       completed: () => get("_godLobsterFights") >= 3 || myLevel() >= 13,
       do: (): void => {
@@ -195,7 +195,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Sausage Fights",
       after: ["Tote"],
-      acquire: $items`makeshift garbage shirt`,
+      acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () =>
         have($familiar`Pocket Professor`) &&
         have($item`Kramco Sausage-o-Matic™`) &&
@@ -220,7 +220,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Neverending Party",
       after: ["Tote"],
-      acquire: $items`makeshift garbage shirt`,
+      acquire: [{ item: $item`makeshift garbage shirt` }],
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
@@ -242,7 +242,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Machine Elf",
       after: ["Tote"],
-      acquire: $items`makeshift garbage shirt`,
+      acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () => have($familiar`Machine Elf`),
       completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= 13,
       do: $location`The Deep Machine Tunnels`,
