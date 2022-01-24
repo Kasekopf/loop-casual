@@ -118,13 +118,16 @@ export class Engine {
           : task.combat()
         : new CombatStrategy();
 
-      // Set up a banish if needed
-      const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
-      const banish = outfit.equip_first(banishers);
-
-      // Set up a runaway if needed
+      let banish = undefined;
       let runaway = undefined;
-      if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
+      if (wanderers.length === 0) {
+        // Set up a banish if needed
+        const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
+        banish = outfit.equip_first(banishers);
+
+        // Set up a runaway if needed
+        if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
+      }
 
       // Set up more wanderers if delay is needed
       if (wanderers.length === 0 && this.has_delay(task))
