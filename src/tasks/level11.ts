@@ -67,15 +67,12 @@ const Desert: Task[] = [
   {
     name: "Desert",
     after: ["Diary", "Compass"],
-    ready: () =>
-      get("desertExploration") < 20 ||
-      ((get("gnasirProgress") & 2) > 0 &&
-        (get("gnasirProgress") & 4) > 0 &&
-        ((get("gnasirProgress") & 8) > 0 || itemAmount($item`worm-riding manual page`) < 15)),
+    acquire: [
+      { item: $item`can of black paint`, needed: () => (get("gnasirProgress") & 2) === 0 },
+      { item: $item`killing jar`, needed: () => (get("gnasirProgress") & 4) === 0 },
+      { item: $item`drum machine`, needed: () => (get("gnasirProgress") & 16) === 0 },
+    ],
     completed: () => get("desertExploration") >= 100,
-    prepare: (): void => {
-      if (have($item`desert sightseeing pamphlet`)) use($item`desert sightseeing pamphlet`);
-    },
     do: $location`The Arid, Extra-Dry Desert`,
     equip: (): Item[] => {
       if (
@@ -100,47 +97,25 @@ const Desert: Task[] = [
         );
       else return new CombatStrategy().kill();
     },
+    post: (): void => {
+      if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
+        return;
+      if ((get("gnasirProgress") & 16) > 0) return;
+      if (
+        itemAmount($item`worm-riding manual page`) >= 15 ||
+        (get("gnasirProgress") & 2) === 0 ||
+        (get("gnasirProgress") & 4) === 0
+      ) {
+        let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
+        while (res.includes("value=2")) {
+          res = runChoice(2);
+        }
+        runChoice(1);
+      }
+      cliExecute("use * desert sightseeing pamphlet");
+      if (have($item`worm-riding hooks`)) use($item`drum machine`);
+    },
     choices: { 805: 1 },
-  },
-  {
-    name: "Gnasir",
-    after: ["Diary"],
-    acquire: [{ item: $item`can of black paint` }, { item: $item`killing jar` }],
-    completed: () =>
-      ((get("gnasirProgress") & 2) > 0 && (get("gnasirProgress") & 4) > 0) ||
-      get("desertExploration") >= 100,
-    ready: () => $location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"),
-    do: () => {
-      let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
-      while (res.includes("value=2")) {
-        res = runChoice(2);
-      }
-      runChoice(1);
-      cliExecute("use * desert sightseeing pamphlet");
-      if (have($item`worm-riding hooks`)) use($item`drum machine`);
-    },
-    cap: 1,
-    freeaction: true,
-  },
-  {
-    name: "Gnasir Drum",
-    after: ["Diary"],
-    acquire: [{ item: $item`drum machine` }],
-    completed: () =>
-      ((get("gnasirProgress") & 8) > 0 && !have($item`worm-riding hooks`)) ||
-      get("desertExploration") >= 100,
-    ready: () => itemAmount($item`worm-riding manual page`) >= 15 || have($item`worm-riding hooks`),
-    do: () => {
-      let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
-      while (res.includes("value=2")) {
-        res = runChoice(2);
-      }
-      runChoice(1);
-      cliExecute("use * desert sightseeing pamphlet");
-      if (have($item`worm-riding hooks`)) use($item`drum machine`);
-    },
-    cap: 1,
-    freeaction: true,
   },
 ];
 
@@ -166,7 +141,7 @@ function rotatePyramid(goal: number): void {
 const Pyramid: Task[] = [
   {
     name: "Open Pyramid",
-    after: ["Desert", "Gnasir", "Gnasir Drum", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
+    after: ["Desert", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
     completed: () => step("questL11Pyramid") >= 0,
     do: () => visitUrl("place.php?whichplace=desertbeach&action=db_pyramid1"),
     cap: 1,
