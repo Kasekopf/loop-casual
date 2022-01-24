@@ -24,6 +24,7 @@ export const routing: string[] = [
   "Leveling/Sausage Fights",
 
   // Do the billards room first, before drinking
+  "Macguffin/Diary", // avoid +combat
   "Manor/Billiards",
   "Misc/Consume",
 
@@ -52,7 +53,7 @@ export const routing: string[] = [
   "Giant/Top Floor",
   "Manor/Bathroom",
   "Manor/Ballroom",
-  "Palindome/Palindome Photos",
+  "Palindome/Alarm Gem",
 
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
