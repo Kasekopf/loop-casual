@@ -1,4 +1,4 @@
-import { cliExecute, myLevel, use, visitUrl } from "kolmafia";
+import { cliExecute, myLevel, visitUrl } from "kolmafia";
 import {
   $effects,
   $item,
@@ -144,23 +144,17 @@ const Nook: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
-    ready: () => !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
+    post: (): void => {
+      while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
+    },
     equip: tryCape($item`costume sword`, $item`A Light that Never Goes Out`, $item`gravy boat`),
     effects: $effects`Merry Smithsness`,
     modifier: "item 500max, sword",
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy().macro(slay_macro).banish($monster`party skelteon`),
     cap: 25,
-  },
-  {
-    name: "Nook Eye",
-    after: ["Start"],
-    ready: () => have($item`evil eye`),
-    completed: () => get("cyrptNookEvilness") <= 25,
-    do: () => use($item`evil eye`),
-    freeaction: true,
   },
   {
     name: "Nook Boss",
