@@ -171,7 +171,6 @@ const Nook: Task[] = [
       .macro(
         new Macro()
           .trySkill($skill`Feel Nostalgic`)
-          .trySkill($skill`Duplicate`)
           .trySkill($skill`%fn, spit on them!`)
           .trySkill($skill`Feel Envy`)
           .step(slay_macro),
