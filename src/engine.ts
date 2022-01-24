@@ -76,11 +76,12 @@ export class Engine {
 
     // Get needed items
     for (const to_get of task.acquire || []) {
-      const num_needed = to_get.price ?? 1;
+      const num_needed = to_get.num ?? 1;
       const num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
       if (num_needed <= num_have) continue;
       if (to_get.needed !== undefined && !to_get.needed()) continue;
-      if (to_get.price) {
+      if (to_get.price !== undefined) {
+        debug(`Purchasing ${num_needed - num_have} ${to_get.item} below ${to_get.price}`);
         buy(to_get.item, num_have - num_needed, to_get.price);
       } else {
         cliExecute(`acquire ${num_needed - num_have} ${to_get.item}`);
