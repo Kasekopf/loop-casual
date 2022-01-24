@@ -1,4 +1,4 @@
-import { create, myInebriety, use, visitUrl } from "kolmafia";
+import { create, myInebriety, use, useSkill, visitUrl } from "kolmafia";
 import {
   $effects,
   $item,
@@ -171,14 +171,21 @@ const ManorBasement: Task[] = [
       have($item`unstable fulminate`) ||
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
+    prepare: (): void => {
+      if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
+    },
     do: $location`The Haunted Wine Cellar`,
-    equip: $items`A Light that Never Goes Out`,
+    equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
     effects: $effects`Merry Smithsness`,
     modifier: "item, booze drop",
     choices: { 901: 2 },
     combat: new CombatStrategy()
-      .kill($monster`possessed wine rack`)
-      .banish(...$monsters`mad wino, skeletal sommelier`),
+      .macro(
+        new Macro().trySkill($skill`Otoscope`).trySkill($skill`Chest X-Ray`),
+        $monster`possessed wine rack`
+      )
+      .banish(...$monsters`mad wino, skeletal sommelier`)
+      .kill(),
   },
   {
     name: "Laundry Room",
@@ -188,14 +195,21 @@ const ManorBasement: Task[] = [
       have($item`unstable fulminate`) ||
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
+    prepare: (): void => {
+      if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
+    },
     do: $location`The Haunted Laundry Room`,
-    equip: $items`A Light that Never Goes Out`,
+    equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
     effects: $effects`Merry Smithsness`,
     modifier: "item, food drop",
     choices: { 891: 2 },
     combat: new CombatStrategy()
-      .kill($monster`cabinet of Dr. Limpieza`)
-      .banish(...$monsters`plaid ghost, possessed laundry press`),
+      .macro(
+        new Macro().trySkill($skill`Otoscope`).trySkill($skill`Chest X-Ray`),
+        $monster`cabinet of Dr. Limpieza`
+      )
+      .banish(...$monsters`plaid ghost, possessed laundry press`)
+      .kill(),
   },
   {
     name: "Fulminate",

@@ -55,6 +55,10 @@ export const routing: string[] = [
   "Manor/Ballroom",
   "Palindome/Alarm Gem",
 
+  // Route Steely-Eyed Squint
+  "Manor/Wine Cellar",
+  "Manor/Laundry Room",
+
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
   "Macguffin/Open Pyramid", // Open more delay for lategame
