@@ -1,4 +1,4 @@
-import { mallPrice, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import { cliExecute, mallPrice, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
 import { $class, $effect, $effects, $item, $stat, ensureEffect, get, have, uneffect } from "libram";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
@@ -28,6 +28,14 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
   if (!get("_lyleFavored")) result["mainstat"].push($effect`Favored by Lyle`);
   if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
+
+  // Noncombat buffs
+  if (get("_feelLonelyUsed") < 3 || have($effect`Feeling Lonely`))
+    result["-combat"].push($effect`Feeling Lonely`);
+  if (!get("_olympicSwimmingPool") || have($effect`Silent Running`))
+    result["-combat"].push($effect`Silent Running`);
+  // TODO: Silence of the God Lobster?
+  // TODO: Snow cleats?
 
   // Potions to be used if cheap
   if (mallPrice($item`ear candle`) < 2000 || have($item`ear candle`))
@@ -110,6 +118,14 @@ export function applyEffects(modifier: string, required: Effect[]): void {
       if (to_remove === undefined) break;
       else uneffect(to_remove);
     }
+  }
+
+  // Use horsery
+  if (get("horseryAvailable")) {
+    if (modifier.includes("-combat") && get("_horsery") !== "dark horse") {
+      cliExecute("horsery dark");
+    }
+    // TODO: +combat?
   }
 
   // Apply all relevant effects
