@@ -31,30 +31,27 @@ export function main(): void {
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
-  let last = undefined;
   while (myAdventures() > 0) {
-    // If requested, keep doing the current task
-    if (
-      last !== undefined &&
-      (last.sticky ?? false) &&
-      !last.completed() &&
-      engine.available(last)
-    ) {
-      engine.execute(last);
-      continue;
+    // First, check for any prioritized tasks
+    const priority = tasks.find(
+      (task) => engine.available(task) && task.priority !== undefined && task.priority()
+    );
+    if (priority !== undefined) {
+      engine.execute(priority);
     }
 
+    // If a wanderer is up try to place it in a useful location
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = tasks.find((task) => engine.available(task) && engine.has_delay(task));
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);
-      last = delay_burning;
-    } else {
-      const todo = tasks.find((task) => engine.available(task));
-      if (todo === undefined) break;
-      engine.execute(todo);
-      last = todo;
+      continue;
     }
+
+    // Otherwise, just advance the next quest on the route
+    const todo = tasks.find((task) => engine.available(task));
+    if (todo === undefined) break;
+    engine.execute(todo);
   }
 
   // Can finish the run with 0 adventures, if only the prism is left

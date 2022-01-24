@@ -1,5 +1,6 @@
 import { create, myInebriety, use, useSkill, visitUrl } from "kolmafia";
 import {
+  $effect,
   $effects,
   $item,
   $items,
@@ -171,6 +172,7 @@ const ManorBasement: Task[] = [
       have($item`unstable fulminate`) ||
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
+    priority: () => have($effect`Steely-Eyed Squint`),
     prepare: (): void => {
       if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
     },
@@ -190,6 +192,7 @@ const ManorBasement: Task[] = [
   {
     name: "Laundry Room",
     after: ["Learn Recipe"],
+    priority: () => have($effect`Steely-Eyed Squint`),
     completed: () =>
       have($item`blasting soda`) ||
       have($item`unstable fulminate`) ||

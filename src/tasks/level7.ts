@@ -144,6 +144,7 @@ const Nook: Task[] = [
   {
     name: "Nook",
     after: ["Start"],
+    priority: () => get("lastCopyableMonster") === $monster`spiny skelelton`,
     prepare: (): void => {
       tuneCape();
       if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
@@ -177,7 +178,6 @@ const Nook: Task[] = [
         $monster`toothy sklelton`
       )
       .banish($monster`party skelteon`),
-    sticky: true,
     cap: 2,
   },
   {

@@ -25,6 +25,7 @@ export type Task = {
   name: string;
   after: string[];
   ready?: () => boolean;
+  priority?: () => boolean;
   prepare?: () => void;
   completed: () => boolean;
   do: Location | (() => void);
@@ -40,7 +41,6 @@ export type Task = {
   delay?: number | (() => number);
   freeaction?: boolean;
   freecombat?: boolean;
-  sticky?: boolean;
 };
 
 export function step(questName: StringProperty): number {

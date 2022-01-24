@@ -1,5 +1,5 @@
 import { cliExecute, floor, getMonsters, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $skill, get, have, Macro } from "libram";
+import { $effects, $item, $items, $location, $monster, $skill, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -16,6 +16,8 @@ const ABoo: Task[] = [
   {
     name: "ABoo Clues",
     after: ["ABoo Start"],
+    priority: () =>
+      getMonsters($location`A-Boo Peak`).includes(get("lastCopyableMonster") ?? $monster`none`),
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
     modifier: "item 667max",
@@ -46,7 +48,6 @@ const ABoo: Task[] = [
     },
     choices: { 611: 1, 1430: 1 },
     cap: 4,
-    sticky: true,
   },
   {
     name: "ABoo Horror",
