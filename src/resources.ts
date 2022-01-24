@@ -158,7 +158,7 @@ export interface RunawaySource extends Resource {
 
 const banderGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
 const banderGearBonus = 45;
-const banderEffects = 10;
+const banderEffects = 15;
 
 export const runawaySources: RunawaySource[] = [
   {
@@ -177,8 +177,10 @@ export const runawaySources: RunawaySource[] = [
     name: "Bandersnatch Offhand", // Use the potted plant as long as possible
     available: () =>
       have($familiar`Frumious Bandersnatch`) &&
-      familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 10 <
-        5 * get("_banderRunaways"),
+      floor(
+        (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 10) /
+          5
+      ) > get("_banderRunaways"),
     prepare: () => ensureEffect($effect`Ode to Booze`, 5),
     equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`iFlail`, $item`iFlail`],
     do: new Macro().runaway(),
