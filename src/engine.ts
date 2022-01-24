@@ -83,7 +83,10 @@ export class Engine {
       if (to_get.price) {
         buy(to_get.item, num_have - num_needed, to_get.price);
       } else {
-        cliExecute(`acquire ${to_get.item} ${num_needed - num_have}`);
+        cliExecute(`acquire ${num_needed - num_have} ${to_get.item}`);
+      }
+      if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed) {
+        throw `Task ${task.name} was unable to acquire ${num_needed} ${to_get.item}`;
       }
     }
 
