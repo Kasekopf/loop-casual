@@ -61,6 +61,7 @@ export const routing: string[] = [
 
   "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
+  "Crypt/Nook", // As soon as camel is charged
   "Macguffin/Open Pyramid", // Open more delay for lategame
 ];
 
