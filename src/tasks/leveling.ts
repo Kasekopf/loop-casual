@@ -109,7 +109,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "LOV Tunnel",
-      after: ["Tote"],
+      after: [],
       ready: () => get("loveTunnelAvailable"),
       completed: () => get("_loveTunnelUsed") || myLevel() >= 13,
       do: $location`The Tunnel of L.O.V.E.`,
@@ -155,16 +155,8 @@ export const LevelingQuest: Quest = {
       cap: 10,
     },
     {
-      name: "Tote",
-      after: [],
-      completed: () => get("_garbageItemChanged"),
-      do: () => cliExecute("fold makeshift garbage shirt"),
-      cap: 1,
-      freeaction: true,
-    },
-    {
       name: "God Lobster",
-      after: ["Tote"],
+      after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () => have($familiar`God Lobster`),
       completed: () => get("_godLobsterFights") >= 3 || myLevel() >= 13,
@@ -182,7 +174,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Witchess",
-      after: ["Tote"],
+      after: [],
       ready: () => Witchess.have(),
       completed: () => Witchess.fightsDone() >= 5 || myLevel() >= 13,
       do: () => Witchess.fightPiece($monster`Witchess Knight`),
@@ -195,7 +187,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Sausage Fights",
-      after: ["Tote"],
+      after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () =>
         have($familiar`Pocket Professor`) &&
@@ -220,7 +212,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Neverending Party",
-      after: ["Tote"],
+      after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
       do: $location`The Neverending Party`,
@@ -242,7 +234,7 @@ export const LevelingQuest: Quest = {
     },
     {
       name: "Machine Elf",
-      after: ["Tote"],
+      after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       ready: () => have($familiar`Machine Elf`),
       completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= 13,
