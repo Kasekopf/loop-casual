@@ -105,6 +105,7 @@ export const LevelingQuest: Quest = {
         }
       },
       do: () => visitUrl("place.php?whichplace=chateau&action=chateau_restbox"),
+      freeaction: true,
     },
     {
       name: "LOV Tunnel",
@@ -116,6 +117,7 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
+      familiar: $familiar`Galloping Grill`,
       cap: 1,
       freecombat: true,
     },
