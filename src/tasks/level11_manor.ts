@@ -29,10 +29,16 @@ const Manor1: Task[] = [
     name: "Billiards",
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
+    acquire: [{ item: $item`T.U.R.D.S. Key`, num: 1, price: 4000 }],
     ready: () => myInebriety() <= 10,
     do: $location`The Haunted Billiards Room`,
     choices: { 875: 1, 900: 2 },
     modifier: "-combat",
+    combat: new CombatStrategy()
+      .flee()
+      .banish($monster`pooltergeist`)
+      .macro(new Macro().tryItem($item`T.U.R.D.S. Key`), $monster`chalkdust wraith`)
+      .kill($monster`pooltergeist (ultra-rare)`),
     effects: $effects`Chalky Hand, Influence of Sphere`,
   },
   {

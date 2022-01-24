@@ -32,7 +32,7 @@ const Diary: Task[] = [
     name: "Buy Documents",
     after: ["Forest"],
     completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
-    do: () => cliExecute("buy forged identification documents"),
+    do: () => buy(1, $item`forged identification documents`),
     cap: 1,
     freeaction: true,
   },
