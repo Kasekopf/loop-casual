@@ -1,4 +1,4 @@
-import { buy, create, myHash, runChoice, use, visitUrl } from "kolmafia";
+import { create, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -112,11 +112,11 @@ const Zepplin: Task[] = [
   {
     name: "Zepplin",
     after: ["Protesters"],
-    acquire: [{ item: $item`glark cable`, needed: () => get("_glarkCableUses") < 5 }],
+    acquire: [
+      { item: $item`glark cable`, needed: () => get("_glarkCableUses") < 5 },
+      { item: $item`Red Zeppelin ticket` },
+    ],
     completed: () => step("questL11Ron") >= 5,
-    prepare: () => {
-      if (!have($item`Red Zeppelin ticket`)) buy($item`Red Zeppelin ticket`);
-    },
     do: $location`The Red Zeppelin`,
     combat: (): CombatStrategy => {
       const result = new CombatStrategy()
