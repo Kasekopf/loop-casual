@@ -151,9 +151,9 @@ const Nook: Task[] = [
         SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
       useSkill($skill`Map the Monsters`);
       if (get("lastCopyableMonster") === $monster`spiny skelelton`) {
-        set("choiceAdventure1435", "heyscriptswhatsupwinkwink=186"); // toothy skeleton
+        set("choiceAdventure1435", "1&heyscriptswhatsupwinkwink=186"); // toothy skeleton
       } else {
-        set("choiceAdventure1435", "heyscriptswhatsupwinkwink=185"); // spiny skelelton
+        set("choiceAdventure1435", "1&heyscriptswhatsupwinkwink=185"); // spiny skelelton
       }
     },
     acquire: [{ item: $item`gravy boat` }],
