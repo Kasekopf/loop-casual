@@ -1,4 +1,4 @@
-import { familiarWeight, floor, myLevel, totalTurnsPlayed } from "kolmafia";
+import { bjornifyFamiliar, familiarWeight, floor, myLevel, totalTurnsPlayed } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -157,7 +157,7 @@ export interface RunawaySource extends Resource {
 }
 
 const banderGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
-const banderGearBonus = 45;
+const banderGearBonus = 35;
 const banderEffects = 15;
 
 export const runawaySources: RunawaySource[] = [
@@ -168,7 +168,10 @@ export const runawaySources: RunawaySource[] = [
       floor(
         (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 5) / 5
       ) > get("_banderRunaways"),
-    prepare: () => ensureEffect($effect`Ode to Booze`, 5),
+    prepare: () => {
+      ensureEffect($effect`Ode to Booze`, 5);
+      bjornifyFamiliar($familiar`Gelatinous Cubeling`);
+    },
     equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`fish hatchet`],
     do: new Macro().runaway(),
     chance: () => 1,
