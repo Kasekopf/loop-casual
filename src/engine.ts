@@ -137,7 +137,15 @@ export class Engine {
       if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
       const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
       if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
-      if (canChargeVoid() && !freecombat) outfit.equip($item`cursed magnifying glass`);
+      if (
+        canChargeVoid() &&
+        !freecombat &&
+        (runaway === undefined ||
+          runaway.chance() < 1 ||
+          task_combat.can(MonsterStrategy.Kill) ||
+          task_combat.can(MonsterStrategy.KillHard))
+      )
+        outfit.equip($item`cursed magnifying glass`);
       outfit.equip_defaults();
       outfit.dress();
 
