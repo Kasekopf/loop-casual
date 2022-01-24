@@ -46,7 +46,8 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar`)
+        !this.equips.has($slot`familiar`) &&
+        this.modifier === undefined
       ) {
         if (item === $item`cursed magnifying glass` && !canChargeVoid()) {
           // Cursed magnifying glass cannot trigger in Lefty
@@ -114,7 +115,8 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar`)
+        !this.equips.has($slot`familiar`) &&
+        this.modifier === undefined
       ) {
         return true;
       }
