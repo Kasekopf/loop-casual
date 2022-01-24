@@ -228,7 +228,7 @@ const ManorBasement: Task[] = [
     after: ["Fulminate"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: $location`The Haunted Boiler Room`,
-    modifier: "ML 81max",
+    modifier: "ML",
     equip: $items`unstable fulminate`,
     choices: { 902: 2 },
     combat: new CombatStrategy()
