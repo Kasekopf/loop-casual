@@ -192,7 +192,6 @@ export class Outfit {
 
     if (task.modifier) {
       // Run maximizer
-      if (task.modifier.includes("-combat")) outfit.equip($familiar`Disgeist`);
       if (task.modifier.includes("item")) {
         if (
           outfit.can_equip($item`li'l ninja costume`) &&
@@ -217,6 +216,8 @@ export class Outfit {
   public equip_defaults(): void {
     if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
     this.equip($item`lucky gold ring`);
+
+    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
 
     if (!this.modifier) {
       // Default outfit
