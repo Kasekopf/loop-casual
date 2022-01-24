@@ -46,76 +46,27 @@ const Diary: Task[] = [
   },
 ];
 
-const DowsingRod: Task[] = [
-  {
-    name: "Mask",
-    after: [],
-    acquire: $items`grimstone mask`,
-    completed: () => get("grimstoneMaskPath") === "stepmother" || have($item`ornate dowsing rod`),
-    do: () => use($item`grimstone mask`),
-    choices: { 829: 1 },
-    cap: 1,
-    freeaction: true,
-  },
-  {
-    name: "Coin1",
-    after: ["Mask"],
-    completed: () =>
-      $location`The Prince's Restroom`.turnsSpent > 0 || have($item`ornate dowsing rod`),
-    do: $location`The Prince's Restroom`,
-    choices: { 822: 1 },
-    cap: 1,
-  },
-  {
-    name: "Coin2",
-    after: ["Mask"],
-    completed: () =>
-      $location`The Prince's Dance Floor`.turnsSpent > 0 || have($item`ornate dowsing rod`),
-    do: $location`The Prince's Dance Floor`,
-    choices: { 823: 1 },
-    cap: 1,
-  },
-  {
-    name: "Coin3",
-    after: ["Mask"],
-    completed: () =>
-      $location`The Prince's Kitchen`.turnsSpent > 0 || have($item`ornate dowsing rod`),
-    do: $location`The Prince's Kitchen`,
-    choices: { 824: 1 },
-    cap: 1,
-  },
-  {
-    name: "Coin4",
-    after: ["Mask"],
-    completed: () =>
-      $location`The Prince's Balcony`.turnsSpent > 0 || have($item`ornate dowsing rod`),
-    do: $location`The Prince's Balcony`,
-    choices: { 825: 1 },
-    cap: 1,
-  },
-  {
-    name: "Coin5",
-    after: ["Mask"],
-    completed: () =>
-      $location`The Prince's Lounge`.turnsSpent > 0 || have($item`ornate dowsing rod`),
-    do: $location`The Prince's Lounge`,
-    choices: { 826: 1 },
-    cap: 1,
-  },
-  {
-    name: "Dowsing Rod",
-    after: ["Coin1", "Coin2", "Coin3", "Coin4", "Coin5"],
-    completed: () => have($item`ornate dowsing rod`),
-    do: () => buy($coinmaster`Paul's Boutique`, 1, $item`ornate dowsing rod`),
-    cap: 1,
-    freeaction: true,
-  },
-];
-
 const Desert: Task[] = [
   {
+    name: "Scrip",
+    after: ["Misc/Unlock Beach"],
+    completed: () => have($item`Shore Inc. Ship Trip Scrip`) || have($item`UV-resistant compass`),
+    do: $location`The Shore, Inc. Travel Agency`,
+    choices: { 793: 1 },
+    cap: 1,
+    freeaction: true,
+  },
+  {
+    name: "Compass",
+    after: ["Misc/Unlock Beach", "Scrip"],
+    completed: () => have($item`UV-resistant compass`),
+    do: () => buy($coinmaster`The Shore, Inc. Gift Shop`, 1, $item`UV-resistant compass`),
+    cap: 1,
+    freeaction: true,
+  },
+  {
     name: "Desert",
-    after: ["Diary", "Dowsing Rod"],
+    after: ["Diary", "Compass"],
     ready: () =>
       get("desertExploration") < 20 ||
       ((get("gnasirProgress") & 2) > 0 &&
@@ -133,8 +84,8 @@ const Desert: Task[] = [
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
-        return $items`industrial fire extinguisher, ornate dowsing rod, dromedary drinking helmet`;
-      else return $items`ornate dowsing rod, dromedary drinking helmet`;
+        return $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`;
+      else return $items`UV-resistant compass, dromedary drinking helmet`;
     },
     familiar: $familiar`Melodramedary`,
     combat: (): CombatStrategy => {
@@ -290,7 +241,6 @@ export const MacguffinQuest: Quest = {
       freeaction: true,
     },
     ...Diary,
-    ...DowsingRod,
     ...Desert,
     ...Pyramid,
     {
