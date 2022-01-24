@@ -189,6 +189,7 @@ export const LevelingQuest: Quest = {
       combat: new CombatStrategy().killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
+      familiar: $familiar`Galloping Grill`,
       cap: 5,
       freecombat: true,
     },
