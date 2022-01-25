@@ -7,6 +7,7 @@ import {
   adv1,
   buy,
   choiceFollowsFight,
+  cliExecute,
   equippedAmount,
   inMultiFight,
   itemAmount,
@@ -81,7 +82,10 @@ export class Engine {
       const num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
       if (num_needed <= num_have) continue;
       if (to_get.useful !== undefined && !to_get.useful()) continue;
-      if (to_get.price !== undefined) {
+      if (to_get.item === $item`makeshift garbage shirt`) {
+        // Hardcode to avoid mafia weirdness
+        cliExecute("fold makeshift garbage shirt");
+      } else if (to_get.price !== undefined) {
         debug(`Purchasing ${num_needed - num_have} ${to_get.item} below ${to_get.price}`);
         buy(to_get.item, num_needed - num_have, to_get.price);
       } else {
