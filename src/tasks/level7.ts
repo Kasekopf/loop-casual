@@ -1,5 +1,15 @@
-import { adv1, cliExecute, myLevel, runChoice, toUrl, useSkill, visitUrl } from "kolmafia";
 import {
+  adv1,
+  cliExecute,
+  initiativeModifier,
+  myLevel,
+  runChoice,
+  toUrl,
+  useSkill,
+  visitUrl,
+} from "kolmafia";
+import {
+  $effect,
   $familiar,
   $item,
   $items,
@@ -7,6 +17,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  ensureEffect,
   get,
   have,
   Macro,
@@ -42,8 +53,23 @@ const Alcove: Task[] = [
   {
     name: "Alcove",
     after: ["Start"],
-    prepare: tuneCape,
-    acquire: [{ item: $item`gravy boat` }],
+    prepare: (): void => {
+      tuneCape();
+      // Potions to be used if cheap
+      if (have($item`ear candle`) && initiativeModifier() < 850)
+        ensureEffect($effect`Clear Ears, Can't Lose`);
+      if (have($item`panty raider camouflage`) && initiativeModifier() < 850)
+        ensureEffect($effect`Hiding in Plain Sight`);
+      if (have($item`Freddie's blessing of Mercury`) && initiativeModifier() < 850)
+        ensureEffect($effect`You're High as a Crow, Marty`);
+    },
+    acquire: [
+      { item: $item`gravy boat` },
+      // Init boosters
+      { item: $item`ear candle`, price: 2000, optional: true },
+      { item: $item`panty raider camouflage`, price: 2000, optional: true },
+      { item: $item`Freddie's blessing of Mercury`, price: 2000, optional: true },
+    ],
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     equip: tryCape($item`costume sword`, $item`gravy boat`),

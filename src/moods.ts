@@ -1,5 +1,5 @@
-import { cliExecute, mallPrice, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
-import { $class, $effect, $effects, $item, $stat, ensureEffect, get, have, uneffect } from "libram";
+import { cliExecute, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import { $class, $effect, $effects, $stat, ensureEffect, get, have, uneffect } from "libram";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result = {
@@ -36,17 +36,6 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     result["-combat"].push($effect`Silent Running`);
   // TODO: Silence of the God Lobster?
   // TODO: Snow cleats?
-
-  // Potions to be used if cheap
-  if (mallPrice($item`ear candle`) < 2000 || have($item`ear candle`))
-    result["init"].push($effect`Clear Ears, Can't Lose`);
-  if (mallPrice($item`panty raider camouflage` || have($item`panty raider camouflage`)) < 2000)
-    result["init"].push($effect`Hiding in Plain Sight`);
-  if (
-    mallPrice($item`Freddie's blessing of Mercury` || have($item`Freddie's blessing of Mercury`)) <
-    2000
-  )
-    result["init"].push($effect`You're High as a Crow, Marty`);
 
   return result;
 }
