@@ -30,14 +30,15 @@ export const routing: string[] = [
   "Misc/Consume",
 
   // Line up noncombats
+  "Giant/Airship",
   "Friar/Finish",
-  "Giant/Basement Finish",
   "Organ/Arena",
   "Crypt/Cranny",
   "War/Enrage",
   "Mosquito/Mosquito",
   "Hidden City/Open Temple",
   "Tavern/Finish",
+  "Giant/Basement Finish",
 
   // Burn delay to unlock remaining noncombats
   "Palindome/Copperhead",
