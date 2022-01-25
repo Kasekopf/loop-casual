@@ -149,7 +149,7 @@ export const LevelingQuest: Quest = {
           .repeat()
       ), // Grind bandersnatch weight
       familiar: $familiar`Frumious Bandersnatch`,
-      equip: $items`Greatest American Pants`,
+      equip: $items`Greatest American Pants, familiar scrapbook`,
       effects: $effects`Spirit of Peppermint`,
       modifier: "mainstat, 4exp, HP",
       cap: 10,
