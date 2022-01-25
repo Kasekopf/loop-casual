@@ -58,11 +58,10 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
-    combat: (): CombatStrategy => {
-      const res = new CombatStrategy().kill($monster`Frozen Solid Snake`);
-      if (!have($item`li'l ninja costume`)) return res.kill();
-      else return res;
-    },
+    combat: new CombatStrategy().kill($monster`Frozen Solid Snake`).macro((): Macro => {
+      if (!have($item`li'l ninja costume`)) return new Macro().attack().repeat();
+      else return new Macro();
+    }),
     delay: 5,
   },
   {
@@ -118,18 +117,14 @@ const Zepplin: Task[] = [
     ],
     completed: () => step("questL11Ron") >= 5,
     do: $location`The Red Zeppelin`,
-    combat: (): CombatStrategy => {
-      const result = new CombatStrategy()
-        .kill($monster`Ron "The Weasel" Copperhead`)
-        .banish(...$monsters`Red Herring, Red Snapper`)
-        .kill();
-      if (get("_glarkCableUses") < 5)
-        return result.macro(
-          new Macro().tryItem($item`glark cable`),
-          ...$monsters`man with the red buttons, red skeleton, red butler`
-        );
-      else return result;
-    },
+    combat: new CombatStrategy()
+      .kill($monster`Ron "The Weasel" Copperhead`)
+      .macro((): Macro => {
+        if (get("_glarkCableUses") < 5) return new Macro().tryItem($item`glark cable`);
+        else return new Macro();
+      }, ...$monsters`man with the red buttons, red skeleton, red butler`)
+      .banish(...$monsters`Red Herring, Red Snapper`)
+      .kill(),
   },
 ];
 

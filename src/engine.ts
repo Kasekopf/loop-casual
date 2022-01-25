@@ -117,11 +117,7 @@ export class Engine {
 
     if (!task.freeaction) {
       // Prepare combat macro
-      const task_combat = task.combat
-        ? task.combat instanceof CombatStrategy
-          ? task.combat
-          : task.combat()
-        : new CombatStrategy();
+      const task_combat = task.combat ?? new CombatStrategy();
 
       let banish = undefined;
       let runaway = undefined;

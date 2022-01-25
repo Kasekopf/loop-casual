@@ -85,18 +85,13 @@ const Desert: Task[] = [
       else return $items`UV-resistant compass, dromedary drinking helmet`;
     },
     familiar: $familiar`Melodramedary`,
-    combat: (): CombatStrategy => {
-      if (
-        have($item`industrial fire extinguisher`) &&
-        get("_fireExtinguisherCharge") >= 20 &&
-        !get("fireExtinguisherDesertUsed") &&
-        have($effect`Ultrahydrated`)
-      )
-        return new CombatStrategy().macro(
-          new Macro().skill($skill`Fire Extinguisher: Zone Specific`)
-        );
-      else return new CombatStrategy().kill();
-    },
+    combat: new CombatStrategy()
+      .macro((): Macro => {
+        if (have($effect`Ultrahydrated`))
+          return new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`);
+        else return new Macro();
+      })
+      .kill(),
     post: (): void => {
       if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
         return;

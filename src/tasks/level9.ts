@@ -37,25 +37,18 @@ const ABoo: Task[] = [
     modifier: "item 667max",
     equip: $items`Pantsgiving, A Light that Never Goes Out`,
     effects: $effects`Merry Smithsness`,
-    combat: (): CombatStrategy => {
-      if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
-        return new CombatStrategy().macro(
-          new Macro()
+    combat: new CombatStrategy()
+      .macro((): Macro => {
+        if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
+          return new Macro()
             .trySkill($skill`Feel Nostalgic`)
             .trySkill(`Duplicate`)
-            .trySkill($skill`Feel Envy`)
-            .skill($skill`Saucegeyser`)
-            .repeat()
-        );
-      } else {
-        return new CombatStrategy().macro(
-          new Macro()
-            .trySkill($skill`Feel Envy`)
-            .skill($skill`Saucegeyser`)
-            .repeat()
-        );
-      }
-    },
+            .trySkill($skill`Feel Envy`);
+        } else {
+          return new Macro().trySkill($skill`Feel Envy`);
+        }
+      })
+      .killHard(),
     choices: { 611: 1, 1430: 1 },
     cap: 4,
   },

@@ -217,15 +217,17 @@ export const LevelingQuest: Quest = {
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
-      combat: (): CombatStrategy => {
-        if (
-          get("_neverendingPartyFreeTurns") >= 7 &&
-          get("_feelPrideUsed") < 3 &&
-          have($skill`Feel Pride`)
-        )
-          return new CombatStrategy().macro(new Macro().skill($skill`Feel Pride`)).killHard();
-        return new CombatStrategy().killHard();
-      },
+      combat: new CombatStrategy()
+        .macro((): Macro => {
+          if (
+            get("_neverendingPartyFreeTurns") >= 7 &&
+            get("_feelPrideUsed") < 3 &&
+            have($skill`Feel Pride`)
+          )
+            return new Macro().skill($skill`Feel Pride`);
+          else return new Macro();
+        })
+        .killHard(),
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,

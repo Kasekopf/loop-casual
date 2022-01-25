@@ -138,20 +138,9 @@ const Niche: Task[] = [
         return $items`industrial fire extinguisher, gravy boat`;
       else return tryCape($item`serpentine sword`, $item`gravy boat`)();
     },
-    combat: (): CombatStrategy => {
-      if (
-        have($item`industrial fire extinguisher`) &&
-        get("_fireExtinguisherCharge") >= 20 &&
-        !get("fireExtinguisherCyrptUsed")
-      )
-        return new CombatStrategy().macro(
-          new Macro().skill($skill`Fire Extinguisher: Zone Specific`)
-        );
-      else
-        return new CombatStrategy()
-          .macro(slay_macro)
-          .banish(...$monsters`basic lihc, senile lihc, slick lihc`);
-    },
+    combat: new CombatStrategy()
+      .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
+      .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     cap: 25,
   },
   {

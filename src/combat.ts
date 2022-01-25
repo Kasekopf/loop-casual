@@ -37,12 +37,12 @@ export class BuiltCombatStrategy {
 
     // Setup the generic macros
     abstract.macros.forEach((value, key) => {
-      this.macro = this.macro.if_(key, value);
+      this.macro = this.macro.if_(key, undelay(value));
     });
     abstract.strategy.forEach((strat, monster) => {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
-    if (abstract.default_macro) this.macro = this.macro.step(abstract.default_macro);
+    if (abstract.default_macro) this.macro = this.macro.step(undelay(abstract.default_macro));
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
 
@@ -104,11 +104,18 @@ export class BuiltCombatStrategy {
   }
 }
 
+export type DelayedMacro = Macro | (() => Macro);
+
+function undelay(macro: DelayedMacro): Macro {
+  if (macro instanceof Macro) return macro;
+  else return macro();
+}
+
 export class CombatStrategy {
   default_strategy: MonsterStrategy = MonsterStrategy.RunAway;
-  default_macro?: Macro;
+  default_macro?: DelayedMacro;
   strategy: Map<Monster, MonsterStrategy> = new Map();
-  macros: Map<Monster, Macro> = new Map();
+  macros: Map<Monster, DelayedMacro> = new Map();
   boss: boolean;
 
   constructor(boss?: boolean) {
@@ -145,7 +152,7 @@ export class CombatStrategy {
   public abort(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Abort, ...monsters);
   }
-  public macro(strategy: Macro, ...monsters: Monster[]): CombatStrategy {
+  public macro(strategy: DelayedMacro, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
       this.default_macro = strategy;
     }

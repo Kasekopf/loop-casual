@@ -32,7 +32,7 @@ export type Task = {
   do: Location | (() => void);
   post?: () => void;
   choices?: { [id: number]: number | (() => number) };
-  combat?: CombatStrategy | (() => CombatStrategy);
+  combat?: CombatStrategy;
   modifier?: string;
   effects?: Effect[];
   equip?: Item[] | (() => Item[]);
