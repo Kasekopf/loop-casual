@@ -52,7 +52,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") >= 5,
       do: $location`Mist-Shrouded Peak`,
       modifier: "cold res 5min",
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy(true).kill(),
       cap: 4,
     },
     {
