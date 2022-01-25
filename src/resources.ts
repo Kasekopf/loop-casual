@@ -164,7 +164,7 @@ export const wandererSources: WandererSource[] = [
   },
   {
     name: "Goth",
-    available: () => have($familiar`Artistic Goth Kid`) && get("_gothKidFights") < 7,
+    available: () => have($familiar`Artistic Goth Kid`) && get("_gothKidFights") > 0,
     equip: $familiar`Artistic Goth Kid`,
     monster: "monstername Black Crayon *",
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_gothKidFights")],
