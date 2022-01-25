@@ -25,6 +25,7 @@ export const routing: string[] = [
 
   // Do the billards room first, before drinking
   "Macguffin/Diary", // avoid +combat
+  "Macguffin/Desert", // charge camel
   "Manor/Billiards",
   "Misc/Consume",
 

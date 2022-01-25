@@ -31,7 +31,7 @@ const Manor1: Task[] = [
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
     acquire: [{ item: $item`T.U.R.D.S. Key`, num: 1, price: 4000 }],
-    ready: () => myInebriety() <= 10,
+    ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
     choices: { 875: 1, 900: 2 },
     modifier: "-combat",
