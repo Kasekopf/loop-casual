@@ -34,9 +34,11 @@ import {
 export class Engine {
   attempts: { [task_name: string]: number } = {};
   propertyManager = new PropertiesManager();
+  tasks: Task[];
   tasks_by_name = new Map<string, Task>();
 
   constructor(tasks: Task[]) {
+    this.tasks = tasks;
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
@@ -133,7 +135,13 @@ export class Engine {
 
         // Set up a runaway if needed
         if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
-        if (task_combat.can(MonsterStrategy.KillFree))
+
+        // Set up a free kill if needed, or if no free kills will ever be needed again
+        if (
+          task_combat.can(MonsterStrategy.KillFree) ||
+          (task_combat.can(MonsterStrategy.Kill) &&
+            this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
+        )
           freekill = outfit.equip_first(freekillSources);
       }
 

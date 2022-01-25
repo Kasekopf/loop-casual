@@ -55,11 +55,13 @@ export const routing: string[] = [
   "Giant/Top Floor",
   "Manor/Bathroom",
   "Manor/Ballroom",
-  "Palindome/Alarm Gem",
 
-  // Route Steely-Eyed Squint
+  // Detour to route Steely-Eyed Squint
   "Manor/Wine Cellar",
   "Manor/Laundry Room",
+
+  // Finish noncombats, now with freekills available
+  "Palindome/Alarm Gem",
 
   // Use Hidden City to charge camel
   "Hidden City/Open Bowling", // Open bowling for optional free fights
