@@ -197,6 +197,28 @@ function availableBandersnatch(bonus: number) {
 
 export const runawaySources: RunawaySource[] = [
   {
+    name: "Bowl Curveball",
+    available: () => have($item`cosmic bowling ball`),
+    do: new Macro().skill($skill`Bowl a Curveball`),
+    chance: () => 1,
+  },
+  {
+    name: "Asdon Martin",
+    available: (): boolean => {
+      // From libram
+      if (!AsdonMartin.installed()) return false;
+      const banishes = get("banishedMonsters").split(":");
+      const bumperIndex = banishes
+        .map((string) => string.toLowerCase())
+        .indexOf("spring-loaded front bumper");
+      if (bumperIndex === -1) return true;
+      return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
+    },
+    prepare: () => AsdonMartin.fillTo(50),
+    do: new Macro().skill($skill`Asdon Martin: Spring-Loaded Front Bumper`),
+    chance: () => 1,
+  },
+  {
     name: "Bandersnatch",
     available: () =>
       have($familiar`Frumious Bandersnatch`) && availableBandersnatch(5) > get("_banderRunaways"), // 5 from fish hatchet
