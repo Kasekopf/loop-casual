@@ -113,7 +113,7 @@ const Zepplin: Task[] = [
     name: "Zepplin",
     after: ["Protesters"],
     acquire: [
-      { item: $item`glark cable`, needed: () => get("_glarkCableUses") < 5 },
+      { item: $item`glark cable`, useful: () => get("_glarkCableUses") < 5 },
       { item: $item`Red Zeppelin ticket` },
     ],
     completed: () => step("questL11Ron") >= 5,

@@ -156,7 +156,7 @@ const Office: Task[] = [
   {
     name: "Office Clip",
     after: ["Office Files"],
-    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
+    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000, optional: true }],
     completed: () =>
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||

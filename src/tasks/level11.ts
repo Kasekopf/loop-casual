@@ -68,9 +68,9 @@ const Desert: Task[] = [
     name: "Desert",
     after: ["Diary", "Compass"],
     acquire: [
-      { item: $item`can of black paint`, needed: () => (get("gnasirProgress") & 2) === 0 },
-      { item: $item`killing jar`, needed: () => (get("gnasirProgress") & 4) === 0 },
-      { item: $item`drum machine`, needed: () => (get("gnasirProgress") & 16) === 0 },
+      { item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 },
+      { item: $item`killing jar`, useful: () => (get("gnasirProgress") & 4) === 0 },
+      { item: $item`drum machine`, useful: () => (get("gnasirProgress") & 16) === 0 },
     ],
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,

@@ -18,7 +18,8 @@ export type AcquireItem = {
   item: Item;
   num?: number;
   price?: number;
-  needed?: () => boolean;
+  useful?: () => boolean;
+  optional?: boolean;
 };
 
 export type Task = {
