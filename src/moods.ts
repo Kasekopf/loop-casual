@@ -1,5 +1,16 @@
-import { cliExecute, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
-import { $class, $effect, $effects, $stat, ensureEffect, get, have, uneffect } from "libram";
+import { cliExecute, getWorkshed, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import {
+  $class,
+  $effect,
+  $effects,
+  $item,
+  $stat,
+  AsdonMartin,
+  ensureEffect,
+  get,
+  have,
+  uneffect,
+} from "libram";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result = {
@@ -115,6 +126,14 @@ export function applyEffects(modifier: string, required: Effect[]): void {
       cliExecute("horsery dark");
     }
     // TODO: +combat?
+  }
+
+  // Use asdon martin
+  if (getWorkshed() === $item`Asdon Martin keyfob`) {
+    if (modifier.includes("-combat")) AsdonMartin.drive(AsdonMartin.Driving.Stealthily);
+    else if (modifier.includes("+combat")) AsdonMartin.drive(AsdonMartin.Driving.Obnoxiously);
+    else if (modifier.includes("init")) AsdonMartin.drive(AsdonMartin.Driving.Quickly);
+    else if (modifier.includes("item")) AsdonMartin.drive(AsdonMartin.Driving.Observantly);
   }
 
   // Apply all relevant effects
