@@ -25,7 +25,7 @@ export const routing: string[] = [
 
   // Do the billards room first, before drinking
   "Macguffin/Diary", // avoid +combat
-  "Macguffin/Desert", // charge camel
+  "Macguffin/Desert", // charge camel, use voters
   "Manor/Billiards",
   "Misc/Consume",
 
@@ -56,13 +56,21 @@ export const routing: string[] = [
   "Manor/Ballroom",
   "Palindome/Alarm Gem",
 
+  // Prepare for nostalgia chain as soon as camel is charged
+  "Orc Chasm/ABoo Start",
+  "Crypt/Nook",
+
+  // Use Hidden City to charge camel
+  "Hidden City/Open Bowling", // Open bowling for optional free fights
+  "Hidden City/Open Office", // Charge camel
+  "Hidden City/Open Hospital",
+  "Hidden City/Open Apartment",
+
   // Route Steely-Eyed Squint
   "Manor/Wine Cellar",
   "Manor/Laundry Room",
 
-  "Hidden City/Open Bowling", // Open bowling for optional free fights
   "Hidden City/Apartment", // Get this out of the way
-  "Crypt/Nook", // As soon as camel is charged
   "Macguffin/Open Pyramid", // Open more delay for lategame
 ];
 
