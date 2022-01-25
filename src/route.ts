@@ -56,9 +56,9 @@ export const routing: string[] = [
   "Manor/Ballroom",
   "Palindome/Alarm Gem",
 
-  // Prepare for nostalgia chain as soon as camel is charged
-  "Orc Chasm/ABoo Start",
-  "Crypt/Nook",
+  // Route Steely-Eyed Squint
+  "Manor/Wine Cellar",
+  "Manor/Laundry Room",
 
   // Use Hidden City to charge camel
   "Hidden City/Open Bowling", // Open bowling for optional free fights
@@ -66,9 +66,10 @@ export const routing: string[] = [
   "Hidden City/Open Hospital",
   "Hidden City/Open Apartment",
 
-  // Route Steely-Eyed Squint
-  "Manor/Wine Cellar",
-  "Manor/Laundry Room",
+  // Nostalgia chaining
+  "Orc Chasm/ABoo Start",
+  "Crypt/Nook",
+  "Orc Chasm/ABoo Peak",
 
   "Hidden City/Apartment", // Get this out of the way
   "Macguffin/Open Pyramid", // Open more delay for lategame
