@@ -167,14 +167,22 @@ const banderGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab c
 const banderGearBonus = 35;
 const banderEffects = 15;
 
+function availableBandersnatch(bonus: number) {
+  return floor(
+    (familiarWeight($familiar`Frumious Bandersnatch`) +
+      banderEffects +
+      banderGearBonus +
+      bonus +
+      (have($effect`Open Heart Surgery`) ? 10 : 0)) /
+      5
+  );
+}
+
 export const runawaySources: RunawaySource[] = [
   {
     name: "Bandersnatch",
     available: () =>
-      have($familiar`Frumious Bandersnatch`) &&
-      floor(
-        (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 5) / 5
-      ) > get("_banderRunaways"),
+      have($familiar`Frumious Bandersnatch`) && availableBandersnatch(5) > get("_banderRunaways"), // 5 from fish hatchet
     prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
       if (
@@ -192,11 +200,7 @@ export const runawaySources: RunawaySource[] = [
   {
     name: "Bandersnatch Offhand", // Use the potted plant as long as possible
     available: () =>
-      have($familiar`Frumious Bandersnatch`) &&
-      floor(
-        (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 10) /
-          5
-      ) > get("_banderRunaways"),
+      have($familiar`Frumious Bandersnatch`) && availableBandersnatch(10) > get("_banderRunaways"), // 10 from iFlails
     prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
       if (
