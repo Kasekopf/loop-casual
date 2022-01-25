@@ -1,5 +1,16 @@
-import { cliExecute, floor, getMonsters, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $skill, get, have, Macro } from "libram";
+import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import {
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  get,
+  have,
+  Macro,
+  SourceTerminal,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -16,32 +27,30 @@ const ABoo: Task[] = [
   {
     name: "ABoo Clues",
     after: ["ABoo Start"],
-    priority: () =>
-      getMonsters($location`A-Boo Peak`).includes(get("lastCopyableMonster") ?? $monster`none`),
+    priority: () => get("lastCopyableMonster") === $monster`toothy sklelton`, // After Defiled Nook
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
+    prepare: () => {
+      if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
+        SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
+    },
     do: $location`A-Boo Peak`,
     modifier: "item 667max",
     equip: $items`Pantsgiving, A Light that Never Goes Out`,
     effects: $effects`Merry Smithsness`,
     combat: (): CombatStrategy => {
-      const last_monster = get("lastCopyableMonster");
-      const ghosts = getMonsters($location`A-Boo Peak`);
-      if (last_monster !== null && ghosts.includes(last_monster)) {
-        return new CombatStrategy()
-          .macro(
-            new Macro()
-              .trySkill($skill`Feel Nostalgic`)
-              .trySkill($skill`Feel Envy`)
-              .skill($skill`Saucegeyser`)
-              .repeat(),
-            ...ghosts.filter((mon) => mon !== last_monster)
-          )
-          .kill(last_monster);
+      if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
+        return new CombatStrategy().macro(
+          new Macro()
+            .trySkill($skill`Feel Nostalgic`)
+            .trySkill(`Duplicate`)
+            .trySkill($skill`Feel Envy`)
+            .skill($skill`Saucegeyser`)
+            .repeat()
+        );
       } else {
         return new CombatStrategy().macro(
           new Macro()
             .trySkill($skill`Feel Envy`)
-            .trySkill($skill`Talk About Politics`)
             .skill($skill`Saucegeyser`)
             .repeat()
         );

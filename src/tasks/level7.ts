@@ -1,4 +1,4 @@
-import { cliExecute, myLevel, useSkill, visitUrl } from "kolmafia";
+import { adv1, cliExecute, myLevel, runChoice, toUrl, useSkill, visitUrl } from "kolmafia";
 import {
   $familiar,
   $item,
@@ -10,8 +10,6 @@ import {
   get,
   have,
   Macro,
-  set,
-  SourceTerminal,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -145,25 +143,28 @@ const Nook: Task[] = [
     name: "Nook",
     after: ["Start"],
     priority: () => get("lastCopyableMonster") === $monster`spiny skelelton`,
-    prepare: (): void => {
-      tuneCape();
-      if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
-        SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
-      useSkill($skill`Map the Monsters`);
-      if (get("lastCopyableMonster") === $monster`spiny skelelton`) {
-        set("choiceAdventure1435", "1&heyscriptswhatsupwinkwink=186"); // toothy skeleton
-      } else {
-        set("choiceAdventure1435", "1&heyscriptswhatsupwinkwink=185"); // spiny skelelton
-      }
-    },
+    prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
     ready: () => get("camelSpit") >= 100,
     completed: () => get("cyrptNookEvilness") <= 25,
-    do: $location`The Defiled Nook`,
+    do: (): void => {
+      useSkill($skill`Map the Monsters`);
+      if (get("mappingMonsters")) {
+        visitUrl(toUrl($location`The Defiled Nook`));
+        if (get("lastCopyableMonster") === $monster`spiny skelelton`) {
+          runChoice(1, "heyscriptswhatsupwinkwink=186"); // toothy skeleton
+        } else {
+          runChoice(1, "heyscriptswhatsupwinkwink=185"); // spiny skelelton
+        }
+      } else {
+        adv1($location`The Defiled Nook`, 0, "");
+      }
+    },
     post: (): void => {
       while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
     },
     equip: tryCape($item`costume sword`, $item`gravy boat`),
+    modifier: "item 500max",
     familiar: $familiar`Melodramedary`,
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
