@@ -16,6 +16,7 @@ import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
 import { get, set } from "libram";
 import { step } from "./tasks/structure";
+import { Outfit } from "./outfit";
 
 const time_property = "_loop_casual_first_start";
 
@@ -42,7 +43,12 @@ export function main(): void {
 
     // If a wanderer is up try to place it in a useful location
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-    const delay_burning = tasks.find((task) => engine.available(task) && engine.has_delay(task));
+    const delay_burning = tasks.find(
+      (task) =>
+        engine.has_delay(task) &&
+        engine.available(task) &&
+        Outfit.create(task).can_equip(wanderer?.equip)
+    );
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);
       continue;

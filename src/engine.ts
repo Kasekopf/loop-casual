@@ -107,7 +107,8 @@ export class Engine {
     // Prepare basic equipment
     const outfit = Outfit.create(task);
     for (const wanderer of wanderers) {
-      if (!outfit.equip(wanderer?.equip)) throw `Wanderer equipment conflicts with ${task.name}`;
+      if (!outfit.equip(wanderer?.equip))
+        throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
     if (!task.freeaction) {
