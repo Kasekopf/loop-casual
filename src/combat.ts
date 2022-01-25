@@ -13,6 +13,7 @@ export enum MonsterStrategy {
 
 export class BuiltCombatStrategy {
   macro: Macro = new Macro();
+  boss: boolean;
 
   use_banish?: Macro;
   use_runaway?: Macro;
@@ -25,6 +26,8 @@ export class BuiltCombatStrategy {
     runaway?: RunawaySource,
     freekill?: FreekillSource
   ) {
+    this.boss = abstract.boss;
+
     // Setup special macros
     if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
     if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
@@ -32,6 +35,7 @@ export class BuiltCombatStrategy {
     if (freekill?.do instanceof Skill) this.use_freekill = new Macro().skill(freekill.do);
     this.use_runaway = runaway?.do;
     for (const wanderer of wanderers) {
+      // Note that we kill hard, which never uses up a freekill
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     }
 
@@ -83,6 +87,8 @@ export class BuiltCombatStrategy {
         if (this.use_freekill === undefined) return new Macro().abort(); // should already be banished, or we are out of banishes
         return this.use_freekill;
       case MonsterStrategy.Kill:
+        if (this.use_freekill !== undefined && !(monster?.boss || this.boss))
+          return this.use_freekill;
         if (monster && monster.physicalResistance >= 70)
           return delevel.skill($skill`Saucegeyser`).repeat();
         else return delevel.attack().repeat();
