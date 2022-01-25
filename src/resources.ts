@@ -1,4 +1,11 @@
-import { bjornifyFamiliar, familiarWeight, floor, myLevel, totalTurnsPlayed } from "kolmafia";
+import {
+  bjornifyFamiliar,
+  familiarWeight,
+  floor,
+  myLevel,
+  totalTurnsPlayed,
+  weightAdjustment,
+} from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -168,9 +175,15 @@ export const runawaySources: RunawaySource[] = [
       floor(
         (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 5) / 5
       ) > get("_banderRunaways"),
-    prepare: () => {
-      ensureEffect($effect`Ode to Booze`, 5);
+    prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
+      if (
+        floor((familiarWeight($familiar`Frumious Bandersnatch`) + weightAdjustment()) / 5) <=
+        get("_banderRunaways")
+      ) {
+        throw `Trying to use Bandersnatch, but weight was overestimated.`;
+      }
+      ensureEffect($effect`Ode to Booze`, 5);
     },
     equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`fish hatchet`],
     do: new Macro().runaway(),
@@ -184,7 +197,16 @@ export const runawaySources: RunawaySource[] = [
         (familiarWeight($familiar`Frumious Bandersnatch`) + banderEffects + banderGearBonus + 10) /
           5
       ) > get("_banderRunaways"),
-    prepare: () => ensureEffect($effect`Ode to Booze`, 5),
+    prepare: (): void => {
+      bjornifyFamiliar($familiar`Gelatinous Cubeling`);
+      if (
+        floor((familiarWeight($familiar`Frumious Bandersnatch`) + weightAdjustment()) / 5) <=
+        get("_banderRunaways")
+      ) {
+        throw `Trying to use last Bandersnatch, but weight was overestimated.`;
+      }
+      ensureEffect($effect`Ode to Booze`, 5);
+    },
     equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`iFlail`, $item`iFlail`],
     do: new Macro().runaway(),
     chance: () => 1,
