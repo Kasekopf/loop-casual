@@ -1,10 +1,11 @@
 import { equippedItem, monsterDefense, myBuffedstat, weaponType } from "kolmafia";
 import { $item, $skill, $slot, $stat, Macro } from "libram";
-import { BanishSource, RunawaySource, WandererSource } from "./resources";
+import { BanishSource, FreekillSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
   RunAway,
   Kill,
+  KillFree,
   KillHard,
   Banish,
   Abort,
@@ -15,16 +16,20 @@ export class BuiltCombatStrategy {
 
   use_banish?: Macro;
   use_runaway?: Macro;
+  use_freekill?: Macro;
 
   constructor(
     abstract: CombatStrategy,
     wanderers: WandererSource[],
     banish?: BanishSource,
-    runaway?: RunawaySource
+    runaway?: RunawaySource,
+    freekill?: FreekillSource
   ) {
     // Setup special macros
     if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
     if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
+    if (freekill?.do instanceof Item) this.use_freekill = new Macro().item(freekill.do);
+    if (freekill?.do instanceof Skill) this.use_freekill = new Macro().skill(freekill.do);
     this.use_runaway = runaway?.do;
     for (const wanderer of wanderers) {
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
@@ -74,6 +79,9 @@ export class BuiltCombatStrategy {
             .attack()
             .repeat();
         else return this.use_runaway;
+      case MonsterStrategy.KillFree:
+        if (this.use_freekill === undefined) return new Macro().abort(); // should already be banished, or we are out of banishes
+        return this.use_freekill;
       case MonsterStrategy.Kill:
         if (monster && monster.physicalResistance >= 70)
           return delevel.skill($skill`Saucegeyser`).repeat();
@@ -117,6 +125,9 @@ export class CombatStrategy {
   }
   public kill(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Kill, ...monsters);
+  }
+  public killFree(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.KillFree, ...monsters);
   }
   public killHard(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.KillHard, ...monsters);

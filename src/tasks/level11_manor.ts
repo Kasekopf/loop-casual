@@ -182,12 +182,9 @@ const ManorBasement: Task[] = [
     modifier: "item, booze drop",
     choices: { 901: 2 },
     combat: new CombatStrategy()
-      .macro(
-        new Macro().trySkill($skill`Otoscope`).trySkill($skill`Chest X-Ray`),
-        $monster`possessed wine rack`
-      )
+      .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
       .banish(...$monsters`mad wino, skeletal sommelier`)
-      .kill(),
+      .killFree(),
   },
   {
     name: "Laundry Room",
@@ -212,7 +209,7 @@ const ManorBasement: Task[] = [
         $monster`cabinet of Dr. Limpieza`
       )
       .banish(...$monsters`plaid ghost, possessed laundry press`)
-      .kill(),
+      .killFree(),
   },
   {
     name: "Fulminate",

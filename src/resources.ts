@@ -262,3 +262,43 @@ export const runawaySources: RunawaySource[] = [
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
 ];
+
+export interface FreekillSource extends Resource {
+  do: Item | Skill;
+}
+
+export const freekillSources: FreekillSource[] = [
+  {
+    name: "Lil' Doctor™ bag",
+    available: () => have($item`Lil' Doctor™ bag`) && get("_chestXRayUsed") < 3,
+    do: $skill`Chest X-Ray`,
+    equip: $item`Lil' Doctor™ bag`,
+  },
+  {
+    name: "Gingerbread Mob Hit",
+    available: () => have($skill`Gingerbread Mob Hit`) && !get("_gingerbreadMobHitUsed"),
+    do: $skill`Gingerbread Mob Hit`,
+  },
+  {
+    name: "Shattering Punch",
+    available: () => have($skill`Shattering Punch`) && get("_shatteringPunchUsed") < 3,
+    do: $skill`Shattering Punch`,
+  },
+  {
+    name: "Replica bat-oomerang",
+    available: () => have($item`replica bat-oomerang`) && get("_usedReplicaBatoomerang") < 3,
+    do: $item`replica bat-oomerang`,
+  },
+  {
+    name: "The Jokester's gun",
+    available: () => have($item`The Jokester's gun`) && !get("_firedJokestersGun"),
+    do: $skill`Fire the Jokester's Gun`,
+    equip: $item`The Jokester's gun`,
+  },
+  {
+    name: "Asdon Martin: Missile Launcher",
+    available: () => AsdonMartin.installed() && !get("_missileLauncherUsed"),
+    prepare: () => AsdonMartin.fillTo(100),
+    do: $skill`Asdon Martin: Missile Launcher`,
+  },
+];

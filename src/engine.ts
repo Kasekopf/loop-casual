@@ -23,6 +23,7 @@ import {
 import { debug } from "./lib";
 import {
   canChargeVoid,
+  freekillSources,
   runawaySources,
   unusedBanishes,
   WandererSource,
@@ -124,6 +125,7 @@ export class Engine {
 
       let banish = undefined;
       let runaway = undefined;
+      let freekill = undefined;
       if (wanderers.length === 0) {
         // Set up a banish if needed
         const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
@@ -131,6 +133,8 @@ export class Engine {
 
         // Set up a runaway if needed
         if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
+        if (task_combat.can(MonsterStrategy.KillFree))
+          freekill = outfit.equip_first(freekillSources);
       }
 
       // Set up more wanderers if delay is needed
@@ -157,7 +161,7 @@ export class Engine {
       outfit.dress();
 
       // Prepare combat macro (after effects and outfit)
-      const combat = new BuiltCombatStrategy(task_combat, wanderers, banish, runaway);
+      const combat = new BuiltCombatStrategy(task_combat, wanderers, banish, runaway, freekill);
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
       combat.macro.save();
