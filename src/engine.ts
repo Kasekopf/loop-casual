@@ -54,7 +54,7 @@ export class Engine {
     return !task.completed();
   }
 
-  public has_delay(task: Task): boolean {
+  public hasDelay(task: Task): boolean {
     if (!task.delay) return false;
     if (!(task.do instanceof Location)) return false;
     return task.do.turnsSpent < task.delay;
@@ -131,10 +131,10 @@ export class Engine {
       if (wanderers.length === 0) {
         // Set up a banish if needed
         const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
-        banish = outfit.equip_first(banishers);
+        banish = outfit.equipFirst(banishers);
 
         // Set up a runaway if needed
-        if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equip_first(runawaySources);
+        if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equipFirst(runawaySources);
 
         // Set up a free kill if needed, or if no free kills will ever be needed again
         if (
@@ -143,12 +143,12 @@ export class Engine {
             !task_combat.boss &&
             this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
         )
-          freekill = outfit.equip_first(freekillSources);
+          freekill = outfit.equipFirst(freekillSources);
       }
 
       // Set up more wanderers if delay is needed
-      if (wanderers.length === 0 && this.has_delay(task))
-        wanderers = outfit.equip_until_capped(wandererSources);
+      if (wanderers.length === 0 && this.hasDelay(task))
+        wanderers = outfit.equipUntilCapped(wandererSources);
 
       // Prepare mood
       applyEffects(task.modifier || "", task.effects || []);
@@ -166,7 +166,7 @@ export class Engine {
           task_combat.can(MonsterStrategy.KillHard))
       )
         outfit.equip($item`cursed magnifying glass`);
-      outfit.equip_defaults();
+      outfit.equipDefaults();
       outfit.dress();
 
       // Prepare combat macro (after effects and outfit)

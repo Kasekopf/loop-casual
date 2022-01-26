@@ -45,9 +45,9 @@ export function main(): void {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = tasks.find(
       (task) =>
-        engine.has_delay(task) &&
+        engine.hasDelay(task) &&
         engine.available(task) &&
-        Outfit.create(task).can_equip(wanderer?.equip)
+        Outfit.create(task).canEquip(wanderer?.equip)
     );
     if (wanderer !== undefined && delay_burning !== undefined) {
       engine.execute(delay_burning, wanderer);

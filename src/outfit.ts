@@ -68,23 +68,23 @@ export class Outfit {
     }
   }
 
-  equip_first<T extends Resource>(resources: T[]): T | undefined {
+  equipFirst<T extends Resource>(resources: T[]): T | undefined {
     for (const resource of resources) {
       if (!resource.available()) continue;
       if (resource.chance && resource.chance() === 0) continue;
-      if (!this.can_equip(resource.equip)) continue;
+      if (!this.canEquip(resource.equip)) continue;
       if (!this.equip(resource.equip)) continue;
       return resource;
     }
     return undefined;
   }
 
-  equip_until_capped<T extends Resource>(resources: T[]): T[] {
+  equipUntilCapped<T extends Resource>(resources: T[]): T[] {
     const result: T[] = [];
     for (const resource of resources) {
       if (!resource.available()) continue;
       if (resource.chance && resource.chance() === 0) continue;
-      if (!this.can_equip(resource.equip)) continue;
+      if (!this.canEquip(resource.equip)) continue;
       if (!this.equip(resource.equip)) continue;
       result.push(resource);
       if (resource.chance && resource.chance() === 1) break;
@@ -92,9 +92,9 @@ export class Outfit {
     return result;
   }
 
-  can_equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
+  canEquip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
-    if (Array.isArray(item)) return item.every((val) => this.can_equip(val)); // TODO: smarter
+    if (Array.isArray(item)) return item.every((val) => this.canEquip(val)); // TODO: smarter
     if (!have(item)) return false;
 
     if (item instanceof Item) {
@@ -207,8 +207,8 @@ export class Outfit {
       // Run maximizer
       if (task.modifier.includes("item")) {
         if (
-          outfit.can_equip($item`li'l ninja costume`) &&
-          outfit.can_equip($familiar`Trick-or-Treating Tot`)
+          outfit.canEquip($item`li'l ninja costume`) &&
+          outfit.canEquip($familiar`Trick-or-Treating Tot`)
         ) {
           outfit.equip($item`li'l ninja costume`);
           outfit.equip($familiar`Trick-or-Treating Tot`);
@@ -225,7 +225,7 @@ export class Outfit {
     return outfit;
   }
 
-  public equip_defaults(): void {
+  public equipDefaults(): void {
     if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
     this.equip($item`lucky gold ring`);
 

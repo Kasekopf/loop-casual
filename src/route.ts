@@ -86,18 +86,18 @@ export function prioritize(tasks: Task[]): Task[] {
   }
 
   // Prioritize the routing list of tasks first
-  function set_priority_recursive(task: string, priority: number) {
+  function setPriorityRecursive(task: string, priority: number) {
     const old_priority = priorities.get(task);
     if (old_priority === undefined) throw `Unknown routing task ${task}`;
     if (old_priority[0] <= priority) return;
     priorities.set(task, [priority, old_priority[1]]);
 
     for (const requirement of old_priority[1].after) {
-      set_priority_recursive(requirement, priority - 0.01);
+      setPriorityRecursive(requirement, priority - 0.01);
     }
   }
   for (let i = 0; i < routing.length; i++) {
-    set_priority_recursive(routing[i], i);
+    setPriorityRecursive(routing[i], i);
   }
 
   // Sort all tasks by priority.
