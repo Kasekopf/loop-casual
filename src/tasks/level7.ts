@@ -196,8 +196,37 @@ const Nook: Task[] = [
     cap: 2,
   },
   {
+    name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
+    after: ["Start"],
+    ready: () => have($item`evil eye`),
+    completed: () => get("cyrptNookEvilness") <= 25,
+    do: (): void => {
+      cliExecute("use * evil eye");
+    },
+    freeaction: true,
+  },
+  {
+    name: "Nook Simple",
+    after: ["Start"],
+    prepare: tuneCape,
+    acquire: [{ item: $item`gravy boat` }],
+    ready: () => get("cryptNookEvilness") < 30 && !have($item`evil eye`),
+    completed: () => get("cyrptNookEvilness") <= 25,
+    do: $location`The Defiled Nook`,
+    post: (): void => {
+      while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
+    },
+    equip: tryCape($item`costume sword`, $item`gravy boat`),
+    modifier: "item 500max",
+    choices: { 155: 5, 1429: 1 },
+    combat: new CombatStrategy()
+      .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
+      .banish($monster`party skelteon`),
+    cap: 2,
+  },
+  {
     name: "Nook Boss",
-    after: ["Nook"],
+    after: ["Nook, Nook Eye, Nook Simple"],
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy(true).kill(),
