@@ -35,7 +35,7 @@ const ABoo: Task[] = [
     },
     do: $location`A-Boo Peak`,
     modifier: "item 667max",
-    equip: $items`Pantsgiving, A Light that Never Goes Out`,
+    equip: $items`A Light that Never Goes Out`,
     effects: $effects`Merry Smithsness`,
     combat: new CombatStrategy()
       .macro((): Macro => {
