@@ -1,5 +1,6 @@
 import {
   bjornifyFamiliar,
+  cliExecute,
   familiarWeight,
   floor,
   myLevel,
@@ -82,7 +83,12 @@ export const banishSources: BanishSource[] = [
   },
   {
     name: "Latte",
-    available: () => !get("_latteBanishUsed") && have($item`latte lovers member's mug`),
+    available: () =>
+      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
+      have($item`latte lovers member's mug`),
+    prepare: (): void => {
+      if (get("_latteBanishUsed")) cliExecute("latte refill cinnamon pumpkin vanilla"); // Always unlocked
+    },
     do: $skill`Throw Latte on Opponent`,
     equip: $item`latte lovers member's mug`,
   },
