@@ -47,8 +47,7 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar`) &&
-        this.modifier === undefined
+        !this.equips.has($slot`familiar`)
       ) {
         if (item === $item`cursed magnifying glass` && !canChargeVoid()) {
           // Cursed magnifying glass cannot trigger in Lefty
@@ -119,8 +118,7 @@ export class Outfit {
         slot === $slot`off-hand` &&
         have($familiar`Left-Hand Man`) &&
         this.familiar === undefined &&
-        !this.equips.has($slot`familiar`) &&
-        this.modifier === undefined
+        !this.equips.has($slot`familiar`)
       ) {
         return true;
       }
@@ -170,11 +168,26 @@ export class Outfit {
     }
 
     if (this.modifier) {
-      const requirements = Requirement.merge([
+      // Handle familiar equipment manually to avoid weird Left-Hand Man behavior
+      const fam_equip = this.equips.get($slot`familiar`);
+      if (fam_equip !== undefined) {
+        const index = targetEquipment.indexOf(fam_equip);
+        if (index > -1) targetEquipment.splice(index);
+      }
+
+      let requirements = Requirement.merge([
         new Requirement([this.modifier], {
           forceEquip: targetEquipment.concat(...accessoryEquips),
         }),
       ]);
+
+      if (fam_equip !== undefined) {
+        requirements = Requirement.merge([
+          requirements,
+          new Requirement([this.modifier], { preventSlot: [$slot`familiar`] }),
+        ]);
+      }
+
       if (!requirements.maximize()) {
         throw `Unable to maximize ${this.modifier}`;
       }
