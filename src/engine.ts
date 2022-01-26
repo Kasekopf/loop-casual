@@ -140,6 +140,7 @@ export class Engine {
         if (
           task_combat.can(MonsterStrategy.KillFree) ||
           (task_combat.can(MonsterStrategy.Kill) &&
+            !task_combat.boss &&
             this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
         )
           freekill = outfit.equip_first(freekillSources);

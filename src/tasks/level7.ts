@@ -83,7 +83,7 @@ const Alcove: Task[] = [
     after: ["Alcove"],
     completed: () => get("cyrptAlcoveEvilness") === 0,
     do: $location`The Defiled Alcove`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy(true).kill(),
     cap: 1,
   },
 ];
@@ -115,7 +115,7 @@ const Cranny: Task[] = [
     after: ["Cranny"],
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
-    combat: new CombatStrategy().killHard(),
+    combat: new CombatStrategy(true).killHard(),
     cap: 1,
   },
 ];
@@ -148,7 +148,7 @@ const Niche: Task[] = [
     after: ["Niche"],
     completed: () => get("cyrptNicheEvilness") === 0,
     do: $location`The Defiled Niche`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy(true).kill(),
     cap: 1,
   },
 ];
@@ -200,7 +200,7 @@ const Nook: Task[] = [
     after: ["Nook"],
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy(true).kill(),
     cap: 1,
   },
 ];
