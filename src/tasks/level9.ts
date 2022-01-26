@@ -1,5 +1,6 @@
 import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
 import {
+  $effect,
   $effects,
   $item,
   $items,
@@ -27,6 +28,9 @@ const ABoo: Task[] = [
   {
     name: "ABoo Clues",
     after: ["ABoo Start"],
+    acquire: [
+      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
+    ],
     priority: () => get("lastCopyableMonster") === $monster`toothy sklelton`, // After Defiled Nook
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     prepare: () => {
@@ -43,7 +47,7 @@ const ABoo: Task[] = [
           return new Macro()
             .trySkill($skill`Feel Nostalgic`)
             .trySkill(`Duplicate`)
-            .trySkill($skill`Feel Envy`);
+            .tryItem(`yellow rocket`);
         } else {
           return new Macro().trySkill($skill`Feel Envy`);
         }

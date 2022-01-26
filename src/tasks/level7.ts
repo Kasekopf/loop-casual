@@ -183,7 +183,7 @@ const Nook: Task[] = [
     familiar: $familiar`Melodramedary`,
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
-      .macro(slay_macro, $monster`spiny skelelton`)
+      .macro(new Macro().trySkill($skill`Feel Envy`).step(slay_macro), $monster`spiny skelelton`)
       .macro(
         new Macro()
           .trySkill($skill`Feel Nostalgic`)
