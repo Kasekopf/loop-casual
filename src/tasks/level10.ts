@@ -1,5 +1,6 @@
 import { containsText, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, have } from "libram";
+import { $item, $items, $location, $monster, have } from "libram";
+import { CombatStrategy } from "../combat";
 import { Limit, Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {
@@ -71,6 +72,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       equip: $items`Mohawk wig`,
       modifier: "-combat",
+      combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
       choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     },
     {
