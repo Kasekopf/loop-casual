@@ -172,7 +172,7 @@ export class Outfit {
       const fam_equip = this.equips.get($slot`familiar`);
       if (fam_equip !== undefined) {
         const index = targetEquipment.indexOf(fam_equip);
-        if (index > -1) targetEquipment.splice(index);
+        if (index > -1) targetEquipment.splice(index, 1);
       }
 
       let requirements = Requirement.merge([
@@ -184,7 +184,7 @@ export class Outfit {
       if (fam_equip !== undefined) {
         requirements = Requirement.merge([
           requirements,
-          new Requirement([this.modifier], { preventSlot: [$slot`familiar`] }),
+          new Requirement([], { preventSlot: [$slot`familiar`] }),
         ]);
       }
 
