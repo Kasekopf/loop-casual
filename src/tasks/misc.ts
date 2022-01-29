@@ -54,15 +54,15 @@ export const MiscQuest: Quest = {
       name: "Consume",
       after: ["Manor/Billiards"],
       completed: () =>
-        myDaycount() > 1 || myFullness() >= 10 || myInebriety() >= 14 || mySpleenUse() >= 5,
+        myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10 || mySpleenUse() >= 5,
       do: (): void => {
         // Save cleaners for aftercore
         const spice = get("spiceMelangeUsed");
         const mojo = get("currentMojoFilters");
         set("spiceMelangeUsed", true);
         set("currentMojoFilters", 3);
-        const food = max(10 - myFullness(), 0);
-        const drink = max(15 - myInebriety(), 0);
+        const food = max(5 - myFullness(), 0);
+        const drink = max(10 - myInebriety(), 0);
         const spleen = max(5 - mySpleenUse(), 0);
         cliExecute(`CONSUME ORGANS ${food} ${drink} ${spleen} NOMEAT`);
         set("spiceMelangeUsed", spice);
