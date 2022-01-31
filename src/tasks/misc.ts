@@ -53,8 +53,7 @@ export const MiscQuest: Quest = {
     {
       name: "Consume",
       after: ["Manor/Billiards"],
-      completed: () =>
-        myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10 || mySpleenUse() >= 5,
+      completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
       do: (): void => {
         // Save cleaners for aftercore
         const spice = get("spiceMelangeUsed");
