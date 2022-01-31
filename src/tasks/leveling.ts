@@ -223,9 +223,13 @@ export const LevelingQuest: Quest = {
             get("_neverendingPartyFreeTurns") >= 7 &&
             get("_feelPrideUsed") < 3 &&
             have($skill`Feel Pride`)
-          )
+          ) {
             return new Macro().skill($skill`Feel Pride`);
-          else return new Macro();
+          } else if (get("_neverendingPartyFreeTurns") >= 6 && have($item`cosmic bowling ball`)) {
+            return new Macro().skill($skill`Bowl Sideways`);
+          } else {
+            return new Macro();
+          }
         })
         .killHard(),
       modifier: "mainstat, 4exp",
