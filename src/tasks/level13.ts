@@ -304,7 +304,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       effects: $effects`Spiky Shell, Jalapeño Saucesphere, Psalm of Pointiness, Scarysauce`,
-      familiar: $familiar`Imitation Crab`,
+      familiar: $familiar`Shorter-Order Cook`,
       combat: new CombatStrategy(true).macro(new Macro().attack().repeat()),
       equip: $items`bejeweled cufflinks`,
       cap: 1,
