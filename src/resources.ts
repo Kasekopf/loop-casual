@@ -1,11 +1,14 @@
 import {
   bjornifyFamiliar,
+  buy,
   cliExecute,
   familiarWeight,
   floor,
+  mallPrice,
   myLevel,
   myTurncount,
   totalTurnsPlayed,
+  use,
   weightAdjustment,
 } from "kolmafia";
 import {
@@ -201,6 +204,8 @@ function availableBandersnatch(bonus: number) {
   );
 }
 
+const runawayValue = 0.8 * get("valueOfAdventure");
+
 export const runawaySources: RunawaySource[] = [
   {
     name: "Bowl Curveball",
@@ -259,6 +264,22 @@ export const runawaySources: RunawaySource[] = [
     equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`iFlail`, $item`iFlail`],
     do: new Macro().runaway(),
     chance: () => 1,
+  },
+  {
+    name: "Blank-Out",
+    prepare: (): void => {
+      if (!have($item`glob of Blank-Out`)) {
+        if (!have($item`bottle of Blank-Out`)) {
+          buy(1, $item`bottle of Blank-Out`, 5 * runawayValue);
+        }
+        use($item`bottle of Blank-Out`);
+      }
+    },
+    available: () =>
+      have($item`glob of Blank-Out`) ||
+      (mallPrice($item`bottle of Blank-Out`) < 5 * runawayValue && !get("_blankoutUsed")),
+    do: new Macro().tryItem($item`glob of Blank-Out`),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
   {
     name: "GAP",
