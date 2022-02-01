@@ -13,6 +13,7 @@ import {
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { runawayValue } from "../resources";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);
@@ -104,7 +105,9 @@ const Apartment: Task[] = [
     name: "Apartment",
     after: ["Open Apartment", "Office Files"], // Wait until after all needed pygmy witch lawyers are done
     completed: () => get("hiddenApartmentProgress") >= 7,
-    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
+    acquire: [
+      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
+    ],
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
       .kill($monster`ancient protector spirit (The Hidden Apartment Building)`)
@@ -157,7 +160,9 @@ const Office: Task[] = [
   {
     name: "Office Clip",
     after: ["Office Files"],
-    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000, optional: true }],
+    acquire: [
+      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
+    ],
     completed: () =>
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||
@@ -175,7 +180,9 @@ const Office: Task[] = [
   {
     name: "Office Boss",
     after: ["Office Clip"],
-    acquire: [{ item: $item`short writ of habeas corpus`, num: 1, price: 4000 }],
+    acquire: [
+      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
+    ],
     completed: () => get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
@@ -215,7 +222,7 @@ const Hospital: Task[] = [
     name: "Hospital",
     after: ["Open Hospital"],
     acquire: [
-      { item: $item`short writ of habeas corpus`, num: 1, price: 4000 },
+      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
       { item: $item`half-size scalpel` },
       { item: $item`head mirror` },
       { item: $item`surgical mask` },

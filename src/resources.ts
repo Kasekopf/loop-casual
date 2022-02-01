@@ -204,7 +204,7 @@ function availableBandersnatch(bonus: number) {
   );
 }
 
-const runawayValue = 0.8 * get("valueOfAdventure");
+export const runawayValue = 0.8 * get("valueOfAdventure");
 
 export const runawaySources: RunawaySource[] = [
   {
