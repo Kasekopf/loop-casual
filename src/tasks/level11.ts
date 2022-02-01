@@ -32,7 +32,11 @@ const Diary: Task[] = [
     name: "Buy Documents",
     after: ["Forest"],
     completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
-    do: () => buy(1, $item`forged identification documents`),
+    do: (): void => {
+      visitUrl("woods.php");
+      visitUrl("shop.php?whichshop=blackmarket");
+      buy(1, $item`forged identification documents`);
+    },
     cap: 1,
     freeaction: true,
   },
