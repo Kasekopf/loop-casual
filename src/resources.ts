@@ -142,6 +142,34 @@ export interface WandererSource extends Resource {
 
 export const wandererSources: WandererSource[] = [
   {
+    name: "Voted Legs",
+    available: () =>
+      have($item`"I Voted!" sticker`) &&
+      totalTurnsPlayed() % 11 === 1 &&
+      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
+      get("_voteFreeFights") < 3 &&
+      myLevel() >= 10 &&
+      have($item`mutant legs`),
+    equip: $items`"I Voted!" sticker, mutant legs`,
+    monster:
+      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    chance: () => 1, // when available
+  },
+  {
+    name: "Voted Arm",
+    available: () =>
+      have($item`"I Voted!" sticker`) &&
+      totalTurnsPlayed() % 11 === 1 &&
+      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
+      get("_voteFreeFights") < 3 &&
+      myLevel() >= 10 &&
+      have($item`mutant arm`),
+    equip: $items`"I Voted!" sticker, mutant arm`,
+    monster:
+      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    chance: () => 1, // when available
+  },
+  {
     name: "Voted",
     available: () =>
       have($item`"I Voted!" sticker`) &&
