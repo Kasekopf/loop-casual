@@ -8,6 +8,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  ensureEffect,
   get,
   have,
   Macro,
@@ -30,6 +31,9 @@ const Manor1: Task[] = [
     name: "Billiards",
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
+    prepare: () => {
+      if (!have($item`government-issued eyeshade`)) ensureEffect($effect`Influence of Sphere`);
+    },
     acquire: [{ item: $item`T.U.R.D.S. Key`, num: 1, price: 4000, optional: true }],
     ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
@@ -40,7 +44,9 @@ const Manor1: Task[] = [
       .banish($monster`pooltergeist`)
       .macro(new Macro().tryItem($item`T.U.R.D.S. Key`), $monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    effects: $effects`Chalky Hand, Influence of Sphere`,
+    equip: (): Item[] =>
+      have($item`government-issued eyeshade`) ? $items`government-issued eyeshade` : [],
+    effects: $effects`Chalky Hand`,
   },
   {
     name: "Library",
