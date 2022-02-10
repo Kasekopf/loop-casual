@@ -12,7 +12,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Limit, Quest, step, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const Diary: Task[] = [
@@ -27,6 +27,7 @@ const Diary: Task[] = [
     modifier: "+combat 5min",
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().flee($monster`blackberry bush`).kill(),
+    limit: { soft: 15 },
   },
   {
     name: "Buy Documents",
@@ -37,7 +38,7 @@ const Diary: Task[] = [
       visitUrl("shop.php?whichshop=blackmarket");
       buy(1, $item`forged identification documents`);
     },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -46,7 +47,7 @@ const Diary: Task[] = [
     completed: () => step("questL11Black") >= 4,
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -57,7 +58,7 @@ const Desert: Task[] = [
     completed: () => have($item`Shore Inc. Ship Trip Scrip`) || have($item`UV-resistant compass`),
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -65,7 +66,7 @@ const Desert: Task[] = [
     after: ["Misc/Unlock Beach", "Scrip"],
     completed: () => have($item`UV-resistant compass`),
     do: () => buy($coinmaster`The Shore, Inc. Gift Shop`, 1, $item`UV-resistant compass`),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -114,6 +115,7 @@ const Desert: Task[] = [
       cliExecute("use * desert sightseeing pamphlet");
       if (have($item`worm-riding hooks`)) use($item`drum machine`);
     },
+    limit: { soft: 20 },
     delay: 25,
     choices: { 805: 1 },
   },
@@ -144,7 +146,7 @@ const Pyramid: Task[] = [
     after: ["Desert", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
     completed: () => step("questL11Pyramid") >= 0,
     do: () => visitUrl("place.php?whichplace=desertbeach&action=db_pyramid1"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -153,14 +155,14 @@ const Pyramid: Task[] = [
     completed: () => step("questL11Pyramid") >= 1,
     do: $location`The Upper Chamber`,
     modifier: "+combat",
-    cap: 6,
+    limit: { turns: 6 },
   },
   {
     name: "Middle Chamber",
     after: ["Upper Chamber"],
     completed: () => get("controlRoomUnlock"),
     do: $location`The Middle Chamber`,
-    cap: new Limit(11),
+    limit: { turns: 11 },
     delay: 9,
   },
   {
@@ -170,7 +172,7 @@ const Pyramid: Task[] = [
     completed: () =>
       have($item`ancient bronze token`) || have($item`ancient bomb`) || get("pyramidBombUsed"),
     do: () => rotatePyramid(4),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Get Bomb",
@@ -178,7 +180,7 @@ const Pyramid: Task[] = [
     after: ["Get Token"],
     completed: () => have($item`ancient bomb`) || get("pyramidBombUsed"),
     do: () => rotatePyramid(3),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Use Bomb",
@@ -186,7 +188,7 @@ const Pyramid: Task[] = [
     after: ["Get Bomb"],
     completed: () => get("pyramidBombUsed"),
     do: () => rotatePyramid(1),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Boss",
@@ -199,7 +201,7 @@ const Pyramid: Task[] = [
         .attack()
         .repeat()
     ),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -212,7 +214,7 @@ export const MacguffinQuest: Quest = {
       ready: () => myLevel() >= 11,
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     ...Diary,
@@ -223,7 +225,7 @@ export const MacguffinQuest: Quest = {
       after: ["Boss"],
       completed: () => step("questL11MacGuffin") === 999,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

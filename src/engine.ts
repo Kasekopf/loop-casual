@@ -1,4 +1,4 @@
-import { Limit, Task } from "./tasks/structure";
+import { Task } from "./tasks/structure";
 import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import { BuiltCombatStrategy, CombatStrategy, MonsterStrategy } from "./combat";
 import { Outfit } from "./outfit";
@@ -63,20 +63,7 @@ export class Engine {
   public execute(task: Task, ...wanderers: WandererSource[]): void {
     debug(``);
     debug(`Executing ${task.name}`, "blue");
-
-    if (!(task.name in this.attempts)) {
-      this.attempts[task.name] = 0;
-    } else if (task.cap && typeof task.cap === "number" && this.attempts[task.name] >= task.cap) {
-      throw `Task ${task.name} did not complete within ${task.cap} attempts. Please check what went wrong.`;
-    } else if (
-      task.cap &&
-      task.cap instanceof Limit &&
-      task.do instanceof Location &&
-      task.do.turnsSpent >= task.cap.turns_spent
-    ) {
-      throw `Task ${task.name} did not complete within ${task.cap.turns_spent} attempts. Please check what went wrong.`;
-    }
-    this.attempts[task.name]++;
+    this.check_limits(task);
 
     // Get needed items
     for (const to_get of task.acquire || []) {
@@ -111,8 +98,10 @@ export class Engine {
       else choices[choice_id] = choice();
     }
     this.propertyManager.setChoices(choices);
-    const seen_halloweener =
-      task.do instanceof Location && task.do.noncombatQueue.includes("Wooof! Wooooooof!");
+    const ignored_noncombats = ["Wooof! Wooooooof!", "Seeing-Eyes Dog", "Lights Out in the"];
+    const ignored_noncombats_seen = ignored_noncombats.filter(
+      (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
+    );
 
     // Prepare basic equipment
     const outfit = Outfit.create(task);
@@ -205,17 +194,30 @@ export class Engine {
 
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 
+    // Mark the number of attempts (unless an ignored noncombat occured)
+    if (!(task.name in this.attempts)) this.attempts[task.name] = 0;
     if (
-      !seen_halloweener &&
-      task.do instanceof Location &&
-      (task.do.noncombatQueue.includes("Wooof! Wooooooof!") ||
-        task.do.noncombatQueue.includes("Seeing-Eyes Dog")) // TODO: Add more?
+      ignored_noncombats.filter(
+        (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
+      ).length === ignored_noncombats_seen.length
     ) {
-      // If the Halloweener dog triggered, do not count this as a task attempt
-      this.attempts[task.name] -= 1;
+      this.attempts[task.name]++;
     }
 
-    if (task.completed()) debug(`${task.name} completed!`, "blue");
-    else debug(`${task.name} not completed!`, "blue");
+    if (task.completed()) {
+      debug(`${task.name} completed!`, "blue");
+    } else {
+      debug(`${task.name} not completed!`, "blue");
+      this.check_limits(task); // Error if too many tries occur
+    }
+  }
+
+  public check_limits(task: Task): void {
+    if (task.limit.tries && this.attempts[task.name] >= task.limit.tries)
+      throw `Task ${task.name} did not complete within ${task.limit.tries} attempts. Please check what went wrong.`;
+    if (task.limit.soft && this.attempts[task.name] >= task.limit.soft)
+      throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).`;
+    if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns)
+      throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.`;
   }
 }

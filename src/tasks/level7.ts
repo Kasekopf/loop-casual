@@ -76,7 +76,7 @@ const Alcove: Task[] = [
     modifier: "init 850max, sword",
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
-    cap: 25,
+    limit: { turns: 25 },
   },
   {
     name: "Alcove Boss",
@@ -84,7 +84,7 @@ const Alcove: Task[] = [
     completed: () => get("cyrptAlcoveEvilness") === 0,
     do: $location`The Defiled Alcove`,
     combat: new CombatStrategy(true).kill(),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -108,7 +108,7 @@ const Cranny: Task[] = [
         ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       )
       .macro(slay_macro),
-    cap: 25,
+    limit: { turns: 25 },
   },
   {
     name: "Cranny Boss",
@@ -116,7 +116,7 @@ const Cranny: Task[] = [
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
     combat: new CombatStrategy(true).killHard(),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -141,7 +141,7 @@ const Niche: Task[] = [
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
       .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
-    cap: 25,
+    limit: { turns: 25 },
   },
   {
     name: "Niche Boss",
@@ -149,7 +149,7 @@ const Niche: Task[] = [
     completed: () => get("cyrptNicheEvilness") === 0,
     do: $location`The Defiled Niche`,
     combat: new CombatStrategy(true).kill(),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -193,7 +193,7 @@ const Nook: Task[] = [
         $monster`toothy sklelton`
       )
       .banish($monster`party skelteon`),
-    cap: 2,
+    limit: { tries: 2 },
   },
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
@@ -204,6 +204,7 @@ const Nook: Task[] = [
       cliExecute("use * evil eye");
     },
     freeaction: true,
+    limit: { tries: 9 },
   },
   {
     name: "Nook Simple",
@@ -222,7 +223,7 @@ const Nook: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
-    cap: 2,
+    limit: { tries: 2 },
   },
   {
     name: "Nook Boss",
@@ -230,7 +231,7 @@ const Nook: Task[] = [
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy(true).kill(),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -243,7 +244,7 @@ export const CryptQuest: Quest = {
       ready: () => myLevel() >= 7,
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     ...Alcove,
@@ -257,14 +258,14 @@ export const CryptQuest: Quest = {
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
       combat: new CombatStrategy(true).kill(),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Finish",
       after: ["Bonerdagon"],
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

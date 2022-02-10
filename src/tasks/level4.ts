@@ -12,7 +12,7 @@ export const BatQuest: Quest = {
       ready: () => myLevel() >= 4,
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -21,7 +21,7 @@ export const BatQuest: Quest = {
       acquire: [{ item: $item`sonar-in-a-biscuit` }],
       completed: () => step("questL04Bat") >= 3,
       do: () => use($item`sonar-in-a-biscuit`),
-      cap: 3,
+      limit: { tries: 3 },
       freeaction: true,
     },
     {
@@ -30,6 +30,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`),
+      limit: { turns: 7 },
       delay: 6,
     },
     {
@@ -37,7 +38,7 @@ export const BatQuest: Quest = {
       after: ["Boss Bat"],
       completed: () => step("questL04Bat") === 999,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

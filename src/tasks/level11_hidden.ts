@@ -30,6 +30,7 @@ const Temple: Task[] = [
     do: $location`The Spooky Forest`,
     choices: { 502: 2, 505: 2, 334: 1 },
     modifier: "-combat",
+    limit: { soft: 10 },
   },
   {
     name: "Forest Map",
@@ -38,6 +39,7 @@ const Temple: Task[] = [
     do: $location`The Spooky Forest`,
     choices: { 502: 3, 506: 3, 507: 1, 334: 1 },
     modifier: "-combat",
+    limit: { soft: 10 },
   },
   {
     name: "Forest Sapling",
@@ -46,6 +48,7 @@ const Temple: Task[] = [
     do: $location`The Spooky Forest`,
     choices: { 502: 1, 503: 3, 504: 3, 334: 1 },
     modifier: "-combat",
+    limit: { soft: 10 },
   },
   {
     name: "Open Temple",
@@ -53,7 +56,7 @@ const Temple: Task[] = [
     acquire: [{ item: $item`Spooky-Gro fertilizer` }],
     completed: () => step("questM16Temple") === 999,
     do: () => use($item`Spooky Temple map`),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -64,7 +67,7 @@ const Temple: Task[] = [
     do: $location`The Hidden Temple`,
     choices: { 579: 2, 582: 1 },
     effects: $effects`Stone-Faced`,
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Open City",
@@ -83,7 +86,7 @@ const Temple: Task[] = [
       manualChoice(125, 3);
     },
     effects: $effects`Stone-Faced`,
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -98,7 +101,7 @@ const Apartment: Task[] = [
     equip: $items`antique machete, dromedary drinking helmet`,
     familiar: $familiar`Melodramedary`,
     choices: { 781: 1 },
-    cap: 4,
+    limit: { tries: 4 },
     freecombat: true,
   },
   {
@@ -116,6 +119,7 @@ const Apartment: Task[] = [
       .flee(),
     equip: $items`Greatest American Pants`, // hack to avoid using banishers on shaman
     choices: { 780: 1 },
+    limit: { tries: 9 },
   },
   {
     name: "Finish Apartment",
@@ -123,7 +127,7 @@ const Apartment: Task[] = [
     completed: () => get("hiddenApartmentProgress") >= 8,
     do: $location`An Overgrown Shrine (Northwest)`,
     choices: { 781: 2 },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -137,7 +141,7 @@ const Office: Task[] = [
     equip: $items`antique machete, dromedary drinking helmet`,
     familiar: $familiar`Melodramedary`,
     choices: { 785: 1 },
-    cap: 4,
+    limit: { tries: 4 },
     freecombat: true,
   },
   {
@@ -156,6 +160,7 @@ const Office: Task[] = [
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
     choices: { 786: 2 },
+    limit: { tries: 10 },
   },
   {
     name: "Office Clip",
@@ -175,7 +180,7 @@ const Office: Task[] = [
         ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
       )
       .flee(),
-    cap: 9,
+    limit: { tries: 6 },
   },
   {
     name: "Office Boss",
@@ -193,7 +198,7 @@ const Office: Task[] = [
         ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
       )
       .flee(),
-    cap: 6,
+    limit: { tries: 5 },
   },
   {
     name: "Finish Office",
@@ -201,7 +206,7 @@ const Office: Task[] = [
     completed: () => get("hiddenOfficeProgress") >= 8,
     do: $location`An Overgrown Shrine (Northeast)`,
     choices: { 785: 2 },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -215,7 +220,7 @@ const Hospital: Task[] = [
     equip: $items`antique machete, dromedary drinking helmet`,
     familiar: $familiar`Melodramedary`,
     choices: { 783: 1 },
-    cap: 4,
+    limit: { tries: 4 },
     freecombat: true,
   },
   {
@@ -240,6 +245,7 @@ const Hospital: Task[] = [
       .flee(),
     equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
     choices: { 784: 1 },
+    limit: { soft: 10 },
   },
   {
     name: "Finish Hospital",
@@ -247,7 +253,7 @@ const Hospital: Task[] = [
     completed: () => get("hiddenHospitalProgress") >= 8,
     do: $location`An Overgrown Shrine (Southwest)`,
     choices: { 783: 2 },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -261,7 +267,7 @@ const Bowling: Task[] = [
     equip: $items`antique machete, dromedary drinking helmet`,
     familiar: $familiar`Melodramedary`,
     choices: { 787: 1 },
-    cap: 4,
+    limit: { tries: 4 },
     freecombat: true,
   },
   {
@@ -274,6 +280,7 @@ const Bowling: Task[] = [
       $monster`ancient protector spirit (The Hidden Bowling Alley)`
     ),
     choices: { 788: 1 },
+    limit: { tries: 5 },
   },
   {
     name: "Finish Bowling",
@@ -281,7 +288,7 @@ const Bowling: Task[] = [
     completed: () => get("hiddenBowlingAlleyProgress") >= 8,
     do: $location`An Overgrown Shrine (Southeast)`,
     choices: { 787: 2 },
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -303,7 +310,7 @@ export const HiddenQuest: Quest = {
       familiar: $familiar`Melodramedary`,
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
-      cap: 4,
+      limit: { tries: 4 },
     },
   ],
 };

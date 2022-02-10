@@ -1,7 +1,7 @@
 import { containsText, myLevel, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monster, have } from "libram";
 import { CombatStrategy } from "../combat";
-import { Limit, Quest, step } from "./structure";
+import { Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -12,7 +12,7 @@ export const GiantQuest: Quest = {
       ready: () => myLevel() >= 10,
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -21,7 +21,7 @@ export const GiantQuest: Quest = {
       acquire: [{ item: $item`enchanted bean` }],
       completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -30,6 +30,7 @@ export const GiantQuest: Quest = {
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
       modifier: "-combat",
+      limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
     },
@@ -43,6 +44,7 @@ export const GiantQuest: Quest = {
         ) || step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       modifier: "-combat",
+      limit: { soft: 20 },
       choices: { 670: 5, 669: 1, 671: 4 },
     },
     {
@@ -53,7 +55,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       equip: $items`amulet of extreme plot significance`,
       choices: { 670: 4 },
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Ground",
@@ -61,7 +63,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") >= 9,
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
-      cap: new Limit(11),
+      limit: { turns: 11 },
       delay: 10,
     },
     {
@@ -74,13 +76,14 @@ export const GiantQuest: Quest = {
       modifier: "-combat",
       combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
       choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
+      limit: { soft: 20 },
     },
     {
       name: "Finish",
       after: ["Top Floor"],
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
-      cap: 10,
+      limit: { soft: 10 },
       freeaction: true,
     },
   ],

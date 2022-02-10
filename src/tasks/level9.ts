@@ -23,7 +23,7 @@ const ABoo: Task[] = [
       $location`A-Boo Peak`.noncombatQueue.includes("Faction Traction = Inaction") ||
       get("booPeakProgress") < 50,
     do: $location`A-Boo Peak`,
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "ABoo Clues",
@@ -54,7 +54,7 @@ const ABoo: Task[] = [
       })
       .killHard(),
     choices: { 611: 1, 1430: 1 },
-    cap: 4,
+    limit: { tries: 4 },
   },
   {
     name: "ABoo Horror",
@@ -67,14 +67,14 @@ const ABoo: Task[] = [
     do: $location`A-Boo Peak`,
     modifier: "spooky res, cold res",
     choices: { 611: 1 },
-    cap: 4,
+    limit: { tries: 4 },
   },
   {
     name: "ABoo Peak",
     after: ["ABoo Horror"],
     completed: () => get("booPeakLit"),
     do: $location`A-Boo Peak`,
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -86,14 +86,14 @@ const Oil: Task[] = [
     do: $location`Oil Peak`,
     modifier: "ML",
     combat: new CombatStrategy().kill(),
-    cap: 6,
+    limit: { tries: 6 },
   },
   {
     name: "Oil Peak",
     after: ["Oil Kill"],
     completed: () => get("oilPeakLit"),
     do: $location`Oil Peak`,
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -108,7 +108,7 @@ const Twin: Task[] = [
     choices: { 606: 1, 607: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
     modifier: "stench res 4min",
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Twin Item",
@@ -120,7 +120,7 @@ const Twin: Task[] = [
     choices: { 606: 2, 608: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
     modifier: "item 50min",
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Twin Oil",
@@ -131,7 +131,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 3, 609: 1, 616: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }, { item: $item`jar of oil` }],
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Twin Init",
@@ -142,7 +142,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -155,7 +155,7 @@ export const ChasmQuest: Quest = {
       ready: () => myLevel() >= 9,
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -171,7 +171,7 @@ export const ChasmQuest: Quest = {
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`);
       },
       acquire: [{ item: $item`snow berries`, num: 12 }],
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -179,7 +179,7 @@ export const ChasmQuest: Quest = {
       after: ["Bridge"],
       completed: () => step("questL09Topping") >= 2,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     ...ABoo,
@@ -190,7 +190,7 @@ export const ChasmQuest: Quest = {
       after: ["ABoo Peak", "Oil Peak", "Twin Init"],
       completed: () => step("questL09Topping") === 999,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

@@ -7,19 +7,18 @@ export type Quest = {
   tasks: Task[];
 };
 
-export class Limit {
-  turns_spent: number;
-  constructor(turns_spent: number) {
-    this.turns_spent = turns_spent;
-  }
-}
-
 export type AcquireItem = {
   item: Item;
   num?: number;
   price?: number;
   useful?: () => boolean;
   optional?: boolean;
+};
+
+export type Limit = {
+  tries?: number;
+  turns?: number;
+  soft?: number;
 };
 
 export type Task = {
@@ -38,10 +37,10 @@ export type Task = {
   equip?: Item[] | (() => Item[]);
   acquire?: AcquireItem[];
   familiar?: Familiar;
-  cap?: number | Limit;
   delay?: number | (() => number);
   freeaction?: boolean;
   freecombat?: boolean;
+  limit: Limit;
 };
 
 export function step(questName: StringProperty): number {

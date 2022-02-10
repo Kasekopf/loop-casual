@@ -53,6 +53,7 @@ export const LevelingQuest: Quest = {
       completed: () => have($effect`That's Just Cloud-Talk, Man`) || myLevel() >= 10,
       do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
       freeaction: true,
+      limit: { tries: 1 },
     },
     {
       name: "Daycare",
@@ -77,7 +78,7 @@ export const LevelingQuest: Quest = {
         runChoice(3);
         runChoice(2);
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -87,7 +88,7 @@ export const LevelingQuest: Quest = {
       completed: () => get("_bastilleGames") !== 0 || myLevel() >= 13,
       do: () =>
         cliExecute(`bastille ${myPrimestat() === $stat`Mysticality` ? "myst" : myPrimestat()}`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -106,6 +107,7 @@ export const LevelingQuest: Quest = {
       },
       do: () => visitUrl("place.php?whichplace=chateau&action=chateau_restbox"),
       freeaction: true,
+      limit: { soft: 40 },
     },
     {
       name: "LOV Tunnel",
@@ -118,7 +120,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
-      cap: 1,
+      limit: { tries: 1 },
       freecombat: true,
     },
     {
@@ -152,7 +154,7 @@ export const LevelingQuest: Quest = {
       equip: $items`Greatest American Pants, familiar scrapbook`,
       effects: $effects`Spirit of Peppermint`,
       modifier: "mainstat, 4exp, HP",
-      cap: 10,
+      limit: { tries: 10 },
     },
     {
       name: "God Lobster",
@@ -169,7 +171,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`God Lobster`,
-      cap: 3,
+      limit: { tries: 3 },
       freecombat: true,
     },
     {
@@ -182,7 +184,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
-      cap: 5,
+      limit: { tries: 5 },
       freecombat: true,
     },
     {
@@ -207,7 +209,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
       familiar: $familiar`Pocket Professor`,
-      cap: 1,
+      limit: { tries: 1 },
       freecombat: true,
     },
     {
@@ -235,7 +237,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Galloping Grill`,
-      cap: 11,
+      limit: { tries: 11 },
       freecombat: true,
     },
     {
@@ -249,7 +251,7 @@ export const LevelingQuest: Quest = {
       modifier: "mainstat, 4exp",
       equip: $items`makeshift garbage shirt`,
       familiar: $familiar`Machine Elf`,
-      cap: 5,
+      limit: { tries: 5 },
       freecombat: true,
     },
     {
@@ -263,7 +265,7 @@ export const LevelingQuest: Quest = {
         set("leafletCompleted", true);
       },
       freeaction: true,
-      cap: 1,
+      limit: { tries: 1 },
     },
   ],
 };

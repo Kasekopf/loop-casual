@@ -12,7 +12,7 @@ export const McLargeHugeQuest: Quest = {
       ready: () => myLevel() >= 8,
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -29,7 +29,7 @@ export const McLargeHugeQuest: Quest = {
         visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // request ore
         visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // provide
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -45,7 +45,7 @@ export const McLargeHugeQuest: Quest = {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
       },
       modifier: "cold res 5min",
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Peak",
@@ -54,14 +54,14 @@ export const McLargeHugeQuest: Quest = {
       do: $location`Mist-Shrouded Peak`,
       modifier: "cold res 5min",
       combat: new CombatStrategy(true).kill(),
-      cap: 4,
+      limit: { tries: 4 },
     },
     {
       name: "Finish",
       after: ["Peak"],
       completed: () => step("questL08Trapper") === 999,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

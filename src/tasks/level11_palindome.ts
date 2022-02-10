@@ -31,7 +31,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") >= 1,
     do: $location`The Copperhead Club`,
     choices: { 1074: 1 },
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Copperhead",
@@ -41,7 +41,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999,
     do: $location`The Copperhead Club`,
     choices: { 852: 1, 853: 1, 854: 1 },
-    cap: 16,
+    limit: { tries: 16 },
   },
   {
     name: "Bat Snake",
@@ -50,6 +50,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999 || have($item`The Stankara Stone`),
     do: $location`The Batrat and Ratbat Burrow`,
     combat: new CombatStrategy().kill($monster`Batsnake`),
+    limit: { soft: 10 },
     delay: 5,
   },
   {
@@ -62,6 +63,7 @@ const Copperhead: Task[] = [
       if (!have($item`li'l ninja costume`)) return new Macro().attack().repeat();
       else return new Macro();
     }),
+    limit: { soft: 10 },
     delay: 5,
   },
   {
@@ -74,6 +76,7 @@ const Copperhead: Task[] = [
     modifier: "-combat",
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
+    limit: { soft: 10 },
     delay: 5,
   },
   {
@@ -84,6 +87,7 @@ const Copperhead: Task[] = [
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     modifier: "+combat",
     combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
+    limit: { soft: 10 },
     delay: 5,
   },
 ];
@@ -95,9 +99,9 @@ const Zepplin: Task[] = [
     completed: () => step("questL11Ron") >= 2,
     acquire: [{ item: $item`11-leaf clover` }],
     prepare: (): void => {
-      if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
-      ensureEffect($effect`Dirty Pear`);
       if (get("zeppelinProtestors") < 80) {
+        if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
+        ensureEffect($effect`Dirty Pear`);
         use($item`11-leaf clover`);
       }
     },
@@ -107,6 +111,7 @@ const Zepplin: Task[] = [
     modifier: "sleaze dmg, sleaze spell dmg",
     familiar: $familiar`Left-Hand Man`,
     freeaction: true, // fully maximize outfit
+    limit: { soft: 4 },
   },
   {
     name: "Zepplin",
@@ -125,6 +130,7 @@ const Zepplin: Task[] = [
       }, ...$monsters`man with the red buttons, red skeleton, red butler`)
       .banish(...$monsters`Red Herring, Red Snapper`)
       .kill(),
+    limit: { soft: 10 },
   },
 ];
 
@@ -141,7 +147,7 @@ const Dome: Task[] = [
     ],
     completed: () => have($item`Talisman o' Namsilat`),
     do: () => create($item`Talisman o' Namsilat`),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -155,6 +161,7 @@ const Dome: Task[] = [
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .item($item`disposable instant camera`, ...$monsters`Bob Racecar, Racecar Bob`)
       .kill(),
+    limit: { soft: 20 },
     modifier: "-combat",
   },
   {
@@ -166,6 +173,7 @@ const Dome: Task[] = [
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .kill(),
+    limit: { soft: 20 },
     modifier: "-combat",
   },
   {
@@ -179,6 +187,7 @@ const Dome: Task[] = [
     do: $location`Inside the Palindome`,
     equip: $items`Talisman o' Namsilat`,
     modifier: "-combat",
+    limit: { soft: 20 },
   },
   {
     name: "Alarm Gem",
@@ -196,6 +205,7 @@ const Dome: Task[] = [
       uneffect($effect`Beaten Up`);
     },
     equip: $items`Talisman o' Namsilat`,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -207,6 +217,7 @@ const Dome: Task[] = [
       visitUrl("place.php?whichplace=palindome&action=pal_mrlabel");
     },
     equip: $items`Talisman o' Namsilat`,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -228,7 +239,7 @@ export const PalindomeQuest: Quest = {
       equip: $items`Talisman o' Namsilat, Mega Gem`,
       choices: { 131: 1 },
       combat: new CombatStrategy(true).kill(),
-      cap: 1,
+      limit: { tries: 1 },
     },
   ],
 };

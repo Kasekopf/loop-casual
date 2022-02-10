@@ -12,7 +12,7 @@ export const FriarQuest: Quest = {
       ready: () => myLevel() >= 6,
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -21,7 +21,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
       modifier: "-combat",
-      cap: 17,
+      limit: { tries: 17 },
     },
     {
       name: "Neck",
@@ -30,7 +30,7 @@ export const FriarQuest: Quest = {
       do: $location`The Dark Neck of the Woods`,
       modifier: "-combat",
       choices: { 1428: 2 },
-      cap: 17,
+      limit: { tries: 17 },
     },
     {
       name: "Elbow",
@@ -38,14 +38,14 @@ export const FriarQuest: Quest = {
       completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
       modifier: "-combat",
-      cap: 17,
+      limit: { tries: 17 },
     },
     {
       name: "Finish",
       after: ["Heart", "Neck", "Elbow"],
       completed: () => step("questL06Friar") === 999,
       do: () => visitUrl("friars.php?action=ritual&pwd"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],
@@ -62,7 +62,7 @@ export const OrganQuest: Quest = {
         visitUrl("pandamonium.php?action=temp");
         visitUrl("pandamonium.php?action=sven");
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -74,7 +74,7 @@ export const OrganQuest: Quest = {
         { item: $item`bus pass`, num: 5 },
       ],
       do: () => visitUrl("pandamonium.php?action=moan"),
-      cap: 2,
+      limit: { tries: 2 },
       freeaction: true,
     },
     {
@@ -91,6 +91,7 @@ export const OrganQuest: Quest = {
         return true;
       },
       do: $location`Infernal Rackets Backstage`,
+      limit: { soft: 30 },
       modifier: "-combat",
     },
     {
@@ -111,7 +112,7 @@ export const OrganQuest: Quest = {
           visitUrl(`pandamonium.php?action=sven&bandmember=${member}&togive=${item}&preaction=try`);
         }
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -123,6 +124,7 @@ export const OrganQuest: Quest = {
       combat: new CombatStrategy().kill(
         ...$monsters`Carbuncle Top, Larry of the Field of Signs, Victor the Insult Comic Hellhound`
       ),
+      limit: { soft: 30 },
     },
     {
       name: "Lollipop",
@@ -130,21 +132,21 @@ export const OrganQuest: Quest = {
       completed: () => have($item`Azazel's lollipop`) || step("questM10Azazel") === 999,
       do: () => visitUrl("pandamonium.php?action=mourn&preaction=observe"),
       equip: $items`observational glasses`,
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Azazel",
       after: ["Tutu", "Unicorn", "Lollipop"],
       completed: () => step("questM10Azazel") === 999,
       do: () => visitUrl("pandamonium.php?action=temp"),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Finish",
       after: ["Azazel"],
       completed: () => have($skill`Liver of Steel`),
       do: () => drink($item`steel margarita`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

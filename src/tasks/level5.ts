@@ -12,7 +12,7 @@ export const KnobQuest: Quest = {
       ready: () => myLevel() >= 5,
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -21,7 +21,7 @@ export const KnobQuest: Quest = {
       completed: () => have($item`Knob Goblin encryption key`) || step("questL05Goblin") > 0,
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
-      cap: 12, // TODO: Should be 11 if choice 118 counts for delay
+      limit: { tries: 11 },
       delay: 10,
     },
     {
@@ -29,7 +29,7 @@ export const KnobQuest: Quest = {
       after: ["Start", "Outskirts"],
       completed: () => step("questL05Goblin") >= 1,
       do: () => use($item`Cobb's Knob map`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -44,7 +44,7 @@ export const KnobQuest: Quest = {
       do: $location`Throne Room`,
       combat: new CombatStrategy().kill($monster`Knob Goblin King`),
       effects: $effects`Knob Goblin Perfume`,
-      cap: 1,
+      limit: { tries: 1 },
     },
   ],
 };

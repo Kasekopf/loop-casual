@@ -38,7 +38,7 @@ export const MiscQuest: Quest = {
       after: [],
       completed: () => have($item`bitchin' meatcar`) || have($item`Desert Bus pass`),
       do: () => cliExecute("acquire 1 bitchin' meatcar"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -47,7 +47,7 @@ export const MiscQuest: Quest = {
       completed: () =>
         have($item`dingy dinghy`) || have($item`junk junk`) || have($item`skeletal skiff`),
       do: () => cliExecute("acquire skeletal skiff"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -67,7 +67,7 @@ export const MiscQuest: Quest = {
         set("spiceMelangeUsed", spice);
         set("currentMojoFilters", mojo);
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -75,7 +75,7 @@ export const MiscQuest: Quest = {
       after: [],
       completed: () => have($item`fish hatchet`),
       do: () => cliExecute("acquire 1 fish hatchet"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -89,7 +89,7 @@ export const MiscQuest: Quest = {
       familiar: $familiar`Shorter-Order Cook`,
       equip: $items`blue plate`,
       freeaction: true,
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Voting",
@@ -177,7 +177,7 @@ export const MiscQuest: Quest = {
           `choice.php?option=1&whichchoice=1331&g=${monsterVote}&local[]=${firstInit}&local[]=${secondInit}`
         );
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],
@@ -198,7 +198,7 @@ export const KeysQuest: Quest = {
       after: [],
       completed: () => get("_deckCardsDrawn") > 0,
       do: () => cliExecute("cheat tower"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -215,7 +215,7 @@ export const KeysQuest: Quest = {
           else return 3;
         },
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -232,6 +232,7 @@ export const KeysQuest: Quest = {
           .repeat()
       ),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+      limit: { soft: 10 },
     },
     {
       name: "Daily Dungeon",
@@ -241,6 +242,7 @@ export const KeysQuest: Quest = {
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+      limit: { tries: 11 },
     },
     {
       name: "Finish",
@@ -249,7 +251,7 @@ export const KeysQuest: Quest = {
       do: (): void => {
         throw "Unable to obtain enough fat loot tokens";
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

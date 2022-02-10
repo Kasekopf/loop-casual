@@ -14,7 +14,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "init",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -28,7 +28,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "moxie",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -42,7 +42,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "muscle",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -56,7 +56,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "mysticality",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -70,7 +70,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "hot dmg, hot spell dmg",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -84,7 +84,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "cold dmg, cold spell dmg",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -98,7 +98,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "spooky dmg, spooky spell dmg",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -112,7 +112,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "stench dmg, stench spell dmg",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -126,7 +126,7 @@ const Challenges: Task[] = [
       runChoice(6);
     },
     modifier: "sleaze dmg, sleaze spell dmg",
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -138,7 +138,7 @@ const ChallengeBosses: Task[] = [
     completed: () => get("nsContestants1") === 0,
     do: $location`Fastest Adventurer Contest`,
     combat: new CombatStrategy(true).killHard(),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Stat Boss",
@@ -146,7 +146,7 @@ const ChallengeBosses: Task[] = [
     completed: () => get("nsContestants2") === 0,
     do: $location`A Crowd of (Stat) Adventurers`,
     combat: new CombatStrategy(true).killHard(),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Element Boss",
@@ -160,7 +160,7 @@ const ChallengeBosses: Task[] = [
     completed: () => get("nsContestants3") === 0,
     do: $location`A Crowd of (Element) Adventurers`,
     combat: new CombatStrategy(true).killHard(),
-    cap: 1,
+    limit: { tries: 1 },
   },
 ];
 
@@ -171,7 +171,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`Boris's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Boris"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock1"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -180,7 +180,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`Jarlsberg's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Jarlsberg"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock2"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -189,7 +189,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`Sneaky Pete's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Sneaky Pete"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock3"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -198,7 +198,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`Richard's star key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Richard's star key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock4"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -207,7 +207,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`digital key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock5"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -216,7 +216,7 @@ const Door: Task[] = [
     acquire: [{ item: $item`skeleton key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("skeleton key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock6"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -231,7 +231,7 @@ const Door: Task[] = [
     ],
     completed: () => step("questL13Final") > 5,
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_doorknob"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -258,7 +258,7 @@ export const TowerQuest: Quest = {
       ready: () => myLevel() >= 13,
       completed: () => step("questL13Final") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     ...Challenges,
@@ -272,7 +272,7 @@ export const TowerQuest: Quest = {
         runChoice(-1);
       },
       choices: { 1003: 4 },
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Frank",
@@ -283,7 +283,7 @@ export const TowerQuest: Quest = {
         runChoice(-1);
       },
       choices: { 1020: 1, 1021: 1, 1022: 1 },
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Maze",
@@ -294,7 +294,7 @@ export const TowerQuest: Quest = {
       choices: { 1004: 1, 1005: 2, 1008: 2, 1011: 2, 1013: 1, 1022: 1 },
       modifier: "hot res, cold res, stench res, spooky res, sleaze res",
       familiar: $familiar`Exotic Parrot`,
-      cap: 1,
+      limit: { tries: 1 },
     },
     ...Door,
     {
@@ -307,7 +307,7 @@ export const TowerQuest: Quest = {
       familiar: $familiar`Shorter-Order Cook`,
       combat: new CombatStrategy(true).macro(new Macro().attack().repeat()),
       equip: $items`bejeweled cufflinks`,
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Wall of Meat",
@@ -317,7 +317,7 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 2`,
       modifier: "meat",
       combat: new CombatStrategy(true).killHard(),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Wall of Bones",
@@ -327,7 +327,7 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 3`,
       modifier: "spell dmg",
       combat: new CombatStrategy(true).macro(new Macro().skill($skill`Garbage Nova`).repeat()),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Mirror",
@@ -336,7 +336,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 9,
       do: $location`Tower Level 4`,
       choices: { 1015: 2 },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -350,7 +350,7 @@ export const TowerQuest: Quest = {
       combat: new CombatStrategy(true).macro(
         new Macro().item([$item`gauze garter`, $item`gauze garter`]).repeat()
       ),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Naughty Sorceress",
@@ -360,14 +360,14 @@ export const TowerQuest: Quest = {
       do: $location`The Naughty Sorceress' Chamber`,
       modifier: "muscle",
       combat: new CombatStrategy(true).kill(),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Finish",
       after: ["Naughty Sorceress"],
       completed: () => step("questL13Final") === 999,
       do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

@@ -13,7 +13,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Limit, Quest, step, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const Manor1: Task[] = [
@@ -25,7 +25,7 @@ const Manor1: Task[] = [
     modifier: "stench res, hot res",
     choices: { 893: 2 },
     combat: new CombatStrategy().kill(),
-    cap: new Limit(7),
+    limit: { turns: 7 },
   },
   {
     name: "Billiards",
@@ -47,6 +47,7 @@ const Manor1: Task[] = [
     equip: (): Item[] =>
       have($item`government-issued eyeshade`) ? $items`government-issued eyeshade` : [],
     effects: $effects`Chalky Hand`,
+    limit: { soft: 10 },
   },
   {
     name: "Library",
@@ -55,13 +56,14 @@ const Manor1: Task[] = [
     do: $location`The Haunted Library`,
     combat: new CombatStrategy().banish(...$monsters`banshee librarian, bookbat`).kill(),
     choices: { 163: 4, 888: 4, 889: 4, 894: 1 },
+    limit: { tries: 7 },
   },
   {
     name: "Finish Floor1",
     after: ["Library"],
     completed: () => step("questM20Necklace") === 999,
     do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -72,7 +74,7 @@ const Manor2: Task[] = [
     after: ["Finish Floor1"],
     completed: () => step("questM21Dance") >= 1,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -81,6 +83,7 @@ const Manor2: Task[] = [
     completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
+    limit: { turns: 5 },
     delay: 5,
   },
   {
@@ -90,7 +93,7 @@ const Manor2: Task[] = [
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
     modifier: "-combat",
-    delay: 5,
+    limit: { soft: 10 },
   },
   {
     name: "Bathroom Delay",
@@ -99,6 +102,7 @@ const Manor2: Task[] = [
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
+    limit: { turns: 5 },
     delay: 5,
   },
   {
@@ -109,7 +113,7 @@ const Manor2: Task[] = [
     choices: { 881: 1, 105: 1, 892: 1 },
     modifier: "-combat",
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
-    delay: 5,
+    limit: { soft: 10 },
   },
   {
     name: "Bedroom",
@@ -125,20 +129,21 @@ const Manor2: Task[] = [
       ),
     equip: $items`Pantsgiving`,
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
+    limit: { turns: 6 },
   },
   {
     name: "Open Ballroom",
     after: ["Gallery", "Bathroom", "Bedroom"],
     completed: () => step("questM21Dance") >= 3,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
-    cap: 1,
+    limit: { tries: 1 },
   },
   {
     name: "Finish Floor2",
     after: ["Open Ballroom"],
     completed: () => step("questM21Dance") >= 4,
     do: $location`The Haunted Ballroom`,
-    cap: new Limit(1),
+    limit: { turns: 1 },
   },
 ];
 
@@ -149,6 +154,7 @@ const ManorBasement: Task[] = [
     completed: () => $location`The Haunted Ballroom`.turnsSpent >= 5 || step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
     choices: { 90: 3, 106: 4, 921: 1 },
+    limit: { turns: 5 },
     delay: 5,
   },
   {
@@ -158,7 +164,7 @@ const ManorBasement: Task[] = [
     do: $location`The Haunted Ballroom`,
     modifier: "-combat",
     choices: { 90: 3, 106: 4, 921: 1 },
-    delay: 5,
+    limit: { soft: 10 },
   },
   {
     name: "Learn Recipe",
@@ -169,6 +175,7 @@ const ManorBasement: Task[] = [
       use($item`recipe: mortar-dissolving solution`);
     },
     equip: $items`Lord Spookyraven's spectacles`,
+    limit: { tries: 1 },
   },
   {
     name: "Wine Cellar",
@@ -191,6 +198,7 @@ const ManorBasement: Task[] = [
       .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
       .banish(...$monsters`mad wino, skeletal sommelier`)
       .killFree(),
+    limit: { soft: 10 },
   },
   {
     name: "Laundry Room",
@@ -216,6 +224,7 @@ const ManorBasement: Task[] = [
       )
       .banish(...$monsters`plaid ghost, possessed laundry press`)
       .killFree(),
+    limit: { soft: 10 },
   },
   {
     name: "Fulminate",
@@ -223,7 +232,7 @@ const ManorBasement: Task[] = [
     completed: () =>
       have($item`unstable fulminate`) || have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: () => create($item`unstable fulminate`),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
   {
@@ -237,13 +246,14 @@ const ManorBasement: Task[] = [
     combat: new CombatStrategy()
       .kill($monster`monstrous boiler`)
       .banish(...$monsters`coaltergeist, steam elemental`),
+    limit: { soft: 10 },
   },
   {
     name: "Blow Wall",
     after: ["Boiler Room"],
     completed: () => step("questL11Manor") >= 3,
     do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberwall"),
-    cap: 1,
+    limit: { tries: 1 },
     freeaction: true,
   },
 ];
@@ -256,7 +266,7 @@ export const ManorQuest: Quest = {
       after: [],
       completed: () => step("questM20Necklace") >= 0,
       do: () => use($item`telegram from Lady Spookyraven`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     ...Manor1,
@@ -268,7 +278,7 @@ export const ManorQuest: Quest = {
       completed: () => step("questL11Manor") >= 999,
       do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberboss"),
       combat: new CombatStrategy(true).kill(),
-      cap: 1,
+      limit: { tries: 1 },
     },
   ],
 };

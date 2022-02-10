@@ -57,7 +57,7 @@ export const WarQuest: Quest = {
       ready: () => myLevel() >= 12,
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -73,6 +73,7 @@ export const WarQuest: Quest = {
       do: $location`Hippy Camp`,
       modifier: "-combat",
       choices: { 142: 3, 1433: 3 },
+      limit: { soft: 20 },
     },
     {
       name: "Fluffers",
@@ -86,7 +87,7 @@ export const WarQuest: Quest = {
           use($item`stuffing fluffer`);
         }
       },
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     // Kill whichever side the fluffers finish off first
@@ -101,7 +102,7 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
       combat: new CombatStrategy(true).killHard(),
-      cap: 1,
+      limit: { tries: 1 },
     },
     {
       name: "Boss Frat",
@@ -119,7 +120,7 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
       combat: new CombatStrategy(true).killHard(),
-      cap: 1,
+      limit: { tries: 1 },
     },
   ],
 };

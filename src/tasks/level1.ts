@@ -10,7 +10,7 @@ export const TootQuest: Quest = {
       after: [],
       completed: () => step("questM05Toot") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -18,7 +18,7 @@ export const TootQuest: Quest = {
       after: ["Start"],
       completed: () => step("questM05Toot") > 0,
       do: () => visitUrl("tutorial.php?action=toot"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -26,7 +26,7 @@ export const TootQuest: Quest = {
       after: ["Toot"],
       completed: () => step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`),
       do: () => use($item`letter from King Ralph XI`),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

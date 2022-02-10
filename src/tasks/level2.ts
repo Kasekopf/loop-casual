@@ -11,7 +11,7 @@ export const MosquitoQuest: Quest = {
       ready: () => myLevel() >= 2,
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
@@ -20,7 +20,7 @@ export const MosquitoQuest: Quest = {
       completed: () => $location`The Spooky Forest`.turnsSpent >= 5 || step("questL02Larva") >= 1,
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },
-      cap: 5,
+      limit: { tries: 5 },
       delay: 5,
     },
     {
@@ -30,13 +30,14 @@ export const MosquitoQuest: Quest = {
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },
       modifier: "-combat",
+      limit: { soft: 20 },
     },
     {
       name: "Finish",
       after: ["Mosquito"],
       completed: () => step("questL02Larva") === 999,
       do: () => visitUrl("council.php"),
-      cap: 1,
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],
