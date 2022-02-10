@@ -5,7 +5,7 @@ import {
   myBuffedstat,
   weaponType,
 } from "kolmafia";
-import { $item, $skill, $slot, $stat, Macro } from "libram";
+import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, Macro } from "libram";
 import { BanishSource, FreekillSource, RunawaySource, WandererSource } from "./resources";
 
 export enum MonsterStrategy {
@@ -125,6 +125,8 @@ function undelay(macro: DelayedMacro): Macro {
   else return macro();
 }
 
+const holidayMonsters = getTodaysHolidayWanderers();
+
 export class CombatStrategy {
   default_strategy: MonsterStrategy = MonsterStrategy.RunAway;
   default_macro?: DelayedMacro;
@@ -134,7 +136,11 @@ export class CombatStrategy {
 
   constructor(boss?: boolean) {
     this.boss = boss ?? false;
+
+    // TODO: better detection of which zones holiday monsters can appear
+    if (holidayMonsters.length > 0 && !this.boss) this.flee(...holidayMonsters);
   }
+
   apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
       this.default_strategy = strategy;
