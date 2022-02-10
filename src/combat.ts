@@ -185,3 +185,7 @@ export class CombatStrategy {
     return Array.from(this.strategy.keys()).filter((key) => this.strategy.get(key) === do_this);
   }
 }
+
+export function main(): void {
+  Macro.load().submit();
+}

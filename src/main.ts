@@ -28,7 +28,7 @@ export function main(): void {
     print("You have too much meat; closeting some during execution.");
     cliExecute(`closet put ${myMeat() - 2000000} meat`);
   }
-  cliExecute("ccs garbo");
+  cliExecute("ccs loopcasual");
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
