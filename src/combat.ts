@@ -1,4 +1,10 @@
-import { equippedItem, monsterDefense, myBuffedstat, weaponType } from "kolmafia";
+import {
+  equippedItem,
+  monsterDefense,
+  monsterLevelAdjustment,
+  myBuffedstat,
+  weaponType,
+} from "kolmafia";
 import { $item, $skill, $slot, $stat, Macro } from "libram";
 import { BanishSource, FreekillSource, RunawaySource, WandererSource } from "./resources";
 
@@ -60,6 +66,7 @@ export class BuiltCombatStrategy {
     // Upgrade for kills that happen to be difficult
     if (
       strategy === MonsterStrategy.Kill &&
+      this.use_freekill === undefined &&
       monster &&
       monsterDefense(monster) * 1.25 > myBuffedstat(weaponType(equippedItem($slot`Weapon`)))
     ) {
@@ -89,6 +96,7 @@ export class BuiltCombatStrategy {
       case MonsterStrategy.Kill:
         if (this.use_freekill !== undefined && !(monster?.boss || this.boss))
           return this.use_freekill;
+        if (monsterLevelAdjustment() > 150) return new Macro().skill($skill`Saucegeyser`).repeat();
         if (monster && monster.physicalResistance >= 70)
           return delevel.skill($skill`Saucegeyser`).repeat();
         else return delevel.attack().repeat();

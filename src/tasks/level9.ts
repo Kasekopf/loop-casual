@@ -85,7 +85,7 @@ const Oil: Task[] = [
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
     modifier: "ML",
-    combat: new CombatStrategy().macro(new Macro().skill($skill`Saucegeyser`).repeat()).killHard(),
+    combat: new CombatStrategy().kill(),
     cap: 6,
   },
   {
