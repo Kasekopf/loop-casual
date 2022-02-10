@@ -32,7 +32,6 @@ export const routing: string[] = [
   // Line up noncombats
   "Giant/Airship",
   "Friar/Finish",
-  "Organ/Arena",
   "Crypt/Cranny",
   "War/Enrage",
   "Mosquito/Mosquito",
@@ -76,6 +75,25 @@ export const routing: string[] = [
 
   "Hidden City/Apartment", // Get this out of the way
   "Macguffin/Open Pyramid", // Open more delay for lategame
+
+  // Non-delay quests
+  "Mosquito/Finish",
+  "Tavern/Finish",
+  "Bat/Use Sonar",
+  "Crypt/Finish",
+  "McLargeHuge/Finish",
+  "Orc Chasm/Finish",
+  "Giant/Finish",
+  "War/Boss Hippie",
+  "War/Boss Frat",
+
+  // Finish up with last delay
+  "Macguffin/Finish",
+  "Knob/King",
+  "Bat/Finish",
+
+  "Tower/Finish",
+  "Organ/Finish", // Organ last, just so it doesn't appear in turncount
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
