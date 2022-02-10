@@ -22,12 +22,12 @@ export const routing: string[] = [
   "Leveling/Machine Elf",
   "Leveling/Neverending Party",
   "Leveling/Sausage Fights",
+  "Misc/Consume",
 
   // Do the billards room first, before drinking
   "Macguffin/Diary", // avoid +combat
   "Macguffin/Desert", // charge camel, use voters
   "Manor/Billiards",
-  "Misc/Consume",
 
   // Line up noncombats
   "Giant/Airship",
