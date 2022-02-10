@@ -22,6 +22,7 @@ export const McLargeHugeQuest: Quest = {
         { item: $item`asbestos ore`, num: 3 },
         { item: $item`chrome ore`, num: 3 },
         { item: $item`linoleum ore`, num: 3 },
+        { item: $item`goat cheese`, num: 3 },
       ],
       completed: () => step("questL08Trapper") >= 2,
       do: (): void => {
