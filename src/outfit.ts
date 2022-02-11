@@ -4,10 +4,11 @@ import {
   equippedItem,
   myBasestat,
   toSlot,
+  totalTurnsPlayed,
   useFamiliar,
   weaponHands,
 } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, $stat, have, Requirement } from "libram";
+import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 
@@ -234,6 +235,11 @@ export class Outfit {
     if (!this.modifier) {
       // Default outfit
       this.equip($item`Fourth of May Cosplay Saber`);
+      if (
+        totalTurnsPlayed() >= get("nextParanormalActivity") &&
+        get("questPAGhost") === "unstarted"
+      )
+        this.equip($item`protonic accelerator pack`);
       this.equip($item`vampyric cloake`);
       if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
       this.equip($familiar`Galloping Grill`);

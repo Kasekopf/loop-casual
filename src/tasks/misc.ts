@@ -1,5 +1,6 @@
 import { CombatStrategy } from "../combat";
 import {
+  adv1,
   cliExecute,
   familiarEquippedEquipment,
   itemAmount,
@@ -10,6 +11,7 @@ import {
   myLevel,
   myPrimestat,
   mySpleenUse,
+  runChoice,
   useFamiliar,
   useSkill,
   visitUrl,
@@ -27,7 +29,7 @@ import {
   Macro,
   set,
 } from "libram";
-import { Quest } from "./structure";
+import { Quest, step } from "./structure";
 
 function max(a: number, b: number) {
   return a > b ? a : b;
@@ -182,6 +184,92 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
+    },
+    {
+      name: "Protonic Ghost",
+      after: [],
+      completed: () => step("questL13Final") >= 0, // Stop after tower starts
+      ready: () => {
+        if (!have($item`protonic accelerator pack`)) return false;
+        if (get("questPAGhost") === "unstarted") return false;
+        switch (get("ghostLocation")) {
+          case $location`The Haunted Conservatory`:
+            return step("questM20Necklace") >= 0;
+          case $location`The Haunted Gallery`:
+            return step("questM21Dance") >= 1;
+          case $location`The Haunted Kitchen`:
+            return step("questM20Necklace") >= 0;
+          case $location`The Haunted Wine Cellar`:
+            return step("questL11Manor") >= 1;
+          case $location`The Icy Peak`:
+            return step("questL08Trapper") === 999;
+          case $location`Inside the Palindome`:
+            return have($item`Talisman o' Namsilat`);
+          case $location`The Old Landfill`:
+            return myPrimestat() >= 25 && step("questL02Larva") >= 0;
+          case $location`Madness Bakery`:
+          case $location`The Overgrown Lot`:
+          case $location`The Skeleton Store`:
+            return true; // Can freely start quest
+          case $location`The Smut Orc Logging Camp`:
+            return step("questL09Topping") >= 0;
+          case $location`The Spooky Forest`:
+            return step("questL02Larva") >= 0;
+        }
+        return false;
+      },
+      prepare: () => {
+        // Start quests if needed
+        switch (get("ghostLocation")) {
+          case $location`Madness Bakery`:
+            if (step("questM25Armorer") === -1) {
+              visitUrl("shop.php?whichshop=armory");
+              visitUrl("shop.php?whichshop=armory&action=talk");
+              visitUrl("choice.php?pwd=&whichchoice=1065&option=1");
+            }
+            return;
+          case $location`The Old Landfill`:
+            if (step("questM19Hippy") === -1) {
+              visitUrl("place.php?whichplace=woods&action=woods_smokesignals");
+              visitUrl("choice.php?pwd=&whichchoice=798&option=1");
+              visitUrl("choice.php?pwd=&whichchoice=798&option=2");
+              visitUrl("woods.php");
+            }
+            return;
+          case $location`The Overgrown Lot`:
+            if (step("questM24Doc") === -1) {
+              visitUrl("shop.php?whichshop=doc");
+              visitUrl("shop.php?whichshop=doc&action=talk");
+              runChoice(1);
+            }
+            return;
+          case $location`The Skeleton Store`:
+            if (step("questM23Meatsmith") === -1) {
+              visitUrl("shop.php?whichshop=meatsmith");
+              visitUrl("shop.php?whichshop=meatsmith&action=talk");
+              runChoice(1);
+            }
+            return;
+          default:
+            return;
+        }
+      },
+      do: () => {
+        adv1(get("ghostLocation") ?? $location`none`, 0, "");
+      },
+      equip: () => {
+        if (get("ghostLocation") === $location`Inside the Palindome`)
+          return $items`Talisman o' Namsilat, protonic accelerator pack`;
+        return $items`protonic accelerator pack`;
+      },
+      combat: new CombatStrategy().macro(
+        new Macro()
+          .skill($skill`Shoot Ghost`)
+          .skill($skill`Shoot Ghost`)
+          .skill($skill`Shoot Ghost`)
+          .skill($skill`Trap Ghost`)
+      ),
+      limit: { tries: 10 },
     },
   ],
 };

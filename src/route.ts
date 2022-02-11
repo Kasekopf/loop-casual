@@ -23,6 +23,7 @@ export const routing: string[] = [
   "Leveling/Neverending Party",
   "Leveling/Sausage Fights",
   "Misc/Consume",
+  "Misc/Protonic Ghost", // whenever ghosts are ready
 
   // Do the billards room first, before drinking
   "Macguffin/Diary", // avoid +combat
