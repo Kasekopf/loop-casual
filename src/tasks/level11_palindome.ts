@@ -86,7 +86,7 @@ const Copperhead: Task[] = [
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     modifier: "+combat",
-    combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
+    combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
     limit: { soft: 10 },
     delay: 5,
   },
