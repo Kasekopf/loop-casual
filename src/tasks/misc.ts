@@ -54,7 +54,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Consume",
-      after: ["Manor/Billiards"],
+      after: [],
       completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
       ready: () => myLevel() >= 13 || myAdventures() === 1,
       do: (): void => {
