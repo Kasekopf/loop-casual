@@ -98,7 +98,12 @@ export class Engine {
       else choices[choice_id] = choice();
     }
     this.propertyManager.setChoices(choices);
-    const ignored_noncombats = ["Wooof! Wooooooof!", "Seeing-Eyes Dog", "Lights Out in the"];
+    const ignored_noncombats = [
+      "Wooof! Wooooooof!",
+      "Seeing-Eyes Dog",
+      "Playing Fetch",
+      "Lights Out in the",
+    ];
     const ignored_noncombats_seen = ignored_noncombats.filter(
       (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
     );
