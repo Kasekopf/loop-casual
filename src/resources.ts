@@ -126,6 +126,8 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
       to_banish.push(monster);
     } else {
       used_banishes.add(banished_with);
+      if (banished_with === $item`training scroll:  Snokebomb`)
+        used_banishes.add($skill`Snokebomb`); // workaround snokebomb tracking bug
     }
   });
   if (to_banish.length === 0) return []; // All monsters banished.
