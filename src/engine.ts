@@ -168,6 +168,7 @@ export class Engine {
       wanderers.map((source) => source.prepare && source.prepare());
       if (banish?.prepare !== undefined) banish?.prepare();
       if (runaway?.prepare !== undefined) runaway?.prepare();
+      if (freekill?.prepare !== undefined) freekill?.prepare();
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
