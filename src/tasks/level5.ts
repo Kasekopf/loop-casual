@@ -42,7 +42,7 @@ export const KnobQuest: Quest = {
       ],
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
-      combat: new CombatStrategy().kill($monster`Knob Goblin King`),
+      combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
     },
