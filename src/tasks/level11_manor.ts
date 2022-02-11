@@ -129,7 +129,7 @@ const Manor2: Task[] = [
       ),
     equip: $items`Pantsgiving`,
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
-    limit: { turns: 6 },
+    limit: { soft: 10 },
   },
   {
     name: "Open Ballroom",

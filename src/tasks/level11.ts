@@ -115,7 +115,7 @@ const Desert: Task[] = [
       cliExecute("use * desert sightseeing pamphlet");
       if (have($item`worm-riding hooks`)) use($item`drum machine`);
     },
-    limit: { soft: 20 },
+    limit: { soft: 30 },
     delay: 25,
     choices: { 805: 1 },
   },

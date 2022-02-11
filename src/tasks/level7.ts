@@ -193,7 +193,7 @@ const Nook: Task[] = [
         $monster`toothy sklelton`
       )
       .banish($monster`party skelteon`),
-    limit: { tries: 2 },
+    limit: { tries: 3 },
   },
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
@@ -223,7 +223,7 @@ const Nook: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
-    limit: { tries: 2 },
+    limit: { tries: 9 },
   },
   {
     name: "Nook Boss",
