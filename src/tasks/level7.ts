@@ -2,6 +2,7 @@ import {
   adv1,
   cliExecute,
   initiativeModifier,
+  Item,
   myLevel,
   runChoice,
   toUrl,
@@ -211,7 +212,7 @@ const Nook: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
-    ready: () => get("cryptNookEvilness") < 30 && !have($item`evil eye`),
+    ready: () => get("cyrptNookEvilness") < 30 && !have($item`evil eye`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     post: (): void => {

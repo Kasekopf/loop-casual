@@ -1,3 +1,4 @@
+import { Effect, Familiar, Item, Location } from "kolmafia";
 import { get } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
 import { CombatStrategy } from "../combat";

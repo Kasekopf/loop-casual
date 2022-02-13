@@ -1,4 +1,12 @@
-import { cliExecute, getWorkshed, myClass, myEffects, myPrimestat, toSkill } from "kolmafia";
+import {
+  cliExecute,
+  Effect,
+  getWorkshed,
+  myClass,
+  myEffects,
+  myPrimestat,
+  toSkill,
+} from "kolmafia";
 import {
   $class,
   $effect,

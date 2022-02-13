@@ -1,4 +1,4 @@
-import { create, myInebriety, use, useSkill, visitUrl } from "kolmafia";
+import { create, Item, myInebriety, use, useSkill, visitUrl } from "kolmafia";
 import {
   $effect,
   $effects,

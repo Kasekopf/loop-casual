@@ -1,4 +1,4 @@
-import { drink, itemAmount, myLevel, toInt, visitUrl } from "kolmafia";
+import { drink, Item, itemAmount, myLevel, toInt, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monsters, $skill, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step } from "./structure";

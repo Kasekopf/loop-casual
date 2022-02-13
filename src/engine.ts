@@ -1,3 +1,4 @@
+import { Location } from "kolmafia";
 import { Task } from "./tasks/structure";
 import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import { BuiltCombatStrategy, CombatStrategy, MonsterStrategy } from "./combat";

@@ -1,4 +1,4 @@
-import { create, myHash, runChoice, use, visitUrl } from "kolmafia";
+import { create, Item, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,

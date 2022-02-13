@@ -1,8 +1,11 @@
 import {
   equippedItem,
+  Item,
+  Monster,
   monsterDefense,
   monsterLevelAdjustment,
   myBuffedstat,
+  Skill,
   weaponType,
 } from "kolmafia";
 import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, Macro } from "libram";

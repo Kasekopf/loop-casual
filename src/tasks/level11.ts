@@ -1,4 +1,4 @@
-import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
+import { buy, cliExecute, Item, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
