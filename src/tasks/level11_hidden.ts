@@ -113,7 +113,7 @@ const Apartment: Task[] = [
     ],
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
-      .kill($monster`ancient protector spirit (The Hidden Apartment Building)`)
+      .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
       .macro(new Macro().step(use_writ).runaway(), $monster`pygmy shaman`)
       .flee(),
@@ -192,7 +192,7 @@ const Office: Task[] = [
     do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
     combat: new CombatStrategy()
-      .kill($monster`ancient protector spirit (The Hidden Office Building)`)
+      .killHard($monster`ancient protector spirit (The Hidden Office Building)`)
       .macro(
         use_writ,
         ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
@@ -237,7 +237,7 @@ const Hospital: Task[] = [
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy()
-      .kill($monster`ancient protector spirit (The Hidden Hospital)`)
+      .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .macro(
         use_writ,
         ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse, pygmy witch surgeon`
@@ -276,7 +276,7 @@ const Bowling: Task[] = [
     acquire: [{ item: $item`bowling ball` }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
-    combat: new CombatStrategy().kill(
+    combat: new CombatStrategy().killHard(
       $monster`ancient protector spirit (The Hidden Bowling Alley)`
     ),
     choices: { 788: 1 },

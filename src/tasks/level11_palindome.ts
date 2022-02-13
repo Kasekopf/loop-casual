@@ -49,7 +49,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The Stankara Stone`),
     completed: () => step("questL11Shen") === 999 || have($item`The Stankara Stone`),
     do: $location`The Batrat and Ratbat Burrow`,
-    combat: new CombatStrategy().kill($monster`Batsnake`),
+    combat: new CombatStrategy().killHard($monster`Batsnake`),
     limit: { soft: 10 },
     delay: 5,
   },
@@ -59,7 +59,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
-    combat: new CombatStrategy().kill($monster`Frozen Solid Snake`).macro((): Macro => {
+    combat: new CombatStrategy().killHard($monster`Frozen Solid Snake`).macro((): Macro => {
       if (!have($item`li'l ninja costume`)) return new Macro().attack().repeat();
       else return new Macro();
     }),
@@ -75,7 +75,7 @@ const Copperhead: Task[] = [
     equip: $items`Mohawk wig`,
     modifier: "-combat",
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
-    combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
+    combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
     limit: { soft: 10 },
     delay: 5,
   },
