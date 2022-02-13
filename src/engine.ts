@@ -220,11 +220,12 @@ export class Engine {
   }
 
   public check_limits(task: Task): void {
+    const failureMessage = task.limit.message ? "" : " ${task.limit.message}";
     if (task.limit.tries && this.attempts[task.name] >= task.limit.tries)
-      throw `Task ${task.name} did not complete within ${task.limit.tries} attempts. Please check what went wrong.`;
+      throw `Task ${task.name} did not complete within ${task.limit.tries} attempts. Please check what went wrong.${failureMessage}`;
     if (task.limit.soft && this.attempts[task.name] >= task.limit.soft)
-      throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).`;
+      throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).${failureMessage}`;
     if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns)
-      throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.`;
+      throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.${failureMessage}`;
   }
 }

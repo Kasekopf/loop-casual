@@ -20,6 +20,7 @@ export type Limit = {
   tries?: number;
   turns?: number;
   soft?: number;
+  message?: string;
 };
 
 export type Task = {
