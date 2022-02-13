@@ -39,6 +39,7 @@ export function main(): void {
     );
     if (priority !== undefined) {
       engine.execute(priority);
+      continue;
     }
 
     // If a wanderer is up try to place it in a useful location
