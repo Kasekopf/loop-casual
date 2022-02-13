@@ -97,7 +97,7 @@ const Cranny: Task[] = [
     acquire: [{ item: $item`gravy boat` }],
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
-    equip: tryCape($item`serpentine sword`, $item`fish hatchet`, $item`gravy boat`),
+    equip: tryCape($item`serpentine sword`, $item`gravy boat`),
     modifier: "-combat, ML, sword",
     choices: { 523: 4 },
     combat: new CombatStrategy()
