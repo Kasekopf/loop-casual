@@ -111,7 +111,7 @@ const Zepplin: Task[] = [
     modifier: "sleaze dmg, sleaze spell dmg",
     familiar: $familiar`Left-Hand Man`,
     freeaction: true, // fully maximize outfit
-    limit: { soft: 4 },
+    limit: { tries: 5, message: "Maybe your available sleaze damage is too low." },
   },
   {
     name: "Zepplin",
