@@ -56,7 +56,7 @@ const Manor1: Task[] = [
     do: $location`The Haunted Library`,
     combat: new CombatStrategy().banish(...$monsters`banshee librarian, bookbat`).kill(),
     choices: { 163: 4, 888: 4, 889: 4, 894: 1 },
-    limit: { tries: 7 },
+    limit: { soft: 10 },
   },
   {
     name: "Finish Floor1",
