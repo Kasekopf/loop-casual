@@ -1,5 +1,5 @@
 import { myLevel, runChoice, useSkill, visitUrl } from "kolmafia";
-import { $effects, $familiar, $item, $items, $location, $skill, get, Macro } from "libram";
+import { $effects, $familiar, $item, $items, $location, $skill, $stat, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step, Task } from "./structure";
 
@@ -20,7 +20,7 @@ const Challenges: Task[] = [
   {
     name: "Moxie Challenge",
     after: ["Start"],
-    ready: () => get("nsChallenge1") === "Moxie",
+    ready: () => get("nsChallenge1") === $stat`Moxie`,
     completed: () => get("nsContestants2") > -1,
     do: (): void => {
       visitUrl("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -34,7 +34,7 @@ const Challenges: Task[] = [
   {
     name: "Muscle Challenge",
     after: ["Start"],
-    ready: () => get("nsChallenge1") === "Muscle",
+    ready: () => get("nsChallenge1") === $stat`Muscle`,
     completed: () => get("nsContestants2") > -1,
     do: (): void => {
       visitUrl("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -48,7 +48,7 @@ const Challenges: Task[] = [
   {
     name: "Mysticality Challenge",
     after: ["Start"],
-    ready: () => get("nsChallenge1") === "Mysticality",
+    ready: () => get("nsChallenge1") === $stat`Mysticality`,
     completed: () => get("nsContestants2") > -1,
     do: (): void => {
       visitUrl("place.php?whichplace=nstower&action=ns_01_contestbooth");
