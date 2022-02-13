@@ -25,12 +25,12 @@ export const routing: string[] = [
   "Misc/Consume",
   "Misc/Protonic Ghost", // whenever ghosts are ready
 
-  // Do the billards room first, before drinking
-  "Macguffin/Diary", // avoid +combat
+  // Open up MacGuffin zones
+  "Macguffin/Diary",
   "Macguffin/Desert", // charge camel, use voters
-  "Manor/Billiards",
 
   // Line up noncombats
+  "Manor/Billiards",
   "Giant/Airship",
   "Friar/Finish",
   "Crypt/Cranny",
@@ -64,8 +64,8 @@ export const routing: string[] = [
   "Palindome/Alarm Gem",
 
   // Use Hidden City to charge camel
-  "Hidden City/Open Bowling", // Open bowling for optional free fights
-  "Hidden City/Open Office", // Charge camel
+  "Hidden City/Open Bowling",
+  "Hidden City/Open Office",
   "Hidden City/Open Hospital",
   "Hidden City/Open Apartment",
 
