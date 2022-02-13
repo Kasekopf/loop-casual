@@ -226,16 +226,23 @@ export interface RunawaySource extends Resource {
   chance: () => number;
 }
 
-const banderGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
-const banderGearBonus = 35;
-const banderEffects = 15;
+// Gear and familiar to use for runaways (i.e., Bandersnatch or Stomping Boots)
+const familiarGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
+const familiarGearBonus = 35;
+const familiarEffectBonus = 15;
+const runawayFamiliar = have($familiar`Frumious Bandersnatch`)
+  ? $familiar`Frumious Bandersnatch`
+  : have($familiar`Pair of Stomping Boots`)
+  ? $familiar`Pair of Stomping Boots`
+  : $familiar`none`;
 
-function availableBandersnatch(bonus: number) {
+function availableFamiliarRunaways(otherBonus: number) {
+  if (runawayFamiliar === $familiar`none`) return 0;
   return floor(
-    (familiarWeight($familiar`Frumious Bandersnatch`) +
-      banderEffects +
-      banderGearBonus +
-      bonus +
+    (familiarWeight(runawayFamiliar) +
+      familiarEffectBonus +
+      familiarGearBonus +
+      otherBonus +
       (have($effect`Open Heart Surgery`) ? 10 : 0)) /
       5
   );
@@ -267,38 +274,44 @@ export const runawaySources: RunawaySource[] = [
     chance: () => 1,
   },
   {
-    name: "Bandersnatch",
+    name: "Familiar Runaways",
     available: () =>
-      have($familiar`Frumious Bandersnatch`) && availableBandersnatch(5) > get("_banderRunaways"), // 5 from fish hatchet
+      runawayFamiliar !== $familiar`none` &&
+      have(runawayFamiliar) &&
+      availableFamiliarRunaways(5) > get("_banderRunaways"), // 5 from fish hatchet
     prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
       if (
-        floor((familiarWeight($familiar`Frumious Bandersnatch`) + weightAdjustment()) / 5) <=
-        get("_banderRunaways")
+        floor((familiarWeight(runawayFamiliar) + weightAdjustment()) / 5) <= get("_banderRunaways")
       ) {
-        throw `Trying to use Bandersnatch, but weight was overestimated.`;
+        throw `Trying to use Bandersnatch or Stomping Boots, but weight was overestimated.`;
       }
-      ensureEffect($effect`Ode to Booze`, 5);
+      if (runawayFamiliar === $familiar`Frumious Bandersnatch`) {
+        ensureEffect($effect`Ode to Booze`, 5);
+      }
     },
-    equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`fish hatchet`],
+    equip: [runawayFamiliar, ...familiarGear, $item`fish hatchet`],
     do: new Macro().runaway(),
     chance: () => 1,
   },
   {
-    name: "Bandersnatch Offhand", // Use the potted plant as long as possible
+    name: "Familiar Runaways (with offhand)", // Use the potted plant as long as possible
     available: () =>
-      have($familiar`Frumious Bandersnatch`) && availableBandersnatch(10) > get("_banderRunaways"), // 10 from iFlails
+      runawayFamiliar !== $familiar`none` &&
+      have(runawayFamiliar) &&
+      availableFamiliarRunaways(10) > get("_banderRunaways"), // 10 from iFlails
     prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
       if (
-        floor((familiarWeight($familiar`Frumious Bandersnatch`) + weightAdjustment()) / 5) <=
-        get("_banderRunaways")
+        floor((familiarWeight(runawayFamiliar) + weightAdjustment()) / 5) <= get("_banderRunaways")
       ) {
-        throw `Trying to use last Bandersnatch, but weight was overestimated.`;
+        throw `Trying to use last Bandersnatch or Stomping Boots, but weight was overestimated.`;
       }
-      ensureEffect($effect`Ode to Booze`, 5);
+      if (runawayFamiliar === $familiar`Frumious Bandersnatch`) {
+        ensureEffect($effect`Ode to Booze`, 5);
+      }
     },
-    equip: [$familiar`Frumious Bandersnatch`, ...banderGear, $item`iFlail`, $item`iFlail`],
+    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`iFlail`],
     do: new Macro().runaway(),
     chance: () => 1,
   },
