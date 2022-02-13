@@ -128,7 +128,7 @@ export const LevelingQuest: Quest = {
       after: [],
       ready: () => get("snojoAvailable"),
       prepare: (): void => {
-        if (get("snojoSetting") === "NONE") {
+        if (get("snojoSetting") === null) {
           visitUrl("place.php?whichplace=snojo&action=snojo_controller");
           runChoice(primestatId());
         }
