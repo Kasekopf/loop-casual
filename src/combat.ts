@@ -40,8 +40,8 @@ export class BuiltCombatStrategy {
     // Setup special macros
     if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
     if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
-    if (freekill?.do instanceof Item) this.use_freekill = new Macro().item(freekill.do);
-    if (freekill?.do instanceof Skill) this.use_freekill = new Macro().skill(freekill.do);
+    if (freekill?.do instanceof Item) this.use_freekill = new Macro().item(freekill.do).abort();
+    if (freekill?.do instanceof Skill) this.use_freekill = new Macro().skill(freekill.do).abort();
     this.use_runaway = runaway?.do;
     for (const wanderer of wanderers) {
       // Note that we kill hard, which never uses up a freekill
