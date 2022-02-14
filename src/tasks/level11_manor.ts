@@ -1,5 +1,6 @@
-import { create, Item, myInebriety, use, useSkill, visitUrl } from "kolmafia";
+import { create, Item, myClass, myFury, myInebriety, use, useSkill, visitUrl } from "kolmafia";
 import {
+  $class,
   $effect,
   $effects,
   $item,
@@ -122,12 +123,20 @@ const Manor2: Task[] = [
     do: $location`The Haunted Bedroom`,
     choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
     combat: new CombatStrategy()
-      .kill(...$monsters`tumbleweed, elegant animated nightstand`)
-      .macro(new Macro().skill($skill`Talk About Politics`), $monster`animated ornate nightstand`)
+      .kill(...$monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
+      .macro(
+        new Macro().trySkill($skill`Batter Up!`).trySkill($skill`Talk About Politics`),
+        $monster`animated ornate nightstand`
+      )
       .banish(
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
-      ),
-    equip: $items`Pantsgiving`,
+      )
+      .flee($monster`tumbleweed`),
+    equip: () => {
+      if (myClass() === $class`Seal Clubber` && have($skill`Batter Up!`) && myFury() >= 5)
+        return $items`Meat Tenderizer is Murder`;
+      else return $items`Pantsgiving`;
+    },
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
     limit: { soft: 10 },
   },
