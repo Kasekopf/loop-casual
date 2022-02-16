@@ -30,7 +30,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`),
-      limit: { turns: 7 },
+      limit: { soft: 10 },
       delay: 6,
     },
     {
