@@ -2,6 +2,7 @@ import {
   cliExecute,
   eat,
   myAdventures,
+  myBasestat,
   myDaycount,
   myFullness,
   myInebriety,
@@ -22,7 +23,7 @@ export const DietQuest: Quest = {
       name: "Consume",
       after: [],
       completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
-      ready: () => myPrimestat() >= 150 || myAdventures() === 1, // Wait until 150 mainstat (level 13 + 2 stats), in case of transdermal smoke patch deleveling
+      ready: () => myBasestat(myPrimestat()) >= 150 || myAdventures() === 1, // Wait until 150 mainstat (level 13 + 2 stats), in case of transdermal smoke patch deleveling
       do: (): void => {
         // Save cleaners for aftercore
         const spice = get("spiceMelangeUsed");
@@ -52,7 +53,7 @@ export const DietQuest: Quest = {
     },
     {
       name: "Sausage",
-      after: [],
+      after: ["Consume"],
       completed: () => !have($item`Kramco Sausage-o-Matic™`) || get("_sausagesEaten") >= 23, // Cap at 23 sausages to avoid burning through an entire supply
       ready: () => have($item`magical sausage casing`),
       do: (): void => {
