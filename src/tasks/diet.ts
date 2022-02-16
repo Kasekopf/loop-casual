@@ -6,6 +6,7 @@ import {
   myInebriety,
   myLevel,
   mySpleenUse,
+  reverseNumberology,
 } from "kolmafia";
 import { get, set } from "libram";
 import { Quest } from "./structure";
@@ -35,6 +36,17 @@ export const DietQuest: Quest = {
         set("currentMojoFilters", mojo);
       },
       limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Numberology",
+      after: [],
+      completed: () => get("_universeCalculated") >= get("skillLevel144"),
+      ready: () => myAdventures() > 0 && Object.keys(reverseNumberology()).includes("69"),
+      do: (): void => {
+        cliExecute("numberology 69");
+      },
+      limit: { tries: 4 },
       freeaction: true,
     },
   ],

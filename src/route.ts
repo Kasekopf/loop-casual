@@ -1,6 +1,8 @@
 import { Task } from "./tasks/structure";
 
 export const routing: string[] = [
+  "Diet/Numberology", // Numberology is always ready at the start of the day
+
   // Pickup items
   "Misc/Short Cook",
   "Misc/Floundry",
