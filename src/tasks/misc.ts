@@ -12,6 +12,7 @@ import {
   myPrimestat,
   mySpleenUse,
   runChoice,
+  toItem,
   useFamiliar,
   useSkill,
   visitUrl,
@@ -279,6 +280,11 @@ function keyCount(): number {
   if (have($item`Boris's key`)) count++;
   if (have($item`Jarlsberg's key`)) count++;
   if (have($item`Sneaky Pete's key`)) count++;
+  count += get("nsTowerDoorKeysUsed")
+    .split(",")
+    .filter((x) => x.trim().length > 0)
+    .map((key) => toItem(key))
+    .filter((key) => $items`Boris's key, Jarlsberg's key, Sneaky Pete's key`.includes(key)).length;
   return count;
 }
 export const KeysQuest: Quest = {
