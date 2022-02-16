@@ -22,7 +22,7 @@ export const routing: string[] = [
   "Leveling/Machine Elf",
   "Leveling/Neverending Party",
   "Leveling/Sausage Fights",
-  "Misc/Consume",
+  "Diet/Consume",
   "Misc/Protonic Ghost", // whenever ghosts are ready
 
   // Open up MacGuffin zones
