@@ -1,5 +1,5 @@
-import { containsText, myLevel, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster, have } from "libram";
+import { cliExecute, containsText, myLevel, use, visitUrl } from "kolmafia";
+import { $effect, $item, $items, $location, $monster, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step } from "./structure";
 
@@ -29,6 +29,9 @@ export const GiantQuest: Quest = {
       after: ["Grow Beanstalk"],
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
+      post: () => {
+        if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
+      },
       modifier: "-combat",
       limit: { soft: 50 },
       delay: () =>
