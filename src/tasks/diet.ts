@@ -1,5 +1,6 @@
 import {
   cliExecute,
+  eat,
   myAdventures,
   myDaycount,
   myFullness,
@@ -8,8 +9,8 @@ import {
   mySpleenUse,
   reverseNumberology,
 } from "kolmafia";
-import { get, set } from "libram";
-import { Quest } from "./structure";
+import { $item, $skill, get, have, set } from "libram";
+import { Quest, step } from "./structure";
 
 function max(a: number, b: number) {
   return a > b ? a : b;
@@ -47,6 +48,19 @@ export const DietQuest: Quest = {
         cliExecute("numberology 69");
       },
       limit: { tries: 4 },
+      freeaction: true,
+    },
+    {
+      name: "Sausage",
+      after: [],
+      completed: () =>
+        (step("questL13Final") === 999 && have($skill`Liver of Steel`)) ||
+        get("_sausagesEaten") >= 23, // Cap at 23 sausages to avoid burning through an entire supply
+      ready: () => have($item`magical sausage casing`),
+      do: (): void => {
+        eat(1, $item`magical sausage`);
+      },
+      limit: { tries: 23 },
       freeaction: true,
     },
   ],
