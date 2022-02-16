@@ -93,6 +93,10 @@ export const routing: string[] = [
   "Knob/King",
   "Bat/Finish",
 
+  // Obtain available keys before attempting the daily dungeon
+  "Keys/Deck",
+  "Keys/Lockpicking",
+
   "Tower/Finish",
   "Organ/Finish", // Organ last, just so it doesn't appear in turncount
 ];

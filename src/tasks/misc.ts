@@ -276,9 +276,9 @@ export const MiscQuest: Quest = {
 
 function keyCount(): number {
   let count = itemAmount($item`fat loot token`);
-  if (have($item`Boris's key`)) count++;
-  if (have($item`Jarlsberg's key`)) count++;
-  if (have($item`Sneaky Pete's key`)) count++;
+  if (have($item`Boris's key`) || get("nsTowerDoorKeysUsed").includes("Boris")) count++;
+  if (have($item`Jarlsberg's key`) || get("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
+  if (have($item`Sneaky Pete's key`) || get("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;
   return count;
 }
 export const KeysQuest: Quest = {
@@ -313,7 +313,8 @@ export const KeysQuest: Quest = {
       name: "Malware",
       after: [],
       acquire: [{ item: $item`daily dungeon malware` }],
-      completed: () => get("_dailyDungeonMalwareUsed") || keyCount() >= 3,
+      completed: () =>
+        get("_dailyDungeonMalwareUsed") || get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().macro(
@@ -328,7 +329,7 @@ export const KeysQuest: Quest = {
     {
       name: "Daily Dungeon",
       after: ["Deck", "Lockpicking", "Malware"],
-      completed: () => keyCount() >= 3,
+      completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().kill(),
