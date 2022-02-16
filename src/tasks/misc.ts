@@ -21,6 +21,7 @@ import {
   getSaleValue,
   have,
   Macro,
+  set,
 } from "libram";
 import { Quest, step } from "./structure";
 
@@ -284,7 +285,14 @@ export const KeysQuest: Quest = {
       acquire: [{ item: $item`daily dungeon malware` }],
       completed: () =>
         get("_dailyDungeonMalwareUsed") || get("dailyDungeonDone") || keyCount() >= 3,
+      prepare: () => {
+        set("_loop_casual_malware_amount", itemAmount($item`daily dungeon malware`));
+      },
       do: $location`The Daily Dungeon`,
+      post: () => {
+        if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
+          set("_dailyDungeonMalwareUsed", true);
+      },
       equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
       combat: new CombatStrategy().macro(
         new Macro()
@@ -293,7 +301,7 @@ export const KeysQuest: Quest = {
           .repeat()
       ),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
-      limit: { soft: 10 },
+      limit: { soft: 11 },
     },
     {
       name: "Daily Dungeon",
