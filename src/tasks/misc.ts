@@ -277,14 +277,16 @@ export const MiscQuest: Quest = {
 
 function keyCount(): number {
   let count = itemAmount($item`fat loot token`);
-  if (have($item`Boris's key`)) count++;
-  if (have($item`Jarlsberg's key`)) count++;
-  if (have($item`Sneaky Pete's key`)) count++;
-  count += get("nsTowerDoorKeysUsed")
+
+  const usedKeys = get("nsTowerDoorKeysUsed")
     .split(",")
     .filter((x) => x.trim().length > 0)
-    .map((key) => toItem(key))
-    .filter((key) => $items`Boris's key, Jarlsberg's key, Sneaky Pete's key`.includes(key)).length;
+    .map((key) => toItem(key));
+
+  for (const key of $items`Boris's key, Jarlsberg's key, Sneaky Pete's key`) {
+    if (have(key) || usedKeys.includes(key)) count++;
+  }
+
   return count;
 }
 export const KeysQuest: Quest = {
