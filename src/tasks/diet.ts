@@ -9,8 +9,8 @@ import {
   mySpleenUse,
   reverseNumberology,
 } from "kolmafia";
-import { $item, $skill, get, have, set } from "libram";
-import { Quest, step } from "./structure";
+import { $item, get, have, set } from "libram";
+import { Quest } from "./structure";
 
 function max(a: number, b: number) {
   return a > b ? a : b;
@@ -53,9 +53,7 @@ export const DietQuest: Quest = {
     {
       name: "Sausage",
       after: [],
-      completed: () =>
-        (step("questL13Final") === 999 && have($skill`Liver of Steel`)) ||
-        get("_sausagesEaten") >= 23, // Cap at 23 sausages to avoid burning through an entire supply
+      completed: () => !have($item`Kramco Sausage-o-Matic™`) || get("_sausagesEaten") >= 23, // Cap at 23 sausages to avoid burning through an entire supply
       ready: () => have($item`magical sausage casing`),
       do: (): void => {
         eat(1, $item`magical sausage`);

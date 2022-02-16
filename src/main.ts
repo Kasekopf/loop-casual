@@ -14,13 +14,18 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
-import { get, set } from "libram";
+import { $skill, get, have, set } from "libram";
 import { step } from "./tasks/structure";
 import { Outfit } from "./outfit";
 
 const time_property = "_loop_casual_first_start";
 
 export function main(): void {
+  if (runComplete()) {
+    print("Casual complete!", "purple");
+    return;
+  }
+
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
 
@@ -69,11 +74,12 @@ export function main(): void {
   takeCloset(myClosetMeat());
 
   const remaining_tasks = tasks.filter((task) => !task.completed());
-  if (remaining_tasks.length > 0) {
+  if (!runComplete()) {
+    debug("Remaining tasks:", "red");
     for (const task of remaining_tasks) {
       if (!task.completed()) debug(`${task.name}`, "red");
     }
-    throw `Unable to find available task, but not all tasks are completed.`;
+    throw `Unable to find available task, but the run is not complete.`;
   }
 
   print("Casual complete!", "purple");
@@ -91,4 +97,8 @@ export function main(): void {
       )} since first run today started`,
       "purple"
     );
+}
+
+function runComplete(): boolean {
+  return step("questL13Final") === 999 && have($skill`Liver of Steel`);
 }
