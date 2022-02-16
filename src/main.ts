@@ -14,7 +14,7 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
-import { $skill, get, have, set } from "libram";
+import { $skill, get, have, PropertiesManager, set } from "libram";
 import { step } from "./tasks/structure";
 import { Outfit } from "./outfit";
 
@@ -33,10 +33,12 @@ export function main(): void {
     print("You have too much meat; closeting some during execution.");
     cliExecute(`closet put ${myMeat() - 2000000} meat`);
   }
-  cliExecute("ccs loopcasual");
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
+  cliExecute("ccs loopcasual");
+  setUniversalProperties(engine.propertyManager);
+
   while (myAdventures() > 0) {
     // First, check for any prioritized tasks
     const priority = tasks.find(
@@ -101,4 +103,49 @@ export function main(): void {
 
 function runComplete(): boolean {
   return step("questL13Final") === 999 && have($skill`Liver of Steel`);
+}
+
+function setUniversalProperties(propertyManager: PropertiesManager) {
+  // Properties adapted from garbo
+  propertyManager.set({
+    logPreferenceChange: true,
+    logPreferenceChangeFilter: [
+      ...new Set([
+        ...get("logPreferenceChangeFilter").split(","),
+        "libram_savedMacro",
+        "maximizerMRUList",
+        "testudinalTeachings",
+      ]),
+    ]
+      .sort()
+      .filter((a) => a)
+      .join(","),
+    battleAction: "custom combat script",
+    autoSatisfyWithMall: true,
+    autoSatisfyWithNPCs: true,
+    autoSatisfyWithCoinmasters: true,
+    autoSatisfyWithStash: false,
+    dontStopForCounters: true,
+    maximizerFoldables: true,
+    hpAutoRecovery: 0.0,
+    hpAutoRecoveryTarget: 0.0,
+    mpAutoRecovery: 0.0,
+    mpAutoRecoveryTarget: 0.0,
+    afterAdventureScript: "",
+    betweenBattleScript: "",
+    choiceAdventureScript: "",
+    familiarScript: "",
+    currentMood: "apathetic",
+    autoTuxedo: true,
+    autoPinkyRing: true,
+    autoGarish: true,
+    allowSummonBurning: true,
+    libramSkillsSoftcore: "none",
+  });
+  propertyManager.setChoices({
+    1106: 3, // Ghost Dog Chow
+    1107: 1, // tennis ball
+    1340: 3, // Is There A Doctor In The House?
+    1341: 1, // Cure her poison
+  });
 }

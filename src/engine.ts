@@ -98,9 +98,6 @@ export class Engine {
       if (typeof choice === "number") choices[choice_id] = choice;
       else choices[choice_id] = choice();
     }
-    choices[1340] = 3; // Is There A Doctor In The House?
-    choices[1106] = 3; // Wooof! Wooooooof!
-    choices[1107] = 1; // Playing Fetch*
     this.propertyManager.setChoices(choices);
     const ignored_noncombats = [
       "Wooof! Wooooooof!",
