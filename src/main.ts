@@ -115,6 +115,7 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
         "libram_savedMacro",
         "maximizerMRUList",
         "testudinalTeachings",
+        "_lastCombatStarted",
       ]),
     ]
       .sort()
