@@ -9,6 +9,7 @@ import {
   myPrimestat,
   mySpleenUse,
   reverseNumberology,
+  use,
 } from "kolmafia";
 import { $item, get, have, set } from "libram";
 import { Quest } from "./structure";
@@ -60,6 +61,16 @@ export const DietQuest: Quest = {
         eat(1, $item`magical sausage`);
       },
       limit: { tries: 23 },
+      freeaction: true,
+    },
+    {
+      name: "Hourglass",
+      after: [],
+      completed: () => !have($item`etched hourglass`) || get("_etchedHourglassUsed"),
+      do: (): void => {
+        use($item`etched hourglass`);
+      },
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],
