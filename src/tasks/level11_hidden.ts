@@ -105,8 +105,26 @@ const Apartment: Task[] = [
     freecombat: true,
   },
   {
+    name: "Apartment Files", // Get the last McClusky files here if needed, as a backup plan
+    after: ["Office Files"],
+    completed: () =>
+      have($item`McClusky file (page 5)`) ||
+      have($item`McClusky file (complete)`) ||
+      get("hiddenOfficeProgress") >= 7,
+    do: $location`The Hidden Apartment Building`,
+    combat: new CombatStrategy()
+      .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
+      .kill($monster`pygmy witch accountant`)
+      .banish(...$monsters`pygmy janitor, pygmy witch lawyer`)
+      .macro(new Macro().step(use_writ).runaway(), $monster`pygmy shaman`)
+      .flee(),
+    limit: { tries: 9 },
+    equip: $items`Greatest American Pants`, // hack to avoid using banishers on shaman
+    choices: { 780: 1 },
+  },
+  {
     name: "Apartment",
-    after: ["Open Apartment", "Office Files"], // Wait until after all needed pygmy witch lawyers are done
+    after: ["Open Apartment", "Apartment Files"], // Wait until after all needed pygmy witch lawyers are done
     completed: () => get("hiddenApartmentProgress") >= 7,
     acquire: [
       { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
@@ -154,7 +172,8 @@ const Office: Task[] = [
         have($item`McClusky file (page 4)`) &&
         have($item`McClusky file (page 5)`)) ||
       have($item`McClusky file (complete)`) ||
-      get("hiddenOfficeProgress") >= 7,
+      get("hiddenOfficeProgress") >= 7 ||
+      $location`The Hidden Office Building`.turnsSpent >= 10,
     do: $location`The Hidden Office Building`,
     combat: new CombatStrategy()
       .kill($monster`pygmy witch accountant`)
@@ -164,7 +183,7 @@ const Office: Task[] = [
   },
   {
     name: "Office Clip",
-    after: ["Office Files"],
+    after: ["Office Files", "Apartment Files"],
     acquire: [
       { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
     ],
