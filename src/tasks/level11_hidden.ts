@@ -103,6 +103,7 @@ const Apartment: Task[] = [
     choices: { 781: 1 },
     limit: { tries: 4 },
     freecombat: true,
+    acquire: [{ item: $item`antique machete` }],
   },
   {
     name: "Apartment",
@@ -143,6 +144,7 @@ const Office: Task[] = [
     choices: { 785: 1 },
     limit: { tries: 4 },
     freecombat: true,
+    acquire: [{ item: $item`antique machete` }],
   },
   {
     name: "Office Files",
@@ -222,6 +224,7 @@ const Hospital: Task[] = [
     choices: { 783: 1 },
     limit: { tries: 4 },
     freecombat: true,
+    acquire: [{ item: $item`antique machete` }],
   },
   {
     name: "Hospital",
@@ -269,6 +272,7 @@ const Bowling: Task[] = [
     choices: { 787: 1 },
     limit: { tries: 4 },
     freecombat: true,
+    acquire: [{ item: $item`antique machete` }],
   },
   {
     name: "Bowling",
