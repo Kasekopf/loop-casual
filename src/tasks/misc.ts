@@ -4,6 +4,7 @@ import {
   cliExecute,
   familiarEquippedEquipment,
   itemAmount,
+  myBasestat,
   myPrimestat,
   runChoice,
   useFamiliar,
@@ -176,7 +177,7 @@ export const MiscQuest: Quest = {
           case $location`Inside the Palindome`:
             return have($item`Talisman o' Namsilat`);
           case $location`The Old Landfill`:
-            return myPrimestat() >= 25 && step("questL02Larva") >= 0;
+            return myBasestat(myPrimestat()) >= 25 && step("questL02Larva") >= 0;
           case $location`Madness Bakery`:
           case $location`The Overgrown Lot`:
           case $location`The Skeleton Store`:
