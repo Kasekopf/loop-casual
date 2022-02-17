@@ -94,8 +94,18 @@ const Copperhead: Task[] = [
 
 const Zepplin: Task[] = [
   {
-    name: "Protesters",
+    name: "Protesters Start",
     after: ["Macguffin/Diary"],
+    completed: () => step("questL11Ron") >= 1,
+    do: $location`A Mob of Zeppelin Protesters`,
+    combat: new CombatStrategy().killHard($monster`The Nuge`),
+    choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
+    limit: { tries: 1 },
+    freeaction: true,
+  },
+  {
+    name: "Protesters",
+    after: ["Protesters Start"],
     completed: () => get("zeppelinProtestors") >= 80,
     acquire: [{ item: $item`11-leaf clover` }],
     prepare: (): void => {
@@ -111,7 +121,7 @@ const Zepplin: Task[] = [
     modifier: "sleaze dmg, sleaze spell dmg",
     familiar: $familiar`Left-Hand Man`,
     freeaction: true, // fully maximize outfit
-    limit: { tries: 4, message: "Maybe your available sleaze damage is too low." },
+    limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
   },
   {
     name: "Protesters Finish",
