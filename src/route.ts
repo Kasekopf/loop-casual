@@ -3,6 +3,7 @@ import { Task } from "./tasks/structure";
 export const routing: string[] = [
   "Diet/Numberology", // Numberology is always ready at the start of the day
   "Diet/Sausage", // Eat magical sausages as soon as they are obtained
+  "Diet/Hourglass",
 
   // Pickup items
   "Misc/Short Cook",
