@@ -6,10 +6,12 @@ import {
   familiarWeight,
   floor,
   Item,
+  itemAmount,
   mallPrice,
   Monster,
   myLevel,
   myTurncount,
+  retrieveItem,
   Skill,
   totalTurnsPlayed,
   use,
@@ -248,7 +250,10 @@ function availableFamiliarRunaways(otherBonus: number) {
   );
 }
 
-export const runawayValue = 0.8 * get("valueOfAdventure");
+export const runawayValue =
+  have($item`Greatest American Pants`) || have($item`navel ring of navel gazing`)
+    ? 0.8 * get("valueOfAdventure")
+    : get("valueOfAdventure");
 
 export const runawaySources: RunawaySource[] = [
   {
@@ -336,6 +341,36 @@ export const runawaySources: RunawaySource[] = [
     available: () => have($item`Greatest American Pants`),
     equip: $item`Greatest American Pants`,
     do: new Macro().runaway(),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+  },
+  {
+    name: "Navel Ring",
+    available: () => have($item`navel ring of navel gazing`),
+    equip: $item`navel ring of navel gazing`,
+    do: new Macro().runaway(),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+  },
+  {
+    name: "Peppermint Parasol",
+    available: () =>
+      have($item`peppermint parasol`) ||
+      mallPrice($item`peppermint parasol`) < 10 * get("valueOfAdventure"),
+    prepare: () => {
+      if (have($item`peppermint parasol`)) return;
+      if (itemAmount($item`peppermint sprout`) >= 5) {
+        retrieveItem($item`peppermint parasol`);
+      } else if (mallPrice($item`peppermint parasol`) < 5 * mallPrice($item`peppermint sprout`)) {
+        buy($item`peppermint parasol`, 1, mallPrice($item`peppermint parasol`));
+      } else {
+        buy(
+          $item`peppermint sprout`,
+          5 - itemAmount($item`peppermint sprout`),
+          mallPrice($item`peppermint sprout`)
+        );
+        retrieveItem($item`peppermint parasol`);
+      }
+    },
+    do: new Macro().item($item`peppermint parasol`),
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
   },
 ];
