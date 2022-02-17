@@ -342,7 +342,7 @@ export const TowerQuest: Quest = {
     {
       name: "Shadow",
       after: ["Mirror"],
-      acquire: [{ item: $item`gauze garter`, num: 5 }],
+      acquire: [{ item: $item`gauze garter`, num: 6 }],
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
