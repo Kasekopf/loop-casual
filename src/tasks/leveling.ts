@@ -132,7 +132,9 @@ export const LevelingQuest: Quest = {
           visitUrl("place.php?whichplace=snojo&action=snojo_controller");
           runChoice(primestatId());
         }
-        ensureEffect($effect`Super Skill`); // after GAP are equipped
+        if (have($item`Greatest American Pants`)) {
+          ensureEffect($effect`Super Skill`); // after GAP are equipped
+        }
         cliExecute("uneffect ode to booze");
         if (myHp() < myMaxhp()) useSkill($skill`Cannelloni Cocoon`);
       },
@@ -142,7 +144,7 @@ export const LevelingQuest: Quest = {
         if (get("_snojoFreeFights") === 10) cliExecute("hottub"); // Clean -stat effects
       },
       combat: new CombatStrategy().macro((): Macro => {
-        if (have($familiar`Frumious Bandersnatch`)) {
+        if (have($familiar`Frumious Bandersnatch`) && have($item`Greatest American Pants`)) {
           // Grind exp for Bandersnatch
           return new Macro()
             .skill($skill`Curse of Weaksauce`)
