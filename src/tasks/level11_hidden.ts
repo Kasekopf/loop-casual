@@ -315,6 +315,7 @@ export const HiddenQuest: Quest = {
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
       limit: { tries: 4 },
+      acquire: [{ item: $item`antique machete` }],
     },
   ],
 };
