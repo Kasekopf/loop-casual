@@ -229,6 +229,7 @@ export function canChargeVoid(): boolean {
 
 export interface RunawaySource extends CombatResource {
   do: Macro;
+  banishes: boolean;
   chance: () => number;
 }
 
@@ -265,6 +266,7 @@ export const runawaySources: RunawaySource[] = [
     available: () => have($item`cosmic bowling ball`),
     do: new Macro().skill($skill`Bowl a Curveball`),
     chance: () => 1,
+    banishes: true,
   },
   {
     name: "Asdon Martin",
@@ -281,6 +283,7 @@ export const runawaySources: RunawaySource[] = [
     prepare: () => AsdonMartin.fillTo(50),
     do: new Macro().skill($skill`Asdon Martin: Spring-Loaded Front Bumper`),
     chance: () => 1,
+    banishes: true,
   },
   {
     name: "Familiar Runaways",
@@ -302,6 +305,7 @@ export const runawaySources: RunawaySource[] = [
     equip: [runawayFamiliar, ...familiarGear, $item`fish hatchet`],
     do: new Macro().runaway(),
     chance: () => 1,
+    banishes: false,
   },
   {
     name: "Familiar Runaways (with offhand)", // Use the potted plant as long as possible
@@ -323,6 +327,7 @@ export const runawaySources: RunawaySource[] = [
     equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`iFlail`],
     do: new Macro().runaway(),
     chance: () => 1,
+    banishes: false,
   },
   {
     name: "Blank-Out",
@@ -339,6 +344,7 @@ export const runawaySources: RunawaySource[] = [
       (mallPrice($item`bottle of Blank-Out`) < 5 * runawayValue && !get("_blankoutUsed")),
     do: new Macro().tryItem($item`glob of Blank-Out`),
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
   },
   {
     name: "GAP",
@@ -346,6 +352,7 @@ export const runawaySources: RunawaySource[] = [
     equip: $item`Greatest American Pants`,
     do: new Macro().runaway(),
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
   },
   {
     name: "Navel Ring",
@@ -353,6 +360,7 @@ export const runawaySources: RunawaySource[] = [
     equip: $item`navel ring of navel gazing`,
     do: new Macro().runaway(),
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
   },
   {
     name: "Peppermint Parasol",
@@ -376,6 +384,7 @@ export const runawaySources: RunawaySource[] = [
     },
     do: new Macro().item($item`peppermint parasol`),
     chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
   },
 ];
 

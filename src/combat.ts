@@ -19,6 +19,7 @@ import {
 
 export enum MonsterStrategy {
   RunAway,
+  RunAwayNoBanish,
   Kill,
   KillFree,
   KillHard,
@@ -43,6 +44,9 @@ export class CombatResourceAllocation {
   }
   public runawayWith(resource?: RunawaySource): void {
     this.allocate(MonsterStrategy.RunAway, resource);
+  }
+  public runawayNoBanishWith(resource?: RunawaySource): void {
+    this.allocate(MonsterStrategy.RunAwayNoBanish, resource);
   }
 
   public all(): CombatResource[] {
@@ -131,6 +135,7 @@ export class BuiltCombatStrategy {
       .tryItem($item`Time-Spinner`);
 
     switch (strategy) {
+      case MonsterStrategy.RunAwayNoBanish:
       case MonsterStrategy.RunAway:
         return new Macro()
           .runaway()
@@ -207,6 +212,9 @@ export class CombatStrategy {
   }
   public flee(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAway, ...monsters);
+  }
+  public fleeNoBanish(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.RunAwayNoBanish, ...monsters);
   }
   public item(item: Item, ...monsters: Monster[]): CombatStrategy {
     return this.macro(new Macro().item(item), ...monsters);

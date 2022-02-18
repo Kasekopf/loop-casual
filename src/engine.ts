@@ -132,8 +132,18 @@ export class Engine {
         combat_resources.banishWith(outfit.equipFirst(banishSources));
 
         // Set up a runaway if needed
+        let runaway = undefined;
         if (task_combat.can(MonsterStrategy.RunAway)) {
-          combat_resources.runawayWith(outfit.equipFirst(runawaySources));
+          runaway = outfit.equipFirst(runawaySources);
+          combat_resources.runawayWith(runaway);
+        }
+        if (task_combat.can(MonsterStrategy.RunAwayNoBanish)) {
+          if (runaway !== undefined && !runaway.banishes)
+            combat_resources.runawayNoBanishWith(runaway);
+          else
+            combat_resources.runawayNoBanishWith(
+              outfit.equipFirst(runawaySources.filter((source) => !source.banishes))
+            );
         }
 
         // Set up a free kill if needed, or if no free kills will ever be needed again
