@@ -1,6 +1,6 @@
 # Overview
 
-This is a casual script designed to work if you are me, [Kasekopf (#1210810)](https://cheesellc.com/kol/profile.php?u=Kasekopf). I mostly run as a Seal Clubber.
+This is a Grey You softcore script, based on the [loop-casual](https://github.com/Kasekopf/loop-casual) framework. It does not currently work.
 
 ### Strategy
 
