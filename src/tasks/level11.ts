@@ -195,12 +195,14 @@ const Pyramid: Task[] = [
     after: ["Use Bomb"],
     completed: () => step("questL11Pyramid") === 999,
     do: () => visitUrl("place.php?whichplace=pyramid&action=pyramid_state1a"),
-    combat: new CombatStrategy(true).macro(
-      new Macro()
-        .trySkill($skill`Saucegeyser`)
-        .attack()
-        .repeat()
-    ),
+    combat: new CombatStrategy(true)
+      .macro(
+        new Macro()
+          .trySkill($skill`Saucegeyser`)
+          .attack()
+          .repeat()
+      )
+      .kill(),
     limit: { tries: 1 },
   },
 ];
