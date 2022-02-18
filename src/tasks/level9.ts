@@ -1,17 +1,5 @@
-import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
-import {
-  $effect,
-  $effects,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $skill,
-  get,
-  have,
-  Macro,
-  SourceTerminal,
-} from "libram";
+import { itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { $effect, $item, $location, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -31,28 +19,10 @@ const ABoo: Task[] = [
     acquire: [
       { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
     ],
-    priority: () => get("lastCopyableMonster") === $monster`toothy sklelton`, // After Defiled Nook
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
-    prepare: () => {
-      if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
-        SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
-    },
     do: $location`A-Boo Peak`,
     modifier: "item 667max",
-    equip: $items`A Light that Never Goes Out`,
-    effects: $effects`Merry Smithsness`,
-    combat: new CombatStrategy()
-      .macro((): Macro => {
-        if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
-          return new Macro()
-            .trySkill($skill`Feel Nostalgic`)
-            .trySkill(`Duplicate`)
-            .tryItem(`yellow rocket`);
-        } else {
-          return new Macro().trySkill($skill`Feel Envy`);
-        }
-      })
-      .killHard(),
+    combat: new CombatStrategy().killHard(),
     choices: { 611: 1, 1430: 1 },
     limit: { tries: 4 },
   },
@@ -162,17 +132,15 @@ export const ChasmQuest: Quest = {
       name: "Bridge",
       after: ["Start"],
       completed: () => step("questL09Topping") >= 1,
-      do: (): void => {
-        if (have($item`fish hatchet`)) use($item`fish hatchet`);
+      do: $location`The Smut Orc Logging Camp`,
+      post: (): void => {
+        if (have($item`smut orc keepsake box`)) use($item`smut orc keepsake box`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
-        const count = floor((34 - get("chasmBridgeProgress")) / 5);
-        if (count <= 0) return;
-        cliExecute(`acquire ${count} snow boards`);
-        visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`);
       },
-      acquire: [{ item: $item`snow berries`, num: 12 }],
-      limit: { tries: 1 },
-      freeaction: true,
+      modifier: "item",
+      combat: new CombatStrategy().kill(),
+      choices: { 1345: 1 },
+      limit: { soft: 32 },
     },
     {
       name: "Start Peaks",
