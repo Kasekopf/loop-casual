@@ -155,9 +155,7 @@ export class Engine {
       if (
         canChargeVoid() &&
         !freecombat &&
-        (runaway === undefined ||
-          runaway.chance() < 1 ||
-          task_combat.can(MonsterStrategy.Kill) ||
+        ((task_combat.can(MonsterStrategy.Kill) && freekill === undefined) ||
           task_combat.can(MonsterStrategy.KillHard))
       )
         outfit.equip($item`cursed magnifying glass`);
