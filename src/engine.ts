@@ -173,7 +173,8 @@ export class Engine {
         !freecombat &&
         ((task_combat.can(MonsterStrategy.Kill) &&
           !combat_resources.has(MonsterStrategy.KillFree)) ||
-          task_combat.can(MonsterStrategy.KillHard))
+          task_combat.can(MonsterStrategy.KillHard) ||
+          task_combat.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
       outfit.equipDefaults();
