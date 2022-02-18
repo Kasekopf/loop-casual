@@ -9,7 +9,13 @@ import {
   weaponType,
 } from "kolmafia";
 import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, Macro } from "libram";
-import { BanishSource, FreekillSource, RunawaySource, WandererSource } from "./resources";
+import {
+  BanishSource,
+  CombatResource,
+  FreekillSource,
+  RunawaySource,
+  WandererSource,
+} from "./resources";
 
 export enum MonsterStrategy {
   RunAway,
@@ -20,62 +26,102 @@ export enum MonsterStrategy {
   Abort,
 }
 
+export class CombatResourceAllocation {
+  private base = new Map<MonsterStrategy, CombatResource>();
+
+  allocate(strategy: MonsterStrategy, resource?: CombatResource) {
+    if (resource === undefined) return;
+    this.base.set(strategy, resource);
+  }
+
+  // Typed allocation methods for safety
+  public banishWith(resource?: BanishSource): void {
+    this.allocate(MonsterStrategy.Banish, resource);
+  }
+  public freekillWith(resource?: FreekillSource): void {
+    this.allocate(MonsterStrategy.KillFree, resource);
+  }
+  public runawayWith(resource?: RunawaySource): void {
+    this.allocate(MonsterStrategy.RunAway, resource);
+  }
+
+  public all(): CombatResource[] {
+    return Array.from(this.base.values());
+  }
+
+  public has(for_strategy: MonsterStrategy) {
+    return this.base.has(for_strategy);
+  }
+
+  public getMacro(for_strategy: MonsterStrategy): Macro | undefined {
+    const resource = this.base.get(for_strategy);
+    if (resource === undefined) return undefined;
+    if (resource.do instanceof Macro) return resource.do;
+    if (resource.do instanceof Item) return new Macro().item(resource.do);
+    if (resource.do instanceof Skill) return new Macro().skill(resource.do);
+    throw `Unable to convert resource ${resource.name} to a macro`;
+  }
+}
+
 export class BuiltCombatStrategy {
   macro: Macro = new Macro();
   boss: boolean;
-
-  use_banish?: Macro;
-  use_runaway?: Macro;
-  use_freekill?: Macro;
+  resources: CombatResourceAllocation;
 
   constructor(
     abstract: CombatStrategy,
-    wanderers: WandererSource[],
-    banish?: BanishSource,
-    runaway?: RunawaySource,
-    freekill?: FreekillSource
+    resources: CombatResourceAllocation,
+    wanderers: WandererSource[]
   ) {
     this.boss = abstract.boss;
+    this.resources = resources;
 
-    // Setup special macros
-    if (banish?.do instanceof Item) this.use_banish = new Macro().item(banish.do);
-    if (banish?.do instanceof Skill) this.use_banish = new Macro().skill(banish.do);
-    if (freekill?.do instanceof Item) this.use_freekill = new Macro().item(freekill.do).abort();
-    if (freekill?.do instanceof Skill) this.use_freekill = new Macro().skill(freekill.do).abort();
-    this.use_runaway = runaway?.do;
+    // First, kill wanderers
     for (const wanderer of wanderers) {
       // Note that we kill hard, which never uses up a freekill
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     }
 
-    // Setup the generic macros
+    // Second, perform any monster-specific strategies (these may or may not end the fight)
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, undelay(value));
     });
     abstract.strategy.forEach((strat, monster) => {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
+
+    // Finally, perform the non-monster specific strategies
     if (abstract.default_macro) this.macro = this.macro.step(undelay(abstract.default_macro));
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
-  }
-
-  public handle_monster(monster: Monster, strategy: MonsterStrategy | Macro): void {
-    this.macro = new Macro().if_(monster, this.prepare_macro(strategy, monster)).step(this.macro);
   }
 
   prepare_macro(strategy: MonsterStrategy | Macro, monster?: Monster): Macro {
     if (strategy instanceof Macro) return strategy;
 
-    // Upgrade for kills that happen to be difficult
+    // Upgrade normal kills to free kills if provided
     if (
       strategy === MonsterStrategy.Kill &&
-      this.use_freekill === undefined &&
+      this.resources.has(MonsterStrategy.KillFree) &&
+      !(monster?.boss || this.boss)
+    ) {
+      strategy = MonsterStrategy.KillFree;
+    }
+
+    // Upgrade normal kills to hard kills if we are underleveled
+    if (
+      strategy === MonsterStrategy.Kill &&
+      this.resources.has(MonsterStrategy.KillFree) === undefined &&
       monster &&
       monsterDefense(monster) * 1.25 > myBuffedstat(weaponType(equippedItem($slot`Weapon`)))
     ) {
       strategy = MonsterStrategy.KillHard;
     }
 
+    // Use the appropriate resource if provided
+    const use_resource = this.resources.getMacro(strategy);
+    if (use_resource !== undefined) return use_resource;
+
+    // Otherwise, default to standard strategies
     const delevel = new Macro()
       .skill($skill`Curse of Weaksauce`)
       .trySkill($skill`Pocket Crumbs`)
@@ -86,19 +132,12 @@ export class BuiltCombatStrategy {
 
     switch (strategy) {
       case MonsterStrategy.RunAway:
-        if (this.use_runaway === undefined)
-          return new Macro()
-            .runaway()
-            .skill($skill`Saucestorm`)
-            .attack()
-            .repeat();
-        else return this.use_runaway;
-      case MonsterStrategy.KillFree:
-        if (this.use_freekill === undefined) return new Macro().abort(); // should already be banished, or we are out of banishes
-        return this.use_freekill;
+        return new Macro()
+          .runaway()
+          .skill($skill`Saucestorm`)
+          .attack()
+          .repeat();
       case MonsterStrategy.Kill:
-        if (this.use_freekill !== undefined && !(monster?.boss || this.boss))
-          return this.use_freekill;
         if (monsterLevelAdjustment() > 150) return new Macro().skill($skill`Saucegeyser`).repeat();
         if (monster && monster.physicalResistance >= 70)
           return delevel.skill($skill`Saucegeyser`).repeat();
@@ -112,9 +151,9 @@ export class BuiltCombatStrategy {
         } else {
           return delevel.skill($skill`Lunging Thrust-Smack`).repeat();
         }
+      // Abort for strategies that can only be done with resources
+      case MonsterStrategy.KillFree:
       case MonsterStrategy.Banish:
-        if (this.use_banish === undefined) return new Macro().abort(); // should already be banished, or we are out of banishes
-        return this.use_banish;
       case MonsterStrategy.Abort:
         return new Macro().abort();
     }

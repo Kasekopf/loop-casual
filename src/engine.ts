@@ -1,7 +1,12 @@
 import { Location } from "kolmafia";
 import { Task } from "./tasks/structure";
 import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
-import { BuiltCombatStrategy, CombatStrategy, MonsterStrategy } from "./combat";
+import {
+  BuiltCombatStrategy,
+  CombatResourceAllocation,
+  CombatStrategy,
+  MonsterStrategy,
+} from "./combat";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
@@ -119,17 +124,17 @@ export class Engine {
     if (!task.freeaction) {
       // Prepare combat macro
       const task_combat = task.combat ?? new CombatStrategy();
+      const combat_resources = new CombatResourceAllocation();
 
-      let banish = undefined;
-      let runaway = undefined;
-      let freekill = undefined;
       if (wanderers.length === 0) {
         // Set up a banish if needed
-        const banishers = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
-        banish = outfit.equipFirst(banishers);
+        const banishSources = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
+        combat_resources.banishWith(outfit.equipFirst(banishSources));
 
         // Set up a runaway if needed
-        if (task_combat.can(MonsterStrategy.RunAway)) runaway = outfit.equipFirst(runawaySources);
+        if (task_combat.can(MonsterStrategy.RunAway)) {
+          combat_resources.runawayWith(outfit.equipFirst(runawaySources));
+        }
 
         // Set up a free kill if needed, or if no free kills will ever be needed again
         if (
@@ -137,8 +142,9 @@ export class Engine {
           (task_combat.can(MonsterStrategy.Kill) &&
             !task_combat.boss &&
             this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
-        )
-          freekill = outfit.equipFirst(freekillSources);
+        ) {
+          combat_resources.freekillWith(outfit.equipFirst(freekillSources));
+        }
       }
 
       // Set up more wanderers if delay is needed
@@ -155,7 +161,8 @@ export class Engine {
       if (
         canChargeVoid() &&
         !freecombat &&
-        ((task_combat.can(MonsterStrategy.Kill) && freekill === undefined) ||
+        ((task_combat.can(MonsterStrategy.Kill) &&
+          !combat_resources.has(MonsterStrategy.KillFree)) ||
           task_combat.can(MonsterStrategy.KillHard))
       )
         outfit.equip($item`cursed magnifying glass`);
@@ -163,16 +170,14 @@ export class Engine {
       outfit.dress();
 
       // Prepare combat macro (after effects and outfit)
-      const combat = new BuiltCombatStrategy(task_combat, wanderers, banish, runaway, freekill);
+      const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
       combat.macro.save();
 
       // Prepare resources if needed
       wanderers.map((source) => source.prepare && source.prepare());
-      if (banish?.prepare !== undefined) banish?.prepare();
-      if (runaway?.prepare !== undefined) runaway?.prepare();
-      if (freekill?.prepare !== undefined) freekill?.prepare();
+      combat_resources.all().map((source) => source.prepare && source.prepare());
 
       // HP/MP upkeep
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);

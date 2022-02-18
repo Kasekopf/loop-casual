@@ -42,7 +42,11 @@ export interface Resource {
   chance?: () => number;
 }
 
-export interface BanishSource extends Resource {
+export interface CombatResource extends Resource {
+  do: Item | Skill | Macro;
+}
+
+export interface BanishSource extends CombatResource {
   do: Item | Skill;
 }
 
@@ -223,7 +227,7 @@ export function canChargeVoid(): boolean {
   return get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13;
 }
 
-export interface RunawaySource extends Resource {
+export interface RunawaySource extends CombatResource {
   do: Macro;
   chance: () => number;
 }
@@ -375,7 +379,7 @@ export const runawaySources: RunawaySource[] = [
   },
 ];
 
-export interface FreekillSource extends Resource {
+export interface FreekillSource extends CombatResource {
   do: Item | Skill;
 }
 
