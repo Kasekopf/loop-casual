@@ -134,9 +134,9 @@ const Apartment: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
-      .macro(new Macro().step(use_writ).runaway(), $monster`pygmy shaman`)
+      .macro(new Macro().step(use_writ), $monster`pygmy shaman`)
+      .fleeNoBanish($monster`pygmy shaman`)
       .flee(),
-    equip: $items`Greatest American Pants`, // hack to avoid using banishers on shaman
     choices: { 780: 1 },
     limit: { tries: 9 },
   },
