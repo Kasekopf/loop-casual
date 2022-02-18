@@ -1,10 +1,6 @@
 import { Task } from "./tasks/structure";
 
 export const routing: string[] = [
-  "Diet/Numberology", // Numberology is always ready at the start of the day
-  "Diet/Sausage", // Eat magical sausages as soon as they are obtained
-  "Diet/Hourglass",
-
   // Pickup items
   "Misc/Short Cook",
   "Misc/Floundry",
@@ -12,21 +8,6 @@ export const routing: string[] = [
 
   // Start with the basic leveling tasks
   "Toot/Finish",
-  "Leveling/Cloud Talk",
-  "Leveling/Daycare",
-  "Leveling/Bastille",
-  "Leveling/Leaflet",
-  "Leveling/Snojo",
-  "Leveling/Chateau",
-
-  // Then do the scaling leveling
-  "Leveling/LOV Tunnel",
-  "Leveling/Witchess",
-  "Leveling/God Lobster",
-  "Leveling/Machine Elf",
-  "Leveling/Neverending Party",
-  "Leveling/Sausage Fights",
-  "Diet/Consume",
   "Misc/Protonic Ghost", // whenever ghosts are ready
 
   // Open up MacGuffin zones
@@ -89,8 +70,7 @@ export const routing: string[] = [
   "McLargeHuge/Finish",
   "Orc Chasm/Finish",
   "Giant/Finish",
-  "War/Boss Hippie",
-  "War/Boss Frat",
+  "War/Boss Hippy",
 
   // Finish up with last delay
   "Macguffin/Finish",

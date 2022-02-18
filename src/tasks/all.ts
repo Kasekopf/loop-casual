@@ -1,4 +1,3 @@
-import { DietQuest } from "./diet";
 import { TootQuest } from "./level1";
 import { MosquitoQuest } from "./level2";
 import { TavernQuest } from "./level3";
@@ -17,15 +16,12 @@ import { WarQuest } from "./level12";
 import { TowerQuest } from "./level13";
 import { KeysQuest, MiscQuest } from "./misc";
 import { Task } from "./structure";
-import { LevelingQuest } from "./leveling";
 
 export function all_tasks(): Task[] {
   const quests = [
     TootQuest,
-    LevelingQuest,
     MiscQuest,
     KeysQuest,
-    DietQuest,
     MosquitoQuest,
     TavernQuest,
     BatQuest,
