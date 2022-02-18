@@ -1,53 +1,238 @@
-import {
-  availableAmount,
-  cliExecute,
-  create,
-  Item,
-  itemAmount,
-  mallPrice,
-  myLevel,
-  use,
-  visitUrl,
-} from "kolmafia";
-import { $item, $items, $location, get } from "libram";
-import { Quest, step } from "./structure";
+import { itemAmount, myLevel, visitUrl } from "kolmafia";
+import { $effect, $effects, $item, $items, $location, $monster, get, have, Macro } from "libram";
+import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
-function ensureFluffers(flufferCount: number): void {
-  // From bean-casual
-  while (availableAmount($item`stuffing fluffer`) < flufferCount) {
-    if (itemAmount($item`cashew`) >= 3) {
-      create(1, $item`stuffing fluffer`);
-      continue;
-    }
-    const neededFluffers = flufferCount - availableAmount($item`stuffing fluffer`);
-    const stuffingFlufferSources: [Item, number][] = [
-      [$item`cashew`, 3],
-      [$item`stuffing fluffer`, 1],
-      [$item`cornucopia`, (1 / 3.5) * 3],
-    ];
-    stuffingFlufferSources.sort(
-      ([item1, mult1], [item2, mult2]) => mallPrice(item1) * mult1 - mallPrice(item2) * mult2
-    );
-    const [stuffingFlufferSource, sourceMultiplier] = stuffingFlufferSources[0];
+const Flyers: Task[] = [
+  {
+    name: "Flyers Start",
+    after: ["Enrage"],
+    completed: () => have($item`rock band flyers`) || get("sidequestArenaCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?place=concert&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+  {
+    name: "Flyers End",
+    after: ["Flyers Start"],
+    ready: () => get("flyeredML") >= 10000,
+    completed: () => get("sidequestArenaCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?place=concert&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+];
 
-    const neededOfSource = Math.ceil(neededFluffers * sourceMultiplier);
-    cliExecute(`acquire ${neededOfSource} ${stuffingFlufferSource}`);
-    if (stuffingFlufferSource === $item`cornucopia`) {
-      use(neededOfSource, $item`cornucopia`);
-    }
-    if (stuffingFlufferSource !== $item`stuffing fluffer`) {
-      create(
-        clamp(Math.floor(availableAmount($item`cashew`) / 3), 0, neededFluffers),
-        $item`stuffing fluffer`
-      );
-    }
-  }
-}
+const Lighthouse: Task[] = [
+  {
+    name: "Lighthouse",
+    after: ["Enrage"],
+    completed: () =>
+      itemAmount($item`barrel of gunpowder`) >= 5 || get("sidequestLighthouseCompleted") !== "none",
+    do: $location`Sonofa Beach`,
+    modifier: "+combat",
+    limit: { soft: 20 },
+  },
+  {
+    name: "Lighthouse End",
+    after: ["Lighthouse"],
+    completed: () => get("sidequestLighthouseCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?place=lighthouse&action=pyro&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+];
 
-function clamp(n: number, min: number, max: number): number {
-  return Math.max(min, Math.min(n, max));
-}
+const Junkyard: Task[] = [
+  {
+    name: "Junkyard Start",
+    after: ["Enrage"],
+    completed: () => have($item`molybdenum magnet`),
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?action=junkman&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+  {
+    name: "Junkyard Hammer",
+    after: ["Junkyard Start"],
+    completed: () => have($item`molybdenum hammer`) || get("sidequestJunkyardCompleted") !== "none",
+    acquire: [{ item: $item`seal tooth` }],
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: $location`Next to that Barrel with Something Burning in it`,
+    combat: new CombatStrategy()
+      .macro(
+        new Macro()
+          .while_('!match "whips out a hammer"', new Macro().item($item`seal tooth`))
+          .item($item`molybdenum magnet`),
+        $monster`batwinged gremlin`
+      )
+      .kill($monster`batwinged gremlin`),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Junkyard Wrench",
+    after: ["Junkyard Start"],
+    completed: () =>
+      have($item`molybdenum crescent wrench`) || get("sidequestJunkyardCompleted") !== "none",
+    acquire: [{ item: $item`seal tooth` }],
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: $location`Over Where the Old Tires Are`,
+    combat: new CombatStrategy()
+      .macro(
+        new Macro()
+          .while_(
+            '!match "whips out a crescent wrench from somewhere"',
+            new Macro().item($item`seal tooth`)
+          )
+          .item($item`molybdenum magnet`),
+        $monster`erudite gremlin`
+      )
+      .kill($monster`erudite gremlin`),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Junkyard Pliers",
+    after: ["Junkyard Start"],
+    acquire: [{ item: $item`seal tooth` }],
+    completed: () => have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: $location`Near an Abandoned Refrigerator`,
+    combat: new CombatStrategy()
+      .macro(
+        new Macro()
+          .while_('!match "whips out a pair of pliers"', new Macro().item($item`seal tooth`))
+          .item($item`molybdenum magnet`),
+        $monster`spider gremlin`
+      )
+      .kill($monster`spider gremlin`),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Junkyard Screwdriver",
+    after: ["Junkyard Start"],
+    completed: () =>
+      have($item`molybdenum screwdriver`) || get("sidequestJunkyardCompleted") !== "none",
+    acquire: [{ item: $item`seal tooth` }],
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: $location`Out by that Rusted-Out Car`,
+    combat: new CombatStrategy()
+      .macro(
+        new Macro()
+          .while_('!match "whips out a screwdriver"', new Macro().item($item`seal tooth`))
+          .item($item`molybdenum magnet`),
+        $monster`vegetable gremlin`
+      )
+      .kill($monster`vegetable gremlin`),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Junkyard End",
+    after: ["Junkyard Hammer", "Junkyard Wrench", "Junkyard Pliers", "Junkyard Screwdriver"],
+    completed: () => get("sidequestJunkyardCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?action=junkman&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+];
+
+const Orchard: Task[] = [
+  {
+    name: "Orchard Hatching",
+    after: ["Enrage"],
+    completed: () =>
+      have($item`filthworm hatchling scent gland`) ||
+      have($effect`Filthworm Larva Stench`) ||
+      have($item`filthworm drone scent gland`) ||
+      have($effect`Filthworm Drone Stench`) ||
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Hatching Chamber`,
+    modifier: "items",
+    combat: new CombatStrategy().kill(),
+    limit: { soft: 15 },
+  },
+  {
+    name: "Orchard Feeding",
+    after: ["Orchard Hatching"],
+    completed: () =>
+      have($item`filthworm drone scent gland`) ||
+      have($effect`Filthworm Drone Stench`) ||
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Feeding Chamber`,
+    modifier: "items",
+    effects: $effects`Filthworm Larva Stench`,
+    combat: new CombatStrategy().kill(),
+    limit: { tries: 10 },
+  },
+  {
+    name: "Orchard Guard",
+    after: ["Orchard Feeding"],
+    completed: () =>
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Royal Guard Chamber`,
+    modifier: "items",
+    effects: $effects`Filthworm Drone Stench`,
+    combat: new CombatStrategy().kill(),
+    limit: { tries: 10 },
+  },
+  {
+    name: "Orchard Queen",
+    after: ["Orchard Guard"],
+    completed: () =>
+      have($item`heart of the filthworm queen`) || get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Filthworm Queen's Chamber`,
+    modifier: "items",
+    effects: $effects`Filthworm Guard Stench`,
+    combat: new CombatStrategy(true).kill(),
+    limit: { tries: 1 },
+  },
+  {
+    name: "Orchard Finish",
+    after: ["Orchard Queen", "Open Orchard"],
+    completed: () => get("sidequestOrchardCompleted") !== "none",
+    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    do: (): void => {
+      visitUrl("bigisland.php?place=orchard&action=stand&pwd");
+    },
+    freeaction: true,
+    limit: { tries: 1 },
+  },
+];
+
+const Nuns: Task[] = [
+  {
+    name: "Nuns",
+    after: ["Open Nuns"],
+    completed: () => get("sidequestNunsCompleted") !== "none",
+    do: $location`The Themthar Hills`,
+    modifier: "meat",
+    combat: new CombatStrategy(true).kill(),
+    limit: { soft: 20 },
+  },
+];
 
 export const WarQuest: Quest = {
   name: "War",
@@ -76,22 +261,53 @@ export const WarQuest: Quest = {
       choices: { 142: 3, 1433: 3 },
       limit: { soft: 20 },
     },
+    ...Flyers,
+    ...Lighthouse,
+    ...Junkyard,
     {
-      name: "Fluffers",
-      after: ["Enrage"],
-      completed: () => get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000,
+      name: "Open Orchard",
+      after: ["Flyers End", "Lighthouse End"],
+      acquire: [
+        { item: $item`beer helmet` },
+        { item: $item`distressed denim pants` },
+        { item: $item`bejeweled pledge pin` },
+      ],
+      completed: () => get("hippiesDefeated") >= 64,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
-      do: (): void => {
-        // const count = clamp((1000 - get("hippiesDefeated")) / 46, 0, 24);
-        while (get("hippiesDefeated") < 1000) {
-          ensureFluffers(1);
-          use($item`stuffing fluffer`);
-        }
-      },
-      limit: { tries: 1 },
-      freeaction: true,
+      do: $location`The Battlefield (Frat Uniform)`,
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 8 },
     },
-    // Kill whichever side the fluffers finish off first
+    ...Orchard,
+    {
+      name: "Open Nuns",
+      after: ["Orchard Finish"],
+      acquire: [
+        { item: $item`beer helmet` },
+        { item: $item`distressed denim pants` },
+        { item: $item`bejeweled pledge pin` },
+      ],
+      completed: () => get("hippiesDefeated") >= 192,
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      do: $location`The Battlefield (Frat Uniform)`,
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 8 },
+    },
+    ...Nuns,
+    {
+      name: "Clear",
+      after: ["Nuns"],
+      acquire: [
+        { item: $item`beer helmet` },
+        { item: $item`distressed denim pants` },
+        { item: $item`bejeweled pledge pin` },
+      ],
+      completed: () => get("hippiesDefeated") >= 1000,
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      do: $location`The Battlefield (Frat Uniform)`,
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 26 },
+    },
     {
       name: "Boss Hippie",
       after: ["Fluffers"],
@@ -100,24 +316,6 @@ export const WarQuest: Quest = {
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
-        visitUrl("bigisland.php?action=bossfight&pwd");
-      },
-      combat: new CombatStrategy(true).killHard(),
-      limit: { tries: 1 },
-    },
-    {
-      name: "Boss Frat",
-      after: ["Fluffers"],
-      completed: () => step("questL12War") === 999,
-      ready: () => get("fratboysDefeated") >= 1000,
-      acquire: [
-        { item: $item`reinforced beaded headband` },
-        { item: $item`bullet-proof corduroys` },
-        { item: $item`round purple sunglasses` },
-      ],
-      equip: $items`reinforced beaded headband, bullet-proof corduroys, round purple sunglasses`,
-      do: (): void => {
-        visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
       combat: new CombatStrategy(true).killHard(),
