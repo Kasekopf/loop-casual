@@ -38,7 +38,7 @@ const Manor1: Task[] = [
     acquire: [{ item: $item`T.U.R.D.S. Key`, num: 1, price: 4000, optional: true }],
     ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
-    choices: { 875: 1, 900: 2 },
+    choices: { 875: 1, 900: 2, 1436: 2 },
     modifier: "-combat",
     combat: new CombatStrategy()
       .flee()
