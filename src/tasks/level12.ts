@@ -310,7 +310,7 @@ export const WarQuest: Quest = {
     },
     {
       name: "Boss Hippie",
-      after: ["Fluffers"],
+      after: ["Clear"],
       completed: () => step("questL12War") === 999,
       ready: () => get("hippiesDefeated") >= 1000,
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,

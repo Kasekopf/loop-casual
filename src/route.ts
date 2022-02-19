@@ -70,7 +70,7 @@ export const routing: string[] = [
   "McLargeHuge/Finish",
   "Orc Chasm/Finish",
   "Giant/Finish",
-  "War/Boss Hippy",
+  "War/Boss Hippie",
 
   // Finish up with last delay
   "Macguffin/Finish",

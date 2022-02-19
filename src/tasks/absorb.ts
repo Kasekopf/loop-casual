@@ -441,7 +441,7 @@ class AbsorbtionTargets {
       Object.entries(appearanceRates(location))
         .filter((i) => i[1] > 0)
         .map((i) => Monster.get<Monster>(i[0]))
-        .filter(target_set.has)
+        .filter((m) => target_set.has(m))
         .map((monster) => this.add(monster, location));
     }
   }
@@ -470,17 +470,17 @@ class AbsorbtionTargets {
     return this.locsByTarget.keys();
   }
 
-  public hasTargets(location: Location) {
+  public hasTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster
     return !this.targetsByLoc.get(location)?.size;
   }
 
-  public isTarget(monster: Monster) {
+  public isTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unabsorbed
     return !this.locsByTarget.has(monster);
   }
 
-  public markAbsorbed(...monsters: Monster[]) {
+  public markAbsorbed(...monsters: Monster[]): void {
     for (const monster of monsters) this.delete(monster);
   }
 }

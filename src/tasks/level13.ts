@@ -253,7 +253,6 @@ export const TowerQuest: Quest = {
         "Giant/Finish",
         "Macguffin/Finish",
         "War/Boss Hippie",
-        "War/Boss Frat",
       ],
       ready: () => myLevel() >= 13,
       completed: () => step("questL13Final") !== -1,
