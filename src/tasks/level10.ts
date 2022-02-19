@@ -29,6 +29,7 @@ export const GiantQuest: Quest = {
       after: ["Grow Beanstalk"],
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
+      choices: { 178: 2, 182: 2 },
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
