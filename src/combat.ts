@@ -185,7 +185,7 @@ export class CombatStrategy {
     this.boss = boss ?? false;
 
     // TODO: better detection of which zones holiday monsters can appear
-    if (holidayMonsters.length > 0 && !this.boss) this.flee(...holidayMonsters);
+    if (holidayMonsters.length > 0 && !this.boss) this.ignore(...holidayMonsters);
   }
 
   apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
@@ -210,10 +210,10 @@ export class CombatStrategy {
     if (monsters.length === 0) throw `Must specify list of monsters to banish`;
     return this.apply(MonsterStrategy.Banish, ...monsters);
   }
-  public flee(...monsters: Monster[]): CombatStrategy {
+  public ignore(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAway, ...monsters);
   }
-  public fleeNoBanish(...monsters: Monster[]): CombatStrategy {
+  public ignoreNoBanish(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAwayNoBanish, ...monsters);
   }
   public abort(...monsters: Monster[]): CombatStrategy {
