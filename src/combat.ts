@@ -216,9 +216,6 @@ export class CombatStrategy {
   public fleeNoBanish(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.RunAwayNoBanish, ...monsters);
   }
-  public item(item: Item, ...monsters: Monster[]): CombatStrategy {
-    return this.macro(new Macro().item(item), ...monsters);
-  }
   public abort(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Abort, ...monsters);
   }

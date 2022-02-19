@@ -179,7 +179,10 @@ const Dome: Task[] = [
     equip: $items`Talisman o' Namsilat`,
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
-      .item($item`disposable instant camera`, ...$monsters`Bob Racecar, Racecar Bob`)
+      .macro(
+        new Macro().item($item`disposable instant camera`),
+        ...$monsters`Bob Racecar, Racecar Bob`
+      )
       .kill(),
     limit: { soft: 20 },
     modifier: "-combat",
