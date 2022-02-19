@@ -228,7 +228,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Conservatory`,
     after: ["Manor/Start"],
-    choices: {}, // TODO: Lights out
+    choices: { 899: 2 },
   },
   {
     do: $location`The Haunted Kitchen`,
