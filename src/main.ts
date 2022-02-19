@@ -36,7 +36,7 @@ export function main(): void {
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
-  cliExecute("ccs loopcasual");
+  cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
 
   while (myAdventures() > 0) {
