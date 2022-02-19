@@ -4,7 +4,7 @@ import { debug } from "../lib";
 import { Quest, Task } from "./structure";
 
 // Add a shorthand for expressing absorbtion-only tasks; there are a lot.
-interface AbsorbTask extends Pick<Task, "after" | "choices" | "equip" | "modifier" | "prepare"> {
+interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
   do: Location;
 }
 
