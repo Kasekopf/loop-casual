@@ -26,7 +26,7 @@ const Diary: Task[] = [
     familiar: $familiar`Reassembled Blackbird`,
     modifier: "+combat 5min",
     choices: { 923: 1, 924: 1 },
-    combat: new CombatStrategy().flee($monster`blackberry bush`).kill(),
+    combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
     limit: { soft: 15 },
   },
   {

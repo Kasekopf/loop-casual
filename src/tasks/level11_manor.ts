@@ -41,7 +41,7 @@ const Manor1: Task[] = [
     choices: { 875: 1, 900: 2, 1436: 2 },
     modifier: "-combat",
     combat: new CombatStrategy()
-      .flee()
+      .ignore()
       .banish($monster`pooltergeist`)
       .macro(new Macro().tryItem($item`T.U.R.D.S. Key`), $monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
@@ -131,7 +131,7 @@ const Manor2: Task[] = [
       .banish(
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
-      .flee($monster`tumbleweed`),
+      .ignore($monster`tumbleweed`),
     equip: () => {
       if (myClass() === $class`Seal Clubber` && have($skill`Batter Up!`) && myFury() >= 5)
         return $items`Meat Tenderizer is Murder`;

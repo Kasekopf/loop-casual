@@ -18,13 +18,13 @@ import {
 } from "./resources";
 
 export enum MonsterStrategy {
-  RunAway,
-  RunAwayNoBanish,
-  Kill,
-  KillFree,
-  KillHard,
-  Banish,
-  Abort,
+  Ignore, // Task doesn't care what happens
+  IgnoreNoBanish, // Task doesn't care what happens, as long as it is not banished
+  Kill, // Task needs to kill it, with or without a free kill
+  KillFree, // Task needs to kill it with a free kill
+  KillHard, // Task needs to kill it without using a free kill (i.e., boss, or already free)
+  Banish, // Task doesn't care what happens, but banishing is useful
+  Abort, // Abort the macro and the script; an error has occured
 }
 
 export class CombatResourceAllocation {
@@ -43,10 +43,10 @@ export class CombatResourceAllocation {
     this.allocate(MonsterStrategy.KillFree, resource);
   }
   public runawayWith(resource?: RunawaySource): void {
-    this.allocate(MonsterStrategy.RunAway, resource);
+    this.allocate(MonsterStrategy.Ignore, resource);
   }
   public runawayNoBanishWith(resource?: RunawaySource): void {
-    this.allocate(MonsterStrategy.RunAwayNoBanish, resource);
+    this.allocate(MonsterStrategy.IgnoreNoBanish, resource);
   }
 
   public all(): CombatResource[] {
@@ -135,8 +135,9 @@ export class BuiltCombatStrategy {
       .tryItem($item`Time-Spinner`);
 
     switch (strategy) {
-      case MonsterStrategy.RunAwayNoBanish:
-      case MonsterStrategy.RunAway:
+      case MonsterStrategy.IgnoreNoBanish:
+      case MonsterStrategy.Ignore:
+        // For a casual run, ignoring always means running away
         return new Macro()
           .runaway()
           .skill($skill`Saucestorm`)
@@ -175,7 +176,7 @@ function undelay(macro: DelayedMacro): Macro {
 const holidayMonsters = getTodaysHolidayWanderers();
 
 export class CombatStrategy {
-  default_strategy: MonsterStrategy = MonsterStrategy.RunAway;
+  default_strategy: MonsterStrategy = MonsterStrategy.Ignore;
   default_macro?: DelayedMacro;
   strategy: Map<Monster, MonsterStrategy> = new Map();
   macros: Map<Monster, DelayedMacro> = new Map();
@@ -185,7 +186,7 @@ export class CombatStrategy {
     this.boss = boss ?? false;
 
     // TODO: better detection of which zones holiday monsters can appear
-    if (holidayMonsters.length > 0 && !this.boss) this.flee(...holidayMonsters);
+    if (holidayMonsters.length > 0 && !this.boss) this.ignore(...holidayMonsters);
   }
 
   apply(strategy: MonsterStrategy, ...monsters: Monster[]): CombatStrategy {
@@ -210,14 +211,11 @@ export class CombatStrategy {
     if (monsters.length === 0) throw `Must specify list of monsters to banish`;
     return this.apply(MonsterStrategy.Banish, ...monsters);
   }
-  public flee(...monsters: Monster[]): CombatStrategy {
-    return this.apply(MonsterStrategy.RunAway, ...monsters);
+  public ignore(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.Ignore, ...monsters);
   }
-  public fleeNoBanish(...monsters: Monster[]): CombatStrategy {
-    return this.apply(MonsterStrategy.RunAwayNoBanish, ...monsters);
-  }
-  public item(item: Item, ...monsters: Monster[]): CombatStrategy {
-    return this.macro(new Macro().item(item), ...monsters);
+  public ignoreNoBanish(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.IgnoreNoBanish, ...monsters);
   }
   public abort(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Abort, ...monsters);

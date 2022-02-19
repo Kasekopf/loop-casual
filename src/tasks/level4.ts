@@ -29,7 +29,7 @@ export const BatQuest: Quest = {
       after: ["Use Sonar"],
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
-      combat: new CombatStrategy().kill($monster`Boss Bat`).fleeNoBanish(),
+      combat: new CombatStrategy().kill($monster`Boss Bat`).ignoreNoBanish(),
       limit: { soft: 10 },
       delay: 6,
     },
