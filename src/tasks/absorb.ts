@@ -4,11 +4,9 @@ import { debug } from "../lib";
 import { Quest, Task } from "./structure";
 
 // Add a shorthand for expressing absorbtion-only tasks; there are a lot.
-type AbsorbTask = {
+interface AbsorbTask extends Pick<Task, "after" | "choices" | "equip" | "modifier"> {
   do: Location;
-  after: string[];
-  choices?: { [id: number]: number | (() => number) };
-};
+}
 
 // A list of all locations that might have important monsters
 // Roughly in order of unlock in a basic run
@@ -169,11 +167,9 @@ export const AbsorbQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       return {
         name: task.do.zone,
-        after: task.after,
         completed: () => !absorbtionTargets.hasTargets(task.do),
-        do: task.do,
         // TODO: set combat to hunt key monsters
-        choices: task.choices,
+        ...task,
         limit: { soft: 20 },
       };
     }),
