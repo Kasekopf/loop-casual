@@ -81,8 +81,8 @@ export const routing: string[] = [
   "Keys/Deck",
   "Keys/Lockpicking",
 
+  "Absorb/All",
   "Tower/Finish",
-  "Organ/Finish", // Organ last, just so it doesn't appear in turncount
 ];
 
 export function prioritize(tasks: Task[]): Task[] {

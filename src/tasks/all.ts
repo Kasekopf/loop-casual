@@ -15,6 +15,7 @@ import { MacguffinQuest } from "./level11";
 import { WarQuest } from "./level12";
 import { TowerQuest } from "./level13";
 import { KeysQuest, MiscQuest } from "./misc";
+import { AbsorbQuest } from "./absorb";
 import { Task } from "./structure";
 
 export function all_tasks(): Task[] {
@@ -38,6 +39,7 @@ export function all_tasks(): Task[] {
     MacguffinQuest,
     WarQuest,
     TowerQuest,
+    AbsorbQuest,
   ];
 
   const result: Task[] = [];
