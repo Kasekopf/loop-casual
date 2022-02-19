@@ -18,13 +18,13 @@ import {
 } from "./resources";
 
 export enum MonsterStrategy {
-  Ignore,
-  IgnoreNoBanish,
-  Kill,
-  KillFree,
-  KillHard,
-  Banish,
-  Abort,
+  Ignore, // Task doesn't care what happens
+  IgnoreNoBanish, // Task doesn't care what happens, as long as it is not banished
+  Kill, // Task needs to kill it, with or without a free kill
+  KillFree, // Task needs to kill it with a free kill
+  KillHard, // Task needs to kill it without using a free kill (i.e., boss, or already free)
+  Banish, // Task doesn't care what happens, but banishing is useful
+  Abort, // Abort the macro and the script; an error has occured
 }
 
 export class CombatResourceAllocation {
