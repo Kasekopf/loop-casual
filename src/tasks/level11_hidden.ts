@@ -118,7 +118,7 @@ const Apartment: Task[] = [
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer`)
       .macro(new Macro().step(use_writ).runaway(), $monster`pygmy shaman`)
-      .flee(),
+      .ignore(),
     limit: { tries: 9 },
     equip: $items`Greatest American Pants`, // hack to avoid using banishers on shaman
     choices: { 780: 1 },
@@ -135,8 +135,8 @@ const Apartment: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
       .macro(new Macro().step(use_writ), $monster`pygmy shaman`)
-      .fleeNoBanish($monster`pygmy shaman`)
-      .flee(),
+      .ignoreNoBanish($monster`pygmy shaman`)
+      .ignore(),
     choices: { 780: 1 },
     limit: { tries: 9 },
   },
@@ -200,7 +200,7 @@ const Office: Task[] = [
         use_writ,
         ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
       )
-      .flee(),
+      .ignore(),
     limit: { tries: 6 },
   },
   {
@@ -218,7 +218,7 @@ const Office: Task[] = [
         use_writ,
         ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
       )
-      .flee(),
+      .ignore(),
     limit: { tries: 5 },
   },
   {
@@ -264,7 +264,7 @@ const Hospital: Task[] = [
         use_writ,
         ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse, pygmy witch surgeon`
       )
-      .flee(),
+      .ignore(),
     equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
     choices: { 784: 1 },
     limit: { soft: 10 },
