@@ -1,10 +1,10 @@
-import { appearanceRates, Location, Monster } from "kolmafia";
-import { $location, $monster } from "libram";
+import { appearanceRates, Location, Monster, myAscensions } from "kolmafia";
+import { $items, $location, $monster, get } from "libram";
 import { debug } from "../lib";
 import { Quest, Task } from "./structure";
 
 // Add a shorthand for expressing absorbtion-only tasks; there are a lot.
-interface AbsorbTask extends Pick<Task, "after" | "choices" | "equip" | "modifier"> {
+interface AbsorbTask extends Pick<Task, "after" | "choices" | "equip" | "modifier" | "prepare"> {
   do: Location;
 }
 
@@ -13,8 +13,334 @@ interface AbsorbTask extends Pick<Task, "after" | "choices" | "equip" | "modifie
 const absorbTasks: AbsorbTask[] = [
   // Level 2
   {
+    do: $location`The Spooky Forest`,
+    after: ["Hidden City/Open Temple"],
+    choices: { 502: 2, 505: 2, 334: 1 },
+  },
+  // Level 3
+  {
     do: $location`A Barroom Brawl`,
     after: ["Tavern/Start"],
+  },
+  // Level 4
+  {
+    do: $location`The Bat Hole Entrance`,
+    after: ["Bat/Use Sonar"],
+  },
+  {
+    do: $location`Guano Junction`,
+    after: ["Bat/Use Sonar"],
+    choices: { 1427: 2 },
+  },
+  {
+    do: $location`The Batrat and Ratbat Burrow`,
+    after: ["Bat/Use Sonar", "Palindome/Bat Snake"],
+  },
+  {
+    do: $location`The Beanbat Chamber`,
+    after: ["Bat/Use Sonar", "Giant/Grow Beanstalk"],
+  },
+  // Level 5
+  {
+    do: $location`The Outskirts of Cobb's Knob`,
+    after: ["Knob/Outskirts"],
+    choices: { 111: 3, 113: 2, 118: 1 },
+    modifier: "+combat",
+  },
+  {
+    do: $location`Cobb's Knob Kitchens`,
+    after: ["Knob/Outskirts"],
+  },
+  {
+    do: $location`Cobb's Knob Barracks`,
+    after: ["Knob/Outskirts"],
+    choices: { 522: 2 },
+  },
+  {
+    do: $location`Cobb's Knob Harem`,
+    after: ["Knob/King"],
+  },
+  {
+    do: $location`Cobb's Knob Treasury`,
+    after: ["Knob/Outskirts"],
+    modifier: "+combat",
+  },
+  {
+    do: $location`Cobb's Knob Laboratory`,
+    after: ["Knob/King"],
+  },
+  {
+    do: $location`The Knob Shaft`,
+    after: ["Knob/King"],
+    modifier: "+combat",
+  },
+  {
+    do: $location`Cobb's Knob Menagerie, Level 1`,
+    after: ["Knob/King"], // TODO: Menagerie key
+  },
+  {
+    do: $location`Cobb's Knob Menagerie, Level 2`,
+    after: ["Knob/King"], // TODO: Menagerie key
+  },
+  {
+    do: $location`Cobb's Knob Menagerie, Level 3`,
+    after: ["Knob/King"], // TODO: Menagerie key
+  },
+  // Level 6
+  {
+    do: $location`Pandamonium Slums`,
+    after: ["Friar/Finish"],
+  },
+  {
+    do: $location`The Laugh Floor`,
+    after: ["Friar/Finish"],
+  },
+  {
+    do: $location`Infernal Rackets Backstage`,
+    after: ["Friar/Finish"],
+  },
+  // Level 7
+  {
+    do: $location`The VERY Unquiet Garves`,
+    after: ["Crypt/Finish"],
+  },
+  // Level 8
+  {
+    do: $location`Itznotyerzitz Mine`,
+    after: ["McLargeHuge/Ores"],
+    choices: { 18: 3, 19: 3, 20: 3, 556: 2 },
+    modifier: "+combat",
+  },
+  {
+    do: $location`The Goatlet`,
+    after: ["McLargeHuge/Ores"],
+  },
+  {
+    do: $location`Lair of the Ninja Snowmen`,
+    after: ["McLargeHuge/Climb", "Palindome/Cold Snake"],
+  },
+  {
+    do: $location`The eXtreme Slope`,
+    after: ["McLargeHuge/Climb"],
+    choices: { 15: 3, 16: 3, 17: 3, 575: 3 },
+    modifier: "+combat",
+  },
+  {
+    do: $location`The Icy Peak`,
+    after: ["McLargeHuge/Peak"],
+    modifier: "cold res min 5, +combat",
+  },
+  // Level 9
+  {
+    do: $location`The Smut Orc Logging Camp`,
+    after: ["Orc Chasm/Bridge"],
+    choices: { 1345: 1 },
+  },
+  {
+    do: $location`A-Boo Peak`,
+    after: ["Orc Chasm/ABoo Peak"],
+  },
+  {
+    do: $location`Twin Peak`,
+    after: ["Orc Chasm/Twin Init"],
+  },
+  {
+    do: $location`Oil Peak`,
+    after: ["Orc Chasm/Oil Peak"],
+  },
+  {
+    do: $location`The Valley of Rof L'm Fao`,
+    after: ["Orc Chasm/Finish"],
+  },
+  // Level 10
+  {
+    do: $location`The Penultimate Fantasy Airship`,
+    after: ["Giant/Airship"],
+    modifier: "+combat",
+    choices: { 178: 2, 182: 2 },
+  },
+  {
+    do: $location`The Castle in the Clouds in the Sky (Basement)`,
+    after: ["Giant/Basement Finish"],
+    modifier: "+combat",
+    choices: { 670: 5, 669: 1, 671: 3 },
+  },
+  {
+    do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
+    after: ["Giant/Ground"],
+    modifier: "+combat",
+    choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
+  },
+  {
+    do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
+    after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
+    modifier: "+combat",
+    choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
+  },
+  {
+    do: $location`The Hole in the Sky`,
+    after: ["Giant/Finish"], // TODO: Unlock
+  },
+  // Level 11
+  {
+    do: $location`The Black Forest`,
+    after: ["Macguffin/Forest"],
+    modifier: "+combat",
+    choices: { 923: 1, 924: 1 },
+  },
+  // Level 11: Hidden City
+  {
+    do: $location`The Hidden Temple`,
+    after: ["Hidden City/Open City"],
+    modifier: "+combat",
+    choices: {
+      579: () => {
+        return get("lastTempleAdventures") === myAscensions() ? 2 : 1;
+      },
+      581: 3,
+    },
+  },
+  {
+    do: $location`The Hidden Apartment Building`,
+    after: ["Hidden City/Apartment"],
+    choices: { 780: 4 },
+  },
+  {
+    do: $location`The Hidden Office Building`,
+    after: ["Hidden City/Office Boss"],
+    choices: { 786: 4 },
+  },
+  {
+    do: $location`The Hidden Hospital`,
+    after: ["Hidden City/Hospital"],
+  },
+  {
+    do: $location`The Hidden Bowling Alley`,
+    after: ["Hidden City/Bowling"],
+  },
+  // Level 11: Manor
+  {
+    do: $location`The Haunted Pantry`,
+    after: [],
+    choices: { 114: 2, 115: 1, 116: 4, 117: 1 },
+    modifier: "+combat",
+  },
+  {
+    do: $location`The Haunted Conservatory`,
+    after: ["Manor/Start"],
+    choices: {}, // TODO: Lights out
+  },
+  {
+    do: $location`The Haunted Kitchen`,
+    after: ["Manor/Kitchen"],
+    choices: { 893: 2 },
+  },
+  {
+    do: $location`The Haunted Billiards Room`,
+    after: ["Manor/Billiards"],
+    choices: { 900: 2 },
+  },
+  {
+    do: $location`The Haunted Library`,
+    after: ["Manor/Library"],
+    choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
+  },
+  {
+    do: $location`The Haunted Gallery`,
+    after: ["Manor/Gallery"],
+    modifier: "+combat",
+    choices: { 89: 6, 896: 1 },
+  },
+  {
+    do: $location`The Haunted Bathroom`,
+    after: ["Manor/Bathroom"],
+    modifier: "+combat",
+    choices: { 881: 1, 105: 1, 892: 1 },
+  },
+  {
+    do: $location`The Haunted Bedroom`,
+    after: ["Manor/Bedroom"],
+    choices: { 876: 1, 877: 1, 878: 4, 879: 1, 880: 1, 897: 2 },
+  },
+  {
+    do: $location`The Haunted Ballroom`,
+    after: ["Manor/Ballroom"],
+    modifier: "+combat",
+    choices: { 881: 1, 105: 1, 892: 1 },
+  },
+  {
+    do: $location`The Haunted Wine Cellar`,
+    after: ["Manor/Wine Cellar"],
+    choices: { 901: 2 },
+  },
+  {
+    do: $location`The Haunted Laundry Room`,
+    after: ["Manor/Laundry Room"],
+    choices: { 891: 2 },
+  },
+  {
+    do: $location`The Haunted Boiler Room`,
+    after: ["Manor/Boiler Room"],
+    choices: { 902: 2 },
+  },
+  {
+    do: $location`The Haunted Storage Room`,
+    after: ["Manor/Finish Floor2"], // TODO: open
+    choices: { 886: 4, 890: 1 },
+  },
+  {
+    do: $location`The Haunted Nursery`,
+    after: ["Manor/Finish Floor2"], // TODO: open
+    choices: { 884: 4, 898: 2 },
+  },
+  {
+    do: $location`The Haunted Laboratory`,
+    after: ["Manor/Finish Floor2"], // TODO: open
+    choices: { 884: 4, 903: 2 },
+  },
+  // Level 11: Palindome
+  {
+    do: $location`The Copperhead Club`,
+    after: ["Palindome/Copperhead"],
+    choices: { 855: 4 },
+  },
+  {
+    do: $location`A Mob of Zeppelin Protesters`,
+    after: ["Palindome/Protesters Finish"],
+  },
+  {
+    do: $location`The Red Zeppelin`,
+    after: ["Palindome/Zepplin"],
+  },
+  {
+    do: $location`Inside the Palindome`,
+    after: ["Palindome/Palindome Photos"],
+    modifier: "+combat",
+    equip: $items`Talisman o' Namsilat`,
+    choices: { 2: 2, 126: 1, 127: 1, 180: 2 },
+  },
+  {
+    do: $location`Whitey's Grove`,
+    after: ["Palindome/Open Alarm"],
+    modifier: "+combat",
+    choices: { 73: 3, 74: 2, 75: 2 },
+  },
+  // Level 11: Pyramid
+  {
+    do: $location`The Arid, Extra-Dry Desert`,
+    after: ["Macguffin/Desert"],
+  },
+  {
+    do: $location`The Oasis`,
+    after: ["Macguffin/Desert"],
+  },
+  {
+    do: $location`The Upper Chamber`,
+    after: ["Macguffin/Upper Chamber"],
+  },
+  {
+    do: $location`The Middle Chamber`,
+    after: ["Macguffin/Middle Chamber"],
   },
 ];
 
