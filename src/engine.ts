@@ -131,13 +131,13 @@ export class Engine {
         const banishSources = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
         combat_resources.banishWith(outfit.equipFirst(banishSources));
 
-        // Set up a runaway if needed
+        // Set up a runaway if there are combats we do not care about
         let runaway = undefined;
-        if (task_combat.can(MonsterStrategy.RunAway)) {
+        if (task_combat.can(MonsterStrategy.Ignore)) {
           runaway = outfit.equipFirst(runawaySources);
           combat_resources.runawayWith(runaway);
         }
-        if (task_combat.can(MonsterStrategy.RunAwayNoBanish)) {
+        if (task_combat.can(MonsterStrategy.IgnoreNoBanish)) {
           if (runaway !== undefined && !runaway.banishes)
             combat_resources.runawayNoBanishWith(runaway);
           else

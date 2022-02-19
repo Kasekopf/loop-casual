@@ -18,8 +18,8 @@ import {
 } from "./resources";
 
 export enum MonsterStrategy {
-  RunAway,
-  RunAwayNoBanish,
+  Ignore,
+  IgnoreNoBanish,
   Kill,
   KillFree,
   KillHard,
@@ -43,10 +43,10 @@ export class CombatResourceAllocation {
     this.allocate(MonsterStrategy.KillFree, resource);
   }
   public runawayWith(resource?: RunawaySource): void {
-    this.allocate(MonsterStrategy.RunAway, resource);
+    this.allocate(MonsterStrategy.Ignore, resource);
   }
   public runawayNoBanishWith(resource?: RunawaySource): void {
-    this.allocate(MonsterStrategy.RunAwayNoBanish, resource);
+    this.allocate(MonsterStrategy.IgnoreNoBanish, resource);
   }
 
   public all(): CombatResource[] {
@@ -135,8 +135,9 @@ export class BuiltCombatStrategy {
       .tryItem($item`Time-Spinner`);
 
     switch (strategy) {
-      case MonsterStrategy.RunAwayNoBanish:
-      case MonsterStrategy.RunAway:
+      case MonsterStrategy.IgnoreNoBanish:
+      case MonsterStrategy.Ignore:
+        // For a casual run, ignoring always means running away
         return new Macro()
           .runaway()
           .skill($skill`Saucestorm`)
@@ -175,7 +176,7 @@ function undelay(macro: DelayedMacro): Macro {
 const holidayMonsters = getTodaysHolidayWanderers();
 
 export class CombatStrategy {
-  default_strategy: MonsterStrategy = MonsterStrategy.RunAway;
+  default_strategy: MonsterStrategy = MonsterStrategy.Ignore;
   default_macro?: DelayedMacro;
   strategy: Map<Monster, MonsterStrategy> = new Map();
   macros: Map<Monster, DelayedMacro> = new Map();
@@ -211,10 +212,10 @@ export class CombatStrategy {
     return this.apply(MonsterStrategy.Banish, ...monsters);
   }
   public ignore(...monsters: Monster[]): CombatStrategy {
-    return this.apply(MonsterStrategy.RunAway, ...monsters);
+    return this.apply(MonsterStrategy.Ignore, ...monsters);
   }
   public ignoreNoBanish(...monsters: Monster[]): CombatStrategy {
-    return this.apply(MonsterStrategy.RunAwayNoBanish, ...monsters);
+    return this.apply(MonsterStrategy.IgnoreNoBanish, ...monsters);
   }
   public abort(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.Abort, ...monsters);
