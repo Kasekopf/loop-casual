@@ -38,8 +38,8 @@ function tuneCape(): void {
 function tryCape(sword: Item, ...rest: Item[]) {
   return (): Item[] => {
     if (have($item`unwrapped knock-off retro superhero cape`)) {
-      rest.push($item`unwrapped knock-off retro superhero cape`);
-      rest.push(sword);
+      rest.unshift($item`unwrapped knock-off retro superhero cape`);
+      rest.unshift(sword);
     }
     return rest;
   };
