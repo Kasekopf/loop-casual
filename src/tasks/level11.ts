@@ -36,7 +36,7 @@ const Diary: Task[] = [
     do: (): void => {
       visitUrl("woods.php");
       visitUrl("shop.php?whichshop=blackmarket");
-      buy(1, $item`forged identification documents`);
+      visitUrl("shop.php?whichshop=blackmarket&action=buyitem&whichrow=281&ajax=1&quantity=1");
     },
     limit: { tries: 1 },
     freeaction: true,
