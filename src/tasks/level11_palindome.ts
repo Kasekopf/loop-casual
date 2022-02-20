@@ -130,7 +130,7 @@ const Zepplin: Task[] = [
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy().killHard($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
-    limit: { tries: 1 },
+    limit: { tries: 2 }, // If clovers were used before the intro adventure, we need to clear both the intro and closing advs here.
     freeaction: true,
   },
   {
