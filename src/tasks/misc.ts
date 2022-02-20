@@ -6,6 +6,8 @@ import {
   itemAmount,
   myBasestat,
   myPrimestat,
+  retrieveItem,
+  retrievePrice,
   runChoice,
   useFamiliar,
   useSkill,
@@ -41,8 +43,15 @@ export const MiscQuest: Quest = {
       name: "Unlock Island",
       after: [],
       completed: () =>
-        have($item`dingy dinghy`) || have($item`junk junk`) || have($item`skeletal skiff`),
-      do: () => cliExecute("acquire skeletal skiff"),
+        have($item`dingy dinghy`) ||
+        have($item`junk junk`) ||
+        have($item`skeletal skiff`) ||
+        have($item`yellow submarine`),
+      do: () => {
+        const options = $items`skeletal skiff, yellow submarine`;
+        const bestChoice = options.sort((a, b) => retrievePrice(a) - retrievePrice(b))[0];
+        retrieveItem(bestChoice);
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
