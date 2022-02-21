@@ -254,6 +254,8 @@ export class Outfit {
 
     if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
       this.equip($familiar`Melodramedary`);
+    } else if (have($familiar`Temporal Riftlet`)) {
+      this.equip($familiar`Temporal Riftlet`);
     } else if (have($item`gnomish housemaid's kgnee`)) {
       this.equip($familiar`Reagnimated Gnome`);
     } else this.equip($familiar`Galloping Grill`);
