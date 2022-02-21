@@ -33,7 +33,7 @@ export const GiantQuest: Quest = {
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
@@ -47,7 +47,7 @@ export const GiantQuest: Quest = {
           "Mess Around with Gym"
         ) || step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       limit: { soft: 20 },
       choices: { 670: 5, 669: 1, 671: 4 },
     },
@@ -57,7 +57,7 @@ export const GiantQuest: Quest = {
       acquire: [{ item: $item`amulet of extreme plot significance` }],
       completed: () => step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
-      equip: $items`amulet of extreme plot significance`,
+      outfit: { equip: $items`amulet of extreme plot significance` },
       choices: { 670: 4 },
       limit: { tries: 1 },
     },
@@ -76,8 +76,7 @@ export const GiantQuest: Quest = {
       acquire: [{ item: $item`Mohawk wig` }],
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
-      equip: $items`Mohawk wig`,
-      modifier: "-combat",
+      outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
       combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
       choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
       limit: { soft: 20 },

@@ -8,7 +8,7 @@ const Flyers: Task[] = [
     name: "Flyers Start",
     after: ["Enrage"],
     completed: () => have($item`rock band flyers`) || get("sidequestArenaCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?place=concert&pwd");
     },
@@ -20,7 +20,7 @@ const Flyers: Task[] = [
     after: ["Flyers Start"],
     ready: () => get("flyeredML") >= 10000,
     completed: () => get("sidequestArenaCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?place=concert&pwd");
     },
@@ -36,14 +36,14 @@ const Lighthouse: Task[] = [
     completed: () =>
       itemAmount($item`barrel of gunpowder`) >= 5 || get("sidequestLighthouseCompleted") !== "none",
     do: $location`Sonofa Beach`,
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     limit: { soft: 20 },
   },
   {
     name: "Lighthouse End",
     after: ["Lighthouse"],
     completed: () => get("sidequestLighthouseCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?place=lighthouse&action=pyro&pwd");
     },
@@ -57,7 +57,7 @@ const Junkyard: Task[] = [
     name: "Junkyard Start",
     after: ["Enrage"],
     completed: () => have($item`molybdenum magnet`),
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?action=junkman&pwd");
     },
@@ -69,7 +69,7 @@ const Junkyard: Task[] = [
     after: ["Junkyard Start"],
     completed: () => have($item`molybdenum hammer`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Next to that Barrel with Something Burning in it`,
     combat: new CombatStrategy()
       .macro(
@@ -87,7 +87,7 @@ const Junkyard: Task[] = [
     completed: () =>
       have($item`molybdenum crescent wrench`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Over Where the Old Tires Are`,
     combat: new CombatStrategy()
       .macro(
@@ -107,7 +107,7 @@ const Junkyard: Task[] = [
     after: ["Junkyard Start"],
     acquire: [{ item: $item`seal tooth` }],
     completed: () => have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Near an Abandoned Refrigerator`,
     combat: new CombatStrategy()
       .macro(
@@ -125,7 +125,7 @@ const Junkyard: Task[] = [
     completed: () =>
       have($item`molybdenum screwdriver`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Out by that Rusted-Out Car`,
     combat: new CombatStrategy()
       .macro(
@@ -141,7 +141,7 @@ const Junkyard: Task[] = [
     name: "Junkyard End",
     after: ["Junkyard Hammer", "Junkyard Wrench", "Junkyard Pliers", "Junkyard Screwdriver"],
     completed: () => get("sidequestJunkyardCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?action=junkman&pwd");
     },
@@ -164,7 +164,7 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Hatching Chamber`,
-    modifier: "items",
+    outfit: { modifier: "items" },
     combat: new CombatStrategy().kill(),
     limit: { soft: 15 },
   },
@@ -179,7 +179,7 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Feeding Chamber`,
-    modifier: "items",
+    outfit: { modifier: "items" },
     effects: $effects`Filthworm Larva Stench`,
     combat: new CombatStrategy().kill(),
     limit: { tries: 10 },
@@ -193,7 +193,7 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Royal Guard Chamber`,
-    modifier: "items",
+    outfit: { modifier: "items" },
     effects: $effects`Filthworm Drone Stench`,
     combat: new CombatStrategy().kill(),
     limit: { tries: 10 },
@@ -204,7 +204,7 @@ const Orchard: Task[] = [
     completed: () =>
       have($item`heart of the filthworm queen`) || get("sidequestOrchardCompleted") !== "none",
     do: $location`The Filthworm Queen's Chamber`,
-    modifier: "items",
+    outfit: { modifier: "items" },
     effects: $effects`Filthworm Guard Stench`,
     combat: new CombatStrategy(true).kill(),
     limit: { tries: 1 },
@@ -213,7 +213,7 @@ const Orchard: Task[] = [
     name: "Orchard Finish",
     after: ["Orchard Queen", "Open Orchard"],
     completed: () => get("sidequestOrchardCompleted") !== "none",
-    equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?place=orchard&action=stand&pwd");
     },
@@ -228,7 +228,7 @@ const Nuns: Task[] = [
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none",
     do: $location`The Themthar Hills`,
-    modifier: "meat",
+    outfit: { modifier: "meat" },
     combat: new CombatStrategy(true).kill(),
     limit: { soft: 20 },
   },
@@ -255,9 +255,11 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => step("questL12War") >= 1,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: {
+        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+        modifier: "-combat",
+      },
       do: $location`Hippy Camp`,
-      modifier: "-combat",
       choices: { 142: 3, 1433: 3 },
       limit: { soft: 20 },
     },
@@ -273,7 +275,7 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 64,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
       combat: new CombatStrategy().kill(),
       limit: { tries: 8 },
@@ -288,7 +290,7 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 192,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
       combat: new CombatStrategy().kill(),
       limit: { tries: 8 },
@@ -303,7 +305,7 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 1000,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
       combat: new CombatStrategy().kill(),
       limit: { tries: 26 },
@@ -313,7 +315,7 @@ export const WarQuest: Quest = {
       after: ["Clear"],
       completed: () => step("questL12War") === 999,
       ready: () => get("hippiesDefeated") >= 1000,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");

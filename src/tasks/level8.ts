@@ -44,7 +44,7 @@ export const McLargeHugeQuest: Quest = {
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
       },
-      modifier: "cold res 5min",
+      outfit: { modifier: "cold res 5min" },
       limit: { tries: 1 },
     },
     {
@@ -52,7 +52,7 @@ export const McLargeHugeQuest: Quest = {
       after: ["Climb"],
       completed: () => step("questL08Trapper") >= 5,
       do: $location`Mist-Shrouded Peak`,
-      modifier: "cold res 5min",
+      outfit: { modifier: "cold res 5min" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 4 },
     },

@@ -199,17 +199,15 @@ export class Outfit {
   }
 
   static create(task: Task): Outfit {
-    const outfit = new Outfit();
-    if (task.equip && typeof task.equip === "function") {
-      for (const item of task.equip()) outfit.equip(item);
-    } else if (task.equip) {
-      for (const item of task.equip) outfit.equip(item);
-    }
-    if (task.familiar) outfit.equip(task.familiar);
+    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
 
-    if (task.modifier) {
+    const outfit = new Outfit();
+    for (const item of spec?.equip ?? []) outfit.equip(item);
+    if (spec?.familiar) outfit.equip(spec.familiar);
+
+    if (spec?.modifier) {
       // Run maximizer
-      if (task.modifier.includes("item")) {
+      if (spec.modifier.includes("item")) {
         if (
           outfit.canEquip($item`li'l ninja costume`) &&
           outfit.canEquip($familiar`Trick-or-Treating Tot`)
@@ -220,10 +218,10 @@ export class Outfit {
           outfit.equip($familiar`Jumpsuited Hound Dog`);
         }
       }
-      if (task.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
-      if (task.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
-      if (task.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
-      outfit.modifier = task.modifier;
+      if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
+      if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
+      if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
+      outfit.modifier = spec.modifier;
     }
 
     return outfit;

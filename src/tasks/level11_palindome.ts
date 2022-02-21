@@ -72,8 +72,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`Murphy's Rancid Black Flag`) && step("questL10Garbage") < 10,
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
-    equip: $items`Mohawk wig`,
-    modifier: "-combat",
+    outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
     combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
     limit: { soft: 10 },
@@ -85,7 +84,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`Murphy's Rancid Black Flag`) && step("questL10Garbage") >= 10,
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
     limit: { soft: 10 },
     delay: 5,
@@ -118,8 +117,7 @@ const Zepplin: Task[] = [
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy().killHard($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
-    modifier: "sleaze dmg, sleaze spell dmg",
-    familiar: $familiar`Left-Hand Man`,
+    outfit: { modifier: "sleaze dmg, sleaze spell dmg", familiar: $familiar`Left-Hand Man` },
     freeaction: true, // fully maximize outfit
     limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
   },
@@ -130,7 +128,7 @@ const Zepplin: Task[] = [
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy().killHard($monster`The Nuge`),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
-    limit: { tries: 1 },
+    limit: { tries: 2 }, // If clovers were used before the intro adventure, we need to clear both the intro and closing advs here.
     freeaction: true,
   },
   {
@@ -176,7 +174,7 @@ const Dome: Task[] = [
     acquire: [{ item: $item`disposable instant camera` }],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    equip: $items`Talisman o' Namsilat`,
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .macro(
@@ -185,19 +183,17 @@ const Dome: Task[] = [
       )
       .kill(),
     limit: { soft: 20 },
-    modifier: "-combat",
   },
   {
     name: "Palindome Dudes",
     after: ["Palindome Dog"],
     completed: () => have(Item.get(7262)) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    equip: $items`Talisman o' Namsilat`,
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .kill(),
     limit: { soft: 20 },
-    modifier: "-combat",
   },
   {
     name: "Palindome Photos",
@@ -208,8 +204,7 @@ const Dome: Task[] = [
         have($item`photograph of an ostrich egg`)) ||
       step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    equip: $items`Talisman o' Namsilat`,
-    modifier: "-combat",
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
     limit: { soft: 20 },
   },
   {
@@ -227,7 +222,7 @@ const Dome: Task[] = [
       visitUrl("clan_viplounge.php?action=hottub");
       uneffect($effect`Beaten Up`);
     },
-    equip: $items`Talisman o' Namsilat`,
+    outfit: { equip: $items`Talisman o' Namsilat` },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -239,7 +234,7 @@ const Dome: Task[] = [
       if (!have($item`wet stunt nut stew`)) create($item`wet stunt nut stew`);
       visitUrl("place.php?whichplace=palindome&action=pal_mrlabel");
     },
-    equip: $items`Talisman o' Namsilat`,
+    outfit: { equip: $items`Talisman o' Namsilat` },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -259,7 +254,7 @@ export const PalindomeQuest: Quest = {
         visitUrl("place.php?whichplace=palindome&action=pal_drlabel");
         runChoice(-1);
       },
-      equip: $items`Talisman o' Namsilat, Mega Gem`,
+      outfit: { equip: $items`Talisman o' Namsilat, Mega Gem` },
       choices: { 131: 1 },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },

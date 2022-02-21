@@ -20,7 +20,7 @@ export const FriarQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       limit: { tries: 17 },
     },
     {
@@ -28,7 +28,7 @@ export const FriarQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`dodecagram`) || step("questL06Friar") === 999,
       do: $location`The Dark Neck of the Woods`,
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       choices: { 1428: 2 },
       limit: { tries: 17 },
     },
@@ -37,7 +37,7 @@ export const FriarQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       limit: { tries: 17 },
     },
     {
@@ -92,7 +92,7 @@ export const OrganQuest: Quest = {
       },
       do: $location`Infernal Rackets Backstage`,
       limit: { soft: 30 },
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
     },
     {
       name: "Unicorn",
@@ -120,7 +120,7 @@ export const OrganQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`observational glasses`),
       do: $location`The Laugh Floor`,
-      modifier: "+combat",
+      outfit: { modifier: "+combat" },
       combat: new CombatStrategy().kill(
         ...$monsters`Carbuncle Top, Larry of the Field of Signs, Victor the Insult Comic Hellhound`
       ),
@@ -131,7 +131,7 @@ export const OrganQuest: Quest = {
       after: ["Comedy Club"],
       completed: () => have($item`Azazel's lollipop`) || step("questM10Azazel") === 999,
       do: () => visitUrl("pandamonium.php?action=mourn&preaction=observe"),
-      equip: $items`observational glasses`,
+      outfit: { equip: $items`observational glasses` },
       limit: { tries: 1 },
     },
     {

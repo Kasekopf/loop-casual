@@ -41,7 +41,7 @@ export const TavernQuest: Quest = {
         }
       },
       effects: $effects`Belch the Rainbow™, Benetton's Medley of Diversity`,
-      modifier: "-combat",
+      outfit: { modifier: "ML" },
       combat: new CombatStrategy().ignoreNoBanish(),
       choices: { 509: 1, 510: 1, 511: 2, 514: 2, 515: 2, 496: 2, 513: 2 },
       limit: { tries: 10 },

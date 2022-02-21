@@ -1,4 +1,4 @@
-import { buy, cliExecute, Item, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
+import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -12,7 +12,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const Diary: Task[] = [
@@ -22,9 +22,11 @@ const Diary: Task[] = [
     acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
-    equip: $items`blackberry galoshes`,
-    familiar: $familiar`Reassembled Blackbird`,
-    modifier: "+combat 5min",
+    outfit: {
+      equip: $items`blackberry galoshes`,
+      familiar: $familiar`Reassembled Blackbird`,
+      modifier: "+combat 5min",
+    },
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
     limit: { soft: 15 },
@@ -36,7 +38,7 @@ const Diary: Task[] = [
     do: (): void => {
       visitUrl("woods.php");
       visitUrl("shop.php?whichshop=blackmarket");
-      buy(1, $item`forged identification documents`);
+      visitUrl("shop.php?whichshop=blackmarket&action=buyitem&whichrow=281&ajax=1&quantity=1");
     },
     limit: { tries: 1 },
     freeaction: true,
@@ -79,17 +81,23 @@ const Desert: Task[] = [
     ],
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
-    equip: (): Item[] => {
+    outfit: (): OutfitSpec => {
       if (
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
-        return $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`;
-      else return $items`UV-resistant compass, dromedary drinking helmet`;
+        return {
+          equip: $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`,
+          familiar: $familiar`Melodramedary`,
+        };
+      else
+        return {
+          equip: $items`UV-resistant compass, dromedary drinking helmet`,
+          familiar: $familiar`Melodramedary`,
+        };
     },
-    familiar: $familiar`Melodramedary`,
     combat: new CombatStrategy()
       .macro((): Macro => {
         if (have($effect`Ultrahydrated`))
@@ -154,7 +162,7 @@ const Pyramid: Task[] = [
     after: ["Open Pyramid"],
     completed: () => step("questL11Pyramid") >= 1,
     do: $location`The Upper Chamber`,
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     limit: { turns: 6 },
   },
   {

@@ -45,7 +45,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Outskirts of Cobb's Knob`,
     after: ["Knob/Outskirts"],
     choices: { 111: 3, 113: 2, 118: 1 },
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`Cobb's Knob Kitchens`,
@@ -63,7 +63,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Cobb's Knob Treasury`,
     after: ["Knob/Outskirts"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`Cobb's Knob Laboratory`,
@@ -72,7 +72,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Knob Shaft`,
     after: ["Knob/King"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 1`,
@@ -109,7 +109,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`Itznotyerzitz Mine`,
     after: ["McLargeHuge/Ores"],
     choices: { 18: 3, 19: 3, 20: 3, 556: 2 },
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`The Goatlet`,
@@ -123,12 +123,12 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The eXtreme Slope`,
     after: ["McLargeHuge/Climb"],
     choices: { 15: 3, 16: 3, 17: 3, 575: 3 },
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
-    modifier: "cold res min 5, +combat",
+    outfit: { modifier: "cold res min 5, +combat" },
   },
   // Level 9
   {
@@ -156,25 +156,25 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Penultimate Fantasy Airship`,
     after: ["Giant/Airship"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 178: 2, 182: 2 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Basement)`,
     after: ["Giant/Basement Finish"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 670: 5, 669: 1, 671: 3 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
     after: ["Giant/Ground"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
   },
   {
@@ -185,14 +185,14 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Black Forest`,
     after: ["Macguffin/Forest"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 923: 1, 924: 1 },
   },
   // Level 11: Hidden City
   {
     do: $location`The Hidden Temple`,
     after: ["Hidden City/Open City"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: {
       579: () => {
         return get("lastTempleAdventures") === myAscensions() ? 2 : 1;
@@ -223,7 +223,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Pantry`,
     after: [],
     choices: { 114: 2, 115: 1, 116: 4, 117: 1 },
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
   },
   {
     do: $location`The Haunted Conservatory`,
@@ -248,13 +248,13 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Gallery`,
     after: ["Manor/Gallery"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 89: 6, 896: 1 },
   },
   {
     do: $location`The Haunted Bathroom`,
     after: ["Manor/Bathroom"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 881: 1, 105: 1, 892: 1 },
   },
   {
@@ -265,7 +265,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Ballroom`,
     after: ["Manor/Ballroom"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 881: 1, 105: 1, 892: 1 },
   },
   {
@@ -315,14 +315,13 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Inside the Palindome`,
     after: ["Palindome/Palindome Photos"],
-    modifier: "+combat",
-    equip: $items`Talisman o' Namsilat`,
+    outfit: { modifier: "+combat", equip: $items`Talisman o' Namsilat` },
     choices: { 2: 2, 126: 1, 127: 1, 180: 2 },
   },
   {
     do: $location`Whitey's Grove`,
     after: ["Palindome/Open Alarm"],
-    modifier: "+combat",
+    outfit: { modifier: "+combat" },
     choices: { 73: 3, 74: 2, 75: 2 },
   },
   // Level 11: Pyramid

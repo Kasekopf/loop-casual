@@ -11,7 +11,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 function tuneCape(): void {
@@ -24,14 +24,11 @@ function tuneCape(): void {
 }
 
 function tryCape(sword: Item, ...rest: Item[]) {
-  // TODO: is there a guarenteed sword?
-  return (): Item[] => {
-    if (have($item`unwrapped knock-off retro superhero cape`)) {
-      rest.push($item`unwrapped knock-off retro superhero cape`);
-      rest.push(sword);
-    }
-    return rest;
-  };
+  if (have($item`unwrapped knock-off retro superhero cape`)) {
+    rest.unshift($item`unwrapped knock-off retro superhero cape`);
+    rest.unshift(sword);
+  }
+  return rest;
 }
 
 const slay_macro = new Macro()
@@ -46,8 +43,12 @@ const Alcove: Task[] = [
     prepare: tuneCape,
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
-    equip: tryCape($item`costume sword`),
-    modifier: "init 850max, sword",
+    outfit: (): OutfitSpec => {
+      return {
+        equip: tryCape($item`costume sword`),
+        modifier: "init 850max, sword",
+      };
+    },
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
     limit: { turns: 25 },
@@ -69,8 +70,12 @@ const Cranny: Task[] = [
     prepare: tuneCape,
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
-    equip: tryCape($item`serpentine sword`),
-    modifier: "-combat, ML, sword",
+    outfit: (): OutfitSpec => {
+      return {
+        equip: tryCape($item`serpentine sword`),
+        modifier: "-combat, ML, sword",
+      };
+    },
     choices: { 523: 4 },
     combat: new CombatStrategy()
       .macro(
@@ -101,14 +106,17 @@ const Niche: Task[] = [
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
-    equip: (): Item[] => {
+    outfit: (): OutfitSpec => {
       if (
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherCyrptUsed")
       )
-        return $items`industrial fire extinguisher`;
-      else return tryCape($item`serpentine sword`)();
+        return { equip: $items`industrial fire extinguisher` };
+      else
+        return {
+          equip: tryCape($item`serpentine sword`),
+        };
     },
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
@@ -136,9 +144,13 @@ const Nook: Task[] = [
     post: (): void => {
       while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
     },
-    equip: tryCape($item`costume sword`),
-    modifier: "item 500max",
-    familiar: $familiar`Melodramedary`,
+    outfit: (): OutfitSpec => {
+      return {
+        equip: tryCape($item`costume sword`),
+        modifier: "item 500max",
+        familiar: $familiar`Melodramedary`,
+      };
+    },
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
       .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)

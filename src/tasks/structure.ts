@@ -23,6 +23,12 @@ export type Limit = {
   message?: string;
 };
 
+export interface OutfitSpec {
+  equip?: Item[]; // Items to be equipped in any slot
+  modifier?: string; // Modifier to maximize
+  familiar?: Familiar; // Familiar to use
+}
+
 export type Task = {
   name: string;
   after: string[];
@@ -34,11 +40,9 @@ export type Task = {
   post?: () => void;
   choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
-  modifier?: string;
+  outfit?: OutfitSpec | (() => OutfitSpec);
   effects?: Effect[];
-  equip?: Item[] | (() => Item[]);
   acquire?: AcquireItem[];
-  familiar?: Familiar;
   delay?: number | (() => number);
   freeaction?: boolean;
   freecombat?: boolean;

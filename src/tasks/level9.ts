@@ -21,7 +21,7 @@ const ABoo: Task[] = [
     ],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
-    modifier: "item 667max",
+    outfit: { modifier: "item 667max" },
     combat: new CombatStrategy().killHard(),
     choices: { 611: 1, 1430: 1 },
     limit: { tries: 4 },
@@ -35,7 +35,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    modifier: "spooky res, cold res",
+    outfit: { modifier: "spooky res, cold res" },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
@@ -54,7 +54,7 @@ const Oil: Task[] = [
     after: ["Start Peaks"],
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
-    modifier: "ML",
+    outfit: { modifier: "ML" },
     combat: new CombatStrategy().kill(),
     limit: { tries: 6 },
   },
@@ -77,7 +77,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 1, 607: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
-    modifier: "stench res 4min",
+    outfit: { modifier: "stench res 4min" },
     limit: { tries: 1 },
   },
   {
@@ -89,7 +89,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 2, 608: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
-    modifier: "item 50min",
+    outfit: { modifier: "item 50min" },
     limit: { tries: 1 },
   },
   {
@@ -137,7 +137,7 @@ export const ChasmQuest: Quest = {
         if (have($item`smut orc keepsake box`)) use($item`smut orc keepsake box`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
       },
-      modifier: "item",
+      outfit: { modifier: "item" },
       combat: new CombatStrategy().kill(),
       choices: { 1345: 1 },
       limit: { soft: 32 },
