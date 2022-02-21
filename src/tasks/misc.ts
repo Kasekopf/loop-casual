@@ -76,6 +76,25 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Acquire Kgnee",
+      after: [],
+      ready: () =>
+        have($familiar`Reagnimated Gnome`) &&
+        !have($item`gnomish housemaid's kgnee`) &&
+        !get("_loopcasual_checkedGnome", false),
+      completed: () =>
+        !have($familiar`Reagnimated Gnome`) ||
+        have($item`gnomish housemaid's kgnee`) ||
+        get("_loopcasual_checkedGnome", false),
+      do: () => {
+        visitUrl("arena.php");
+        runChoice(4);
+        set("_loopcasual_checkedGnome", true);
+      },
+      outfit: { familiar: $familiar`Reagnimated Gnome` },
+      limit: { tries: 1 },
+    },
+    {
       name: "Voting",
       after: [],
       ready: () => get("voteAlways"),
