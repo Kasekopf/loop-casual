@@ -1,16 +1,5 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import {
-  $effects,
-  $familiar,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  get,
-  have,
-  Macro,
-} from "libram";
+import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { runawayValue } from "../resources";
@@ -100,7 +89,6 @@ const Apartment: Task[] = [
     do: $location`An Overgrown Shrine (Northwest)`,
     outfit: {
       equip: $items`antique machete, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
     },
     choices: { 781: 1 },
     limit: { tries: 4 },
@@ -161,7 +149,6 @@ const Office: Task[] = [
     do: $location`An Overgrown Shrine (Northeast)`,
     outfit: {
       equip: $items`antique machete, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
     },
     choices: { 785: 1 },
     limit: { tries: 4 },
@@ -244,7 +231,6 @@ const Hospital: Task[] = [
     do: $location`An Overgrown Shrine (Southwest)`,
     outfit: {
       equip: $items`antique machete, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
     },
     choices: { 783: 1 },
     limit: { tries: 4 },
@@ -296,7 +282,6 @@ const Bowling: Task[] = [
     do: $location`An Overgrown Shrine (Southeast)`,
     outfit: {
       equip: $items`antique machete, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
     },
     choices: { 787: 1 },
     limit: { tries: 4 },
@@ -341,7 +326,6 @@ export const HiddenQuest: Quest = {
       do: $location`A Massive Ziggurat`,
       outfit: {
         equip: $items`antique machete, dromedary drinking helmet`,
-        familiar: $familiar`Melodramedary`,
       },
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
