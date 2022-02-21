@@ -13,7 +13,7 @@ const Challenges: Task[] = [
       runChoice(1);
       runChoice(6);
     },
-    modifier: "init",
+    outfit: { modifier: "init" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -27,7 +27,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    modifier: "moxie",
+    outfit: { modifier: "moxie" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -41,7 +41,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    modifier: "muscle",
+    outfit: { modifier: "muscle" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -55,7 +55,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    modifier: "mysticality",
+    outfit: { modifier: "mysticality" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -69,7 +69,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    modifier: "hot dmg, hot spell dmg",
+    outfit: { modifier: "hot dmg, hot spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -83,7 +83,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    modifier: "cold dmg, cold spell dmg",
+    outfit: { modifier: "cold dmg, cold spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -97,7 +97,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    modifier: "spooky dmg, spooky spell dmg",
+    outfit: { modifier: "spooky dmg, spooky spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -111,7 +111,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    modifier: "stench dmg, stench spell dmg",
+    outfit: { modifier: "stench dmg, stench spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -125,7 +125,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    modifier: "sleaze dmg, sleaze spell dmg",
+    outfit: { modifier: "sleaze dmg, sleaze spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -292,8 +292,10 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       do: $location`The Hedge Maze`,
       choices: { 1004: 1, 1005: 2, 1008: 2, 1011: 2, 1013: 1, 1022: 1 },
-      modifier: "hot res, cold res, stench res, spooky res, sleaze res",
-      familiar: $familiar`Exotic Parrot`,
+      outfit: {
+        modifier: "hot res, cold res, stench res, spooky res, sleaze res",
+        familiar: $familiar`Exotic Parrot`,
+      },
       limit: { tries: 1 },
     },
     ...Door,
@@ -304,9 +306,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       effects: $effects`Spiky Shell, Jalapeño Saucesphere, Psalm of Pointiness, Scarysauce`,
-      familiar: $familiar`Shorter-Order Cook`,
+      outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`bejeweled cufflinks` },
       combat: new CombatStrategy(true).macro(new Macro().attack().repeat()),
-      equip: $items`bejeweled cufflinks`,
       limit: { tries: 1 },
     },
     {
@@ -315,7 +316,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
-      modifier: "meat",
+      outfit: { modifier: "meat" },
       combat: new CombatStrategy(true).killHard(),
       limit: { tries: 1 },
     },
@@ -325,7 +326,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 8,
       do: $location`Tower Level 3`,
-      modifier: "spell dmg",
+      outfit: { modifier: "spell dmg" },
       combat: new CombatStrategy(true).macro(new Macro().skill($skill`Garbage Nova`).repeat()),
       limit: { tries: 1 },
     },
@@ -346,7 +347,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
-      modifier: "init",
+      outfit: { modifier: "init" },
       combat: new CombatStrategy(true).macro(
         new Macro().item([$item`gauze garter`, $item`gauze garter`]).repeat()
       ),
@@ -358,7 +359,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
-      modifier: "muscle",
+      outfit: { modifier: "muscle" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
     },

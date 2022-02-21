@@ -70,9 +70,11 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => step("questL12War") >= 1,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: {
+        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+        modifier: "-combat",
+      },
       do: $location`Hippy Camp`,
-      modifier: "-combat",
       choices: { 142: 3, 1433: 3 },
       limit: { soft: 20 },
     },
@@ -80,7 +82,9 @@ export const WarQuest: Quest = {
       name: "Fluffers",
       after: ["Enrage"],
       completed: () => get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: {
+        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      },
       do: (): void => {
         // const count = clamp((1000 - get("hippiesDefeated")) / 46, 0, 24);
         while (get("hippiesDefeated") < 1000) {
@@ -97,7 +101,9 @@ export const WarQuest: Quest = {
       after: ["Fluffers"],
       completed: () => step("questL12War") === 999,
       ready: () => get("hippiesDefeated") >= 1000,
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      outfit: {
+        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      },
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
@@ -115,7 +121,9 @@ export const WarQuest: Quest = {
         { item: $item`bullet-proof corduroys` },
         { item: $item`round purple sunglasses` },
       ],
-      equip: $items`reinforced beaded headband, bullet-proof corduroys, round purple sunglasses`,
+      outfit: {
+        equip: $items`reinforced beaded headband, bullet-proof corduroys, round purple sunglasses`,
+      },
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");

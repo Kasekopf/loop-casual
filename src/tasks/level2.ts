@@ -29,7 +29,7 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL02Larva") >= 1,
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },
-      modifier: "-combat",
+      outfit: { modifier: "-combat" },
       limit: { soft: 20 },
     },
     {

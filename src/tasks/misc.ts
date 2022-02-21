@@ -26,7 +26,7 @@ import {
   Macro,
   set,
 } from "libram";
-import { Quest, step } from "./structure";
+import { OutfitSpec, Quest, step } from "./structure";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -71,8 +71,7 @@ export const MiscQuest: Quest = {
         familiarEquippedEquipment($familiar`Shorter-Order Cook`) === $item`blue plate`,
       acquire: [{ item: $item`blue plate` }],
       do: () => useFamiliar($familiar`Mosquito`), // Switch away to keep blue plate equipped
-      familiar: $familiar`Shorter-Order Cook`,
-      equip: $items`blue plate`,
+      outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`blue plate` },
       freeaction: true,
       limit: { tries: 1 },
     },
@@ -237,10 +236,10 @@ export const MiscQuest: Quest = {
       do: () => {
         adv1(get("ghostLocation") ?? $location`none`, 0, "");
       },
-      equip: () => {
+      outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
-          return $items`Talisman o' Namsilat, protonic accelerator pack`;
-        return $items`protonic accelerator pack`;
+          return { equip: $items`Talisman o' Namsilat, protonic accelerator pack` };
+        return { equip: $items`protonic accelerator pack` };
       },
       combat: new CombatStrategy().macro(
         new Macro()
@@ -303,7 +302,7 @@ export const KeysQuest: Quest = {
         if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
           set("_dailyDungeonMalwareUsed", true);
       },
-      equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
+      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
       combat: new CombatStrategy().macro(
         new Macro()
           .item($item`daily dungeon malware`)
@@ -318,7 +317,7 @@ export const KeysQuest: Quest = {
       after: ["Deck", "Lockpicking", "Malware"],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
-      equip: $items`ring of Detect Boring Doors, eleven-foot pole`,
+      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
       limit: { tries: 11 },

@@ -124,9 +124,11 @@ export const LevelingQuest: Quest = {
           )
         )
         .killHard(),
-      modifier: "mainstat, 4exp",
-      equip: $items`makeshift garbage shirt`,
-      familiar: $familiar`Galloping Grill`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`Galloping Grill`,
+      },
       limit: { tries: 1 },
       freecombat: true,
     },
@@ -165,10 +167,12 @@ export const LevelingQuest: Quest = {
           return new Macro().skill($skill`Saucegeyser`).repeat();
         }
       }),
-      familiar: $familiar`Frumious Bandersnatch`,
-      equip: $items`Greatest American Pants, familiar scrapbook`,
+      outfit: {
+        familiar: $familiar`Frumious Bandersnatch`,
+        equip: $items`Greatest American Pants, familiar scrapbook`,
+        modifier: "mainstat, 4exp, HP",
+      },
       effects: $effects`Spirit of Peppermint`,
-      modifier: "mainstat, 4exp, HP",
       limit: { tries: 10 },
     },
     {
@@ -183,9 +187,11 @@ export const LevelingQuest: Quest = {
         runChoice(3);
       },
       combat: new CombatStrategy().killHard(),
-      modifier: "mainstat, 4exp",
-      equip: $items`makeshift garbage shirt`,
-      familiar: $familiar`God Lobster`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`God Lobster`,
+      },
       limit: { tries: 3 },
       freecombat: true,
     },
@@ -196,9 +202,11 @@ export const LevelingQuest: Quest = {
       completed: () => Witchess.fightsDone() >= 5 || myLevel() >= 13,
       do: () => Witchess.fightPiece($monster`Witchess Knight`),
       combat: new CombatStrategy().killHard(),
-      modifier: "mainstat, 4exp",
-      equip: $items`makeshift garbage shirt`,
-      familiar: $familiar`Galloping Grill`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`Galloping Grill`,
+      },
       limit: { tries: 5 },
       freecombat: true,
     },
@@ -221,9 +229,11 @@ export const LevelingQuest: Quest = {
           $monster`sausage goblin`
         )
         .abort(), // error on everything except sausage goblin
-      modifier: "mainstat, 4exp",
-      equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
-      familiar: $familiar`Pocket Professor`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
+        familiar: $familiar`Pocket Professor`,
+      },
       limit: { tries: 1 },
       freecombat: true,
     },
@@ -249,9 +259,11 @@ export const LevelingQuest: Quest = {
           }
         })
         .killHard(),
-      modifier: "mainstat, 4exp",
-      equip: $items`makeshift garbage shirt`,
-      familiar: $familiar`Galloping Grill`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`Galloping Grill`,
+      },
       limit: { tries: 11 },
       freecombat: true,
     },
@@ -263,9 +275,11 @@ export const LevelingQuest: Quest = {
       completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= 13,
       do: $location`The Deep Machine Tunnels`,
       combat: new CombatStrategy().killHard(),
-      modifier: "mainstat, 4exp",
-      equip: $items`makeshift garbage shirt`,
-      familiar: $familiar`Machine Elf`,
+      outfit: {
+        modifier: "mainstat, 4exp",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`Machine Elf`,
+      },
       limit: { tries: 5 },
       freecombat: true,
     },

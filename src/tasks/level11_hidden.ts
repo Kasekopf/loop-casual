@@ -29,7 +29,7 @@ const Temple: Task[] = [
       step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 2, 505: 2, 334: 1 },
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     limit: { soft: 10 },
   },
   {
@@ -38,7 +38,7 @@ const Temple: Task[] = [
     completed: () => have($item`Spooky Temple map`) || step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 3, 506: 3, 507: 1, 334: 1 },
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     limit: { soft: 10 },
   },
   {
@@ -47,7 +47,7 @@ const Temple: Task[] = [
     completed: () => have($item`spooky sapling`) || step("questM16Temple") === 999,
     do: $location`The Spooky Forest`,
     choices: { 502: 1, 503: 3, 504: 3, 334: 1 },
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     limit: { soft: 10 },
   },
   {
@@ -98,8 +98,10 @@ const Apartment: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenApartmentProgress") >= 1,
     do: $location`An Overgrown Shrine (Northwest)`,
-    equip: $items`antique machete, dromedary drinking helmet`,
-    familiar: $familiar`Melodramedary`,
+    outfit: {
+      equip: $items`antique machete, dromedary drinking helmet`,
+      familiar: $familiar`Melodramedary`,
+    },
     choices: { 781: 1 },
     limit: { tries: 4 },
     freecombat: true,
@@ -117,10 +119,10 @@ const Apartment: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer`)
-      .macro(new Macro().step(use_writ).runaway(), $monster`pygmy shaman`)
+      .macro(new Macro().step(use_writ), $monster`pygmy shaman`)
+      .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
     limit: { tries: 9 },
-    equip: $items`Greatest American Pants`, // hack to avoid using banishers on shaman
     choices: { 780: 1 },
   },
   {
@@ -157,8 +159,10 @@ const Office: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenOfficeProgress") >= 1,
     do: $location`An Overgrown Shrine (Northeast)`,
-    equip: $items`antique machete, dromedary drinking helmet`,
-    familiar: $familiar`Melodramedary`,
+    outfit: {
+      equip: $items`antique machete, dromedary drinking helmet`,
+      familiar: $familiar`Melodramedary`,
+    },
     choices: { 785: 1 },
     limit: { tries: 4 },
     freecombat: true,
@@ -238,8 +242,10 @@ const Hospital: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenHospitalProgress") >= 1,
     do: $location`An Overgrown Shrine (Southwest)`,
-    equip: $items`antique machete, dromedary drinking helmet`,
-    familiar: $familiar`Melodramedary`,
+    outfit: {
+      equip: $items`antique machete, dromedary drinking helmet`,
+      familiar: $familiar`Melodramedary`,
+    },
     choices: { 783: 1 },
     limit: { tries: 4 },
     freecombat: true,
@@ -265,7 +271,9 @@ const Hospital: Task[] = [
         ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse, pygmy witch surgeon`
       )
       .ignore(),
-    equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
+    outfit: {
+      equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
+    },
     choices: { 784: 1 },
     limit: { soft: 10 },
   },
@@ -286,8 +294,10 @@ const Bowling: Task[] = [
     after: ["Open City"],
     completed: () => get("hiddenBowlingAlleyProgress") >= 1,
     do: $location`An Overgrown Shrine (Southeast)`,
-    equip: $items`antique machete, dromedary drinking helmet`,
-    familiar: $familiar`Melodramedary`,
+    outfit: {
+      equip: $items`antique machete, dromedary drinking helmet`,
+      familiar: $familiar`Melodramedary`,
+    },
     choices: { 787: 1 },
     limit: { tries: 4 },
     freecombat: true,
@@ -329,8 +339,10 @@ export const HiddenQuest: Quest = {
       after: ["Finish Office", "Finish Apartment", "Finish Hospital", "Finish Bowling"],
       completed: () => step("questL11Worship") === 999,
       do: $location`A Massive Ziggurat`,
-      equip: $items`antique machete, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
+      outfit: {
+        equip: $items`antique machete, dromedary drinking helmet`,
+        familiar: $familiar`Melodramedary`,
+      },
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
       limit: { tries: 4 },

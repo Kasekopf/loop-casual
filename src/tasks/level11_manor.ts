@@ -1,4 +1,4 @@
-import { create, Item, myClass, myFury, myInebriety, use, useSkill, visitUrl } from "kolmafia";
+import { create, myClass, myFury, myInebriety, use, useSkill, visitUrl } from "kolmafia";
 import {
   $class,
   $effect,
@@ -23,7 +23,7 @@ const Manor1: Task[] = [
     after: ["Start"],
     completed: () => step("questM20Necklace") >= 1,
     do: $location`The Haunted Kitchen`,
-    modifier: "stench res, hot res",
+    outfit: { modifier: "stench res, hot res" },
     choices: { 893: 2 },
     combat: new CombatStrategy().kill(),
     limit: { turns: 7 },
@@ -39,14 +39,17 @@ const Manor1: Task[] = [
     ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
     choices: { 875: 1, 900: 2, 1436: 2 },
-    modifier: "-combat",
+    outfit: () => {
+      return {
+        equip: have($item`government-issued eyeshade`) ? $items`government-issued eyeshade` : [],
+        modifier: "-combat",
+      };
+    },
     combat: new CombatStrategy()
       .ignore()
       .banish($monster`pooltergeist`)
       .macro(new Macro().tryItem($item`T.U.R.D.S. Key`), $monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    equip: (): Item[] =>
-      have($item`government-issued eyeshade`) ? $items`government-issued eyeshade` : [],
     effects: $effects`Chalky Hand`,
     limit: { soft: 10 },
   },
@@ -93,7 +96,7 @@ const Manor2: Task[] = [
     completed: () => have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     limit: { soft: 10 },
   },
   {
@@ -112,7 +115,7 @@ const Manor2: Task[] = [
     completed: () => have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
     limit: { soft: 10 },
   },
@@ -132,10 +135,10 @@ const Manor2: Task[] = [
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
       .ignore($monster`tumbleweed`),
-    equip: () => {
+    outfit: () => {
       if (myClass() === $class`Seal Clubber` && have($skill`Batter Up!`) && myFury() >= 5)
-        return $items`Meat Tenderizer is Murder`;
-      else return $items`Pantsgiving`;
+        return { equip: $items`Meat Tenderizer is Murder` };
+      else return { equip: $items`Pantsgiving` };
     },
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
     limit: { soft: 10 },
@@ -171,7 +174,7 @@ const ManorBasement: Task[] = [
     after: ["Ballroom Delay"],
     completed: () => step("questL11Manor") >= 1,
     do: $location`The Haunted Ballroom`,
-    modifier: "-combat",
+    outfit: { modifier: "-combat" },
     choices: { 90: 3, 106: 4, 921: 1 },
     limit: { soft: 10 },
   },
@@ -183,7 +186,7 @@ const ManorBasement: Task[] = [
       visitUrl("place.php?whichplace=manor4&action=manor4_chamberwall");
       use($item`recipe: mortar-dissolving solution`);
     },
-    equip: $items`Lord Spookyraven's spectacles`,
+    outfit: { equip: $items`Lord Spookyraven's spectacles` },
     limit: { tries: 1 },
   },
   {
@@ -199,9 +202,11 @@ const ManorBasement: Task[] = [
       if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
     },
     do: $location`The Haunted Wine Cellar`,
-    equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
+    outfit: {
+      equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
+      modifier: "item, booze drop",
+    },
     effects: $effects`Merry Smithsness`,
-    modifier: "item, booze drop",
     choices: { 901: 2 },
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
@@ -222,9 +227,11 @@ const ManorBasement: Task[] = [
       if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
     },
     do: $location`The Haunted Laundry Room`,
-    equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
+    outfit: {
+      equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
+      modifier: "item, food drop",
+    },
     effects: $effects`Merry Smithsness`,
-    modifier: "item, food drop",
     choices: { 891: 2 },
     combat: new CombatStrategy()
       .macro(
@@ -249,8 +256,7 @@ const ManorBasement: Task[] = [
     after: ["Fulminate"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
     do: $location`The Haunted Boiler Room`,
-    modifier: "ML",
-    equip: $items`unstable fulminate`,
+    outfit: { modifier: "ML", equip: $items`unstable fulminate` },
     choices: { 902: 2 },
     combat: new CombatStrategy()
       .kill($monster`monstrous boiler`)

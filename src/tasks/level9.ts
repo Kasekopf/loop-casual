@@ -38,8 +38,7 @@ const ABoo: Task[] = [
         SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
     },
     do: $location`A-Boo Peak`,
-    modifier: "item 667max",
-    equip: $items`A Light that Never Goes Out`,
+    outfit: { modifier: "item 667max", equip: $items`A Light that Never Goes Out` },
     effects: $effects`Merry Smithsness`,
     combat: new CombatStrategy()
       .macro((): Macro => {
@@ -65,7 +64,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    modifier: "spooky res, cold res",
+    outfit: { modifier: "spooky res, cold res" },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
@@ -84,7 +83,7 @@ const Oil: Task[] = [
     after: ["Start Peaks"],
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
-    modifier: "ML",
+    outfit: { modifier: "ML" },
     combat: new CombatStrategy().kill(),
     limit: { tries: 6 },
   },
@@ -107,7 +106,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 1, 607: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
-    modifier: "stench res 4min",
+    outfit: { modifier: "stench res 4min" },
     limit: { tries: 1 },
   },
   {
@@ -119,7 +118,7 @@ const Twin: Task[] = [
     },
     choices: { 606: 2, 608: 1 },
     acquire: [{ item: $item`rusty hedge trimmers` }],
-    modifier: "item 50min",
+    outfit: { modifier: "item 50min" },
     limit: { tries: 1 },
   },
   {

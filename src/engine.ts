@@ -162,7 +162,7 @@ export class Engine {
         wanderers = outfit.equipUntilCapped(wandererSources);
 
       // Prepare mood
-      applyEffects(task.modifier || "", task.effects || []);
+      applyEffects(outfit.modifier ?? "", task.effects || []);
 
       // Prepare full outfit
       if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
@@ -195,7 +195,7 @@ export class Engine {
       if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
     } else {
       // Prepare only as requested by the task
-      applyEffects(task.modifier || "", task.effects || []);
+      applyEffects(outfit.modifier ?? "", task.effects || []);
       outfit.dress();
     }
 
