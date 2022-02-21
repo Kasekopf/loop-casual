@@ -12,6 +12,7 @@ import {
   $effect,
   $effects,
   $item,
+  $skill,
   $stat,
   AsdonMartin,
   ensureEffect,
@@ -37,7 +38,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   };
 
   // Glitches if given above
-  result["mainstat"].push(Effect.get(2499)); // That's Just Cloud-Talk, Man
+  result["mainstat"].push($effect`That's Just Cloud-Talk, Man`);
 
   // Class-specific
   if (myClass() === $class`Seal Clubber`) result["init"].push($effect`Silent Hunting`);
@@ -47,6 +48,12 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
   if (!get("_lyleFavored")) result["mainstat"].push($effect`Favored by Lyle`);
   if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
+  if (get("spacegateAlways") && get("spacegateVaccine2") && !get("_spacegateVaccine"))
+    result["mainstat"].push($effect`Broad-Spectrum Vaccine`);
+  if (have($skill`Emotionally Chipped`) && get("_feelExcitementUsed") < 3)
+    result["mainstat"].push($effect`Feeling Excited`);
+  if (have($item`protonic accelerator pack`) && !get("_streamsCrossed"))
+    result["mainstat"].push($effect`Total Protonic Reversal`);
 
   // Noncombat buffs
   if (get("_feelLonelyUsed") < 3 || have($effect`Feeling Lonely`))
