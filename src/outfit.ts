@@ -250,12 +250,12 @@ export class Outfit {
         this.equip($item`protonic accelerator pack`);
       this.equip($item`vampyric cloake`);
       if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
-
-      if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
-        this.equip($familiar`Melodramedary`);
-      } else if (have($item`gnomish housemaid's kgnee`)) {
-        this.equip($familiar`Reagnimated Gnome`);
-      } else this.equip($familiar`Galloping Grill`);
     }
+
+    if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
+      this.equip($familiar`Melodramedary`);
+    } else if (have($item`gnomish housemaid's kgnee`)) {
+      this.equip($familiar`Reagnimated Gnome`);
+    } else this.equip($familiar`Galloping Grill`);
   }
 }
