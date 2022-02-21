@@ -203,7 +203,10 @@ export class Outfit {
 
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);
-    if (spec?.familiar) outfit.equip(spec.familiar);
+    if (spec?.familiar) {
+      if (typeof spec.familiar === "function") outfit.equip(spec.familiar());
+      else outfit.equip(spec.familiar);
+    }
 
     if (spec?.modifier) {
       // Run maximizer
