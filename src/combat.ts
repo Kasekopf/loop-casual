@@ -25,6 +25,7 @@ export enum MonsterStrategy {
   KillHard, // Task needs to kill it without using a free kill (i.e., boss, or already free)
   Banish, // Task doesn't care what happens, but banishing is useful
   Abort, // Abort the macro and the script; an error has occured
+  KillItem, // Kill with an item boost
 }
 
 export class CombatResourceAllocation {
@@ -143,6 +144,7 @@ export class BuiltCombatStrategy {
           .skill($skill`Saucestorm`)
           .attack()
           .repeat();
+      case MonsterStrategy.KillItem:
       case MonsterStrategy.Kill:
         if (monsterLevelAdjustment() > 150) return new Macro().skill($skill`Saucegeyser`).repeat();
         if (monster && monster.physicalResistance >= 70)
@@ -206,6 +208,9 @@ export class CombatStrategy {
   }
   public killHard(...monsters: Monster[]): CombatStrategy {
     return this.apply(MonsterStrategy.KillHard, ...monsters);
+  }
+  public killItem(...monsters: Monster[]): CombatStrategy {
+    return this.apply(MonsterStrategy.KillItem, ...monsters);
   }
   public banish(...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) throw `Must specify list of monsters to banish`;
