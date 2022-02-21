@@ -203,10 +203,7 @@ export class Outfit {
 
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);
-    if (spec?.familiar) {
-      if (typeof spec.familiar === "function") outfit.equip(spec.familiar());
-      else outfit.equip(spec.familiar);
-    }
+    if (spec?.familiar) outfit.equip(spec.familiar);
 
     if (spec?.modifier) {
       // Run maximizer
@@ -227,6 +224,13 @@ export class Outfit {
       outfit.modifier = spec.modifier;
     }
 
+    const commonFamiliarEquips = new Map<Familiar, Item>([
+      [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
+      [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
+    ]);
+    const familiarEquip = commonFamiliarEquips.get(outfit.familiar ?? $familiar`none`);
+    if (familiarEquip && outfit.canEquip(familiarEquip)) outfit.equip(familiarEquip);
+
     return outfit;
   }
 
@@ -246,7 +250,12 @@ export class Outfit {
         this.equip($item`protonic accelerator pack`);
       this.equip($item`vampyric cloake`);
       if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
-      this.equip($familiar`Galloping Grill`);
+
+      if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
+        this.equip($familiar`Melodramedary`);
+      } else if (have($item`gnomish housemaid's kgnee`)) {
+        this.equip($familiar`Reagnimated Gnome`);
+      } else this.equip($familiar`Galloping Grill`);
     }
   }
 }

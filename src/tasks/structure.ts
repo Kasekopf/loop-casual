@@ -26,7 +26,7 @@ export type Limit = {
 export interface OutfitSpec {
   equip?: Item[]; // Items to be equipped in any slot
   modifier?: string; // Modifier to maximize
-  familiar?: Familiar | (() => Familiar); // Familiar to use
+  familiar?: Familiar; // Familiar to use
 }
 
 export type Task = {

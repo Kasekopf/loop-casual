@@ -88,7 +88,7 @@ const Apartment: Task[] = [
     completed: () => get("hiddenApartmentProgress") >= 1,
     do: $location`An Overgrown Shrine (Northwest)`,
     outfit: {
-      equip: $items`antique machete, dromedary drinking helmet`,
+      equip: $items`antique machete`,
     },
     choices: { 781: 1 },
     limit: { tries: 4 },
@@ -148,7 +148,7 @@ const Office: Task[] = [
     completed: () => get("hiddenOfficeProgress") >= 1,
     do: $location`An Overgrown Shrine (Northeast)`,
     outfit: {
-      equip: $items`antique machete, dromedary drinking helmet`,
+      equip: $items`antique machete`,
     },
     choices: { 785: 1 },
     limit: { tries: 4 },
@@ -230,7 +230,7 @@ const Hospital: Task[] = [
     completed: () => get("hiddenHospitalProgress") >= 1,
     do: $location`An Overgrown Shrine (Southwest)`,
     outfit: {
-      equip: $items`antique machete, dromedary drinking helmet`,
+      equip: $items`antique machete`,
     },
     choices: { 783: 1 },
     limit: { tries: 4 },
@@ -281,7 +281,7 @@ const Bowling: Task[] = [
     completed: () => get("hiddenBowlingAlleyProgress") >= 1,
     do: $location`An Overgrown Shrine (Southeast)`,
     outfit: {
-      equip: $items`antique machete, dromedary drinking helmet`,
+      equip: $items`antique machete`,
     },
     choices: { 787: 1 },
     limit: { tries: 4 },
@@ -325,7 +325,7 @@ export const HiddenQuest: Quest = {
       completed: () => step("questL11Worship") === 999,
       do: $location`A Massive Ziggurat`,
       outfit: {
-        equip: $items`antique machete, dromedary drinking helmet`,
+        equip: $items`antique machete`,
       },
       choices: { 791: 1 },
       combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
