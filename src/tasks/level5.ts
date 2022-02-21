@@ -1,6 +1,17 @@
 import { myLevel, use, visitUrl } from "kolmafia";
-import { $effects, $item, $location, $monster, have } from "libram";
-import { Quest, step } from "./structure";
+import {
+  $effect,
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
+import { OutfitSpec, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
 export const KnobQuest: Quest = {
@@ -33,16 +44,35 @@ export const KnobQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Knob Harem",
+      after: ["Open Knob"],
+      completed: () => have($item`Knob Goblin harem veil`) && have($item`Knob Goblin harem pants`),
+      do: $location`Cobb's Knob Harem`,
+      outfit: (): OutfitSpec => {
+        if (
+          have($item`industrial fire extinguisher`) &&
+          get("_fireExtinguisherCharge") >= 20 &&
+          !get("fireExtinguisherHaremUsed")
+        )
+          return {
+            equip: $items`industrial fire extinguisher`,
+          };
+        else return {};
+      },
+      combat: new CombatStrategy()
+        .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))
+        .banish($monster`Knob Goblin Harem Guard`)
+        .killItem(),
+      limit: { tries: 1 },
+    },
+    {
       name: "King",
       after: ["Open Knob"],
-      acquire: [
-        { item: $item`Knob Goblin harem veil` },
-        { item: $item`Knob Goblin harem pants` },
-        { item: $item`Knob Goblin perfume` },
-      ],
+      priority: () => have($effect`Knob Goblin Perfume`),
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),
+      outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants` },
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
     },

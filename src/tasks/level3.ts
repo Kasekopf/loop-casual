@@ -1,5 +1,5 @@
 import { getProperty, myLevel, runChoice, runCombat, visitUrl } from "kolmafia";
-import { $effects } from "libram";
+import { $monster } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step } from "./structure";
 
@@ -40,9 +40,8 @@ export const TavernQuest: Quest = {
           }
         }
       },
-      effects: $effects`Belch the Rainbow™, Benetton's Medley of Diversity`,
       outfit: { modifier: "ML" },
-      combat: new CombatStrategy().ignoreNoBanish(),
+      combat: new CombatStrategy().kill($monster`drunken rat king`).ignoreNoBanish(),
       choices: { 509: 1, 510: 1, 511: 2, 514: 2, 515: 2, 496: 2, 513: 2 },
       limit: { tries: 10 },
     },

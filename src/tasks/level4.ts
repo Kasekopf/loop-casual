@@ -1,6 +1,6 @@
-import { myLevel, use, visitUrl } from "kolmafia";
-import { $item, $location, $monster } from "libram";
-import { Quest, step } from "./structure";
+import { itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { $item, $items, $location, $monster, $skill, get, have, Macro } from "libram";
+import { OutfitSpec, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 
 export const BatQuest: Quest = {
@@ -16,9 +16,36 @@ export const BatQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Get Sonar",
+      after: [],
+      completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 3,
+      do: $location`Guano Junction`,
+      post: () => {
+        if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
+      },
+      outfit: (): OutfitSpec => {
+        if (
+          have($item`industrial fire extinguisher`) &&
+          get("_fireExtinguisherCharge") >= 20 &&
+          !get("fireExtinguisherBatHoleUsed")
+        )
+          return {
+            equip: $items`industrial fire extinguisher`,
+          };
+        else
+          return {
+            modifier: "item",
+          };
+      },
+      combat: new CombatStrategy()
+        .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))
+        .kill($monster`screambat`)
+        .killItem(),
+      limit: { tries: 10 },
+    },
+    {
       name: "Use Sonar",
-      after: ["Start"],
-      acquire: [{ item: $item`sonar-in-a-biscuit` }],
+      after: [],
       completed: () => step("questL04Bat") >= 3,
       do: () => use($item`sonar-in-a-biscuit`),
       limit: { tries: 3 },
