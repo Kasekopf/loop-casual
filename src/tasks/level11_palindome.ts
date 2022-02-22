@@ -117,16 +117,12 @@ const Zepplin: Task[] = [
     name: "Protesters",
     after: ["Protesters Start"],
     completed: () => get("zeppelinProtestors") >= 80,
-    acquire: [{ item: $item`11-leaf clover` }],
-    prepare: (): void => {
-      if (get("zeppelinProtestors") < 80) {
-        if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
-        ensureEffect($effect`Dirty Pear`);
-        use($item`11-leaf clover`);
-      }
-    },
     do: $location`A Mob of Zeppelin Protesters`,
-    combat: new CombatStrategy().killHard($monster`The Nuge`),
+    combat: new CombatStrategy()
+        .macro(new Macro().tryItem($item`cigarette lighter`))
+        .killHard($monster`The Nuge`)
+        .killItem($monster`Blue Oyster cultist`)
+        .kill(),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     outfit: { modifier: "sleaze dmg, sleaze spell dmg", familiar: $familiar`Left-Hand Man` },
     freeaction: true, // fully maximize outfit
