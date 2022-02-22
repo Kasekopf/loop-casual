@@ -429,6 +429,20 @@ const adventureMonsters: Monster[] = [
   $monster`warwelf`,
   $monster`whitesnake`,
 ];
+// Other monsters with useful absorbs
+const usefulMonsters = [
+  $monster`anglerbush`, // +meat
+  $monster`black panther`,  // -combat
+  $monster`drunk pygmy`, // Double Nanovision +item)
+  $monster`junksprite bender`, // +item
+  $monster`me4t begZ0r`, // +meat
+  $monster`mind flayer`, // MP regen
+  $monster`pygmy janitor`, // System Sweep (banish)
+  $monster`pygmy witch lawyer`, // Infinite loop (stats)
+  $monster`Spectral Jellyfish`, // -combat
+  $monster`suckubus`, // +item
+  $monster`white lion`, // +combat
+];
 
 // A many-to-many map to track the remaining monsters at each location
 class AbsorbtionTargets {
@@ -488,7 +502,7 @@ class AbsorbtionTargets {
     for (const monster of monsters) this.delete(monster);
   }
 }
-export const absorbtionTargets = new AbsorbtionTargets(adventureMonsters);
+export const absorbtionTargets = new AbsorbtionTargets([...adventureMonsters, ...usefulMonsters]);
 
 export const AbsorbQuest: Quest = {
   name: "Absorb",
