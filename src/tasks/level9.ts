@@ -12,7 +12,7 @@ import {
   Macro,
   SourceTerminal,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 const ABoo: Task[] = [
@@ -38,9 +38,21 @@ const ABoo: Task[] = [
         SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
     },
     do: $location`A-Boo Peak`,
-    outfit: {
-      modifier: "item 667max, spooky res, cold res, HP",
-      equip: $items`A Light that Never Goes Out`,
+    outfit: (): OutfitSpec => {
+      if (
+        $location`A-Boo Peak`.turnsSpent === 0 &&
+        $location`Twin Peak`.turnsSpent === 0 &&
+        $location`Oil Peak`.turnsSpent === 0 &&
+        have($skill`Comprehensive Cartography`)
+      ) {
+        // Prepare for Ghostly Memories (1430)
+        return { modifier: "spooky res, cold res, HP" };
+      } else {
+        return {
+          modifier: "item 667max",
+          equip: $items`A Light that Never Goes Out`,
+        };
+      }
     },
     effects: $effects`Merry Smithsness`,
     combat: new CombatStrategy()
