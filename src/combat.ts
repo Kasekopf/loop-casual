@@ -6,10 +6,11 @@ import {
   monsterDefense,
   monsterLevelAdjustment,
   myBuffedstat,
+  myMp,
   Skill,
   weaponType,
 } from "kolmafia";
-import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, Macro } from "libram";
+import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, have, Macro } from "libram";
 import {
   BanishSource,
   CombatResource,
@@ -127,42 +128,26 @@ export class BuiltCombatStrategy {
     const use_resource = this.resources.getMacro(strategy);
     if (use_resource !== undefined) return use_resource;
 
-    // Otherwise, default to standard strategies
-    const delevel = new Macro()
-      .skill($skill`Curse of Weaksauce`)
-      .trySkill($skill`Pocket Crumbs`)
-      .trySkill($skill`Micrometeorite`)
-      .tryItem($item`Rain-Doh indigo cup`)
-      .trySkill($skill`Summon Love Mosquito`)
-      .tryItem($item`Time-Spinner`);
+    // Choose a killing blow (items, banish, or stats)
+    let killing_blow = undefined;
+    if (myMp() >= 20) {
+      if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`)) killing_blow = $skill`Double Nanovision`;
+      if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
+    }
 
+    // Otherwise, default to standard strategies
     switch (strategy) {
+      case MonsterStrategy.KillItem:
       case MonsterStrategy.IgnoreNoBanish:
       case MonsterStrategy.Ignore:
-        // For a casual run, ignoring always means running away
-        return new Macro()
-          .runaway()
-          .skill($skill`Saucestorm`)
-          .attack()
-          .repeat();
-      case MonsterStrategy.KillItem:
       case MonsterStrategy.Kill:
-        if (monsterLevelAdjustment() > 150) return new Macro().skill($skill`Saucegeyser`).repeat();
-        if (monster && monster.physicalResistance >= 70)
-          return delevel.skill($skill`Saucegeyser`).repeat();
-        else return delevel.attack().repeat();
       case MonsterStrategy.KillHard:
-        if (
-          (monster && monster.physicalResistance >= 70) ||
-          weaponType(equippedItem($slot`Weapon`)) !== $stat`muscle`
-        ) {
-          return delevel.skill($skill`Saucegeyser`).repeat();
-        } else {
-          return delevel.skill($skill`Lunging Thrust-Smack`).repeat();
-        }
+      case MonsterStrategy.Banish:
+        if ((monster && monster.physicalResistance >= 70) || !killing_blow)
+          return new Macro().attack().repeat();
+        return new Macro().skill(killing_blow).repeat();  // TODO: get to low HP first?
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
-      case MonsterStrategy.Banish:
       case MonsterStrategy.Abort:
         return new Macro().abort();
     }
