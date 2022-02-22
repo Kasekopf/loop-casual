@@ -38,7 +38,10 @@ const ABoo: Task[] = [
         SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
     },
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "item 667max", equip: $items`A Light that Never Goes Out` },
+    outfit: {
+      modifier: "item 667max, spooky res, cold res, HP",
+      equip: $items`A Light that Never Goes Out`,
+    },
     effects: $effects`Merry Smithsness`,
     combat: new CombatStrategy()
       .macro((): Macro => {
@@ -64,7 +67,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "spooky res, cold res" },
+    outfit: { modifier: "spooky res, cold res, HP" },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
