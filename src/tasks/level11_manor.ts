@@ -33,24 +33,21 @@ const Manor1: Task[] = [
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
     prepare: () => {
-      if (!have($item`government-issued eyeshade`)) ensureEffect($effect`Influence of Sphere`);
+      if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
     },
-    acquire: [{ item: $item`T.U.R.D.S. Key`, num: 1, price: 4000, optional: true }],
     ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
-    choices: { 875: 1, 900: 2, 1436: 2 },
+    choices: { 875: 1, 900: 2, 1436: 1 },
     outfit: () => {
       return {
-        equip: have($item`government-issued eyeshade`) ? $items`government-issued eyeshade` : [],
+        equip: $items`pool cue`,
         modifier: "-combat",
       };
     },
     combat: new CombatStrategy()
       .ignore()
-      .banish($monster`pooltergeist`)
-      .macro(new Macro().tryItem($item`T.U.R.D.S. Key`), $monster`chalkdust wraith`)
+      .killItem($monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    effects: $effects`Chalky Hand`,
     limit: { soft: 10 },
   },
   {
