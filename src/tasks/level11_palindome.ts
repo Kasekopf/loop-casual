@@ -39,8 +39,19 @@ const Copperhead: Task[] = [
     ready: () =>
       step("questL11Shen") === 2 || step("questL11Shen") === 4 || step("questL11Shen") === 6,
     completed: () => step("questL11Shen") === 999,
+    prepare: () => {
+      if (have($item`crappy waiter disguise`)) ensureEffect($effect`Crappily Disguised as a Waiter`);
+    },
     do: $location`The Copperhead Club`,
-    choices: { 852: 1, 853: 1, 854: 1 },
+    combat: new CombatStrategy()
+      .killItem(
+        $monster`Copperhead Club bartender`,
+        $monster`ninja dressed as a waiter`,
+        $monster`waiter dressed as a ninja`,
+      ),
+    choices: { 852: 1, 853: 1, 854: 1, 855: () => { 
+      return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
+    }},
     limit: { tries: 16 },
   },
   {
