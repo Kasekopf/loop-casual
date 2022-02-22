@@ -16,9 +16,16 @@ export const GiantQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Get Bean",
+      after: ["Bat/Use Sonar"],
+      completed: () => have($item`enchanted bean`) || step("questL10Garbage") >= 1,
+      do: $location`The Beanbat Chamber`,
+      outfit: { modifier: "item" },
+      limit: { soft: 5 },
+    },
+    {
       name: "Grow Beanstalk",
-      after: ["Start"],
-      acquire: [{ item: $item`enchanted bean` }],
+      after: ["Get Bean"],
       completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
       limit: { tries: 1 },
