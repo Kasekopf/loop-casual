@@ -137,9 +137,6 @@ const Apartment: Task[] = [
     name: "Apartment",
     after: ["Open Apartment", "Apartment Files"], // Wait until after all needed pygmy witch lawyers are done
     completed: () => get("hiddenApartmentProgress") >= 7,
-    acquire: [
-      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
-    ],
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
@@ -198,9 +195,6 @@ const Office: Task[] = [
   {
     name: "Office Clip",
     after: ["Office Files", "Apartment Files"],
-    acquire: [
-      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
-    ],
     completed: () =>
       have($item`boring binder clip`) ||
       have($item`McClusky file (complete)`) ||
@@ -218,9 +212,6 @@ const Office: Task[] = [
   {
     name: "Office Boss",
     after: ["Office Clip"],
-    acquire: [
-      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
-    ],
     completed: () => get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 1 },
@@ -262,28 +253,21 @@ const Hospital: Task[] = [
   {
     name: "Hospital",
     after: ["Open Hospital"],
-    acquire: [
-      { item: $item`short writ of habeas corpus`, num: 1, price: runawayValue, optional: true },
-      { item: $item`half-size scalpel` },
-      { item: $item`head mirror` },
-      { item: $item`surgical mask` },
-      { item: $item`surgical apron` },
-      { item: $item`bloodied surgical dungarees` },
-    ],
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
+      .kill($monster`pygmy witch surgeon`)
       .macro(
         use_writ,
-        ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse, pygmy witch surgeon`
+        ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`
       )
-      .ignore(),
+      .banish(),
     outfit: {
-      equip: $items`half-size scalpel, head mirror, surgical mask, surgical apron, bloodied surgical dungarees`,
+      equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
     },
     choices: { 784: 1 },
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Finish Hospital",
@@ -314,14 +298,18 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling"],
-    acquire: [{ item: $item`bowling ball` }],
+    acquire: [{ item: $item`bowl of scorpions` }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
-    combat: new CombatStrategy().killHard(
-      $monster`ancient protector spirit (The Hidden Bowling Alley)`
-    ),
+    combat: new CombatStrategy()
+      .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
+      .killItem($monster`pygmy bowler`)
+      .banish(...$monsters`pygmy janitor, pygmy orderlies`),
+    outfit: {
+      modifier: "item",
+    },
     choices: { 788: 1 },
-    limit: { tries: 5 },
+    limit: { soft: 15 },
   },
   {
     name: "Finish Bowling",
