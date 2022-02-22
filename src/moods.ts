@@ -1,20 +1,11 @@
 import {
-  cliExecute,
   Effect,
-  getWorkshed,
   myClass,
-  myEffects,
-  myPrimestat,
-  toSkill,
 } from "kolmafia";
 import {
   $class,
   $effect,
-  $effects,
-  $item,
   $skill,
-  $stat,
-  AsdonMartin,
   ensureEffect,
   get,
   have,
