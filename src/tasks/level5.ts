@@ -44,7 +44,7 @@ export const KnobQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Knob Harem",
+      name: "Harem",
       after: ["Open Knob"],
       completed: () => have($item`Knob Goblin harem veil`) && have($item`Knob Goblin harem pants`),
       do: $location`Cobb's Knob Harem`,
@@ -66,8 +66,16 @@ export const KnobQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Perfume",
+      after: ["Harem"],
+      completed: () => have($effect`Knob Goblin Perfume`) || have($item`Knob Goblin Perfume`),
+      do: $location`Cobb's Knob Harem`,
+      outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants` },
+      limit: { tries: 1 },
+    },
+    {
       name: "King",
-      after: ["Open Knob"],
+      after: ["Perfume"],
       priority: () => have($effect`Knob Goblin Perfume`),
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
