@@ -1,6 +1,6 @@
 import { Location } from "kolmafia";
 import { Task } from "./tasks/structure";
-import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, $skill, get, have, Macro, PropertiesManager } from "libram";
 import {
   BuiltCombatStrategy,
   CombatResourceAllocation,
@@ -127,12 +127,25 @@ export class Engine {
       const task_combat = task.combat?.clone() ?? new CombatStrategy();
 
       // Absorb targeted monsters
-      const absorb_targets = (task.do instanceof Location) ? absorbtionTargets.remaining(task.do) : [];
+      const absorb_targets =
+        task.do instanceof Location ? absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
         const strategy = task_combat.currentStrategy(monster);
-        if (strategy === MonsterStrategy.Ignore || strategy === MonsterStrategy.Banish || strategy === MonsterStrategy.IgnoreNoBanish) {
+        if (
+          strategy === MonsterStrategy.Ignore ||
+          strategy === MonsterStrategy.Banish ||
+          strategy === MonsterStrategy.IgnoreNoBanish
+        ) {
           task_combat.kill(monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
         }
+      }
+      // Use rock-band flyers if needed
+      if (
+        have($item`rock band flyers`) &&
+        get("flyeredML") < 10000 &&
+        task_combat.default_macro === undefined // TODO: append to existing macro
+      ) {
+        task_combat.macro(new Macro().tryItem($item`rock band flyers`));
       }
 
       // Apply resources
