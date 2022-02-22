@@ -4,6 +4,7 @@ import {
   getWorkshed,
   myClass,
   myEffects,
+  myMaxmp,
   myPrimestat,
   toSkill,
 } from "kolmafia";
@@ -113,6 +114,10 @@ export function applyEffects(modifier: string, required: Effect[]): void {
   // Remove wrong combat effects
   if (modifier.includes("+combat")) shrug(relevantEffects["-combat"]);
   if (modifier.includes("-combat")) shrug(relevantEffects["+combat"]);
+
+  if (myMaxmp() < 27 && have($skill`The Magical Mojomuscular Melody`)) {
+    useful_effects.unshift($effect`The Magical Mojomuscular Melody`);
+  }
 
   // Make room for songs
   const songs = [];
