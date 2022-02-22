@@ -194,47 +194,31 @@ const ManorBasement: Task[] = [
       have($item`unstable fulminate`) ||
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
-    priority: () => have($effect`Steely-Eyed Squint`),
-    prepare: (): void => {
-      if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
-    },
     do: $location`The Haunted Wine Cellar`,
     outfit: {
-      equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
       modifier: "item, booze drop",
     },
-    effects: $effects`Merry Smithsness`,
     choices: { 901: 2 },
     combat: new CombatStrategy()
-      .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
-      .banish(...$monsters`mad wino, skeletal sommelier`)
-      .killFree(),
+      .killItem($monster`possessed wine rack`)
+      .banish(...$monsters`mad wino, skeletal sommelier`),
     limit: { soft: 10 },
   },
   {
     name: "Laundry Room",
     after: ["Learn Recipe"],
-    priority: () => have($effect`Steely-Eyed Squint`),
     completed: () =>
       have($item`blasting soda`) ||
       have($item`unstable fulminate`) ||
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
-    prepare: (): void => {
-      if (!get("_steelyEyedSquintUsed")) useSkill($skill`Steely-Eyed Squint`);
-    },
     do: $location`The Haunted Laundry Room`,
     outfit: {
-      equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
       modifier: "item, food drop",
     },
-    effects: $effects`Merry Smithsness`,
     choices: { 891: 2 },
     combat: new CombatStrategy()
-      .macro(
-        new Macro().trySkill($skill`Otoscope`).trySkill($skill`Chest X-Ray`),
-        $monster`cabinet of Dr. Limpieza`
-      )
+      .killItem($monster`cabinet of Dr. Limpieza`)
       .banish(...$monsters`plaid ghost, possessed laundry press`)
       .killFree(),
     limit: { soft: 10 },
