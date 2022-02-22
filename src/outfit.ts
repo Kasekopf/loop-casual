@@ -224,13 +224,6 @@ export class Outfit {
       outfit.modifier = spec.modifier;
     }
 
-    const commonFamiliarEquips = new Map<Familiar, Item>([
-      [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
-      [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
-    ]);
-    const familiarEquip = commonFamiliarEquips.get(outfit.familiar ?? $familiar`none`);
-    if (familiarEquip && outfit.canEquip(familiarEquip)) outfit.equip(familiarEquip);
-
     return outfit;
   }
 
@@ -259,5 +252,12 @@ export class Outfit {
     } else if (have($item`gnomish housemaid's kgnee`)) {
       this.equip($familiar`Reagnimated Gnome`);
     } else this.equip($familiar`Galloping Grill`);
+
+    const commonFamiliarEquips = new Map<Familiar, Item>([
+      [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
+      [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
+    ]);
+    const familiarEquip = commonFamiliarEquips.get(this.familiar ?? $familiar`none`);
+    if (familiarEquip && this.canEquip(familiarEquip)) this.equip(familiarEquip);
   }
 }
