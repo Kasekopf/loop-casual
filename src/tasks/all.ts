@@ -28,7 +28,7 @@ export function all_tasks(): Task[] {
     BatQuest,
     KnobQuest,
     FriarQuest,
-    OrganQuest,
+    // OrganQuest,
     CryptQuest,
     McLargeHugeQuest,
     ChasmQuest,
