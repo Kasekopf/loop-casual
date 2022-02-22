@@ -36,6 +36,7 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
+import { absorbtionTargets } from "./tasks/absorb";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -123,9 +124,19 @@ export class Engine {
 
     if (!task.freeaction) {
       // Prepare combat macro
-      const task_combat = task.combat ?? new CombatStrategy();
-      const combat_resources = new CombatResourceAllocation();
+      const task_combat = task.combat?.clone() ?? new CombatStrategy();
+      
+      // Absorb targeted monsters
+      const absorb_targets = (task.do instanceof Location) ? absorbtionTargets.remaining(task.do) : [];
+      for (const monster of absorb_targets) {
+        const strategy = task_combat.currentStrategy(monster);
+        if (strategy === MonsterStrategy.Ignore || strategy === MonsterStrategy.Banish || strategy === MonsterStrategy.IgnoreNoBanish) {
+          task_combat.kill(monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
+        }
+      }
 
+      // Apply resources
+      const combat_resources = new CombatResourceAllocation();
       if (wanderers.length === 0) {
         // Set up a banish if needed
         const banishSources = unusedBanishes(task_combat.where(MonsterStrategy.Banish));

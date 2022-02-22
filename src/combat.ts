@@ -1,6 +1,7 @@
 import {
   equippedItem,
   Item,
+  Location,
   Monster,
   monsterDefense,
   monsterLevelAdjustment,
@@ -242,6 +243,19 @@ export class CombatStrategy {
 
   public where(do_this: MonsterStrategy): Monster[] {
     return Array.from(this.strategy.keys()).filter((key) => this.strategy.get(key) === do_this);
+  }
+
+  public currentStrategy(monster: Monster): MonsterStrategy {
+    return this.strategy.get(monster) ?? this.default_strategy;
+  }
+
+  public clone(): CombatStrategy {
+    const result = new CombatStrategy(this.boss);
+    result.default_strategy = this.default_strategy;
+    result.default_macro = this.default_macro;
+    result.strategy = new Map(this.strategy);
+    result.macros = new Map(this.macros);
+    return result;
   }
 }
 

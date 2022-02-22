@@ -1,5 +1,6 @@
 import { appearanceRates, Location, Monster, myAscensions } from "kolmafia";
 import { $items, $location, $monster, get } from "libram";
+import { CombatStrategy } from "../combat";
 import { debug } from "../lib";
 import { Quest, Task } from "./structure";
 
@@ -464,9 +465,13 @@ class AbsorbtionTargets {
     return this.locsByTarget.size === 0;
   }
 
-  public remaining(): IterableIterator<Monster> {
-    // Return all remaining desired and unabsorbed monsters
-    return this.locsByTarget.keys();
+  public remaining(location?: Location): IterableIterator<Monster> | Set<Monster> | Monster[] {
+    // Return all remaining desired and unabsorbed monsters, in this location or everywhere
+    if (location !== undefined) {
+      return this.targetsByLoc.get(location) ?? [];
+    } else {
+      return this.locsByTarget.keys();
+    }
   }
 
   public hasTargets(location: Location): boolean {
@@ -488,13 +493,13 @@ export const absorbtionTargets = new AbsorbtionTargets(adventureMonsters);
 export const AbsorbQuest: Quest = {
   name: "Absorb",
   tasks: [
-    // Construct a full Task from each minimally-specified AbsorbTask
+    // Construct a full Task from each minimally-specified AbsorbTask.
     ...absorbTasks.map((task): Task => {
       return {
         name: task.do.zone,
         completed: () => !absorbtionTargets.hasTargets(task.do),
-        // TODO: set combat to hunt key monsters
         ...task,
+        combat: new CombatStrategy().banish(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
     }),
