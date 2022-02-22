@@ -13,7 +13,6 @@ import {
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
-import { runawayValue } from "../resources";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);
@@ -298,7 +297,7 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling"],
-    acquire: [{ item: $item`bowl of scorpions` }],
+    acquire: [{ item: $item`Bowl of Scorpions` }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy()

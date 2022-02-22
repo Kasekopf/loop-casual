@@ -125,7 +125,7 @@ export class Engine {
     if (!task.freeaction) {
       // Prepare combat macro
       const task_combat = task.combat?.clone() ?? new CombatStrategy();
-      
+
       // Absorb targeted monsters
       const absorb_targets = (task.do instanceof Location) ? absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
@@ -198,7 +198,7 @@ export class Engine {
       // HP/MP upkeep
       if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
       if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
-      
+
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
       debug(combat.macro.toString(), "blue");

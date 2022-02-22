@@ -7,7 +7,6 @@ import {
   $location,
   $monster,
   $monsters,
-  $skill,
   ensureEffect,
   get,
   have,
@@ -49,7 +48,7 @@ const Copperhead: Task[] = [
         $monster`ninja dressed as a waiter`,
         $monster`waiter dressed as a ninja`,
       ),
-    choices: { 852: 1, 853: 1, 854: 1, 855: () => { 
+    choices: { 852: 1, 853: 1, 854: 1, 855: () => {
       return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
     }},
     limit: { tries: 16 },

@@ -1,16 +1,14 @@
 import {
   equippedItem,
   Item,
-  Location,
   Monster,
   monsterDefense,
-  monsterLevelAdjustment,
   myBuffedstat,
   myMp,
   Skill,
   weaponType,
 } from "kolmafia";
-import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, have, Macro } from "libram";
+import { $skill, $slot, getTodaysHolidayWanderers, have, Macro } from "libram";
 import {
   BanishSource,
   CombatResource,
@@ -131,7 +129,9 @@ export class BuiltCombatStrategy {
     // Choose a killing blow (items, banish, or stats)
     let killing_blow = undefined;
     if (myMp() >= 20) {
+      // eslint-disable-next-line libram/verify-constants
       if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`)) killing_blow = $skill`Double Nanovision`;
+      // eslint-disable-next-line libram/verify-constants
       if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
     }
 

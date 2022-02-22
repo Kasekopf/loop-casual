@@ -1,8 +1,7 @@
-import { create, myClass, myFury, myInebriety, use, useSkill, visitUrl } from "kolmafia";
+import { create, myClass, myFury, myInebriety, use, visitUrl } from "kolmafia";
 import {
   $class,
   $effect,
-  $effects,
   $item,
   $items,
   $location,
