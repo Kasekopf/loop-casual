@@ -243,7 +243,21 @@ export class Outfit {
         this.equip($item`protonic accelerator pack`);
       this.equip($item`vampyric cloake`);
       if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
-      this.equip($familiar`Galloping Grill`);
     }
+
+    if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
+      this.equip($familiar`Melodramedary`);
+    } else if (have($familiar`Temporal Riftlet`)) {
+      this.equip($familiar`Temporal Riftlet`);
+    } else if (have($item`gnomish housemaid's kgnee`)) {
+      this.equip($familiar`Reagnimated Gnome`);
+    } else this.equip($familiar`Galloping Grill`);
+
+    const commonFamiliarEquips = new Map<Familiar, Item>([
+      [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
+      [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
+    ]);
+    const familiarEquip = commonFamiliarEquips.get(this.familiar ?? $familiar`none`);
+    if (familiarEquip && this.canEquip(familiarEquip)) this.equip(familiarEquip);
   }
 }
