@@ -228,24 +228,9 @@ export class Outfit {
   }
 
   public equipDefaults(): void {
-    if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
-    this.equip($item`lucky gold ring`);
-
     if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
 
-    if (!this.modifier) {
-      // Default outfit
-      this.equip($item`Fourth of May Cosplay Saber`);
-      if (
-        totalTurnsPlayed() >= get("nextParanormalActivity") &&
-        get("questPAGhost") === "unstarted"
-      )
-        this.equip($item`protonic accelerator pack`);
-      this.equip($item`vampyric cloake`);
-      if (myBasestat($stat`mysticality`) >= 25) this.equip($item`Mr. Cheeng's spectacles`);
-    }
-
-    if (get("camelSpit") < 100 && get("cyrptNookEvilness") > 25) {
+    if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);
     } else if (have($familiar`Temporal Riftlet`)) {
       this.equip($familiar`Temporal Riftlet`);
@@ -259,5 +244,19 @@ export class Outfit {
     ]);
     const familiarEquip = commonFamiliarEquips.get(this.familiar ?? $familiar`none`);
     if (familiarEquip && this.canEquip(familiarEquip)) this.equip(familiarEquip);
+
+    if (!this.modifier) {
+      // Default outfit
+      this.equip($item`ice crown`);
+      this.equip($item`industrial fire extinguisher`);
+      this.equip($item`miniature crystal ball`);
+      this.equip($item`familiar scrapbook`);
+      this.equip($item`unwrapped knock-off retro superhero cape`);
+      this.equip($item`Cargo Cultist Shorts`);
+      this.equip($item`backup camera`);
+      // eslint-disable-next-line libram/verify-constants
+      this.equip($item`combat lover's locket`);
+      this.equip($item`Powerful Glove`);
+    }
   }
 }
