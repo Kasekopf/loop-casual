@@ -1,5 +1,6 @@
-import { appearanceRates, Location, Monster, myAscensions } from "kolmafia";
-import { $items, $location, $monster, get } from "libram";
+/* eslint-disable libram/verify-constants */
+import { appearanceRates, Location, Monster, myAscensions, Skill, visitUrl } from "kolmafia";
+import { $items, $location, $monster, $skill, get } from "libram";
 import { CombatStrategy } from "../combat";
 import { debug } from "../lib";
 import { Quest, Task } from "./structure";
@@ -430,67 +431,76 @@ const adventureMonsters: Monster[] = [
   $monster`whitesnake`,
 ];
 // Other monsters that give skills
-const usefulMonsters = [
-  $monster`anglerbush`,
-  $monster`animated ornate nightstand`,
-  $monster`Astronomer`,
-  $monster`beanbat`,
-  $monster`Big Wheelin' Twins`,
-  $monster`black panther`,
-  $monster`Carnivorous Moxie Weed`,
-  $monster`Claybender Sorcerer Ghost`,
-  $monster`Cobb's Knob oven`,
-  $monster`crêep`,
-  $monster`creepy clown`,
-  $monster`cubist bull`,
-  $monster`demonic icebox`,
-  $monster`drunk goat`,
-  $monster`drunk pygmy`,
-  $monster`eXtreme cross-country hippy`,
-  $monster`fan dancer`,
-  $monster`Flock of Stab-bats`,
-  $monster`Jacob's adder`,
-  $monster`junksprite bender`,
-  $monster`Knob Goblin Alchemist`,
-  $monster`Knob Goblin Elite Guard`,
-  $monster`Knob Goblin Harem Girl`,
-  $monster`Knob Goblin MBA`,
-  $monster`lihc`,
-  $monster`malevolent hair clog`,
-  $monster`me4t begZ0r`,
-  $monster`mind flayer`,
-  $monster`Ninja Snowman Weaponmaster`,
-  $monster`oil slick`,
-  $monster`pine bat`,
-  $monster`pooltergeist`,
-  $monster`possessed wine rack`,
-  $monster`Pr Imp`,
-  $monster`pygmy janitor`,
-  $monster`pygmy witch lawyer`,
-  $monster`raging bull`,
-  $monster`ratbat`,
-  $monster`remaindered skeleton`,
-  $monster`sewer snake with a sewer snake in it`,
-  $monster`smut orc screwer`,
-  $monster`Snow Queen`,
-  $monster`Spectral Jellyfish`,
-  $monster`spooky music box`,
-  $monster`spooky vampire`,
-  $monster`steam elemental`,
-  $monster`suckubus`,
-  $monster`Boss Bat`,
-  $monster`werecougar`,
-  $monster`white lion`,
-  $monster`zombie waltzers`,
+const usefulMonsters: [Monster, Skill][] = [
+  [$monster`anglerbush`, $skill`Ponzi Apparatus`],
+  [$monster`animated ornate nightstand`, $skill`Ominous Substrate`],
+  [$monster`Astronomer`, $skill`Innuendo Circuitry`],
+  [$monster`beanbat`, $skill`Exhaust Tubules`],
+  [$monster`Big Wheelin' Twins`, $skill`Overclocking`],
+  [$monster`black panther`, $skill`Photonic Shroud`],
+  [$monster`Carnivorous Moxie Weed`, $skill`Fluid Dynamics Simulation`],
+  [$monster`Claybender Sorcerer Ghost`, $skill`Ectogenesis`],
+  [$monster`Cobb's Knob oven`, $skill`Microburner`],
+  [$monster`crêep`, $skill`Telekinetic Murder`],
+  [$monster`creepy clown`, $skill`Anti-Sleaze Recursion`],
+  [$monster`cubist bull`, $skill`Localized Vacuum`],
+  [$monster`demonic icebox`, $skill`Infernal Automata`],
+  [$monster`drunk goat`, $skill`Secondary Fermentation`],
+  [$monster`drunk pygmy`, $skill`Double Nanovision`],
+  [$monster`eXtreme cross-country hippy`, $skill`Microweave`],
+  [$monster`fan dancer`, $skill`Subatomic Tango`],
+  [$monster`Flock of Stab-bats`, $skill`AUTOEXEC.BAT`],
+  [$monster`Jacob's adder`, $skill`Nanoshock`],
+  [$monster`junksprite bender`, $skill`Propagation Drive`],
+  [$monster`Knob Goblin Alchemist`, $skill`Solid Fuel`],
+  [$monster`Knob Goblin Elite Guard`, $skill`Advanced Exo-Alloy`],
+  [$monster`Knob Goblin Harem Girl`, $skill`Camp Subroutines`],
+  [$monster`Knob Goblin MBA`, $skill`Cryocurrency`],
+  [$monster`lihc`, $skill`Curses Library`],
+  [$monster`malevolent hair clog`, $skill`Clammy Microcilia`],
+  [$monster`me4t begZ0r`, $skill`Financial Spreadsheets`],
+  [$monster`mind flayer`, $skill`Hivemindedness`],
+  [$monster`Ninja Snowman Weaponmaster`, $skill`Cooling Tubules`],
+  [$monster`oil slick`, $skill`Lubricant Layer`],
+  [$monster`pine bat`, $skill`Conifer Polymers`],
+  [$monster`pooltergeist`, $skill`Subatomic Hardening`],
+  [$monster`possessed wine rack`, $skill`Legacy Code`],
+  [$monster`Pr Imp`, $skill`Temporal Hyperextension`],
+  [$monster`pygmy janitor`, $skill`System Sweep`],
+  [$monster`pygmy witch lawyer`, $skill`Infinite Loop`],
+  [$monster`raging bull`, $skill`Ire Proof`],
+  [$monster`ratbat`, $skill`Nanofur`],
+  [$monster`remaindered skeleton`, $skill`Hardslab`],
+  [$monster`sewer snake with a sewer snake in it`, $skill`Snakesmack`],
+  [$monster`smut orc screwer`, $skill`Procgen Ribaldry`],
+  [$monster`Snow Queen`, $skill`Snow-Cooling System`],
+  [$monster`Spectral Jellyfish`, $skill`Phase Shift`],
+  [$monster`spooky music box`, $skill`Audioclasm`],
+  [$monster`spooky vampire`, $skill`Autovampirism Routines`],
+  [$monster`steam elemental`, $skill`Steam Mycelia`],
+  [$monster`suckubus`, $skill`Gravitational Compression`],
+  [$monster`Boss Bat`, $skill`Grey Noise`],
+  [$monster`werecougar`, $skill`Anti-Sleaze Recursion`],
+  [$monster`white lion`, $skill`Piezoelectric Honk`],
+  [$monster`zombie waltzers`, $skill`Autochrony`],
 ];
 
 // A many-to-many map to track the remaining monsters at each location
 class AbsorbtionTargets {
   private targetsByLoc = new Map<Location, Set<Monster>>();
   private locsByTarget = new Map<Monster, Set<Location>>();
+  private targetsBySkill = new Map<Skill, Monster>();
+  private absorbed = new Set<Monster>();
 
-  constructor(targets: Monster[]) {
-    const target_set = new Set(targets);
+  constructor(targets: (Monster | [Monster, Skill])[]) {
+    const target_set = new Set();
+    for (const target of targets) {
+      if (target instanceof Monster) target_set.add(target);
+      else {
+        target_set.add(target[0]);
+        this.targetsBySkill.set(target[1], target[0]);
+      }
+    }
     for (const location of Location.all()) {
       Object.entries(appearanceRates(location))
         .filter((i) => i[1] > 0)
@@ -538,8 +548,42 @@ class AbsorbtionTargets {
     return !this.locsByTarget.has(monster);
   }
 
-  public markAbsorbed(...monsters: Monster[]): void {
-    for (const monster of monsters) this.delete(monster);
+  public markAbsorbed(monster: Monster | undefined): void {
+    if (monster !== undefined) {
+      this.delete(monster);
+      if (!this.absorbed.has(monster)) {
+        debug(`Absorbed: ${monster.name}`, "purple");
+        this.absorbed.add(monster);
+      }
+    }
+  }
+  public markObtained(skill: Skill): void {
+    this.markAbsorbed(this.targetsBySkill.get(skill));
+  }
+
+  public updateAbsorbed(): void {
+    const charsheet = visitUrl("charsheet.php");
+    let match;
+
+    // Mark down all absorbed monsters that didn't give skills
+    const monster_regex = new RegExp(/Absorbed [^<]* from a ([^<]*)\./g);
+    do {
+      match = monster_regex.exec(charsheet);
+      if (match) {
+        this.markAbsorbed(Monster.get(match[1]));
+      }
+    } while (match);
+
+    // Mark down all absorbed monsters that gave skills
+    const skill_regex = new RegExp(
+      /<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g
+    );
+    do {
+      match = skill_regex.exec(charsheet);
+      if (match) {
+        this.markObtained(Skill.get(match[1]));
+      }
+    } while (match);
   }
 }
 export const absorbtionTargets = new AbsorbtionTargets([...adventureMonsters, ...usefulMonsters]);

@@ -7,15 +7,11 @@ import { WandererSource, wandererSources } from "./resources";
 import { get, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
+import { absorbtionTargets } from "./tasks/absorb";
 
 const time_property = "_loop_casual_first_start";
 
 export function main(tasks_to_run?: number): void {
-  if (runComplete()) {
-    print("Grey you complete!", "purple");
-    return;
-  }
-
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
 
@@ -24,6 +20,7 @@ export function main(tasks_to_run?: number): void {
   cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;
+  absorbtionTargets.updateAbsorbed();
 
   while (myAdventures() > 0) {
     const next = getNextTask(engine, tasks);
@@ -121,10 +118,10 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     autoSatisfyWithStash: false,
     dontStopForCounters: true,
     maximizerFoldables: true,
-    hpAutoRecovery: 0.0,
-    hpAutoRecoveryTarget: 0.0,
-    mpAutoRecovery: 0.0,
-    mpAutoRecoveryTarget: 0.0,
+    hpAutoRecovery: "0.0",
+    hpAutoRecoveryTarget: "0.0",
+    mpAutoRecovery: "0.0",
+    mpAutoRecoveryTarget: "0.0",
     afterAdventureScript: "",
     betweenBattleScript: "",
     choiceAdventureScript: "",

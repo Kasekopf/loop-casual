@@ -237,6 +237,8 @@ export class Engine {
     if (choiceFollowsFight()) runChoice(-1);
     if (task.post) task.post();
 
+    absorbtionTargets.updateAbsorbed();
+
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 
     // Mark the number of attempts (unless an ignored noncombat occured)
