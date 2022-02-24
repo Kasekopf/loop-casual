@@ -1,6 +1,6 @@
 import { Location } from "kolmafia";
 import { Task } from "./tasks/structure";
-import { $effect, $familiar, $item, $skill, get, have, Macro, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, get, have, Macro, PropertiesManager } from "libram";
 import {
   BuiltCombatStrategy,
   CombatResourceAllocation,
@@ -17,15 +17,10 @@ import {
   equippedAmount,
   inMultiFight,
   itemAmount,
-  myHp,
-  myMaxhp,
-  myMaxmp,
-  restoreMp,
   retrieveItem,
   runChoice,
   runCombat,
   setAutoAttack,
-  useSkill,
 } from "kolmafia";
 import { debug } from "./lib";
 import {
@@ -130,6 +125,7 @@ export class Engine {
       const absorb_targets =
         task.do instanceof Location ? absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
+        debug(`Target: ${monster.name}`, "purple");
         const strategy = task_combat.currentStrategy(monster);
         if (
           strategy === MonsterStrategy.Ignore ||
