@@ -209,8 +209,8 @@ export class Engine {
       combat_resources.all().map((source) => source.prepare && source.prepare());
 
       // HP/MP upkeep
-      if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
-      if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
+      // if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
+      // if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
 
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
