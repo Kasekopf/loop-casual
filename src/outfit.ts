@@ -4,14 +4,12 @@ import {
   equippedItem,
   Familiar,
   Item,
-  myBasestat,
   Slot,
   toSlot,
-  totalTurnsPlayed,
   useFamiliar,
   weaponHands,
 } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
+import { $familiar, $item, $skill, $slot, $slots, get, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 
