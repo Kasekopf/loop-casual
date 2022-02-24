@@ -1,13 +1,11 @@
 import { Task } from "./tasks/structure";
 
 export const routing: string[] = [
-  // Pickup items
-  "Misc/Voting",
-
   // Start with the basic leveling tasks
   "Toot/Finish",
 
   // Grind tasks until level 11
+  "Knob/Outskirts",
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
   "Knob/King",
   "Absorb/The Outskirts of Cobb's Knob",
