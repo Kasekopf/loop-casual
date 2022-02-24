@@ -1,16 +1,5 @@
-import { Familiar, Item, Monster, myLevel, Skill, totalTurnsPlayed } from "kolmafia";
-import {
-  $familiar,
-  $item,
-  $items,
-  $monster,
-  $skill,
-  get,
-  getBanishedMonsters,
-  getKramcoWandererChance,
-  have,
-  Macro,
-} from "libram";
+import { Familiar, Item, Monster, Skill } from "kolmafia";
+import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
 import { debug } from "./lib";
 
 export interface Resource {
@@ -69,73 +58,7 @@ export interface WandererSource extends Resource {
   chance: () => number;
 }
 
-export const wandererSources: WandererSource[] = [
-  {
-    name: "Voted Legs",
-    available: () =>
-      have($item`"I Voted!" sticker`) &&
-      totalTurnsPlayed() % 11 === 1 &&
-      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
-      get("_voteFreeFights") < 3 &&
-      myLevel() >= 10 &&
-      have($item`mutant legs`),
-    equip: $items`"I Voted!" sticker, mutant legs`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
-    chance: () => 1, // when available
-  },
-  {
-    name: "Voted Arm",
-    available: () =>
-      have($item`"I Voted!" sticker`) &&
-      totalTurnsPlayed() % 11 === 1 &&
-      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
-      get("_voteFreeFights") < 3 &&
-      myLevel() >= 10 &&
-      have($item`mutant arm`),
-    equip: $items`"I Voted!" sticker, mutant arm`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
-    chance: () => 1, // when available
-  },
-  {
-    name: "Voted",
-    available: () =>
-      have($item`"I Voted!" sticker`) &&
-      totalTurnsPlayed() % 11 === 1 &&
-      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
-      get("_voteFreeFights") < 3 &&
-      myLevel() >= 10,
-    equip: $item`"I Voted!" sticker`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
-    chance: () => 1, // when available
-  },
-  {
-    name: "Cursed Magnifying Glass",
-    available: () =>
-      have($item`cursed magnifying glass`) &&
-      get("_voidFreeFights") < 5 &&
-      get("cursedMagnifyingGlassCount") >= 13,
-    equip: $item`cursed magnifying glass`,
-    monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
-    chance: () => 1, // when available
-  },
-  {
-    name: "Kramco",
-    available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
-    equip: $item`Kramco Sausage-o-Matic™`,
-    monster: $monster`sausage goblin`,
-    chance: () => getKramcoWandererChance(),
-  },
-  {
-    name: "Goth",
-    available: () => have($familiar`Artistic Goth Kid`) && get("_hipsterAdv") < 7,
-    equip: $familiar`Artistic Goth Kid`,
-    monster: "monstername Black Crayon *",
-    chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
-  },
-];
+export const wandererSources: WandererSource[] = [];
 
 export function canChargeVoid(): boolean {
   return get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13;
