@@ -10,7 +10,7 @@ import { Outfit } from "./outfit";
 
 const time_property = "_loop_casual_first_start";
 
-export function main(): void {
+export function main(tasks_to_run?: number): void {
   if (runComplete()) {
     print("Grey you complete!", "purple");
     return;
@@ -23,10 +23,18 @@ export function main(): void {
   const engine = new Engine(tasks);
   cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
+  tasks_to_run = tasks_to_run ?? 1000;
 
   while (myAdventures() > 0) {
     const next = getNextTask(engine, tasks);
     if (next === undefined) break;
+    if (tasks_to_run <= 0) {
+      debug(`Next task: ${next[0].name}`);
+      return;
+    } else {
+      tasks_to_run -= 1;
+    }
+
     if (next[1] !== undefined) engine.execute(next[0], next[1]);
     else engine.execute(next[0]);
   }
