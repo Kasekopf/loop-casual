@@ -530,7 +530,7 @@ class AbsorbtionTargets {
 
   public hasTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster
-    return !this.targetsByLoc.get(location)?.size;
+    return (this.targetsByLoc.get(location)?.size ?? 0) > 0;
   }
 
   public isTarget(monster: Monster): boolean {
@@ -550,17 +550,17 @@ export const AbsorbQuest: Quest = {
     // Construct a full Task from each minimally-specified AbsorbTask.
     ...absorbTasks.map((task): Task => {
       return {
-        name: task.do.zone,
+        name: task.do.toString(),
         completed: () => !absorbtionTargets.hasTargets(task.do),
         ...task,
-        combat: new CombatStrategy().banish(), // killing targetting monsters is set in the engine
+        combat: new CombatStrategy().ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
     }),
     {
       // Add a last task that tracks if all monsters have been absorbed
       name: "All",
-      after: absorbTasks.map((task) => task.do.zone),
+      after: absorbTasks.map((task) => task.do.toString()),
       completed: absorbtionTargets.completed,
       do: (): void => {
         debug("Remaining monsters:", "red");
