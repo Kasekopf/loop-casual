@@ -243,11 +243,8 @@ const Hospital: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .kill($monster`pygmy witch surgeon`)
-      .macro(
-        use_writ,
-        ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`
-      )
-      .banish(),
+      .macro(use_writ, ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`)
+      .banish(...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
     outfit: {
       equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
     },
