@@ -2,66 +2,61 @@ import { Task } from "./tasks/structure";
 
 export const routing: string[] = [
   // Pickup items
-  "Misc/Short Cook",
-  "Misc/Floundry",
   "Misc/Voting",
-  "Misc/Acquire Kgnee",
 
   // Start with the basic leveling tasks
   "Toot/Finish",
-  "Misc/Protonic Ghost", // whenever ghosts are ready
 
-  // Open up MacGuffin zones
-  "Macguffin/Diary",
-  "Macguffin/Desert", // charge camel, use voters
+  // Grind tasks until level 11
+  "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
+  "Knob/King",
+  "Absorb/The Outskirts of Cobb's Knob",
+  "Absorb/Cobb's Knob Kitchens",
+  "Absorb/Cobb's Knob Barracks",
+  "Absorb/Cobb's Knob Harem",
+  "Absorb/Cobb's Knob Treasury",
+  "Absorb/Cobb's Knob Laboratory",
+  "Absorb/The Knob Shaft",
+  "Absorb/Cobb's Knob Menagerie, Level 1",
+  "Absorb/Cobb's Knob Menagerie, Level 2",
+  "Absorb/Cobb's Knob Menagerie, Level 3",
 
-  // Line up noncombats
-  "Manor/Billiards",
-  "Giant/Airship",
-  "Friar/Finish",
-  "Crypt/Cranny",
-  "War/Enrage",
-  "Mosquito/Mosquito",
-  "Hidden City/Open Temple",
-  "Tavern/Finish",
-  "Giant/Basement Finish",
+  // Once level 11 is hit, grab -combat
+  "Absorb/The Black Forest",
 
-  // Burn delay to unlock remaining noncombats
+  // Get +item
+  "Absorb/Infernal Rackets Backstage",
+
+  // Aim for remaining pygmies
+  "Hidden City/Bowling",
+  "Absorb/The Hidden Bowling Alley",
+
+  // Absorb the manor
+  "Manor/Finish Floor1",
+  "Absorb/The Haunted Pantry",
+  "Absorb/The Haunted Conservatory",
+  "Absorb/The Haunted Kitchen",
+  "Absorb/The Haunted Billiards Room",
+  "Absorb/The Haunted Library",
+  "Manor/Finish Floor2",
+  "Absorb/The Haunted Gallery",
+  "Absorb/The Haunted Bathroom",
+  "Absorb/The Haunted Bedroom",
+  "Manor/Boss",
+  "Absorb/The Haunted Ballroom",
+  "Absorb/The Haunted Wine Cellar",
+  "Absorb/The Haunted Laundry Room",
+  "Absorb/The Haunted Boiler Room",
+  "Absorb/The Haunted Storage Room",
+  "Absorb/The Haunted Nursery",
+  "Absorb/The Haunted Laboratory",
+
+  // Get +combat
   "Palindome/Copperhead",
   "Palindome/Bat Snake",
   "Palindome/Cold Snake",
-  "Giant/Ground",
-  "Palindome/Zepplin",
-  "Manor/Bedroom",
-  "Manor/Bathroom Delay",
-  "Manor/Gallery Delay",
-
-  // Line up more noncombats
-  "Manor/Gallery", // Gallery first in-case we banished Out in the Garden
-  "Giant/Top Floor",
-  "Manor/Bathroom",
-  "Manor/Ballroom",
-
-  // Detour to route Steely-Eyed Squint
-  "Manor/Wine Cellar",
-  "Manor/Laundry Room",
-
-  // Finish noncombats, now with freekills available
-  "Palindome/Alarm Gem",
-
-  // Use Hidden City to charge camel
-  "Hidden City/Open Bowling",
-  "Hidden City/Open Office",
-  "Hidden City/Open Hospital",
-  "Hidden City/Open Apartment",
-
-  // Nostalgia chaining
-  "Orc Chasm/ABoo Start",
-  "Crypt/Nook",
-  "Orc Chasm/ABoo Peak",
-
-  "Hidden City/Apartment", // Get this out of the way
-  "Macguffin/Open Pyramid", // Open more delay for lategame
+  "Giant/Finish",
+  "Absorb/Whitey's Grove",
 
   // Non-delay quests
   "Mosquito/Finish",
