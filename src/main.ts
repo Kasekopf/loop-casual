@@ -3,9 +3,9 @@ import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
-import { wandererSources } from "./resources";
+import { WandererSource, wandererSources } from "./resources";
 import { get, PropertiesManager, set } from "libram";
-import { step } from "./tasks/structure";
+import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 
 const time_property = "_loop_casual_first_start";
@@ -25,32 +25,10 @@ export function main(): void {
   setUniversalProperties(engine.propertyManager);
 
   while (myAdventures() > 0) {
-    // First, check for any prioritized tasks
-    const priority = tasks.find(
-      (task) => engine.available(task) && task.priority !== undefined && task.priority()
-    );
-    if (priority !== undefined) {
-      engine.execute(priority);
-      continue;
-    }
-
-    // If a wanderer is up try to place it in a useful location
-    const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-    const delay_burning = tasks.find(
-      (task) =>
-        engine.hasDelay(task) &&
-        engine.available(task) &&
-        Outfit.create(task).canEquip(wanderer?.equip)
-    );
-    if (wanderer !== undefined && delay_burning !== undefined) {
-      engine.execute(delay_burning, wanderer);
-      continue;
-    }
-
-    // Otherwise, just advance the next quest on the route
-    const todo = tasks.find((task) => engine.available(task));
-    if (todo === undefined) break;
-    engine.execute(todo);
+    const next = getNextTask(engine, tasks);
+    if (next === undefined) break;
+    if (next[1] !== undefined) engine.execute(next[0], next[1]);
+    else engine.execute(next[0]);
   }
 
   const remaining_tasks = tasks.filter((task) => !task.completed());
@@ -77,6 +55,35 @@ export function main(): void {
       )} since first run today started`,
       "purple"
     );
+}
+
+function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | undefined {
+  // First, check for any prioritized tasks
+  const priority = tasks.find(
+    (task) => engine.available(task) && task.priority !== undefined && task.priority()
+  );
+  if (priority !== undefined) {
+    return [priority];
+  }
+
+  // If a wanderer is up try to place it in a useful location
+  const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
+  const delay_burning = tasks.find(
+    (task) =>
+      engine.hasDelay(task) &&
+      engine.available(task) &&
+      Outfit.create(task).canEquip(wanderer?.equip)
+  );
+  if (wanderer !== undefined && delay_burning !== undefined) {
+    return [delay_burning, wanderer];
+  }
+
+  // Otherwise, just advance the next quest on the route
+  const todo = tasks.find((task) => engine.available(task));
+  if (todo !== undefined) return [todo];
+
+  // No next task
+  return undefined;
 }
 
 function runComplete(): boolean {
