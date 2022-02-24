@@ -429,19 +429,59 @@ const adventureMonsters: Monster[] = [
   $monster`warwelf`,
   $monster`whitesnake`,
 ];
-// Other monsters with useful absorbs
+// Other monsters that give skills
 const usefulMonsters = [
-  $monster`anglerbush`, // +meat
-  $monster`black panther`,  // -combat
-  $monster`drunk pygmy`, // Double Nanovision +item)
-  $monster`junksprite bender`, // +item
-  $monster`me4t begZ0r`, // +meat
-  $monster`mind flayer`, // MP regen
-  $monster`pygmy janitor`, // System Sweep (banish)
-  $monster`pygmy witch lawyer`, // Infinite loop (stats)
-  $monster`Spectral Jellyfish`, // -combat
-  $monster`suckubus`, // +item
-  $monster`white lion`, // +combat
+  $monster`anglerbush`,
+  $monster`animated ornate nightstand`,
+  $monster`Astronomer`,
+  $monster`beanbat`,
+  $monster`Big Wheelin' Twins`,
+  $monster`black panther`,
+  $monster`Carnivorous Moxie Weed`,
+  $monster`Claybender Sorcerer Ghost`,
+  $monster`Cobb's Knob oven`,
+  $monster`crêep`,
+  $monster`creepy clown`,
+  $monster`cubist bull`,
+  $monster`demonic icebox`,
+  $monster`drunk goat`,
+  $monster`drunk pygmy`,
+  $monster`eXtreme cross-country hippy`,
+  $monster`fan dancer`,
+  $monster`Flock of Stab-bats`,
+  $monster`Jacob's adder`,
+  $monster`junksprite bender`,
+  $monster`Knob Goblin Alchemist`,
+  $monster`Knob Goblin Elite Guard`,
+  $monster`Knob Goblin Harem Girl`,
+  $monster`Knob Goblin MBA`,
+  $monster`lihc`,
+  $monster`malevolent hair clog`,
+  $monster`me4t begZ0r`,
+  $monster`mind flayer`,
+  $monster`Ninja Snowman Weaponmaster`,
+  $monster`oil slick`,
+  $monster`pine bat`,
+  $monster`pooltergeist`,
+  $monster`possessed wine rack`,
+  $monster`Pr Imp`,
+  $monster`pygmy janitor`,
+  $monster`pygmy witch lawyer`,
+  $monster`raging bull`,
+  $monster`ratbat`,
+  $monster`remaindered skeleton`,
+  $monster`sewer snake with a sewer snake in it`,
+  $monster`smut orc screwer`,
+  $monster`Snow Queen`,
+  $monster`Spectral Jellyfish`,
+  $monster`spooky music box`,
+  $monster`spooky vampire`,
+  $monster`steam elemental`,
+  $monster`suckubus`,
+  $monster`Boss Bat`,
+  $monster`werecougar`,
+  $monster`white lion`,
+  $monster`zombie waltzers`,
 ];
 
 // A many-to-many map to track the remaining monsters at each location
