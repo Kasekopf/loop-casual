@@ -1,4 +1,4 @@
-import { myLevel, use, visitUrl } from "kolmafia";
+import { use, visitUrl } from "kolmafia";
 import {
   $effect,
   $effects,
@@ -13,6 +13,7 @@ import {
 } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -20,7 +21,7 @@ export const KnobQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 5,
+      ready: () => atLevel(5),
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

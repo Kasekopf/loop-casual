@@ -1,6 +1,7 @@
-import { drink, Item, itemAmount, myLevel, toInt, visitUrl } from "kolmafia";
+import { drink, Item, itemAmount, toInt, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monsters, $skill, have } from "libram";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
 
 export const FriarQuest: Quest = {
@@ -9,7 +10,7 @@ export const FriarQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 6,
+      ready: () => atLevel(6),
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

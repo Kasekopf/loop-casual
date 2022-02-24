@@ -1,4 +1,4 @@
-import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
+import { buy, cliExecute, itemAmount, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -14,6 +14,7 @@ import {
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 const Diary: Task[] = [
   {
@@ -221,7 +222,7 @@ export const MacguffinQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 11,
+      ready: () => atLevel(11),
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

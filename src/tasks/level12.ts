@@ -1,7 +1,8 @@
-import { itemAmount, myLevel, visitUrl } from "kolmafia";
+import { itemAmount, visitUrl } from "kolmafia";
 import { $effect, $effects, $item, $items, $location, $monster, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 const Flyers: Task[] = [
   {
@@ -240,7 +241,7 @@ export const WarQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 12,
+      ready: () => atLevel(12),
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

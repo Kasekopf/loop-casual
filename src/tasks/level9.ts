@@ -1,7 +1,8 @@
-import { itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { itemAmount, use, visitUrl } from "kolmafia";
 import { $effect, $item, $location, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 const ABoo: Task[] = [
   {
@@ -122,7 +123,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 9,
+      ready: () => atLevel(9),
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

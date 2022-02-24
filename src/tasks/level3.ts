@@ -1,6 +1,7 @@
-import { getProperty, myLevel, runChoice, runCombat, visitUrl } from "kolmafia";
+import { getProperty, runChoice, runCombat, visitUrl } from "kolmafia";
 import { $monster } from "libram";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
 
 export const TavernQuest: Quest = {
@@ -9,7 +10,7 @@ export const TavernQuest: Quest = {
     {
       name: "Start",
       after: ["Mosquito/Finish"],
-      ready: () => myLevel() >= 3,
+      ready: () => atLevel(3),
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

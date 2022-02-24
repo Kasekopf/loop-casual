@@ -1,7 +1,8 @@
-import { myLevel, visitUrl } from "kolmafia";
+import { visitUrl } from "kolmafia";
 import { $item, $location } from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -9,7 +10,7 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 8,
+      ready: () => atLevel(8),
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

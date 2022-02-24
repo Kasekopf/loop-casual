@@ -1,6 +1,7 @@
-import { myLevel, runChoice, useSkill, visitUrl } from "kolmafia";
+import { runChoice, useSkill, visitUrl } from "kolmafia";
 import { $effects, $familiar, $item, $items, $location, $skill, $stat, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -254,7 +255,7 @@ export const TowerQuest: Quest = {
         "Macguffin/Finish",
         "War/Boss Hippie",
       ],
-      ready: () => myLevel() >= 13,
+      ready: () => atLevel(13),
       completed: () => step("questL13Final") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

@@ -1,5 +1,6 @@
-import { myLevel, visitUrl } from "kolmafia";
+import { visitUrl } from "kolmafia";
 import { $location } from "libram";
+import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
 
 export const MosquitoQuest: Quest = {
@@ -8,7 +9,7 @@ export const MosquitoQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 2,
+      ready: () => atLevel(2),
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

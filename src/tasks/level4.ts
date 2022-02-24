@@ -1,7 +1,8 @@
-import { itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import { itemAmount, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monster, $skill, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 export const BatQuest: Quest = {
   name: "Bat",
@@ -9,7 +10,7 @@ export const BatQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 4,
+      ready: () => atLevel(4),
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

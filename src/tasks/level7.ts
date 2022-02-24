@@ -1,4 +1,4 @@
-import { cliExecute, Item, myLevel, visitUrl } from "kolmafia";
+import { cliExecute, Item, visitUrl } from "kolmafia";
 import {
   $familiar,
   $item,
@@ -13,6 +13,7 @@ import {
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { atLevel } from "../lib";
 
 function tuneCape(): void {
   if (
@@ -184,7 +185,7 @@ export const CryptQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => myLevel() >= 7,
+      ready: () => atLevel(7),
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

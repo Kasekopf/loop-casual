@@ -1,4 +1,5 @@
-import { print } from "kolmafia";
+import { myBasestat, print } from "kolmafia";
+import { $stat } from "libram";
 
 export function debug(message: string, color?: string): void {
   if (color) {
@@ -20,4 +21,8 @@ export function convertMilliseconds(milliseconds: number): string {
     (minutesLeft !== 0 ? `${minutesLeft} minutes, ` : "") +
     (secondsLeft !== 0 ? `${secondsLeft} seconds` : "")
   );
+}
+
+export function atLevel(level: number): boolean {
+  return myBasestat($stat`muscle`) >= (level - 1) ** 2 + 4;
 }
