@@ -1,31 +1,10 @@
+import { Familiar, Item, Monster, myLevel, Skill, totalTurnsPlayed } from "kolmafia";
 import {
-  bjornifyFamiliar,
-  buy,
-  cliExecute,
-  Familiar,
-  familiarWeight,
-  floor,
-  Item,
-  itemAmount,
-  mallPrice,
-  Monster,
-  myLevel,
-  myTurncount,
-  retrieveItem,
-  Skill,
-  totalTurnsPlayed,
-  use,
-  weightAdjustment,
-} from "kolmafia";
-import {
-  $effect,
   $familiar,
   $item,
   $items,
   $monster,
   $skill,
-  AsdonMartin,
-  ensureEffect,
   get,
   getBanishedMonsters,
   getKramcoWandererChance,
@@ -53,73 +32,8 @@ export interface BanishSource extends CombatResource {
 export const banishSources: BanishSource[] = [
   {
     name: "Bowl Curveball",
-    available: () => have($item`cosmic bowling ball`),
+    available: () => false,
     do: $skill`Bowl a Curveball`,
-  },
-  {
-    name: "Asdon Martin",
-    available: (): boolean => {
-      // From libram
-      if (!AsdonMartin.installed()) return false;
-      const banishes = get("banishedMonsters").split(":");
-      const bumperIndex = banishes
-        .map((string) => string.toLowerCase())
-        .indexOf("spring-loaded front bumper");
-      if (bumperIndex === -1) return true;
-      return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
-    },
-    prepare: () => AsdonMartin.fillTo(50),
-    do: $skill`Asdon Martin: Spring-Loaded Front Bumper`,
-  },
-  {
-    name: "Feel Hatred",
-    available: () => get("_feelHatredUsed") < 3 && have($skill`Emotionally Chipped`),
-    do: $skill`Feel Hatred`,
-  },
-  {
-    name: "Reflex Hammer",
-    available: () => get("_reflexHammerUsed") < 3 && have($item`Lil' Doctor™ bag`),
-    do: $skill`Reflex Hammer`,
-    equip: $item`Lil' Doctor™ bag`,
-  },
-  {
-    name: "Snokebomb",
-    available: () => get("_snokebombUsed") < 3 && have($skill`Snokebomb`),
-    do: $skill`Snokebomb`,
-  },
-  {
-    name: "KGB dart",
-    available: () =>
-      get("_kgbTranquilizerDartUses") < 3 && have($item`Kremlin's Greatest Briefcase`),
-    do: $skill`KGB tranquilizer dart`,
-    equip: $item`Kremlin's Greatest Briefcase`,
-  },
-  {
-    name: "Latte",
-    available: () =>
-      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
-      have($item`latte lovers member's mug`),
-    prepare: (): void => {
-      if (get("_latteBanishUsed")) cliExecute("latte refill cinnamon pumpkin vanilla"); // Always unlocked
-    },
-    do: $skill`Throw Latte on Opponent`,
-    equip: $item`latte lovers member's mug`,
-  },
-  {
-    name: "Middle Finger",
-    available: () => !get("_mafiaMiddleFingerRingUsed") && have($item`mafia middle finger ring`),
-    do: $skill`Show them your ring`,
-    equip: $item`mafia middle finger ring`,
-  },
-  {
-    name: "Louder Than Bomb",
-    available: () => have($item`Louder Than Bomb`),
-    do: $item`Louder Than Bomb`,
-  },
-  {
-    name: "Crystal Skull",
-    available: () => have($item`crystal skull`),
-    do: $item`crystal skull`,
   },
 ];
 
@@ -233,28 +147,6 @@ export interface RunawaySource extends CombatResource {
   chance: () => number;
 }
 
-// Gear and familiar to use for runaways (i.e., Bandersnatch or Stomping Boots)
-const familiarGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
-const familiarGearBonus = 35;
-const familiarEffectBonus = 15;
-const runawayFamiliar = have($familiar`Frumious Bandersnatch`)
-  ? $familiar`Frumious Bandersnatch`
-  : have($familiar`Pair of Stomping Boots`)
-  ? $familiar`Pair of Stomping Boots`
-  : $familiar`none`;
-
-function availableFamiliarRunaways(otherBonus: number) {
-  if (runawayFamiliar === $familiar`none`) return 0;
-  return floor(
-    (familiarWeight(runawayFamiliar) +
-      familiarEffectBonus +
-      familiarGearBonus +
-      otherBonus +
-      (have($effect`Open Heart Surgery`) ? 10 : 0)) /
-      5
-  );
-}
-
 export const runawayValue =
   have($item`Greatest American Pants`) || have($item`navel ring of navel gazing`)
     ? 0.8 * get("valueOfAdventure")
@@ -263,128 +155,10 @@ export const runawayValue =
 export const runawaySources: RunawaySource[] = [
   {
     name: "Bowl Curveball",
-    available: () => have($item`cosmic bowling ball`),
+    available: () => false,
     do: new Macro().skill($skill`Bowl a Curveball`),
     chance: () => 1,
     banishes: true,
-  },
-  {
-    name: "Asdon Martin",
-    available: (): boolean => {
-      // From libram
-      if (!AsdonMartin.installed()) return false;
-      const banishes = get("banishedMonsters").split(":");
-      const bumperIndex = banishes
-        .map((string) => string.toLowerCase())
-        .indexOf("spring-loaded front bumper");
-      if (bumperIndex === -1) return true;
-      return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
-    },
-    prepare: () => AsdonMartin.fillTo(50),
-    do: new Macro().skill($skill`Asdon Martin: Spring-Loaded Front Bumper`),
-    chance: () => 1,
-    banishes: true,
-  },
-  {
-    name: "Familiar Runaways",
-    available: () =>
-      runawayFamiliar !== $familiar`none` &&
-      have(runawayFamiliar) &&
-      availableFamiliarRunaways(5) > get("_banderRunaways"), // 5 from fish hatchet
-    prepare: (): void => {
-      bjornifyFamiliar($familiar`Gelatinous Cubeling`);
-      if (
-        floor((familiarWeight(runawayFamiliar) + weightAdjustment()) / 5) <= get("_banderRunaways")
-      ) {
-        throw `Trying to use Bandersnatch or Stomping Boots, but weight was overestimated.`;
-      }
-      if (runawayFamiliar === $familiar`Frumious Bandersnatch`) {
-        ensureEffect($effect`Ode to Booze`, 5);
-      }
-    },
-    equip: [runawayFamiliar, ...familiarGear, $item`fish hatchet`],
-    do: new Macro().runaway(),
-    chance: () => 1,
-    banishes: false,
-  },
-  {
-    name: "Familiar Runaways (with offhand)", // Use the potted plant as long as possible
-    available: () =>
-      runawayFamiliar !== $familiar`none` &&
-      have(runawayFamiliar) &&
-      availableFamiliarRunaways(10) > get("_banderRunaways"), // 10 from iFlails
-    prepare: (): void => {
-      bjornifyFamiliar($familiar`Gelatinous Cubeling`);
-      if (
-        floor((familiarWeight(runawayFamiliar) + weightAdjustment()) / 5) <= get("_banderRunaways")
-      ) {
-        throw `Trying to use last Bandersnatch or Stomping Boots, but weight was overestimated.`;
-      }
-      if (runawayFamiliar === $familiar`Frumious Bandersnatch`) {
-        ensureEffect($effect`Ode to Booze`, 5);
-      }
-    },
-    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`iFlail`],
-    do: new Macro().runaway(),
-    chance: () => 1,
-    banishes: false,
-  },
-  {
-    name: "Blank-Out",
-    prepare: (): void => {
-      if (!have($item`glob of Blank-Out`)) {
-        if (!have($item`bottle of Blank-Out`)) {
-          buy(1, $item`bottle of Blank-Out`, 5 * runawayValue);
-        }
-        use($item`bottle of Blank-Out`);
-      }
-    },
-    available: () =>
-      have($item`glob of Blank-Out`) ||
-      (mallPrice($item`bottle of Blank-Out`) < 5 * runawayValue && !get("_blankoutUsed")),
-    do: new Macro().tryItem($item`glob of Blank-Out`),
-    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
-    banishes: false,
-  },
-  {
-    name: "GAP",
-    available: () => have($item`Greatest American Pants`),
-    equip: $item`Greatest American Pants`,
-    do: new Macro().runaway(),
-    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
-    banishes: false,
-  },
-  {
-    name: "Navel Ring",
-    available: () => have($item`navel ring of navel gazing`),
-    equip: $item`navel ring of navel gazing`,
-    do: new Macro().runaway(),
-    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
-    banishes: false,
-  },
-  {
-    name: "Peppermint Parasol",
-    available: () =>
-      have($item`peppermint parasol`) ||
-      mallPrice($item`peppermint parasol`) < 10 * get("valueOfAdventure"),
-    prepare: () => {
-      if (have($item`peppermint parasol`)) return;
-      if (itemAmount($item`peppermint sprout`) >= 5) {
-        retrieveItem($item`peppermint parasol`);
-      } else if (mallPrice($item`peppermint parasol`) < 5 * mallPrice($item`peppermint sprout`)) {
-        buy($item`peppermint parasol`, 1, mallPrice($item`peppermint parasol`));
-      } else {
-        buy(
-          $item`peppermint sprout`,
-          5 - itemAmount($item`peppermint sprout`),
-          mallPrice($item`peppermint sprout`)
-        );
-        retrieveItem($item`peppermint parasol`);
-      }
-    },
-    do: new Macro().item($item`peppermint parasol`),
-    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
-    banishes: false,
   },
 ];
 
@@ -392,38 +166,4 @@ export interface FreekillSource extends CombatResource {
   do: Item | Skill;
 }
 
-export const freekillSources: FreekillSource[] = [
-  {
-    name: "Lil' Doctor™ bag",
-    available: () => have($item`Lil' Doctor™ bag`) && get("_chestXRayUsed") < 3,
-    do: $skill`Chest X-Ray`,
-    equip: $item`Lil' Doctor™ bag`,
-  },
-  {
-    name: "Gingerbread Mob Hit",
-    available: () => have($skill`Gingerbread Mob Hit`) && !get("_gingerbreadMobHitUsed"),
-    do: $skill`Gingerbread Mob Hit`,
-  },
-  {
-    name: "Shattering Punch",
-    available: () => have($skill`Shattering Punch`) && get("_shatteringPunchUsed") < 3,
-    do: $skill`Shattering Punch`,
-  },
-  {
-    name: "Replica bat-oomerang",
-    available: () => have($item`replica bat-oomerang`) && get("_usedReplicaBatoomerang") < 3,
-    do: $item`replica bat-oomerang`,
-  },
-  {
-    name: "The Jokester's gun",
-    available: () => have($item`The Jokester's gun`) && !get("_firedJokestersGun"),
-    do: $skill`Fire the Jokester's Gun`,
-    equip: $item`The Jokester's gun`,
-  },
-  {
-    name: "Asdon Martin: Missile Launcher",
-    available: () => AsdonMartin.installed() && !get("_missileLauncherUsed"),
-    prepare: () => AsdonMartin.fillTo(100),
-    do: $skill`Asdon Martin: Missile Launcher`,
-  },
-];
+export const freekillSources: FreekillSource[] = [];
