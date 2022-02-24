@@ -57,7 +57,7 @@ const Junkyard: Task[] = [
   {
     name: "Junkyard Start",
     after: ["Enrage"],
-    completed: () => have($item`molybdenum magnet`),
+    completed: () => have($item`molybdenum magnet`) || get("sidequestJunkyardCompleted") !== "none",
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?action=junkman&pwd");
@@ -229,7 +229,10 @@ const Nuns: Task[] = [
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none",
     do: $location`The Themthar Hills`,
-    outfit: { modifier: "meat" },
+    outfit: {
+      modifier: "meat",
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+    },
     combat: new CombatStrategy(true).kill(),
     limit: { soft: 20 },
   },
@@ -269,7 +272,7 @@ export const WarQuest: Quest = {
     ...Junkyard,
     {
       name: "Open Orchard",
-      after: ["Flyers End", "Lighthouse End"],
+      after: ["Flyers End", "Lighthouse End", "Junkyard End"],
       acquire: [
         { item: $item`beer helmet` },
         { item: $item`distressed denim pants` },

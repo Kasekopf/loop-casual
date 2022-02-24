@@ -26,7 +26,7 @@ const Diary: Task[] = [
     outfit: {
       equip: $items`blackberry galoshes`,
       familiar: $familiar`Reassembled Blackbird`,
-      modifier: "+combat 5min",
+      modifier: "+combat",
     },
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
@@ -78,7 +78,6 @@ const Desert: Task[] = [
     acquire: [
       { item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 },
       { item: $item`killing jar`, useful: () => (get("gnasirProgress") & 4) === 0 },
-      { item: $item`drum machine`, useful: () => (get("gnasirProgress") & 16) === 0 },
     ],
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,

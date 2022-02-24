@@ -1,5 +1,5 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
-import { $effect, $item, $location, get, have } from "libram";
+import { $effect, $item, $items, $location, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -138,7 +138,7 @@ export const ChasmQuest: Quest = {
         if (have($item`smut orc keepsake box`)) use($item`smut orc keepsake box`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
       },
-      outfit: { modifier: "item" },
+      outfit: { modifier: "item", equip: $items`logging hatchet, loadstone` },
       combat: new CombatStrategy().kill(),
       choices: { 1345: 1 },
       limit: { soft: 32 },

@@ -10,7 +10,6 @@ import {
   retrievePrice,
   runChoice,
   useFamiliar,
-  useSkill,
   visitUrl,
 } from "kolmafia";
 import {
@@ -283,57 +282,8 @@ export const KeysQuest: Quest = {
   name: "Keys",
   tasks: [
     {
-      name: "Deck",
-      after: [],
-      completed: () => get("_deckCardsDrawn") > 0,
-      do: () => cliExecute("cheat tower"),
-      limit: { tries: 1 },
-      freeaction: true,
-    },
-    {
-      name: "Lockpicking",
-      after: ["Deck"],
-      completed: () => !have($skill`Lock Picking`) || get("lockPicked"),
-      do: (): void => {
-        useSkill($skill`Lock Picking`);
-      },
-      choices: {
-        1414: (): number => {
-          if (!have($item`Boris's key`)) return 1;
-          else if (!have($item`Jarlsberg's key`)) return 2;
-          else return 3;
-        },
-      },
-      limit: { tries: 1 },
-      freeaction: true,
-    },
-    {
-      name: "Malware",
-      after: [],
-      acquire: [{ item: $item`daily dungeon malware` }],
-      completed: () =>
-        get("_dailyDungeonMalwareUsed") || get("dailyDungeonDone") || keyCount() >= 3,
-      prepare: () => {
-        set("_loop_casual_malware_amount", itemAmount($item`daily dungeon malware`));
-      },
-      do: $location`The Daily Dungeon`,
-      post: () => {
-        if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
-          set("_dailyDungeonMalwareUsed", true);
-      },
-      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
-      combat: new CombatStrategy().macro(
-        new Macro()
-          .item($item`daily dungeon malware`)
-          .attack()
-          .repeat()
-      ),
-      choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
-      limit: { soft: 11 },
-    },
-    {
       name: "Daily Dungeon",
-      after: ["Deck", "Lockpicking", "Malware"],
+      after: [],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
@@ -343,7 +293,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Finish",
-      after: ["Deck", "Lockpicking", "Malware", "Daily Dungeon"],
+      after: ["Daily Dungeon"],
       completed: () => keyCount() >= 3,
       do: (): void => {
         throw "Unable to obtain enough fat loot tokens";

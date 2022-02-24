@@ -46,7 +46,7 @@ const Alcove: Task[] = [
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`costume sword`),
+        equip: tryCape($item`antique machete`),
         modifier: "init 850max, sword",
       };
     },
@@ -73,7 +73,7 @@ const Cranny: Task[] = [
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`serpentine sword`),
+        equip: tryCape($item`antique machete`),
         modifier: "-combat, ML, sword",
       };
     },
@@ -116,7 +116,7 @@ const Niche: Task[] = [
         return { equip: $items`industrial fire extinguisher` };
       else
         return {
-          equip: tryCape($item`serpentine sword`),
+          equip: tryCape($item`antique machete`),
         };
     },
     combat: new CombatStrategy()
@@ -147,7 +147,7 @@ const Nook: Task[] = [
     },
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`costume sword`),
+        equip: tryCape($item`antique machete`),
         modifier: "item 500max",
         familiar: $familiar`Melodramedary`,
       };

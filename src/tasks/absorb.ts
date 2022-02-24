@@ -45,17 +45,17 @@ const absorbTasks: AbsorbTask[] = [
   // Level 5
   {
     do: $location`The Outskirts of Cobb's Knob`,
-    after: ["Knob/Outskirts"],
+    after: ["Knob/Open Knob"],
     choices: { 111: 3, 113: 2, 118: 1 },
     outfit: { modifier: "+combat" },
   },
   {
     do: $location`Cobb's Knob Kitchens`,
-    after: ["Knob/Outskirts"],
+    after: ["Knob/Open Knob"],
   },
   {
     do: $location`Cobb's Knob Barracks`,
-    after: ["Knob/Outskirts"],
+    after: ["Knob/Open Knob"],
     choices: { 522: 2 },
   },
   {
@@ -64,7 +64,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Cobb's Knob Treasury`,
-    after: ["Knob/Outskirts"],
+    after: ["Knob/Open Knob"],
     outfit: { modifier: "+combat" },
   },
   {
@@ -461,7 +461,7 @@ const usefulMonsters: [Monster, Skill][] = [
   [$monster`me4t begZ0r`, $skill`Financial Spreadsheets`],
   [$monster`mind flayer`, $skill`Hivemindedness`],
   [$monster`Ninja Snowman Weaponmaster`, $skill`Cooling Tubules`],
-  [$monster`oil slick`, $skill`Lubricant Layer`],
+  // [$monster`oil slick`, $skill`Lubricant Layer`],
   [$monster`pine bat`, $skill`Conifer Polymers`],
   [$monster`pooltergeist`, $skill`Subatomic Hardening`],
   [$monster`possessed wine rack`, $skill`Legacy Code`],
@@ -526,6 +526,7 @@ class AbsorbtionTargets {
 
   public completed(): boolean {
     // Return true if we have absorbed all desired monsters
+    if (this.locsByTarget === undefined) return false;
     return this.locsByTarget.size === 0;
   }
 
@@ -566,11 +567,11 @@ class AbsorbtionTargets {
     let match;
 
     // Mark down all absorbed monsters that didn't give skills
-    const monster_regex = new RegExp(/Absorbed [^<]* from a ([^<]*)\./g);
+    const monster_regex = new RegExp(/Absorbed [^<]* from (a|an|some) ([^<]*)\./g);
     do {
       match = monster_regex.exec(charsheet);
       if (match) {
-        this.markAbsorbed(Monster.get(match[1]));
+        this.markAbsorbed(Monster.get(match[2]));
       }
     } while (match);
 

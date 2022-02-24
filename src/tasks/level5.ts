@@ -69,7 +69,10 @@ export const KnobQuest: Quest = {
     {
       name: "Perfume",
       after: ["Harem"],
-      completed: () => have($effect`Knob Goblin Perfume`) || have($item`Knob Goblin perfume`),
+      completed: () =>
+        have($effect`Knob Goblin Perfume`) ||
+        have($item`Knob Goblin perfume`) ||
+        step("questL05Goblin") === 999,
       do: $location`Cobb's Knob Harem`,
       outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants` },
       limit: { tries: 1 },

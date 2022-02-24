@@ -1,7 +1,6 @@
 import { create, Item, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
-  $familiar,
   $item,
   $items,
   $location,
@@ -39,18 +38,23 @@ const Copperhead: Task[] = [
       step("questL11Shen") === 2 || step("questL11Shen") === 4 || step("questL11Shen") === 6,
     completed: () => step("questL11Shen") === 999,
     prepare: () => {
-      if (have($item`crappy waiter disguise`)) ensureEffect($effect`Crappily Disguised as a Waiter`);
+      if (have($item`crappy waiter disguise`))
+        ensureEffect($effect`Crappily Disguised as a Waiter`);
     },
     do: $location`The Copperhead Club`,
-    combat: new CombatStrategy()
-      .killItem(
-        $monster`Copperhead Club bartender`,
-        $monster`ninja dressed as a waiter`,
-        $monster`waiter dressed as a ninja`,
-      ),
-    choices: { 852: 1, 853: 1, 854: 1, 855: () => {
-      return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
-    }},
+    combat: new CombatStrategy().killItem(
+      $monster`Copperhead Club bartender`,
+      $monster`ninja dressed as a waiter`,
+      $monster`waiter dressed as a ninja`
+    ),
+    choices: {
+      852: 1,
+      853: 1,
+      854: 1,
+      855: () => {
+        return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
+      },
+    },
     limit: { tries: 16 },
   },
   {
@@ -118,12 +122,14 @@ const Zepplin: Task[] = [
     completed: () => get("zeppelinProtestors") >= 80,
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy()
-        .macro(new Macro().tryItem($item`cigarette lighter`))
-        .killHard($monster`The Nuge`)
-        .killItem($monster`Blue Oyster cultist`)
-        .kill(),
+      .macro(new Macro().tryItem($item`cigarette lighter`))
+      .killHard($monster`The Nuge`)
+      .killItem($monster`Blue Oyster cultist`)
+      .kill(),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
-    outfit: { modifier: "sleaze dmg, sleaze spell dmg", familiar: $familiar`Left-Hand Man` },
+    outfit: {
+      modifier: "-combat, sleaze dmg, sleaze spell dmg",
+    },
     freeaction: true, // fully maximize outfit
     limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
   },
@@ -140,10 +146,7 @@ const Zepplin: Task[] = [
   {
     name: "Zepplin",
     after: ["Protesters Finish"],
-    acquire: [
-      { item: $item`glark cable`, useful: () => get("_glarkCableUses") < 5 },
-      { item: $item`Red Zeppelin ticket` },
-    ],
+    acquire: [{ item: $item`Red Zeppelin ticket` }],
     completed: () => step("questL11Ron") >= 5,
     do: $location`The Red Zeppelin`,
     combat: new CombatStrategy()
