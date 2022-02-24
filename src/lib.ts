@@ -24,5 +24,10 @@ export function convertMilliseconds(milliseconds: number): string {
 }
 
 export function atLevel(level: number): boolean {
-  return myBasestat($stat`muscle`) >= (level - 1) ** 2 + 4;
+  const goal = (level - 1) ** 2 + 4;
+  return (
+    myBasestat($stat`muscle`) >= goal ||
+    myBasestat($stat`mysticality`) >= goal ||
+    myBasestat($stat`moxie`) >= goal
+  );
 }
