@@ -1,5 +1,5 @@
-import { Effect, myClass } from "kolmafia";
-import { $class, $effect, $item, $skill, ensureEffect, get, have, uneffect } from "libram";
+import { Effect } from "kolmafia";
+import { $effect, $item, $skill, ensureEffect, get, have, uneffect } from "libram";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result: { [name: string]: Effect[] } = {
@@ -10,10 +10,6 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
 
   // Glitches if given above
   result["mainstat"].push($effect`That's Just Cloud-Talk, Man`);
-
-  // Class-specific
-  if (myClass() === $class`Seal Clubber`) result["init"].push($effect`Silent Hunting`);
-  else result["init"].push($effect`Nearly Silent Hunting`);
 
   // One-per-day
   if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
