@@ -1,20 +1,10 @@
-import {
-  cliExecute,
-  gametimeToInt,
-  myAdventures,
-  myClosetMeat,
-  myMeat,
-  print,
-  takeCloset,
-  turnsPlayed,
-  visitUrl,
-} from "kolmafia";
+import { cliExecute, gametimeToInt, myAdventures, print, turnsPlayed } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
-import { $skill, get, have, PropertiesManager, set } from "libram";
+import { get, PropertiesManager, set } from "libram";
 import { step } from "./tasks/structure";
 import { Outfit } from "./outfit";
 
@@ -22,17 +12,12 @@ const time_property = "_loop_casual_first_start";
 
 export function main(): void {
   if (runComplete()) {
-    print("Casual complete!", "purple");
+    print("Grey you complete!", "purple");
     return;
   }
 
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
-
-  if (myMeat() > 2000000) {
-    print("You have too much meat; closeting some during execution.");
-    cliExecute(`closet put ${myMeat() - 2000000} meat`);
-  }
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks);
@@ -68,13 +53,6 @@ export function main(): void {
     engine.execute(todo);
   }
 
-  // Can finish the run with 0 adventures, if only the prism is left
-  if (step("questL13Final") > 11 && step("questL13Final") !== 999)
-    visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
-
-  // Script is done; ensure we have finished
-  takeCloset(myClosetMeat());
-
   const remaining_tasks = tasks.filter((task) => !task.completed());
   if (!runComplete()) {
     debug("Remaining tasks:", "red");
@@ -84,7 +62,7 @@ export function main(): void {
     throw `Unable to find available task, but the run is not complete.`;
   }
 
-  print("Casual complete!", "purple");
+  print("Grey you complete!", "purple");
   print(`   Adventures used: ${turnsPlayed()}`, "purple");
   print(`   Adventures remaining: ${myAdventures()}`, "purple");
   if (set_time_now)
@@ -102,7 +80,7 @@ export function main(): void {
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") === 999 && have($skill`Liver of Steel`);
+  return step("questL13Final") === 999;
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {
