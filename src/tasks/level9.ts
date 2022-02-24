@@ -1,6 +1,24 @@
+<<<<<<< HEAD
 import { itemAmount, myLevel, use, visitUrl } from "kolmafia";
 import { $effect, $item, $location, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
+=======
+import { cliExecute, floor, itemAmount, myLevel, use, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  get,
+  have,
+  Macro,
+  SourceTerminal,
+} from "libram";
+import { OutfitSpec, Quest, step, Task } from "./structure";
+>>>>>>> origin/main
 import { CombatStrategy } from "../combat";
 
 const ABoo: Task[] = [
@@ -21,8 +39,40 @@ const ABoo: Task[] = [
     ],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
+<<<<<<< HEAD
     outfit: { modifier: "item 667max" },
     combat: new CombatStrategy().killHard(),
+=======
+    outfit: (): OutfitSpec => {
+      if (
+        $location`A-Boo Peak`.turnsSpent === 0 &&
+        $location`Twin Peak`.turnsSpent === 0 &&
+        $location`Oil Peak`.turnsSpent === 0 &&
+        have($skill`Comprehensive Cartography`)
+      ) {
+        // Prepare for Ghostly Memories (1430)
+        return { modifier: "spooky res, cold res, HP" };
+      } else {
+        return {
+          modifier: "item 667max",
+          equip: $items`A Light that Never Goes Out`,
+        };
+      }
+    },
+    effects: $effects`Merry Smithsness`,
+    combat: new CombatStrategy()
+      .macro((): Macro => {
+        if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
+          return new Macro()
+            .trySkill($skill`Feel Nostalgic`)
+            .trySkill(`Duplicate`)
+            .tryItem(`yellow rocket`);
+        } else {
+          return new Macro().trySkill($skill`Feel Envy`);
+        }
+      })
+      .killHard(),
+>>>>>>> origin/main
     choices: { 611: 1, 1430: 1 },
     limit: { tries: 4 },
   },
@@ -35,7 +85,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "spooky res, cold res" },
+    outfit: { modifier: "spooky res, cold res, HP" },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
