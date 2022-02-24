@@ -190,6 +190,11 @@ export class Outfit {
         ]);
       }
 
+      requirements = Requirement.merge([
+        requirements,
+        new Requirement([], { preventSlot: [$slot`back`] }),
+      ]);
+
       if (!requirements.maximize()) {
         throw `Unable to maximize ${this.modifier}`;
       }
@@ -235,6 +240,7 @@ export class Outfit {
     } else if (have($item`gnomish housemaid's kgnee`)) {
       this.equip($familiar`Reagnimated Gnome`);
     } else this.equip($familiar`Galloping Grill`);
+    this.equip($familiar`Melodramedary`);
 
     const commonFamiliarEquips = new Map<Familiar, Item>([
       [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
