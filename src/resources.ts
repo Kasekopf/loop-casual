@@ -111,15 +111,30 @@ export const banishSources: BanishSource[] = [
     do: $skill`Show them your ring`,
     equip: $item`mafia middle finger ring`,
   },
+  // If needed, use banishers from the mall
   {
     name: "Louder Than Bomb",
-    available: () => have($item`Louder Than Bomb`),
+    prepare: () => {
+      retrieveItem($item`Louder Than Bomb`);
+    },
+    available: () => true,
     do: $item`Louder Than Bomb`,
   },
   {
-    name: "Crystal Skull",
-    available: () => have($item`crystal skull`),
-    do: $item`crystal skull`,
+    name: "Tennis Ball",
+    prepare: () => {
+      retrieveItem($item`tennis ball`);
+    },
+    available: () => true,
+    do: $item`tennis ball`,
+  },
+  {
+    name: "Divine Champagne Popper",
+    prepare: () => {
+      retrieveItem($item`divine champagne popper`);
+    },
+    available: () => true,
+    do: $item`divine champagne popper`,
   },
 ];
 
