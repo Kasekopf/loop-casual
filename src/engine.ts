@@ -87,10 +87,7 @@ export class Engine {
         debug(`Acquiring ${num_needed} ${to_get.item}`);
         retrieveItem(to_get.item, num_needed);
       }
-      if (
-        itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed &&
-        (to_get.optional ?? true)
-      ) {
+      if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed && !to_get.optional) {
         throw `Task ${task.name} was unable to acquire ${num_needed} ${to_get.item}`;
       }
     }
