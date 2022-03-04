@@ -198,15 +198,24 @@ const Nook: Task[] = [
     },
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
-      .macro(new Macro().trySkill($skill`Feel Envy`).step(slay_macro), $monster`spiny skelelton`)
-      .macro(
-        new Macro()
-          .trySkill($skill`Feel Nostalgic`)
-          .trySkill($skill`%fn, spit on them!`)
-          .trySkill($skill`Feel Envy`)
-          .step(slay_macro),
-        $monster`toothy sklelton`
-      )
+      .macro((): Macro => {
+        if (get("lastCopyableMonster") === $monster`party skelteon`)
+          return new Macro()
+            .trySkill($skill`Feel Nostalgic`)
+            .trySkill($skill`%fn, spit on them!`)
+            .trySkill($skill`Feel Envy`)
+            .step(slay_macro);
+        else return new Macro().trySkill($skill`Feel Envy`).step(slay_macro);
+      }, $monster`spiny skelelton`)
+      .macro((): Macro => {
+        if (get("lastCopyableMonster") === $monster`spiny skelelton`)
+          return new Macro()
+            .trySkill($skill`Feel Nostalgic`)
+            .trySkill($skill`%fn, spit on them!`)
+            .trySkill($skill`Feel Envy`)
+            .step(slay_macro);
+        else return new Macro().trySkill($skill`Feel Envy`).step(slay_macro);
+      }, $monster`toothy sklelton`)
       .banish($monster`party skelteon`),
     limit: { tries: 3 },
   },
