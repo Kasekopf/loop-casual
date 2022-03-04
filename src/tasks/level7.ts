@@ -193,6 +193,7 @@ const Nook: Task[] = [
         equip: tryCape($item`costume sword`, $item`gravy boat`),
         modifier: "item 500max",
         familiar: $familiar`Melodramedary`,
+        skipDefaults: true,
       };
     },
     choices: { 155: 5, 1429: 1 },

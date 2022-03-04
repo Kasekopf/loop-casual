@@ -19,6 +19,7 @@ import { canChargeVoid, Resource } from "./resources";
 export class Outfit {
   equips: Map<Slot, Item> = new Map<Slot, Item>();
   accesories: Item[] = [];
+  skipDefaults = false;
   familiar?: Familiar;
   modifier?: string;
 
@@ -223,6 +224,7 @@ export class Outfit {
       if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       outfit.modifier = spec.modifier;
     }
+    outfit.skipDefaults = spec?.skipDefaults ?? false;
 
     return outfit;
   }

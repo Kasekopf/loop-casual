@@ -51,6 +51,7 @@ const ABoo: Task[] = [
         return {
           modifier: "item 667max",
           equip: $items`A Light that Never Goes Out`,
+          skipDefaults: true,
         };
       }
     },

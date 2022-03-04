@@ -27,6 +27,7 @@ export interface OutfitSpec {
   equip?: Item[]; // Items to be equipped in any slot
   modifier?: string; // Modifier to maximize
   familiar?: Familiar; // Familiar to use
+  skipDefaults?: boolean; // Do not equip default equipment; fully maximize
 }
 
 export type Task = {

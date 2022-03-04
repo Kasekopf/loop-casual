@@ -205,6 +205,7 @@ const ManorBasement: Task[] = [
     outfit: {
       equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
       modifier: "item, booze drop",
+      skipDefaults: true,
     },
     effects: $effects`Merry Smithsness`,
     choices: { 901: 2 },
@@ -230,6 +231,7 @@ const ManorBasement: Task[] = [
     outfit: {
       equip: $items`A Light that Never Goes Out, Lil' Doctor™ bag`,
       modifier: "item, food drop",
+      skipDefaults: true,
     },
     effects: $effects`Merry Smithsness`,
     choices: { 891: 2 },
