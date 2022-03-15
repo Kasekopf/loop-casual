@@ -370,8 +370,6 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`Renaissance Giant`,
   $monster`swarm of fire ants`,
   $monster`tomb asp`,
-]);
-const adventureMonsters: Monster[] = [
   // 7 adv monsters
   $monster`animated rustic nightstand`,
   $monster`basic lihc`,
@@ -406,6 +404,8 @@ const adventureMonsters: Monster[] = [
   $monster`upgraded ram`,
   $monster`vicious gnauga`,
   $monster`whitesnake`,
+]);
+const adventureMonsters: Monster[] = [
   // 5 adv monsters
   $monster`albino bat`,
   $monster`batrat`,
