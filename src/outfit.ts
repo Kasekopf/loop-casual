@@ -3,6 +3,7 @@ import {
   equippedAmount,
   equippedItem,
   Familiar,
+  familiarWeight,
   Item,
   Slot,
   toSlot,
@@ -233,7 +234,12 @@ export class Outfit {
   public equipDefaults(): void {
     if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
 
-    if (get("camelSpit") < 100) {
+    if (familiarWeight($familiar`none`) < 6) {
+      // eslint-disable-next-line libram/verify-constants
+      this.equip($familiar`Grey Goose`);
+      this.equip($item`yule hatchet`);
+      this.equip($item`familiar scrapbook`);
+    } else if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);
     } else if (have($familiar`Temporal Riftlet`)) {
       this.equip($familiar`Temporal Riftlet`);
@@ -243,6 +249,8 @@ export class Outfit {
     this.equip($familiar`Melodramedary`);
 
     const commonFamiliarEquips = new Map<Familiar, Item>([
+      // eslint-disable-next-line libram/verify-constants
+      [$familiar`Grey Goose`, $item`grey down vest`],
       [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
       [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
     ]);
