@@ -189,6 +189,9 @@ export class Engine {
         }
       }
 
+      // Charge familiars if needed
+      outfit.equipCharging();
+
       // Set up more wanderers if delay is needed
       if (wanderers.length === 0 && this.hasDelay(task))
         wanderers = outfit.equipUntilCapped(wandererSources);

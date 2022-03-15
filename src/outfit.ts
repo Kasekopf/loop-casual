@@ -231,9 +231,7 @@ export class Outfit {
     return outfit;
   }
 
-  public equipDefaults(): void {
-    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
-
+  public equipCharging(): void {
     // eslint-disable-next-line libram/verify-constants
     if (familiarWeight($familiar`Grey Goose`) < 6) {
       // eslint-disable-next-line libram/verify-constants
@@ -242,7 +240,13 @@ export class Outfit {
       this.equip($item`familiar scrapbook`);
     } else if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);
-    } else if (have($familiar`Temporal Riftlet`)) {
+    }
+  }
+
+  public equipDefaults(): void {
+    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
+
+    if (have($familiar`Temporal Riftlet`)) {
       this.equip($familiar`Temporal Riftlet`);
     } else if (have($item`gnomish housemaid's kgnee`)) {
       this.equip($familiar`Reagnimated Gnome`);
