@@ -1,5 +1,5 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
+import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -86,8 +86,6 @@ const Temple: Task[] = [
   },
 ];
 
-const use_writ = new Macro().tryItem($item`short writ of habeas corpus`);
-
 const Apartment: Task[] = [
   {
     name: "Open Apartment",
@@ -114,7 +112,6 @@ const Apartment: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .kill($monster`pygmy witch accountant`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer`)
-      .macro(new Macro().step(use_writ), $monster`pygmy shaman`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
     limit: { tries: 9 },
@@ -128,7 +125,6 @@ const Apartment: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
-      .macro(new Macro().step(use_writ), $monster`pygmy shaman`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
     choices: { 780: 1 },
@@ -187,12 +183,7 @@ const Office: Task[] = [
       get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
     choices: { 786: 2 },
-    combat: new CombatStrategy()
-      .macro(
-        use_writ,
-        ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
-      )
-      .ignore(),
+    combat: new CombatStrategy().ignore(),
     limit: { tries: 6 },
   },
   {
@@ -203,10 +194,6 @@ const Office: Task[] = [
     choices: { 786: 1 },
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Office Building)`)
-      .macro(
-        use_writ,
-        ...$monsters`pygmy witch accountant, pygmy janitor, pygmy headhunter, pygmy witch lawyer`
-      )
       .ignore(),
     limit: { tries: 5 },
   },
@@ -243,7 +230,6 @@ const Hospital: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .kill($monster`pygmy witch surgeon`)
-      .macro(use_writ, ...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`)
       .banish(...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
     outfit: {
       equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
