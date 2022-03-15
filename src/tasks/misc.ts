@@ -310,7 +310,7 @@ export const KeysQuest: Quest = {
     {
       name: "Malware",
       after: [],
-      acquire: [{ item: $item`daily dungeon malware` }],
+      acquire: [{ item: $item`daily dungeon malware` }, { item: $item`Pick-O-Matic lockpicks` }],
       completed: () =>
         get("_dailyDungeonMalwareUsed") || get("dailyDungeonDone") || keyCount() >= 3,
       prepare: () => {
@@ -334,6 +334,7 @@ export const KeysQuest: Quest = {
     {
       name: "Daily Dungeon",
       after: ["Deck", "Lockpicking", "Malware"],
+      acquire: [{ item: $item`Pick-O-Matic lockpicks` }],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
