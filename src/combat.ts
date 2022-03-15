@@ -89,14 +89,15 @@ export class BuiltCombatStrategy {
 
     // Second, perform any monster-specific strategies (these may or may not end the fight)
     abstract.macros.forEach((value, key) => {
-      this.macro = this.macro.if_(key, undelay(value));
+      this.macro = this.macro.if_(key, new Macro().step(...value.map(undelay)));
     });
     abstract.strategy.forEach((strat, monster) => {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
 
     // Finally, perform the non-monster specific strategies
-    if (abstract.default_macro) this.macro = this.macro.step(undelay(abstract.default_macro));
+    if (abstract.default_macro)
+      this.macro = this.macro.step(new Macro().step(...abstract.default_macro.map(undelay)));
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
 
@@ -167,9 +168,9 @@ const holidayMonsters = getTodaysHolidayWanderers();
 
 export class CombatStrategy {
   default_strategy: MonsterStrategy = MonsterStrategy.Ignore;
-  default_macro?: DelayedMacro;
+  default_macro?: DelayedMacro[];
   strategy: Map<Monster, MonsterStrategy> = new Map();
-  macros: Map<Monster, DelayedMacro> = new Map();
+  macros: Map<Monster, DelayedMacro[]> = new Map();
   boss: boolean;
 
   constructor(boss?: boolean) {
@@ -215,10 +216,23 @@ export class CombatStrategy {
   }
   public macro(strategy: DelayedMacro, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
-      this.default_macro = strategy;
+      if (this.default_macro === undefined) this.default_macro = [];
+      this.default_macro.push(strategy);
     }
     for (const monster of monsters) {
-      this.macros.set(monster, strategy);
+      if (!this.macros.has(monster)) this.macros.set(monster, []);
+      this.macros.get(monster)?.push(strategy);
+    }
+    return this;
+  }
+  public prependMacro(strategy: DelayedMacro, ...monsters: Monster[]): CombatStrategy {
+    if (monsters.length === 0) {
+      if (this.default_macro === undefined) this.default_macro = [];
+      this.default_macro.unshift(strategy);
+    }
+    for (const monster of monsters) {
+      if (!this.macros.has(monster)) this.macros.set(monster, []);
+      this.macros.get(monster)?.unshift(strategy);
     }
     return this;
   }

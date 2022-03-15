@@ -129,7 +129,7 @@ export class Engine {
           // eslint-disable-next-line libram/verify-constants
           if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
             // eslint-disable-next-line libram/verify-constants
-            task_combat.macro(new Macro().trySkill($skill`Re-Process Matter`));
+            task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
             debug(`Target x2: ${monster.name}`, "purple");
           } else {
             debug(`Target x2 (no reprocess): ${monster.name}`, "pruple");
@@ -146,13 +146,14 @@ export class Engine {
           task_combat.kill(monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
         }
       }
+
       // Use rock-band flyers if needed
       if (
         have($item`rock band flyers`) &&
         get("flyeredML") < 10000 &&
         task_combat.default_macro === undefined // TODO: append to existing macro
       ) {
-        task_combat.macro(new Macro().tryItem($item`rock band flyers`));
+        task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
       }
 
       // Apply resources
