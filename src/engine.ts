@@ -1,6 +1,6 @@
-import { Location } from "kolmafia";
+import { familiarWeight, Location } from "kolmafia";
 import { Task } from "./tasks/structure";
-import { $effect, $familiar, $item, get, have, Macro, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, $skill, get, have, Macro, PropertiesManager } from "libram";
 import {
   BuiltCombatStrategy,
   CombatResourceAllocation,
@@ -125,7 +125,18 @@ export class Engine {
       const absorb_targets =
         task.do instanceof Location ? absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
-        debug(`Target: ${monster.name}`, "purple");
+        if (absorbtionTargets.isReprocessTarget(monster)) {
+          // eslint-disable-next-line libram/verify-constants
+          if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
+            // eslint-disable-next-line libram/verify-constants
+            task_combat.macro(new Macro().trySkill($skill`Re-Process Matter`));
+            debug(`Target x2: ${monster.name}`, "purple");
+          } else {
+            debug(`Target x2 (no reprocess): ${monster.name}`, "pruple");
+          }
+        } else {
+          debug(`Target: ${monster.name}`, "purple");
+        }
         const strategy = task_combat.currentStrategy(monster);
         if (
           strategy === MonsterStrategy.Ignore ||

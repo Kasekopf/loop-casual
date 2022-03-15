@@ -234,7 +234,7 @@ export class Outfit {
   public equipDefaults(): void {
     if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
 
-    if (familiarWeight($familiar`none`) < 6) {
+    if (familiarWeight($familiar`Grey Goose`) < 6) {
       // eslint-disable-next-line libram/verify-constants
       this.equip($familiar`Grey Goose`);
       this.equip($item`yule hatchet`);

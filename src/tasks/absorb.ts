@@ -346,60 +346,21 @@ const absorbTasks: AbsorbTask[] = [
 ];
 
 // All monsters that give adventures upon absorbtion
-const adventureMonsters: Monster[] = [
+const reprocessTargets: Set<Monster> = new Set([
+  // 10 adv monsters
   $monster`1335 HaXx0r`,
-  $monster`albino bat`,
   $monster`Alphabet Giant`,
-  $monster`animated rustic nightstand`,
-  $monster`banshee librarian`,
-  $monster`baseball bat`,
-  $monster`BASIC Elemental`,
-  $monster`basic lihc`,
-  $monster`batrat`,
-  $monster`Battlie Knight Ghost`,
   $monster`black magic woman`,
   $monster`blur`,
   $monster`Bob Racecar`,
-  $monster`Booze Giant`,
-  $monster`Bubblemint Twins`,
-  $monster`Bullet Bill`,
-  $monster`CH Imp`,
-  $monster`chalkdust wraith`,
-  $monster`cloud of disembodied whiskers`,
   $monster`coaltergeist`,
-  $monster`dire pigeon`,
-  $monster`dopey 7-Foot Dwarf`,
-  $monster`eXtreme Orcish snowboarder`,
   $monster`fleet woodsman`,
-  $monster`G imp`,
-  $monster`ghost miner`,
-  $monster`gingerbread murderer`,
-  $monster`gluttonous ghuol`,
-  $monster`Grass Elemental`,
-  $monster`grave rober`,
-  $monster`grave rober zmobie`,
-  $monster`guy with a pitchfork, and his wife`,
   $monster`Iiti Kitty`,
-  $monster`irate mariachi`,
   $monster`Irritating Series of Random Encounters`,
-  $monster`junksprite sharpener`,
-  $monster`Knob Goblin Bean Counter`,
-  $monster`Knob Goblin Madam`,
-  $monster`Knob Goblin Master Chef`,
-  $monster`Knob Goblin Very Mad Scientist`,
-  $monster`L imp`,
+  $monster`Little Man in the Canoe`,
   $monster`mad wino`,
-  $monster`magical fruit bat`,
   $monster`Mob Penguin Capo`,
-  $monster`model skeleton`,
-  $monster`Ninja Snowman Janitor`,
-  $monster`oil baron`,
   $monster`One-Eyed Willie`,
-  $monster`P imp`,
-  $monster`party skelteon`,
-  $monster`plastered frat orc`,
-  $monster`possessed silverware drawer`,
-  $monster`possessed toy chest`,
   $monster`pygmy blowgunner`,
   $monster`pygmy headhunter`,
   $monster`pygmy orderlies`,
@@ -407,28 +368,63 @@ const adventureMonsters: Monster[] = [
   $monster`Racecar Bob`,
   $monster`Raver Giant`,
   $monster`Renaissance Giant`,
+  $monster`swarm of fire ants`,
+  $monster`tomb asp`,
+]);
+const adventureMonsters: Monster[] = [
+  // 7 adv monsters
+  $monster`animated rustic nightstand`,
+  $monster`basic lihc`,
+  $monster`Battlie Knight Ghost`,
+  $monster`Booze Giant`,
+  $monster`Bubblemint Twins`,
+  $monster`CH Imp`,
+  $monster`chalkdust wraith`,
+  $monster`cloud of disembodied whiskers`,
+  $monster`eXtreme Orcish snowboarder`,
+  $monster`gluttonous ghuol`,
+  $monster`Grass Elemental`,
+  $monster`grave rober zmobie`,
+  $monster`guy with a pitchfork, and his wife`,
+  $monster`junksprite sharpener`,
+  $monster`Knob Goblin Very Mad Scientist`,
+  $monster`model skeleton`,
+  $monster`Ninja Snowman Janitor`,
+  $monster`oil baron`,
+  $monster`party skelteon`,
+  $monster`possessed silverware drawer`,
+  $monster`possessed toy chest`,
   $monster`revolving bugbear`,
-  $monster`rushing bum`,
   $monster`sabre-toothed goat`,
   $monster`serialbus`,
   $monster`sheet ghost`,
-  $monster`shifty pirate`,
   $monster`skeletal hamster`,
   $monster`smut orc pipelayer`,
-  $monster`Sub-Assistant Knob Mad Scientist`,
-  $monster`swarm of fire ants`,
   $monster`swarm of killer bees`,
-  $monster`swarm of Knob lice`,
-  $monster`swarm of skulls`,
   $monster`tapdancing skeleton`,
   $monster`toilet papergeist`,
-  $monster`tomb asp`,
-  $monster`undead elbow macaroni`,
   $monster`upgraded ram`,
   $monster`vicious gnauga`,
+  $monster`whitesnake`,
+  // 5 adv monsters
+  $monster`albino bat`,
+  $monster`batrat`,
+  $monster`dire pigeon`,
+  $monster`G imp`,
+  $monster`gingerbread murderer`,
+  $monster`grave rober`,
+  $monster`irate mariachi`,
+  $monster`Knob Goblin Bean Counter`,
+  $monster`Knob Goblin Madam`,
+  $monster`Knob Goblin Master Chef`,
+  $monster`L imp`,
+  $monster`magical fruit bat`,
+  $monster`P imp`,
+  $monster`plastered frat orc`,
+  $monster`swarm of Knob lice`,
+  $monster`swarm of skulls`,
   $monster`W imp`,
   $monster`warwelf`,
-  $monster`whitesnake`,
 ];
 // Other monsters that give skills
 const usefulMonsters: [Monster, Skill][] = [
@@ -488,11 +484,15 @@ const usefulMonsters: [Monster, Skill][] = [
 // A many-to-many map to track the remaining monsters at each location
 class AbsorbtionTargets {
   private targetsByLoc = new Map<Location, Set<Monster>>();
+  private repTargetsByLoc = new Map<Location, Set<Monster>>();
   private locsByTarget = new Map<Monster, Set<Location>>();
   private targetsBySkill = new Map<Skill, Monster>();
   private absorbed = new Set<Monster>();
+  private repTargets = new Set<Monster>();
 
-  constructor(targets: (Monster | [Monster, Skill])[]) {
+  constructor(reprocessTargests: Set<Monster>, targets: (Monster | [Monster, Skill])[]) {
+    targets = targets.concat(Array.from(reprocessTargests));
+    this.repTargets = reprocessTargests;
     const target_set = new Set();
     for (const target of targets) {
       if (target instanceof Monster) target_set.add(target);
@@ -513,6 +513,10 @@ class AbsorbtionTargets {
   add(monster: Monster, location: Location) {
     if (!this.targetsByLoc.has(location)) this.targetsByLoc.set(location, new Set());
     this.targetsByLoc.get(location)?.add(monster);
+    if (this.repTargets.has(monster)) {
+      if (!this.repTargetsByLoc.has(location)) this.repTargetsByLoc.set(location, new Set());
+      this.repTargetsByLoc.get(location)?.add(monster);
+    }
     if (!this.locsByTarget.has(monster)) this.locsByTarget.set(monster, new Set());
     this.locsByTarget.get(monster)?.add(location);
   }
@@ -520,6 +524,7 @@ class AbsorbtionTargets {
   delete(monster: Monster) {
     for (const loc of this.locsByTarget.get(monster) ?? []) {
       this.targetsByLoc.get(loc)?.delete(monster);
+      this.repTargetsByLoc.get(loc)?.delete(monster);
     }
     this.locsByTarget.delete(monster);
   }
@@ -544,9 +549,18 @@ class AbsorbtionTargets {
     return (this.targetsByLoc.get(location)?.size ?? 0) > 0;
   }
 
+  public hasReprocessTargets(location: Location): boolean {
+    // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
+    return (this.repTargetsByLoc.get(location)?.size ?? 0) > 0;
+  }
+
   public isTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unabsorbed
     return !this.locsByTarget.has(monster);
+  }
+
+  public isReprocessTarget(monster: Monster): boolean {
+    return this.repTargets.has(monster) && !this.absorbed.has(monster);
   }
 
   public markAbsorbed(monster: Monster | undefined): void {
@@ -558,6 +572,7 @@ class AbsorbtionTargets {
       }
     }
   }
+
   public markObtained(skill: Skill): void {
     this.markAbsorbed(this.targetsBySkill.get(skill));
   }
@@ -587,7 +602,10 @@ class AbsorbtionTargets {
     } while (match);
   }
 }
-export const absorbtionTargets = new AbsorbtionTargets([...adventureMonsters, ...usefulMonsters]);
+export const absorbtionTargets = new AbsorbtionTargets(reprocessTargets, [
+  ...adventureMonsters,
+  ...usefulMonsters,
+]);
 
 export const AbsorbQuest: Quest = {
   name: "Absorb",
