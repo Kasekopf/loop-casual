@@ -130,7 +130,9 @@ export class BuiltCombatStrategy {
     let killing_blow = undefined;
     if (myMp() >= 20) {
       // eslint-disable-next-line libram/verify-constants
-      if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`)) killing_blow = $skill`Double Nanovision`;
+      if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`))
+        // eslint-disable-next-line libram/verify-constants
+        killing_blow = $skill`Double Nanovision`;
       // eslint-disable-next-line libram/verify-constants
       if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
     }
@@ -145,7 +147,7 @@ export class BuiltCombatStrategy {
       case MonsterStrategy.Banish:
         if ((monster && monster.physicalResistance >= 70) || !killing_blow)
           return new Macro().attack().repeat();
-        return new Macro().skill(killing_blow).repeat();  // TODO: get to low HP first?
+        return new Macro().skill(killing_blow).repeat(); // TODO: get to low HP first?
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
       case MonsterStrategy.Abort:
