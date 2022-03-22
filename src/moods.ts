@@ -71,6 +71,10 @@ function isSong(effect: Effect) {
   return toSkill(effect).class === $class`Accordion Thief` && toSkill(effect).buff;
 }
 
+function maxSongs(): number {
+  return have($skill`Mariachi Memory`) ? 4 : 3;
+}
+
 function shrug(effects: Effect[]) {
   for (const effect of effects) {
     if (have(effect)) uneffect(effect);
@@ -124,7 +128,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
   for (const effect of useful_effects) {
     if (isSong(effect)) songs.push(effect);
   }
-  if (songs.length > 3) throw "Too many AT songs.";
+  if (songs.length > maxSongs()) throw "Too many AT songs.";
   if (songs.length > 0) {
     const extra_songs = [];
     for (const effect_name of Object.keys(myEffects())) {
@@ -133,7 +137,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
         extra_songs.push(effect);
       }
     }
-    while (songs.length + extra_songs.length > 3) {
+    while (songs.length + extra_songs.length > maxSongs()) {
       const to_remove = extra_songs.pop();
       if (to_remove === undefined) break;
       else uneffect(to_remove);
