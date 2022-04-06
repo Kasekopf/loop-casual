@@ -8,7 +8,7 @@ import {
   MonsterStrategy,
 } from "./combat";
 import { Outfit } from "./outfit";
-import { applyEffects } from "./moods";
+import { applyEffects, moodCompatible } from "./moods";
 import {
   adv1,
   buy,
@@ -62,6 +62,10 @@ export class Engine {
       familiarWeight($familiar`Grey Goose`) < 6
     )
       return false;
+
+    // Ensure that the current +/- combat effects are compatible
+    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    if (!moodCompatible(outfit_spec?.modifier)) return false;
 
     return !task.completed();
   }

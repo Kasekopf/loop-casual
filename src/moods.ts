@@ -28,7 +28,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   // eslint-disable-next-line libram/verify-constants
   if (have($skill`Photonic Shroud`)) result["-combat"].push($effect`Darkened Photons`);
   // eslint-disable-next-line libram/verify-constants
-  if (have($skill`Piezoelectric Honk`)) result["-combat"].push($effect`Hooooooooonk!`);
+  if (have($skill`Piezoelectric Honk`)) result["+combat"].push($effect`Hooooooooonk!`);
 
   return result;
 }
@@ -37,6 +37,21 @@ function shrug(effects: Effect[]) {
   for (const effect of effects) {
     if (have(effect)) uneffect(effect);
   }
+}
+
+export function moodCompatible(modifier: string | undefined): boolean {
+  // Since shrugging is limited, ensure we do not attempt a +combat task
+  // while under -combat effects, and vice-versa.
+  if (modifier === undefined) return true;
+  if (modifier.includes("+combat")) {
+    // eslint-disable-next-line libram/verify-constants
+    return !have($effect`Shifted Phase`) && !have($effect`Darkened Photons`);
+  }
+  if (modifier.includes("-combat")) {
+    // eslint-disable-next-line libram/verify-constants
+    return !have($effect`Hooooooooonk!`);
+  }
+  return true;
 }
 
 export function applyEffects(modifier: string, required: Effect[]): void {
