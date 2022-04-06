@@ -4,7 +4,7 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { get, PropertiesManager, set } from "libram";
+import { $item, CrystalBall, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 import { absorbtionTargets } from "./tasks/absorb";
@@ -83,7 +83,14 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     return [delay_burning, wanderer];
   }
 
-  // Otherwise, just advance the next quest on the route
+  // Otherwise, advance the next quest while dancing with the crystal ball
+  if (have($item`miniature crystal ball`)) {
+    const orb_predictions = CrystalBall.currentPredictions(false); // TODO: should this ever be true?
+    const todo = tasks.find((task) => engine.available(task, orb_predictions));
+    if (todo !== undefined) return [todo];
+  }
+
+  // If there is no way to dodge the crystal ball prediction, ignore it
   const todo = tasks.find((task) => engine.available(task));
   if (todo !== undefined) return [todo];
 

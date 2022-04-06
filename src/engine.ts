@@ -1,4 +1,4 @@
-import { familiarWeight, Location } from "kolmafia";
+import { familiarWeight, Location, Monster } from "kolmafia";
 import { Task } from "./tasks/structure";
 import { $effect, $familiar, $item, $skill, get, have, Macro, PropertiesManager } from "libram";
 import {
@@ -46,7 +46,7 @@ export class Engine {
     }
   }
 
-  public available(task: Task): boolean {
+  public available(task: Task, orb_predictions?: Map<Location, Monster>): boolean {
     for (const after of task.after) {
       const after_task = this.tasks_by_name.get(after);
       if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
@@ -67,6 +67,27 @@ export class Engine {
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (!moodCompatible(outfit_spec?.modifier)) return false;
 
+    // Dodge useless monsters with the orb
+    if (task.do instanceof Location && orb_predictions !== undefined) {
+      const next_monster = orb_predictions.get(task.do);
+      if (next_monster !== undefined) {
+        const task_combat = task.combat ?? new CombatStrategy();
+        const next_monster_strategy = task_combat.currentStrategy(next_monster);
+        if (
+          (next_monster_strategy === MonsterStrategy.Ignore ||
+            next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
+            next_monster_strategy === MonsterStrategy.Banish) &&
+          !absorbtionTargets.isTarget(next_monster)
+        ) {
+          // So the next monster is useless. Dodge it if there is also a useful monster
+          if (absorbtionTargets.hasTargets(task.do)) return false;
+          if (task_combat.can(MonsterStrategy.Kill)) return false;
+          if (task_combat.can(MonsterStrategy.KillFree)) return false;
+          if (task_combat.can(MonsterStrategy.KillHard)) return false;
+          if (task_combat.can(MonsterStrategy.KillItem)) return false;
+        }
+      }
+    }
     return !task.completed();
   }
 
