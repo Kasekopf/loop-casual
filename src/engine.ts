@@ -53,6 +53,16 @@ export class Engine {
       if (!after_task.completed()) return false;
     }
     if (task.ready && !task.ready()) return false;
+
+    // Ensure the Grey Goose is charged if we plan on absorbing
+    if (
+      task.do instanceof Location &&
+      absorbtionTargets.hasReprocessTargets(task.do) &&
+      // eslint-disable-next-line libram/verify-constants
+      familiarWeight($familiar`Grey Goose`) < 6
+    )
+      return false;
+
     return !task.completed();
   }
 
