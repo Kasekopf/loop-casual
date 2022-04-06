@@ -53,6 +53,7 @@ export class Engine {
       if (!after_task.completed()) return false;
     }
     if (task.ready && !task.ready()) return false;
+    if (task.completed()) return false;
 
     // Ensure the Grey Goose is charged if we plan on absorbing
     if (
@@ -88,7 +89,8 @@ export class Engine {
         }
       }
     }
-    return !task.completed();
+
+    return true;
   }
 
   public hasDelay(task: Task): boolean {
