@@ -68,6 +68,15 @@ export class Engine {
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (!moodCompatible(outfit_spec?.modifier)) return false;
 
+    // Wait until we get a -combat skill before doing any -combat
+    if (
+      outfit_spec?.modifier &&
+      outfit_spec.modifier.includes("-combat") &&
+      // eslint-disable-next-line libram/verify-constants
+      !have($skill`Shifted Phase`)
+    )
+      return false;
+
     // Dodge useless monsters with the orb
     if (task.do instanceof Location && orb_predictions !== undefined) {
       const next_monster = orb_predictions.get(task.do);

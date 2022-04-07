@@ -4,65 +4,34 @@ export const routing: string[] = [
   // Start with the basic leveling tasks
   "Toot/Finish",
 
-  // Grind tasks until level 11
-  "Knob/Outskirts",
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
   "Absorb/The Haunted Kitchen",
-  "Mosquito/Burn Delay",
-  "Knob/King",
-  "Absorb/The Outskirts of Cobb's Knob",
-  "Absorb/Cobb's Knob Kitchens",
-  "Absorb/Cobb's Knob Barracks",
-  "Absorb/Cobb's Knob Harem",
-  "Absorb/Cobb's Knob Laboratory",
-  "Absorb/Cobb's Knob Menagerie, Level 1",
-  "Absorb/Cobb's Knob Menagerie, Level 2",
+
+  // Get initial -combat
   "Absorb/Cobb's Knob Menagerie, Level 3",
 
+  // Get +item
+  "Absorb/Infernal Rackets Backstage",
+
+  // Grind tasks until level 11
+  "Mosquito/Burn Delay",
   "Manor/Finish Floor1",
   "Manor/Gallery Delay",
   "Manor/Bathroom Delay",
   "Manor/Bedroom",
-  "Absorb/The Haunted Billiards Room",
-  "Absorb/The Haunted Library",
-  "Absorb/The Haunted Bedroom",
 
   // Once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
-
-  // Get +item
-  "Absorb/Infernal Rackets Backstage",
 
   // Aim for remaining pygmies
   "Hidden City/Bowling",
   "Absorb/The Hidden Bowling Alley",
 
-  // Get +combat
-  "Palindome/Copperhead",
-  "Palindome/Bat Snake",
-  "Palindome/Cold Snake",
-  "Giant/Finish",
-  "Absorb/Whitey's Grove",
-
-  // Absorb things that required +combat
-  "Absorb/Cobb's Knob Treasury",
-  "Absorb/The Knob Shaft",
-
-  // Absorb the manor
-  "Absorb/The Haunted Pantry",
-  "Absorb/The Haunted Conservatory",
-  "Absorb/The Haunted Kitchen",
-  "Manor/Finish Floor2",
-  "Absorb/The Haunted Gallery",
-  "Absorb/The Haunted Bathroom",
+  // Open the manor for absorbing
   "Manor/Boss",
-  "Absorb/The Haunted Ballroom",
-  "Absorb/The Haunted Wine Cellar",
-  "Absorb/The Haunted Laundry Room",
-  "Absorb/The Haunted Boiler Room",
-  "Absorb/The Haunted Storage Room",
-  "Absorb/The Haunted Nursery",
-  "Absorb/The Haunted Laboratory",
+
+  // Get +combat
+  "Absorb/Whitey's Grove",
 
   // Non-delay quests
   "Mosquito/Finish",
@@ -76,7 +45,6 @@ export const routing: string[] = [
   "War/Boss Hippie",
 
   // Finish up with last delay
-  "Knob/King",
   "Bat/Finish",
 
   "Tower/Finish",
