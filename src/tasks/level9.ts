@@ -1,5 +1,5 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, get, have, Macro } from "libram";
+import { $effect, $item, $items, $location, $monsters, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -70,61 +70,117 @@ const Oil: Task[] = [
 
 const Twin: Task[] = [
   {
-    name: "Twin Stench",
+    name: "Twin Stench Search",
     after: ["Start Peaks"],
+    ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 1),
-    do: () => {
-      use($item`rusty hedge trimmers`);
-    },
+    do: () => $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
-    acquire: [{ item: $item`rusty hedge trimmers` }],
-    outfit: { modifier: "stench res 4min" },
-    limit: { tries: 1 },
+    outfit: { modifier: "stench res 4min, -combat, item" },
+    combat: new CombatStrategy().killItem(
+      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+    ),
+    limit: { soft: 10 },
   },
   {
     name: "Twin Stench",
     after: ["Start Peaks"],
+    ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 1),
     do: () => {
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
-    acquire: [{ item: $item`rusty hedge trimmers` }],
     outfit: { modifier: "stench res 4min" },
     limit: { tries: 1 },
+  },
+  {
+    name: "Twin Item Search",
+    after: ["Start Peaks"],
+    ready: () => !have($item`rusty hedge trimmers`),
+    completed: () => !!(get("twinPeakProgress") & 2),
+    do: () => $location`Twin Peak`,
+    choices: { 606: 2, 608: 1 },
+    outfit: { modifier: "item 50min, -combat" },
+    combat: new CombatStrategy().killItem(
+      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+    ),
+    limit: { soft: 10 },
   },
   {
     name: "Twin Item",
     after: ["Start Peaks"],
+    ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 2),
     do: () => {
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 2, 608: 1 },
-    acquire: [{ item: $item`rusty hedge trimmers` }],
     outfit: { modifier: "item 50min" },
     limit: { tries: 1 },
   },
   {
+    name: "Twin Oil Search",
+    after: ["Start Peaks"],
+    ready: () => !have($item`rusty hedge trimmers`),
+    completed: () => !!(get("twinPeakProgress") & 2),
+    do: () => $location`Twin Peak`,
+    choices: { 606: 3, 609: 1, 616: 1 },
+    outfit: { modifier: "item, -combat" },
+    combat: new CombatStrategy().killItem(
+      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+    ),
+    acquire: [{ item: $item`jar of oil` }],
+    limit: { soft: 10 },
+  },
+  {
     name: "Twin Oil",
     after: ["Start Peaks"],
+    ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: () => {
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 3, 609: 1, 616: 1 },
-    acquire: [{ item: $item`rusty hedge trimmers` }, { item: $item`jar of oil` }],
+    acquire: [{ item: $item`jar of oil` }],
     limit: { tries: 1 },
   },
   {
+    name: "Twin Init Search",
+    after: [
+      "Twin Stench",
+      "Twin Item",
+      "Twin Oil",
+      "Twin Stench Search",
+      "Twin Item Search",
+      "Twin Oil Search",
+    ],
+    ready: () => !have($item`rusty hedge trimmers`),
+    completed: () => !!(get("twinPeakProgress") & 2),
+    do: () => $location`Twin Peak`,
+    choices: { 606: 4, 610: 1, 1056: 1 },
+    outfit: { modifier: "init 40 min, item, -combat" },
+    combat: new CombatStrategy().killItem(
+      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+    ),
+    limit: { soft: 10 },
+  },
+  {
     name: "Twin Init",
-    after: ["Twin Stench", "Twin Item", "Twin Oil"],
+    after: [
+      "Twin Stench",
+      "Twin Item",
+      "Twin Oil",
+      "Twin Stench Search",
+      "Twin Item Search",
+      "Twin Oil Search",
+    ],
+    ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 8),
     do: () => {
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
-    acquire: [{ item: $item`rusty hedge trimmers` }],
     limit: { tries: 1 },
   },
 ];
@@ -172,7 +228,7 @@ export const ChasmQuest: Quest = {
     ...Twin,
     {
       name: "Finish",
-      after: ["ABoo Peak", "Oil Peak", "Twin Init"],
+      after: ["ABoo Peak", "Oil Peak", "Twin Init", "Twin Init Search"],
       completed: () => step("questL09Topping") === 999,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
       limit: { tries: 1 },
