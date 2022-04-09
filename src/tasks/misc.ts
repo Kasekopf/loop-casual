@@ -268,6 +268,16 @@ export const MiscQuest: Quest = {
       ),
       limit: { tries: 10 },
     },
+    {
+      name: "Acquire Birch Battery",
+      after: [],
+      ready: () => have($item`flimsy hardwood scraps`) && have($item`SpinMaster™ lathe`),
+      completed: () => have($item`birch battery`),
+      do: () => {
+        cliExecute("acquire birch battery");
+      },
+      limit: { tries: 1 },
+    },
   ],
 };
 
