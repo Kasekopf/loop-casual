@@ -264,9 +264,10 @@ export class Outfit {
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
       this.equip($item`backup camera`);
+      this.equip($item`birch battery`);
+      this.equip($item`Powerful Glove`);
       // eslint-disable-next-line libram/verify-constants
       this.equip($item`combat lover's locket`);
-      this.equip($item`Powerful Glove`);
     }
   }
 }
