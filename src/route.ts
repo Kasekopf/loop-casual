@@ -8,6 +8,7 @@ export const routing: string[] = [
   "Absorb/The Haunted Kitchen",
 
   // Get initial -combat
+  "Absorb/Cobb's Knob Laboratory",
   "Absorb/Cobb's Knob Menagerie, Level 3",
 
   // Get +item
@@ -16,38 +17,40 @@ export const routing: string[] = [
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
   "Manor/Finish Floor1",
-  "Manor/Gallery Delay",
-  "Manor/Bathroom Delay",
-  "Manor/Bedroom",
 
   // Once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
 
+  // Start the war ASAP
+  "War/Flyers Start",
+
   // Aim for remaining pygmies
-  "Hidden City/Bowling",
-  "Absorb/The Hidden Bowling Alley",
+  // "Hidden City/Bowling",
+  // "Absorb/The Hidden Bowling Alley",
 
   // Open the manor for absorbing
   "Manor/Boss",
 
-  // Get +combat
-  "Absorb/Whitey's Grove",
+  "Palindome/Copperhead",
+  "Palindome/Bat Snake",
+  "Giant/Grow Beanstalk",
+  "McLargeHuge/Finish",
 
   // Non-delay quests
   "Mosquito/Finish",
   "Bat/Use Sonar 3",
   "Crypt/Finish",
-  "McLargeHuge/Finish",
   "Orc Chasm/Finish",
   "Giant/Finish",
   "Tavern/Finish",
+  "Macguffin/Desert",
   "Macguffin/Finish",
   "War/Boss Hippie",
 
   // Finish up with last delay
   "Bat/Finish",
 
-  "Tower/Finish",
+  "Tower/Naughty Sorceress",
   "Absorb/All",
 ];
 

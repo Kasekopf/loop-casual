@@ -69,7 +69,7 @@ const Copperhead: Task[] = [
   },
   {
     name: "Cold Snake",
-    after: ["Copperhead Start", "McLargeHuge/Ores"],
+    after: ["Copperhead Start", "McLargeHuge/Trapper Return"],
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
@@ -131,7 +131,6 @@ const Zepplin: Task[] = [
     outfit: {
       modifier: "-combat, sleaze dmg, sleaze spell dmg",
     },
-    freeaction: true, // fully maximize outfit
     limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
   },
   {

@@ -1,6 +1,6 @@
 /* eslint-disable libram/verify-constants */
 import { appearanceRates, Location, Monster, myAscensions, Skill, visitUrl } from "kolmafia";
-import { $items, $location, $monster, $skill, get } from "libram";
+import { $items, $location, $monster, $skill, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { debug } from "../lib";
 import { Quest, Task } from "./structure";
@@ -109,13 +109,13 @@ const absorbTasks: AbsorbTask[] = [
   // Level 8
   {
     do: $location`Itznotyerzitz Mine`,
-    after: ["McLargeHuge/Ores"],
+    after: ["McLargeHuge/Trapper Request"],
     choices: { 18: 3, 19: 3, 20: 3, 556: 2 },
     outfit: { modifier: "+combat" },
   },
   {
     do: $location`The Goatlet`,
-    after: ["McLargeHuge/Ores"],
+    after: ["McLargeHuge/Goatlet"],
   },
   {
     do: $location`Lair of the Ninja Snowmen`,
@@ -130,7 +130,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
-    outfit: { modifier: "cold res min 5, +combat" },
+    outfit: { modifier: "cold res 5min, +combat" },
   },
   // Level 9
   {
@@ -141,6 +141,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`A-Boo Peak`,
     after: ["Orc Chasm/ABoo Peak"],
+    combat: new CombatStrategy().macro(new Macro().attack().repeat()),
   },
   {
     do: $location`Twin Peak`,
@@ -556,7 +557,7 @@ class AbsorbtionTargets {
 
   public isTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unabsorbed
-    return !this.locsByTarget.has(monster);
+    return this.locsByTarget.has(monster);
   }
 
   public isReprocessTarget(monster: Monster): boolean {
@@ -567,7 +568,7 @@ class AbsorbtionTargets {
     if (monster !== undefined) {
       this.delete(monster);
       if (!this.absorbed.has(monster)) {
-        debug(`Absorbed: ${monster.name}`, "purple");
+        // debug(`Absorbed: ${monster.name}`, "purple");
         this.absorbed.add(monster);
       }
     }
@@ -582,11 +583,17 @@ class AbsorbtionTargets {
     let match;
 
     // Mark down all absorbed monsters that didn't give skills
-    const monster_regex = new RegExp(/Absorbed [^<]* from (a|an|some) ([^<]*)\./g);
+    const monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
     do {
       match = monster_regex.exec(charsheet);
       if (match) {
-        this.markAbsorbed(Monster.get(match[2]));
+        const name = match[1]
+          .replace(/^a /g, "")
+          .replace(/^an /g, "")
+          .replace(/^some /g, "")
+          .replace(/^the /g, "")
+          .replace(/^The /g, "");
+        this.markAbsorbed(Monster.get(name));
       }
     } while (match);
 

@@ -87,6 +87,10 @@ export class BuiltCombatStrategy {
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     }
 
+    if (abstract.init_macro) {
+      this.macro = this.macro.step(undelay(abstract.init_macro));
+    }
+
     // Second, perform any monster-specific strategies (these may or may not end the fight)
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, new Macro().step(...value.map(undelay)));
@@ -135,7 +139,7 @@ export class BuiltCombatStrategy {
         // eslint-disable-next-line libram/verify-constants
         killing_blow = $skill`Double Nanovision`;
       // eslint-disable-next-line libram/verify-constants
-      if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
+      else if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
     }
 
     // Otherwise, default to standard strategies
@@ -167,6 +171,7 @@ function undelay(macro: DelayedMacro): Macro {
 const holidayMonsters = getTodaysHolidayWanderers();
 
 export class CombatStrategy {
+  init_macro?: DelayedMacro;
   default_strategy: MonsterStrategy = MonsterStrategy.Ignore;
   default_macro?: DelayedMacro[];
   strategy: Map<Monster, MonsterStrategy> = new Map();
@@ -227,8 +232,7 @@ export class CombatStrategy {
   }
   public prependMacro(strategy: DelayedMacro, ...monsters: Monster[]): CombatStrategy {
     if (monsters.length === 0) {
-      if (this.default_macro === undefined) this.default_macro = [];
-      this.default_macro.unshift(strategy);
+      this.init_macro = strategy;
     }
     for (const monster of monsters) {
       if (!this.macros.has(monster)) this.macros.set(monster, []);

@@ -74,7 +74,7 @@ export const BatQuest: Quest = {
     },
     {
       name: "Get Sonar 3",
-      after: ["Use Sonar 3"],
+      after: ["Use Sonar 2"],
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 3,
       do: $location`Guano Junction`,
       post: () => {

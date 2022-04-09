@@ -64,7 +64,7 @@ export class Outfit {
       }
       return false;
     } else {
-      if (this.familiar) return false;
+      if (this.familiar && this.familiar !== item) return false;
       if (!have(item)) return false;
       this.familiar = item;
       return true;
@@ -127,7 +127,7 @@ export class Outfit {
       }
       return false;
     } else {
-      if (this.familiar) return false;
+      if (this.familiar && this.familiar !== item) return false;
       if (!have(item)) return false;
       return true;
     }
@@ -215,7 +215,7 @@ export class Outfit {
         // eslint-disable-next-line libram/verify-constants
         outfit.equip($familiar`Grey Goose`);
       }
-      if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
+      // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
       if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       outfit.modifier = spec.modifier;
@@ -230,7 +230,8 @@ export class Outfit {
       // eslint-disable-next-line libram/verify-constants
       this.equip($familiar`Grey Goose`);
       this.equip($item`yule hatchet`);
-      this.equip($item`familiar scrapbook`);
+      if (this.modifier && !this.modifier.includes("-combat"))
+        this.equip($item`familiar scrapbook`);
     } else if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);
     }
@@ -262,9 +263,9 @@ export class Outfit {
       this.equip($item`familiar scrapbook`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
-      this.equip($item`backup camera`);
-      this.equip($item`birch battery`);
       this.equip($item`Powerful Glove`);
+      this.equip($item`birch battery`);
+      this.equip($item`backup camera`);
       // eslint-disable-next-line libram/verify-constants
       this.equip($item`combat lover's locket`);
     }

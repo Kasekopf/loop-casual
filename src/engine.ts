@@ -76,7 +76,7 @@ export class Engine {
       outfit_spec?.modifier &&
       outfit_spec.modifier.includes("-combat") &&
       // eslint-disable-next-line libram/verify-constants
-      !have($skill`Shifted Phase`)
+      !have($skill`Phase Shift`)
     ) {
       debug(`X ${task.name}: no -combat`, "red");
       return false;
@@ -204,11 +204,7 @@ export class Engine {
       }
 
       // Use rock-band flyers if needed
-      if (
-        have($item`rock band flyers`) &&
-        get("flyeredML") < 10000 &&
-        task_combat.default_macro === undefined // TODO: append to existing macro
-      ) {
+      if (have($item`rock band flyers`) && get("flyeredML") < 10000) {
         task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
       }
 
@@ -258,9 +254,10 @@ export class Engine {
       // Prepare full outfit
       if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
       const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-      if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
+      // if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
       if (
         canChargeVoid() &&
+        (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
         !freecombat &&
         ((task_combat.can(MonsterStrategy.Kill) &&
           !combat_resources.has(MonsterStrategy.KillFree)) ||

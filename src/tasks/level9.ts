@@ -36,7 +36,7 @@ const ABoo: Task[] = [
       use($item`A-Boo clue`);
     },
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "spooky res, cold res, HP" },
+    outfit: { modifier: "spooky res, cold res" },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
@@ -74,7 +74,7 @@ const Twin: Task[] = [
     after: ["Start Peaks"],
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 1),
-    do: () => $location`Twin Peak`,
+    do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
     outfit: { modifier: "stench res 4min, -combat, item" },
     combat: new CombatStrategy().killItem(
@@ -99,7 +99,7 @@ const Twin: Task[] = [
     after: ["Start Peaks"],
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 2),
-    do: () => $location`Twin Peak`,
+    do: $location`Twin Peak`,
     choices: { 606: 2, 608: 1 },
     outfit: { modifier: "item 50min, -combat" },
     combat: new CombatStrategy().killItem(
@@ -121,10 +121,10 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Oil Search",
-    after: ["Start Peaks"],
+    after: ["Start Peaks", "Oil Peak"],
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 2),
-    do: () => $location`Twin Peak`,
+    do: $location`Twin Peak`,
     choices: { 606: 3, 609: 1, 616: 1 },
     outfit: { modifier: "item, -combat" },
     combat: new CombatStrategy().killItem(
@@ -135,7 +135,7 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Oil",
-    after: ["Start Peaks"],
+    after: ["Start Peaks", "Oil Peak"],
     ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: () => {
@@ -157,7 +157,7 @@ const Twin: Task[] = [
     ],
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 2),
-    do: () => $location`Twin Peak`,
+    do: $location`Twin Peak`,
     choices: { 606: 4, 610: 1, 1056: 1 },
     outfit: { modifier: "init 40 min, item, -combat" },
     combat: new CombatStrategy().killItem(
@@ -209,9 +209,9 @@ export const ChasmQuest: Quest = {
       outfit: () => {
         if (get("smutOrcNoncombatProgress") < 15)
           return { modifier: "item", equip: $items`HOA regulation book, frozen jeans` };
-        else return { modifier: "sleaze res, moxie" };
+        else return { modifier: "sleaze res" };
       },
-      combat: new CombatStrategy().macro(new Macro().attack().repeat()),
+      combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
       choices: { 1345: 3 },
       limit: { soft: 32 },
     },

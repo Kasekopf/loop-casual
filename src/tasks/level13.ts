@@ -368,7 +368,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
       outfit: { modifier: "init", equip: $items`unwrapped knock-off retro superhero cape` },
-      combat: new CombatStrategy(true).macro(new Macro().item($item`filthy poultice`).repeat()),
+      combat: new CombatStrategy(true).macro(new Macro().item($item`gauze garter`).repeat()),
       limit: { tries: 1 },
     },
     {
@@ -381,13 +381,13 @@ export const TowerQuest: Quest = {
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
     },
-    {
-      name: "Finish",
-      after: ["Naughty Sorceress"],
-      completed: () => step("questL13Final") === 999,
-      do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
-      limit: { tries: 1 },
-      freeaction: true,
-    },
+    // {
+    //   name: "Finish",
+    //   after: ["Naughty Sorceress"],
+    //   completed: () => step("questL13Final") === 999,
+    //   do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
+    //   limit: { tries: 1 },
+    //   freeaction: true,
+    // },
   ],
 };

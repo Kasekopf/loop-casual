@@ -121,7 +121,7 @@ const Manor2: Task[] = [
       876: 1,
       877: 1,
       878: () => {
-        if (have($item`Lord Spookyraven's spectacles`)) return 3;
+        if (!have($item`Lord Spookyraven's spectacles`)) return 3;
         else return 4;
       },
       879: 1,

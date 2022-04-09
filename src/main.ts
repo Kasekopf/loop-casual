@@ -1,10 +1,18 @@
-import { cliExecute, gametimeToInt, myAdventures, print, turnsPlayed } from "kolmafia";
+import {
+  cliExecute,
+  familiarWeight,
+  gametimeToInt,
+  Location,
+  myAdventures,
+  print,
+  turnsPlayed,
+} from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $item, CrystalBall, get, have, PropertiesManager, set } from "libram";
+import { $familiar, CrystalBall, get, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 import { absorbtionTargets } from "./tasks/absorb";
@@ -21,6 +29,15 @@ export function main(tasks_to_run?: number): void {
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;
   absorbtionTargets.updateAbsorbed();
+  if (tasks_to_run < 0) {
+    for (const task of tasks) {
+      debug(
+        `${task.name}: ${
+          task.completed() ? "Done" : engine.available(task) ? "Available" : "Closed"
+        }`
+      );
+    }
+  }
 
   while (myAdventures() > 0) {
     const next = getNextTask(engine, tasks);
@@ -83,15 +100,27 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     return [delay_burning, wanderer];
   }
 
-  // Otherwise, advance the next quest while dancing with the crystal ball
-  if (have($item`miniature crystal ball`)) {
-    const orb_predictions = CrystalBall.currentPredictions(false); // TODO: should this ever be true?
-    const todo = tasks.find((task) => engine.available(task, orb_predictions));
+  const orb_predictions = CrystalBall.currentPredictions(false); // TODO: should this ever be true?
+  let todo = undefined;
+
+  // Find the next useful absorb
+  // eslint-disable-next-line libram/verify-constants
+  if (familiarWeight($familiar`Grey Goose`) >= 6) {
+    todo = tasks.find(
+      (task) =>
+        engine.available(task, orb_predictions) &&
+        task.do instanceof Location &&
+        absorbtionTargets.hasReprocessTargets(task.do)
+    );
     if (todo !== undefined) return [todo];
   }
 
+  // Otherwise, advance the next quest while dancing with the crystal ball
+  todo = tasks.find((task) => engine.available(task, orb_predictions));
+  if (todo !== undefined) return [todo];
+
   // If there is no way to dodge the crystal ball prediction, ignore it
-  const todo = tasks.find((task) => engine.available(task));
+  todo = tasks.find((task) => engine.available(task));
   if (todo !== undefined) return [todo];
 
   // No next task
