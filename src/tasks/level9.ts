@@ -1,5 +1,5 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, get, have } from "libram";
+import { $effect, $item, $items, $location, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -22,8 +22,8 @@ const ABoo: Task[] = [
     ],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "item 667max" },
-    combat: new CombatStrategy().killHard(),
+    outfit: { modifier: "item", equip: $items`HOA regulation book` },
+    combat: new CombatStrategy().killItem(),
     choices: { 611: 1, 1430: 1 },
     limit: { tries: 4 },
   },
@@ -55,9 +55,9 @@ const Oil: Task[] = [
     after: ["Start Peaks"],
     completed: () => get("oilPeakProgress") === 0,
     do: $location`Oil Peak`,
-    outfit: { modifier: "ML" },
-    combat: new CombatStrategy().kill(),
-    limit: { tries: 6 },
+    outfit: { modifier: "ML, 0.1 item" },
+    combat: new CombatStrategy().killItem(),
+    limit: { tries: 11 },
   },
   {
     name: "Oil Peak",
@@ -69,6 +69,18 @@ const Oil: Task[] = [
 ];
 
 const Twin: Task[] = [
+  {
+    name: "Twin Stench",
+    after: ["Start Peaks"],
+    completed: () => !!(get("twinPeakProgress") & 1),
+    do: () => {
+      use($item`rusty hedge trimmers`);
+    },
+    choices: { 606: 1, 607: 1 },
+    acquire: [{ item: $item`rusty hedge trimmers` }],
+    outfit: { modifier: "stench res 4min" },
+    limit: { tries: 1 },
+  },
   {
     name: "Twin Stench",
     after: ["Start Peaks"],
@@ -138,9 +150,13 @@ export const ChasmQuest: Quest = {
         if (have($item`smut orc keepsake box`)) use($item`smut orc keepsake box`);
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
       },
-      outfit: { modifier: "item", equip: $items`logging hatchet, loadstone` },
-      combat: new CombatStrategy().kill(),
-      choices: { 1345: 1 },
+      outfit: () => {
+        if (get("smutOrcNoncombatProgress") < 15)
+          return { modifier: "item", equip: $items`HOA regulation book, frozen jeans` };
+        else return { modifier: "sleaze res, moxie" };
+      },
+      combat: new CombatStrategy().macro(new Macro().attack().repeat()),
+      choices: { 1345: 3 },
       limit: { soft: 32 },
     },
     {
