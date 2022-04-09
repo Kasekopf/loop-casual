@@ -35,12 +35,12 @@ export const routing: string[] = [
 
   // Non-delay quests
   "Mosquito/Finish",
-  "Tavern/Finish",
-  "Bat/Use Sonar",
+  "Bat/Use Sonar 3",
   "Crypt/Finish",
   "McLargeHuge/Finish",
   "Orc Chasm/Finish",
   "Giant/Finish",
+  "Tavern/Finish",
   "Macguffin/Finish",
   "War/Boss Hippie",
 
