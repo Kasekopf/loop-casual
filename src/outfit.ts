@@ -212,15 +212,8 @@ export class Outfit {
     if (spec?.modifier) {
       // Run maximizer
       if (spec.modifier.includes("item")) {
-        if (
-          outfit.canEquip($item`li'l ninja costume`) &&
-          outfit.canEquip($familiar`Trick-or-Treating Tot`)
-        ) {
-          outfit.equip($item`li'l ninja costume`);
-          outfit.equip($familiar`Trick-or-Treating Tot`);
-        } else {
-          outfit.equip($familiar`Jumpsuited Hound Dog`);
-        }
+        // eslint-disable-next-line libram/verify-constants
+        outfit.equip($familiar`Grey Goose`);
       }
       if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
