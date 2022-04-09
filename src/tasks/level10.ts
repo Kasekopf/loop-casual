@@ -1,5 +1,5 @@
 import { cliExecute, containsText, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, have } from "libram";
+import { $effect, $item, $items, $location, $monster, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
@@ -22,6 +22,7 @@ export const GiantQuest: Quest = {
       completed: () => have($item`enchanted bean`) || step("questL10Garbage") >= 1,
       do: $location`The Beanbat Chamber`,
       outfit: { modifier: "item" },
+      combat: new CombatStrategy().killItem($monster`beanbat`),
       limit: { soft: 5 },
     },
     {
@@ -33,11 +34,14 @@ export const GiantQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Airship",
+      name: "Airship YR Healer",
       after: ["Grow Beanstalk"],
-      completed: () => have($item`S.O.C.K.`),
+      completed: () => have($item`amulet of extreme plot significance`),
+      ready: () => !have($effect`Everything Looks Yellow`),
+      priority: () => !have($effect`Everything Looks Yellow`),
+      acquire: [{ item: $item`yellow rocket` }],
       do: $location`The Penultimate Fantasy Airship`,
-      choices: { 178: 2, 182: 1 },
+      choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
@@ -45,6 +49,25 @@ export const GiantQuest: Quest = {
       limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
+      combat: new CombatStrategy().macro(
+        new Macro().item($item`yellow rocket`),
+        $monster`Quiet Healer`
+      ),
+    },
+    {
+      name: "Airship",
+      after: ["Airship YR Healer"],
+      completed: () => have($item`S.O.C.K.`),
+      do: $location`The Penultimate Fantasy Airship`,
+      choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
+      post: () => {
+        if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
+      },
+      outfit: { modifier: "-combat" },
+      limit: { soft: 50 },
+      delay: () =>
+        have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
+      combat: new CombatStrategy().killItem($monster`Quiet Healer`, $monster`Burly Sidekick`),
     },
     {
       name: "Basement Search",
@@ -62,7 +85,6 @@ export const GiantQuest: Quest = {
     {
       name: "Basement Finish",
       after: ["Basement Search"],
-      acquire: [{ item: $item`amulet of extreme plot significance` }],
       completed: () => step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
       outfit: { equip: $items`amulet of extreme plot significance` },
@@ -86,7 +108,7 @@ export const GiantQuest: Quest = {
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
       combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
-      choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
+      choices: { 675: 4, 676: 4, 677: 1, 678: 1, 679: 1, 1431: 4 },
       limit: { soft: 20 },
     },
     {
