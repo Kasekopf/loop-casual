@@ -1,16 +1,5 @@
 import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, useSkill, visitUrl } from "kolmafia";
-import {
-  $effects,
-  $familiar,
-  $item,
-  $items,
-  $location,
-  $skill,
-  $stat,
-  get,
-  have,
-  Macro,
-} from "libram";
+import { $familiar, $item, $items, $location, $skill, $stat, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step, Task } from "./structure";
@@ -316,9 +305,9 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
-      effects: $effects`Spiky Shell, Jalapeño Saucesphere, Psalm of Pointiness, Scarysauce`,
-      outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`bejeweled cufflinks` },
-      combat: new CombatStrategy(true).macro(new Macro().attack().repeat()),
+      outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`hot plate` },
+      // eslint-disable-next-line libram/verify-constants
+      combat: new CombatStrategy(true).macro(new Macro().skill($skill`Grey Noise`).repeat()),
       limit: { tries: 1 },
     },
     {
