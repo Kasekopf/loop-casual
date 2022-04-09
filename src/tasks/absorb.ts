@@ -27,20 +27,20 @@ const absorbTasks: AbsorbTask[] = [
   // Level 4
   {
     do: $location`The Bat Hole Entrance`,
-    after: ["Bat/Use Sonar"],
+    after: ["Bat/Start"],
   },
   {
     do: $location`Guano Junction`,
-    after: ["Bat/Use Sonar"],
+    after: ["Bat/Get Sonar 3"],
     choices: { 1427: 2 },
   },
   {
     do: $location`The Batrat and Ratbat Burrow`,
-    after: ["Bat/Use Sonar", "Palindome/Bat Snake"],
+    after: ["Bat/Use Sonar 1", "Palindome/Bat Snake"],
   },
   {
     do: $location`The Beanbat Chamber`,
-    after: ["Bat/Use Sonar", "Giant/Grow Beanstalk"],
+    after: ["Bat/Use Sonar 2", "Giant/Grow Beanstalk"],
   },
   // Level 5
   {

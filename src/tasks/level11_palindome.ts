@@ -59,7 +59,7 @@ const Copperhead: Task[] = [
   },
   {
     name: "Bat Snake",
-    after: ["Copperhead Start", "Bat/Use Sonar"],
+    after: ["Copperhead Start", "Bat/Use Sonar 1"],
     ready: () => shenItem($item`The Stankara Stone`),
     completed: () => step("questL11Shen") === 999 || have($item`The Stankara Stone`),
     do: $location`The Batrat and Ratbat Burrow`,
