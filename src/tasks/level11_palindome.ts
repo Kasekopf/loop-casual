@@ -180,8 +180,7 @@ const Dome: Task[] = [
   },
   {
     name: "Palindome Dog",
-    after: ["Talisman"],
-    acquire: [{ item: $item`disposable instant camera` }],
+    after: ["Talisman", "Manor/Bedroom Camera"],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
     outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },

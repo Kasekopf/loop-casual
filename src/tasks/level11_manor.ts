@@ -1,17 +1,14 @@
-import { create, myClass, myFury, myInebriety, use, visitUrl } from "kolmafia";
+import { create, myInebriety, use, visitUrl } from "kolmafia";
 import {
-  $class,
   $effect,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
-  $skill,
   ensureEffect,
   get,
   have,
-  Macro,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -120,23 +117,48 @@ const Manor2: Task[] = [
     after: ["Start Floor2"],
     completed: () => have($item`Lady Spookyraven's finest gown`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bedroom`,
-    choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
+    choices: {
+      876: 1,
+      877: 1,
+      878: () => {
+        if (have($item`Lord Spookyraven's spectacles`)) return 3;
+        else return 4;
+      },
+      879: 1,
+      880: 1,
+      897: 2,
+    },
     combat: new CombatStrategy()
       .kill(...$monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
-      .macro(
-        new Macro().trySkill($skill`Batter Up!`).trySkill($skill`Talk About Politics`),
-        $monster`animated ornate nightstand`
-      )
       .banish(
         ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
       .ignore($monster`tumbleweed`),
-    outfit: () => {
-      if (myClass() === $class`Seal Clubber` && have($skill`Batter Up!`) && myFury() >= 5)
-        return { equip: $items`Meat Tenderizer is Murder` };
-      else return { equip: $items`Pantsgiving` };
-    },
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Bedroom Camera",
+    after: ["Bedroom"],
+    completed: () =>
+      have($item`disposable instant camera`) ||
+      have($item`photograph of a dog`) ||
+      step("questL11Palindome") >= 3,
+    do: $location`The Haunted Bedroom`,
+    choices: {
+      876: 1,
+      877: 1,
+      878: 4,
+      879: 1,
+      880: 1,
+      897: 2,
+    },
+    combat: new CombatStrategy()
+      .kill($monster`animated ornate nightstand`)
+      .banish(
+        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
+      )
+      .ignore($monster`tumbleweed`),
     limit: { soft: 10 },
   },
   {
