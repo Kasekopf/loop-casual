@@ -1,5 +1,16 @@
-import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have } from "libram";
+import { cliExecute, itemAmount, myHash, use, visitUrl } from "kolmafia";
+import {
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
@@ -56,8 +67,26 @@ const Temple: Task[] = [
     freeaction: true,
   },
   {
+    name: "Temple Wool",
+    after: ["Open Temple"],
+    completed: () =>
+      itemAmount($item`stone wool`) >= 2 ||
+      have($item`the Nostril of the Serpent`) ||
+      step("questL11Worship") >= 3,
+    do: $location`The Hidden Temple`,
+    outfit: { equip: $items`industrial fire extinguisher`, modifier: "+combat" },
+    combat: new CombatStrategy().macro(
+      new Macro()
+        .trySkill($skill`Fire Extinguisher: Polar Vortex`)
+        .trySkill($skill`Fire Extinguisher: Polar Vortex`),
+      $monster`baa-relief sheep`
+    ),
+    choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
+    limit: { soft: 10 },
+  },
+  {
     name: "Temple Nostril",
-    after: ["Open Temple", "Macguffin/Diary"],
+    after: ["Temple Wool", "Macguffin/Diary"],
     acquire: [{ item: $item`stone wool` }],
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
