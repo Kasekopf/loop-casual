@@ -246,20 +246,19 @@ export class Outfit {
     } else this.equip($familiar`Galloping Grill`);
     this.equip($familiar`Melodramedary`);
 
-    const commonFamiliarEquips = new Map<Familiar, Item>([
+    // eslint-disable-next-line libram/verify-constants
+    if (this.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
       // eslint-disable-next-line libram/verify-constants
-      [$familiar`Grey Goose`, $item`grey down vest`],
-      [$familiar`Melodramedary`, $item`dromedary drinking helmet`],
-      [$familiar`Reagnimated Gnome`, $item`gnomish housemaid's kgnee`],
-    ]);
-    const familiarEquip = commonFamiliarEquips.get(this.familiar ?? $familiar`none`);
-    if (familiarEquip && this.canEquip(familiarEquip)) this.equip(familiarEquip);
+      this.equip($item`grey down vest`);
+    if (this.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
+      this.equip($item`dromedary drinking helmet`);
+    if (this.familiar === $familiar`Reagnimated Gnome`)
+      this.equip($item`gnomish housemaid's kgnee`);
 
     if (!this.modifier) {
       // Default outfit
       this.equip($item`ice crown`);
       this.equip($item`industrial fire extinguisher`);
-      this.equip($item`miniature crystal ball`);
       this.equip($item`familiar scrapbook`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
@@ -269,5 +268,6 @@ export class Outfit {
       // eslint-disable-next-line libram/verify-constants
       this.equip($item`combat lover's locket`);
     }
+    this.equip($item`miniature crystal ball`);
   }
 }
