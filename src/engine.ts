@@ -66,7 +66,10 @@ export class Engine {
 
     // Ensure that the current +/- combat effects are compatible
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (!moodCompatible(outfit_spec?.modifier)) return false;
+    if (!moodCompatible(outfit_spec?.modifier)) {
+      debug(`X ${task.name}: wrong mood`, "red");
+      return false;
+    }
 
     // Wait until we get a -combat skill before doing any -combat
     if (
@@ -74,8 +77,10 @@ export class Engine {
       outfit_spec.modifier.includes("-combat") &&
       // eslint-disable-next-line libram/verify-constants
       !have($skill`Shifted Phase`)
-    )
+    ) {
+      debug(`X ${task.name}: no -combat`, "red");
       return false;
+    }
 
     // Dodge useless monsters with the orb
     if (task.do instanceof Location && orb_predictions !== undefined) {
@@ -90,11 +95,16 @@ export class Engine {
           !absorbtionTargets.isTarget(next_monster)
         ) {
           // So the next monster is useless. Dodge it if there is also a useful monster
-          if (absorbtionTargets.hasTargets(task.do)) return false;
-          if (task_combat.can(MonsterStrategy.Kill)) return false;
-          if (task_combat.can(MonsterStrategy.KillFree)) return false;
-          if (task_combat.can(MonsterStrategy.KillHard)) return false;
-          if (task_combat.can(MonsterStrategy.KillItem)) return false;
+          if (
+            absorbtionTargets.hasTargets(task.do) ||
+            task_combat.can(MonsterStrategy.Kill) ||
+            task_combat.can(MonsterStrategy.KillFree) ||
+            task_combat.can(MonsterStrategy.KillHard) ||
+            task_combat.can(MonsterStrategy.KillItem)
+          ) {
+            debug(`X ${task.name}: orb predicting ${next_monster}`, "blue");
+            return false;
+          }
         }
       }
     }
