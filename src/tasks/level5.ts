@@ -64,7 +64,7 @@ export const KnobQuest: Quest = {
         .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))
         .banish($monster`Knob Goblin Harem Guard`)
         .killItem(),
-      limit: { tries: 1 },
+      limit: { tries: 2 }, // Allow for Cobb's Knob lab key
     },
     {
       name: "Perfume",
@@ -75,7 +75,7 @@ export const KnobQuest: Quest = {
         step("questL05Goblin") === 999,
       do: $location`Cobb's Knob Harem`,
       outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants` },
-      limit: { tries: 1 },
+      limit: { tries: 2 }, // Allow for Cobb's Knob lab key
     },
     {
       name: "King",
