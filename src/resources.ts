@@ -21,8 +21,15 @@ export interface BanishSource extends CombatResource {
 export const banishSources: BanishSource[] = [
   {
     name: "Bowl Curveball",
-    available: () => false,
+    available: () => have($item`cosmic bowling ball`),
     do: $skill`Bowl a Curveball`,
+  },
+  {
+    name: "System Sweep",
+    // eslint-disable-next-line libram/verify-constants
+    available: () => have($skill`System Sweep`),
+    // eslint-disable-next-line libram/verify-constants
+    do: $skill`System Sweep`,
   },
 ];
 
