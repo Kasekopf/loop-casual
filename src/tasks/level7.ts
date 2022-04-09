@@ -1,16 +1,5 @@
 import { cliExecute, Item, visitUrl } from "kolmafia";
-import {
-  $familiar,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  $skill,
-  get,
-  have,
-  Macro,
-} from "libram";
+import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -79,14 +68,10 @@ const Cranny: Task[] = [
     },
     choices: { 523: 4 },
     combat: new CombatStrategy()
-      .macro(
-        new Macro()
-          .trySkill($skill`Slay the Dead`)
-          .skill($skill`Saucegeyser`)
-          .repeat(),
+      .macro(slay_macro)
+      .kill(
         ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
-      )
-      .macro(slay_macro),
+      ),
     limit: { turns: 25 },
   },
   {
@@ -149,7 +134,6 @@ const Nook: Task[] = [
       return {
         equip: tryCape($item`antique machete`),
         modifier: "item 500max",
-        familiar: $familiar`Melodramedary`,
       };
     },
     choices: { 155: 5, 1429: 1 },
