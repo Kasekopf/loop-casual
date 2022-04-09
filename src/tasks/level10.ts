@@ -97,8 +97,22 @@ export const GiantQuest: Quest = {
       after: ["Basement Finish"],
       completed: () => step("questL10Garbage") >= 9,
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
-      choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
-      limit: { turns: 11 },
+      choices: { 672: 3, 673: 3, 674: 3, 1026: 2 },
+      outfit: () => {
+        if (have($item`electric boning knife`)) return {};
+        else return { modifier: "-combat" };
+      },
+      limit: { turns: 12 },
+      delay: 10,
+    },
+    {
+      name: "Ground Knife",
+      after: ["Ground"],
+      completed: () => have($item`electric boning knife`) || step("questL13Final") > 8,
+      do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
+      choices: { 672: 3, 673: 3, 674: 3, 1026: 2 },
+      outfit: { modifier: "-combat" },
+      limit: { soft: 20 },
       delay: 10,
     },
     {

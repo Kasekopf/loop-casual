@@ -1,5 +1,16 @@
-import { runChoice, useSkill, visitUrl } from "kolmafia";
-import { $effects, $familiar, $item, $items, $location, $skill, $stat, get, Macro } from "libram";
+import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, useSkill, visitUrl } from "kolmafia";
+import {
+  $effects,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $skill,
+  $stat,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step, Task } from "./structure";
@@ -322,12 +333,12 @@ export const TowerQuest: Quest = {
     },
     {
       name: "Wall of Bones",
-      after: ["Wall of Meat"],
+      after: ["Wall of Meat", "Giant/Ground Knife"],
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 8,
       do: $location`Tower Level 3`,
       outfit: { modifier: "spell dmg" },
-      combat: new CombatStrategy(true).macro(new Macro().skill($skill`Garbage Nova`).repeat()),
+      combat: new CombatStrategy(true).macro(new Macro().item($item`electric boning knife`)),
       limit: { tries: 1 },
     },
     {
@@ -343,14 +354,21 @@ export const TowerQuest: Quest = {
     {
       name: "Shadow",
       after: ["Mirror"],
-      acquire: [{ item: $item`gauze garter`, num: 6 }],
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
+      prepare: () => {
+        if (
+          have($item`unwrapped knock-off retro superhero cape`) &&
+          (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "hold")
+        ) {
+          cliExecute("retrocape heck hold");
+        }
+        if (myHp() < myMaxhp()) {
+          restoreHp(myMaxhp());
+        }
+      },
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
-      outfit: { modifier: "init" },
-      combat: new CombatStrategy(true).macro(
-        new Macro().item([$item`gauze garter`, $item`gauze garter`]).repeat()
-      ),
+      outfit: { modifier: "init", equip: $items`unwrapped knock-off retro superhero cape` },
+      combat: new CombatStrategy(true).macro(new Macro().item($item`filthy poultice`).repeat()),
       limit: { tries: 1 },
     },
     {
