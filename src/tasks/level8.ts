@@ -1,5 +1,16 @@
-import { visitUrl } from "kolmafia";
-import { $item, $location } from "libram";
+import { cliExecute, Item, itemAmount, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  CombatLoversLocket,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -17,19 +28,62 @@ export const McLargeHugeQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Ores",
+      name: "Trapper Request",
       after: ["Start"],
-      acquire: [
-        { item: $item`asbestos ore`, num: 3 },
-        { item: $item`chrome ore`, num: 3 },
-        { item: $item`linoleum ore`, num: 3 },
-        { item: $item`goat cheese`, num: 3 },
-      ],
-      completed: () => step("questL08Trapper") >= 2,
-      do: (): void => {
-        visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // request ore
-        visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"); // provide
+      completed: () => step("questL08Trapper") >= 1,
+      do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Goatlet",
+      after: ["Trapper Request"],
+      completed: () => itemAmount($item`goat cheese`) >= 3 || step("questL08Trapper") >= 2,
+      do: $location`The Goatlet`,
+      outfit: { modifier: "item" },
+      combat: new CombatStrategy()
+        .killItem($monster`dairy goat`)
+        .banish(...$monsters`drunk goat, sabre-toothed goat`),
+      limit: { soft: 10 },
+    },
+    {
+      name: "Ore Mountain",
+      after: [],
+      completed: () => CombatLoversLocket.monstersReminisced().includes($monster`mountain man`),
+      ready: () => !have($effect`Everything Looks Yellow`),
+      priority: () => !have($effect`Everything Looks Yellow`),
+      acquire: [{ item: $item`yellow rocket` }],
+      prepare: () => {
+        if (
+          have($item`unwrapped knock-off retro superhero cape`) &&
+          (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "hold")
+        ) {
+          cliExecute("retrocape heck hold");
+        }
       },
+      do: () => {
+        CombatLoversLocket.reminisce($monster`mountain man`);
+      },
+      outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
+      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Ore Pull",
+      after: ["Trapper Request"],
+      completed: () => itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2,
+      do: () => {
+        cliExecute(`pull ${get("trapperOre")}`);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Trapper Return",
+      after: ["Goatlet", "Ore Pull", "Ore Mountain"],
+      completed: () => step("questL08Trapper") >= 2,
+      do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
       freeaction: true,
     },
