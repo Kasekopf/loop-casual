@@ -23,10 +23,19 @@ const Diary: Task[] = [
     acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
-    outfit: {
-      equip: $items`blackberry galoshes`,
-      familiar: $familiar`Reassembled Blackbird`,
-      modifier: "+combat",
+    outfit: () => {
+      if (have($item`reassembled blackbird`)) {
+        return {
+          equip: $items`blackberry galoshes`,
+          modifier: "+combat",
+        };
+      } else {
+        return {
+          equip: $items`blackberry galoshes`,
+          familiar: $familiar`Reassembled Blackbird`,
+          modifier: "+combat, item",
+        };
+      }
     },
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
