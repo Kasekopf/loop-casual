@@ -3,6 +3,10 @@ import { Task } from "./tasks/structure";
 export const routing: string[] = [
   // Start with the basic leveling tasks
   "Toot/Finish",
+  // Get basic gear
+  "Misc/Acquire Cold Medicine Gear",
+  "Misc/Acquire Firework Hat",
+  "Misc/Acquire Birch Battery",
 
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
   "Absorb/The Haunted Kitchen",
