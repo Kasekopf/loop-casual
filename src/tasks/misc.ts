@@ -2,12 +2,14 @@ import { CombatStrategy } from "../combat";
 import {
   adv1,
   cliExecute,
+  getWorkshed,
   itemAmount,
   myBasestat,
   myPrimestat,
   retrieveItem,
   retrievePrice,
   runChoice,
+  totalTurnsPlayed,
   visitUrl,
 } from "kolmafia";
 import {
@@ -275,6 +277,20 @@ export const MiscQuest: Quest = {
         cliExecute("acquire porkpie-mounted popper");
       },
       limit: { tries: 1 },
+    },
+    {
+      name: "Acquire Cold Medicine Gear",
+      after: [],
+      completed: () => have($item`ice crown`) && have($item`frozen jeans`),
+      ready: () =>
+        getWorkshed() !== $item`cold medicine cabinet` &&
+        get("_coldMedicineConsults") < 5 &&
+        get("_nextColdMedicineConsult") <= totalTurnsPlayed(),
+      do: () => {
+        visitUrl("campground.php?action=workshed");
+        runChoice(1);
+      },
+      limit: { tries: 2 },
     },
   ],
 };
