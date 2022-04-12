@@ -61,7 +61,6 @@ export class Engine {
     if (
       task.do instanceof Location &&
       this.absorbtionTargets.hasReprocessTargets(task.do) &&
-      // eslint-disable-next-line libram/verify-constants
       familiarWeight($familiar`Grey Goose`) < 6
     )
       return false;
@@ -77,7 +76,6 @@ export class Engine {
     if (
       outfit_spec?.modifier &&
       outfit_spec.modifier.includes("-combat") &&
-      // eslint-disable-next-line libram/verify-constants
       !have($skill`Phase Shift`)
     ) {
       debug(`X ${task.name}: no -combat`, "red");
@@ -184,9 +182,7 @@ export class Engine {
         task.do instanceof Location ? this.absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
         if (this.absorbtionTargets.isReprocessTarget(monster)) {
-          // eslint-disable-next-line libram/verify-constants
           if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
-            // eslint-disable-next-line libram/verify-constants
             task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
             debug(`Target x2: ${monster.name}`, "purple");
           } else {

@@ -306,7 +306,6 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`hot plate` },
-      // eslint-disable-next-line libram/verify-constants
       combat: new CombatStrategy(true).macro(new Macro().skill($skill`Grey Noise`).repeat()),
       limit: { tries: 1 },
     },

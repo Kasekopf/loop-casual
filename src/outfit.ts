@@ -212,7 +212,6 @@ export class Outfit {
     if (spec?.modifier) {
       // Run maximizer
       if (spec.modifier.includes("item")) {
-        // eslint-disable-next-line libram/verify-constants
         outfit.equip($familiar`Grey Goose`);
       }
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
@@ -225,9 +224,7 @@ export class Outfit {
   }
 
   public equipCharging(): void {
-    // eslint-disable-next-line libram/verify-constants
     if (familiarWeight($familiar`Grey Goose`) < 6) {
-      // eslint-disable-next-line libram/verify-constants
       this.equip($familiar`Grey Goose`);
       this.equip($item`yule hatchet`);
       if (this.modifier && !this.modifier.includes("-combat"))
@@ -247,9 +244,7 @@ export class Outfit {
     } else this.equip($familiar`Galloping Grill`);
     this.equip($familiar`Melodramedary`);
 
-    // eslint-disable-next-line libram/verify-constants
     if (this.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
-      // eslint-disable-next-line libram/verify-constants
       this.equip($item`grey down vest`);
     if (this.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
       this.equip($item`dromedary drinking helmet`);
@@ -266,7 +261,6 @@ export class Outfit {
       this.equip($item`Powerful Glove`);
       this.equip($item`birch battery`);
       this.equip($item`backup camera`);
-      // eslint-disable-next-line libram/verify-constants
       this.equip($item`combat lover's locket`);
     }
     this.equip($item`miniature crystal ball`);

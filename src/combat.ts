@@ -134,11 +134,8 @@ export class BuiltCombatStrategy {
     // Choose a killing blow (items, banish, or stats)
     let killing_blow = undefined;
     if (myMp() >= 20) {
-      // eslint-disable-next-line libram/verify-constants
       if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`))
-        // eslint-disable-next-line libram/verify-constants
         killing_blow = $skill`Double Nanovision`;
-      // eslint-disable-next-line libram/verify-constants
       else if (have($skill`Infinite Loop`)) killing_blow = $skill`Infinite Loop`;
     }
 

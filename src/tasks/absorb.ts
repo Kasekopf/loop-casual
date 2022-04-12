@@ -1,4 +1,3 @@
-/* eslint-disable libram/verify-constants */
 import { appearanceRates, Location, Monster, myAscensions, Skill, visitUrl } from "kolmafia";
 import { $items, $location, $monster, $skill, $skills, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";

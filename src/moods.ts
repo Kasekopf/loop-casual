@@ -23,11 +23,8 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     result["mainstat"].push($effect`Total Protonic Reversal`);
 
   // Noncombat/combat buffs
-  // eslint-disable-next-line libram/verify-constants
   if (have($skill`Phase Shift`)) result["-combat"].push($effect`Shifted Phase`);
-  // eslint-disable-next-line libram/verify-constants
   if (have($skill`Photonic Shroud`)) result["-combat"].push($effect`Darkened Photons`);
-  // eslint-disable-next-line libram/verify-constants
   if (have($skill`Piezoelectric Honk`)) result["+combat"].push($effect`Hooooooooonk!`);
 
   return result;

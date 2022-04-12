@@ -26,9 +26,7 @@ export const banishSources: BanishSource[] = [
   },
   {
     name: "System Sweep",
-    // eslint-disable-next-line libram/verify-constants
     available: () => have($skill`System Sweep`),
-    // eslint-disable-next-line libram/verify-constants
     do: $skill`System Sweep`,
   },
 ];

@@ -3,7 +3,7 @@ import { MosquitoQuest } from "./level2";
 import { TavernQuest } from "./level3";
 import { BatQuest } from "./level4";
 import { KnobQuest } from "./level5";
-import { FriarQuest, OrganQuest } from "./level6";
+import { FriarQuest } from "./level6";
 import { CryptQuest } from "./level7";
 import { McLargeHugeQuest } from "./level8";
 import { ChasmQuest } from "./level9";
