@@ -372,5 +372,38 @@ export const KeysQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
+    {
+      name: "Open 8-Bit",
+      after: [],
+      completed: () => have($item`continuum transfunctioner`),
+      do: () => {
+        if (!have($item`continuum transfunctioner`)) {
+          visitUrl("place.php?whichplace=forestvillage&action=fv_mystic");
+          runChoice(1);
+          runChoice(1);
+          runChoice(1);
+        }
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Digital Key",
+      after: ["Open 8-Bit"],
+      completed: () =>
+        get("nsTowerDoorKeysUsed").includes("digital key") ||
+        have($item`digital key`) ||
+        itemAmount($item`white pixel`) +
+          Math.min(
+            itemAmount($item`blue pixel`),
+            itemAmount($item`red pixel`),
+            itemAmount($item`green pixel`)
+          ) >=
+          30,
+      do: $location`8-Bit Realm`,
+      outfit: { equip: $items`continuum transfunctioner` },
+      combat: new CombatStrategy().banish($monster`Bullet Bill`).kill(),
+      limit: { soft: 30 },
+    },
   ],
 };

@@ -204,7 +204,7 @@ const Door: Task[] = [
   },
   {
     name: "Digital Lock",
-    after: ["Maze"],
+    after: ["Keys/Digital Key"],
     acquire: [{ item: $item`digital key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock5"),
