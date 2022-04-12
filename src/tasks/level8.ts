@@ -1,4 +1,4 @@
-import { cliExecute, Item, itemAmount, myMeat, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myMeat, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
@@ -70,20 +70,8 @@ export const McLargeHugeQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Ore Pull",
-      after: ["Trapper Request"],
-      completed: () =>
-        get("trapperOre") !== undefined &&
-        (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
-      do: () => {
-        cliExecute(`pull ${get("trapperOre")}`);
-      },
-      limit: { tries: 1 },
-      freeaction: true,
-    },
-    {
       name: "Trapper Return",
-      after: ["Goatlet", "Ore Pull", "Ore Mountain"],
+      after: ["Goatlet", "Pull/Ore", "Ore Mountain"],
       completed: () => step("questL08Trapper") >= 2,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },

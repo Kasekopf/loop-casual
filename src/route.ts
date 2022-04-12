@@ -7,6 +7,7 @@ export const routing: string[] = [
   "Misc/Acquire Cold Medicine Gear",
   "Misc/Acquire Firework Hat",
   "Misc/Acquire Birch Battery",
+  "Pull/Basic",
 
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
   "Absorb/The Haunted Kitchen",

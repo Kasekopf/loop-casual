@@ -3,6 +3,7 @@ import {
   adv1,
   cliExecute,
   getWorkshed,
+  Item,
   itemAmount,
   myBasestat,
   myPrimestat,
@@ -268,6 +269,7 @@ export const MiscQuest: Quest = {
         cliExecute("acquire birch battery");
       },
       limit: { tries: 1 },
+      freeaction: true,
     },
     {
       name: "Acquire Firework Hat",
@@ -277,6 +279,7 @@ export const MiscQuest: Quest = {
         cliExecute("acquire porkpie-mounted popper");
       },
       limit: { tries: 1 },
+      freeaction: true,
     },
     {
       name: "Acquire Cold Medicine Gear",
@@ -290,7 +293,50 @@ export const MiscQuest: Quest = {
         visitUrl("campground.php?action=workshed");
         runChoice(1);
       },
+      freeaction: true,
       limit: { tries: 2 },
+    },
+  ],
+};
+
+const pulls: Item[] = [
+  $item`dromedary drinking helmet`,
+  $item`blackberry galoshes`,
+  $item`antique machete`,
+  $item`ninja rope`,
+  $item`ninja carabiner`,
+  $item`ninja crampons`,
+  $item`wet stew`,
+  $item`HOA regulation book`,
+  $item`yule hatchet`,
+  $item`grey down vest`,
+];
+export const PullQuest: Quest = {
+  name: "Pull",
+  tasks: [
+    {
+      name: "Basic",
+      after: [],
+      completed: () => pulls.find((item) => !have(item)) === undefined,
+      do: () => {
+        for (const pull of pulls) {
+          if (!have(pull)) cliExecute(`pull ${pull.name}`);
+        }
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Ore",
+      after: ["McLargeHuge/Trapper Request"],
+      completed: () =>
+        get("trapperOre") !== undefined &&
+        (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
+      do: () => {
+        cliExecute(`pull ${get("trapperOre")}`);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
     },
   ],
 };
