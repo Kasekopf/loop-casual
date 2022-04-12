@@ -258,10 +258,21 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Birch Battery",
       after: [],
-      ready: () => have($item`flimsy hardwood scraps`) && have($item`SpinMaster™ lathe`),
+      ready: () =>
+        have($item`SpinMaster™ lathe`) &&
+        (!get("_spinmasterLatheVisited") || have($item`flimsy hardwood scraps`)),
       completed: () => have($item`birch battery`),
       do: () => {
         cliExecute("acquire birch battery");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Acquire Firework Hat",
+      after: [],
+      completed: () => have($item`porkpie-mounted popper`),
+      do: () => {
+        cliExecute("acquire porkpie-mounted popper");
       },
       limit: { tries: 1 },
     },
