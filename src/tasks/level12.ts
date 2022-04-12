@@ -1,5 +1,16 @@
 import { itemAmount, visitUrl } from "kolmafia";
-import { $effect, $effects, $item, $items, $location, $monster, get, have, Macro } from "libram";
+import {
+  $effect,
+  $effects,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -161,9 +172,15 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
+    ready: () => !have($effect`Everything Looks Yellow`),
+    priority: () => !have($effect`Everything Looks Yellow`),
+    acquire: [{ item: $item`yellow rocket` }],
     do: $location`The Hatching Chamber`,
     outfit: { modifier: "items" },
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy().macro(
+      new Macro().item($item`yellow rocket`),
+      $monster`larval filthworm`
+    ),
     limit: { soft: 15 },
   },
   {
@@ -177,9 +194,18 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Feeding Chamber`,
-    outfit: { modifier: "items" },
+    outfit: () => {
+      if (have($item`industrial fire extinguisher`) && get("_fireExtinguisherCharge") >= 10)
+        return { equip: $items`industrial fire extinguisher` };
+      else return { modifier: "item" };
+    },
     effects: $effects`Filthworm Larva Stench`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy()
+      .macro(
+        new Macro().trySkill($skill`Fire Extinguisher: Polar Vortex`),
+        $monster`filthworm drone`
+      )
+      .kill(),
     limit: { tries: 10 },
   },
   {
@@ -191,9 +217,18 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Royal Guard Chamber`,
-    outfit: { modifier: "items" },
+    outfit: () => {
+      if (have($item`industrial fire extinguisher`) && get("_fireExtinguisherCharge") >= 10)
+        return { equip: $items`industrial fire extinguisher` };
+      else return { modifier: "item" };
+    },
     effects: $effects`Filthworm Drone Stench`,
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy()
+      .macro(
+        new Macro().trySkill($skill`Fire Extinguisher: Polar Vortex`),
+        $monster`filthworm royal guard`
+      )
+      .kill(),
     limit: { tries: 10 },
   },
   {
