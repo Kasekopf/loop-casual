@@ -1,5 +1,5 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster, $skill, get, have, Macro } from "libram";
+import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -93,8 +93,26 @@ export const BatQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Boss Bat",
+      name: "Lobsterfrogman Drop",
       after: ["Use Sonar 3"],
+      priority: () => get("lastCopyableMonster") === $monster`lobsterfrogman`,
+      completed: () =>
+        step("questL04Bat") >= 4 ||
+        itemAmount($item`barrel of gunpowder`) >= 5 ||
+        get("sidequestLighthouseCompleted") !== "none" ||
+        !have($item`cursed magnifying glass`) ||
+        !have($item`Powerful Glove`) ||
+        !have($item`backup camera`),
+      do: $location`The Boss Bat's Lair`,
+      combat: new CombatStrategy()
+        .macro(new Macro().trySkill($skill`Back-Up to your Last Enemy`))
+        .kill(...$monsters`Boss Bat, lobsterfrogman`),
+      outfit: { equip: $items`backup camera` },
+      limit: { tries: 4 },
+    },
+    {
+      name: "Boss Bat",
+      after: ["Lobsterfrogman Drop"],
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`).ignoreNoBanish(),
