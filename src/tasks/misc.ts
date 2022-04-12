@@ -310,6 +310,7 @@ const pulls: Item[] = [
   $item`HOA regulation book`,
   $item`yule hatchet`,
   $item`grey down vest`,
+  $item`killing jar`,
 ];
 export const PullQuest: Quest = {
   name: "Pull",
