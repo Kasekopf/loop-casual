@@ -10,47 +10,63 @@ export const routing: string[] = [
   "Pull/Basic",
 
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
-  "Absorb/The Haunted Kitchen",
 
   // Get initial -combat
-  "Absorb/Cobb's Knob Laboratory",
+  "Knob/King",
   "Absorb/Cobb's Knob Menagerie, Level 3",
+  "McLargeHuge/Trapper Request", // open for absorbing
 
   // Get +item
   "Absorb/Infernal Rackets Backstage",
 
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
-  "Manor/Finish Floor1",
+  "Hidden City/Open Temple",
 
   // Once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
 
-  // Start the war ASAP
-  "War/Flyers Start",
-
   // Aim for remaining pygmies
-  // "Hidden City/Bowling",
-  // "Absorb/The Hidden Bowling Alley",
+  "Hidden City/Bowling",
+  "Absorb/The Hidden Bowling Alley",
 
-  // Open the manor for absorbing
-  "Manor/Boss",
+  "War/Flyers Start", // Start the war and get flyers ASAP
 
+  // Prepare for Healer YR
   "Palindome/Copperhead",
   "Palindome/Bat Snake",
-  "Giant/Grow Beanstalk",
-  "McLargeHuge/Finish",
+  "Palindome/Cold Snake",
+  "Giant/Airship YR Healer",
 
-  // Non-delay quests
+  "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
+
+  // Line up -combats
+  "Manor/Billiards",
+  "Manor/Library",
+  "Manor/Bedroom",
+  "Manor/Bathroom Delay",
+  "Manor/Gallery Delay",
+  "Macguffin/Desert", // charge camel for protestors
+  "Orc Chasm/Oil Peak", // make jar of oil
+
+  // Knock down -combats
+  "Manor/Finish Floor2",
+  "Giant/Unlock HITS",
+  "Crypt/Cranny",
+  "Manor/Finish Floor2",
+  "Orc Chasm/Twin Init",
   "Mosquito/Finish",
-  "Bat/Use Sonar 3",
+  "Palindome/Protesters",
+
+  // Finish remaining quests
+  "McLargeHuge/Finish",
+  "Manor/Boss",
   "Crypt/Finish",
-  "Orc Chasm/Finish",
   "Giant/Finish",
   "Tavern/Finish",
-  "Macguffin/Desert",
   "Macguffin/Finish",
   "War/Boss Hippie",
+  "Orc Chasm/Finish", // save A-Boo for last
 
   // Finish up with last delay
   "Bat/Finish",
