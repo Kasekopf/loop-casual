@@ -24,7 +24,7 @@ export function main(tasks_to_run?: number): void {
   if (set_time_now) set(time_property, gametimeToInt());
 
   const tasks = prioritize(all_tasks());
-  const engine = new Engine(tasks);
+  const engine = new Engine(tasks, absorbtionTargets);
   cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;

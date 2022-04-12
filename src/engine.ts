@@ -31,16 +31,18 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
-import { absorbtionTargets } from "./tasks/absorb";
+import { AbsorbtionTargets } from "./tasks/absorb";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
   propertyManager = new PropertiesManager();
   tasks: Task[];
   tasks_by_name = new Map<string, Task>();
+  absorbtionTargets: AbsorbtionTargets;
 
-  constructor(tasks: Task[]) {
+  constructor(tasks: Task[], absorbtionTargets: AbsorbtionTargets) {
     this.tasks = tasks;
+    this.absorbtionTargets = absorbtionTargets;
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
@@ -58,7 +60,7 @@ export class Engine {
     // Ensure the Grey Goose is charged if we plan on absorbing
     if (
       task.do instanceof Location &&
-      absorbtionTargets.hasReprocessTargets(task.do) &&
+      this.absorbtionTargets.hasReprocessTargets(task.do) &&
       // eslint-disable-next-line libram/verify-constants
       familiarWeight($familiar`Grey Goose`) < 6
     )
@@ -92,11 +94,11 @@ export class Engine {
           (next_monster_strategy === MonsterStrategy.Ignore ||
             next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
             next_monster_strategy === MonsterStrategy.Banish) &&
-          !absorbtionTargets.isTarget(next_monster)
+          !this.absorbtionTargets.isTarget(next_monster)
         ) {
           // So the next monster is useless. Dodge it if there is also a useful monster
           if (
-            absorbtionTargets.hasTargets(task.do) ||
+            this.absorbtionTargets.hasTargets(task.do) ||
             task_combat.can(MonsterStrategy.Kill) ||
             task_combat.can(MonsterStrategy.KillFree) ||
             task_combat.can(MonsterStrategy.KillHard) ||
@@ -179,9 +181,9 @@ export class Engine {
 
       // Absorb targeted monsters
       const absorb_targets =
-        task.do instanceof Location ? absorbtionTargets.remaining(task.do) : [];
+        task.do instanceof Location ? this.absorbtionTargets.remaining(task.do) : [];
       for (const monster of absorb_targets) {
-        if (absorbtionTargets.isReprocessTarget(monster)) {
+        if (this.absorbtionTargets.isReprocessTarget(monster)) {
           // eslint-disable-next-line libram/verify-constants
           if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
             // eslint-disable-next-line libram/verify-constants
@@ -301,7 +303,7 @@ export class Engine {
     if (choiceFollowsFight()) runChoice(-1);
     if (task.post) task.post();
 
-    absorbtionTargets.updateAbsorbed();
+    this.absorbtionTargets.updateAbsorbed();
 
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 

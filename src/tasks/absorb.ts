@@ -483,7 +483,7 @@ const usefulMonsters: [Monster, Skill][] = [
 ];
 
 // A many-to-many map to track the remaining monsters at each location
-class AbsorbtionTargets {
+export class AbsorbtionTargets {
   private targetsByLoc = new Map<Location, Set<Monster>>();
   private repTargetsByLoc = new Map<Location, Set<Monster>>();
   private locsByTarget = new Map<Monster, Set<Location>>();
