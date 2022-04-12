@@ -115,7 +115,9 @@ const Manor2: Task[] = [
   {
     name: "Bedroom",
     after: ["Start Floor2"],
-    completed: () => have($item`Lady Spookyraven's finest gown`) || step("questM21Dance") >= 2,
+    completed: () =>
+      (have($item`Lady Spookyraven's finest gown`) || step("questM21Dance") >= 2) &&
+      have($item`Lord Spookyraven's spectacles`),
     do: $location`The Haunted Bedroom`,
     choices: {
       876: 1,
@@ -156,7 +158,7 @@ const Manor2: Task[] = [
     combat: new CombatStrategy()
       .kill($monster`animated ornate nightstand`)
       .banish(
-        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
+        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand, elegant animated nightstand`
       )
       .ignore($monster`tumbleweed`),
     limit: { soft: 10 },
