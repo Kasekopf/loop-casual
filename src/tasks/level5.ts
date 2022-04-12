@@ -88,5 +88,13 @@ export const KnobQuest: Quest = {
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
     },
+    {
+      name: "Open Menagerie",
+      after: ["King"],
+      completed: () => have($item`Cobb's Knob Menagerie key`),
+      do: $location`Cobb's Knob Laboratory`,
+      combat: new CombatStrategy().kill($monster`Knob Goblin Very Mad Scientist`),
+      limit: { soft: 10 },
+    },
   ],
 };

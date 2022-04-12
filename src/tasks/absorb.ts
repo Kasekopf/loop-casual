@@ -90,15 +90,15 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 1`,
-    after: ["Knob/King"], // TODO: Menagerie key
+    after: ["Knob/Open Menagerie"],
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 2`,
-    after: ["Knob/King"], // TODO: Menagerie key
+    after: ["Knob/Open Menagerie"],
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
-    after: ["Knob/King"], // TODO: Menagerie key
+    after: ["Knob/Open Menagerie"],
   },
   // Level 6
   {
