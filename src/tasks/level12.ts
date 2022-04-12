@@ -75,11 +75,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_('!match "whips out a hammer"', new Macro().item($item`seal tooth`))
+          .while_("!match whips out", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
-        $monster`batwinged gremlin`
+        $monster`batwinged gremlin (tool)`
       )
-      .kill($monster`batwinged gremlin`),
+      .kill($monster`batwinged gremlin (tool)`),
     limit: { soft: 10 },
   },
   {
@@ -93,14 +93,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_(
-            '!match "whips out a crescent wrench from somewhere"',
-            new Macro().item($item`seal tooth`)
-          )
+          .while_("!match whips out", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
-        $monster`erudite gremlin`
+        $monster`erudite gremlin (tool)`
       )
-      .kill($monster`erudite gremlin`),
+      .kill($monster`erudite gremlin (tool)`),
     limit: { soft: 10 },
   },
   {
@@ -113,11 +110,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_('!match "whips out a pair of pliers"', new Macro().item($item`seal tooth`))
+          .while_("!match whips out", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
-        $monster`spider gremlin`
+        $monster`spider gremlin (tool)`
       )
-      .kill($monster`spider gremlin`),
+      .kill($monster`spider gremlin (tool)`),
     limit: { soft: 10 },
   },
   {
@@ -131,11 +128,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_('!match "whips out a screwdriver"', new Macro().item($item`seal tooth`))
+          .while_("!match whips out", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
-        $monster`vegetable gremlin`
+        $monster`vegetable gremlin (tool)`
       )
-      .kill($monster`vegetable gremlin`),
+      .kill($monster`vegetable gremlin (tool)`),
     limit: { soft: 10 },
   },
   {
