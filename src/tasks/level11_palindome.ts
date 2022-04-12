@@ -83,11 +83,24 @@ const Copperhead: Task[] = [
   {
     name: "Hot Snake Precastle",
     after: ["Copperhead Start", "Giant/Ground"],
-    ready: () => shenItem($item`Murphy's Rancid Black Flag`) && step("questL10Garbage") < 10,
+    acquire: [{ item: $item`Mohawk wig` }],
+    ready: () =>
+      shenItem($item`Murphy's Rancid Black Flag`) && !have($item`steam-powered model rocketship`),
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
-    choices: { 675: 4, 676: 4, 677: 1, 678: 1, 679: 1, 1431: 4 },
+    choices: {
+      675: 4,
+      676: 4,
+      677: () => {
+        return step("questL10Garbage") >= 10 ? 2 : 1;
+      },
+      678: () => {
+        return step("questL10Garbage") >= 10 ? 3 : 1;
+      },
+      679: 1,
+      1431: 4,
+    },
     combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
     limit: { soft: 10 },
     delay: 5,
@@ -95,7 +108,8 @@ const Copperhead: Task[] = [
   {
     name: "Hot Snake Postcastle",
     after: ["Copperhead Start", "Giant/Ground"],
-    ready: () => shenItem($item`Murphy's Rancid Black Flag`) && step("questL10Garbage") >= 10,
+    ready: () =>
+      shenItem($item`Murphy's Rancid Black Flag`) && have($item`steam-powered model rocketship`),
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     choices: { 675: 4, 676: 4, 677: 1, 678: 1, 679: 1, 1431: 4 },
