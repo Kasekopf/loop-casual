@@ -1,4 +1,3 @@
-import { CombatStrategy } from "../combat";
 import {
   adv1,
   cliExecute,
@@ -26,6 +25,7 @@ import {
   Macro,
   set,
 } from "libram";
+import { CombatStrategy } from "../combat";
 import { OutfitSpec, Quest, step } from "./structure";
 
 export const MiscQuest: Quest = {
@@ -310,7 +310,11 @@ export const KeysQuest: Quest = {
     {
       name: "Malware",
       after: [],
-      acquire: [{ item: $item`daily dungeon malware` }, { item: $item`Pick-O-Matic lockpicks` }],
+      acquire: [
+        { item: $item`daily dungeon malware` },
+        { item: $item`Pick-O-Matic lockpicks` },
+        { item: $item`eleven-foot pole` },
+      ],
       completed: () =>
         get("_dailyDungeonMalwareUsed") || get("dailyDungeonDone") || keyCount() >= 3,
       prepare: () => {
@@ -321,7 +325,7 @@ export const KeysQuest: Quest = {
         if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
           set("_dailyDungeonMalwareUsed", true);
       },
-      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
+      outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().macro(
         new Macro()
           .item($item`daily dungeon malware`)
@@ -334,10 +338,10 @@ export const KeysQuest: Quest = {
     {
       name: "Daily Dungeon",
       after: ["Deck", "Lockpicking", "Malware"],
-      acquire: [{ item: $item`Pick-O-Matic lockpicks` }],
+      acquire: [{ item: $item`Pick-O-Matic lockpicks` }, { item: $item`eleven-foot pole` }],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
-      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
+      outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
       limit: { tries: 11 },
