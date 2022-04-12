@@ -29,6 +29,7 @@ export function main(tasks_to_run?: number): void {
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;
   absorbtionTargets.updateAbsorbed();
+  absorbtionTargets.ignoreUselessElemDamage();
   if (tasks_to_run < 0) {
     for (const task of tasks) {
       debug(

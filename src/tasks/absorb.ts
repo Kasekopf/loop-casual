@@ -1,6 +1,6 @@
 /* eslint-disable libram/verify-constants */
 import { appearanceRates, Location, Monster, myAscensions, Skill, visitUrl } from "kolmafia";
-import { $items, $location, $monster, $skill, get, Macro } from "libram";
+import { $items, $location, $monster, $skill, $skills, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { debug } from "../lib";
 import { Quest, Task } from "./structure";
@@ -596,6 +596,24 @@ export class AbsorbtionTargets {
         this.markObtained(Skill.get(match[1]));
       }
     } while (match);
+  }
+
+  public ignoreUselessElemDamage(): void {
+    // Ignore the elemental skills that are not useful for the tower
+    const needed_elem_skills: { [elem: string]: Skill[] } = {
+      hot: $skills`Microburner, Infernal Automata, Steam Mycelia`,
+      cold: $skills`Cryocurrency, Cooling Tubules, Snow-Cooling System`,
+      spooky: $skills`Curses Library, Ominous Substrate, Legacy Code`,
+      stench: $skills`Exhaust Tubules, Secondary Fermentation, AUTOEXEC.BAT`,
+      sleaze: $skills`Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry`,
+    };
+    for (const elem in needed_elem_skills) {
+      if (get("nsChallenge2") !== elem) {
+        for (const unneeded_skill of needed_elem_skills[elem]) {
+          this.markObtained(unneeded_skill);
+        }
+      }
+    }
   }
 }
 export const absorbtionTargets = new AbsorbtionTargets(reprocessTargets, [
