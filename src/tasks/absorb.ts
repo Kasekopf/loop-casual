@@ -216,6 +216,15 @@ const absorbTasks: AbsorbTask[] = [
     },
   },
   {
+    do: $location`The Hidden Park`,
+    after: ["Hidden City/Open City"],
+    choices: {
+      789: () => {
+        return get("relocatePygmyJanitor") === myAscensions() ? 2 : 3;
+      },
+    },
+  },
+  {
     do: $location`The Hidden Apartment Building`,
     after: ["Hidden City/Apartment"],
     choices: { 780: 4 },
