@@ -2,14 +2,12 @@ import { CombatStrategy } from "../combat";
 import {
   adv1,
   cliExecute,
-  familiarEquippedEquipment,
   itemAmount,
   myBasestat,
   myPrimestat,
   retrieveItem,
   retrievePrice,
   runChoice,
-  useFamiliar,
   visitUrl,
 } from "kolmafia";
 import {
@@ -62,18 +60,6 @@ export const MiscQuest: Quest = {
       do: () => cliExecute("acquire 1 fish hatchet"),
       limit: { tries: 1 },
       freeaction: true,
-    },
-    {
-      name: "Short Cook",
-      after: [],
-      ready: () => have($familiar`Shorter-Order Cook`),
-      completed: () =>
-        familiarEquippedEquipment($familiar`Shorter-Order Cook`) === $item`blue plate`,
-      acquire: [{ item: $item`blue plate` }],
-      do: () => useFamiliar($familiar`Mosquito`), // Switch away to keep blue plate equipped
-      outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`blue plate` },
-      freeaction: true,
-      limit: { tries: 1 },
     },
     {
       name: "Acquire Kgnee",
