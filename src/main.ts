@@ -29,7 +29,7 @@ export function main(tasks_to_run?: number): void {
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;
   absorbtionTargets.updateAbsorbed();
-  absorbtionTargets.ignoreUselessElemDamage();
+  absorbtionTargets.ignoreUselessAbsorbs();
   if (tasks_to_run < 0) {
     for (const task of tasks) {
       debug(
@@ -105,7 +105,6 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
   let todo = undefined;
 
   // Find the next useful absorb
-  // eslint-disable-next-line libram/verify-constants
   if (familiarWeight($familiar`Grey Goose`) >= 6) {
     todo = tasks.find(
       (task) =>

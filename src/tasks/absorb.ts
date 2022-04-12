@@ -1,8 +1,21 @@
-import { appearanceRates, Location, Monster, myAscensions, Skill, visitUrl } from "kolmafia";
-import { $items, $location, $monster, $skill, $skills, get, Macro } from "libram";
+import {
+  appearanceRates,
+  inMoxieSign,
+  inMuscleSign,
+  inMysticalitySign,
+  itemAmount,
+  Location,
+  Monster,
+  myAscensions,
+  putCloset,
+  runChoice,
+  Skill,
+  visitUrl,
+} from "kolmafia";
+import { $item, $items, $location, $monster, $skill, $skills, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
-import { debug } from "../lib";
-import { Quest, Task } from "./structure";
+import { atLevel, debug } from "../lib";
+import { Quest, step, Task } from "./structure";
 
 // Add a shorthand for expressing absorbtion-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -343,6 +356,98 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Middle Chamber`,
     after: ["Macguffin/Middle Chamber"],
   },
+  // Misc areas
+  // These are probably only worthwhile with orb
+  {
+    do: $location`South of the Border`,
+    after: ["Misc/Unlock Beach"],
+    choices: { 4: 3 },
+    outfit: { modifier: "+combat" },
+  },
+  {
+    do: $location`The Unquiet Garves`,
+    after: [],
+  },
+  {
+    do: $location`The Old Landfill`,
+    after: ["Mosquito/Start"],
+    prepare: () => {
+      if (step("questM19Hippy") === -1) {
+        visitUrl("place.php?whichplace=woods&action=woods_smokesignals");
+        visitUrl("choice.php?pwd=&whichchoice=798&option=1");
+        visitUrl("choice.php?pwd=&whichchoice=798&option=2");
+        visitUrl("woods.php");
+      }
+      if (have($item`funky junk key`)) {
+        putCloset($item`funky junk key`, itemAmount($item`funky junk key`));
+      }
+    },
+    ready: () => atLevel(6),
+  },
+  {
+    do: $location`The Skeleton Store`,
+    after: [],
+    prepare: () => {
+      if (step("questM23Meatsmith") === -1) {
+        visitUrl("shop.php?whichshop=meatsmith");
+        visitUrl("shop.php?whichshop=meatsmith&action=talk");
+        runChoice(1);
+      }
+    },
+    choices: { 1060: 1 },
+  },
+  {
+    do: $location`The Overgrown Lot`,
+    after: [],
+    prepare: () => {
+      if (step("questM24Doc") === -1) {
+        visitUrl("shop.php?whichshop=doc");
+        visitUrl("shop.php?whichshop=doc&action=talk");
+        runChoice(1);
+      }
+    },
+    choices: { 1062: 3 },
+  },
+  {
+    do: $location`Madness Bakery`,
+    after: [],
+    prepare: () => {
+      if (step("questM25Armorer") === -1) {
+        visitUrl("shop.php?whichshop=armory");
+        visitUrl("shop.php?whichshop=armory&action=talk");
+        visitUrl("choice.php?pwd=&whichchoice=1065&option=1");
+      }
+    },
+  },
+  {
+    do: $location`The Dungeons of Doom`,
+    after: [],
+    ready: () => get("lastPlusSignUnlock") === myAscensions(),
+    choices: { 25: 3 },
+    outfit: { modifier: "+combat" },
+  },
+  // Moon-sign zones
+  {
+    do: $location`The Bugbear Pen`,
+    ready: () => inMuscleSign(),
+    prepare: () => {
+      if (step("questM03Bugbear") === -1) {
+        visitUrl("place.php?whichplace=knoll_friendly&action=dk_mayor");
+      }
+    },
+    after: [],
+  },
+  {
+    do: $location`Outskirts of Camp Logging Camp`,
+    ready: () => inMysticalitySign(),
+    after: [],
+    outfit: { modifier: "+combat" },
+  },
+  {
+    do: $location`Thugnderdome`,
+    ready: () => inMysticalitySign(),
+    after: [],
+  },
 ];
 
 // All monsters that give adventures upon absorbtion
@@ -597,7 +702,7 @@ export class AbsorbtionTargets {
     } while (match);
   }
 
-  public ignoreUselessElemDamage(): void {
+  public ignoreUselessAbsorbs(): void {
     // Ignore the elemental skills that are not useful for the tower
     const needed_elem_skills: { [elem: string]: Skill[] } = {
       hot: $skills`Microburner, Infernal Automata, Steam Mycelia`,
@@ -613,6 +718,11 @@ export class AbsorbtionTargets {
         }
       }
     }
+
+    // Ignore the monsters that are not our moonsign
+    if (!inMuscleSign()) this.markAbsorbed($monster`revolving bugbear`);
+    if (!inMysticalitySign()) this.markAbsorbed($monster`cloud of disembodied whiskers`);
+    if (!inMoxieSign()) this.markAbsorbed($monster`vicious gnauga`);
   }
 }
 export const absorbtionTargets = new AbsorbtionTargets(reprocessTargets, [
