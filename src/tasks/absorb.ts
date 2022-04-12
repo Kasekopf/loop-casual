@@ -103,14 +103,32 @@ const absorbTasks: AbsorbTask[] = [
   // Level 6
   {
     do: $location`Pandamonium Slums`,
+    prepare: () => {
+      if (step("questM10Azazel") === -1) {
+        visitUrl("pandamonium.php?action=temp");
+        visitUrl("pandamonium.php?action=sven");
+      }
+    },
     after: ["Friar/Finish"],
   },
   {
     do: $location`The Laugh Floor`,
+    prepare: () => {
+      if (step("questM10Azazel") === -1) {
+        visitUrl("pandamonium.php?action=temp");
+        visitUrl("pandamonium.php?action=sven");
+      }
+    },
     after: ["Friar/Finish"],
   },
   {
     do: $location`Infernal Rackets Backstage`,
+    prepare: () => {
+      if (step("questM10Azazel") === -1) {
+        visitUrl("pandamonium.php?action=temp");
+        visitUrl("pandamonium.php?action=sven");
+      }
+    },
     after: ["Friar/Finish"],
   },
   // Level 7
