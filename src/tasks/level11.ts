@@ -38,7 +38,10 @@ const Diary: Task[] = [
       }
     },
     choices: { 923: 1, 924: 1 },
-    combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
+    combat: new CombatStrategy()
+      .ignore($monster`blackberry bush`)
+      .killItem(...$monsters`black adder, black panther`)
+      .kill(),
     limit: { soft: 15 },
   },
   {
