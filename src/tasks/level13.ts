@@ -362,7 +362,6 @@ export const TowerQuest: Quest = {
     {
       name: "Naughty Sorceress",
       after: ["Shadow"],
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
       outfit: { modifier: "muscle" },

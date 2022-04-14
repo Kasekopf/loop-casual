@@ -196,13 +196,14 @@ const Dome: Task[] = [
     after: ["Talisman", "Manor/Bedroom Camera"],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .macro(
         new Macro().item($item`disposable instant camera`),
         ...$monsters`Bob Racecar, Racecar Bob`
       )
+      .killItem(...$monsters`Bob Racecar, Racecar Bob`)
       .kill(),
     limit: { soft: 20 },
   },
@@ -211,9 +212,10 @@ const Dome: Task[] = [
     after: ["Palindome Dog"],
     completed: () => have(Item.get(7262)) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
+      .killItem(...$monsters`Bob Racecar, Racecar Bob`)
       .kill(),
     limit: { soft: 20 },
   },
@@ -226,7 +228,18 @@ const Dome: Task[] = [
         have($item`photograph of an ostrich egg`)) ||
       step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
+    combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
+    limit: { soft: 20 },
+  },
+  {
+    name: "Palindome Nuts",
+    after: ["Palindome Photos"],
+    do: $location`Inside the Palindome`,
+    completed: () =>
+      have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "item" },
+    combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },
   {
@@ -250,7 +263,7 @@ const Dome: Task[] = [
   },
   {
     name: "Open Alarm",
-    after: ["Alarm Gem"],
+    after: ["Alarm Gem", "Palindome Nuts"],
     completed: () => step("questL11Palindome") >= 5,
     do: () => {
       if (!have($item`wet stunt nut stew`)) create($item`wet stunt nut stew`);
