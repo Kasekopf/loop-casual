@@ -1,4 +1,4 @@
-import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, useSkill, visitUrl } from "kolmafia";
+import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, useSkill, visitUrl } from "kolmafia";
 import { $familiar, $item, $items, $location, $skill, $stat, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -330,8 +330,20 @@ export const TowerQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Mirror",
+      name: "Wand Parts",
       after: ["Wall of Bones"],
+      ready: () => have($item`11-leaf clover`),
+      completed: () =>
+        have($item`Wand of Nagamar`) ||
+        ((have($item`WA`) || (have($item`ruby W`) && have($item`metallic A`))) &&
+          (have($item`ND`) || (have($item`lowercase N`) && have($item`heavy D`)))),
+      prepare: () => use($item`11-leaf clover`),
+      do: $location`The Castle in the Clouds in the Sky (Basement)`,
+      limit: { tries: 1 },
+    },
+    {
+      name: "Mirror",
+      after: ["Wand Parts"],
       acquire: [{ item: $item`Wand of Nagamar` }],
       completed: () => step("questL13Final") > 9,
       do: $location`Tower Level 4`,
