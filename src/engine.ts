@@ -178,8 +178,11 @@ export class Engine {
       const task_combat = task.combat?.clone() ?? new CombatStrategy();
 
       // Absorb targeted monsters
+      // (if we have teleportitis, everything is a possible target)
       const absorb_targets =
-        task.do instanceof Location ? this.absorbtionTargets.remaining(task.do) : [];
+        task.do instanceof Location
+          ? this.absorbtionTargets.remaining(have($effect`Teleportitis`) ? undefined : task.do)
+          : [];
       for (const monster of absorb_targets) {
         if (this.absorbtionTargets.isReprocessTarget(monster)) {
           if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {

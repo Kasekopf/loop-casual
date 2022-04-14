@@ -14,7 +14,7 @@ import { PalindomeQuest } from "./level11_palindome";
 import { MacguffinQuest } from "./level11";
 import { WarQuest } from "./level12";
 import { TowerQuest } from "./level13";
-import { KeysQuest, MiscQuest, PullQuest } from "./misc";
+import { KeysQuest, MiscQuest, PullQuest, WandQuest } from "./misc";
 import { AbsorbQuest } from "./absorb";
 import { Task } from "./structure";
 
@@ -23,6 +23,7 @@ export function all_tasks(): Task[] {
     TootQuest,
     MiscQuest,
     PullQuest,
+    WandQuest,
     KeysQuest,
     MosquitoQuest,
     TavernQuest,

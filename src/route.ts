@@ -50,6 +50,7 @@ export const routing: string[] = [
   "Orc Chasm/Oil Peak", // make jar of oil
 
   // Knock down -combats
+  "Wand/Wand",
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
   "Crypt/Cranny",

@@ -12,10 +12,11 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $familiar, CrystalBall, get, PropertiesManager, set } from "libram";
+import { $effect, $familiar, CrystalBall, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 import { absorbtionTargets } from "./tasks/absorb";
+import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 
 const time_property = "_loop_casual_first_start";
 
@@ -82,6 +83,15 @@ export function main(tasks_to_run?: number): void {
 }
 
 function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | undefined {
+  // Teleportitis overrides all
+  if (have($effect`Teleportitis`)) {
+    const tele = teleportitisTask(engine, tasks);
+    if (tele.completed() && removeTeleportitis.ready()) {
+      return [removeTeleportitis];
+    }
+    return [tele];
+  }
+
   // First, check for any prioritized tasks
   const priority = tasks.find(
     (task) => engine.available(task) && task.priority !== undefined && task.priority()

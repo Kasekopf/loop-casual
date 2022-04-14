@@ -2,31 +2,39 @@ import { CombatStrategy } from "../combat";
 import {
   adv1,
   cliExecute,
+  familiarWeight,
   getWorkshed,
   Item,
   itemAmount,
+  myAscensions,
   myBasestat,
+  myMeat,
   myPrimestat,
   retrieveItem,
   retrievePrice,
   runChoice,
   totalTurnsPlayed,
+  use,
   visitUrl,
 } from "kolmafia";
 import {
+  $effect,
   $familiar,
   $item,
   $items,
   $location,
   $monster,
+  $monsters,
   $skill,
   get,
   getSaleValue,
   have,
   Macro,
   set,
+  uneffect,
 } from "libram";
-import { OutfitSpec, Quest, step } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Engine } from "../engine";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -297,6 +305,93 @@ export const MiscQuest: Quest = {
       limit: { tries: 2 },
     },
   ],
+};
+
+export const WandQuest: Quest = {
+  name: "Wand",
+  tasks: [
+    {
+      name: "Plus Sign",
+      after: [],
+      completed: () => have($item`plus sign`) || get("lastPlusSignUnlock") === myAscensions(),
+      do: $location`The Enormous Greater-Than Sign`,
+      outfit: { modifier: "-combat" },
+      choices: { 451: 3 },
+      limit: { soft: 20 },
+    },
+    {
+      name: "Get Teleportitis",
+      after: ["Plus Sign"],
+      ready: () =>
+        myMeat() >= 1000 && // Meat for goal teleportitis choice adventure
+        familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
+        have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
+      completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
+      do: $location`The Enormous Greater-Than Sign`,
+      outfit: { modifier: "-combat" },
+      choices: { 451: 5 },
+      limit: { soft: 20 },
+    },
+    {
+      name: "Mimic",
+      after: ["Get Teleportitis"],
+      ready: () => myMeat() >= 5000,
+      completed: () => have($item`dead mimic`) || get("lastZapperWand") === myAscensions(),
+      do: $location`The Dungeons of Doom`,
+      outfit: { modifier: "-combat, init" },
+      combat: new CombatStrategy()
+        .banish($monster`Quantum Mechanic`)
+        .kill(...$monsters`mimic, The Master Of Thieves`), // Avoid getting more teleportitis
+      choices: { 25: 2 },
+      limit: { soft: 20 },
+    },
+    {
+      name: "Wand",
+      after: ["Mimic"],
+      completed: () => get("lastZapperWand") === myAscensions(),
+      do: () => use($item`dead mimic`),
+      freeaction: true,
+      limit: { tries: 1 },
+    },
+  ],
+};
+
+export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
+  // Combine the choice selections from all tasks
+  // Where multiple tasks make different choices at the same choice, prefer:
+  //  * Earlier tasks to later tasks
+  //  * Uncompleted tasks to completed tasks
+  const choices: Task["choices"] = { 3: 3 }; // The goal choice
+  const done_tasks = tasks.filter((task) => task.completed());
+  const left_tasks = tasks.filter((task) => !task.completed());
+  for (const task of [...left_tasks, ...done_tasks].reverse()) {
+    for (const choice_id_str in task.choices) {
+      const choice_id = parseInt(choice_id_str);
+      choices[choice_id] = task.choices[choice_id];
+    }
+  }
+
+  return {
+    name: "Teleportitis",
+    after: ["Wand/Get Teleportitis"],
+    ready: () => have($effect`Teleportitis`),
+    completed: () => have($effect`Teleportitis`),
+    do: $location`The Enormous Greater-Than Sign`,
+    choices: choices,
+    limit: { soft: 20 },
+  };
+}
+
+export const removeTeleportitis = {
+  name: "Clear Teleportitis",
+  after: [],
+  ready: () => have($item`soft green echo eyedrop antidote`),
+  completed: () => !have($effect`Teleportitis`),
+  do: () => {
+    uneffect($effect`Teleportitis`);
+  },
+  limit: { soft: 2 },
+  freeaction: true,
 };
 
 const pulls: Item[] = [
