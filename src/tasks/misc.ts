@@ -406,6 +406,9 @@ const pulls: Item[] = [
   $item`yule hatchet`,
   $item`grey down vest`,
   $item`killing jar`,
+  $item`Boris's ring`,
+  $item`Jarlsberg's earring`,
+  $item`Sneaky Pete's breath spray`,
 ];
 export const PullQuest: Quest = {
   name: "Pull",
@@ -448,18 +451,43 @@ export const KeysQuest: Quest = {
   name: "Keys",
   tasks: [
     {
+      name: "Zap Boris",
+      after: ["Pull/Basic", "Wand/Wand"],
+      completed: () => get("lastZapperWandExplosionDay") === 1 || !have($item`Boris's ring`),
+      do: () => cliExecute("zap Boris's ring"),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Zap Jarlsberg",
+      after: ["Pull/Basic", "Wand/Wand"],
+      completed: () => get("lastZapperWandExplosionDay") === 1 || !have($item`Jarlsberg's earring`),
+      do: () => cliExecute("zap Jarlsberg's earring"),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Zap Sneaky Pete",
+      after: ["Pull/Basic", "Wand/Wand"],
+      completed: () =>
+        get("lastZapperWandExplosionDay") === 1 || !have($item`Sneaky Pete's breath spray`),
+      do: () => cliExecute("zap Sneaky Pete's breath spray"),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
       name: "Daily Dungeon",
-      after: [],
+      after: ["Zap Boris", "Zap Jarlsberg", "Zap Sneaky Pete"],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
-      outfit: { equip: $items`ring of Detect Boring Doors, eleven-foot pole` },
+      outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
       limit: { tries: 11 },
     },
     {
       name: "Finish",
-      after: ["Daily Dungeon"],
+      after: ["Zap Boris", "Zap Jarlsberg", "Zap Sneaky Pete", "Daily Dungeon"],
       completed: () => keyCount() >= 3,
       do: (): void => {
         throw "Unable to obtain enough fat loot tokens";
