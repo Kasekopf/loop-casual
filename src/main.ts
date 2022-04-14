@@ -34,8 +34,9 @@ export function main(tasks_to_run?: number): void {
     for (const task of tasks) {
       debug(
         `${task.name}: ${
-          task.completed() ? "Done" : engine.available(task) ? "Available" : "Closed"
-        }`
+          task.completed() ? "Done" : engine.available(task) ? "Available" : "Not Available"
+        }`,
+        task.completed() ? "blue" : engine.available(task) ? undefined : "red"
       );
     }
   }
