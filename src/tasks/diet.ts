@@ -2,43 +2,34 @@ import {
   cliExecute,
   eat,
   myAdventures,
-  myBasestat,
   myDaycount,
   myFullness,
   myInebriety,
-  myPrimestat,
+  myLevel,
   mySpleenUse,
   reverseNumberology,
   use,
 } from "kolmafia";
 import { $item, get, have, set } from "libram";
 import { args } from "../main";
+import { diet } from "../diet";
 import { Quest } from "./structure";
-
-function max(a: number, b: number) {
-  return a > b ? a : b;
-}
 export const DietQuest: Quest = {
   name: "Diet",
   tasks: [
     {
       name: "Consume",
       after: [],
-      completed: () =>
-        myDaycount() > 1 || myFullness() >= args.stomach || myInebriety() >= args.liver,
-      ready: () => myBasestat(myPrimestat()) >= 150 || myAdventures() === 1, // Wait until 150 mainstat (level 13 + 2 stats), in case of transdermal smoke patch deleveling
+      completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
+      ready: () => myLevel() >= 13 || myAdventures() === 1,
       do: (): void => {
-        // Save cleaners for aftercore
-        const spice = get("spiceMelangeUsed");
-        const mojo = get("currentMojoFilters");
-        set("spiceMelangeUsed", true);
-        set("currentMojoFilters", 3);
-        const food = max(args.stomach - myFullness(), 0);
-        const drink = max(args.liver - myInebriety(), 0);
-        const spleen = max(args.spleen - mySpleenUse(), 0);
-        cliExecute(`CONSUME ORGANS ${food} ${drink} ${spleen} NOMEAT`);
-        set("spiceMelangeUsed", spice);
-        set("currentMojoFilters", mojo);
+        if (have($item`astral six-pack`)) {
+          use($item`astral six-pack`);
+        }
+        const food = Math.max(5 - myFullness(), 0);
+        const booze = Math.max(10 - myInebriety(), 0);
+        const spleen = Math.max(5 - mySpleenUse(), 0);
+        diet({ food, booze, spleen });
       },
       limit: { tries: 1 },
       freeaction: true,

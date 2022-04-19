@@ -4,9 +4,15 @@ import {
   familiarEquippedEquipment,
   itemAmount,
   myBasestat,
+  myAdventures,
+  myDaycount,
+  myFullness,
+  myInebriety,
+  myLevel,
   myPrimestat,
   retrieveItem,
   retrievePrice,
+  mySpleenUse,
   runChoice,
   use,
   useFamiliar,
@@ -30,8 +36,13 @@ import {
   set,
   uneffect,
 } from "libram";
+<<<<<<< HEAD
 import { CombatStrategy } from "../combat";
 import { OutfitSpec, Quest, step } from "./structure";
+=======
+import { Quest, step, OutfitSpec } from "./structure";
+import { diet } from "../diet";
+>>>>>>> Add minimal diet support
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -56,6 +67,23 @@ export const MiscQuest: Quest = {
         const options = $items`skeletal skiff, yellow submarine`;
         const bestChoice = options.sort((a, b) => retrievePrice(a) - retrievePrice(b))[0];
         retrieveItem(bestChoice);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Consume",
+      after: [],
+      completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
+      ready: () => myLevel() >= 13 || myAdventures() === 1,
+      do: (): void => {
+        if (have($item`astral six-pack`)) {
+          use($item`astral six-pack`);
+        }
+        const food = Math.max(5 - myFullness(), 0);
+        const booze = Math.max(10 - myInebriety(), 0);
+        const spleen = Math.max(5 - mySpleenUse(), 0);
+        diet({ food, booze, spleen });
       },
       limit: { tries: 1 },
       freeaction: true,
