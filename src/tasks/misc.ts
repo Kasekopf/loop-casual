@@ -416,10 +416,17 @@ export const PullQuest: Quest = {
     {
       name: "Basic",
       after: [],
-      completed: () => pulls.find((item) => !have(item)) === undefined,
-      do: () => {
+      completed: () => {
+        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => Item.get(parseInt(id))));
         for (const pull of pulls) {
-          if (!have(pull)) cliExecute(`pull ${pull.name}`);
+          if (!pulled.has(pull)) return false;
+        }
+        return true;
+      },
+      do: () => {
+        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => Item.get(parseInt(id))));
+        for (const pull of pulls) {
+          if (!pulled.has(pull)) cliExecute(`pull ${pull.name}`);
         }
       },
       limit: { tries: 1 },
