@@ -28,7 +28,7 @@ export const GiantQuest: Quest = {
     },
     {
       name: "Grow Beanstalk",
-      after: ["Get Bean"],
+      after: ["Start", "Get Bean"],
       completed: () => step("questL10Garbage") >= 1,
       do: () => use($item`enchanted bean`),
       limit: { tries: 1 },

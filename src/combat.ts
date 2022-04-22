@@ -1,5 +1,6 @@
 import {
   equippedItem,
+  floor,
   Item,
   Monster,
   monsterDefense,
@@ -156,10 +157,12 @@ export class BuiltCombatStrategy {
         if ((monster && monster.physicalResistance >= 70) || !killing_blow)
           return new Macro().attack().repeat();
         if (!killing_stat) return new Macro().abort();
+        if (myMp() < 20) return new Macro().abort();
+
         return new Macro()
           .externalIf(
-            myBuffedstat(killing_stat) < 10,
-            new Macro().while_("monsterhpabove 10", new Macro().skill($skill`Pseudopod Slap`)))
+            myBuffedstat(killing_stat) * floor(myMp() / 20) < 100,
+            new Macro().while_(`monsterhpabove ${myBuffedstat(killing_stat) * floor(myMp() / 20)}`, new Macro().skill($skill`Pseudopod Slap`)))
           .skill(killing_blow).repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:

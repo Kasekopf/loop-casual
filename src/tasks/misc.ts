@@ -326,6 +326,10 @@ export const WandQuest: Quest = {
         myMeat() >= 1000 && // Meat for goal teleportitis choice adventure
         familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
         have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
+      priority: () =>
+        myMeat() >= 1000 && // Meat for goal teleportitis choice adventure
+        familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
+        have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
       completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
@@ -338,7 +342,7 @@ export const WandQuest: Quest = {
       ready: () => myMeat() >= 5000,
       completed: () => have($item`dead mimic`) || get("lastZapperWand") === myAscensions(),
       do: $location`The Dungeons of Doom`,
-      outfit: { modifier: "-combat, init" },
+      outfit: { modifier: "-combat, init", familiar: $familiar`Grey Goose` },
       combat: new CombatStrategy()
         .banish($monster`Quantum Mechanic`)
         .kill(...$monsters`mimic, The Master Of Thieves`), // Avoid getting more teleportitis
@@ -375,7 +379,7 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
     name: "Teleportitis",
     after: ["Wand/Get Teleportitis"],
     ready: () => have($effect`Teleportitis`),
-    completed: () => have($effect`Teleportitis`),
+    completed: () => get("lastPlusSignUnlock") === myAscensions(),
     do: $location`The Enormous Greater-Than Sign`,
     choices: choices,
     limit: { soft: 20 },
@@ -417,14 +421,14 @@ export const PullQuest: Quest = {
       name: "Basic",
       after: [],
       completed: () => {
-        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => Item.get(parseInt(id))));
+        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => parseInt(id)).filter((id) => (id > 0)).map((id) => Item.get(id)));
         for (const pull of pulls) {
           if (!pulled.has(pull)) return false;
         }
         return true;
       },
       do: () => {
-        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => Item.get(parseInt(id))));
+        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => parseInt(id)).filter((id) => (id > 0)).map((id) => Item.get(id)));
         for (const pull of pulls) {
           if (!pulled.has(pull)) cliExecute(`pull ${pull.name}`);
         }
@@ -436,7 +440,7 @@ export const PullQuest: Quest = {
       name: "Ore",
       after: ["McLargeHuge/Trapper Request"],
       completed: () =>
-        get("trapperOre") !== undefined &&
+        get("trapperOre") !== '' &&
         (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
       do: () => {
         cliExecute(`pull ${get("trapperOre")}`);

@@ -294,7 +294,7 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling"],
-    acquire: [{ item: $item`Bowl of Scorpions` }],
+    // acquire: [{ item: $item`Bowl of Scorpions` }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy()
