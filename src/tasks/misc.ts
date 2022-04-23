@@ -354,6 +354,9 @@ export const WandQuest: Quest = {
       after: ["Get Teleportitis"],
       ready: () => myMeat() >= 5000,
       completed: () => have($item`dead mimic`) || get("lastZapperWand") === myAscensions(),
+      prepare: () => {
+        if (have($item`plus sign`)) use($item`plus sign`);
+      },
       do: $location`The Dungeons of Doom`,
       outfit: { modifier: "-combat, init", familiar: $familiar`Grey Goose` },
       combat: new CombatStrategy()
