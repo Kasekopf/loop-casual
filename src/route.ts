@@ -51,6 +51,7 @@ export const routing: string[] = [
 
   // Knock down -combats
   "Wand/Wand",
+  "Absorb/The Dungeons of Doom", // For MP regen, ASAP
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
   "Crypt/Cranny",
