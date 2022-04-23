@@ -11,7 +11,6 @@ import {
   myMeat,
   myPrimestat,
   retrieveItem,
-  retrievePrice,
   runChoice,
   totalTurnsPlayed,
   use,
@@ -48,17 +47,31 @@ export const MiscQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Island Scrip",
+      after: ["Unlock Beach"],
+      ready: () => myMeat() >= 500,
+      completed: () =>
+        itemAmount($item`Shore Inc. Ship Trip Scrip`) >= 3 ||
+        have($item`dinghy plans`) ||
+        have($item`dingy dinghy`) ||
+        have($item`junk junk`) ||
+        have($item`skeletal skiff`) ||
+        have($item`yellow submarine`),
+      do: $location`The Shore, Inc. Travel Agency`,
+      choices: { 793: 1 },
+      limit: { tries: 5 },
+    },
+    {
       name: "Unlock Island",
-      after: [],
+      after: ["Island Scrip"],
+      ready: () => myMeat() >= 400 || have($item`dingy planks`),
       completed: () =>
         have($item`dingy dinghy`) ||
         have($item`junk junk`) ||
         have($item`skeletal skiff`) ||
         have($item`yellow submarine`),
       do: () => {
-        const options = $items`skeletal skiff, yellow submarine`;
-        const bestChoice = options.sort((a, b) => retrievePrice(a) - retrievePrice(b))[0];
-        retrieveItem(bestChoice);
+        retrieveItem($item`dingy dinghy`);
       },
       limit: { tries: 1 },
       freeaction: true,
