@@ -287,6 +287,7 @@ export const MiscQuest: Quest = {
         (!get("_spinmasterLatheVisited") || have($item`flimsy hardwood scraps`)),
       completed: () => have($item`birch battery`),
       do: () => {
+        use($item`SpinMaster™ lathe`);
         cliExecute("acquire birch battery");
       },
       limit: { tries: 1 },
