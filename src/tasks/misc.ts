@@ -406,6 +406,7 @@ const pulls: Item[] = [
   $item`ninja carabiner`,
   $item`ninja crampons`,
   $item`wet stew`,
+  $item`Mohawk wig`,
   $item`HOA regulation book`,
   $item`yule hatchet`,
   $item`grey down vest`,
@@ -421,14 +422,26 @@ export const PullQuest: Quest = {
       name: "Basic",
       after: [],
       completed: () => {
-        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => parseInt(id)).filter((id) => (id > 0)).map((id) => Item.get(id)));
+        const pulled = new Set<Item>(
+          get("_roninStoragePulls")
+            .split(",")
+            .map((id) => parseInt(id))
+            .filter((id) => id > 0)
+            .map((id) => Item.get(id))
+        );
         for (const pull of pulls) {
           if (!pulled.has(pull)) return false;
         }
         return true;
       },
       do: () => {
-        const pulled = new Set<Item>(get("_roninStoragePulls").split(",").map((id) => parseInt(id)).filter((id) => (id > 0)).map((id) => Item.get(id)));
+        const pulled = new Set<Item>(
+          get("_roninStoragePulls")
+            .split(",")
+            .map((id) => parseInt(id))
+            .filter((id) => id > 0)
+            .map((id) => Item.get(id))
+        );
         for (const pull of pulls) {
           if (!pulled.has(pull)) cliExecute(`pull ${pull.name}`);
         }
@@ -440,7 +453,7 @@ export const PullQuest: Quest = {
       name: "Ore",
       after: ["McLargeHuge/Trapper Request"],
       completed: () =>
-        get("trapperOre") !== '' &&
+        get("trapperOre") !== "" &&
         (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
       do: () => {
         cliExecute(`pull ${get("trapperOre")}`);
