@@ -31,7 +31,7 @@ const Flyers: Task[] = [
   {
     name: "Flyers End",
     after: ["Flyers Start"],
-    ready: () => get("flyeredML") >= 10000,
+    ready: () => get("flyeredML") >= 10300, // Buffer for mafia tracking
     completed: () => get("sidequestArenaCompleted") !== "none",
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {

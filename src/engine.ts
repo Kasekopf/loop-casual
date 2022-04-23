@@ -208,8 +208,8 @@ export class Engine {
         }
       }
 
-      // Use rock-band flyers if needed
-      if (have($item`rock band flyers`) && get("flyeredML") < 10000) {
+      // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
+      if (have($item`rock band flyers`) && get("flyeredML") < 10300) {
         task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
       }
 
