@@ -308,7 +308,7 @@ export const MiscQuest: Quest = {
       after: [],
       completed: () => have($item`ice crown`) && have($item`frozen jeans`),
       ready: () =>
-        getWorkshed() !== $item`cold medicine cabinet` &&
+        getWorkshed() === $item`cold medicine cabinet` &&
         get("_coldMedicineConsults") < 5 &&
         get("_nextColdMedicineConsult") <= totalTurnsPlayed(),
       do: () => {
