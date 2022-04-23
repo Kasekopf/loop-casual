@@ -196,7 +196,11 @@ const Dome: Task[] = [
     after: ["Talisman", "Manor/Bedroom Camera"],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
+    outfit: () => {
+      if (have($item`stunt nuts`))
+        return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+    },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .macro(
@@ -212,7 +216,11 @@ const Dome: Task[] = [
     after: ["Palindome Dog"],
     completed: () => have(Item.get(7262)) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
+    outfit: () => {
+      if (have($item`stunt nuts`))
+        return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+    },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .killItem(...$monsters`Bob Racecar, Racecar Bob`)
@@ -228,7 +236,11 @@ const Dome: Task[] = [
         have($item`photograph of an ostrich egg`)) ||
       step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" },
+    outfit: () => {
+      if (have($item`stunt nuts`))
+        return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+    },
     combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },
