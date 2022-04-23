@@ -1,11 +1,13 @@
 import { create, Item, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
+  $skill,
   ensureEffect,
   get,
   have,
@@ -134,18 +136,27 @@ const Zepplin: Task[] = [
   {
     name: "Protesters",
     after: ["Protesters Start"],
+    ready: () => have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999,
     completed: () => get("zeppelinProtestors") >= 80,
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy()
       .macro(new Macro().tryItem($item`cigarette lighter`))
+      .macro(new Macro().trySkill($skill`%fn, spit on them!`), $monster`Blue Oyster cultist`)
       .killHard($monster`The Nuge`)
       .killItem($monster`Blue Oyster cultist`)
       .kill(),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
-    outfit: {
-      modifier: "-combat, sleaze dmg, sleaze spell dmg",
+    outfit: () => {
+      if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
+        return {
+          modifier: "-combat, item",
+          familiar: $familiar`Melodramedary`,
+        };
+      return {
+        modifier: "-combat, sleaze dmg, sleaze spell dmg",
+      };
     },
-    limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
+    limit: { soft: 30 },
   },
   {
     name: "Protesters Finish",
