@@ -161,14 +161,25 @@ const Pyramid: Task[] = [
   {
     name: "Middle Chamber",
     after: ["Upper Chamber"],
-    completed: () => get("controlRoomUnlock"),
+    completed: () => {
+      if (!get("controlRoomUnlock")) return false;
+      if (get("pyramidBombUsed")) return true;
+      const ratchets = itemAmount($item`tomb ratchet`) + itemAmount($item`crumbling wooden wheel`);
+      const needed = have($item`ancient bomb`) ? 3 : have($item`ancient bronze token`) ? 7 : 10;
+      return ratchets >= needed;
+    },
     do: $location`The Middle Chamber`,
     limit: { turns: 11 },
+    combat: new CombatStrategy()
+      .macro(new Macro().tryItem($item`tangle of rat tails`), $monster`tomb rat`)
+      .killItem($monster`tomb rat`, $monster`tomb rat king`),
+    outfit: {
+      modifier: "item",
+    },
     delay: 9,
   },
   {
     name: "Get Token",
-    acquire: [{ item: $item`tomb ratchet`, num: 3 }],
     after: ["Middle Chamber"],
     completed: () =>
       have($item`ancient bronze token`) || have($item`ancient bomb`) || get("pyramidBombUsed"),
@@ -177,7 +188,6 @@ const Pyramid: Task[] = [
   },
   {
     name: "Get Bomb",
-    acquire: [{ item: $item`tomb ratchet`, num: 4 }],
     after: ["Get Token"],
     completed: () => have($item`ancient bomb`) || get("pyramidBombUsed"),
     do: () => rotatePyramid(3),
@@ -185,7 +195,6 @@ const Pyramid: Task[] = [
   },
   {
     name: "Use Bomb",
-    acquire: [{ item: $item`tomb ratchet`, num: 3 }],
     after: ["Get Bomb"],
     completed: () => get("pyramidBombUsed"),
     do: () => rotatePyramid(1),
