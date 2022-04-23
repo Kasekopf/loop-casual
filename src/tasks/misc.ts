@@ -318,6 +318,20 @@ export const MiscQuest: Quest = {
       freeaction: true,
       limit: { tries: 2 },
     },
+    {
+      name: "Goose Exp",
+      after: [],
+      completed: () =>
+        familiarWeight($familiar`Grey Goose`) >= 9 ||
+        get("_loop_gyou_chef_goose") === "true" ||
+        !have($familiar`Shorter-Order Cook`),
+      do: () => {
+        set("_loop_gyou_chef_goose", "true");
+      },
+      outfit: { familiar: $familiar`Grey Goose` },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
   ],
 };
 

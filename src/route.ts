@@ -4,6 +4,7 @@ export const routing: string[] = [
   // Start with the basic leveling tasks
   "Toot/Finish",
   // Get basic gear
+  "Misc/Goose Exp",
   "Misc/Acquire Cold Medicine Gear",
   "Misc/Acquire Firework Hat",
   "Misc/Acquire Birch Battery",
