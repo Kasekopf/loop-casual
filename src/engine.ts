@@ -58,15 +58,19 @@ export class Engine {
     if (task.completed()) return false;
 
     // Ensure the Grey Goose is charged if we plan on absorbing
+    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (
       task.do instanceof Location &&
       this.absorbtionTargets.hasReprocessTargets(task.do) &&
-      familiarWeight($familiar`Grey Goose`) < 6
+      familiarWeight($familiar`Grey Goose`) < 6 &&
+      (outfit_spec?.familiar === undefined || outfit_spec?.familiar === $familiar`Grey Goose`) &&
+      outfit_spec?.modifier &&
+      !outfit_spec.modifier.includes("meat") &&
+      !outfit_spec.modifier.includes("init")
     )
       return false;
 
     // Ensure that the current +/- combat effects are compatible
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (!moodCompatible(outfit_spec?.modifier)) {
       debug(`X ${task.name}: wrong mood`, "red");
       return false;
