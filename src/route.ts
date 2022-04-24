@@ -51,7 +51,6 @@ export const routing: string[] = [
   "Manor/Bathroom Delay",
   "Manor/Gallery Delay",
   "Macguffin/Desert", // charge camel for protestors
-  "Orc Chasm/Oil Peak", // make jar of oil
 
   // Knock down -combats
   "Wand/Wand",
@@ -60,7 +59,6 @@ export const routing: string[] = [
   "Giant/Unlock HITS",
   "Crypt/Cranny",
   "Manor/Finish Floor2",
-  "Orc Chasm/Twin Init",
   "Mosquito/Finish",
   "Palindome/Protesters",
 
@@ -71,6 +69,8 @@ export const routing: string[] = [
   "Giant/Finish",
   "Tavern/Finish",
   "Macguffin/Finish",
+
+  "Orc Chasm/Start Peaks",
   "War/Boss Hippie",
   "Orc Chasm/Finish", // save A-Boo for last
 
