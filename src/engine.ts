@@ -113,6 +113,15 @@ export class Engine {
       }
     }
 
+    // Burn off desert debuffs
+    if (
+      (have($effect`Prestidigysfunction`) || have($effect`Turned Into a Skeleton`)) &&
+      task.combat &&
+      task.combat.can(MonsterStrategy.KillItem)
+    ) {
+      return false;
+    }
+
     return true;
   }
 
