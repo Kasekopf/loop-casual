@@ -310,13 +310,24 @@ export const WarQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Outfit Cargo",
+      after: [],
+      completed: () =>
+        have($item`beer helmet`) &&
+        have($item`distressed denim pants`) &&
+        have($item`bejeweled pledge pin`),
+      ready: () => !have($effect`Everything Looks Yellow`),
+      priority: () => !have($effect`Everything Looks Yellow`),
+      acquire: [{ item: $item`yellow rocket` }],
+      do: () => {
+        cliExecute(`cargo 568`);
+      },
+      limit: { tries: 1 },
+      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
+    },
+    {
       name: "Enrage",
-      after: ["Start", "Misc/Unlock Island"],
-      acquire: [
-        { item: $item`beer helmet` },
-        { item: $item`distressed denim pants` },
-        { item: $item`bejeweled pledge pin` },
-      ],
+      after: ["Start", "Misc/Unlock Island", "Outfit Cargo"],
       completed: () => step("questL12War") >= 1,
       outfit: {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
