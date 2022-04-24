@@ -2,6 +2,7 @@ import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, useSkill, visitUr
 import { $familiar, $item, $items, $location, $skill, $stat, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { absorbtionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -384,6 +385,9 @@ export const TowerQuest: Quest = {
       after: ["Shadow"],
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
+      post: () => {
+        absorbtionTargets.ignoreUselessAbsorbs(); // Ignore remaining skills
+      },
       outfit: { modifier: "muscle" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },

@@ -750,8 +750,16 @@ export class AbsorbtionTargets {
     if (!inMuscleSign()) this.markAbsorbed($monster`revolving bugbear`);
     if (!inMysticalitySign()) this.markAbsorbed($monster`cloud of disembodied whiskers`);
     if (!inMoxieSign()) this.markAbsorbed($monster`vicious gnauga`);
+
+    // Ignore skills after the NS is defeated
+    if (step("questL13Final") > 11) {
+      for (const skill of this.targetsBySkill.keys()) {
+        this.markObtained(skill);
+      }
+    }
   }
 }
+
 export const absorbtionTargets = new AbsorbtionTargets(reprocessTargets, [
   ...adventureMonsters,
   ...usefulMonsters,
