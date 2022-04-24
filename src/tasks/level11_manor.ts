@@ -22,7 +22,7 @@ const Manor1: Task[] = [
     outfit: { modifier: "stench res, hot res" },
     choices: { 893: 2 },
     combat: new CombatStrategy().kill(),
-    limit: { turns: 7 },
+    limit: { soft: 12 },
   },
   {
     name: "Billiards",
