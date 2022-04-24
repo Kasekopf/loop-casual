@@ -9,6 +9,7 @@ import {
   Monster,
   myMeat,
   myPath,
+  toInt,
   use,
 } from "kolmafia";
 import { Task } from "./tasks/structure";
@@ -398,8 +399,9 @@ function absorbConsumables(): void {
   const blacklist = new Set<Item>(
     $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, bottle of Chateau de Vinegar, Bowl of Scorpions`
   );
-  for (const item_id in getInventory()) {
-    const item = Item.get(parseInt(item_id));
+  for (const item_name in getInventory()) {
+    const item = Item.get(item_name);
+    const item_id = `${toInt(item)}`;
     if (blacklist.has(item)) continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
       drink(item);
