@@ -1,6 +1,16 @@
-import { familiarWeight, Location, Monster } from "kolmafia";
+import { autosell, familiarWeight, Location, Monster, myMeat, use } from "kolmafia";
 import { Task } from "./tasks/structure";
-import { $effect, $familiar, $item, $skill, get, have, Macro, PropertiesManager } from "libram";
+import {
+  $effect,
+  $familiar,
+  $item,
+  $items,
+  $skill,
+  get,
+  have,
+  Macro,
+  PropertiesManager,
+} from "libram";
 import {
   BuiltCombatStrategy,
   CombatResourceAllocation,
@@ -316,7 +326,7 @@ export class Engine {
     if (task.post) task.post();
 
     this.absorbtionTargets.updateAbsorbed();
-
+    autosellJunk();
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 
     // Mark the number of attempts (unless an ignored noncombat occured)
@@ -345,5 +355,15 @@ export class Engine {
       throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).${failureMessage}`;
     if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns)
       throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.${failureMessage}`;
+  }
+}
+
+function autosellJunk(): void {
+  if (myMeat() >= 10000) return;
+  if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
+
+  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack`;
+  for (const item of junk) {
+    if (have(item)) autosell(item, itemAmount(item));
   }
 }
