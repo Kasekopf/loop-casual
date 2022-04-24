@@ -302,7 +302,11 @@ export const TowerQuest: Quest = {
     {
       name: "Wall of Skin",
       after: ["Door"],
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
+      prepare: () => {
+        if (myHp() < myMaxhp()) {
+          restoreHp(myMaxhp());
+        }
+      },
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`hot plate` },
@@ -312,7 +316,11 @@ export const TowerQuest: Quest = {
     {
       name: "Wall of Meat",
       after: ["Wall of Skin"],
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
+      prepare: () => {
+        if (myHp() < myMaxhp()) {
+          restoreHp(myMaxhp());
+        }
+      },
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
       outfit: { modifier: "meat" },
