@@ -1,5 +1,16 @@
 import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, useSkill, visitUrl } from "kolmafia";
-import { $familiar, $item, $items, $location, $skill, $stat, get, have, Macro } from "libram";
+import {
+  $effects,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $skill,
+  $stat,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { absorbtionTargets } from "./absorb";
@@ -290,13 +301,18 @@ export const TowerQuest: Quest = {
       name: "Maze",
       after: ["Frank"],
       completed: () => step("questL13Final") > 4,
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
+      prepare: () => {
+        if (myHp() < myMaxhp()) {
+          restoreHp(myMaxhp());
+        }
+      },
       do: $location`The Hedge Maze`,
       choices: { 1004: 1, 1005: 2, 1008: 2, 1011: 2, 1013: 1, 1022: 1 },
       outfit: {
         modifier: "hot res, cold res, stench res, spooky res, sleaze res",
         familiar: $familiar`Exotic Parrot`,
       },
+      effects: $effects`Red Door Syndrome`,
       limit: { tries: 1 },
     },
     ...Door,

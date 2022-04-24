@@ -1,5 +1,16 @@
-import { itemAmount, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monsters, get, have, Macro } from "libram";
+import { itemAmount, myHp, myMaxhp, restoreHp, use, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $effects,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monsters,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -34,9 +45,13 @@ const ABoo: Task[] = [
     completed: () => get("booPeakProgress") === 0,
     prepare: () => {
       use($item`A-Boo clue`);
+      if (myHp() < myMaxhp()) {
+        restoreHp(myMaxhp());
+      }
     },
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "spooky res, cold res" },
+    effects: $effects`Red Door Syndrome`,
+    outfit: { modifier: "spooky res, cold res", familiar: $familiar`Exotic Parrot` },
     choices: { 611: 1 },
     limit: { tries: 4 },
   },
