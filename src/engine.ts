@@ -1,4 +1,16 @@
-import { autosell, familiarWeight, Location, Monster, myMeat, use } from "kolmafia";
+import {
+  autosell,
+  drink,
+  eat,
+  familiarWeight,
+  getInventory,
+  Item,
+  Location,
+  Monster,
+  myMeat,
+  myPath,
+  use,
+} from "kolmafia";
 import { Task } from "./tasks/structure";
 import {
   $effect,
@@ -10,6 +22,7 @@ import {
   have,
   Macro,
   PropertiesManager,
+  set,
 } from "libram";
 import {
   BuiltCombatStrategy,
@@ -327,6 +340,7 @@ export class Engine {
 
     this.absorbtionTargets.updateAbsorbed();
     autosellJunk();
+    absorbConsumables();
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
 
     // Mark the number of attempts (unless an ignored noncombat occured)
@@ -366,4 +380,26 @@ function autosellJunk(): void {
   for (const item of junk) {
     if (have(item)) autosell(item, itemAmount(item));
   }
+}
+
+function absorbConsumables(): void {
+  if (myPath() !== "Grey You") return; // final safety
+  let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
+  const absorbed = new Set<string>(absorbed_list.split(","));
+  const blacklist = new Set<Item>(
+    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, bottle of Chateau de Vinegar, Bowl of Scorpions`
+  );
+  for (const item_id in getInventory()) {
+    const item = Item.get(parseInt(item_id));
+    if (blacklist.has(item)) continue;
+    if (item.inebriety > 0 && !absorbed.has(item_id)) {
+      drink(item);
+      absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
+    }
+    if (item.fullness > 0 && !absorbed.has(item_id)) {
+      eat(item);
+      absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
+    }
+  }
+  set("_loop_gyou_absorbed_consumables", absorbed_list);
 }
