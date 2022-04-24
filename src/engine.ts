@@ -82,16 +82,7 @@ export class Engine {
 
     // Ensure the Grey Goose is charged if we plan on absorbing
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (
-      task.do instanceof Location &&
-      this.absorbtionTargets.hasReprocessTargets(task.do) &&
-      familiarWeight($familiar`Grey Goose`) < 6 &&
-      (outfit_spec?.familiar === undefined || outfit_spec?.familiar === $familiar`Grey Goose`) &&
-      outfit_spec?.modifier &&
-      !outfit_spec.modifier.includes("meat") &&
-      !outfit_spec.modifier.includes("init")
-    )
-      return false;
+    if (familiarWeight($familiar`Grey Goose`) < 6 && this.needsChargedGoose(task)) return false;
 
     // Ensure that the current +/- combat effects are compatible
     if (!moodCompatible(outfit_spec?.modifier)) {
@@ -149,6 +140,21 @@ export class Engine {
     }
 
     return true;
+  }
+
+  public needsChargedGoose(task: Task): boolean {
+    if (task.do instanceof Location && this.absorbtionTargets.hasReprocessTargets(task.do)) {
+      const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+      if (!outfit_spec) return true;
+      if (outfit_spec.familiar && outfit_spec.familiar === $familiar`Grey Goose`) return true;
+      if (
+        outfit_spec.modifier &&
+        !outfit_spec.modifier.includes("meat") &&
+        !outfit_spec.modifier.includes("init")
+      )
+        return true;
+    }
+    return false;
   }
 
   public hasDelay(task: Task): boolean {

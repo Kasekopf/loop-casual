@@ -2,7 +2,6 @@ import {
   cliExecute,
   familiarWeight,
   gametimeToInt,
-  Location,
   myAdventures,
   print,
   turnsPlayed,
@@ -118,10 +117,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
   // Find the next useful absorb
   if (familiarWeight($familiar`Grey Goose`) >= 6) {
     todo = tasks.find(
-      (task) =>
-        engine.available(task, orb_predictions) &&
-        task.do instanceof Location &&
-        absorbtionTargets.hasReprocessTargets(task.do)
+      (task) => engine.available(task, orb_predictions) && engine.needsChargedGoose(task)
     );
     if (todo !== undefined) return [todo];
   }
