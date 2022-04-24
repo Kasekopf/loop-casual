@@ -10,6 +10,9 @@ export const routing: string[] = [
   "Misc/Acquire Birch Battery",
   "Pull/Basic",
 
+  // Get infinite loop
+  "Misc/Locket Pygmy",
+
   "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
 
   // Get initial -combat

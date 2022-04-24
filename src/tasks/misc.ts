@@ -1,13 +1,16 @@
 import { CombatStrategy } from "../combat";
 import {
+  abort,
   adv1,
   cliExecute,
+  equippedAmount,
   familiarWeight,
   getWorkshed,
   Item,
   itemAmount,
   myAscensions,
   myBasestat,
+  myFamiliar,
   myMeat,
   myPrimestat,
   retrieveItem,
@@ -25,6 +28,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  CombatLoversLocket,
   get,
   getSaleValue,
   have,
@@ -331,6 +335,34 @@ export const MiscQuest: Quest = {
       outfit: { familiar: $familiar`Grey Goose` },
       limit: { tries: 1 },
       freeaction: true,
+    },
+    {
+      name: "Locket Pygmy",
+      after: [],
+      completed: () => have($skill`Infinite Loop`),
+      prepare: () => {
+        if (
+          equippedAmount($item`unwrapped knock-off retro superhero cape`) === 0 ||
+          myFamiliar() !== $familiar`Vampire Vintner`
+        )
+          abort("Not ready for pygmy locket");
+        cliExecute("retrocape heck hold");
+      },
+      do: () => {
+        CombatLoversLocket.reminisce($monster`pygmy witch lawyer`);
+      },
+      combat: new CombatStrategy().macro(
+        new Macro()
+          .tryItem($item`cosmic bowling ball`)
+          .trySkill($skill`Pseudopod Slap`)
+          .repeat()
+      ),
+      outfit: {
+        modifier: "init",
+        equip: $items`unwrapped knock-off retro superhero cape`,
+        familiar: $familiar`Vampire Vintner`,
+      },
+      limit: { tries: 1 },
     },
   ],
 };

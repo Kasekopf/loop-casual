@@ -109,6 +109,9 @@ export class Engine {
       return false;
     }
 
+    // Wait until we get Infinite Loop before doing most things
+    if (task.do instanceof Location && !have($skill`Infinite Loop`)) return false;
+
     // Dodge useless monsters with the orb
     if (task.do instanceof Location && orb_predictions !== undefined) {
       const next_monster = orb_predictions.get(task.do);
