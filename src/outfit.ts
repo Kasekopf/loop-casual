@@ -231,6 +231,12 @@ export class Outfit {
         this.equip($item`familiar scrapbook`);
     } else if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);
+    } else if (
+      !have($item`eleven-foot pole`) ||
+      !have($item`ring of Detect Boring Doors`) ||
+      !have($item`Pick-O-Matic lockpicks`)
+    ) {
+      this.equip($familiar`Gelatinous Cubeling`);
     }
   }
 
