@@ -7,7 +7,6 @@ import {
   $monster,
   $monsters,
   CombatLoversLocket,
-  get,
   have,
   Macro,
 } from "libram";
@@ -49,17 +48,13 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Ore Mountain",
       after: [],
-      completed: () => true, // CombatLoversLocket.monstersReminisced().includes($monster`mountain man`),
-      ready: () => !have($effect`Everything Looks Yellow`) && myMeat() >= 1000,
+      completed: () => itemAmount($item`asbestos ore`) >= 2 || step("questL08Trapper") >= 2,
+      ready: () =>
+        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
       priority: () => !have($effect`Everything Looks Yellow`),
       acquire: [{ item: $item`yellow rocket` }],
       prepare: () => {
-        if (
-          have($item`unwrapped knock-off retro superhero cape`) &&
-          (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "hold")
-        ) {
-          cliExecute("retrocape heck hold");
-        }
+        cliExecute("retrocape heck hold");
       },
       do: () => {
         CombatLoversLocket.reminisce($monster`mountain man`);
@@ -67,7 +62,6 @@ export const McLargeHugeQuest: Quest = {
       outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
       combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
       limit: { tries: 1 },
-      freeaction: true,
     },
     {
       name: "Trapper Return",

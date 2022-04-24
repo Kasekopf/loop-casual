@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, sell, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -316,7 +316,8 @@ export const WarQuest: Quest = {
         have($item`beer helmet`) &&
         have($item`distressed denim pants`) &&
         have($item`bejeweled pledge pin`),
-      ready: () => !have($effect`Everything Looks Yellow`),
+      ready: () =>
+        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
       priority: () => !have($effect`Everything Looks Yellow`),
       acquire: [{ item: $item`yellow rocket` }],
       do: () => {

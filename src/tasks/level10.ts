@@ -1,4 +1,4 @@
-import { cliExecute, containsText, itemAmount, use, visitUrl } from "kolmafia";
+import { cliExecute, containsText, itemAmount, myMeat, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -38,7 +38,8 @@ export const GiantQuest: Quest = {
       name: "Airship YR Healer",
       after: ["Grow Beanstalk"],
       completed: () => have($item`amulet of extreme plot significance`),
-      ready: () => !have($effect`Everything Looks Yellow`),
+      ready: () =>
+        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
       priority: () => !have($effect`Everything Looks Yellow`),
       acquire: [{ item: $item`yellow rocket` }],
       do: $location`The Penultimate Fantasy Airship`,
