@@ -98,6 +98,7 @@ const Desert: Task[] = [
     outfit: {
       equip: $items`UV-resistant compass, dromedary drinking helmet`,
       familiar: $familiar`Melodramedary`,
+      modifier: "moxie",
     },
     combat: new CombatStrategy().kill(),
     post: (): void => {
