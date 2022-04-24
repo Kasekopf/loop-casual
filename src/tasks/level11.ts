@@ -1,6 +1,7 @@
 import { buy, cliExecute, itemAmount, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
+  $effect,
   $familiar,
   $item,
   $items,
@@ -11,6 +12,7 @@ import {
   get,
   have,
   Macro,
+  uneffect,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -114,7 +116,8 @@ const Desert: Task[] = [
         runChoice(1);
       }
       cliExecute("use * desert sightseeing pamphlet");
-      if (have($item`worm-riding hooks`)) use($item`drum machine`);
+      if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
+      if (have($effect`Majorly Poisoned`)) uneffect($effect`Majorly Poisoned`);
     },
     limit: { soft: 30 },
     delay: 25,
