@@ -1,5 +1,6 @@
-import { itemAmount, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, sell, visitUrl } from "kolmafia";
 import {
+  $coinmaster,
   $effect,
   $effects,
   $item,
@@ -339,6 +340,7 @@ export const WarQuest: Quest = {
       completed: () => get("hippiesDefeated") >= 64,
       outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
+      post: dimesForGarters,
       combat: new CombatStrategy().kill(),
       limit: { tries: 8 },
     },
@@ -369,6 +371,7 @@ export const WarQuest: Quest = {
       completed: () => get("hippiesDefeated") >= 1000,
       outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
+      post: dimesForGarters,
       combat: new CombatStrategy().kill(),
       limit: { tries: 26 },
     },
@@ -378,6 +381,7 @@ export const WarQuest: Quest = {
       completed: () => step("questL12War") === 999,
       ready: () => get("hippiesDefeated") >= 1000,
       outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+      prepare: dimesForGarters,
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
@@ -387,3 +391,13 @@ export const WarQuest: Quest = {
     },
   ],
 };
+
+function dimesForGarters(): void {
+  if (itemAmount($item`gauze garter`) >= 20) return;
+  const to_sell = $items`pink clay bead, purple clay bead, green clay bead, communications windchimes, bullet-proof corduroys, round purple sunglasses, reinforced beaded headband`;
+  for (const it of to_sell) {
+    if (itemAmount(it) > 0) sell(it.buyer, itemAmount(it), it);
+  }
+
+  if ($coinmaster`Quartersmaster`.availableTokens >= 2) cliExecute("make * gauze garter");
+}
