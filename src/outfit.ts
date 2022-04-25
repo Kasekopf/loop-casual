@@ -227,7 +227,7 @@ export class Outfit {
     if (familiarWeight($familiar`Grey Goose`) < 6) {
       this.equip($familiar`Grey Goose`);
       this.equip($item`yule hatchet`);
-      if (this.modifier && !this.modifier.includes("-combat"))
+      if (!this.modifier || !this.modifier.includes("-combat"))
         this.equip($item`familiar scrapbook`);
     } else if (get("camelSpit") < 100) {
       this.equip($familiar`Melodramedary`);

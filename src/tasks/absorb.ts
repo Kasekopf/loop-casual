@@ -7,6 +7,7 @@ import {
   Location,
   Monster,
   myAscensions,
+  print,
   putCloset,
   runChoice,
   Skill,
@@ -472,7 +473,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Thugnderdome`,
-    ready: () => inMysticalitySign(),
+    ready: () => inMoxieSign(),
     after: [],
   },
 ];
@@ -685,6 +686,7 @@ export class AbsorbtionTargets {
   }
 
   public markAbsorbed(monster: Monster | undefined): void {
+    if (monster) print(monster?.name);
     if (monster !== undefined) {
       this.delete(monster);
       if (!this.absorbed.has(monster)) {

@@ -8,7 +8,9 @@ import {
   Location,
   Monster,
   myMeat,
+  myMp,
   myPath,
+  restoreMp,
   toInt,
   use,
 } from "kolmafia";
@@ -83,7 +85,10 @@ export class Engine {
 
     // Ensure the Grey Goose is charged if we plan on absorbing
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (familiarWeight($familiar`Grey Goose`) < 6 && this.needsChargedGoose(task)) return false;
+    if (familiarWeight($familiar`Grey Goose`) < 6 && this.needsChargedGoose(task)) {
+      debug(`X ${task.name}: charged goose needed`, "red");
+      return false;
+    }
 
     // Ensure that the current +/- combat effects are compatible
     if (!moodCompatible(outfit_spec?.modifier)) {
@@ -147,11 +152,11 @@ export class Engine {
     if (task.do instanceof Location && this.absorbtionTargets.hasReprocessTargets(task.do)) {
       const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
       if (!outfit_spec) return true;
-      if (outfit_spec.familiar && outfit_spec.familiar === $familiar`Grey Goose`) return true;
+      if (outfit_spec.familiar === $familiar`Grey Goose`) return true;
       if (
-        outfit_spec.modifier &&
-        !outfit_spec.modifier.includes("meat") &&
-        !outfit_spec.modifier.includes("init")
+        !outfit_spec.familiar &&
+        (!outfit_spec.modifier ||
+          (!outfit_spec.modifier.includes("meat") && !outfit_spec.modifier.includes("init")))
       )
         return true;
     }
@@ -185,10 +190,7 @@ export class Engine {
         debug(`Acquiring ${num_needed} ${to_get.item}`);
         retrieveItem(to_get.item, num_needed);
       }
-      if (
-        itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed &&
-        (to_get.optional ?? true)
-      ) {
+      if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed && !to_get.optional) {
         throw `Task ${task.name} was unable to acquire ${num_needed} ${to_get.item}`;
       }
     }
@@ -219,7 +221,8 @@ export class Engine {
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
-    if (!task.freeaction) {
+    const freeaction = typeof task.freeaction === "function" ? task.freeaction() : task.freeaction;
+    if (!freeaction) {
       // Prepare combat macro
       const task_combat = task.combat?.clone() ?? new CombatStrategy();
 
@@ -320,8 +323,7 @@ export class Engine {
       combat_resources.all().map((source) => source.prepare && source.prepare());
 
       // HP/MP upkeep
-      // if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
-      // if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
+      if (myMp() < 20) restoreMp(20 - myMp());
 
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
@@ -397,7 +399,7 @@ function absorbConsumables(): void {
   let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
   const absorbed = new Set<string>(absorbed_list.split(","));
   const blacklist = new Set<Item>(
-    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, bottle of Chateau de Vinegar, Bowl of Scorpions`
+    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname`
   );
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);

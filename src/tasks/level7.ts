@@ -31,6 +31,7 @@ const Alcove: Task[] = [
     name: "Alcove",
     after: ["Start"],
     prepare: tuneCape,
+    ready: () => have($skill`Overclocking`) || !!(get("twinPeakProgress") & 8),
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {

@@ -75,7 +75,9 @@ export const MiscQuest: Quest = {
         have($item`skeletal skiff`) ||
         have($item`yellow submarine`),
       do: () => {
-        retrieveItem($item`dingy dinghy`);
+        retrieveItem($item`dingy planks`);
+        retrieveItem($item`dinghy plans`);
+        use($item`dinghy plans`);
       },
       limit: { tries: 1 },
       freeaction: true,
@@ -111,7 +113,7 @@ export const MiscQuest: Quest = {
     {
       name: "Voting",
       after: [],
-      ready: () => get("voteAlways"),
+      ready: () => false,
       completed: () => have($item`"I Voted!" sticker`) || get("_voteToday"),
       do: (): void => {
         // Taken from garbo
@@ -415,7 +417,13 @@ export const WandQuest: Quest = {
     {
       name: "Wand",
       after: ["Mimic"],
-      completed: () => get("lastZapperWand") === myAscensions(),
+      completed: () =>
+        get("lastZapperWand") === myAscensions() ||
+        have($item`aluminum wand`) ||
+        have($item`ebony wand`) ||
+        have($item`hexagonal wand`) ||
+        have($item`marble wand`) ||
+        have($item`pine wand`),
       do: () => use($item`dead mimic`),
       freeaction: true,
       limit: { tries: 1 },

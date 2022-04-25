@@ -1,16 +1,5 @@
 import { itemAmount, myHp, myMaxhp, restoreHp, use, visitUrl } from "kolmafia";
-import {
-  $effect,
-  $effects,
-  $familiar,
-  $item,
-  $items,
-  $location,
-  $monsters,
-  get,
-  have,
-  Macro,
-} from "libram";
+import { $effects, $familiar, $item, $items, $location, $monsters, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -28,9 +17,6 @@ const ABoo: Task[] = [
   {
     name: "ABoo Clues",
     after: ["ABoo Start"],
-    acquire: [
-      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
-    ],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
     outfit: { modifier: "item", equip: $items`HOA regulation book` },
@@ -54,6 +40,7 @@ const ABoo: Task[] = [
     outfit: { modifier: "spooky res, cold res", familiar: $familiar`Exotic Parrot` },
     choices: { 611: 1 },
     limit: { tries: 4 },
+    freeaction: true,
   },
   {
     name: "ABoo Peak",
@@ -91,6 +78,7 @@ const Twin: Task[] = [
     completed: () => !!(get("twinPeakProgress") & 1),
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
+    effects: $effects`Red Door Syndrome`,
     outfit: { modifier: "stench res 4min, -combat, item" },
     combat: new CombatStrategy().killItem(
       ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
@@ -106,6 +94,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
+    effects: $effects`Red Door Syndrome`,
     outfit: { modifier: "stench res 4min" },
     limit: { tries: 1 },
   },
@@ -227,7 +216,9 @@ export const ChasmQuest: Quest = {
         else return { modifier: "sleaze res" };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
+      effects: $effects`Red Door Syndrome`,
       choices: { 1345: 3 },
+      freeaction: () => get("smutOrcNoncombatProgress") >= 15,
       limit: { soft: 32 },
     },
     {

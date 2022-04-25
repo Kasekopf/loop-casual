@@ -64,7 +64,7 @@ const Lighthouse: Task[] = [
         ...$monsters`void guy, void slab, void spider`
       )
       .kill($monster`lobsterfrogman`),
-    limit: { soft: 20 },
+    limit: { tries: 1 },
   },
   {
     name: "Lighthouse Basic",

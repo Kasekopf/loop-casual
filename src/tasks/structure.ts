@@ -44,7 +44,7 @@ export type Task = {
   effects?: Effect[];
   acquire?: AcquireItem[];
   delay?: number | (() => number);
-  freeaction?: boolean;
+  freeaction?: boolean | (() => boolean);
   freecombat?: boolean;
   limit: Limit;
 };

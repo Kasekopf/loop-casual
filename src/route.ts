@@ -32,16 +32,18 @@ export const routing: string[] = [
   "Absorb/The Black Forest",
 
   // Aim for remaining pygmies
+  "War/Flyers Start", // Start the war and get flyers ASAP
   "Hidden City/Bowling",
   "Absorb/The Hidden Bowling Alley",
-
-  "War/Flyers Start", // Start the war and get flyers ASAP
 
   // Prepare for Healer YR
   "Palindome/Copperhead",
   "Palindome/Bat Snake",
   "Palindome/Cold Snake",
   "Giant/Airship YR Healer",
+  // For MP regen, ASAP
+  "Wand/Wand",
+  "Absorb/The Dungeons of Doom",
 
   "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
 
@@ -51,16 +53,15 @@ export const routing: string[] = [
   "Manor/Bedroom",
   "Manor/Bathroom Delay",
   "Manor/Gallery Delay",
-  "Macguffin/Desert", // charge camel for protestors
 
   // Knock down -combats
-  "Wand/Wand",
-  "Absorb/The Dungeons of Doom", // For MP regen, ASAP
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
   "Crypt/Cranny",
   "Manor/Finish Floor2",
   "Mosquito/Finish",
+
+  "Macguffin/Desert", // charge camel for protestors
   "Palindome/Protesters",
 
   // Finish remaining quests
