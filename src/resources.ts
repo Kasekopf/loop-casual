@@ -29,8 +29,10 @@ import {
   get,
   getBanishedMonsters,
   getKramcoWandererChance,
+  getModifier,
   have,
   Macro,
+  sum,
 } from "libram";
 import { debug } from "./lib";
 
@@ -249,8 +251,20 @@ export interface RunawaySource extends CombatResource {
 }
 
 // Gear and familiar to use for runaways (i.e., Bandersnatch or Stomping Boots)
-const familiarGear = $items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, Greaves of the Murk Lord, hewn moon-rune spoon, astral pet sweater`;
-const familiarGearBonus = 35;
+const familiarPants =
+  $items`repaid diaper, Great Wolf's beastly trousers, Greaves of the Murk Lord`.find((item) =>
+    have(item)
+  );
+const familiarEquip = $items`amulet coin, luck incense, astral pet sweater`.find((item) =>
+  have(item)
+);
+const familiarGear = [
+  ...$items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, hewn moon-rune spoon`,
+  ...(familiarEquip ? [familiarEquip] : []),
+  ...(familiarPants ? [familiarPants] : []),
+];
+const familiarGearBonus =
+  5 + sum(familiarGear, (item: Item) => getModifier("Familiar Weight", item));
 const familiarEffectBonus = 15;
 const runawayFamiliar = have($familiar`Frumious Bandersnatch`)
   ? $familiar`Frumious Bandersnatch`
