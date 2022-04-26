@@ -3,7 +3,6 @@ import {
   buy,
   cliExecute,
   Familiar,
-  familiarEquipment,
   familiarWeight,
   floor,
   Item,
@@ -256,9 +255,13 @@ const familiarPants =
   $items`repaid diaper, Great Wolf's beastly trousers, Greaves of the Murk Lord`.find((item) =>
     have(item)
   );
-const familiarEquip = [$item`astral pet sweater`, $familiar`Cornbeefadon`, $familiar`Mu`]
-  .filter((thing) => have(thing))
-  .map((thing) => (thing instanceof Familiar ? familiarEquipment(thing) : thing))[0];
+const familiarEquip = have($item`astral pet sweater`)
+  ? $item`astral pet sweater`
+  : have($familiar`Cornbeefadon`)
+  ? $item`amulet coin`
+  : have($familiar`Mu`)
+  ? $item`luck incense`
+  : null;
 const familiarGear = [
   ...$items`Daylight Shavings Helmet, Buddy Bjorn, Stephen's lab coat, hewn moon-rune spoon`,
   ...(familiarEquip ? [familiarEquip] : []),
