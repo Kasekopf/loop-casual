@@ -292,7 +292,7 @@ const Nuns: Task[] = [
       modifier: "meat",
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
     },
-    combat: new CombatStrategy(true).kill(),
+    combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`)).kill(),
     limit: { soft: 20 },
   },
 ];
