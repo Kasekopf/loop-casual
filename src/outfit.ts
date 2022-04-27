@@ -1,4 +1,5 @@
 import {
+  cliExecute,
   equip,
   equippedAmount,
   equippedItem,
@@ -206,6 +207,12 @@ export class Outfit {
           requirements,
           new Requirement([], { preventEquip: [$item`cursed magnifying glass`] }),
         ]);
+      }
+
+      if (this.modifier.includes("-combat")) {
+        if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
+      } else if (this.modifier.includes("ML")) {
+        if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
       }
 
       if (!requirements.maximize()) {
