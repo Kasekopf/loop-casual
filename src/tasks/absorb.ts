@@ -1,9 +1,9 @@
 import {
   appearanceRates,
-  inMoxieSign,
-  inMuscleSign,
-  inMysticalitySign,
+  canadiaAvailable,
+  gnomadsAvailable,
   itemAmount,
+  knollAvailable,
   Location,
   Monster,
   myAscensions,
@@ -457,7 +457,7 @@ const absorbTasks: AbsorbTask[] = [
   // Moon-sign zones
   {
     do: $location`The Bugbear Pen`,
-    ready: () => inMuscleSign(),
+    ready: () => knollAvailable(),
     prepare: () => {
       if (step("questM03Bugbear") === -1) {
         visitUrl("place.php?whichplace=knoll_friendly&action=dk_mayor");
@@ -467,13 +467,13 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Outskirts of Camp Logging Camp`,
-    ready: () => inMysticalitySign(),
+    ready: () => canadiaAvailable(),
     after: [],
     outfit: { modifier: "+combat" },
   },
   {
     do: $location`Thugnderdome`,
-    ready: () => inMoxieSign(),
+    ready: () => gnomadsAvailable(),
     after: [],
   },
 ];
@@ -749,9 +749,9 @@ export class AbsorbtionTargets {
     }
 
     // Ignore the monsters that are not our moonsign
-    if (!inMuscleSign()) this.markAbsorbed($monster`revolving bugbear`);
-    if (!inMysticalitySign()) this.markAbsorbed($monster`cloud of disembodied whiskers`);
-    if (!inMoxieSign()) this.markAbsorbed($monster`vicious gnauga`);
+    if (!knollAvailable()) this.markAbsorbed($monster`revolving bugbear`);
+    if (!canadiaAvailable()) this.markAbsorbed($monster`cloud of disembodied whiskers`);
+    if (!gnomadsAvailable()) this.markAbsorbed($monster`vicious gnauga`);
 
     // Ignore skills after the NS is defeated
     if (step("questL13Final") > 11) {
