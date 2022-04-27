@@ -196,6 +196,18 @@ export class Outfit {
         new Requirement([], { preventSlot: [$slot`back`] }),
       ]);
 
+      // Avoid burning CMG void fight just for the modifier
+      if (
+        have($item`cursed magnifying glass`) &&
+        get("cursedMagnifyingGlassCount") >= 13 &&
+        !targetEquipment.includes($item`cursed magnifying glass`)
+      ) {
+        requirements = Requirement.merge([
+          requirements,
+          new Requirement([], { preventEquip: [$item`cursed magnifying glass`] }),
+        ]);
+      }
+
       if (!requirements.maximize()) {
         throw `Unable to maximize ${this.modifier}`;
       }
