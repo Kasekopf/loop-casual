@@ -7,6 +7,8 @@ import {
   Item,
   Location,
   Monster,
+  myBasestat,
+  myBuffedstat,
   myHp,
   myMaxhp,
   myMaxmp,
@@ -26,6 +28,7 @@ import {
   $items,
   $locations,
   $skill,
+  $stat,
   get,
   have,
   Macro,
@@ -261,6 +264,8 @@ export class Engine {
       // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
       const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest`);
       if (
+        myBasestat($stat`Moxie`) >= 200 &&
+        myBuffedstat($stat`Moxie`) >= 200 &&
         have($item`rock band flyers`) &&
         get("flyeredML") < 10300 &&
         (!(task.do instanceof Location) || !blacklist.has(task.do))
