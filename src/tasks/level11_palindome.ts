@@ -137,12 +137,21 @@ const Zepplin: Task[] = [
   {
     name: "Protesters",
     after: ["Protesters Start"],
-    ready: () => have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999,
+    ready: () =>
+      (have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
+      (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`)),
+    acquire: [{ item: $item`yellow rocket`, useful: () => get("camelSpit") >= 100 }],
     completed: () => get("zeppelinProtestors") >= 80,
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy()
       .macro(new Macro().tryItem($item`cigarette lighter`))
-      .macro(new Macro().trySkill($skill`%fn, spit on them!`), $monster`Blue Oyster cultist`)
+      .macro(
+        () =>
+          get("camelSpit") >= 100
+            ? new Macro().trySkill($skill`%fn, spit on them!`).tryItem($item`yellow rocket`)
+            : new Macro(),
+        $monster`Blue Oyster cultist`
+      )
       .killHard($monster`The Nuge`)
       .killItem($monster`Blue Oyster cultist`)
       .kill(),
