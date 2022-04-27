@@ -6,6 +6,7 @@ import {
   equippedAmount,
   familiarWeight,
   getWorkshed,
+  hermit,
   Item,
   itemAmount,
   knollAvailable,
@@ -368,6 +369,17 @@ export const MiscQuest: Quest = {
         modifier: "init",
         equip: $items`unwrapped knock-off retro superhero cape`,
         familiar: $familiar`Vampire Vintner`,
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Hermit Clover",
+      after: [],
+      ready: () => myMeat() >= 1000,
+      completed: () => get("_loop_gyou_clovers") === "true",
+      do: () => {
+        hermit($item`11-leaf clover`, 3);
+        set("_loop_gyou_clovers", "false");
       },
       limit: { tries: 1 },
     },

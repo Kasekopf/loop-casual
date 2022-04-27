@@ -77,7 +77,7 @@ export const routing: string[] = [
 
   // Finish up with last delay
   "Bat/Finish",
-
+  "Misc/Hermit Clover",
   "Tower/Naughty Sorceress",
   "Absorb/All",
 ];
