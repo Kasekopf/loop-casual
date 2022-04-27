@@ -34,7 +34,7 @@ const ABoo: Task[] = [
     outfit: { modifier: "item", equip: $items`HOA regulation book` },
     combat: new CombatStrategy().killItem(),
     choices: { 611: 1, 1430: 1 },
-    limit: { tries: 4 },
+    limit: { soft: 10 },
   },
   {
     name: "ABoo Horror",
