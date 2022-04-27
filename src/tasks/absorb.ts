@@ -236,7 +236,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`The Hidden Park`,
-    after: ["Hidden City/Open City"],
+    after: ["Hidden City/Open City", "Hidden City/Banish Janitors"],
     choices: {
       789: () => {
         return get("relocatePygmyJanitor") === myAscensions() ? 2 : 3;

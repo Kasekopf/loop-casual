@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myHash, use, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myAscensions, myHash, use, visitUrl } from "kolmafia";
 import {
   $effects,
   $item,
@@ -131,7 +131,7 @@ const Apartment: Task[] = [
   },
   {
     name: "Apartment Files", // Get the last McClusky files here if needed, as a backup plan
-    after: ["Office Files"],
+    after: ["Office Files", "Banish Janitors"],
     completed: () =>
       have($item`McClusky file (page 5)`) ||
       have($item`McClusky file (complete)`) ||
@@ -186,7 +186,7 @@ const Office: Task[] = [
   },
   {
     name: "Office Files",
-    after: ["Open Office"],
+    after: ["Open Office", "Banish Janitors"],
     completed: () =>
       (have($item`McClusky file (page 1)`) &&
         have($item`McClusky file (page 2)`) &&
@@ -253,7 +253,7 @@ const Hospital: Task[] = [
   },
   {
     name: "Hospital",
-    after: ["Open Hospital"],
+    after: ["Open Hospital", "Banish Janitors"],
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy()
@@ -292,8 +292,24 @@ const Bowling: Task[] = [
     acquire: [{ item: $item`antique machete` }],
   },
   {
-    name: "Bowling",
+    name: "Bowling Skills",
     after: ["Open Bowling"],
+    acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
+    completed: () => have($skill`Infinite Loop`) && have($skill`Double Nanovision`),
+    do: $location`The Hidden Bowling Alley`,
+    combat: new CombatStrategy()
+      .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
+      .killItem($monster`pygmy bowler`)
+      .banish(...$monsters`pygmy janitor, pygmy orderlies`),
+    outfit: {
+      modifier: "item",
+    },
+    choices: { 788: 1 },
+    limit: { soft: 15 },
+  },
+  {
+    name: "Bowling",
+    after: ["Open Bowling", "Banish Janitors"],
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,
@@ -326,6 +342,15 @@ export const HiddenQuest: Quest = {
     ...Apartment,
     ...Hospital,
     ...Bowling,
+    {
+      name: "Banish Janitors",
+      after: ["Bowling Skills"],
+      completed: () => get("relocatePygmyJanitor") === myAscensions(),
+      do: $location`The Hidden Park`,
+      outfit: { modifier: "-combat" },
+      choices: { 789: 2 },
+      limit: { soft: 5 },
+    },
     {
       name: "Boss",
       after: ["Finish Office", "Finish Apartment", "Finish Hospital", "Finish Bowling"],
