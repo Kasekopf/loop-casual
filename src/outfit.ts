@@ -257,7 +257,7 @@ export class Outfit {
       this.equip($item`yule hatchet`);
       if (!this.modifier || !this.modifier.includes("-combat"))
         this.equip($item`familiar scrapbook`);
-    } else if (get("camelSpit") < 100) {
+    } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
       this.equip($familiar`Melodramedary`);
     } else if (
       !have($item`eleven-foot pole`) ||
