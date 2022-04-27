@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
+import { cliExecute, haveEffect, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -49,7 +49,10 @@ const Lighthouse: Task[] = [
     name: "Lighthouse",
     after: ["Enrage", "Bat/Use Sonar 3"],
     priority: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
-    ready: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
+    ready: () =>
+      get("cursedMagnifyingGlassCount") >= 13 &&
+      get("_voidFreeFights") < 5 &&
+      (!have($effect`Everything Looks Yellow`) || haveEffect($effect`Everything Looks Yellow`) > 5),
     completed: () =>
       get("lastCopyableMonster") === $monster`lobsterfrogman` ||
       itemAmount($item`barrel of gunpowder`) >= 5 ||
