@@ -549,25 +549,26 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`upgraded ram`,
   $monster`vicious gnauga`,
   $monster`whitesnake`,
+  // 5 adv monsters
+  $monster`dire pigeon`,
+  $monster`gingerbread murderer`,
+  $monster`grave rober`,
+  $monster`irate mariachi`,
+  $monster`plastered frat orc`,
+  $monster`swarm of skulls`,
 ]);
 const adventureMonsters: Monster[] = [
   // 5 adv monsters
   $monster`albino bat`,
   $monster`batrat`,
-  $monster`dire pigeon`,
   $monster`G imp`,
-  $monster`gingerbread murderer`,
-  $monster`grave rober`,
-  $monster`irate mariachi`,
   $monster`Knob Goblin Bean Counter`,
   $monster`Knob Goblin Madam`,
   $monster`Knob Goblin Master Chef`,
   $monster`L imp`,
   $monster`magical fruit bat`,
   $monster`P imp`,
-  $monster`plastered frat orc`,
   $monster`swarm of Knob lice`,
-  $monster`swarm of skulls`,
   $monster`W imp`,
   $monster`warwelf`,
 ];
