@@ -8,6 +8,7 @@ import {
   getWorkshed,
   Item,
   itemAmount,
+  knollAvailable,
   myAscensions,
   myBasestat,
   myFamiliar,
@@ -45,8 +46,12 @@ export const MiscQuest: Quest = {
     {
       name: "Unlock Beach",
       after: [],
+      ready: () => myMeat() >= (knollAvailable() ? 538 : 5000),
       completed: () => have($item`bitchin' meatcar`) || have($item`Desert Bus pass`),
-      do: () => cliExecute("acquire 1 bitchin' meatcar"),
+      do: () => {
+        if (knollAvailable()) cliExecute("acquire 1 bitchin' meatcar");
+        else cliExecute("acquire 1 desert bus pass");
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
