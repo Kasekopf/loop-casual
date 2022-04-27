@@ -1,5 +1,17 @@
-import { itemAmount, myHp, myMaxhp, restoreHp, use, visitUrl } from "kolmafia";
-import { $effects, $familiar, $item, $items, $location, $monsters, get, have, Macro } from "libram";
+import { itemAmount, myHp, myMaxhp, myMeat, restoreHp, use, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $effects,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monsters,
+  ensureEffect,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -204,7 +216,19 @@ export const ChasmQuest: Quest = {
     {
       name: "Bridge",
       after: ["Start"],
+      ready: () =>
+        get("smutOrcNoncombatProgress") < 15 ||
+        have($effect`Red Door Syndrome`) ||
+        myMeat() >= 1000,
       completed: () => step("questL09Topping") >= 1,
+      prepare: () => {
+        if (
+          get("smutOrcNoncombatProgress") >= 15 &&
+          !have($effect`Red Door Syndrome`) &&
+          step("questL11Black") >= 2
+        )
+          ensureEffect($effect`Red Door Syndrome`);
+      },
       do: $location`The Smut Orc Logging Camp`,
       post: (): void => {
         if (have($item`smut orc keepsake box`)) use($item`smut orc keepsake box`);
@@ -216,7 +240,6 @@ export const ChasmQuest: Quest = {
         else return { modifier: "sleaze res" };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
-      effects: $effects`Red Door Syndrome`,
       choices: { 1345: 3 },
       freeaction: () => get("smutOrcNoncombatProgress") >= 15,
       limit: { soft: 32 },
