@@ -33,8 +33,7 @@ export const routing: string[] = [
 
   // Aim for remaining pygmies
   "War/Flyers Start", // Start the war and get flyers ASAP
-  "Hidden City/Bowling",
-  "Absorb/The Hidden Bowling Alley",
+  "Hidden City/Bowling Skills",
 
   // Prepare for Healer YR
   "Palindome/Copperhead",
