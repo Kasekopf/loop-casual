@@ -88,21 +88,26 @@ export class BuiltCombatStrategy {
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     }
 
+    // If there is macro precursor, do it now
     if (abstract.init_macro) {
       this.macro = this.macro.step(undelay(abstract.init_macro));
     }
 
-    // Second, perform any monster-specific strategies (these may or may not end the fight)
+    // Perform any monster-specific macros (these may or may not end the fight)
     abstract.macros.forEach((value, key) => {
       this.macro = this.macro.if_(key, new Macro().step(...value.map(undelay)));
     });
+
+    // Perform the non-monster specific macro
+    if (abstract.default_macro)
+      this.macro = this.macro.step(new Macro().step(...abstract.default_macro.map(undelay)));
+
+    // Perform monster-specific strategies
     abstract.strategy.forEach((strat, monster) => {
       this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
     });
 
-    // Finally, perform the non-monster specific strategies
-    if (abstract.default_macro)
-      this.macro = this.macro.step(new Macro().step(...abstract.default_macro.map(undelay)));
+    // Perform the default strategy
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
   }
 
@@ -139,8 +144,7 @@ export class BuiltCombatStrategy {
       if (strategy === MonsterStrategy.KillItem && have($skill`Double Nanovision`)) {
         killing_stat = $stat`Mysticality`;
         killing_blow = $skill`Double Nanovision`;
-      }
-      else if (have($skill`Infinite Loop`)) {
+      } else if (have($skill`Infinite Loop`)) {
         killing_stat = $stat`Moxie`;
         killing_blow = $skill`Infinite Loop`;
       }
@@ -162,8 +166,13 @@ export class BuiltCombatStrategy {
         return new Macro()
           .externalIf(
             myBuffedstat(killing_stat) * floor(myMp() / 20) < 100,
-            new Macro().while_(`monsterhpabove ${myBuffedstat(killing_stat) * floor(myMp() / 20)}`, new Macro().skill($skill`Pseudopod Slap`)))
-          .skill(killing_blow).repeat();
+            new Macro().while_(
+              `monsterhpabove ${myBuffedstat(killing_stat) * floor(myMp() / 20)}`,
+              new Macro().skill($skill`Pseudopod Slap`)
+            )
+          )
+          .skill(killing_blow)
+          .repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
       case MonsterStrategy.Abort:
