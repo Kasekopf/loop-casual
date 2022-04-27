@@ -327,18 +327,30 @@ const absorbTasks: AbsorbTask[] = [
     choices: { 902: 2 },
   },
   {
+    prepare: () => {
+      if (step("questM17Babies") === -1)
+        visitUrl("place.php?whichplace=manor3&action=manor3_ladys");
+    },
     do: $location`The Haunted Storage Room`,
-    after: ["Manor/Finish Floor2"], // TODO: open
+    after: ["Manor/Finish Floor2"],
     choices: { 886: 4, 890: 1 },
   },
   {
+    prepare: () => {
+      if (step("questM17Babies") === -1)
+        visitUrl("place.php?whichplace=manor3&action=manor3_ladys");
+    },
     do: $location`The Haunted Nursery`,
-    after: ["Manor/Finish Floor2"], // TODO: open
+    after: ["Manor/Finish Floor2"],
     choices: { 884: 4, 898: 2 },
   },
   {
+    prepare: () => {
+      if (step("questM17Babies") === -1)
+        visitUrl("place.php?whichplace=manor3&action=manor3_ladys");
+    },
     do: $location`The Haunted Laboratory`,
-    after: ["Manor/Finish Floor2"], // TODO: open
+    after: ["Manor/Finish Floor2"],
     choices: { 884: 4, 903: 2 },
   },
   // Level 11: Palindome
