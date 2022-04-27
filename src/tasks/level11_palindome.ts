@@ -268,7 +268,7 @@ const Dome: Task[] = [
   },
   {
     name: "Alarm Gem",
-    after: ["Palindome Photos"],
+    after: ["Palindome Dudes", "Palindome Photos"],
     completed: () => step("questL11Palindome") >= 3,
     do: () => {
       if (have(Item.get(7262))) use(Item.get(7262));

@@ -1,4 +1,4 @@
-import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, useSkill, visitUrl } from "kolmafia";
+import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effects,
   $familiar,
@@ -347,10 +347,8 @@ export const TowerQuest: Quest = {
     {
       name: "Wall of Bones",
       after: ["Wall of Meat", "Giant/Ground Knife"],
-      prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 8,
       do: $location`Tower Level 3`,
-      outfit: { modifier: "spell dmg" },
       combat: new CombatStrategy(true).macro(new Macro().item($item`electric boning knife`)),
       limit: { tries: 1 },
     },

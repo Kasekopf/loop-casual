@@ -7,10 +7,13 @@ import {
   Item,
   Location,
   Monster,
+  myHp,
+  myMaxhp,
   myMaxmp,
   myMeat,
   myMp,
   myPath,
+  restoreHp,
   restoreMp,
   toInt,
   use,
@@ -21,6 +24,7 @@ import {
   $familiar,
   $item,
   $items,
+  $locations,
   $skill,
   get,
   have,
@@ -255,7 +259,12 @@ export class Engine {
       }
 
       // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
-      if (have($item`rock band flyers`) && get("flyeredML") < 10300) {
+      const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest`);
+      if (
+        have($item`rock band flyers`) &&
+        get("flyeredML") < 10300 &&
+        (!(task.do instanceof Location) || !blacklist.has(task.do))
+      ) {
         task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
       }
 
@@ -324,6 +333,8 @@ export class Engine {
       combat_resources.all().map((source) => source.prepare && source.prepare());
 
       // HP/MP upkeep
+      if (myHp() < 150 && myHp() < myMaxhp())
+        restoreHp((myMaxhp() < 150 ? myMaxhp() : 150) - myHp());
       if (myMp() < 40 && myMaxmp() >= 40) restoreMp(40 - myMp());
       else if (myMp() < 20) restoreMp(20 - myMp());
 

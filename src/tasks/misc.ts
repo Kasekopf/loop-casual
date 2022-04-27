@@ -379,7 +379,7 @@ export const MiscQuest: Quest = {
       completed: () => get("_loop_gyou_clovers") === "true",
       do: () => {
         hermit($item`11-leaf clover`, 3);
-        set("_loop_gyou_clovers", "false");
+        set("_loop_gyou_clovers", "true");
       },
       limit: { tries: 1 },
     },
@@ -419,7 +419,14 @@ export const WandQuest: Quest = {
       name: "Mimic",
       after: ["Get Teleportitis"],
       ready: () => myMeat() >= 5000,
-      completed: () => have($item`dead mimic`) || get("lastZapperWand") === myAscensions(),
+      completed: () =>
+        have($item`dead mimic`) ||
+        get("lastZapperWand") === myAscensions() ||
+        have($item`aluminum wand`) ||
+        have($item`ebony wand`) ||
+        have($item`hexagonal wand`) ||
+        have($item`marble wand`) ||
+        have($item`pine wand`),
       prepare: () => {
         if (have($item`plus sign`)) use($item`plus sign`);
       },

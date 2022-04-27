@@ -7,7 +7,6 @@ import {
   Location,
   Monster,
   myAscensions,
-  print,
   putCloset,
   runChoice,
   Skill,
@@ -406,7 +405,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`The Unquiet Garves`,
-    after: [],
+    after: ["Crypt/Start"],
   },
   {
     do: $location`The Old Landfill`,
@@ -475,7 +474,7 @@ const absorbTasks: AbsorbTask[] = [
         visitUrl("place.php?whichplace=knoll_friendly&action=dk_mayor");
       }
     },
-    after: [],
+    after: ["Mosquito/Start"],
   },
   {
     do: $location`Outskirts of Camp Logging Camp`,
@@ -583,7 +582,6 @@ const usefulMonsters: [Monster, Skill][] = [
   [$monster`Carnivorous Moxie Weed`, $skill`Fluid Dynamics Simulation`],
   [$monster`Claybender Sorcerer Ghost`, $skill`Ectogenesis`],
   [$monster`Cobb's Knob oven`, $skill`Microburner`],
-  [$monster`creepy clown`, $skill`Anti-Sleaze Recursion`],
   [$monster`cubist bull`, $skill`Localized Vacuum`],
   [$monster`demonic icebox`, $skill`Infernal Automata`],
   [$monster`drunk goat`, $skill`Secondary Fermentation`],
@@ -666,7 +664,6 @@ export class AbsorbtionTargets {
 
   public completed(): boolean {
     // Return true if we have absorbed all desired monsters
-    if (this.locsByTarget === undefined) return false;
     return this.locsByTarget.size === 0;
   }
 
@@ -699,7 +696,7 @@ export class AbsorbtionTargets {
   }
 
   public markAbsorbed(monster: Monster | undefined): void {
-    if (monster) print(monster?.name);
+    // if (monster) print(monster?.name);
     if (monster !== undefined) {
       this.delete(monster);
       if (!this.absorbed.has(monster)) {
@@ -797,7 +794,7 @@ export const AbsorbQuest: Quest = {
       // Add a last task that tracks if all monsters have been absorbed
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
-      completed: absorbtionTargets.completed,
+      completed: () => absorbtionTargets.completed(),
       do: (): void => {
         debug("Remaining monsters:", "red");
         for (const monster of absorbtionTargets.remaining()) {

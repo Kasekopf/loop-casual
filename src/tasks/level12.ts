@@ -51,6 +51,7 @@ const Lighthouse: Task[] = [
     priority: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
     ready: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
     completed: () =>
+      get("lastCopyableMonster") === $monster`lobsterfrogman` ||
       itemAmount($item`barrel of gunpowder`) >= 5 ||
       get("sidequestLighthouseCompleted") !== "none" ||
       !have($item`cursed magnifying glass`) ||

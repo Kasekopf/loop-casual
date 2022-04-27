@@ -25,6 +25,9 @@ const Diary: Task[] = [
     acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
     do: $location`The Black Forest`,
+    post: () => {
+      if (have($effect`Really Quite Poisoned`)) uneffect($effect`Really Quite Poisoned`);
+    },
     outfit: () => {
       if (have($item`reassembled blackbird`)) {
         return {
