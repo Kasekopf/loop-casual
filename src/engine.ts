@@ -7,6 +7,7 @@ import {
   Item,
   Location,
   Monster,
+  myMaxmp,
   myMeat,
   myMp,
   myPath,
@@ -323,7 +324,8 @@ export class Engine {
       combat_resources.all().map((source) => source.prepare && source.prepare());
 
       // HP/MP upkeep
-      if (myMp() < 20) restoreMp(20 - myMp());
+      if (myMp() < 40 && myMaxmp() >= 40) restoreMp(40 - myMp());
+      else if (myMp() < 20) restoreMp(20 - myMp());
 
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
