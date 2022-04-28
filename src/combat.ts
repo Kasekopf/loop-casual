@@ -94,18 +94,22 @@ export class BuiltCombatStrategy {
     }
 
     // Perform any monster-specific macros (these may or may not end the fight)
+    const monster_macros = new CompressedMacro();
     abstract.macros.forEach((value, key) => {
-      this.macro = this.macro.if_(key, new Macro().step(...value.map(undelay)));
+      monster_macros.add(key, new Macro().step(...value.map(undelay)));
     });
+    this.macro.step(monster_macros.build());
 
     // Perform the non-monster specific macro
     if (abstract.default_macro)
       this.macro = this.macro.step(new Macro().step(...abstract.default_macro.map(undelay)));
 
     // Perform monster-specific strategies
+    const monster_strategies = new CompressedMacro();
     abstract.strategy.forEach((strat, monster) => {
-      this.macro = this.macro.if_(monster, this.prepare_macro(strat, monster));
+      monster_strategies.add(monster, this.prepare_macro(strat, monster));
     });
+    this.macro.step(monster_strategies.build());
 
     // Perform the default strategy
     this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
@@ -286,4 +290,25 @@ export class CombatStrategy {
 
 export function main(): void {
   Macro.load().submit();
+}
+
+class CompressedMacro {
+  // Build a macro that combines if statements (keyed on monster) with
+  // identical body into a single if statement, to avoid the 37-action limit.
+  //  Ex: [if x; A; if y; B; if z; A;] => [if x || z; A; if y; B]
+  components = new Map<string, Monster[]>();
+  public add(monster: Monster, macro: Macro): void {
+    const macro_text = macro.toString();
+    if (macro_text.length === 0) return;
+    if (!this.components.has(macro_text)) this.components.set(macro_text, [monster]);
+    else this.components.get(macro_text)?.push(monster);
+  }
+
+  public build(): Macro {
+    let result = new Macro();
+    this.components.forEach((monsters, macro) => {
+      result = result.if_(monsters, macro);
+    });
+    return result;
+  }
 }
