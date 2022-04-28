@@ -161,6 +161,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
     outfit: { modifier: "cold res 5min, +combat" },
+    combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
   // Level 9
   {
@@ -286,6 +287,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Library`,
     after: ["Manor/Library"],
     choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
+    combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`chalkdust wraith`),
   },
   {
     do: $location`The Haunted Gallery`,
