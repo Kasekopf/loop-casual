@@ -23,6 +23,7 @@ import {
 import { Task } from "./tasks/structure";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $items,
@@ -34,6 +35,7 @@ import {
   Macro,
   PropertiesManager,
   set,
+  uneffect,
 } from "libram";
 import {
   BuiltCombatStrategy,
@@ -371,6 +373,9 @@ export class Engine {
     autosellJunk();
     absorbConsumables();
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+    for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {
+      if (have(poisoned)) uneffect(poisoned);
+    }
 
     // Mark the number of attempts (unless an ignored noncombat occured)
     if (!(task.name in this.attempts)) this.attempts[task.name] = 0;
