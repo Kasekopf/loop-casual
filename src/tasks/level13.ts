@@ -19,7 +19,7 @@ import { Quest, step, Task } from "./structure";
 const Challenges: Task[] = [
   {
     name: "Speed Challenge",
-    after: ["Start"],
+    after: ["Start", "Absorb/Twin Peak"],
     completed: () => get("nsContestants1") > -1,
     do: (): void => {
       visitUrl("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -151,7 +151,7 @@ const ChallengeBosses: Task[] = [
     completed: () => get("nsContestants1") === 0,
     do: $location`Fastest Adventurer Contest`,
     combat: new CombatStrategy(true).killHard(),
-    limit: { tries: 1 },
+    limit: { tries: 5 },
   },
   {
     name: "Stat Boss",
