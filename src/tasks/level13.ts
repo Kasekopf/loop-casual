@@ -342,7 +342,7 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 2`,
       outfit: { modifier: "meat" },
       combat: new CombatStrategy(true).killHard(),
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Wall of Bones",
