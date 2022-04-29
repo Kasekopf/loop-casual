@@ -14,7 +14,7 @@ import { WandererSource, wandererSources } from "./resources";
 import { $effect, $familiar, CrystalBall, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
-import { absorbtionTargets } from "./tasks/absorb";
+import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 
 const time_property = "_loop_casual_first_start";
@@ -24,12 +24,12 @@ export function main(tasks_to_run?: number): void {
   if (set_time_now) set(time_property, gametimeToInt());
 
   const tasks = prioritize(all_tasks());
-  const engine = new Engine(tasks, absorbtionTargets);
+  const engine = new Engine(tasks, absorptionTargets);
   cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
   tasks_to_run = tasks_to_run ?? 1000;
-  absorbtionTargets.updateAbsorbed();
-  absorbtionTargets.ignoreUselessAbsorbs();
+  absorptionTargets.updateAbsorbed();
+  absorptionTargets.ignoreUselessAbsorbs();
   if (tasks_to_run < 0) {
     for (const task of tasks) {
       debug(

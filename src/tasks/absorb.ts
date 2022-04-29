@@ -17,7 +17,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel, debug } from "../lib";
 import { Quest, step, Task } from "./structure";
 
-// Add a shorthand for expressing absorbtion-only tasks; there are a lot.
+// Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
   do: Location;
 }
@@ -491,7 +491,7 @@ const absorbTasks: AbsorbTask[] = [
   },
 ];
 
-// All monsters that give adventures upon absorbtion
+// All monsters that give adventures upon absorption
 const reprocessTargets: Set<Monster> = new Set([
   // 10 adv monsters
   $monster`1335 HaXx0r`,
@@ -618,7 +618,7 @@ const usefulMonsters: [Monster, Skill][] = [
 ];
 
 // A many-to-many map to track the remaining monsters at each location
-export class AbsorbtionTargets {
+export class AbsorptionTargets {
   private targetsByLoc = new Map<Location, Set<Monster>>();
   private repTargetsByLoc = new Map<Location, Set<Monster>>();
   private locsByTarget = new Map<Monster, Set<Location>>();
@@ -775,7 +775,7 @@ export class AbsorbtionTargets {
   }
 }
 
-export const absorbtionTargets = new AbsorbtionTargets(reprocessTargets, [
+export const absorptionTargets = new AbsorptionTargets(reprocessTargets, [
   ...adventureMonsters,
   ...usefulMonsters,
 ]);
@@ -787,7 +787,7 @@ export const AbsorbQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: () => !absorbtionTargets.hasTargets(task.do),
+        completed: () => !absorptionTargets.hasTargets(task.do),
         ...task,
         combat: new CombatStrategy().ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
@@ -799,10 +799,10 @@ export const AbsorbQuest: Quest = {
       // Add a last task that tracks if all monsters have been absorbed
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
-      completed: () => absorbtionTargets.completed(),
+      completed: () => absorptionTargets.completed(),
       do: (): void => {
         debug("Remaining monsters:", "red");
-        for (const monster of absorbtionTargets.remaining()) {
+        for (const monster of absorptionTargets.remaining()) {
           debug(`${monster.name}`, "red");
         }
         throw "Unable to absorb all target monsters";

@@ -13,7 +13,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
-import { absorbtionTargets } from "./absorb";
+import { absorptionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -400,7 +400,7 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
       post: () => {
-        absorbtionTargets.ignoreUselessAbsorbs(); // Ignore remaining skills
+        absorptionTargets.ignoreUselessAbsorbs(); // Ignore remaining skills
       },
       outfit: { modifier: "muscle" },
       combat: new CombatStrategy(true).kill(),

@@ -67,18 +67,18 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
-import { AbsorbtionTargets } from "./tasks/absorb";
+import { AbsorptionTargets } from "./tasks/absorb";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
   propertyManager = new PropertiesManager();
   tasks: Task[];
   tasks_by_name = new Map<string, Task>();
-  absorbtionTargets: AbsorbtionTargets;
+  absorptionTargets: AbsorptionTargets;
 
-  constructor(tasks: Task[], absorbtionTargets: AbsorbtionTargets) {
+  constructor(tasks: Task[], absorptionTargets: AbsorptionTargets) {
     this.tasks = tasks;
-    this.absorbtionTargets = absorbtionTargets;
+    this.absorptionTargets = absorptionTargets;
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
@@ -129,11 +129,11 @@ export class Engine {
           (next_monster_strategy === MonsterStrategy.Ignore ||
             next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
             next_monster_strategy === MonsterStrategy.Banish) &&
-          !this.absorbtionTargets.isTarget(next_monster)
+          !this.absorptionTargets.isTarget(next_monster)
         ) {
           // So the next monster is useless. Dodge it if there is also a useful monster
           if (
-            this.absorbtionTargets.hasTargets(task.do) ||
+            this.absorptionTargets.hasTargets(task.do) ||
             task_combat.can(MonsterStrategy.Kill) ||
             task_combat.can(MonsterStrategy.KillFree) ||
             task_combat.can(MonsterStrategy.KillHard) ||
@@ -159,7 +159,7 @@ export class Engine {
   }
 
   public needsChargedGoose(task: Task): boolean {
-    if (task.do instanceof Location && this.absorbtionTargets.hasReprocessTargets(task.do)) {
+    if (task.do instanceof Location && this.absorptionTargets.hasReprocessTargets(task.do)) {
       const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
       if (!outfit_spec) return true;
       if (outfit_spec.familiar === $familiar`Grey Goose`) return true;
@@ -240,10 +240,10 @@ export class Engine {
       // (if we have teleportitis, everything is a possible target)
       const absorb_targets =
         task.do instanceof Location
-          ? this.absorbtionTargets.remaining(have($effect`Teleportitis`) ? undefined : task.do)
+          ? this.absorptionTargets.remaining(have($effect`Teleportitis`) ? undefined : task.do)
           : [];
       for (const monster of absorb_targets) {
-        if (this.absorbtionTargets.isReprocessTarget(monster)) {
+        if (this.absorptionTargets.isReprocessTarget(monster)) {
           if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
             task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
             debug(`Target x2: ${monster.name}`, "purple");
@@ -369,7 +369,7 @@ export class Engine {
     if (choiceFollowsFight()) runChoice(-1);
     if (task.post) task.post();
 
-    this.absorbtionTargets.updateAbsorbed();
+    this.absorptionTargets.updateAbsorbed();
     autosellJunk();
     absorbConsumables();
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
