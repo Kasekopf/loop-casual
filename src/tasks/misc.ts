@@ -509,6 +509,7 @@ const pulls: Item[] = [
   $item`Boris's ring`,
   $item`Jarlsberg's earring`,
   $item`Sneaky Pete's breath spray`,
+  $item`old patched suit-pants`,
 ];
 export const PullQuest: Quest = {
   name: "Pull",
