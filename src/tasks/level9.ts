@@ -81,6 +81,17 @@ const Oil: Task[] = [
     do: $location`Oil Peak`,
     limit: { tries: 1 },
   },
+  {
+    name: "Oil Jar", // get oil for jar of oil
+    after: ["Oil Peak", "Absorb/Oil Peak"],
+    completed: () =>
+      itemAmount($item`bubblin' crude`) >= 12 ||
+      have($item`jar of oil`) ||
+      !!(get("twinPeakProgress") & 4),
+    do: $location`Oil Peak`,
+    outfit: { modifier: "ML, 0.1 item" },
+    limit: { soft: 5 },
+  },
 ];
 
 const Twin: Task[] = [
@@ -138,7 +149,7 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Oil Search",
-    after: ["Start Peaks", "Oil Peak"],
+    after: ["Start Peaks", "Oil Jar"],
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: $location`Twin Peak`,
@@ -152,7 +163,7 @@ const Twin: Task[] = [
   },
   {
     name: "Twin Oil",
-    after: ["Start Peaks", "Oil Peak"],
+    after: ["Start Peaks", "Oil Jar"],
     ready: () => have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 4),
     do: () => {

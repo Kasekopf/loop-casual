@@ -7,6 +7,7 @@ import {
   Location,
   Monster,
   myAscensions,
+  numericModifier,
   putCloset,
   runChoice,
   Skill,
@@ -181,6 +182,10 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Oil Peak`,
     after: ["Orc Chasm/Oil Peak"],
+    prepare: () => {
+      if (numericModifier("ML") >= 100) throw `ML is too high to encounter oil cartels`;
+    },
+    outfit: { modifier: "moxie, ML 50min 50max" },
   },
   {
     do: $location`The Valley of Rof L'm Fao`,
