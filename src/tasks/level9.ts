@@ -1,4 +1,4 @@
-import { itemAmount, myHp, myMaxhp, myMeat, restoreHp, use, visitUrl } from "kolmafia";
+import { itemAmount, myBasestat, myHp, myMaxhp, myMeat, restoreHp, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $effects,
@@ -7,6 +7,7 @@ import {
   $items,
   $location,
   $monsters,
+  $stat,
   ensureEffect,
   get,
   have,
@@ -218,8 +219,7 @@ export const ChasmQuest: Quest = {
       after: ["Start"],
       ready: () =>
         get("smutOrcNoncombatProgress") < 15 ||
-        have($effect`Red Door Syndrome`) ||
-        myMeat() >= 1000,
+        ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 300),
       completed: () => step("questL09Topping") >= 1,
       prepare: () => {
         if (
