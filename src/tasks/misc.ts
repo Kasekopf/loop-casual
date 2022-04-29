@@ -598,10 +598,29 @@ export const KeysQuest: Quest = {
       name: "Daily Dungeon",
       after: ["Zap Boris", "Zap Jarlsberg", "Zap Sneaky Pete"],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
+      prepare: () => {
+        if (have($item`Pick-O-Matic lockpicks`)) return;
+        if (have($item`Platinum Yendorian Express Card`)) return;
+        if (have($item`skeleton bone`) && have($item`loose teeth`))
+          cliExecute("make * skeleton key");
+      },
       do: $location`The Daily Dungeon`,
       outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().kill(),
-      choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+      choices: {
+        689: 1,
+        690: () => (have($item`ring of Detect Boring Doors`) ? 2 : 3),
+        691: () => (have($item`ring of Detect Boring Doors`) ? 2 : 3),
+        692: () => {
+          if (have($item`Pick-O-Matic lockpicks`)) return 3;
+          if (have($item`Platinum Yendorian Express Card`)) return 7;
+          if (itemAmount($item`skeleton key`) > 1) return 2;
+          if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
+            return 2;
+          return 3;
+        },
+        693: () => (have($item`eleven-foot pole`) ? 2 : 1),
+      },
       limit: { tries: 11 },
     },
     {
