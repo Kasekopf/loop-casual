@@ -1,4 +1,4 @@
-import { buy, cliExecute, itemAmount, runChoice, use, visitUrl } from "kolmafia";
+import { buy, cliExecute, itemAmount, myMeat, runChoice, use, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -52,6 +52,7 @@ const Diary: Task[] = [
   {
     name: "Buy Documents",
     after: ["Forest"],
+    ready: () => myMeat() >= 5000,
     completed: () => have($item`forged identification documents`) || step("questL11Black") >= 4,
     do: (): void => {
       visitUrl("woods.php");
@@ -64,6 +65,7 @@ const Diary: Task[] = [
   {
     name: "Diary",
     after: ["Buy Documents", "Misc/Unlock Beach"],
+    ready: () => myMeat() >= 500,
     completed: () => step("questL11Black") >= 4,
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },
@@ -75,6 +77,7 @@ const Desert: Task[] = [
   {
     name: "Scrip",
     after: ["Misc/Unlock Beach"],
+    ready: () => myMeat() >= 500,
     completed: () => have($item`Shore Inc. Ship Trip Scrip`) || have($item`UV-resistant compass`),
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },
