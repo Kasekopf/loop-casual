@@ -358,7 +358,7 @@ export const WarQuest: Quest = {
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
       combat: new CombatStrategy().kill(),
-      limit: { tries: 8 },
+      limit: { tries: 9 },
     },
     ...Orchard,
     {
