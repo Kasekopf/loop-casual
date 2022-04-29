@@ -9,6 +9,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  ensureEffect,
   get,
   have,
   Macro,
@@ -291,6 +292,9 @@ const Nuns: Task[] = [
     name: "Nuns",
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none",
+    prepare: () => {
+      if (!get("concertVisited")) ensureEffect($effect`Winklered`);
+    },
     do: $location`The Themthar Hills`,
     outfit: {
       modifier: "meat",
