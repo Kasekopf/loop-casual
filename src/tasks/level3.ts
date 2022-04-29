@@ -1,4 +1,4 @@
-import { getProperty, runChoice, runCombat, visitUrl } from "kolmafia";
+import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "kolmafia";
 import { $monster } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -41,9 +41,17 @@ export const TavernQuest: Quest = {
           }
         }
       },
-      outfit: { modifier: "ML" },
+      outfit: { modifier: "ML, +combat" },
       combat: new CombatStrategy().kill($monster`drunken rat king`).ignoreNoBanish(),
-      choices: { 509: 1, 510: 1, 511: 2, 514: 2, 515: 2, 496: 2, 513: 2 },
+      choices: {
+        509: 1,
+        510: 1,
+        511: 2,
+        514: () => (numericModifier("Stench Damage") >= 20 ? 2 : 1),
+        515: () => (numericModifier("Spooky Damage") >= 20 ? 2 : 1),
+        496: () => (numericModifier("Hot Damage") >= 20 ? 2 : 1),
+        513: () => (numericModifier("Cold Damage") >= 20 ? 2 : 1),
+      },
       limit: { tries: 10 },
     },
     {
