@@ -295,7 +295,7 @@ const Bowling: Task[] = [
     name: "Bowling Skills",
     after: ["Open Bowling"],
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
-    completed: () => have($skill`Infinite Loop`) && have($skill`Double Nanovision`),
+    completed: () => have($skill`System Sweep`) && have($skill`Double Nanovision`),
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)

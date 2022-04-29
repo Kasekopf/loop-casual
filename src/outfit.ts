@@ -218,15 +218,15 @@ export class Outfit {
       if (!requirements.maximize()) {
         throw `Unable to maximize ${this.modifier}`;
       }
+    }
 
-      // Do not use +ML backup camera unless specifically needed
-      if (
-        equippedAmount($item`backup camera`) > 0 &&
-        (!this.modifier || !this.modifier.includes("ML")) &&
-        get("backupCameraMode").toLowerCase() === "ml"
-      ) {
-        cliExecute("backupcamera meat");
-      }
+    // Do not use +ML backup camera unless specifically needed
+    if (
+      equippedAmount($item`backup camera`) > 0 &&
+      (!this.modifier || !this.modifier.includes("ML")) &&
+      get("backupCameraMode").toLowerCase() === "ml"
+    ) {
+      cliExecute("backupcamera meat");
     }
   }
 

@@ -20,6 +20,7 @@ export const routing: string[] = [
   "Knob/King",
   "Absorb/Cobb's Knob Menagerie, Level 3",
   "McLargeHuge/Trapper Request", // open for absorbing
+  "Absorb/Cobb's Knob Menagerie, Level 2",
 
   // Get +item
   "Absorb/Infernal Rackets Backstage",

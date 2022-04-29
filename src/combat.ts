@@ -307,7 +307,8 @@ class CompressedMacro {
   public build(): Macro {
     let result = new Macro();
     this.components.forEach((monsters, macro) => {
-      result = result.if_(monsters, macro);
+      const condition = monsters.map((mon) => `monsterid ${mon.id}`).join(" || ");
+      result = result.if_(condition, macro);
     });
     return result;
   }

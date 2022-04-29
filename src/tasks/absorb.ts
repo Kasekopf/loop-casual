@@ -59,7 +59,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Outskirts of Cobb's Knob`,
     after: ["Knob/Open Knob"],
     choices: { 111: 3, 113: 2, 118: 1 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`Cobb's Knob Kitchens`,
@@ -77,7 +77,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Cobb's Knob Treasury`,
     after: ["Knob/Open Knob"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`Cobb's Knob Laboratory`,
@@ -86,7 +86,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Knob Shaft`,
     after: ["Knob/King"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 1`,
@@ -141,7 +141,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`Itznotyerzitz Mine`,
     after: ["McLargeHuge/Trapper Request"],
     choices: { 18: 3, 19: 3, 20: 3, 556: 2 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`The Goatlet`,
@@ -155,12 +155,12 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The eXtreme Slope`,
     after: ["McLargeHuge/Climb"],
     choices: { 15: 3, 16: 3, 17: 3, 575: 3 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
-    outfit: { modifier: "cold res 5min, +combat" },
+    outfit: { modifier: "cold res 5min, +combat", equip: $items`miniature crystal ball` },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
   // Level 9
@@ -190,25 +190,25 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Penultimate Fantasy Airship`,
     after: ["Giant/Airship"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 178: 2, 182: 2 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Basement)`,
     after: ["Giant/Basement Finish"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 670: 5, 669: 1, 671: 3 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
     after: ["Giant/Ground"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 672: 3, 673: 3, 674: 3, 1026: 3 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
   },
   {
@@ -219,14 +219,14 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Black Forest`,
     after: ["Macguffin/Forest"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 923: 1, 924: 1 },
   },
   // Level 11: Hidden City
   {
     do: $location`The Hidden Temple`,
     after: ["Hidden City/Open City"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: {
       579: () => {
         return get("lastTempleAdventures") === myAscensions() ? 2 : 1;
@@ -266,7 +266,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Pantry`,
     after: [],
     choices: { 114: 2, 115: 1, 116: 4, 117: 1 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`The Haunted Conservatory`,
@@ -292,13 +292,13 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Gallery`,
     after: ["Manor/Gallery"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 89: 6, 896: 1 },
   },
   {
     do: $location`The Haunted Bathroom`,
     after: ["Manor/Bathroom"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 881: 1, 105: 1, 892: 1 },
   },
   {
@@ -309,7 +309,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Ballroom`,
     after: ["Manor/Ballroom"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 881: 1, 105: 1, 892: 1 },
   },
   {
@@ -371,13 +371,13 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Inside the Palindome`,
     after: ["Palindome/Palindome Photos"],
-    outfit: { modifier: "+combat", equip: $items`Talisman o' Namsilat` },
+    outfit: { modifier: "+combat", equip: $items`Talisman o' Namsilat, miniature crystal ball` },
     choices: { 2: 2, 126: 1, 127: 1, 180: 2 },
   },
   {
     do: $location`Whitey's Grove`,
     after: ["Palindome/Open Alarm"],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 73: 3, 74: 2, 75: 2 },
   },
   // Level 11: Pyramid
@@ -403,7 +403,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`South of the Border`,
     after: ["Misc/Unlock Beach"],
     choices: { 4: 3 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`The Unquiet Garves`,
@@ -465,7 +465,7 @@ const absorbTasks: AbsorbTask[] = [
     after: [],
     ready: () => get("lastPlusSignUnlock") === myAscensions(),
     choices: { 25: 3 },
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   // Moon-sign zones
   {
@@ -482,7 +482,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`Outskirts of Camp Logging Camp`,
     ready: () => canadiaAvailable(),
     after: [],
-    outfit: { modifier: "+combat" },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
   {
     do: $location`Thugnderdome`,
@@ -520,7 +520,6 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`animated rustic nightstand`,
   $monster`basic lihc`,
   $monster`Battlie Knight Ghost`,
-  $monster`Booze Giant`,
   $monster`Bubblemint Twins`,
   $monster`CH Imp`,
   $monster`chalkdust wraith`,
@@ -559,6 +558,8 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`swarm of skulls`,
 ]);
 const adventureMonsters: Monster[] = [
+  // 7 adv monsters
+  $monster`Booze Giant`,
   // 5 adv monsters
   $monster`albino bat`,
   $monster`batrat`,
@@ -784,13 +785,15 @@ export const AbsorbQuest: Quest = {
   tasks: [
     // Construct a full Task from each minimally-specified AbsorbTask.
     ...absorbTasks.map((task): Task => {
-      return {
+      const result = {
         name: task.do.toString(),
         completed: () => !absorbtionTargets.hasTargets(task.do),
         ...task,
         combat: new CombatStrategy().ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
     }),
     {
       // Add a last task that tracks if all monsters have been absorbed
