@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myAscensions, myHash, use, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myAscensions, myHash, putCloset, use, visitUrl } from "kolmafia";
 import {
   $effects,
   $item,
@@ -296,6 +296,11 @@ const Bowling: Task[] = [
     after: ["Open Bowling"],
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
     completed: () => have($skill`System Sweep`) && have($skill`Double Nanovision`),
+    prepare: () => {
+      // No need for more bowling progress after we beat the boss
+      if (get("hiddenBowlingAlleyProgress") >= 7 && have($item`bowling ball`))
+        putCloset($item`bowling ball`, itemAmount($item`bowling ball`));
+    },
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
