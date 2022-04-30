@@ -249,7 +249,7 @@ export class Engine {
             task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
             debug(`Target x2: ${monster.name}`, "purple");
           } else {
-            debug(`Target x2 (no reprocess): ${monster.name}`, "pruple");
+            debug(`Target x2 (no reprocess): ${monster.name}`, "purple");
           }
         } else {
           debug(`Target: ${monster.name}`, "purple");
