@@ -1,4 +1,16 @@
-import { itemAmount, myBasestat, myHp, myMaxhp, myMeat, restoreHp, use, visitUrl } from "kolmafia";
+import {
+  itemAmount,
+  myBasestat,
+  myHp,
+  myMaxhp,
+  myMaxmp,
+  myMeat,
+  myMp,
+  restoreHp,
+  restoreMp,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $effect,
   $effects,
@@ -69,6 +81,9 @@ const Oil: Task[] = [
     name: "Oil Kill",
     after: ["Start Peaks"],
     completed: () => get("oilPeakProgress") === 0,
+    prepare: () => {
+      if (myMp() < 80 && myMaxmp() >= 80) restoreMp(80 - myMp());
+    },
     do: $location`Oil Peak`,
     outfit: { modifier: "ML, 0.1 item", equip: $items`unbreakable umbrella` },
     combat: new CombatStrategy().killItem(),

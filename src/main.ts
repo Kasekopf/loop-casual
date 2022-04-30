@@ -3,8 +3,11 @@ import {
   familiarWeight,
   gametimeToInt,
   myAdventures,
+  myPath,
   print,
+  runChoice,
   turnsPlayed,
+  visitUrl,
 } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
@@ -22,6 +25,11 @@ const time_property = "_loop_casual_first_start";
 export function main(tasks_to_run?: number): void {
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
+
+  if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
+  if (visitUrl("main.php").includes("somewhat-human-shaped mass of grey goo nanites")) {
+    runChoice(1); // Clear intro adventure
+  }
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, absorptionTargets);
