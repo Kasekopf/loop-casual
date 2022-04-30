@@ -94,7 +94,7 @@ export const MiscQuest: Quest = {
       name: "Floundry",
       after: [],
       ready: () => false,
-      completed: () => have($item`fish hatchet`),
+      completed: () => have($item`fish hatchet`) || true,
       do: () => cliExecute("acquire 1 fish hatchet"),
       limit: { tries: 1 },
       freeaction: true,
@@ -122,7 +122,7 @@ export const MiscQuest: Quest = {
       name: "Voting",
       after: [],
       ready: () => false,
-      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday"),
+      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || true,
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
