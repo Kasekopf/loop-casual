@@ -523,7 +523,7 @@ function pull(item: Item): void {
   );
   if (pulled.has(item)) return;
   if (storageAmount(item) === 0) buyUsingStorage(1, item, 100000);
-  cliExecute(`pull ${pull.name}`);
+  cliExecute(`pull ${item.name}`);
 }
 export const PullQuest: Quest = {
   name: "Pull",
