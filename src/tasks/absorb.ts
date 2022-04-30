@@ -649,6 +649,13 @@ export class AbsorptionTargets {
         .filter((m) => target_set.has(m))
         .map((monster) => this.add(monster, location));
     }
+
+    // Include janitor at all possible locations
+    this.add($monster`pygmy janitor`, $location`The Hidden Apartment Building`);
+    this.add($monster`pygmy janitor`, $location`The Hidden Bowling Alley`);
+    this.add($monster`pygmy janitor`, $location`The Hidden Hospital`);
+    this.add($monster`pygmy janitor`, $location`The Hidden Office Building`);
+    this.add($monster`pygmy janitor`, $location`The Hidden Park`);
   }
 
   add(monster: Monster, location: Location) {
