@@ -339,7 +339,7 @@ const absorbTasks: AbsorbTask[] = [
     },
     do: $location`The Haunted Storage Room`,
     after: ["Manor/Finish Floor2"],
-    choices: { 886: 4, 890: 1 },
+    choices: { 886: 6, 890: 1 },
   },
   {
     prepare: () => {
@@ -348,7 +348,7 @@ const absorbTasks: AbsorbTask[] = [
     },
     do: $location`The Haunted Nursery`,
     after: ["Manor/Finish Floor2"],
-    choices: { 884: 4, 898: 2 },
+    choices: { 884: 6, 898: 2 },
   },
   {
     prepare: () => {
@@ -357,7 +357,7 @@ const absorbTasks: AbsorbTask[] = [
     },
     do: $location`The Haunted Laboratory`,
     after: ["Manor/Finish Floor2"],
-    choices: { 884: 4, 903: 2 },
+    choices: { 884: 6, 903: 2 },
   },
   // Level 11: Palindome
   {

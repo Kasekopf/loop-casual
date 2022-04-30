@@ -421,7 +421,7 @@ function absorbConsumables(): void {
   let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
   const absorbed = new Set<string>(absorbed_list.split(","));
   const blacklist = new Set<Item>(
-    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname`
+    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese`
   );
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);

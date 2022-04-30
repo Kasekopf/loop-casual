@@ -33,26 +33,23 @@ export const routing: string[] = [
   "Absorb/The Black Forest",
 
   // Aim for remaining pygmies
-  "War/Flyers Start", // Start the war and get flyers ASAP
-  "Hidden City/Bowling Skills",
-
-  // Prepare for Healer YR
-  "Palindome/Copperhead",
-  "Palindome/Bat Snake",
-  "Palindome/Cold Snake",
   "Giant/Airship YR Healer",
+  "Hidden City/Bowling Skills",
+  "War/Flyers Start", // Start the war and get flyers
+
   // For MP regen, ASAP
   "Wand/Wand",
   "Absorb/The Dungeons of Doom",
 
-  "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
-
   // Line up -combats
-  "Manor/Billiards",
-  "Manor/Library",
+  "Manor/Start Floor2",
   "Manor/Bedroom",
   "Manor/Bathroom Delay",
   "Manor/Gallery Delay",
+  "Palindome/Copperhead",
+  "Palindome/Bat Snake",
+  "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
+  "Palindome/Cold Snake",
 
   // Knock down -combats
   "Manor/Finish Floor2",

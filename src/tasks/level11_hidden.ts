@@ -224,7 +224,7 @@ const Office: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Office Building)`)
       .ignore(),
-    limit: { tries: 5 },
+    limit: { soft: 10 },
   },
   {
     name: "Finish Office",
