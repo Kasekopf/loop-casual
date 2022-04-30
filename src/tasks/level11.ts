@@ -14,7 +14,7 @@ import {
   Macro,
   uneffect,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -101,12 +101,35 @@ const Desert: Task[] = [
     ],
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
-    outfit: {
-      equip: $items`UV-resistant compass, dromedary drinking helmet`,
-      familiar: $familiar`Melodramedary`,
-      modifier: "moxie, -1 ML",
+    outfit: (): OutfitSpec => {
+      if (
+        have($item`industrial fire extinguisher`) &&
+        get("_fireExtinguisherCharge") >= 20 &&
+        !get("fireExtinguisherDesertUsed") &&
+        have($effect`Ultrahydrated`)
+      )
+        return {
+          equip: $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`,
+          familiar: $familiar`Melodramedary`,
+        };
+      else
+        return {
+          equip: $items`UV-resistant compass, dromedary drinking helmet`,
+          familiar: $familiar`Melodramedary`,
+        };
     },
-    combat: new CombatStrategy().kill(),
+    combat: new CombatStrategy()
+      .macro((): Macro => {
+        if (
+          have($effect`Ultrahydrated`) &&
+          have($item`industrial fire extinguisher`) &&
+          get("_fireExtinguisherCharge") >= 20 &&
+          !get("fireExtinguisherDesertUsed")
+        )
+          return new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`);
+        else return new Macro();
+      })
+      .kill(),
     post: (): void => {
       if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
         return;
@@ -124,7 +147,6 @@ const Desert: Task[] = [
       }
       cliExecute("use * desert sightseeing pamphlet");
       if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
-      if (have($effect`Majorly Poisoned`)) uneffect($effect`Majorly Poisoned`);
     },
     limit: { soft: 30 },
     delay: 25,
