@@ -135,7 +135,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") === 999;
+  return step("questL13Final") > 11;
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {
