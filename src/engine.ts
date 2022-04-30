@@ -1,5 +1,6 @@
 import {
   autosell,
+  autosellPrice,
   drink,
   eat,
   familiarWeight,
@@ -370,8 +371,8 @@ export class Engine {
     if (task.post) task.post();
 
     this.absorptionTargets.updateAbsorbed();
-    autosellJunk();
     absorbConsumables();
+    autosellJunk();
     if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
     for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {
       if (have(poisoned)) uneffect(poisoned);
@@ -406,13 +407,34 @@ export class Engine {
   }
 }
 
+const consumables_blacklist = new Set<Item>(
+  $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin™`
+);
 function autosellJunk(): void {
+  if (myPath() !== "Grey You") return; // final safety
   if (myMeat() >= 10000) return;
   if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
 
-  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack`;
+  // Sell junk items
+  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack, facsimile dictionary`;
   for (const item of junk) {
     if (have(item)) autosell(item, itemAmount(item));
+  }
+
+  // Use wallets
+  const wallets = $items`ancient vinyl coin purse, black pension check, old leather wallet, Gathered Meat-Clip, old coin purse`;
+  for (const item of wallets) {
+    if (have(item)) use(item, itemAmount(item));
+  }
+
+  // Sell extra consumables (after 1 has been absorbed)
+  for (const item_name in getInventory()) {
+    const item = Item.get(item_name);
+    if (consumables_blacklist.has(item)) continue;
+    if (autosellPrice(item) === 0) continue;
+    if (item.inebriety > 0 || item.fullness > 0 || item.spleen > 0) {
+      autosell(item, itemAmount(item));
+    }
   }
 }
 
@@ -420,13 +442,11 @@ function absorbConsumables(): void {
   if (myPath() !== "Grey You") return; // final safety
   let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
   const absorbed = new Set<string>(absorbed_list.split(","));
-  const blacklist = new Set<Item>(
-    $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese`
-  );
+
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
     const item_id = `${toInt(item)}`;
-    if (blacklist.has(item)) continue;
+    if (consumables_blacklist.has(item)) continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
       drink(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
