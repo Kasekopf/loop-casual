@@ -283,7 +283,7 @@ const Nuns: Task[] = [
     name: "Nuns",
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none",
-    priority: () => have($effect`Winklered`),
+    priority: () => have($effect`Winklered`) || have($item`cosmic bowling ball`),
     prepare: () => {
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
     },
