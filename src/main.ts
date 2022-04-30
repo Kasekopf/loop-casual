@@ -3,24 +3,25 @@ import {
   gametimeToInt,
   myAdventures,
   myClosetMeat,
+  myLevel,
   myMeat,
   print,
   takeCloset,
   turnsPlayed,
   visitUrl,
 } from "kolmafia";
-import { all_tasks } from "./tasks/all";
+import { all_tasks, level_tasks, organ_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { wandererSources } from "./resources";
 import { $skill, get, have, PropertiesManager, set } from "libram";
-import { step } from "./tasks/structure";
+import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 
 const time_property = "_loop_casual_first_start";
 
-export function main(): void {
+export function main(command?: string): void {
   if (runComplete()) {
     print("Casual complete!", "purple");
     return;
@@ -34,7 +35,22 @@ export function main(): void {
     cliExecute(`closet put ${myMeat() - 2000000} meat`);
   }
 
-  const tasks = prioritize(all_tasks());
+  // Select which tasks to perform
+  let tasks: Task[] = [];
+  switch (command) {
+    case undefined:
+      tasks = prioritize(all_tasks());
+      break;
+    case "level":
+      tasks = prioritize(level_tasks(), true);
+      break;
+    case "organ":
+      tasks = prioritize(organ_tasks(), true);
+      break;
+    default:
+      throw `Unknown argument ${command}`;
+  }
+
   const engine = new Engine(tasks);
   cliExecute("ccs loopcasual");
   setUniversalProperties(engine.propertyManager);
@@ -102,7 +118,7 @@ export function main(): void {
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") === 999 && have($skill`Liver of Steel`);
+  return step("questL13Final") === 999 && have($skill`Liver of Steel`) && myLevel() >= 13;
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {
