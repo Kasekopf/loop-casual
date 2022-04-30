@@ -2,6 +2,7 @@ import { CombatStrategy } from "../combat";
 import {
   abort,
   adv1,
+  buyUsingStorage,
   cliExecute,
   equippedAmount,
   familiarWeight,
@@ -17,6 +18,7 @@ import {
   myPrimestat,
   retrieveItem,
   runChoice,
+  storageAmount,
   totalTurnsPlayed,
   use,
   visitUrl,
@@ -511,6 +513,18 @@ const pulls: Item[] = [
   $item`Sneaky Pete's breath spray`,
   $item`old patched suit-pants`,
 ];
+function pull(item: Item): void {
+  const pulled = new Set<Item>(
+    get("_roninStoragePulls")
+      .split(",")
+      .map((id) => parseInt(id))
+      .filter((id) => id > 0)
+      .map((id) => Item.get(id))
+  );
+  if (pulled.has(item)) return;
+  if (storageAmount(item) === 0) buyUsingStorage(1, item, 100000);
+  cliExecute(`pull ${pull.name}`);
+}
 export const PullQuest: Quest = {
   name: "Pull",
   tasks: [
@@ -531,15 +545,8 @@ export const PullQuest: Quest = {
         return true;
       },
       do: () => {
-        const pulled = new Set<Item>(
-          get("_roninStoragePulls")
-            .split(",")
-            .map((id) => parseInt(id))
-            .filter((id) => id > 0)
-            .map((id) => Item.get(id))
-        );
-        for (const pull of pulls) {
-          if (!pulled.has(pull)) cliExecute(`pull ${pull.name}`);
+        for (const item of pulls) {
+          pull(item);
         }
       },
       limit: { tries: 1 },
@@ -552,7 +559,7 @@ export const PullQuest: Quest = {
         get("trapperOre") !== "" &&
         (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
       do: () => {
-        cliExecute(`pull ${get("trapperOre")}`);
+        pull(Item.get(get("trapperOre")));
       },
       limit: { tries: 1 },
       freeaction: true,
