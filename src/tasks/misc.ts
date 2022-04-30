@@ -8,12 +8,14 @@ import {
   retrieveItem,
   retrievePrice,
   runChoice,
+  use,
   useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
   $familiar,
+  $familiars,
   $item,
   $items,
   $location,
@@ -92,6 +94,25 @@ export const MiscQuest: Quest = {
         set("_loopcasual_checkedGnome", true);
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Acquire FamEquip",
+      after: [],
+      ready: () =>
+        $items`astral pet sweater, amulet coin, luck incense`.some((item) => !have(item)) &&
+        $familiars`Mu, Cornbeefadon`.some(have),
+      completed: () =>
+        $items`astral pet sweater, amulet coin, luck incense`.some((item) => have(item)) ||
+        !$familiars`Mu, Cornbeefadon`.some(have),
+      do: () => {
+        const famToUse = $familiars`Mu, Cornbeefadon`.find(have);
+        if (famToUse) {
+          useFamiliar(famToUse);
+          retrieveItem($item`box of Familiar Jacks`);
+          use($item`box of Familiar Jacks`);
+        }
+      },
       limit: { tries: 1 },
     },
     {

@@ -10,6 +10,7 @@ export const routing: string[] = [
   "Misc/Floundry",
   "Misc/Voting",
   "Misc/Acquire Kgnee",
+  "Misc/Acquire FamEquip",
 
   // Start with the basic leveling tasks
   "Toot/Finish",
