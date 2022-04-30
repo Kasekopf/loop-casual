@@ -18,6 +18,9 @@ const Manor1: Task[] = [
     name: "Kitchen",
     after: ["Start"],
     completed: () => step("questM20Necklace") >= 1,
+    prepare: () => {
+      if (have($item`rainbow glitter candle`)) use($item`rainbow glitter candle`);
+    },
     do: $location`The Haunted Kitchen`,
     outfit: { modifier: "stench res, hot res" },
     choices: { 893: 2 },
