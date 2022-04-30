@@ -632,7 +632,7 @@ export const KeysQuest: Quest = {
         },
         693: () => (have($item`eleven-foot pole`) ? 2 : 1),
       },
-      limit: { tries: 11 },
+      limit: { tries: 15 },
     },
     {
       name: "Finish",
