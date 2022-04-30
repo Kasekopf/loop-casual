@@ -140,6 +140,9 @@ const Zepplin: Task[] = [
     ready: () =>
       (have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
       (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`)),
+    prepare: () => {
+      if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
+    },
     acquire: [{ item: $item`yellow rocket`, useful: () => get("camelSpit") >= 100 }],
     completed: () => get("zeppelinProtestors") >= 80,
     do: $location`A Mob of Zeppelin Protesters`,
@@ -154,16 +157,19 @@ const Zepplin: Task[] = [
       )
       .killHard($monster`The Nuge`)
       .killItem($monster`Blue Oyster cultist`)
+      .killItem($monster`lynyrd skinner`)
       .kill(),
-    choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
+    choices: { 856: 1, 857: 1, 858: 1, 866: 1, 1432: 1 },
     outfit: () => {
       if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
         return {
           modifier: "-combat, item",
           familiar: $familiar`Melodramedary`,
+          equip: $items`lynyrdskin cap, lynyrdskin tunic, lynyrdskin breeches`,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
+        equip: $items`lynyrdskin cap, lynyrdskin tunic, lynyrdskin breeches`,
       };
     },
     limit: { soft: 30 },
