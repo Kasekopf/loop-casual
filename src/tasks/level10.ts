@@ -19,7 +19,6 @@ export const GiantQuest: Quest = {
     {
       name: "Get Bean",
       after: ["Bat/Use Sonar 2"],
-      ready: () => step("questL04Bat") >= 2,
       completed: () => have($item`enchanted bean`) || step("questL10Garbage") >= 1,
       do: $location`The Beanbat Chamber`,
       outfit: { modifier: "item" },

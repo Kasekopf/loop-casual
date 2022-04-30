@@ -391,7 +391,6 @@ export const WarQuest: Quest = {
       name: "Boss Hippie",
       after: ["Clear"],
       completed: () => step("questL12War") === 999,
-      ready: () => get("hippiesDefeated") >= 1000,
       outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       prepare: dimesForGarters,
       do: (): void => {

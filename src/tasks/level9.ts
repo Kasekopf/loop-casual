@@ -245,7 +245,7 @@ export const ChasmQuest: Quest = {
       after: ["Start"],
       ready: () =>
         get("smutOrcNoncombatProgress") < 15 ||
-        ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 300),
+        ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 400),
       completed: () => step("questL09Topping") >= 1,
       prepare: () => {
         if (
