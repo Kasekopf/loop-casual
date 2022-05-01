@@ -165,11 +165,11 @@ const Zepplin: Task[] = [
         return {
           modifier: "-combat, item",
           familiar: $familiar`Melodramedary`,
-          equip: $items`lynyrdskin cap, lynyrdskin tunic, lynyrdskin breeches`,
+          equip: $items`lynyrdskin cap, lynyrdskin breeches`,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
-        equip: $items`lynyrdskin cap, lynyrdskin tunic, lynyrdskin breeches`,
+        equip: $items`lynyrdskin cap, lynyrdskin breeches`,
       };
     },
     limit: { soft: 30 },
