@@ -323,7 +323,7 @@ export const runawaySources: RunawaySource[] = [
     available: () =>
       runawayFamiliar !== $familiar`none` &&
       have(runawayFamiliar) &&
-      availableFamiliarRunaways(5) > get("_banderRunaways"), // 5 from fish hatchet
+      availableFamiliarRunaways(5) > get("_banderRunaways"), // 5 from iFlail
     prepare: (): void => {
       bjornifyFamiliar($familiar`Gelatinous Cubeling`);
       if (
@@ -335,7 +335,7 @@ export const runawaySources: RunawaySource[] = [
         ensureEffect($effect`Ode to Booze`, 5);
       }
     },
-    equip: [runawayFamiliar, ...familiarGear, $item`fish hatchet`],
+    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`],
     do: new Macro().runaway(),
     chance: () => 1,
     banishes: false,

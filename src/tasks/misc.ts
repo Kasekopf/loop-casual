@@ -21,6 +21,7 @@ import {
   $location,
   $monster,
   $skill,
+  Clan,
   get,
   getSaleValue,
   have,
@@ -60,8 +61,16 @@ export const MiscQuest: Quest = {
     {
       name: "Floundry",
       after: [],
-      completed: () => have($item`fish hatchet`),
-      do: () => cliExecute("acquire 1 fish hatchet"),
+      completed: () => have($item`fish hatchet`) || get("_loop_casual_floundry_checked", "") === Clan.get().name,
+      do: () => {
+        const sufficientFish = visitUrl("clan_viplounge.php?action=floundry").match("([0-9]+) hatchetfish");
+        if (sufficientFish === null || parseInt(sufficientFish[1]) < 10) {
+          // Recheck if the script is rerun with a new clan
+          set("_loop_casual_floundry_checked", Clan.get().name);
+        } else {
+          cliExecute("acquire 1 fish hatchet");
+        }
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
