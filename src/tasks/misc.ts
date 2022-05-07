@@ -25,6 +25,7 @@ import {
   have,
   Macro,
   set,
+  uneffect,
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { OutfitSpec, Quest, step } from "./structure";
@@ -325,7 +326,7 @@ export const KeysQuest: Quest = {
       post: () => {
         if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
           set("_dailyDungeonMalwareUsed", true);
-        if (have($effect`Apathy`)) useSkill($skill`Disco Nap`);
+        uneffect($effect`Apathy`);
       },
       outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().macro(
@@ -343,9 +344,7 @@ export const KeysQuest: Quest = {
       acquire: [{ item: $item`Pick-O-Matic lockpicks` }, { item: $item`eleven-foot pole` }],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
-      post: (): void => {
-        if (have($effect`Apathy`)) useSkill($skill`Disco Nap`);
-      },
+      post: () => uneffect($effect`Apathy`),
       outfit: { equip: $items`ring of Detect Boring Doors` },
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
