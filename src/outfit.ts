@@ -289,6 +289,7 @@ export class Outfit {
       // Default outfit
       this.equip($item`ice crown`);
       this.equip($item`industrial fire extinguisher`);
+      if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);
       this.equip($item`familiar scrapbook`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
