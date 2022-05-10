@@ -159,17 +159,16 @@ const Zepplin: Task[] = [
       .killItem($monster`Blue Oyster cultist`)
       .killItem($monster`lynyrd skinner`)
       .kill(),
-    choices: { 856: 1, 857: 1, 858: 1, 866: 1, 1432: 1 },
+    choices: { 856: 1, 857: 2, 858: 1, 866: 1, 1432: 1 },
     outfit: () => {
       if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
         return {
           modifier: "-combat, item",
           familiar: $familiar`Melodramedary`,
-          equip: $items`lynyrdskin cap, lynyrdskin breeches`,
+          equip: $items`transparent pants, deck of lewd playing cards`,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
-        equip: $items`lynyrdskin cap, lynyrdskin breeches`,
       };
     },
     limit: { soft: 30 },

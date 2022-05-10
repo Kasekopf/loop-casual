@@ -512,9 +512,8 @@ const pulls: Item[] = [
   $item`Jarlsberg's earring`,
   $item`Sneaky Pete's breath spray`,
   $item`old patched suit-pants`,
-  $item`lynyrdskin cap`,
-  $item`lynyrdskin tunic`,
-  $item`lynyrdskin breeches`,
+  $item`transparent pants`,
+  $item`deck of lewd playing cards`,
 ];
 function pull(item: Item): void {
   const pulled = new Set<Item>(
