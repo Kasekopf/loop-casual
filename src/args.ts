@@ -297,16 +297,22 @@ export function showHelp<T extends ArgMap>(
   const scriptHelp = args[scriptHelpSymbol];
 
   printHtml(`${scriptHelp}`);
-  printHtml(`<font color='blue'>Options:</font>`);
+  printHtml(`<font color='blue'><b>Options:</b></font>`);
   for (const k in spec) {
     const arg = spec[k];
 
-    const nameText = arg.key ?? k;
-    const valueText = arg.valueHelpName === "FLAG" ? "" : `${arg.valueHelpName}`;
+    const nameText = `<font color='blue'>${arg.key ?? k}</font>`;
+    const valueText =
+      arg.valueHelpName === "FLAG" ? "" : `<font color='purple'>${arg.valueHelpName}</font>`;
     const helpText = arg.help ?? "";
-    const defaultText = "default" in arg ? `[default: ${arg.default}]` : "";
+    const defaultText =
+      "default" in arg ? `<font color='#888888'>[default: ${arg.default}]</font>` : "";
     const settingText =
-      arg.setting === "" ? "" : `[setting: ${arg.setting ?? `${scriptName}_${arg.key ?? k}`}]`;
+      arg.setting === ""
+        ? ""
+        : `<font color='#888888'>[setting: ${
+            arg.setting ?? `${scriptName}_${arg.key ?? k}`
+          }]</font>`;
 
     printHtml(
       `&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText, settingText].join(" ")}`
@@ -315,9 +321,11 @@ export function showHelp<T extends ArgMap>(
     if (valueOptions.length < (maxOptionsToDisplay ?? Number.MAX_VALUE)) {
       for (const option of valueOptions) {
         if (option.length === 1) {
-          printHtml(`&nbsp;&nbsp;&nbsp;&nbsp;${nameText} ${option[0]}`);
+          printHtml(`&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]}`);
         } else {
-          printHtml(`&nbsp;&nbsp;&nbsp;&nbsp;${nameText} ${option[0]} - ${option[1]}`);
+          printHtml(
+            `&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]} - ${option[1]}`
+          );
         }
       }
     }
