@@ -16,6 +16,13 @@ interface Arg<T> extends ArgSpec<T> {
 }
 type ArgNoDefault<T> = Omit<Arg<T>, "default">;
 
+/**
+ * Create an argument for a custom type.
+ * @param spec Information for this argument.
+ * @param parser A function to parse a string value into the proper type.
+ * @param valueName The name of this type, for the help text,
+ * @returns An argument
+ */
 export function arg<T>(spec: ArgSpec<T>, parser: Parser<T>, valueName: string): Arg<T>;
 export function arg<T>(
   spec: ArgSpecNoDefault<T>,
@@ -98,18 +105,25 @@ type ParsedArgs<T extends ArgMap> = {
     : ReturnType<T[k]["parser"]>;
 } & ArgMetadata<T>;
 
+/**
+ * Create a set of input arguments for a script.
+ * @param scriptName Prefix to use in property names; typically the name of the script.
+ * @param scriptHelp Brief description of this script, for the help message.
+ * @param spec An object specifying the script arguments.
+ * @returns An object which holds the parsed argument values.
+ */
 export function create<T extends ArgMap>(
   scriptName: string,
   scriptHelp: string,
   spec: T
-): ParsedArgs<T> & { help: Arg<boolean> } {
+): ParsedArgs<T> & { help: boolean } {
   for (const k in spec) {
     if (k === "help" || spec[k].name === "help") throw `help is a reserved argument name`;
   }
 
   const specWithHelp = {
     ...spec,
-    help: flag({ help: "Show this message and exit." }),
+    help: flag({ help: "Show this message and exit.", default: false }),
   };
 
   const res: { [key: string]: unknown } & ArgMetadata<T> = {
@@ -122,10 +136,15 @@ export function create<T extends ArgMap>(
     if ("default" in v) res[k] = v["default"];
     else res[k] = undefined;
   }
-  return res as ParsedArgs<T> & { help: Arg<boolean> };
+  return res as ParsedArgs<T> & { help: boolean };
 }
 
-export function fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | undefined) {
+/**
+ * Parse the command line input into the provided script arguments.
+ * @param args An object to hold the parsed argument values, from Args.create(*).
+ * @param command The command line input.
+ */
+export function fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | undefined): void {
   if (command === undefined || command === "") return;
 
   const spec = args[specSymbol];
@@ -156,6 +175,13 @@ export function fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | un
   }
 }
 
+/**
+ * Parse command line input into a new set of script arguments.
+ * @param scriptName Prefix to use in property names; typically the name of the script.
+ * @param scriptHelp Brief description of this script, for the help message.
+ * @param spec An object specifying the script arguments.
+ * @param command The command line input.
+ */
 export function parse<T extends ArgMap>(
   scriptName: string,
   scriptHelp: string,
@@ -167,7 +193,15 @@ export function parse<T extends ArgMap>(
   return args;
 }
 
-export function showHelp<T extends ArgMap>(args: ParsedArgs<T>, maxOptionsToDisplay?: number) {
+/**
+ * Print a description of the script arguments to the CLI.
+ * @param args An object of parsed arguments, from Args.create(*).
+ * @param maxOptionsToDisplay If given, do not list more than this many options for each arg.
+ */
+export function showHelp<T extends ArgMap>(
+  args: ParsedArgs<T>,
+  maxOptionsToDisplay?: number
+): void {
   const spec = args[specSymbol];
   const scriptHelp = args[scriptHelpSymbol];
 
