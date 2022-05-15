@@ -9,7 +9,7 @@ import {
   takeCloset,
   turnsPlayed,
 } from "kolmafia";
-import { all_tasks, level_tasks, organ_tasks } from "./tasks/all";
+import { all_tasks, level_tasks, organ_tasks, quest_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
@@ -25,6 +25,7 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
       ["level", "Level up only."],
       ["quests", "Complete all quests only."],
       ["organ", "Get your steel organ only."],
+      ["!organ", "Level up and complete all quests only."],
     ],
     default: "all",
   }),
@@ -79,8 +80,14 @@ export function main(command?: string): void {
     case "level":
       tasks = prioritize(level_tasks(), true);
       break;
+    case "quests":
+      tasks = prioritize(quest_tasks(), true);
+      break;
     case "organ":
       tasks = prioritize(organ_tasks(), true);
+      break;
+    case "!organ":
+      tasks = prioritize([...level_tasks(), ...organ_tasks()], true);
       break;
   }
 
@@ -151,6 +158,8 @@ function runComplete(): boolean {
       return step("questL13Final") === 999;
     case "organ":
       return have($skill`Liver of Steel`);
+    case "!organ":
+      return step("questL13Final") === 999 && myLevel() >= 13;
     default:
       throw `Unknown goal ${args.goal}`;
   }

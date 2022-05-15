@@ -72,6 +72,31 @@ export function all_tasks(): Task[] {
   return buildTaskList(quests);
 }
 
+export function quest_tasks(): Task[] {
+  const quests = [
+    TootQuest,
+    MiscQuest,
+    KeysQuest,
+    DietQuest,
+    MosquitoQuest,
+    TavernQuest,
+    BatQuest,
+    KnobQuest,
+    FriarQuest,
+    CryptQuest,
+    McLargeHugeQuest,
+    ChasmQuest,
+    GiantQuest,
+    HiddenQuest,
+    ManorQuest,
+    PalindomeQuest,
+    MacguffinQuest,
+    WarQuest,
+    TowerQuest,
+  ];
+  return buildTaskList(quests);
+}
+
 export function level_tasks(): Task[] {
   return buildTaskList([LevelingQuest]);
 }
