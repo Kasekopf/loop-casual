@@ -18,10 +18,29 @@ import { wandererSources } from "./resources";
 import { $skill, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
+import * as Args from "./args";
 
 const time_property = "_loop_casual_first_start";
 
+export const args = Args.create("loopcasual", "A script to complete casual runs.", {
+  goal: Args.string({
+    help: "Which tasks to perform",
+    options: [
+      ["all", "Level up, complete all quests, and get your steel organ."],
+      ["level", "Level up only."],
+      ["quest", "Complete all quests only."],
+      ["organ", "Get your steel organ only."],
+    ],
+    default: "all",
+  }),
+});
 export function main(command?: string): void {
+  Args.fill(args, command);
+  if (args.help) {
+    Args.showHelp(args);
+    return;
+  }
+
   if (runComplete()) {
     print("Casual complete!", "purple");
     return;
@@ -37,8 +56,8 @@ export function main(command?: string): void {
 
   // Select which tasks to perform
   let tasks: Task[] = [];
-  switch (command) {
-    case undefined:
+  switch (args.goal) {
+    case "all":
       tasks = prioritize(all_tasks());
       break;
     case "level":
@@ -47,8 +66,6 @@ export function main(command?: string): void {
     case "organ":
       tasks = prioritize(organ_tasks(), true);
       break;
-    default:
-      throw `Unknown argument ${command}`;
   }
 
   const engine = new Engine(tasks);
@@ -118,7 +135,18 @@ export function main(command?: string): void {
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") === 999 && have($skill`Liver of Steel`) && myLevel() >= 13;
+  switch (args.goal) {
+    case "all":
+      return step("questL13Final") === 999 && have($skill`Liver of Steel`) && myLevel() >= 13;
+    case "level":
+      return myLevel() >= 13;
+    case "quests":
+      return step("questL13Final") === 999;
+    case "organ":
+      return have($skill`Liver of Steel`);
+    default:
+      throw `Unknown goal ${args.goal}`;
+  }
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {
