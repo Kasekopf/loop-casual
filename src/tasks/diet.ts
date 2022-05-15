@@ -51,11 +51,12 @@ export const DietQuest: Quest = {
         if (have($item`astral six-pack`)) {
           use($item`astral six-pack`);
         }
+        const MPA = args.voa ?? get("valueOfAdventure");
 
         // Use the mime shotglass if available
         if (!get("_mimeArmyShotglassUsed") && have($item`mime army shotglass`)) {
           const shotglassDiet = Diet.plan(MPA, shotglassMenu(), { food: 0, booze: 1, spleen: 0 });
-          consumeDiet(shotglassDiet);
+          consumeDiet(shotglassDiet, MPA);
         }
 
         // Compute a diet to bring us up to the desired usage
@@ -69,7 +70,7 @@ export const DietQuest: Quest = {
         });
 
         // Eat the diet
-        consumeDiet(plannedDiet);
+        consumeDiet(plannedDiet, MPA);
       },
       limit: { tries: 1 },
       freeaction: true,
@@ -109,16 +110,13 @@ export const DietQuest: Quest = {
   ],
 };
 
-const MPA = get("valueOfAdventure");
 const spleenCleaners = new Map([
   [$item`extra-greasy slider`, 5],
   [$item`jar of fermented pickle juice`, 5],
   [$item`mojo filter`, 1],
 ]);
-const maxPrices = new Map([[$item`Special Seasoning`, MPA]]);
 
 function acquire(qty: number, item: Item, maxPrice?: number, throwOnFail = true): number {
-  maxPrice = maxPrice ?? maxPrices.get(item);
   if (!item.tradeable || (maxPrice !== undefined && maxPrice <= 0)) return 0;
   if (maxPrice === undefined) throw `No price cap for ${item.name}.`;
 
@@ -143,9 +141,9 @@ function argmax<T>(values: [T, number][]): T {
   )[0];
 }
 
-function eatSafe(qty: number, item: Item) {
+function eatSafe(qty: number, item: Item, mpa: number) {
   if (!get("_milkOfMagnesiumUsed")) {
-    acquire(1, $item`milk of magnesium`, 5 * MPA);
+    acquire(1, $item`milk of magnesium`, 5 * mpa);
     use($item`milk of magnesium`);
   }
   if (!eat(qty, item)) throw "Failed to eat safely";
@@ -174,19 +172,26 @@ function chewSafe(qty: number, item: Item) {
   if (!chew(qty, item)) throw "Failed to chew safely";
 }
 
-function consumeSafe(qty: number, item: Item, additionalValue?: number, skipAcquire?: boolean) {
+function consumeSafe(
+  qty: number,
+  item: Item,
+  mpa: number,
+  additionalValue?: number,
+  skipAcquire?: boolean
+) {
   const spleenCleaned = spleenCleaners.get(item);
   if (spleenCleaned && mySpleenUse() < spleenCleaned) {
     throw "No spleen to clear with this.";
   }
-  const averageAdventures = getAverageAdventures(item);
+  // Treat special seasoning as providing 1 adv for the purpose of a price cap.
+  const averageAdventures = item === $item`Special Seasoning` ? 1 : getAverageAdventures(item);
   if (!skipAcquire && (averageAdventures > 0 || additionalValue)) {
-    const cap = Math.max(0, averageAdventures * MPA) + (additionalValue ?? 0);
+    const cap = Math.max(0, averageAdventures * mpa) + (additionalValue ?? 0);
     acquire(qty, item, cap);
   } else if (!skipAcquire) {
     acquire(qty, item);
   }
-  if (itemType(item) === "food") eatSafe(qty, item);
+  if (itemType(item) === "food") eatSafe(qty, item, mpa);
   else if (itemType(item) === "booze") drinkSafe(qty, item);
   else if (itemType(item) === "spleen item") chewSafe(qty, item);
   else use(qty, item);
@@ -272,7 +277,7 @@ function shotglassMenu() {
   return menu().filter((menuItem) => menuItem.size === 1 && menuItem.organ === "booze");
 }
 
-function consumeDiet<T>(diet: Diet<T>) {
+function consumeDiet<T>(diet: Diet<T>, mpa: number) {
   const plannedDietEntries = diet.entries.sort(
     (a, b) => itemPriority(b.menuItems) - itemPriority(a.menuItems)
   );
@@ -293,7 +298,7 @@ function consumeDiet<T>(diet: Diet<T>) {
           if (menuItem.effect === $effect`Refined Palate`) {
             cliExecute(`genie effect ${menuItem.effect}`);
           } else {
-            consumeSafe(dietEntry.quantity, menuItem.item);
+            consumeSafe(dietEntry.quantity, menuItem.item, mpa);
           }
         }
         dietEntry.quantity -= quantity;

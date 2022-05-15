@@ -43,6 +43,9 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
     help: "Amount of spleen to fill.",
     default: 5,
   }),
+  voa: Args.number({
+    help: "Value of an adventure, in meat, for determining diet.",
+  }),
   actions: Args.number({
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
   }),
