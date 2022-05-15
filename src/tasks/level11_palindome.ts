@@ -145,9 +145,9 @@ const Zepplin: Task[] = [
       .macro((): Macro => {
         if (get("_glarkCableUses") < 5) return new Macro().tryItem($item`glark cable`);
         else return new Macro();
-      }, ...$monsters`man with the red buttons, red skeleton, red butler`)
+      }, ...$monsters`man with the red buttons, red skeleton, red butler, Red Fox`)
       .banish(...$monsters`Red Herring, Red Snapper`)
-      .kill(),
+      .kill(...$monsters`man with the red buttons, red skeleton, red butler, Red Fox`),
     limit: { soft: 12 },
   },
 ];
@@ -181,7 +181,7 @@ const Dome: Task[] = [
         new Macro().item($item`disposable instant camera`),
         ...$monsters`Bob Racecar, Racecar Bob`
       )
-      .kill(),
+      .kill(...$monsters`Bob Racecar, Racecar Bob, Drab Bard, Remarkable Elba Kramer`),
     limit: { soft: 20 },
   },
   {
@@ -192,7 +192,7 @@ const Dome: Task[] = [
     outfit: { equip: $items`Talisman o' Namsilat`, modifier: "-combat" },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
-      .kill(),
+      .kill(...$monsters`Bob Racecar, Racecar Bob, Drab Bard, Remarkable Elba Kramer`),
     limit: { soft: 20 },
   },
   {
