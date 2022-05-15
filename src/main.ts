@@ -117,7 +117,11 @@ export function main(command?: string): void {
     for (const task of remaining_tasks) {
       if (!task.completed()) debug(`${task.name}`, "red");
     }
-    throw `Unable to find available task, but the run is not complete.`;
+    if (myAdventures() === 0) {
+      throw `Ran out of adventures. Consider setting higher stomach, liver, and spleen usage, or a higher voa.`;
+    } else {
+      throw `Unable to find available task, but the run is not complete.`;
+    }
   }
 
   print("Casual complete!", "purple");
