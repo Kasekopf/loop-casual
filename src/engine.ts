@@ -1,6 +1,6 @@
 import { Location } from "kolmafia";
 import { Task } from "./tasks/structure";
-import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
 import {
   BuiltCombatStrategy,
   CombatResourceAllocation,
@@ -48,6 +48,7 @@ export class Engine {
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
+    this.setUniversalProperties();
   }
 
   public available(task: Task): boolean {
@@ -268,5 +269,51 @@ export class Engine {
       throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).${failureMessage}`;
     if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns)
       throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.${failureMessage}`;
+  }
+
+  private setUniversalProperties() {
+    // Properties adapted from garbo
+    this.propertyManager.set({
+      logPreferenceChange: true,
+      logPreferenceChangeFilter: [
+        ...new Set([
+          ...get("logPreferenceChangeFilter").split(","),
+          "libram_savedMacro",
+          "maximizerMRUList",
+          "testudinalTeachings",
+          "_lastCombatStarted",
+        ]),
+      ]
+        .sort()
+        .filter((a) => a)
+        .join(","),
+      battleAction: "custom combat script",
+      autoSatisfyWithMall: true,
+      autoSatisfyWithNPCs: true,
+      autoSatisfyWithCoinmasters: true,
+      autoSatisfyWithStash: false,
+      dontStopForCounters: true,
+      maximizerFoldables: true,
+      hpAutoRecovery: 0.0,
+      hpAutoRecoveryTarget: 0.0,
+      mpAutoRecovery: 0.0,
+      mpAutoRecoveryTarget: 0.0,
+      afterAdventureScript: "",
+      betweenBattleScript: "",
+      choiceAdventureScript: "",
+      familiarScript: "",
+      currentMood: "apathetic",
+      autoTuxedo: true,
+      autoPinkyRing: true,
+      autoGarish: true,
+      allowSummonBurning: true,
+      libramSkillsSoftcore: "none",
+    });
+    this.propertyManager.setChoices({
+      1106: 3, // Ghost Dog Chow
+      1107: 1, // tennis ball
+      1340: 3, // Is There A Doctor In The House?
+      1341: 1, // Cure her poison
+    });
   }
 }

@@ -28,26 +28,6 @@ interface ArgSpec<T> {
  */
 type ArgSpecNoDefault<T> = Omit<ArgSpec<T>, "default">;
 
-/**
- * A parser that can transform a string value into the desired type.
- * It may return undefined if given an invalid value.
- */
-type Parser<T> = (value: string) => T | undefined;
-
-/**
- * An argument that takes values in T.
- * @member parser The parser to use to built T values.
- * @member valueHelpName The string name of T, e.g. NUMBER.
- */
-interface Arg<T> extends ArgSpec<T> {
-  parser: Parser<T>;
-  valueHelpName: string;
-}
-/**
- * Allow the default argument to be optional, in a way that allows for cool type inference.
- */
-type ArgNoDefault<T> = Omit<Arg<T>, "default">;
-
 export class Args {
   /**
    * Create an argument for a custom type.
@@ -279,6 +259,26 @@ export class Args {
     }
   }
 }
+
+/**
+ * A parser that can transform a string value into the desired type.
+ * It may return undefined if given an invalid value.
+ */
+type Parser<T> = (value: string) => T | undefined;
+
+/**
+ * An argument that takes values in T.
+ * @member parser The parser to use to built T values.
+ * @member valueHelpName The string name of T, e.g. NUMBER.
+ */
+interface Arg<T> extends ArgSpec<T> {
+  parser: Parser<T>;
+  valueHelpName: string;
+}
+/**
+ * Allow the default argument to be optional, in a way that allows for cool type inference.
+ */
+type ArgNoDefault<T> = Omit<Arg<T>, "default">;
 
 /**
  * Metadata for the parsed arguments.

@@ -14,11 +14,9 @@ import { all_tasks, level_tasks, organ_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
-import { $skill, get, have, PropertiesManager, set } from "libram";
+import { $skill, get, have, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Args } from "./args";
-
-const time_property = "_loop_casual_first_start";
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
@@ -64,6 +62,7 @@ export function main(command?: string): void {
     return;
   }
 
+  const time_property = "_loop_casual_first_start";
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
 
@@ -88,7 +87,6 @@ export function main(command?: string): void {
 
   const engine = new Engine(tasks);
   cliExecute("ccs loopcasual");
-  setUniversalProperties(engine.propertyManager);
 
   let actions_left = args.actions ?? Number.MAX_VALUE;
   while (myAdventures() > 0) {
@@ -156,50 +154,4 @@ function runComplete(): boolean {
     default:
       throw `Unknown goal ${args.goal}`;
   }
-}
-
-function setUniversalProperties(propertyManager: PropertiesManager) {
-  // Properties adapted from garbo
-  propertyManager.set({
-    logPreferenceChange: true,
-    logPreferenceChangeFilter: [
-      ...new Set([
-        ...get("logPreferenceChangeFilter").split(","),
-        "libram_savedMacro",
-        "maximizerMRUList",
-        "testudinalTeachings",
-        "_lastCombatStarted",
-      ]),
-    ]
-      .sort()
-      .filter((a) => a)
-      .join(","),
-    battleAction: "custom combat script",
-    autoSatisfyWithMall: true,
-    autoSatisfyWithNPCs: true,
-    autoSatisfyWithCoinmasters: true,
-    autoSatisfyWithStash: false,
-    dontStopForCounters: true,
-    maximizerFoldables: true,
-    hpAutoRecovery: 0.0,
-    hpAutoRecoveryTarget: 0.0,
-    mpAutoRecovery: 0.0,
-    mpAutoRecoveryTarget: 0.0,
-    afterAdventureScript: "",
-    betweenBattleScript: "",
-    choiceAdventureScript: "",
-    familiarScript: "",
-    currentMood: "apathetic",
-    autoTuxedo: true,
-    autoPinkyRing: true,
-    autoGarish: true,
-    allowSummonBurning: true,
-    libramSkillsSoftcore: "none",
-  });
-  propertyManager.setChoices({
-    1106: 3, // Ghost Dog Chow
-    1107: 1, // tennis ball
-    1340: 3, // Is There A Doctor In The House?
-    1341: 1, // Cure her poison
-  });
 }
