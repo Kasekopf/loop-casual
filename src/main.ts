@@ -43,6 +43,9 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
     help: "Amount of spleen to fill.",
     default: 5,
   }),
+  actions: Args.number({
+    help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
+  }),
 });
 export function main(command?: string): void {
   Args.fill(args, command);
@@ -82,10 +85,22 @@ export function main(command?: string): void {
   cliExecute("ccs loopcasual");
   setUniversalProperties(engine.propertyManager);
 
+  let actions_left = args.actions ?? Number.MAX_VALUE;
   while (myAdventures() > 0) {
-    // Locate the next task, and do it.
+    // Locate the next task.
     const next = engine.getNextTask();
     if (next === undefined) break;
+
+    // Track the number of actions remaining to execute.
+    // If there are no more actions left, just print our plan and exit.
+    if (actions_left <= 0) {
+      debug(`Next task: ${next[0].name}`);
+      return;
+    } else {
+      actions_left -= 1;
+    }
+
+    // Do the next task.
     if (next[1] !== undefined) engine.execute(next[0], next[1]);
     else engine.execute(next[0]);
   }
