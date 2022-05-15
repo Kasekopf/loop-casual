@@ -98,7 +98,7 @@ const Oil: Task[] = [
   },
   {
     name: "Oil Jar", // get oil for jar of oil
-    after: ["Oil Peak", "Absorb/Oil Peak"],
+    after: ["Oil Peak"],
     completed: () =>
       itemAmount($item`bubblin' crude`) >= 12 ||
       have($item`jar of oil`) ||
