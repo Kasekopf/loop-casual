@@ -2,10 +2,13 @@ import {
   cliExecute,
   familiarWeight,
   gametimeToInt,
+  Location,
+  Monster,
   myAdventures,
   myPath,
   print,
-  runChoice,
+  toLocation,
+  toMonster,
   turnsPlayed,
   visitUrl,
 } from "kolmafia";
@@ -14,7 +17,7 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $effect, $familiar, CrystalBall, get, have, PropertiesManager, set } from "libram";
+import { $effect, $familiar, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 import { absorptionTargets } from "./tasks/absorb";
@@ -27,9 +30,10 @@ export function main(tasks_to_run?: number): void {
   if (set_time_now) set(time_property, gametimeToInt());
 
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
-  if (visitUrl("main.php").includes("somewhat-human-shaped mass of grey goo nanites")) {
-    runChoice(1); // Clear intro adventure
-  }
+
+  // Clear intro adventure
+  set("choiceNumber1464", 1);
+  visitUrl("main.php");
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, absorptionTargets);
@@ -119,7 +123,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     return [delay_burning, wanderer];
   }
 
-  const orb_predictions = CrystalBall.currentPredictions(false); // TODO: should this ever be true?
+  const orb_predictions = ponderPrediction();
   let todo = undefined;
 
   // Find the next useful absorb
@@ -190,4 +194,17 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     1340: 3, // Is There A Doctor In The House?
     1341: 1, // Cure her poison
   });
+}
+
+function ponderPrediction(): Map<Location, Monster> {
+  visitUrl("inventory.php?ponder=1", false);
+  const parsedProp = new Map(
+    get("crystalBallPredictions")
+      .split("|")
+      .map((element) => element.split(":") as [string, string, string])
+      .map(
+        ([, location, monster]) => [toLocation(location), toMonster(monster)] as [Location, Monster]
+      )
+  );
+  return parsedProp;
 }
