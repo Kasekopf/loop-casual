@@ -12,6 +12,7 @@ import {
   use,
 } from "kolmafia";
 import { $item, get, have, set } from "libram";
+import { args } from "../main";
 import { Quest } from "./structure";
 
 function max(a: number, b: number) {
@@ -23,7 +24,8 @@ export const DietQuest: Quest = {
     {
       name: "Consume",
       after: [],
-      completed: () => myDaycount() > 1 || myFullness() >= 5 || myInebriety() >= 10,
+      completed: () =>
+        myDaycount() > 1 || myFullness() >= args.stomach || myInebriety() >= args.liver,
       ready: () => myBasestat(myPrimestat()) >= 150 || myAdventures() === 1, // Wait until 150 mainstat (level 13 + 2 stats), in case of transdermal smoke patch deleveling
       do: (): void => {
         // Save cleaners for aftercore
@@ -31,9 +33,9 @@ export const DietQuest: Quest = {
         const mojo = get("currentMojoFilters");
         set("spiceMelangeUsed", true);
         set("currentMojoFilters", 3);
-        const food = max(5 - myFullness(), 0);
-        const drink = max(10 - myInebriety(), 0);
-        const spleen = max(5 - mySpleenUse(), 0);
+        const food = max(args.stomach - myFullness(), 0);
+        const drink = max(args.liver - myInebriety(), 0);
+        const spleen = max(args.spleen - mySpleenUse(), 0);
         cliExecute(`CONSUME ORGANS ${food} ${drink} ${spleen} NOMEAT`);
         set("spiceMelangeUsed", spice);
         set("currentMojoFilters", mojo);

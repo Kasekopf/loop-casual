@@ -24,14 +24,26 @@ const time_property = "_loop_casual_first_start";
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
-    help: "Which tasks to perform",
+    help: "Which tasks to perform.",
     options: [
       ["all", "Level up, complete all quests, and get your steel organ."],
       ["level", "Level up only."],
-      ["quest", "Complete all quests only."],
+      ["quests", "Complete all quests only."],
       ["organ", "Get your steel organ only."],
     ],
     default: "all",
+  }),
+  stomach: Args.number({
+    help: "Amount of stomach to fill.",
+    default: 5,
+  }),
+  liver: Args.number({
+    help: "Amount of liver to fill.",
+    default: 10,
+  }),
+  spleen: Args.number({
+    help: "Amount of spleen to fill.",
+    default: 5,
   }),
 });
 export function main(command?: string): void {
