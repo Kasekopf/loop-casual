@@ -51,7 +51,7 @@ export const DietQuest: Quest = {
         if (have($item`astral six-pack`)) {
           use($item`astral six-pack`);
         }
-        const MPA = args.voa ?? get("valueOfAdventure");
+        const MPA = args.voa;
 
         // Use the mime shotglass if available
         if (!get("_mimeArmyShotglassUsed") && have($item`mime army shotglass`)) {

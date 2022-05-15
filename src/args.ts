@@ -1,4 +1,5 @@
 import { printHtml } from "kolmafia";
+import { get } from "libram";
 
 /**
  * Specification for an argument that takes values in T.
@@ -6,6 +7,10 @@ import { printHtml } from "kolmafia";
  * @member help Description for the help text.
  * @member options An array of allowable values for this argument.
  *    Each entry has an optional description for the help text as well.
+ * @member setting A setting to use for this argument. If not given,
+ *    ${script name}_${argument name} is used; set to "" for no setting.
+ *    A value in this setting is used as the new default for this argument,
+ *    and can be overridden by a command line argument.
  * @member default A default value to use if no value is provided.
  *    Note that 'default' is effectively optional, as all methods that take
  *    an ArgSpec allow for 'default' to be omitted. But it is typed as
@@ -15,6 +20,7 @@ interface ArgSpec<T> {
   key?: Exclude<string, "help">;
   help?: string;
   options?: [T, string?][];
+  setting?: string;
   default: T;
 }
 /**
@@ -166,6 +172,25 @@ type ParsedArgs<T extends ArgMap> = {
 } & ArgMetadata<T>;
 
 /**
+ * Parse a string into a value for a given argument, throwing if the parsing fails.
+ * @param arg An argument that takes values in T.
+ * @param source A description of where this value came from, for the error message.
+ * @param value The value to parse.
+ * @returns the parsed value.
+ */
+function parseAndValidate<T>(arg: Arg<T> | ArgNoDefault<T>, source: string, value: string): T {
+  const parsed_value = arg.parser(value);
+  if (parsed_value === undefined) throw `${source} could not parse value: ${value}`;
+  const options = arg.options;
+  if (options) {
+    if (!options.map((option) => option[0]).includes(parsed_value)) {
+      throw `${source} received invalid value: ${value}`;
+    }
+  }
+  return parsed_value;
+}
+
+/**
  * Create a set of input arguments for a script.
  * @param scriptName Prefix for property names; often the name of the script.
  * @param scriptHelp Brief description of this script, for the help message.
@@ -185,7 +210,7 @@ export function create<T extends ArgMap>(
 
   const argsWithHelp = {
     ...args,
-    help: flag({ help: "Show this message and exit.", default: false }),
+    help: flag({ help: "Show this message and exit.", default: false, setting: "" }),
   };
 
   const res: { [key: string]: unknown } & ArgMetadata<T> = {
@@ -193,11 +218,23 @@ export function create<T extends ArgMap>(
     [scriptSymbol]: scriptName,
     [scriptHelpSymbol]: scriptHelp,
   };
+
+  // Fill the default values for each argument.
   for (const k in argsWithHelp) {
     const v = argsWithHelp[k];
     if ("default" in v) res[k] = v["default"];
     else res[k] = undefined;
   }
+
+  // Parse values from settings.
+  for (const k in argsWithHelp) {
+    const setting = argsWithHelp[k].setting ?? `${scriptName}_${argsWithHelp[k].key ?? k}`;
+    if (setting === "") continue; // no setting
+    const value_str = get(setting, "");
+    if (value_str === "") continue;
+    res[k] = parseAndValidate(argsWithHelp[k], `Setting ${setting}`, value_str);
+  }
+
   return res as ParsedArgs<T> & { help: boolean };
 }
 
@@ -223,17 +260,8 @@ export function fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | un
     const key = spec[k].key ?? k;
     const value_str = parsed.get(key);
     if (value_str === undefined) continue;
-
-    const value = spec[k].parser(value_str);
-    if (value === undefined) throw `Argument ${key} could not parse value: ${value_str}`;
-    const options = spec[k].options;
-    if (options) {
-      if (!options.map((option) => option[0]).includes(value)) {
-        throw `Argument ${key} received invalid value: ${value_str}`;
-      }
-    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    args[k] = value as any;
+    args[k] = parseAndValidate(spec[k], `Argument ${key}`, value_str) as any;
   }
 }
 
@@ -265,6 +293,7 @@ export function showHelp<T extends ArgMap>(
   maxOptionsToDisplay?: number
 ): void {
   const spec = args[specSymbol];
+  const scriptName = args[scriptSymbol];
   const scriptHelp = args[scriptHelpSymbol];
 
   printHtml(`${scriptHelp}`);
@@ -276,8 +305,12 @@ export function showHelp<T extends ArgMap>(
     const valueText = arg.valueHelpName === "FLAG" ? "" : `${arg.valueHelpName}`;
     const helpText = arg.help ?? "";
     const defaultText = "default" in arg ? `[default: ${arg.default}]` : "";
+    const settingText =
+      arg.setting === "" ? "" : `[setting: ${arg.setting ?? `${scriptName}_${arg.key ?? k}`}]`;
 
-    printHtml(`&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText].join(" ")}`);
+    printHtml(
+      `&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText, settingText].join(" ")}`
+    );
     const valueOptions = arg.options ?? [];
     if (valueOptions.length < (maxOptionsToDisplay ?? Number.MAX_VALUE)) {
       for (const option of valueOptions) {
