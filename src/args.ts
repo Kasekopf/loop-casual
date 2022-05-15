@@ -48,91 +48,236 @@ interface Arg<T> extends ArgSpec<T> {
  */
 type ArgNoDefault<T> = Omit<Arg<T>, "default">;
 
-/**
- * Create an argument for a custom type.
- * @param spec Specification for this argument.
- * @param parser A function to parse a string value into the proper type.
- * @param valueName The name of this type, for the help text.
- * @returns An argument.
- */
-export function arg<T>(spec: ArgSpec<T>, parser: Parser<T>, valueName: string): Arg<T>;
-export function arg<T>(
-  spec: ArgSpecNoDefault<T>,
-  parser: Parser<T>,
-  valueHelpName: string
-): ArgNoDefault<T>;
-export function arg<T>(
-  spec: ArgSpec<T> | ArgSpecNoDefault<T>,
-  parser: Parser<T>,
-  valueHelpName: string
-): Arg<T> | ArgNoDefault<T> {
-  if ("default" in spec && spec.options) {
-    if (!spec.options.map((option) => option[0]).includes(spec.default)) {
-      throw `Invalid default value ${spec.default}`;
+export class Args {
+  /**
+   * Create an argument for a custom type.
+   * @param spec Specification for this argument.
+   * @param parser A function to parse a string value into the proper type.
+   * @param valueName The name of this type, for the help text.
+   * @returns An argument.
+   */
+  static arg<T>(spec: ArgSpec<T>, parser: Parser<T>, valueName: string): Arg<T>;
+  static arg<T>(
+    spec: ArgSpecNoDefault<T>,
+    parser: Parser<T>,
+    valueHelpName: string
+  ): ArgNoDefault<T>;
+  static arg<T>(
+    spec: ArgSpec<T> | ArgSpecNoDefault<T>,
+    parser: Parser<T>,
+    valueHelpName: string
+  ): Arg<T> | ArgNoDefault<T> {
+    if ("default" in spec && spec.options) {
+      if (!spec.options.map((option) => option[0]).includes(spec.default)) {
+        throw `Invalid default value ${spec.default}`;
+      }
+    }
+
+    return {
+      ...spec,
+      valueHelpName: valueHelpName,
+      parser: parser,
+    };
+  }
+
+  /**
+   * Create a string argument.
+   * @param spec Specification for this argument. See {@link ArgSpec} for details.
+   */
+  static string(spec: ArgSpec<string>): Arg<string>;
+  static string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string>;
+  static string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string> {
+    return this.arg<string>(spec, (value: string) => value, "TEXT");
+  }
+
+  /**
+   * Create a number argument.
+   * @param spec Specification for this argument. See {@link ArgSpec} for details.
+   */
+  static number(spec: ArgSpec<number>): Arg<number>;
+  static number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number>;
+  static number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number> {
+    return this.arg(
+      spec,
+      (value: string) => (isNaN(Number(value)) ? undefined : Number(value)),
+      "NUMBER"
+    );
+  }
+
+  /**
+   * Create a boolean argument.
+   * @param spec Specification for this argument. See {@link ArgSpec} for details.
+   */
+  static boolean(spec: ArgSpec<boolean>): Arg<boolean>;
+  static boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
+  static boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
+    return this.arg(
+      spec,
+      (value: string) => {
+        if (value.toLowerCase() === "true") return true;
+        if (value.toLowerCase() === "false") return false;
+        return undefined;
+      },
+      "BOOLEAN"
+    );
+  }
+
+  /**
+   * Create a flag.
+   * @param spec Specification for this argument. See {@link ArgSpec} for details.
+   */
+  static flag(spec: ArgSpec<boolean>): Arg<boolean>;
+  static flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
+  static flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
+    return this.arg(
+      spec,
+      (value: string) => {
+        if (value.toLowerCase() === "true") return true;
+        if (value.toLowerCase() === "false") return false;
+        return undefined;
+      },
+      "FLAG"
+    );
+  }
+
+  /**
+   * Create a set of input arguments for a script.
+   * @param scriptName Prefix for property names; often the name of the script.
+   * @param scriptHelp Brief description of this script, for the help message.
+   * @param args A JS object specifying the script arguments. Its values should
+   *    be {@link Arg} objects (created by Args.string, Args.number, or others).
+   * @returns An object which can hold parsed argument values. The keys of this
+   *    object are identical to the keys in 'args'.
+   */
+  static create<T extends ArgMap>(
+    scriptName: string,
+    scriptHelp: string,
+    args: T
+  ): ParsedArgs<T> & { help: boolean } {
+    for (const k in args) {
+      if (k === "help" || args[k].key === "help") throw `help is a reserved argument name`;
+    }
+
+    const argsWithHelp = {
+      ...args,
+      help: this.flag({ help: "Show this message and exit.", default: false, setting: "" }),
+    };
+
+    const res: { [key: string]: unknown } & ArgMetadata<T> = {
+      [specSymbol]: argsWithHelp,
+      [scriptSymbol]: scriptName,
+      [scriptHelpSymbol]: scriptHelp,
+    };
+
+    // Fill the default values for each argument.
+    for (const k in argsWithHelp) {
+      const v = argsWithHelp[k];
+      if ("default" in v) res[k] = v["default"];
+      else res[k] = undefined;
+    }
+
+    // Parse values from settings.
+    for (const k in argsWithHelp) {
+      const setting = argsWithHelp[k].setting ?? `${scriptName}_${argsWithHelp[k].key ?? k}`;
+      if (setting === "") continue; // no setting
+      const value_str = get(setting, "");
+      if (value_str === "") continue;
+      res[k] = parseAndValidate(argsWithHelp[k], `Setting ${setting}`, value_str);
+    }
+
+    return res as ParsedArgs<T> & { help: boolean };
+  }
+
+  /**
+   * Parse the command line input into the provided script arguments.
+   * @param args An object to hold the parsed argument values, from Args.create(*).
+   * @param command The command line input.
+   */
+  static fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | undefined): void {
+    if (command === undefined || command === "") return;
+
+    const spec = args[specSymbol];
+    const keys = new Set<string>();
+    const flags = new Set<string>();
+    for (const k in spec) {
+      if (spec[k].valueHelpName === "FLAG") flags.add(spec[k].key ?? k);
+      else keys.add(spec[k].key ?? k);
+    }
+
+    // Parse new argments from the command line
+    const parsed = new CommandParser(command, keys, flags).parse();
+    for (const k in spec) {
+      const key = spec[k].key ?? k;
+      const value_str = parsed.get(key);
+      if (value_str === undefined) continue;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      args[k] = parseAndValidate(spec[k], `Argument ${key}`, value_str) as any;
     }
   }
 
-  return {
-    ...spec,
-    valueHelpName: valueHelpName,
-    parser: parser,
-  };
-}
+  /**
+   * Parse command line input into a new set of script arguments.
+   * @param scriptName Prefix to use in property names; typically the name of the script.
+   * @param scriptHelp Brief description of this script, for the help message.
+   * @param spec An object specifying the script arguments.
+   * @param command The command line input.
+   */
+  static parse<T extends ArgMap>(
+    scriptName: string,
+    scriptHelp: string,
+    spec: T,
+    command: string
+  ): ParsedArgs<T> {
+    const args = this.create(scriptName, scriptHelp, spec);
+    this.fill(args, command);
+    return args;
+  }
 
-/**
- * Create a string argument.
- * @param spec Specification for this argument. See {@link ArgSpec} for details.
- */
-export function string(spec: ArgSpec<string>): Arg<string>;
-export function string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string>;
-export function string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string> {
-  return arg<string>(spec, (value: string) => value, "TEXT");
-}
+  /**
+   * Print a description of the script arguments to the CLI.
+   * @param args An object of parsed arguments, from Args.create(*).
+   * @param maxOptionsToDisplay If given, do not list more than this many options for each arg.
+   */
+  static showHelp<T extends ArgMap>(args: ParsedArgs<T>, maxOptionsToDisplay?: number): void {
+    const spec = args[specSymbol];
+    const scriptName = args[scriptSymbol];
+    const scriptHelp = args[scriptHelpSymbol];
 
-/**
- * Create a number argument.
- * @param spec Specification for this argument. See {@link ArgSpec} for details.
- */
-export function number(spec: ArgSpec<number>): Arg<number>;
-export function number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number>;
-export function number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number> {
-  return arg(spec, (value: string) => (isNaN(Number(value)) ? undefined : Number(value)), "NUMBER");
-}
+    printHtml(`${scriptHelp}`);
+    printHtml(`<font color='blue'><b>Options:</b></font>`);
+    for (const k in spec) {
+      const arg = spec[k];
 
-/**
- * Create a boolean argument.
- * @param spec Specification for this argument. See {@link ArgSpec} for details.
- */
-export function boolean(spec: ArgSpec<boolean>): Arg<boolean>;
-export function boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
-export function boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
-  return arg(
-    spec,
-    (value: string) => {
-      if (value.toLowerCase() === "true") return true;
-      if (value.toLowerCase() === "false") return false;
-      return undefined;
-    },
-    "BOOLEAN"
-  );
-}
+      const nameText = `<font color='blue'>${arg.key ?? k}</font>`;
+      const valueText =
+        arg.valueHelpName === "FLAG" ? "" : `<font color='purple'>${arg.valueHelpName}</font>`;
+      const helpText = arg.help ?? "";
+      const defaultText =
+        "default" in arg ? `<font color='#888888'>[default: ${arg.default}]</font>` : "";
+      const settingText =
+        arg.setting === ""
+          ? ""
+          : `<font color='#888888'>[setting: ${
+              arg.setting ?? `${scriptName}_${arg.key ?? k}`
+            }]</font>`;
 
-/**
- * Create a flag.
- * @param spec Specification for this argument. See {@link ArgSpec} for details.
- */
-export function flag(spec: ArgSpec<boolean>): Arg<boolean>;
-export function flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
-export function flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
-  return arg(
-    spec,
-    (value: string) => {
-      if (value.toLowerCase() === "true") return true;
-      if (value.toLowerCase() === "false") return false;
-      return undefined;
-    },
-    "FLAG"
-  );
+      printHtml(
+        `&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText, settingText].join(" ")}`
+      );
+      const valueOptions = arg.options ?? [];
+      if (valueOptions.length < (maxOptionsToDisplay ?? Number.MAX_VALUE)) {
+        for (const option of valueOptions) {
+          if (option.length === 1) {
+            printHtml(`&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]}`);
+          } else {
+            printHtml(
+              `&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]} - ${option[1]}`
+            );
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -188,148 +333,6 @@ function parseAndValidate<T>(arg: Arg<T> | ArgNoDefault<T>, source: string, valu
     }
   }
   return parsed_value;
-}
-
-/**
- * Create a set of input arguments for a script.
- * @param scriptName Prefix for property names; often the name of the script.
- * @param scriptHelp Brief description of this script, for the help message.
- * @param args A JS object specifying the script arguments. Its values should
- *    be {@link Arg} objects (created by Args.string, Args.number, or others).
- * @returns An object which can hold parsed argument values. The keys of this
- *    object are identical to the keys in 'args'.
- */
-export function create<T extends ArgMap>(
-  scriptName: string,
-  scriptHelp: string,
-  args: T
-): ParsedArgs<T> & { help: boolean } {
-  for (const k in args) {
-    if (k === "help" || args[k].key === "help") throw `help is a reserved argument name`;
-  }
-
-  const argsWithHelp = {
-    ...args,
-    help: flag({ help: "Show this message and exit.", default: false, setting: "" }),
-  };
-
-  const res: { [key: string]: unknown } & ArgMetadata<T> = {
-    [specSymbol]: argsWithHelp,
-    [scriptSymbol]: scriptName,
-    [scriptHelpSymbol]: scriptHelp,
-  };
-
-  // Fill the default values for each argument.
-  for (const k in argsWithHelp) {
-    const v = argsWithHelp[k];
-    if ("default" in v) res[k] = v["default"];
-    else res[k] = undefined;
-  }
-
-  // Parse values from settings.
-  for (const k in argsWithHelp) {
-    const setting = argsWithHelp[k].setting ?? `${scriptName}_${argsWithHelp[k].key ?? k}`;
-    if (setting === "") continue; // no setting
-    const value_str = get(setting, "");
-    if (value_str === "") continue;
-    res[k] = parseAndValidate(argsWithHelp[k], `Setting ${setting}`, value_str);
-  }
-
-  return res as ParsedArgs<T> & { help: boolean };
-}
-
-/**
- * Parse the command line input into the provided script arguments.
- * @param args An object to hold the parsed argument values, from Args.create(*).
- * @param command The command line input.
- */
-export function fill<T extends ArgMap>(args: ParsedArgs<T>, command: string | undefined): void {
-  if (command === undefined || command === "") return;
-
-  const spec = args[specSymbol];
-  const keys = new Set<string>();
-  const flags = new Set<string>();
-  for (const k in spec) {
-    if (spec[k].valueHelpName === "FLAG") flags.add(spec[k].key ?? k);
-    else keys.add(spec[k].key ?? k);
-  }
-
-  // Parse new argments from the command line
-  const parsed = new CommandParser(command, keys, flags).parse();
-  for (const k in spec) {
-    const key = spec[k].key ?? k;
-    const value_str = parsed.get(key);
-    if (value_str === undefined) continue;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    args[k] = parseAndValidate(spec[k], `Argument ${key}`, value_str) as any;
-  }
-}
-
-/**
- * Parse command line input into a new set of script arguments.
- * @param scriptName Prefix to use in property names; typically the name of the script.
- * @param scriptHelp Brief description of this script, for the help message.
- * @param spec An object specifying the script arguments.
- * @param command The command line input.
- */
-export function parse<T extends ArgMap>(
-  scriptName: string,
-  scriptHelp: string,
-  spec: T,
-  command: string
-): ParsedArgs<T> {
-  const args = create(scriptName, scriptHelp, spec);
-  fill(args, command);
-  return args;
-}
-
-/**
- * Print a description of the script arguments to the CLI.
- * @param args An object of parsed arguments, from Args.create(*).
- * @param maxOptionsToDisplay If given, do not list more than this many options for each arg.
- */
-export function showHelp<T extends ArgMap>(
-  args: ParsedArgs<T>,
-  maxOptionsToDisplay?: number
-): void {
-  const spec = args[specSymbol];
-  const scriptName = args[scriptSymbol];
-  const scriptHelp = args[scriptHelpSymbol];
-
-  printHtml(`${scriptHelp}`);
-  printHtml(`<font color='blue'><b>Options:</b></font>`);
-  for (const k in spec) {
-    const arg = spec[k];
-
-    const nameText = `<font color='blue'>${arg.key ?? k}</font>`;
-    const valueText =
-      arg.valueHelpName === "FLAG" ? "" : `<font color='purple'>${arg.valueHelpName}</font>`;
-    const helpText = arg.help ?? "";
-    const defaultText =
-      "default" in arg ? `<font color='#888888'>[default: ${arg.default}]</font>` : "";
-    const settingText =
-      arg.setting === ""
-        ? ""
-        : `<font color='#888888'>[setting: ${
-            arg.setting ?? `${scriptName}_${arg.key ?? k}`
-          }]</font>`;
-
-    printHtml(
-      `&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText, settingText].join(" ")}`
-    );
-    const valueOptions = arg.options ?? [];
-    if (valueOptions.length < (maxOptionsToDisplay ?? Number.MAX_VALUE)) {
-      for (const option of valueOptions) {
-        if (option.length === 1) {
-          printHtml(`&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]}`);
-        } else {
-          printHtml(
-            `&nbsp;&nbsp;&nbsp;&nbsp;<font color='blue'>${nameText}</font> ${option[0]} - ${option[1]}`
-          );
-        }
-      }
-    }
-  }
 }
 
 /**

@@ -16,7 +16,7 @@ import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { $skill, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
-import * as Args from "./args";
+import { Args } from "./args";
 
 const time_property = "_loop_casual_first_start";
 
