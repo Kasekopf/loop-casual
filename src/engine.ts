@@ -1,4 +1,4 @@
-import { Location } from "kolmafia";
+import { Location, myAdventures } from "kolmafia";
 import { Task } from "./tasks/structure";
 import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
 import {
@@ -58,6 +58,7 @@ export class Engine {
       if (!after_task.completed()) return false;
     }
     if (task.ready && !task.ready()) return false;
+    if (myAdventures() === 0 && !task.noadventures) return false;
     return !task.completed();
   }
 

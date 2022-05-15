@@ -8,7 +8,6 @@ import {
   print,
   takeCloset,
   turnsPlayed,
-  visitUrl,
 } from "kolmafia";
 import { all_tasks, level_tasks, organ_tasks } from "./tasks/all";
 import { prioritize } from "./route";
@@ -89,7 +88,8 @@ export function main(command?: string): void {
   cliExecute("ccs loopcasual");
 
   let actions_left = args.actions ?? Number.MAX_VALUE;
-  while (myAdventures() > 0) {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
     // Locate the next task.
     const next = engine.getNextTask();
     if (next === undefined) break;
@@ -107,10 +107,6 @@ export function main(command?: string): void {
     if (next[1] !== undefined) engine.execute(next[0], next[1]);
     else engine.execute(next[0]);
   }
-
-  // Can finish the run with 0 adventures, if only the prism is left
-  if (step("questL13Final") > 11 && step("questL13Final") !== 999)
-    visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
 
   // Script is done; ensure we have finished
   takeCloset(myClosetMeat());

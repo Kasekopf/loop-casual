@@ -74,6 +74,7 @@ export const DietQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
     {
       name: "Numberology",
@@ -85,6 +86,7 @@ export const DietQuest: Quest = {
       },
       limit: { tries: 4 },
       freeaction: true,
+      noadventures: true,
     },
     {
       name: "Sausage",
@@ -96,6 +98,7 @@ export const DietQuest: Quest = {
       },
       limit: { tries: 23 },
       freeaction: true,
+      noadventures: true,
     },
     {
       name: "Hourglass",
@@ -106,6 +109,7 @@ export const DietQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
   ],
 };

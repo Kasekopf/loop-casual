@@ -370,6 +370,7 @@ export const TowerQuest: Quest = {
       do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
   ],
 };

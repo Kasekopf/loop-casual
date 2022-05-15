@@ -48,6 +48,7 @@ export type Task = {
   freeaction?: boolean;
   freecombat?: boolean;
   limit: Limit;
+  noadventures?: boolean;
 };
 
 export function step(questName: StringProperty): number {
