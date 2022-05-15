@@ -66,7 +66,34 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task, ...wanderers: WandererSource[]): void {
+  public getNextTask(): [Task, WandererSource?] | undefined {
+    // First, check for any prioritized tasks
+    const priority = this.tasks.find(
+      (task) => this.available(task) && task.priority !== undefined && task.priority()
+    );
+    if (priority !== undefined) {
+      return [priority];
+    }
+
+    // If a wanderer is up try to place it in a useful location
+    const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
+    const delay_burning = this.tasks.find(
+      (task) =>
+        this.hasDelay(task) && this.available(task) && Outfit.create(task).canEquip(wanderer?.equip)
+    );
+    if (wanderer !== undefined && delay_burning !== undefined) {
+      return [delay_burning, wanderer];
+    }
+
+    // Otherwise, just advance the next quest on the route
+    const todo = this.tasks.find((task) => this.available(task));
+    if (todo !== undefined) return [todo];
+
+    // No next task
+    return undefined;
+  }
+
+  public execute(task: Task, wanderer?: WandererSource): void {
     debug(``);
     debug(`Executing ${task.name}`, "blue");
     this.check_limits(task);
@@ -113,6 +140,7 @@ export class Engine {
 
     // Prepare basic equipment
     const outfit = Outfit.create(task);
+    const wanderers = wanderer ? [wanderer] : [];
     for (const wanderer of wanderers) {
       if (!outfit.equip(wanderer?.equip))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
@@ -156,7 +184,7 @@ export class Engine {
 
       // Set up more wanderers if delay is needed
       if (wanderers.length === 0 && this.hasDelay(task))
-        wanderers = outfit.equipUntilCapped(wandererSources);
+        wanderers.push(...outfit.equipUntilCapped(wandererSources));
 
       // Prepare mood
       applyEffects(outfit.modifier ?? "", task.effects || []);

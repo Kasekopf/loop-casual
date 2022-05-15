@@ -14,10 +14,8 @@ import { all_tasks, level_tasks, organ_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
-import { wandererSources } from "./resources";
 import { $skill, get, have, PropertiesManager, set } from "libram";
 import { step, Task } from "./tasks/structure";
-import { Outfit } from "./outfit";
 import * as Args from "./args";
 
 const time_property = "_loop_casual_first_start";
@@ -85,32 +83,11 @@ export function main(command?: string): void {
   setUniversalProperties(engine.propertyManager);
 
   while (myAdventures() > 0) {
-    // First, check for any prioritized tasks
-    const priority = tasks.find(
-      (task) => engine.available(task) && task.priority !== undefined && task.priority()
-    );
-    if (priority !== undefined) {
-      engine.execute(priority);
-      continue;
-    }
-
-    // If a wanderer is up try to place it in a useful location
-    const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-    const delay_burning = tasks.find(
-      (task) =>
-        engine.hasDelay(task) &&
-        engine.available(task) &&
-        Outfit.create(task).canEquip(wanderer?.equip)
-    );
-    if (wanderer !== undefined && delay_burning !== undefined) {
-      engine.execute(delay_burning, wanderer);
-      continue;
-    }
-
-    // Otherwise, just advance the next quest on the route
-    const todo = tasks.find((task) => engine.available(task));
-    if (todo === undefined) break;
-    engine.execute(todo);
+    // Locate the next task, and do it.
+    const next = engine.getNextTask();
+    if (next === undefined) break;
+    if (next[1] !== undefined) engine.execute(next[0], next[1]);
+    else engine.execute(next[0]);
   }
 
   // Can finish the run with 0 adventures, if only the prism is left
