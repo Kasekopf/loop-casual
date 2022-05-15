@@ -218,7 +218,7 @@ export const LevelingQuest: Quest = {
         have($familiar`Pocket Professor`) &&
         have($item`Kramco Sausage-o-Matic™`) &&
         getKramcoWandererChance() === 1,
-      completed: () => get("_sausageFights") > 0 || myLevel() >= 13,
+      completed: () => get("_sausageFights") > 0 || myLevel() >= 12,
       do: $location`The Outskirts of Cobb's Knob`,
       combat: new CombatStrategy()
         .macro(
