@@ -119,7 +119,7 @@ const Zepplin: Task[] = [
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     outfit: { modifier: "sleaze dmg, sleaze spell dmg", familiar: $familiar`Left-Hand Man` },
     freeaction: true, // fully maximize outfit
-    limit: { tries: 4, message: "Maybe your available sleaze damage is too low." },
+    limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
   },
   {
     name: "Protesters Finish",
