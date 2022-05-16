@@ -1,6 +1,5 @@
 import {
   cliExecute,
-  haveEquipped,
   myHp,
   myLevel,
   myMaxhp,
@@ -91,6 +90,9 @@ export const LevelingQuest: Quest = {
         cliExecute(`bastille ${myPrimestat() === $stat`Mysticality` ? "myst" : myPrimestat()}`),
       limit: { tries: 1 },
       freeaction: true,
+      outfit: {
+        modifier: "exp",
+      },
     },
     {
       name: "Chateau",
@@ -108,6 +110,9 @@ export const LevelingQuest: Quest = {
       },
       do: () => visitUrl("place.php?whichplace=chateau&action=chateau_restbox"),
       freeaction: true,
+      outfit: {
+        modifier: "exp",
+      },
       limit: { soft: 40 },
     },
     {
@@ -189,8 +194,8 @@ export const LevelingQuest: Quest = {
       },
       combat: new CombatStrategy().killHard(),
       outfit: {
-        modifier: "mainstat, 4exp",
-        equip: $items`makeshift garbage shirt`,
+        modifier: "mainstat, 4exp, monster level percent",
+        equip: $items`makeshift garbage shirt, unbreakable umbrella`,
         familiar: $familiar`God Lobster`,
       },
       limit: { tries: 3 },
@@ -203,12 +208,8 @@ export const LevelingQuest: Quest = {
       completed: () => Witchess.fightsDone() >= 5 || myLevel() >= 13,
       do: () => Witchess.fightPiece($monster`Witchess Knight`),
       combat: new CombatStrategy().killHard(),
-      prepare: () => {
-        if (haveEquipped($item`unbreakable umbrella`) && get("umbrellaState") !== "broken")
-          cliExecute("umbrella broken");
-      },
       outfit: {
-        modifier: "mainstat, 4exp",
+        modifier: "mainstat, 4exp, monster level percent",
         equip: $items`makeshift garbage shirt, unbreakable umbrella`,
         familiar: $familiar`Left-Hand Man`,
       },
@@ -247,10 +248,6 @@ export const LevelingQuest: Quest = {
       after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
-      prepare: () => {
-        if (haveEquipped($item`unbreakable umbrella`) && get("umbrellaState") !== "broken")
-          cliExecute("umbrella broken");
-      },
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
       combat: new CombatStrategy()
@@ -269,7 +266,7 @@ export const LevelingQuest: Quest = {
         })
         .killHard(),
       outfit: {
-        modifier: "mainstat, 4exp",
+        modifier: "mainstat, 4exp, monster level percent",
         equip: $items`makeshift garbage shirt, unbreakable umbrella`,
         familiar: $familiar`Left-Hand Man`,
       },
@@ -285,8 +282,8 @@ export const LevelingQuest: Quest = {
       do: $location`The Deep Machine Tunnels`,
       combat: new CombatStrategy().killHard(),
       outfit: {
-        modifier: "mainstat, 4exp",
-        equip: $items`makeshift garbage shirt`,
+        modifier: "mainstat, 4exp, monster level percent",
+        equip: $items`makeshift garbage shirt, unbreakable umbrella`,
         familiar: $familiar`Machine Elf`,
       },
       limit: { tries: 5 },
@@ -304,6 +301,9 @@ export const LevelingQuest: Quest = {
       },
       freeaction: true,
       limit: { tries: 1 },
+      outfit: {
+        modifier: "exp",
+      },
     },
   ],
 };
