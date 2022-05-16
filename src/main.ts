@@ -7,6 +7,7 @@ import {
   myAdventures,
   myPath,
   print,
+  runChoice,
   toLocation,
   toMonster,
   turnsPlayed,
@@ -32,8 +33,9 @@ export function main(tasks_to_run?: number): void {
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
 
   // Clear intro adventure
-  set("choiceNumber1464", 1);
-  visitUrl("main.php");
+  set("choiceAdventure1464", 1);
+  if (visitUrl("main.php").includes("somewhat-human-shaped mass of grey goo nanites"))
+    runChoice(-1);
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, absorptionTargets);
