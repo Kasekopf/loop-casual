@@ -40,7 +40,7 @@ import {
   set,
   uneffect,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { OutfitSpec, OverridePriority, Quest, step, Task } from "./structure";
 import { Engine } from "../engine";
 
 export const MiscQuest: Quest = {
@@ -408,9 +408,9 @@ export const WandQuest: Quest = {
         familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
         have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
       priority: () =>
-        myMeat() >= 1000 && // Meat for goal teleportitis choice adventure
-        familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
-        have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
+        familiarWeight($familiar`Grey Goose`) >= 6
+          ? OverridePriority.GoodGoose
+          : OverridePriority.None,
       completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },

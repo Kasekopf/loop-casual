@@ -1,4 +1,4 @@
-import { cliExecute, haveEffect, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -14,7 +14,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OverridePriority, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -49,11 +49,7 @@ const Lighthouse: Task[] = [
   {
     name: "Lighthouse",
     after: ["Enrage", "Bat/Use Sonar 3"],
-    priority: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
-    ready: () =>
-      get("cursedMagnifyingGlassCount") >= 13 &&
-      get("_voidFreeFights") < 5 &&
-      (!have($effect`Everything Looks Yellow`) || haveEffect($effect`Everything Looks Yellow`) > 5),
+    ready: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
     completed: () =>
       get("lastCopyableMonster") === $monster`lobsterfrogman` ||
       itemAmount($item`barrel of gunpowder`) >= 5 ||
@@ -205,7 +201,8 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     ready: () => !have($effect`Everything Looks Yellow`),
-    priority: () => !have($effect`Everything Looks Yellow`),
+    priority: () =>
+      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
     acquire: [{ item: $item`yellow rocket` }],
     do: $location`The Hatching Chamber`,
     combat: new CombatStrategy().macro(
@@ -225,7 +222,8 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     ready: () => !have($effect`Everything Looks Yellow`),
-    priority: () => !have($effect`Everything Looks Yellow`),
+    priority: () =>
+      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
     acquire: [{ item: $item`yellow rocket` }],
     do: $location`The Feeding Chamber`,
     effects: $effects`Filthworm Larva Stench`,
@@ -244,7 +242,8 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     ready: () => !have($effect`Everything Looks Yellow`),
-    priority: () => !have($effect`Everything Looks Yellow`),
+    priority: () =>
+      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
     acquire: [{ item: $item`yellow rocket` }],
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
@@ -283,7 +282,7 @@ const Nuns: Task[] = [
     name: "Nuns",
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none",
-    priority: () => have($effect`Winklered`) || have($item`cosmic bowling ball`),
+    priority: () => (have($effect`Winklered`) ? OverridePriority.Effect : OverridePriority.None),
     prepare: () => {
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
     },
@@ -318,7 +317,8 @@ export const WarQuest: Quest = {
         have($item`bejeweled pledge pin`),
       ready: () =>
         !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () => !have($effect`Everything Looks Yellow`),
+      priority: () =>
+        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
       acquire: [{ item: $item`yellow rocket` }],
       do: () => {
         cliExecute(`cargo 568`);

@@ -21,7 +21,7 @@ import {
   toInt,
   use,
 } from "kolmafia";
-import { Task } from "./tasks/structure";
+import { OverridePriority, Task } from "./tasks/structure";
 import {
   $effect,
   $effects,
@@ -85,7 +85,7 @@ export class Engine {
     }
   }
 
-  public available(task: Task, orb_predictions?: Map<Location, Monster>): boolean {
+  public available(task: Task): boolean {
     for (const after of task.after) {
       const after_task = this.tasks_by_name.get(after);
       if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
@@ -94,31 +94,23 @@ export class Engine {
     if (task.ready && !task.ready()) return false;
     if (task.completed()) return false;
 
-    // Ensure the Grey Goose is charged if we plan on absorbing
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (familiarWeight($familiar`Grey Goose`) < 6 && this.needsChargedGoose(task)) {
-      debug(`X ${task.name}: charged goose needed`, "red");
-      return false;
-    }
-
-    // Ensure that the current +/- combat effects are compatible
-    if (!moodCompatible(outfit_spec?.modifier)) {
-      debug(`X ${task.name}: wrong mood`, "red");
-      return false;
-    }
-
-    // Wait until we get a -combat skill before doing any -combat
-    if (
-      outfit_spec?.modifier &&
-      outfit_spec.modifier.includes("-combat") &&
-      !have($skill`Phase Shift`)
-    ) {
-      debug(`X ${task.name}: no -combat`, "red");
-      return false;
-    }
-
     // Wait until we get Infinite Loop before doing most things
     if (task.do instanceof Location && !have($skill`Infinite Loop`)) return false;
+
+    return true;
+  }
+
+  public priority(task: Task, orb_predictions?: Map<Location, Monster>): number {
+    let result = task.priority?.() ?? OverridePriority.None;
+
+    // Check if Grey Goose is charged
+    if (this.needsChargedGoose(task)) {
+      if (familiarWeight($familiar`Grey Goose`) < 6) {
+        result += OverridePriority.BadGoose;
+      } else {
+        result += OverridePriority.GoodGoose;
+      }
+    }
 
     // Dodge useless monsters with the orb
     if (task.do instanceof Location && orb_predictions !== undefined) {
@@ -126,37 +118,57 @@ export class Engine {
       if (next_monster !== undefined) {
         const task_combat = task.combat ?? new CombatStrategy();
         const next_monster_strategy = task_combat.currentStrategy(next_monster);
-        if (
+
+        const next_useless =
           (next_monster_strategy === MonsterStrategy.Ignore ||
             next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
             next_monster_strategy === MonsterStrategy.Banish) &&
-          !this.absorptionTargets.isTarget(next_monster)
-        ) {
-          // So the next monster is useless. Dodge it if there is also a useful monster
-          if (
-            this.absorptionTargets.hasTargets(task.do) ||
-            task_combat.can(MonsterStrategy.Kill) ||
-            task_combat.can(MonsterStrategy.KillFree) ||
-            task_combat.can(MonsterStrategy.KillHard) ||
-            task_combat.can(MonsterStrategy.KillItem)
-          ) {
-            debug(`X ${task.name}: orb predicting ${next_monster}`, "blue");
-            return false;
-          }
+          !this.absorptionTargets.isTarget(next_monster);
+
+        const others_useless =
+          task_combat.can(MonsterStrategy.Ignore) ||
+          task_combat.can(MonsterStrategy.IgnoreNoBanish) ||
+          task_combat.can(MonsterStrategy.Banish);
+
+        const others_useful =
+          this.absorptionTargets.hasTargets(task.do) ||
+          task_combat.can(MonsterStrategy.Kill) ||
+          task_combat.can(MonsterStrategy.KillFree) ||
+          task_combat.can(MonsterStrategy.KillHard) ||
+          task_combat.can(MonsterStrategy.KillItem);
+
+        if (next_useless && others_useful) {
+          result += OverridePriority.BadOrb;
+        } else if (!next_useless && others_useless) {
+          result += OverridePriority.GoodOrb;
         }
       }
     }
 
+    // Check that we have the right skills and mood.
+    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    // Ensure that the current +/- combat effects are compatible
+    if (!moodCompatible(outfit_spec?.modifier)) {
+      result += OverridePriority.BadMood;
+    }
     // Burn off desert debuffs
-    if (
+    else if (
       (have($effect`Prestidigysfunction`) || have($effect`Turned Into a Skeleton`)) &&
       task.combat &&
       task.combat.can(MonsterStrategy.KillItem)
     ) {
-      return false;
+      result += OverridePriority.BadMood;
+    }
+    // Wait until we get a -combat skill before doing any -combat
+    else if (
+      outfit_spec?.modifier &&
+      outfit_spec.modifier.includes("-combat") &&
+      !have($skill`Phase Shift`)
+    ) {
+      result += OverridePriority.BadMood;
     }
 
-    return true;
+    return result;
   }
 
   public needsChargedGoose(task: Task): boolean {

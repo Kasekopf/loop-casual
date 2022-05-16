@@ -10,7 +10,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step } from "./structure";
+import { OverridePriority, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -51,7 +51,8 @@ export const McLargeHugeQuest: Quest = {
       completed: () => itemAmount($item`asbestos ore`) >= 2 || step("questL08Trapper") >= 2,
       ready: () =>
         !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () => !have($effect`Everything Looks Yellow`),
+      priority: () =>
+        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
       acquire: [{ item: $item`yellow rocket` }],
       prepare: () => {
         cliExecute("retrocape heck hold");

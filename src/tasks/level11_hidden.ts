@@ -10,6 +10,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import {
+  $effect,
   $effects,
   $item,
   $items,
@@ -21,7 +22,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { OverridePriority, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 
 function manualChoice(whichchoice: number, option: number) {
@@ -142,6 +143,10 @@ const Apartment: Task[] = [
   {
     name: "Apartment Files", // Get the last McClusky files here if needed, as a backup plan
     after: ["Office Files", "Banish Janitors"],
+    priority: () =>
+      have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
+        ? OverridePriority.Effect
+        : OverridePriority.None,
     completed: () =>
       have($item`McClusky file (page 5)`) ||
       have($item`McClusky file (complete)`) ||
@@ -159,6 +164,10 @@ const Apartment: Task[] = [
   {
     name: "Apartment",
     after: ["Open Apartment", "Apartment Files"], // Wait until after all needed pygmy witch lawyers are done
+    priority: () =>
+      have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
+        ? OverridePriority.Effect
+        : OverridePriority.None,
     completed: () => get("hiddenApartmentProgress") >= 7,
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()

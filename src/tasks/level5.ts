@@ -11,7 +11,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { OutfitSpec, Quest, step } from "./structure";
+import { OutfitSpec, OverridePriority, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -80,7 +80,8 @@ export const KnobQuest: Quest = {
     {
       name: "King",
       after: ["Perfume"],
-      priority: () => have($effect`Knob Goblin Perfume`),
+      priority: () =>
+        have($effect`Knob Goblin Perfume`) ? OverridePriority.Effect : OverridePriority.None,
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),

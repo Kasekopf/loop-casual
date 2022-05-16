@@ -14,7 +14,7 @@ import {
   Macro,
   uneffect,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { OutfitSpec, OverridePriority, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -99,6 +99,8 @@ const Desert: Task[] = [
       { item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 },
       { item: $item`killing jar`, useful: () => (get("gnasirProgress") & 4) === 0 },
     ],
+    priority: () =>
+      have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
     outfit: (): OutfitSpec => {

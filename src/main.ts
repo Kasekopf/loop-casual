@@ -1,6 +1,5 @@
 import {
   cliExecute,
-  familiarWeight,
   gametimeToInt,
   Location,
   Monster,
@@ -18,8 +17,8 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $effect, $familiar, get, have, PropertiesManager, set } from "libram";
-import { step, Task } from "./tasks/structure";
+import { $effect, get, have, PropertiesManager, set } from "libram";
+import { OverridePriority, step, Task } from "./tasks/structure";
 import { Outfit } from "./outfit";
 import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
@@ -105,9 +104,11 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     return [tele];
   }
 
-  // First, check for any prioritized tasks
-  const priority = tasks.find(
-    (task) => engine.available(task) && task.priority !== undefined && task.priority()
+  const available_tasks = tasks.filter((task) => engine.available(task));
+
+  // First, check for any heavily prioritized tasks
+  const priority = available_tasks.find(
+    (task) => engine.priority(task) === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
     return [priority];
@@ -115,33 +116,19 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
 
   // If a wanderer is up try to place it in a useful location
   const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-  const delay_burning = tasks.find(
-    (task) =>
-      engine.hasDelay(task) &&
-      engine.available(task) &&
-      Outfit.create(task).canEquip(wanderer?.equip)
+  const delay_burning = available_tasks.find(
+    (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
     return [delay_burning, wanderer];
   }
 
+  // Next, choose tasks by priorty, then by route.
   const orb_predictions = ponderPrediction();
-  let todo = undefined;
-
-  // Find the next useful absorb
-  if (familiarWeight($familiar`Grey Goose`) >= 6) {
-    todo = tasks.find(
-      (task) => engine.available(task, orb_predictions) && engine.needsChargedGoose(task)
-    );
-    if (todo !== undefined) return [todo];
-  }
-
-  // Otherwise, advance the next quest while dancing with the crystal ball
-  todo = tasks.find((task) => engine.available(task, orb_predictions));
-  if (todo !== undefined) return [todo];
-
-  // If there is no way to dodge the crystal ball prediction, ignore it
-  todo = tasks.find((task) => engine.available(task));
+  const highest_priority = Math.max(
+    ...available_tasks.map((task) => engine.priority(task, orb_predictions))
+  );
+  const todo = available_tasks.find((task) => engine.priority(task) === highest_priority);
   if (todo !== undefined) return [todo];
 
   // No next task

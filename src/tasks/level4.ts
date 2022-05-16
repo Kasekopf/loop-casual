@@ -1,6 +1,6 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
-import { OutfitSpec, Quest, step } from "./structure";
+import { OutfitSpec, OverridePriority, Quest, step } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
@@ -92,7 +92,10 @@ export const BatQuest: Quest = {
     {
       name: "Lobsterfrogman Drop",
       after: ["Use Sonar 3"],
-      priority: () => get("lastCopyableMonster") === $monster`lobsterfrogman`,
+      priority: () =>
+        get("lastCopyableMonster") === $monster`lobsterfrogman`
+          ? OverridePriority.LastCopyableMonster
+          : OverridePriority.None,
       completed: () =>
         step("questL04Bat") >= 4 ||
         itemAmount($item`barrel of gunpowder`) >= 5 ||

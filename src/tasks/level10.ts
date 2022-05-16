@@ -2,7 +2,7 @@ import { cliExecute, containsText, itemAmount, myMeat, use, visitUrl } from "kol
 import { $effect, $item, $items, $location, $monster, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
-import { Quest, step } from "./structure";
+import { OverridePriority, Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -39,7 +39,8 @@ export const GiantQuest: Quest = {
       completed: () => have($item`amulet of extreme plot significance`),
       ready: () =>
         !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () => !have($effect`Everything Looks Yellow`),
+      priority: () =>
+        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
       acquire: [{ item: $item`yellow rocket` }],
       do: $location`The Penultimate Fantasy Airship`,
       choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
