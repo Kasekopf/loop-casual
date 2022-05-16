@@ -1,5 +1,6 @@
 import {
   cliExecute,
+  haveEquipped,
   myHp,
   myLevel,
   myMaxhp,
@@ -202,10 +203,14 @@ export const LevelingQuest: Quest = {
       completed: () => Witchess.fightsDone() >= 5 || myLevel() >= 13,
       do: () => Witchess.fightPiece($monster`Witchess Knight`),
       combat: new CombatStrategy().killHard(),
+      prepare: () => {
+        if (haveEquipped($item`unbreakable umbrella`) && get("umbrellaState") !== "broken")
+          cliExecute("umbrella broken");
+      },
       outfit: {
         modifier: "mainstat, 4exp",
-        equip: $items`makeshift garbage shirt`,
-        familiar: $familiar`Galloping Grill`,
+        equip: $items`makeshift garbage shirt, unbreakable umbrella`,
+        familiar: $familiar`Left-Hand Man`,
       },
       limit: { tries: 5 },
       freecombat: true,
@@ -242,6 +247,10 @@ export const LevelingQuest: Quest = {
       after: [],
       acquire: [{ item: $item`makeshift garbage shirt` }],
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= 13,
+      prepare: () => {
+        if (haveEquipped($item`unbreakable umbrella`) && get("umbrellaState") !== "broken")
+          cliExecute("umbrella broken");
+      },
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
       combat: new CombatStrategy()
@@ -261,8 +270,8 @@ export const LevelingQuest: Quest = {
         .killHard(),
       outfit: {
         modifier: "mainstat, 4exp",
-        equip: $items`makeshift garbage shirt`,
-        familiar: $familiar`Galloping Grill`,
+        equip: $items`makeshift garbage shirt, unbreakable umbrella`,
+        familiar: $familiar`Left-Hand Man`,
       },
       limit: { tries: 11 },
       freecombat: true,

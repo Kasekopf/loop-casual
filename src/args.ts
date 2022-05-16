@@ -36,13 +36,13 @@ export class Args {
    * @param valueName The name of this type, for the help text.
    * @returns An argument.
    */
-  static arg<T>(spec: ArgSpec<T>, parser: Parser<T>, valueName: string): Arg<T>;
-  static arg<T>(
+  static custom<T>(spec: ArgSpec<T>, parser: Parser<T>, valueName: string): Arg<T>;
+  static custom<T>(
     spec: ArgSpecNoDefault<T>,
     parser: Parser<T>,
     valueHelpName: string
   ): ArgNoDefault<T>;
-  static arg<T>(
+  static custom<T>(
     spec: ArgSpec<T> | ArgSpecNoDefault<T>,
     parser: Parser<T>,
     valueHelpName: string
@@ -67,7 +67,7 @@ export class Args {
   static string(spec: ArgSpec<string>): Arg<string>;
   static string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string>;
   static string(spec: ArgSpecNoDefault<string>): ArgNoDefault<string> {
-    return this.arg<string>(spec, (value: string) => value, "TEXT");
+    return this.custom<string>(spec, (value: string) => value, "TEXT");
   }
 
   /**
@@ -77,7 +77,7 @@ export class Args {
   static number(spec: ArgSpec<number>): Arg<number>;
   static number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number>;
   static number(spec: ArgSpecNoDefault<number>): ArgNoDefault<number> {
-    return this.arg(
+    return this.custom(
       spec,
       (value: string) => (isNaN(Number(value)) ? undefined : Number(value)),
       "NUMBER"
@@ -91,7 +91,7 @@ export class Args {
   static boolean(spec: ArgSpec<boolean>): Arg<boolean>;
   static boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
   static boolean(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
-    return this.arg(
+    return this.custom(
       spec,
       (value: string) => {
         if (value.toLowerCase() === "true") return true;
@@ -109,7 +109,7 @@ export class Args {
   static flag(spec: ArgSpec<boolean>): Arg<boolean>;
   static flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean>;
   static flag(spec: ArgSpecNoDefault<boolean>): ArgNoDefault<boolean> {
-    return this.arg(
+    return this.custom(
       spec,
       (value: string) => {
         if (value.toLowerCase() === "true") return true;
