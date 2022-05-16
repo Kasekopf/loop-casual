@@ -27,10 +27,10 @@ export const routing: string[] = [
 
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
-  "Hidden City/Open Temple",
 
   // Once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
+  "Hidden City/Open Temple",
 
   // Aim for remaining pygmies
   "Giant/Airship YR Healer",
@@ -39,6 +39,7 @@ export const routing: string[] = [
 
   // For MP regen, ASAP
   "Wand/Wand",
+  "Misc/Hermit Clover",
   "Absorb/The Dungeons of Doom",
 
   // Line up -combats
@@ -75,7 +76,6 @@ export const routing: string[] = [
 
   // Finish up with last delay
   "Bat/Finish",
-  "Misc/Hermit Clover",
   "Tower/Naughty Sorceress",
   "Absorb/All",
 ];

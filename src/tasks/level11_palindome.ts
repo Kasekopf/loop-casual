@@ -1,4 +1,4 @@
-import { create, Item, myHash, runChoice, use, visitUrl } from "kolmafia";
+import { create, Item, itemAmount, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -138,10 +138,13 @@ const Zepplin: Task[] = [
     name: "Protesters",
     after: ["Protesters Start"],
     ready: () =>
-      (have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
-      (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`)),
+      itemAmount($item`11-leaf clover`) > 1 ||
+      ((have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
+        (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`))),
     prepare: () => {
       if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
+      if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`))
+        use($item`11-leaf clover`);
     },
     acquire: [{ item: $item`yellow rocket`, useful: () => get("camelSpit") >= 100 }],
     completed: () => get("zeppelinProtestors") >= 80,
@@ -159,8 +162,13 @@ const Zepplin: Task[] = [
       .killItem($monster`Blue Oyster cultist`)
       .killItem($monster`lynyrd skinner`)
       .kill(),
-    choices: { 856: 1, 857: 2, 858: 1, 866: 1, 1432: 1 },
+    choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     outfit: () => {
+      if (itemAmount($item`11-leaf clover`) > 1 || have($effect`Lucky!`))
+        return {
+          modifier: "sleaze dmg, sleaze spell dmg",
+          equip: $items`transparent pants, deck of lewd playing cards`,
+        };
       if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
         return {
           modifier: "-combat, item",
@@ -169,6 +177,7 @@ const Zepplin: Task[] = [
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
+        equip: $items`transparent pants, deck of lewd playing cards`,
       };
     },
     limit: { soft: 30 },

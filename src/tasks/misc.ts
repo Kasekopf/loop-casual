@@ -514,6 +514,7 @@ const pulls: Item[] = [
   $item`old patched suit-pants`,
   $item`transparent pants`,
   $item`deck of lewd playing cards`,
+  $item`11-leaf clover`,
 ];
 function pull(item: Item): void {
   const pulled = new Set<Item>(
