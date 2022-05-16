@@ -1,4 +1,4 @@
-import { create, Item, itemAmount, myHash, runChoice, use, visitUrl } from "kolmafia";
+import { canEquip, create, Item, itemAmount, myHash, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -76,10 +76,7 @@ const Copperhead: Task[] = [
     ready: () => shenItem($item`The First Pizza`),
     completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
     do: $location`Lair of the Ninja Snowmen`,
-    combat: new CombatStrategy().killHard($monster`Frozen Solid Snake`).macro((): Macro => {
-      if (!have($item`li'l ninja costume`)) return new Macro().attack().repeat();
-      else return new Macro();
-    }),
+    combat: new CombatStrategy().killHard($monster`Frozen Solid Snake`),
     limit: { soft: 10 },
     delay: 5,
   },
@@ -138,9 +135,10 @@ const Zepplin: Task[] = [
     name: "Protesters",
     after: ["Protesters Start"],
     ready: () =>
-      itemAmount($item`11-leaf clover`) > 1 ||
-      ((have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
-        (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`))),
+      canEquip($item`transparent pants`) &&
+      (itemAmount($item`11-leaf clover`) > 1 ||
+        ((have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
+          (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`)))),
     prepare: () => {
       if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
       if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`))

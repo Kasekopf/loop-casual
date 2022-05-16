@@ -463,6 +463,12 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   //  * Earlier tasks to later tasks
   //  * Uncompleted tasks to completed tasks
   const choices: Task["choices"] = { 3: 3 }; // The goal choice
+  // Escape the hidden city alters if nothing else is available
+  choices[781] = 6;
+  choices[783] = 6;
+  choices[785] = 6;
+  choices[787] = 6;
+
   const done_tasks = tasks.filter((task) => task.completed());
   const left_tasks = tasks.filter((task) => !task.completed());
   for (const task of [...left_tasks, ...done_tasks].reverse()) {
@@ -478,6 +484,7 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
     ready: () => have($effect`Teleportitis`),
     completed: () => get("lastPlusSignUnlock") === myAscensions(),
     do: $location`The Enormous Greater-Than Sign`,
+    outfit: { equip: $items`antique machete` },
     choices: choices,
     limit: { soft: 20 },
   };

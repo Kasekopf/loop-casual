@@ -248,12 +248,10 @@ export const ChasmQuest: Quest = {
         ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 400),
       completed: () => step("questL09Topping") >= 1,
       prepare: () => {
-        if (
-          get("smutOrcNoncombatProgress") >= 15 &&
-          !have($effect`Red Door Syndrome`) &&
-          step("questL11Black") >= 2
-        )
+        if (get("smutOrcNoncombatProgress") >= 15 && step("questL11Black") >= 2) {
           ensureEffect($effect`Red Door Syndrome`);
+          ensureEffect($effect`Butt-Rock Hair`);
+        }
       },
       do: $location`The Smut Orc Logging Camp`,
       post: (): void => {
@@ -263,7 +261,7 @@ export const ChasmQuest: Quest = {
       outfit: () => {
         if (get("smutOrcNoncombatProgress") < 15)
           return { modifier: "item", equip: $items`HOA regulation book, frozen jeans` };
-        else return { modifier: "sleaze res" };
+        else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
       choices: { 1345: 3 },

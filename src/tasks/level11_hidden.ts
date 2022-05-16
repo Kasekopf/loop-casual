@@ -1,4 +1,14 @@
-import { cliExecute, itemAmount, myAscensions, myHash, putCloset, use, visitUrl } from "kolmafia";
+import {
+  buy,
+  cliExecute,
+  itemAmount,
+  myAscensions,
+  myHash,
+  myMeat,
+  putCloset,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $effects,
   $item,
@@ -294,12 +304,19 @@ const Bowling: Task[] = [
   {
     name: "Bowling Skills",
     after: ["Open Bowling"],
+    ready: () => myMeat() >= 500,
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
     completed: () => have($skill`System Sweep`) && have($skill`Double Nanovision`),
     prepare: () => {
       // No need for more bowling progress after we beat the boss
       if (get("hiddenBowlingAlleyProgress") >= 7 && have($item`bowling ball`))
         putCloset($item`bowling ball`, itemAmount($item`bowling ball`));
+
+      // Open the hidden tavern if it is available.
+      if (get("hiddenTavernUnlock") < myAscensions() && have($item`book of matches`)) {
+        use($item`book of matches`);
+        buy($item`Bowl of Scorpions`);
+      }
     },
     do: $location`The Hidden Bowling Alley`,
     combat: new CombatStrategy()
@@ -315,6 +332,7 @@ const Bowling: Task[] = [
   {
     name: "Bowling",
     after: ["Open Bowling", "Banish Janitors"],
+    ready: () => myMeat() >= 500,
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
     completed: () => get("hiddenBowlingAlleyProgress") >= 7,
     do: $location`The Hidden Bowling Alley`,

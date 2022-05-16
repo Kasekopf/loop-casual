@@ -33,8 +33,8 @@ export const routing: string[] = [
   "Hidden City/Open Temple",
 
   // Aim for remaining pygmies
-  "Giant/Airship YR Healer",
   "Hidden City/Bowling Skills",
+  "Giant/Airship YR Healer",
   "War/Flyers Start", // Start the war and get flyers
 
   // For MP regen, ASAP

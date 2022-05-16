@@ -245,6 +245,7 @@ export class Outfit {
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
       if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
+      if (spec.modifier.includes("+combat")) outfit.equip($item`thermal blanket`);
       outfit.modifier = spec.modifier;
     }
 
@@ -253,10 +254,11 @@ export class Outfit {
 
   public equipCharging(): void {
     if (familiarWeight($familiar`Grey Goose`) < 6) {
-      this.equip($familiar`Grey Goose`);
-      this.equip($item`yule hatchet`);
-      if (!this.modifier || !this.modifier.includes("-combat"))
-        this.equip($item`familiar scrapbook`);
+      if (this.equip($familiar`Grey Goose`)) {
+        this.equip($item`yule hatchet`);
+        if (!this.modifier || !this.modifier.includes("-combat"))
+          this.equip($item`familiar scrapbook`);
+      }
     } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
       this.equip($familiar`Melodramedary`);
     } else if (

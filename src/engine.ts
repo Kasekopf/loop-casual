@@ -416,7 +416,7 @@ function autosellJunk(): void {
   if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
 
   // Sell junk items
-  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack, facsimile dictionary`;
+  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack, facsimile dictionary, space blanket`;
   for (const item of junk) {
     if (have(item)) autosell(item, itemAmount(item));
   }

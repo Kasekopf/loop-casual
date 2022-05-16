@@ -41,7 +41,7 @@ const Alcove: Task[] = [
       };
     },
     choices: { 153: 4 },
-    combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
+    combat: new CombatStrategy().macro(slay_macro),
     limit: { turns: 25 },
   },
   {
