@@ -297,6 +297,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Birch Battery",
       after: [],
+      priority: () => OverridePriority.Free,
       ready: () =>
         have($item`SpinMaster™ lathe`) &&
         (!get("_spinmasterLatheVisited") || have($item`flimsy hardwood scraps`)),
@@ -311,6 +312,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Firework Hat",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => have($item`porkpie-mounted popper`),
       do: () => {
         cliExecute("acquire porkpie-mounted popper");
@@ -321,6 +323,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Cold Medicine Gear",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => have($item`ice crown`) && have($item`frozen jeans`),
       ready: () =>
         getWorkshed() === $item`cold medicine cabinet` &&
@@ -336,6 +339,7 @@ export const MiscQuest: Quest = {
     {
       name: "Goose Exp",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () =>
         familiarWeight($familiar`Grey Goose`) >= 9 ||
         get("_loop_gyou_chef_goose") === "true" ||
@@ -350,6 +354,7 @@ export const MiscQuest: Quest = {
     {
       name: "Locket Pygmy",
       after: [],
+      priority: () => OverridePriority.Start,
       completed: () => have($skill`Infinite Loop`),
       prepare: () => {
         if (

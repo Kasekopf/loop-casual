@@ -10,6 +10,8 @@ import { AbsorptionTargets } from "./tasks/absorb";
 import { Task } from "./tasks/structure";
 
 export enum OverridePriority {
+  Free = 1000,
+  Start = 900,
   LastCopyableMonster = 100,
   Effect = 20,
   GoodOrb = 15,

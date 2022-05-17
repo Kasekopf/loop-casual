@@ -1,5 +1,6 @@
 import { use, visitUrl } from "kolmafia";
 import { $item, have } from "libram";
+import { OverridePriority } from "../priority";
 import { Quest, step } from "./structure";
 
 export const TootQuest: Quest = {
@@ -8,6 +9,7 @@ export const TootQuest: Quest = {
     {
       name: "Start",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => step("questM05Toot") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -16,6 +18,7 @@ export const TootQuest: Quest = {
     {
       name: "Toot",
       after: ["Start"],
+      priority: () => OverridePriority.Free,
       completed: () => step("questM05Toot") > 0,
       do: () => visitUrl("tutorial.php?action=toot"),
       limit: { tries: 1 },
@@ -24,6 +27,7 @@ export const TootQuest: Quest = {
     {
       name: "Finish",
       after: ["Toot"],
+      priority: () => OverridePriority.Free,
       completed: () => step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`),
       do: () => use($item`letter from King Ralph XI`),
       limit: { tries: 1 },
