@@ -818,7 +818,7 @@ export const AbsorbQuest: Quest = {
         name: task.do.toString(),
         completed: () => !absorptionTargets.hasTargets(task.do),
         ...task,
-        combat: new CombatStrategy().ignore(), // killing targetting monsters is set in the engine
+        combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
