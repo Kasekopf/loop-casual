@@ -18,7 +18,8 @@ import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
 import { $effect, get, have, PropertiesManager, set } from "libram";
-import { OverridePriority, step, Task } from "./tasks/structure";
+import { step, Task } from "./tasks/structure";
+import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
 import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
@@ -108,7 +109,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
 
   // First, check for any heavily prioritized tasks
   const priority = available_tasks.find(
-    (task) => engine.priority(task) === OverridePriority.LastCopyableMonster
+    (task) => task.priority?.() === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
     return [priority];
@@ -124,12 +125,14 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
   }
 
   // Next, choose tasks by priorty, then by route.
-  const orb_predictions = ponderPrediction();
-  const highest_priority = Math.max(
-    ...available_tasks.map((task) => engine.priority(task, orb_predictions))
+  const orbPredictions = ponderPrediction();
+  const task_priorities = available_tasks.map(
+    (task) =>
+      [task, new Prioritization(task, orbPredictions, absorptionTargets)] as [Task, Prioritization]
   );
-  const todo = available_tasks.find((task) => engine.priority(task) === highest_priority);
-  if (todo !== undefined) return [todo];
+  const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
+  const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);
+  if (todo !== undefined) return [todo[0]];
 
   // No next task
   return undefined;

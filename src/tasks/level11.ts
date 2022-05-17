@@ -14,7 +14,8 @@ import {
   Macro,
   uneffect,
 } from "libram";
-import { OutfitSpec, OverridePriority, Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
+import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 

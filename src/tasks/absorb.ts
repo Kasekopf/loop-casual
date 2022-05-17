@@ -1,6 +1,7 @@
 import {
   appearanceRates,
   canadiaAvailable,
+  familiarWeight,
   gnomadsAvailable,
   itemAmount,
   knollAvailable,
@@ -12,9 +13,22 @@ import {
   Skill,
   visitUrl,
 } from "kolmafia";
-import { $item, $items, $location, $monster, $skill, $skills, get, have, Macro } from "libram";
+import {
+  $effect,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $skill,
+  $skills,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel, debug } from "../lib";
+import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
@@ -390,6 +404,10 @@ const absorbTasks: AbsorbTask[] = [
     after: ["Macguffin/Desert"],
   },
   {
+    priority: () =>
+      have($effect`Ultrahydrated`) && familiarWeight($familiar`Grey Goose`) >= 6
+        ? OverridePriority.Effect
+        : OverridePriority.None,
     do: $location`The Oasis`,
     after: ["Macguffin/Desert"],
   },

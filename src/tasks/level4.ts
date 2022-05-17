@@ -1,6 +1,7 @@
 import { itemAmount, use, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
-import { OutfitSpec, OverridePriority, Quest, step } from "./structure";
+import { OutfitSpec, Quest, step } from "./structure";
+import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 

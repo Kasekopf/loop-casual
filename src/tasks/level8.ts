@@ -10,7 +10,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { OverridePriority, Quest, step } from "./structure";
+import { Quest, step } from "./structure";
+import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 

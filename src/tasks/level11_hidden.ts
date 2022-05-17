@@ -22,7 +22,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { OverridePriority, Quest, step, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
+import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 
 function manualChoice(whichchoice: number, option: number) {

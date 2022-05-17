@@ -2,7 +2,8 @@ import { cliExecute, containsText, itemAmount, myMeat, use, visitUrl } from "kol
 import { $effect, $item, $items, $location, $monster, get, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
-import { OverridePriority, Quest, step } from "./structure";
+import { Quest, step } from "./structure";
+import { OverridePriority } from "../priority";
 
 export const GiantQuest: Quest = {
   name: "Giant",

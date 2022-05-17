@@ -2,6 +2,7 @@ import { Effect, Familiar, Item, Location } from "kolmafia";
 import { get } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
 import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../priority";
 
 export type Quest = {
   name: string;
@@ -60,19 +61,4 @@ export function step(questName: StringProperty): number {
     }
     return parseInt(stringStep.substring(4), 10);
   }
-}
-
-/**
- * Temporary priorities that override the routing.
- */
-export enum OverridePriority {
-  LastCopyableMonster = 100, // Doing anything else will overwrite the last copyable monster.
-  Effect = 20, // A useful effect for here was hard to get; it might expire.
-  GoodOrb = 15, // There is a useful orb prediction here.
-  YR = 10, // A yellow ray is available here.
-  GoodGoose = 1, // The goose is charged and useful here.
-  None = 0, // Default; nothing special.
-  BadOrb = -2, // There is a useless orb prediction here.
-  BadGoose = -16, // A charged goose would be useful here, but ours is not charged.
-  BadMood = -100, // We have the wrong effects (+combat/-combat) for this.
 }

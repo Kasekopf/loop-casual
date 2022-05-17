@@ -40,7 +40,8 @@ import {
   set,
   uneffect,
 } from "libram";
-import { OutfitSpec, OverridePriority, Quest, step, Task } from "./structure";
+import { OutfitSpec, Quest, step, Task } from "./structure";
+import { OverridePriority } from "../priority";
 import { Engine } from "../engine";
 
 export const MiscQuest: Quest = {
