@@ -509,7 +509,7 @@ export const removeTeleportitis = {
 };
 
 const pulls: Item[] = [
-  $item`dromedary drinking helmet`,
+  $item`book of matches`,
   $item`blackberry galoshes`,
   $item`antique machete`,
   $item`ninja rope`,
