@@ -241,6 +241,7 @@ export class Outfit {
       // Run maximizer
       if (spec.modifier.includes("item")) {
         outfit.equip($familiar`Grey Goose`);
+        outfit.equip($item`protonic accelerator pack`);
       }
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
@@ -293,6 +294,7 @@ export class Outfit {
       this.equip($item`industrial fire extinguisher`);
       if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);
       this.equip($item`familiar scrapbook`);
+      this.equip($item`protonic accelerator pack`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
       this.equip($item`Powerful Glove`);
