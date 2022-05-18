@@ -1,5 +1,16 @@
-import { cliExecute, Item, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
+import { cliExecute, Item, myBasestat, visitUrl } from "kolmafia";
+import {
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  $stat,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -31,7 +42,9 @@ const Alcove: Task[] = [
     name: "Alcove",
     after: ["Start"],
     prepare: tuneCape,
-    ready: () => have($skill`Overclocking`) || !!(get("twinPeakProgress") & 8),
+    ready: () =>
+      have($skill`Overclocking`) ||
+      (!!(get("twinPeakProgress") & 8) && myBasestat($stat`Muscle`) >= 62),
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
@@ -59,6 +72,7 @@ const Cranny: Task[] = [
     name: "Cranny",
     after: ["Start"],
     prepare: tuneCape,
+    ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptCrannyEvilness") <= 25,
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
@@ -90,6 +104,7 @@ const Niche: Task[] = [
     name: "Niche",
     after: ["Start"],
     prepare: tuneCape,
+    ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNicheEvilness") <= 25,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
@@ -125,6 +140,7 @@ const Nook: Task[] = [
     name: "Nook",
     after: ["Start"],
     prepare: tuneCape,
+    ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     post: (): void => {
