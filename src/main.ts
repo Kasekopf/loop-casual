@@ -65,8 +65,8 @@ export function main(tasks_to_run?: number): void {
       tasks_to_run -= 1;
     }
 
-    if (next[1] !== undefined) engine.execute(next[0], next[1]);
-    else engine.execute(next[0]);
+    if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
+    else engine.execute(next[0], next[1]);
   }
 
   const remaining_tasks = tasks.filter((task) => !task.completed());
@@ -95,14 +95,14 @@ export function main(tasks_to_run?: number): void {
     );
 }
 
-function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | undefined {
+function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSource?] | undefined {
   // Teleportitis overrides all
   if (have($effect`Teleportitis`)) {
     const tele = teleportitisTask(engine, tasks);
     if (tele.completed() && removeTeleportitis.ready()) {
-      return [removeTeleportitis];
+      return [removeTeleportitis, "[Forced]"];
     }
-    return [tele];
+    return [tele, "[Forced]"];
   }
 
   const available_tasks = tasks.filter((task) => engine.available(task));
@@ -112,7 +112,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     (task) => task.priority?.() === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
-    return [priority];
+    return [priority, "[Copy last monster]"];
   }
 
   // If a wanderer is up try to place it in a useful location
@@ -121,7 +121,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
     (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
-    return [delay_burning, wanderer];
+    return [delay_burning, "[Wanderer]", wanderer];
   }
 
   // Next, choose tasks by priorty, then by route.
@@ -132,8 +132,10 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, WandererSource?] | u
   );
   const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
   const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);
-  if (todo !== undefined) return [todo[0]];
-
+  if (todo !== undefined) {
+    const reason = todo[1].explain();
+    return [todo[0], reason === "" ? "[Route]" : `[${reason}]`];
+  }
   // No next task
   return undefined;
 }
@@ -188,7 +190,7 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
   });
 }
 
-function ponderPrediction(): Map<Location, Monster> {
+export function ponderPrediction(): Map<Location, Monster> {
   visitUrl("inventory.php?ponder=1", false);
   const parsedProp = new Map(
     get("crystalBallPredictions")

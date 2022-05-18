@@ -25,6 +25,8 @@ export enum OverridePriority {
 
 export class Prioritization {
   private priorities = new Set<OverridePriority>();
+  private orb_monster?: Monster = undefined;
+
   constructor(
     task: Task,
     orb_predictions: Map<Location, Monster>,
@@ -48,7 +50,7 @@ export class Prioritization {
       if (next_monster !== undefined) {
         const task_combat = task.combat ?? new CombatStrategy();
         const next_monster_strategy = task_combat.currentStrategy(next_monster);
-
+        this.orb_monster = next_monster;
         const next_useless =
           (next_monster_strategy === MonsterStrategy.Ignore ||
             next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
@@ -98,6 +100,25 @@ export class Prioritization {
     ) {
       this.priorities.add(OverridePriority.BadMood);
     }
+  }
+
+  public explain(): string {
+    const reasons = new Map<OverridePriority, string>([
+      [OverridePriority.Free, "Free action"],
+      [OverridePriority.Start, "Initial tasks"],
+      [OverridePriority.LastCopyableMonster, "Copy last monster"],
+      [OverridePriority.Effect, "Useful effect"],
+      [OverridePriority.GoodOrb, this.orb_monster ? `Target ${this.orb_monster}` : `Target ?`],
+      [OverridePriority.YR, "Yellow ray"],
+      [OverridePriority.GoodGoose, "Goose charged"],
+      [OverridePriority.BadOrb, this.orb_monster ? `Avoid ${this.orb_monster}` : `Avoid ?`],
+      [OverridePriority.BadGoose, "Goose not charged"],
+      [OverridePriority.BadMood, "Wrong combat modifiers"],
+    ]);
+    return [...this.priorities]
+      .map((priority) => reasons.get(priority))
+      .filter((priority) => priority !== undefined)
+      .join(", ");
   }
 
   public has(priorty: OverridePriority) {

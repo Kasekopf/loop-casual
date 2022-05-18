@@ -68,6 +68,8 @@ import {
   wandererSources,
 } from "./resources";
 import { AbsorptionTargets } from "./tasks/absorb";
+import { Prioritization } from "./priority";
+import { ponderPrediction } from "./main";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -105,9 +107,9 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task, ...wanderers: WandererSource[]): void {
+  public execute(task: Task, why: string, ...wanderers: WandererSource[]): void {
     debug(``);
-    debug(`Executing ${task.name}`, "blue");
+    debug(`Executing ${task.name} ${why}`, "blue");
     this.check_limits(task);
 
     // Get needed items
@@ -316,7 +318,16 @@ export class Engine {
     if (task.completed()) {
       debug(`${task.name} completed!`, "blue");
     } else {
-      debug(`${task.name} not completed!`, "blue");
+      const priority_explain = new Prioritization(
+        task,
+        ponderPrediction(),
+        this.absorptionTargets
+      ).explain();
+      if (priority_explain !== "") {
+        debug(`${task.name} not completed! [Again? ${priority_explain}]`, "blue");
+      } else {
+        debug(`${task.name} not completed!`, "blue");
+      }
       this.check_limits(task); // Error if too many tries occur
     }
   }
