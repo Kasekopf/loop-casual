@@ -391,6 +391,18 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+    {
+      name: "Deck",
+      after: [],
+      completed: () => get("_deckCardsDrawn") > 0 || !have($item`Deck of Every Card`),
+      do: () => {
+        cliExecute("cheat tower");
+        if (get("_deckCardsDrawn") <= 10) cliExecute("cheat sheep");
+        if (get("_deckCardsDrawn") <= 10) cliExecute("cheat mine");
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
   ],
 };
 
