@@ -10,6 +10,7 @@ import { AbsorptionTargets } from "./tasks/absorb";
 import { Task } from "./tasks/structure";
 
 export enum OverridePriority {
+  Always = 10000,
   Free = 1000,
   Start = 900,
   LastCopyableMonster = 100,
@@ -104,6 +105,7 @@ export class Prioritization {
 
   public explain(): string {
     const reasons = new Map<OverridePriority, string>([
+      [OverridePriority.Always, "Forced"],
       [OverridePriority.Free, "Free action"],
       [OverridePriority.Start, "Initial tasks"],
       [OverridePriority.LastCopyableMonster, "Copy last monster"],
