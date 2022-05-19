@@ -192,11 +192,6 @@ export class Outfit {
         ]);
       }
 
-      requirements = Requirement.merge([
-        requirements,
-        new Requirement([], { preventSlot: [$slot`back`] }),
-      ]);
-
       // Avoid burning CMG void fight just for the modifier
       if (
         have($item`cursed magnifying glass`) &&
