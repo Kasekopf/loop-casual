@@ -49,6 +49,14 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
   actions: Args.number({
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
   }),
+  levelto: Args.number({
+    help: "Aim to level to this with free leveling resources.",
+    default: 13,
+  }),
+  professor: Args.flag({
+    help: "Use pocket professor as one of the free leveling resources. This uses up some copiers, but may help to level.",
+    default: false,
+  }),
 });
 export function main(command?: string): void {
   Args.fill(args, command);
@@ -151,15 +159,17 @@ export function main(command?: string): void {
 function runComplete(): boolean {
   switch (args.goal) {
     case "all":
-      return step("questL13Final") === 999 && have($skill`Liver of Steel`) && myLevel() >= 13;
+      return (
+        step("questL13Final") === 999 && have($skill`Liver of Steel`) && myLevel() >= args.levelto
+      );
     case "level":
-      return myLevel() >= 13;
+      return myLevel() >= args.levelto;
     case "quests":
       return step("questL13Final") === 999;
     case "organ":
       return have($skill`Liver of Steel`);
     case "!organ":
-      return step("questL13Final") === 999 && myLevel() >= 13;
+      return step("questL13Final") === 999 && myLevel() >= args.levelto;
     default:
       throw `Unknown goal ${args.goal}`;
   }
