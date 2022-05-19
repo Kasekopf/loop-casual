@@ -13,17 +13,16 @@ This script is not currently in a state where it will work for most users out of
 1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
 2. Copy [loopgyou.ccs](KoLmafia/ccs/loopgyou.ccs) from KoLmafia/ccs to your Mafia css directory.
 3. Copy loopgyou.js and loopgyou-combat.js from KoLmafia/scripts/loop-gyou to your Mafia scripts directory.
-4. Run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements.
 
 ### Usage
 
-1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements.
+1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements (see below for more details).
 2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer the cold medicine cabinet for your workshed and candles for your eurdora.
 3. Run `loopgyou` and watch it go! If you are more hesitent, you can run `loopgyou actions 10` to only do 10 things and stop. Run `loopgyou help` for the full set of script options.
 
 ### Will this script work for me?
 
-Run `loopgyou sim` to check if this script is intended to "Is the script intended to work unmodified on my character?". A sample output is below, but it may be slightly out of date.
+Run `loopgyou sim` to see "Is the script intended to work unmodified on my character?". A sample output is below, but it may be slightly out of date.
 
 ```
 > loopgyou sim
