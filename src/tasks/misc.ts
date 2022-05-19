@@ -521,6 +521,12 @@ export const removeTeleportitis = {
   freeaction: true,
 };
 
+function first(items: Item[]) {
+  return items.find((i) => itemAmount(i) + storageAmount(i) > 0) ?? items[0];
+}
+
+export const minusMl = first($items`HOA regulation book, Space Trip safety headphones`);
+
 export const pulls: Item[] = [
   $item`book of matches`,
   $item`blackberry galoshes`,
@@ -530,7 +536,7 @@ export const pulls: Item[] = [
   $item`ninja crampons`,
   $item`wet stew`,
   $item`Mohawk wig`,
-  $item`HOA regulation book`,
+  minusMl,
   $item`yule hatchet`,
   $item`grey down vest`,
   $item`killing jar`,

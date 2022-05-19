@@ -29,6 +29,7 @@ import {
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { minusMl } from "./misc";
 
 const ABoo: Task[] = [
   {
@@ -45,7 +46,7 @@ const ABoo: Task[] = [
     after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
-    outfit: { modifier: "item", equip: $items`HOA regulation book` },
+    outfit: { modifier: "item", equip: [minusMl] },
     combat: new CombatStrategy()
       .macro(
         () => (numericModifier("Monster Level") < -45 ? new Macro() : new Macro().attack().repeat()) // Attack the ghost directly if ML is too high
@@ -265,7 +266,7 @@ export const ChasmQuest: Quest = {
       },
       outfit: () => {
         if (get("smutOrcNoncombatProgress") < 15)
-          return { modifier: "item", equip: $items`HOA regulation book, frozen jeans` };
+          return { modifier: "item", equip: [minusMl, ...$items`frozen jeans`] };
         else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
