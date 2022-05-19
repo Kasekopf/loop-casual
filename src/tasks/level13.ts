@@ -390,7 +390,13 @@ export const TowerQuest: Quest = {
       },
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
-      outfit: { modifier: "init", equip: $items`unwrapped knock-off retro superhero cape` },
+      outfit: () => {
+        if (have($item`unwrapped knock-off retro superhero cape`))
+          return { modifier: "init", equip: $items`unwrapped knock-off retro superhero cape` };
+        else if (have($item`attorney's badge`))
+          return { modifier: "init, HP", equip: $items`attorney's badge` };
+        else return { modifier: "init, HP" };
+      },
       combat: new CombatStrategy(true).macro(new Macro().item($item`gauze garter`).repeat()),
       limit: { tries: 1 },
     },
