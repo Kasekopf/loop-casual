@@ -6,6 +6,7 @@ import {
   myMaxmp,
   myMeat,
   myMp,
+  numericModifier,
   restoreHp,
   restoreMp,
   use,
@@ -45,7 +46,11 @@ const ABoo: Task[] = [
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     do: $location`A-Boo Peak`,
     outfit: { modifier: "item", equip: $items`HOA regulation book` },
-    combat: new CombatStrategy().killItem(),
+    combat: new CombatStrategy()
+      .macro(
+        () => (numericModifier("Monster Level") < -45 ? new Macro() : new Macro().attack().repeat()) // Attack the ghost directly if ML is too high
+      )
+      .killItem(),
     choices: { 611: 1, 1430: 1 },
     limit: { soft: 10 },
   },
