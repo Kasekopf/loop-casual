@@ -609,7 +609,7 @@ export const KeysQuest: Quest = {
     {
       name: "Zap Boris",
       after: ["Pull/Basic", "Wand/Wand"],
-      completed: () => get("lastZapperWandExplosionDay") === 1 || !have($item`Boris's ring`),
+      completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Boris's ring`),
       do: () => cliExecute("zap Boris's ring"),
       limit: { tries: 1 },
       freeaction: true,
@@ -617,7 +617,7 @@ export const KeysQuest: Quest = {
     {
       name: "Zap Jarlsberg",
       after: ["Pull/Basic", "Wand/Wand"],
-      completed: () => get("lastZapperWandExplosionDay") === 1 || !have($item`Jarlsberg's earring`),
+      completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Jarlsberg's earring`),
       do: () => cliExecute("zap Jarlsberg's earring"),
       limit: { tries: 1 },
       freeaction: true,
@@ -626,7 +626,7 @@ export const KeysQuest: Quest = {
       name: "Zap Sneaky Pete",
       after: ["Pull/Basic", "Wand/Wand"],
       completed: () =>
-        get("lastZapperWandExplosionDay") === 1 || !have($item`Sneaky Pete's breath spray`),
+        get("lastZapperWandExplosionDay") >= 1 || !have($item`Sneaky Pete's breath spray`),
       do: () => cliExecute("zap Sneaky Pete's breath spray"),
       limit: { tries: 1 },
       freeaction: true,
