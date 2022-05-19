@@ -521,7 +521,7 @@ export const removeTeleportitis = {
   freeaction: true,
 };
 
-const pulls: Item[] = [
+export const pulls: Item[] = [
   $item`book of matches`,
   $item`blackberry galoshes`,
   $item`antique machete`,

@@ -24,10 +24,12 @@ import { Outfit } from "./outfit";
 import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 import { Args } from "./args";
+import { checkRequirements } from "./sim";
 
 const time_property = "_loop_casual_first_start";
 
 export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
+  sim: Args.flag({ help: "Check if you have the requirements to run this script" }),
   actions: Args.number({
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
   }),
@@ -36,6 +38,10 @@ export function main(command?: string): void {
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
+    return;
+  }
+  if (args.sim) {
+    checkRequirements();
     return;
   }
 

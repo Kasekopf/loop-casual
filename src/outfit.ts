@@ -244,7 +244,10 @@ export class Outfit {
         outfit.equip($item`protonic accelerator pack`);
       }
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
-      if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
+      if (spec.modifier.includes("meat")) {
+        outfit.equip($familiar`Hobo Monkey`);
+        outfit.equip($familiar`Leprechaun`); // backup
+      }
       if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       if (spec.modifier.includes("+combat")) outfit.equip($item`thermal blanket`);
       outfit.modifier = spec.modifier;
