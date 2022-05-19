@@ -23,10 +23,22 @@ import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
 import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
+import { Args } from "./args";
 
 const time_property = "_loop_casual_first_start";
 
-export function main(tasks_to_run?: number): void {
+export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
+  actions: Args.number({
+    help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
+  }),
+});
+export function main(command?: string): void {
+  Args.fill(args, command);
+  if (args.help) {
+    Args.showHelp(args);
+    return;
+  }
+
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
 
@@ -41,10 +53,11 @@ export function main(tasks_to_run?: number): void {
   const engine = new Engine(tasks, absorptionTargets);
   cliExecute("ccs loopgyou");
   setUniversalProperties(engine.propertyManager);
-  tasks_to_run = tasks_to_run ?? 1000;
+
+  let actions_left = args.actions ?? Number.MAX_VALUE;
   absorptionTargets.updateAbsorbed();
   absorptionTargets.ignoreUselessAbsorbs();
-  if (tasks_to_run < 0) {
+  if (actions_left < 0) {
     for (const task of tasks) {
       debug(
         `${task.name}: ${
@@ -58,11 +71,11 @@ export function main(tasks_to_run?: number): void {
   while (myAdventures() > 0) {
     const next = getNextTask(engine, tasks);
     if (next === undefined) break;
-    if (tasks_to_run <= 0) {
+    if (actions_left <= 0) {
       debug(`Next task: ${next[0].name}`);
       return;
     } else {
-      tasks_to_run -= 1;
+      actions_left -= 1;
     }
 
     if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
