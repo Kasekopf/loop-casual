@@ -44,7 +44,7 @@ export const McLargeHugeQuest: Quest = {
       combat: new CombatStrategy()
         .killItem($monster`dairy goat`)
         .banish(...$monsters`drunk goat, sabre-toothed goat`),
-      limit: { soft: 10 },
+      limit: { soft: 15 },
     },
     {
       name: "Ore Mountain",
