@@ -525,7 +525,7 @@ function first(items: Item[]) {
   return items.find((i) => itemAmount(i) + storageAmount(i) > 0) ?? items[0];
 }
 
-export const minusMl = first($items`HOA regulation book, Space Trip safety headphones`);
+export const minusMl = first($items`Space Trip safety headphones, HOA regulation book`);
 
 export const pulls: Item[] = [
   $item`book of matches`,
