@@ -12,6 +12,7 @@ import {
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../priority";
 
 const Manor1: Task[] = [
   {
@@ -33,6 +34,10 @@ const Manor1: Task[] = [
     name: "Billiards",
     after: ["Kitchen"],
     completed: () => step("questM20Necklace") >= 3,
+    priority: () =>
+      have($effect`Chalky Hand`) && !have($item`handful of hand chalk`)
+        ? OverridePriority.Effect
+        : OverridePriority.None,
     prepare: () => {
       if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
     },
