@@ -1,13 +1,4 @@
-import {
-  Familiar,
-  getWorkshed,
-  Item,
-  mallPrice,
-  print,
-  printHtml,
-  storageAmount,
-  visitUrl,
-} from "kolmafia";
+import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, storageAmount } from "kolmafia";
 import { $familiar, $item, $monster, CombatLoversLocket, get, have } from "libram";
 import { pulls } from "./tasks/misc";
 
@@ -115,10 +106,6 @@ function buildIotmList(): Requirement[] {
         "Cosmic bowling ball",
       ],
       why: "Banishes, Pygmy killing",
-    },
-    {
-      thing: [visitUrl("questlog.php?which=1").includes("questlog.php?which=6"), "Monster Manuel"],
-      why: "Checking for monster HP in combat macro",
     },
     {
       thing: $familiar`Vampire Vintner`,

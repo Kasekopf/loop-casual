@@ -1,11 +1,14 @@
 import {
+  appearanceRates,
   equippedItem,
   floor,
   Item,
+  Location,
   Monster,
   monsterDefense,
   myBuffedstat,
   myMp,
+  numericModifier,
   Skill,
   weaponType,
 } from "kolmafia";
@@ -77,7 +80,8 @@ export class BuiltCombatStrategy {
   constructor(
     abstract: CombatStrategy,
     resources: CombatResourceAllocation,
-    wanderers: WandererSource[]
+    wanderers: WandererSource[],
+    location: Location | undefined
   ) {
     this.boss = abstract.boss;
     this.resources = resources;
@@ -112,11 +116,13 @@ export class BuiltCombatStrategy {
     this.macro.step(monster_strategies.build());
 
     // Perform the default strategy
-    this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy));
+    this.macro = this.macro.step(this.prepare_macro(abstract.default_strategy, location));
   }
 
-  prepare_macro(strategy: MonsterStrategy | Macro, monster?: Monster): Macro {
+  prepare_macro(strategy: MonsterStrategy | Macro, target?: Monster | Location): Macro {
     if (strategy instanceof Macro) return strategy;
+
+    const monster = target instanceof Monster ? target : undefined;
 
     // Upgrade normal kills to free kills if provided
     if (
@@ -167,22 +173,39 @@ export class BuiltCombatStrategy {
         if (!killing_stat) return new Macro().abort();
         if (myMp() < 20) return new Macro().abort();
 
-        return new Macro()
-          .externalIf(
-            myBuffedstat(killing_stat) * floor(myMp() / 20) < 100,
-            new Macro().while_(
-              `monsterhpabove ${myBuffedstat(killing_stat) * floor(myMp() / 20)}`,
-              new Macro().skill($skill`Pseudopod Slap`)
-            )
-          )
-          .skill(killing_blow)
-          .repeat();
+        // Weaken monsters with Pseudopod slap until they are in range of our kill.
+        // Since monsterhpabove is locked behind manuel/factoids, just do the maximum
+        // number of slaps we could ever need for the monster/zone.
+        if (myBuffedstat(killing_stat) * floor(myMp() / 20) < 100) {
+          const HPgap = maxHP(target) - myBuffedstat(killing_stat) * floor(myMp() / 20);
+          const slaps = Math.ceil(HPgap / 10);
+          if (slaps > 0) {
+            return new Macro()
+              .while_(`!times ${slaps}`, new Macro().skill($skill`Pseudopod Slap`))
+              .skill(killing_blow)
+              .repeat();
+          }
+        }
+        return new Macro().skill(killing_blow).repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
       case MonsterStrategy.Abort:
         return new Macro().abort();
     }
   }
+}
+
+function getMonsters(where?: Location): Monster[] {
+  if (where === undefined) return [];
+  return Object.entries(appearanceRates(where)) // Get the maximum HP in the location
+    .filter((i) => i[1] > 0)
+    .map((i) => Monster.get<Monster>(i[0]));
+}
+
+function maxHP(target?: Monster | Location): number {
+  if (target === undefined) return 1;
+  if (target instanceof Location) return Math.max(...getMonsters(target).map(maxHP));
+  return Math.floor(1.05 * target.baseHp) + numericModifier("Monster Level");
 }
 
 export type DelayedMacro = Macro | (() => Macro);

@@ -273,7 +273,12 @@ export class Engine {
       else if (myMp() < 20) restoreMp(20 - myMp());
 
       // Prepare combat macro (after effects and outfit)
-      const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
+      const combat = new BuiltCombatStrategy(
+        task_combat,
+        combat_resources,
+        wanderers,
+        task.do instanceof Location ? task.do : undefined
+      );
       debug(combat.macro.toString(), "blue");
       setAutoAttack(0);
       combat.macro.save();
