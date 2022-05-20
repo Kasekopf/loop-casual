@@ -101,7 +101,8 @@ export const BatQuest: Quest = {
         step("questL04Bat") >= 4 ||
         itemAmount($item`barrel of gunpowder`) >= 5 ||
         get("sidequestLighthouseCompleted") !== "none" ||
-        (!have($item`cursed magnifying glass`) || !have($item`Powerful Glove`) && !have($item`combat lover's locket`))||
+        !have($item`cursed magnifying glass`) ||
+        !have($item`Powerful Glove`) ||
         !have($item`backup camera`),
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy()

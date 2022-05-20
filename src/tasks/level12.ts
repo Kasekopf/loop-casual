@@ -9,7 +9,6 @@ import {
   $monster,
   $monsters,
   $skill,
-  CombatLoversLocket,
   ensureEffect,
   get,
   have,
@@ -49,7 +48,7 @@ const Flyers: Task[] = [
 const Lighthouse: Task[] = [
   // Use CMG to replace a void monster into a Lobsterfrogman, then backup into the Boss Bat's lair
   {
-    name: "Lighthouse Macro",
+    name: "Lighthouse",
     after: ["Enrage", "Bat/Use Sonar 3"],
     ready: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
     completed: () =>
@@ -67,22 +66,6 @@ const Lighthouse: Task[] = [
         ...$monsters`void guy, void slab, void spider`
       )
       .kill($monster`lobsterfrogman`),
-    limit: { tries: 1 },
-  },
-  // Use locket to summon a Lobsterfromgman, then backup into the Boss Bat's lair
-  {
-    name: "Lighthouse Locket",
-    after: ["Lighthouse Macro"],
-    completed: () =>
-      get("lastCopyableMonster") === $monster`lobsterfrogman` ||
-      itemAmount($item`barrel of gunpowder`) >= 5 ||
-      get("sidequestLighthouseCompleted") !== "none" ||
-      !have($item`combat lover's locket`) ||
-      !have($item`backup camera`),
-      do: () => {
-        CombatLoversLocket.reminisce($monster`lobsterfrogman`);
-      },
-    combat: new CombatStrategy().kill($monster`lobsterfrogman`),
     limit: { tries: 1 },
   },
   {
