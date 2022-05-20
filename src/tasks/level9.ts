@@ -110,7 +110,14 @@ const Oil: Task[] = [
       have($item`jar of oil`) ||
       !!(get("twinPeakProgress") & 4),
     do: $location`Oil Peak`,
-    outfit: { modifier: "ML, 0.1 item" },
+    outfit: () => {
+      if (have($item`unbreakable umbrella`))
+        return {
+          modifier: "ML 80 max, 0.1 item, monster level percent",
+          equip: $items`unbreakable umbrella`,
+        };
+      else return { modifier: "ML, 0.1 item" };
+    },
     limit: { soft: 5 },
   },
 ];
