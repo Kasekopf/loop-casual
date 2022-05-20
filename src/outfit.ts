@@ -223,6 +223,9 @@ export class Outfit {
     ) {
       cliExecute("backupcamera meat");
     }
+    if (!get("backupCameraReverserEnabled")) {
+      cliExecute("backupcamera reverser on");
+    }
   }
 
   static create(task: Task): Outfit {
