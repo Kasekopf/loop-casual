@@ -87,7 +87,7 @@ const Lighthouse: Task[] = [
   },
   {
     name: "Lighthouse Basic",
-    after: ["Lighthouse"],
+    after: ["Lighthouse Locket"],
     completed: () =>
       itemAmount($item`barrel of gunpowder`) >= 5 || get("sidequestLighthouseCompleted") !== "none",
     do: $location`Sonofa Beach`,

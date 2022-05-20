@@ -9,7 +9,7 @@ import {
   Skill,
   weaponType,
 } from "kolmafia";
-import { $skill, $slot, $stat, getTodaysHolidayWanderers, have, Macro } from "libram";
+import { $item, $skill, $slot, $stat, getTodaysHolidayWanderers, have, Macro } from "libram";
 import {
   BanishSource,
   CombatResource,
@@ -169,7 +169,8 @@ export class BuiltCombatStrategy {
 
         return new Macro()
           .skill(killing_blow)
-          .skill($skill`Pseudopod Slap`)
+          .tryItem($item`cosmic bowling ball`)
+          .attack()
           .repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:

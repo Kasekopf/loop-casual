@@ -91,7 +91,7 @@ const Oil: Task[] = [
       if (myMp() < 80 && myMaxmp() >= 80) restoreMp(80 - myMp());
     },
     do: $location`Oil Peak`,
-    outfit: { modifier: "ML, 0.1 item", equip: $items`unbreakable umbrella` },
+    outfit: { modifier: "ML 80 max, 0.1 item", equip: $items`unbreakable umbrella` },
     combat: new CombatStrategy().killItem(),
     limit: { tries: 11 },
   },

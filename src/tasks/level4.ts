@@ -78,7 +78,7 @@ export const BatQuest: Quest = {
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },
-      outfit: { modifier: "item, stench res" },
+      outfit: { modifier: "item, 10 stench res" },
       combat: new CombatStrategy().kill($monster`screambat`).killItem(),
       limit: { tries: 10 },
     },
