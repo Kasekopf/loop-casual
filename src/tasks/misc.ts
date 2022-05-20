@@ -540,7 +540,7 @@ export const pulls: Item[] = [
   $item`ninja crampons`,
   $item`wet stew`,
   $item`Mohawk wig`,
-  $item`HOA regulation book`,
+  minusMl,
   $item`yule hatchet`,
   $item`grey down vest`,
   $item`killing jar`,
