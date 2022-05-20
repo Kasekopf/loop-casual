@@ -97,7 +97,7 @@ const Desert: Task[] = [
     name: "Oasis",
     after: ["Compass"],
     completed: () => get("desertExploration") >= 100,
-    ready: () => !have($effect`Ultrahydrated`) && get("desertExploration") >= 10,
+    ready: () => !have($effect`Ultrahydrated`) && get("desertExploration") > 0,
     do: $location`The Oasis`,
     limit: { soft: 10 },
   },

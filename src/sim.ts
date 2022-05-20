@@ -17,7 +17,7 @@ function buildIotmList(): Requirement[] {
     { thing: $familiar`Grey Goose`, why: "Adventures" },
     { thing: $item`Clan VIP Lounge key`, why: "YRs, -combat" },
     { thing: $item`industrial fire extinguisher`, why: "Ultrahydrated" },
-    { thing: $familiar`Melodramedary`, why: "Desert progress" },
+    { thing: $familiar`Melodramedary`, why: "Desert progress", optional: true },
     {
       thing: $item`unwrapped knock-off retro superhero cape`,
       why: "Slay the dead in crypt, pygmy killing",
