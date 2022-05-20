@@ -310,12 +310,48 @@ export const WarQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Outfit Cargo",
+      name: "Outfit Hippy",
+      after: ["Misc/Unlock Island"],
+      completed: () =>
+        (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
+        have($item`Cargo Cultist Shorts`),
+      ready: () =>
+        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
+      priority: () =>
+        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
+      acquire: [{ item: $item`yellow rocket` }],
+      do: $location`Hippy Camp`,
+      limit: { soft: 5 },
+      outfit: { modifier: "+combat" },
+      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
+    },
+    {
+      name: "Outfit Frat",
+      after: ["Start", "Outfit Hippy"],
+      completed: () =>
+        (have($item`beer helmet`) &&
+          have($item`distressed denim pants`) &&
+          have($item`bejeweled pledge pin`)) ||
+        have($item`Cargo Cultist Shorts`),
+      ready: () =>
+        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
+      priority: () =>
+        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
+      acquire: [{ item: $item`yellow rocket` }],
+      do: $location`Frat House`,
+      limit: { soft: 5 },
+      outfit: { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "+combat" },
+      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
+      choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
+    },
+    {
+      name: "Outfit Frat Cargo",
       after: [],
       completed: () =>
-        have($item`beer helmet`) &&
-        have($item`distressed denim pants`) &&
-        have($item`bejeweled pledge pin`),
+        (have($item`beer helmet`) &&
+          have($item`distressed denim pants`) &&
+          have($item`bejeweled pledge pin`)) ||
+        !have($item`Cargo Cultist Shorts`),
       ready: () =>
         !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
       priority: () =>
@@ -329,14 +365,14 @@ export const WarQuest: Quest = {
     },
     {
       name: "Enrage",
-      after: ["Start", "Misc/Unlock Island", "Outfit Cargo"],
+      after: ["Start", "Misc/Unlock Island", "Outfit Frat Cargo", "Outfit Frat"],
       completed: () => step("questL12War") >= 1,
       outfit: {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
         modifier: "-combat",
       },
       do: $location`Hippy Camp`,
-      choices: { 142: 3, 1433: 3 },
+      choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
     },
     ...Flyers,
