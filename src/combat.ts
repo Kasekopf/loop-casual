@@ -1,6 +1,7 @@
 import {
   appearanceRates,
   equippedItem,
+  floor,
   Item,
   Location,
   Monster,
@@ -175,10 +176,10 @@ export class BuiltCombatStrategy {
         // Weaken monsters with Pseudopod slap until they are in range of our kill.
         // Since monsterhpabove is locked behind manuel/factoids, just do the maximum
         // number of slaps we could ever need for the monster/zone.
-        if (myBuffedstat(killing_stat) < maxHP(target)) {
-          const HPgap = maxHP(target) - myBuffedstat(killing_stat);
+        if (myBuffedstat(killing_stat) * floor(myMp() / 20) < 100) {
+          const HPgap = maxHP(target) - myBuffedstat(killing_stat) * floor(myMp() / 20);
           const slaps = Math.ceil(HPgap / 10);
-          if (slaps > 0 && slaps < 28) {
+          if (slaps > 0) {
             return new Macro()
               .while_(`!times ${slaps}`, new Macro().skill($skill`Pseudopod Slap`))
               .skill(killing_blow)
