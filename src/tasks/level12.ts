@@ -303,7 +303,12 @@ export const WarQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => atLevel(12),
+      ready: () =>
+        atLevel(12) &&
+        ((have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
+          (have($item`beer helmet`) &&
+            have($item`distressed denim pants`) &&
+            have($item`bejeweled pledge pin`))),
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -371,7 +376,7 @@ export const WarQuest: Quest = {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
         modifier: "-combat",
       },
-      do: $location`Hippy Camp`,
+      do: $location`Wartime Hippy Camp (Frat Disguise)`,
       choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
     },

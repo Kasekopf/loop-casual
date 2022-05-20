@@ -203,8 +203,9 @@ function getMonsters(where?: Location): Monster[] {
 
 function maxHP(target?: Monster | Location): number {
   if (target === undefined) return 1;
-  if (target instanceof Location) return Math.max(...getMonsters(target).map(maxHP));
-  return Math.floor(1.05 * target.baseHp) + numericModifier("Monster Level");
+  const base =
+    target instanceof Location ? Math.max(...getMonsters(target).map(maxHP)) : target.baseHp;
+  return Math.floor(1.05 * base) + numericModifier("Monster Level");
 }
 
 export type DelayedMacro = Macro | (() => Macro);
