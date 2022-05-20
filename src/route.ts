@@ -60,7 +60,11 @@ export const routing: string[] = [
   "Manor/Finish Floor2",
   "Mosquito/Finish",
 
+  // The following 3 tasks should always stay in this order
+  "Macguffin/Oasis", // Get ultrahydrated as soon as needed
+  "Macguffin/Oasis Drum", // Get drum as soon as pages are gathered
   "Macguffin/Desert", // charge camel for protestors
+
   "Palindome/Protesters",
 
   // Finish remaining quests
