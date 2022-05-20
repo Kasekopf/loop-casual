@@ -395,6 +395,7 @@ export const MiscQuest: Quest = {
     {
       name: "Deck",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => get("_deckCardsDrawn") > 0 || !have($item`Deck of Every Card`),
       do: () => {
         cliExecute("cheat tower");
@@ -566,6 +567,7 @@ export const PullQuest: Quest = {
     {
       name: "Basic",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => {
         const pulled = new Set<Item>(
           get("_roninStoragePulls")
