@@ -168,8 +168,14 @@ export class BuiltCombatStrategy {
         if (myMp() < 20) return new Macro().abort();
 
         return new Macro()
+          .externalIf(
+            myBuffedstat(killing_stat) * floor(myMp() / 20) < 100,
+            new Macro().while_(
+              `monsterhpabove ${myBuffedstat(killing_stat) * floor(myMp() / 20)}`,
+              new Macro().skill($skill`Pseudopod Slap`)
+            )
+          )
           .skill(killing_blow)
-          .skill($skill`Pseudopod Slap`)
           .repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
