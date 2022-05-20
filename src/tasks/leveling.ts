@@ -51,6 +51,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Cloud Talk",
       after: [],
+      ready: () => get("getawayCampsiteUnlocked"),
       completed: () => have($effect`That's Just Cloud-Talk, Man`) || myLevel() >= args.levelto,
       do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
       freeaction: true,
