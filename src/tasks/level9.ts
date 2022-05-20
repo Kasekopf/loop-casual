@@ -25,6 +25,7 @@ import {
   get,
   have,
   Macro,
+  set,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -58,15 +59,25 @@ const ABoo: Task[] = [
   {
     name: "ABoo Horror",
     after: ["ABoo Clues"],
-    ready: () => have($item`A-Boo clue`),
+    ready: () => have($item`A-Boo clue`) || get("_loopgyou_dog", false),
     completed: () => get("booPeakProgress") === 0,
     prepare: () => {
-      use($item`A-Boo clue`);
+      if (!get("_loopgyou_dog", false)) use($item`A-Boo clue`);
       if (myHp() < myMaxhp()) {
         restoreHp(myMaxhp());
       }
     },
     do: $location`A-Boo Peak`,
+    post: () => {
+      if (
+        myHp() === myMaxhp() &&
+        $location`A-Boo Peak`.noncombatQueue.includes("Wooof! Wooooooof!")
+      ) {
+        set("_loopgyou_dog", true); // A ghost-dog adventure ate the ABoo Horror; we can just try again
+      } else if (get("_loopgyou_dog")) {
+        set("_loopgyou_dog", false);
+      }
+    },
     effects: $effects`Red Door Syndrome`,
     outfit: { modifier: "spooky res, cold res", familiar: $familiar`Exotic Parrot` },
     choices: { 611: 1 },
