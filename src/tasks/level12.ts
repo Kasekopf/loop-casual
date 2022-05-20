@@ -371,7 +371,7 @@ export const WarQuest: Quest = {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
         modifier: "-combat",
       },
-      do: $location`Hippy Camp`,
+      do: $location`Wartime Hippy Camp (Frat Disguise)`,
       choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
     },
