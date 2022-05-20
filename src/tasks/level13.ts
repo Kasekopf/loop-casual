@@ -13,6 +13,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { args } from "../main";
 import { absorptionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
@@ -412,13 +413,14 @@ export const TowerQuest: Quest = {
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
     },
-    // {
-    //   name: "Finish",
-    //   after: ["Naughty Sorceress"],
-    //   completed: () => step("questL13Final") === 999,
-    //   do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
-    //   limit: { tries: 1 },
-    //   freeaction: true,
-    // },
+    {
+      name: "Finish",
+      after: ["Naughty Sorceress"],
+      completed: () => step("questL13Final") === 999 || args.class === 0,
+      do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
+      limit: { tries: 1 },
+      choices: { 1465: () => args.class },
+      freeaction: true,
+    },
   ],
 };

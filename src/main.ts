@@ -33,6 +33,19 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
   actions: Args.number({
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
   }),
+  class: Args.number({
+    help: "If given, break the prism and choose a class at the end of the run.",
+    default: 0,
+    options: [
+      [0, "Stay as Grey You"],
+      [1, "Seal Clubber"],
+      [2, "Turtle Tamer"],
+      [3, "Pastamancer"],
+      [4, "Saurceror"],
+      [5, "Disco Bandit"],
+      [6, "Accordion Thief"],
+    ],
+  }),
 });
 export function main(command?: string): void {
   sinceKolmafiaRevision(26394);
@@ -88,6 +101,7 @@ export function main(command?: string): void {
 
     if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
     else engine.execute(next[0], next[1]);
+    if (myPath() !== "Grey You") break; // Prism broken
   }
 
   const remaining_tasks = tasks.filter((task) => !task.completed());
@@ -162,7 +176,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSour
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") > 11;
+  return step("questL13Final") > 11 || myPath() !== "Grey You";
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {
