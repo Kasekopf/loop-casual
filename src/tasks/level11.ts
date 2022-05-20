@@ -288,6 +288,7 @@ export const MacguffinQuest: Quest = {
       name: "Start",
       after: [],
       ready: () => atLevel(11),
+      priority: () => OverridePriority.Free,
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
