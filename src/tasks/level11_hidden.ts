@@ -86,13 +86,19 @@ const Temple: Task[] = [
       (itemAmount($item`stone wool`) === 1 && have($item`the Nostril of the Serpent`)) ||
       step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
-    outfit: { equip: $items`industrial fire extinguisher`, modifier: "+combat" },
-    combat: new CombatStrategy().macro(
-      new Macro()
-        .trySkill($skill`Fire Extinguisher: Polar Vortex`)
-        .trySkill($skill`Fire Extinguisher: Polar Vortex`),
-      $monster`baa-relief sheep`
-    ),
+    outfit: () => {
+      if (get("_fireExtinguisherCharge") >= 10)
+        return { equip: $items`industrial fire extinguisher`, modifier: "+combat" };
+      else return { modifier: "+combat, item" };
+    },
+    combat: new CombatStrategy()
+      .macro(
+        new Macro()
+          .trySkill($skill`Fire Extinguisher: Polar Vortex`)
+          .trySkill($skill`Fire Extinguisher: Polar Vortex`),
+        $monster`baa-relief sheep`
+      )
+      .killItem($monster`baa-relief sheep`),
     choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
     limit: { soft: 10 },
   },
