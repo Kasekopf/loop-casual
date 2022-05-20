@@ -83,7 +83,7 @@ const Temple: Task[] = [
     after: ["Open Temple"],
     completed: () =>
       itemAmount($item`stone wool`) >= 2 ||
-      have($item`the Nostril of the Serpent`) ||
+      (itemAmount($item`stone wool`) === 1 && have($item`the Nostril of the Serpent`)) ||
       step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
     outfit: { equip: $items`industrial fire extinguisher`, modifier: "+combat" },
@@ -99,7 +99,6 @@ const Temple: Task[] = [
   {
     name: "Temple Nostril",
     after: ["Temple Wool", "Macguffin/Diary"],
-    acquire: [{ item: $item`stone wool` }],
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
     choices: { 579: 2, 582: 1 },
