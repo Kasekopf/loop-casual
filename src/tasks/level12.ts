@@ -303,7 +303,12 @@ export const WarQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () => atLevel(12),
+      ready: () =>
+        atLevel(12) &&
+        ((have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
+          (have($item`beer helmet`) &&
+            have($item`distressed denim pants`) &&
+            have($item`bejeweled pledge pin`))),
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
