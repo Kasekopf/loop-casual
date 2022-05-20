@@ -115,7 +115,7 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out", new Macro().item($item`seal tooth`))
+          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
         $monster`batwinged gremlin (tool)`
       )
@@ -133,7 +133,7 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out", new Macro().item($item`seal tooth`))
+          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
         $monster`erudite gremlin (tool)`
       )
@@ -150,7 +150,7 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out", new Macro().item($item`seal tooth`))
+          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
         $monster`spider gremlin (tool)`
       )
@@ -168,7 +168,7 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out", new Macro().item($item`seal tooth`))
+          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
           .item($item`molybdenum magnet`),
         $monster`vegetable gremlin (tool)`
       )
