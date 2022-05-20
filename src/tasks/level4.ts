@@ -34,7 +34,7 @@ export const BatQuest: Quest = {
           return {
             equip: $items`industrial fire extinguisher`,
           };
-        else return { modifier: "item, stench res" };
+        else return { modifier: "item, 10 stench res" };
       },
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))
@@ -58,7 +58,7 @@ export const BatQuest: Quest = {
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },
-      outfit: { modifier: "item, stench res" },
+      outfit: { modifier: "item, 10 stench res" },
       combat: new CombatStrategy().kill($monster`screambat`).killItem(),
       limit: { tries: 10 },
     },
@@ -78,7 +78,7 @@ export const BatQuest: Quest = {
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },
-      outfit: { modifier: "item, stench res" },
+      outfit: { modifier: "item, 10 stench res" },
       combat: new CombatStrategy().kill($monster`screambat`).killItem(),
       limit: { tries: 10 },
     },
@@ -113,7 +113,7 @@ export const BatQuest: Quest = {
     },
     {
       name: "Boss Bat",
-      after: ["Lobsterfrogman Drop"],
+      after: ["Bat/Use Sonar 3", "Lobsterfrogman Drop"],
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy().kill($monster`Boss Bat`).ignoreNoBanish(),

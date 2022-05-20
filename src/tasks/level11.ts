@@ -94,6 +94,34 @@ const Desert: Task[] = [
     freeaction: true,
   },
   {
+    name: "Oasis",
+    after: ["Compass"],
+    completed: () => get("desertExploration") >= 100,
+    ready: () => !have($effect`Ultrahydrated`) && get("desertExploration") > 0,
+    do: $location`The Oasis`,
+    limit: { soft: 10 },
+  },
+  {
+    name: "Oasis Drum",
+    after: ["Compass"],
+    ready: () => have($item`worm-riding hooks`) || itemAmount($item`worm-riding manual page`) >= 15,
+    priority: () =>
+      have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
+    completed: () =>
+      get("desertExploration") >= 100 ||
+      have($item`drum machine`) ||
+      (get("gnasirProgress") & 16) !== 0,
+    do: $location`The Oasis`,
+    combat: new CombatStrategy().killItem($monster`blur`),
+    outfit: { modifier: "item" },
+    limit: { soft: 10 },
+    post: (): void => {
+      if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
+        return;
+      if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
+    },
+  },
+  {
     name: "Desert",
     after: ["Diary", "Compass"],
     acquire: [
@@ -152,7 +180,7 @@ const Desert: Task[] = [
       if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
     },
     limit: { soft: 30 },
-    delay: 25,
+    delay: 35,
     choices: { 805: 1 },
   },
 ];
@@ -179,7 +207,7 @@ function rotatePyramid(goal: number): void {
 const Pyramid: Task[] = [
   {
     name: "Open Pyramid",
-    after: ["Desert", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
+    after: ["Desert", "Oasis", "Oasis Drum", "Manor/Boss", "Palindome/Boss", "Hidden City/Boss"],
     completed: () => step("questL11Pyramid") >= 0,
     do: () => visitUrl("place.php?whichplace=desertbeach&action=db_pyramid1"),
     limit: { tries: 1 },

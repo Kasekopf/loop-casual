@@ -357,6 +357,7 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => OverridePriority.Start,
       completed: () => have($skill`Infinite Loop`),
+      acquire: [{ item: $item`Arr, M80`, num: 2 }],
       prepare: () => {
         if (
           equippedAmount($item`unwrapped knock-off retro superhero cape`) === 0 ||
@@ -371,6 +372,8 @@ export const MiscQuest: Quest = {
       combat: new CombatStrategy().macro(
         new Macro()
           .tryItem($item`cosmic bowling ball`)
+          .tryItem($item`Arr, M80`)
+          .tryItem($item`Arr, M80`)
           .skill($skill`Pseudopod Slap`)
           .repeat()
       ),
@@ -395,6 +398,7 @@ export const MiscQuest: Quest = {
     {
       name: "Deck",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => get("_deckCardsDrawn") > 0 || !have($item`Deck of Every Card`),
       do: () => {
         cliExecute("cheat tower");
@@ -521,6 +525,12 @@ export const removeTeleportitis = {
   freeaction: true,
 };
 
+function first(items: Item[]) {
+  return items.find((i) => itemAmount(i) + storageAmount(i) > 0) ?? items[0];
+}
+
+export const minusMl = first($items`Space Trip safety headphones, HOA regulation book`);
+
 export const pulls: Item[] = [
   $item`book of matches`,
   $item`blackberry galoshes`,
@@ -560,6 +570,7 @@ export const PullQuest: Quest = {
     {
       name: "Basic",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => {
         const pulled = new Set<Item>(
           get("_roninStoragePulls")

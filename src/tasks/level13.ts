@@ -1,5 +1,6 @@
 import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, visitUrl } from "kolmafia";
 import {
+  $effect,
   $effects,
   $familiar,
   $item,
@@ -7,12 +8,14 @@ import {
   $location,
   $skill,
   $stat,
+  ensureEffect,
   get,
   have,
   Macro,
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { args } from "../main";
 import { absorptionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
@@ -320,6 +323,7 @@ export const TowerQuest: Quest = {
       name: "Wall of Skin",
       after: ["Door"],
       prepare: () => {
+        if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
         if (myHp() < myMaxhp()) {
           restoreHp(myMaxhp());
         }
@@ -327,7 +331,12 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`hot plate` },
-      combat: new CombatStrategy(true).macro(new Macro().skill($skill`Grey Noise`).repeat()),
+      combat: new CombatStrategy(true).macro(
+        new Macro()
+          .tryItem($item`beehive`)
+          .skill($skill`Grey Noise`)
+          .repeat()
+      ),
       limit: { tries: 1 },
     },
     {
@@ -412,13 +421,17 @@ export const TowerQuest: Quest = {
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
     },
-    // {
-    //   name: "Finish",
-    //   after: ["Naughty Sorceress"],
-    //   completed: () => step("questL13Final") === 999,
-    //   do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
-    //   limit: { tries: 1 },
-    //   freeaction: true,
-    // },
+    {
+      name: "Finish",
+      after: ["Naughty Sorceress"],
+      completed: () => step("questL13Final") === 999 || args.class === 0,
+      do: () => {
+        visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+        runChoice(-1);
+      },
+      limit: { tries: 1 },
+      choices: { 1465: () => args.class },
+      freeaction: true,
+    },
   ],
 };

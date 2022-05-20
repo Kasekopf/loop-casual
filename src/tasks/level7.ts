@@ -50,7 +50,7 @@ const Alcove: Task[] = [
     outfit: (): OutfitSpec => {
       return {
         equip: tryCape($item`antique machete`),
-        modifier: "init 850max, sword",
+        modifier: "init 850max",
       };
     },
     choices: { 153: 4 },
@@ -78,7 +78,7 @@ const Cranny: Task[] = [
     outfit: (): OutfitSpec => {
       return {
         equip: tryCape($item`antique machete`),
-        modifier: "-combat, ML, sword",
+        modifier: "-combat, ML",
       };
     },
     choices: { 523: 4 },

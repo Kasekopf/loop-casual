@@ -1,4 +1,4 @@
-import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, visitUrl } from "kolmafia";
+import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, storageAmount } from "kolmafia";
 import { $familiar, $item, $monster, CombatLoversLocket, get, have } from "libram";
 import { pulls } from "./tasks/misc";
 
@@ -17,7 +17,7 @@ function buildIotmList(): Requirement[] {
     { thing: $familiar`Grey Goose`, why: "Adventures" },
     { thing: $item`Clan VIP Lounge key`, why: "YRs, -combat" },
     { thing: $item`industrial fire extinguisher`, why: "Ultrahydrated" },
-    { thing: $familiar`Melodramedary`, why: "Desert progress" },
+    { thing: $familiar`Melodramedary`, why: "Desert progress", optional: true },
     {
       thing: $item`unwrapped knock-off retro superhero cape`,
       why: "Slay the dead in crypt, pygmy killing",
@@ -52,6 +52,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $item`Cargo Cultist Shorts`,
       why: "War outfit",
+      optional: true,
     },
     {
       thing: $item`Powerful Glove`,
@@ -107,10 +108,6 @@ function buildIotmList(): Requirement[] {
       why: "Banishes, Pygmy killing",
     },
     {
-      thing: [visitUrl("questlog.php?which=1").includes("questlog.php?which=6"), "Monster Manuel"],
-      why: "Checking for monster HP in combat macro",
-    },
-    {
       thing: $familiar`Vampire Vintner`,
       why: "Pygmy killing",
     },
@@ -141,6 +138,12 @@ function buildPullList(): Requirement[] {
     .map((item) => ({ thing: item, why: "Pull" }));
 }
 
+function check(req: Requirement): [boolean, string, Requirement] {
+  if (Array.isArray(req.thing)) return [req.thing[0], req.thing[1], req];
+  if (req.thing instanceof Familiar) return [have(req.thing), req.thing.hatchling.name, req];
+  return [have(req.thing) || storageAmount(req.thing) > 1, req.thing.name, req];
+}
+
 export function checkRequirements(): void {
   let missing_optional = 0;
   let missing = 0;
@@ -159,15 +162,7 @@ export function checkRequirements(): void {
   for (const [name, requirements] of categories) {
     if (requirements.length === 0) continue;
 
-    const requirements_info: [boolean, string, Requirement][] = requirements.map((req) => {
-      return Array.isArray(req.thing)
-        ? [req.thing[0], req.thing[1], req]
-        : [
-            have(req.thing),
-            req.thing instanceof Familiar ? req.thing.hatchling.name : req.thing.name,
-            req,
-          ];
-    });
+    const requirements_info: [boolean, string, Requirement][] = requirements.map(check);
     print(name, "blue");
     for (const [have_it, name, req] of requirements_info.sort((a, b) => a[1].localeCompare(b[1]))) {
       const color = have_it ? "#888888" : req.optional ? "black" : "red";

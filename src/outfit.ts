@@ -192,11 +192,6 @@ export class Outfit {
         ]);
       }
 
-      requirements = Requirement.merge([
-        requirements,
-        new Requirement([], { preventSlot: [$slot`back`] }),
-      ]);
-
       // Avoid burning CMG void fight just for the modifier
       if (
         have($item`cursed magnifying glass`) &&
@@ -227,6 +222,9 @@ export class Outfit {
       get("backupCameraMode").toLowerCase() === "ml"
     ) {
       cliExecute("backupcamera meat");
+    }
+    if (!get("backupCameraReverserEnabled")) {
+      cliExecute("backupcamera reverser on");
     }
   }
 
