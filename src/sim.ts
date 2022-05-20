@@ -1,4 +1,13 @@
-import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, visitUrl } from "kolmafia";
+import {
+  Familiar,
+  getWorkshed,
+  Item,
+  mallPrice,
+  print,
+  printHtml,
+  storageAmount,
+  visitUrl,
+} from "kolmafia";
 import { $familiar, $item, $monster, CombatLoversLocket, get, have } from "libram";
 import { pulls } from "./tasks/misc";
 
@@ -141,6 +150,12 @@ function buildPullList(): Requirement[] {
     .map((item) => ({ thing: item, why: "Pull" }));
 }
 
+function check(req: Requirement): [boolean, string, Requirement] {
+  if (Array.isArray(req.thing)) return [req.thing[0], req.thing[1], req];
+  if (req.thing instanceof Familiar) return [have(req.thing), req.thing.hatchling.name, req];
+  return [have(req.thing) || storageAmount(req.thing) > 1, req.thing.name, req];
+}
+
 export function checkRequirements(): void {
   let missing_optional = 0;
   let missing = 0;
@@ -159,15 +174,7 @@ export function checkRequirements(): void {
   for (const [name, requirements] of categories) {
     if (requirements.length === 0) continue;
 
-    const requirements_info: [boolean, string, Requirement][] = requirements.map((req) => {
-      return Array.isArray(req.thing)
-        ? [req.thing[0], req.thing[1], req]
-        : [
-            have(req.thing),
-            req.thing instanceof Familiar ? req.thing.hatchling.name : req.thing.name,
-            req,
-          ];
-    });
+    const requirements_info: [boolean, string, Requirement][] = requirements.map(check);
     print(name, "blue");
     for (const [have_it, name, req] of requirements_info.sort((a, b) => a[1].localeCompare(b[1]))) {
       const color = have_it ? "#888888" : req.optional ? "black" : "red";
