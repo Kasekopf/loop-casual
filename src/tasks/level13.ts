@@ -425,7 +425,10 @@ export const TowerQuest: Quest = {
       name: "Finish",
       after: ["Naughty Sorceress"],
       completed: () => step("questL13Final") === 999 || args.class === 0,
-      do: () => visitUrl("place.php?whichplace=nstower&action=ns_11_prism"),
+      do: () => {
+        visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+        runChoice(-1);
+      },
       limit: { tries: 1 },
       choices: { 1465: () => args.class },
       freeaction: true,
