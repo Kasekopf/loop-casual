@@ -57,7 +57,7 @@ const Copperhead: Task[] = [
         return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
       },
     },
-    limit: { tries: 16 },
+    limit: { tries: 20 },
   },
   {
     name: "Bat Snake",
