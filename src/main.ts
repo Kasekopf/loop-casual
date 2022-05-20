@@ -17,7 +17,7 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $effect, get, have, PropertiesManager, set } from "libram";
+import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
@@ -35,6 +35,8 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
   }),
 });
 export function main(command?: string): void {
+  sinceKolmafiaRevision(26394);
+
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
