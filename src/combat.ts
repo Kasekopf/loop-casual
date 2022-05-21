@@ -182,11 +182,12 @@ export class BuiltCombatStrategy {
           if (slaps > 0) {
             return new Macro()
               .while_(`!times ${slaps}`, new Macro().skill($skill`Pseudopod Slap`))
-              .skill(killing_blow)
+              .while_("!mpbelow 20", new Macro().skill(killing_blow))
+              .attack()
               .repeat();
           }
         }
-        return new Macro().skill(killing_blow).repeat();
+        return new Macro().while_("!mpbelow 20", new Macro().skill(killing_blow)).attack().repeat();
       // Abort for strategies that can only be done with resources
       case MonsterStrategy.KillFree:
       case MonsterStrategy.Abort:
