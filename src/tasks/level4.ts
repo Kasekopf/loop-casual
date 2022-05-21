@@ -33,6 +33,7 @@ export const BatQuest: Quest = {
         )
           return {
             equip: $items`industrial fire extinguisher`,
+            modifier: "stench res",
           };
         else return { modifier: "item, 10 stench res" };
       },
