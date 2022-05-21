@@ -180,7 +180,7 @@ export class Outfit {
       }
 
       let requirements = Requirement.merge([
-        new Requirement([this.modifier], {
+        new Requirement([this.modifier, "0.01 MP regen, 0.001 HP regen"], {
           forceEquip: targetEquipment.concat(...accessoryEquips),
         }),
       ]);
