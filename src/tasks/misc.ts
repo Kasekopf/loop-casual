@@ -14,6 +14,7 @@ import {
   myAscensions,
   myBasestat,
   myFamiliar,
+  myHp,
   myMeat,
   myPrimestat,
   retrieveItem,
@@ -286,13 +287,15 @@ export const MiscQuest: Quest = {
           return { equip: $items`Talisman o' Namsilat, protonic accelerator pack` };
         return { equip: $items`protonic accelerator pack` };
       },
-      combat: new CombatStrategy().macro(
-        new Macro()
-          .skill($skill`Shoot Ghost`)
-          .skill($skill`Shoot Ghost`)
-          .skill($skill`Shoot Ghost`)
-          .skill($skill`Trap Ghost`)
-      ),
+      combat: new CombatStrategy().macro(() => {
+        if (myHp() < 100) return new Macro().attack().repeat();
+        else
+          return new Macro()
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Trap Ghost`);
+      }),
       limit: { tries: 10 },
     },
     {
