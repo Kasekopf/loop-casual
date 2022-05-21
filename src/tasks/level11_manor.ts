@@ -54,7 +54,7 @@ const Manor1: Task[] = [
       .ignore()
       .killItem($monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Library",
