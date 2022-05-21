@@ -231,7 +231,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`The Hole in the Sky`,
-    after: ["Giant/Finish"],
+    after: ["Giant/Unlock HITS"],
   },
   // Level 11
   {
