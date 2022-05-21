@@ -427,10 +427,9 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") === 999 || args.class === 0,
       do: () => {
         visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
-        runChoice(-1);
+        runChoice(args.class);
       },
       limit: { tries: 1 },
-      choices: { 1465: () => args.class },
       freeaction: true,
     },
   ],
