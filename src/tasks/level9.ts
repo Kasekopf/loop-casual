@@ -59,23 +59,20 @@ const ABoo: Task[] = [
   {
     name: "ABoo Horror",
     after: ["ABoo Clues"],
-    ready: () => have($item`A-Boo clue`) || get("_loopgyou_dog", false),
+    ready: () => have($item`A-Boo clue`) || get("_loopgyou_clue_used", false),
     completed: () => get("booPeakProgress") === 0,
     prepare: () => {
-      if (!get("_loopgyou_dog", false)) use($item`A-Boo clue`);
+      if (!get("_loopgyou_clue_used", false)) use($item`A-Boo clue`);
       if (myHp() < myMaxhp()) {
         restoreHp(myMaxhp());
       }
     },
     do: $location`A-Boo Peak`,
     post: () => {
-      if (
-        myHp() === myMaxhp() &&
-        $location`A-Boo Peak`.noncombatQueue.includes("Wooof! Wooooooof!")
-      ) {
-        set("_loopgyou_dog", true); // A ghost-dog adventure ate the ABoo Horror; we can just try again
-      } else if (get("_loopgyou_dog")) {
-        set("_loopgyou_dog", false);
+      if (get("lastEncounter") !== "The Horror...") {
+        set("_loopgyou_clue_used", true); // A ghost-dog adventure ate the ABoo Horror; we can just try again
+      } else if (get("_loopgyou_clue_used")) {
+        set("_loopgyou_clue_used", false);
       }
     },
     effects: $effects`Red Door Syndrome`,
