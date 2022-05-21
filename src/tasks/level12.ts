@@ -19,6 +19,10 @@ import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 
+export function flyersDone(): boolean {
+  return get("flyeredML") >= 10500;
+}
+
 const Flyers: Task[] = [
   {
     name: "Flyers Start",
@@ -34,7 +38,7 @@ const Flyers: Task[] = [
   {
     name: "Flyers End",
     after: ["Flyers Start"],
-    ready: () => get("flyeredML") >= 10500, // Buffer for mafia tracking
+    ready: () => flyersDone(), // Buffer for mafia tracking
     completed: () => get("sidequestArenaCompleted") !== "none",
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {

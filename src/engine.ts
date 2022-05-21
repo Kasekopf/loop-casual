@@ -70,6 +70,7 @@ import {
 import { AbsorptionTargets } from "./tasks/absorb";
 import { Prioritization } from "./priority";
 import { ponderPrediction } from "./main";
+import { flyersDone } from "./tasks/level12";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -197,7 +198,7 @@ export class Engine {
         myBasestat($stat`Moxie`) >= 200 &&
         myBuffedstat($stat`Moxie`) >= 200 &&
         have($item`rock band flyers`) &&
-        get("flyeredML") < 10300 &&
+        !flyersDone() &&
         (!(task.do instanceof Location) || !blacklist.has(task.do))
       ) {
         task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
