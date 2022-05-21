@@ -232,7 +232,7 @@ const Pyramid: Task[] = [
       return ratchets >= needed;
     },
     do: $location`The Middle Chamber`,
-    limit: { soft: 20 },
+    limit: { soft: 25 },
     combat: new CombatStrategy()
       .macro(new Macro().tryItem($item`tangle of rat tails`), $monster`tomb rat`)
       .killItem($monster`tomb rat`, $monster`tomb rat king`)
