@@ -297,6 +297,11 @@ export const MiscQuest: Quest = {
             .skill($skill`Shoot Ghost`)
             .skill($skill`Trap Ghost`);
       }),
+      post: () => {
+        if (get("questPAGhost") !== "unstarted") {
+          throw `Failed to kill ghost from protonic accelerator pack`;
+        }
+      },
       limit: { tries: 10 },
     },
     {
