@@ -15,6 +15,7 @@ import {
   myBasestat,
   myFamiliar,
   myHp,
+  myMaxhp,
   myMeat,
   myPrimestat,
   retrieveItem,
@@ -288,7 +289,7 @@ export const MiscQuest: Quest = {
         return { equip: $items`protonic accelerator pack` };
       },
       combat: new CombatStrategy().macro(() => {
-        if (myHp() < 100) return new Macro().attack().repeat();
+        if (myHp() < myMaxhp()) return new Macro().attack().repeat();
         else
           return new Macro()
             .skill($skill`Shoot Ghost`)
