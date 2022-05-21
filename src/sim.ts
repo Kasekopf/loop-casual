@@ -141,7 +141,7 @@ function buildPullList(): Requirement[] {
 function check(req: Requirement): [boolean, string, Requirement] {
   if (Array.isArray(req.thing)) return [req.thing[0], req.thing[1], req];
   if (req.thing instanceof Familiar) return [have(req.thing), req.thing.hatchling.name, req];
-  return [have(req.thing) || storageAmount(req.thing) > 1, req.thing.name, req];
+  return [have(req.thing) || storageAmount(req.thing) > 0, req.thing.name, req];
 }
 
 export function checkRequirements(): void {
