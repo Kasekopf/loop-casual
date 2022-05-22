@@ -14,7 +14,8 @@ import { PalindomeQuest } from "./level11_palindome";
 import { MacguffinQuest } from "./level11";
 import { WarQuest } from "./level12";
 import { TowerQuest } from "./level13";
-import { KeysQuest, MiscQuest, PullQuest, WandQuest } from "./misc";
+import { KeysQuest, MiscQuest, WandQuest } from "./misc";
+import { PullQuest } from "./pulls";
 import { AbsorbQuest } from "./absorb";
 import { Task } from "./structure";
 

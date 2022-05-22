@@ -25,6 +25,7 @@ import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 import { Args } from "./args";
 import { checkRequirements } from "./sim";
+import { pullStrategy } from "./tasks/pulls";
 
 const time_property = "_loop_casual_first_start";
 
@@ -90,6 +91,8 @@ export function main(command?: string): void {
   }
 
   while (myAdventures() > 0) {
+    pullStrategy.update(); // Update pull plan with current state
+
     const next = getNextTask(engine, tasks);
     if (next === undefined) break;
     if (actions_left <= 0) {

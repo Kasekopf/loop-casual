@@ -1,10 +1,20 @@
 import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, storageAmount } from "kolmafia";
 import { $familiar, $item, $monster, CombatLoversLocket, get, have } from "libram";
-import { pulls } from "./tasks/misc";
+import { pullStrategy } from "./tasks/pulls";
 
-type Thing = Item | Familiar | [boolean, string];
+class Hardcoded {
+  have: boolean;
+  name: string;
+
+  constructor(have: boolean, name: string) {
+    this.have = have;
+    this.name = name;
+  }
+}
+
+type Thing = Item | Familiar | Hardcoded;
 interface Requirement {
-  thing: Thing;
+  thing: Thing | Thing[];
   why: string;
   optional?: boolean;
 }
@@ -32,10 +42,10 @@ function buildIotmList(): Requirement[] {
       optional: true,
     },
     {
-      thing: [
+      thing: new Hardcoded(
         have($item`cold medicine cabinet`) || getWorkshed() === $item`cold medicine cabinet`,
-        "Cold medicine cabinet",
-      ],
+        "Cold medicine cabinet"
+      ),
       why: "QoL Equipment",
       optional: true,
     },
@@ -78,17 +88,17 @@ function buildIotmList(): Requirement[] {
       why: "Reminiscing",
     },
     {
-      thing: [
+      thing: new Hardcoded(
         new Set(CombatLoversLocket.unlockedLocketMonsters()).has($monster`pygmy witch lawyer`),
-        "combat lover's locket (Pygmy witch lawyer locketed)",
-      ],
+        "combat lover's locket (Pygmy witch lawyer locketed)"
+      ),
       why: "Reminiscing for Infinite Loop",
     },
     {
-      thing: [
+      thing: new Hardcoded(
         new Set(CombatLoversLocket.unlockedLocketMonsters()).has($monster`mountain man`),
-        "combat lover's locket (Mountain man)",
-      ],
+        "combat lover's locket (Mountain man)"
+      ),
       why: "Reminiscing for Ore",
     },
     {
@@ -101,10 +111,10 @@ function buildIotmList(): Requirement[] {
       why: "-combat modifier, ML",
     },
     {
-      thing: [
+      thing: new Hardcoded(
         have($item`cosmic bowling ball`) || get("cosmicBowlingBallReturnCombats", -1) >= 0,
-        "Cosmic bowling ball",
-      ],
+        "Cosmic bowling ball"
+      ),
       why: "Banishes, Pygmy killing",
     },
     {
@@ -133,15 +143,40 @@ function buildMiscList(): Requirement[] {
 }
 
 function buildPullList(): Requirement[] {
-  return pulls
-    .filter((item) => mallPrice(item) >= 50000 || mallPrice(item) === 0)
-    .map((item) => ({ thing: item, why: "Pull" }));
+  const result: Requirement[] = [];
+  for (const pull of pullStrategy.pulls) {
+    const items = pull.items().filter((item) => item) as Item[];
+
+    // Ignore dynamic item selection for now
+    if (items.length === 0) continue;
+
+    // For cheap items, we will just buy it during the run
+    if (items.find((item) => mallPrice(item) !== 0 && mallPrice(item) <= 100000)) continue;
+
+    result.push({ thing: items, why: "Pull", optional: pull.optional });
+  }
+  return result;
+}
+
+function checkThing(thing: Thing): [boolean, string] {
+  if (thing instanceof Hardcoded) return [thing.have, thing.name];
+  if (thing instanceof Familiar) return [have(thing), thing.hatchling.name];
+  return [have(thing) || storageAmount(thing) > 0, thing.name];
 }
 
 function check(req: Requirement): [boolean, string, Requirement] {
-  if (Array.isArray(req.thing)) return [req.thing[0], req.thing[1], req];
-  if (req.thing instanceof Familiar) return [have(req.thing), req.thing.hatchling.name, req];
-  return [have(req.thing) || storageAmount(req.thing) > 0, req.thing.name, req];
+  if (Array.isArray(req.thing)) {
+    const checks = req.thing.map(checkThing);
+
+    return [
+      checks.find((res) => res[0]) !== undefined,
+      checks.map((res) => res[1]).join(" OR "),
+      req,
+    ];
+  } else {
+    const res = checkThing(req.thing);
+    return [res[0], res[1], req];
+  }
 }
 
 export function checkRequirements(): void {

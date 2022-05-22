@@ -2,13 +2,11 @@ import { CombatStrategy } from "../combat";
 import {
   abort,
   adv1,
-  buyUsingStorage,
   cliExecute,
   equippedAmount,
   familiarWeight,
   getWorkshed,
   hermit,
-  Item,
   itemAmount,
   knollAvailable,
   myAscensions,
@@ -20,7 +18,6 @@ import {
   myPrimestat,
   retrieveItem,
   runChoice,
-  storageAmount,
   totalTurnsPlayed,
   use,
   visitUrl,
@@ -539,88 +536,6 @@ export const removeTeleportitis = {
   freeaction: true,
 };
 
-function first(items: Item[]) {
-  return items.find((i) => itemAmount(i) + storageAmount(i) > 0) ?? items[0];
-}
-
-export const minusMl = first($items`Space Trip safety headphones, HOA regulation book`);
-
-export const pulls: Item[] = [
-  $item`book of matches`,
-  $item`blackberry galoshes`,
-  $item`antique machete`,
-  $item`ninja rope`,
-  $item`ninja carabiner`,
-  $item`ninja crampons`,
-  $item`wet stew`,
-  $item`Mohawk wig`,
-  minusMl,
-  $item`yule hatchet`,
-  $item`grey down vest`,
-  $item`killing jar`,
-  $item`Boris's ring`,
-  $item`Jarlsberg's earring`,
-  $item`Sneaky Pete's breath spray`,
-  $item`old patched suit-pants`,
-  $item`transparent pants`,
-  $item`deck of lewd playing cards`,
-  $item`11-leaf clover`,
-];
-function pull(item: Item): void {
-  const pulled = new Set<Item>(
-    get("_roninStoragePulls")
-      .split(",")
-      .map((id) => parseInt(id))
-      .filter((id) => id > 0)
-      .map((id) => Item.get(id))
-  );
-  if (pulled.has(item)) return;
-  if (storageAmount(item) === 0) buyUsingStorage(1, item, 100000);
-  cliExecute(`pull ${item.name}`);
-}
-export const PullQuest: Quest = {
-  name: "Pull",
-  tasks: [
-    {
-      name: "Basic",
-      after: [],
-      priority: () => OverridePriority.Free,
-      completed: () => {
-        const pulled = new Set<Item>(
-          get("_roninStoragePulls")
-            .split(",")
-            .map((id) => parseInt(id))
-            .filter((id) => id > 0)
-            .map((id) => Item.get(id))
-        );
-        for (const pull of pulls) {
-          if (!pulled.has(pull)) return false;
-        }
-        return true;
-      },
-      do: () => {
-        for (const item of pulls) {
-          pull(item);
-        }
-      },
-      limit: { tries: 1 },
-      freeaction: true,
-    },
-    {
-      name: "Ore",
-      after: ["McLargeHuge/Trapper Request"],
-      completed: () =>
-        get("trapperOre") !== "" &&
-        (itemAmount(Item.get(get("trapperOre"))) >= 3 || step("questL08Trapper") >= 2),
-      do: () => {
-        pull(Item.get(get("trapperOre")));
-      },
-      limit: { tries: 1 },
-      freeaction: true,
-    },
-  ],
-};
-
 function keyCount(): number {
   let count = itemAmount($item`fat loot token`);
   if (have($item`Boris's key`) || get("nsTowerDoorKeysUsed").includes("Boris")) count++;
@@ -633,7 +548,7 @@ export const KeysQuest: Quest = {
   tasks: [
     {
       name: "Zap Boris",
-      after: ["Pull/Basic", "Wand/Wand"],
+      after: ["Pull/Boris's ring", "Wand/Wand"],
       completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Boris's ring`),
       do: () => cliExecute("zap Boris's ring"),
       limit: { tries: 1 },
@@ -641,7 +556,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Zap Jarlsberg",
-      after: ["Pull/Basic", "Wand/Wand"],
+      after: ["Pull/Jarlsberg's earring", "Wand/Wand"],
       completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Jarlsberg's earring`),
       do: () => cliExecute("zap Jarlsberg's earring"),
       limit: { tries: 1 },
@@ -649,7 +564,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Zap Sneaky Pete",
-      after: ["Pull/Basic", "Wand/Wand"],
+      after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
       completed: () =>
         get("lastZapperWandExplosionDay") >= 1 || !have($item`Sneaky Pete's breath spray`),
       do: () => cliExecute("zap Sneaky Pete's breath spray"),
