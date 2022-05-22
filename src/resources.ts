@@ -1,4 +1,4 @@
-import { Familiar, Item, Monster, Skill } from "kolmafia";
+import { cliExecute, Familiar, Item, Monster, Skill } from "kolmafia";
 import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
 import { debug } from "./lib";
 
@@ -28,6 +28,36 @@ export const banishSources: BanishSource[] = [
     name: "System Sweep",
     available: () => have($skill`System Sweep`),
     do: $skill`System Sweep`,
+  },
+  {
+    name: "Reflex Hammer",
+    available: () => get("_reflexHammerUsed") < 3 && have($item`Lil' Doctor™ bag`),
+    do: $skill`Reflex Hammer`,
+    equip: $item`Lil' Doctor™ bag`,
+  },
+  {
+    name: "KGB dart",
+    available: () =>
+      get("_kgbTranquilizerDartUses") < 3 && have($item`Kremlin's Greatest Briefcase`),
+    do: $skill`KGB tranquilizer dart`,
+    equip: $item`Kremlin's Greatest Briefcase`,
+  },
+  {
+    name: "Latte",
+    available: () =>
+      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
+      have($item`latte lovers member's mug`),
+    prepare: (): void => {
+      if (get("_latteBanishUsed")) cliExecute("latte refill cinnamon pumpkin vanilla"); // Always unlocked
+    },
+    do: $skill`Throw Latte on Opponent`,
+    equip: $item`latte lovers member's mug`,
+  },
+  {
+    name: "Middle Finger",
+    available: () => !get("_mafiaMiddleFingerRingUsed") && have($item`mafia middle finger ring`),
+    do: $skill`Show them your ring`,
+    equip: $item`mafia middle finger ring`,
   },
 ];
 
