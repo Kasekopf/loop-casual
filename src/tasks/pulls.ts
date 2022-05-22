@@ -45,6 +45,7 @@ export const pulls: PullSpec[] = [
         ? undefined
         : itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2,
   },
+  { pull: $item`mafia thumb ring`, optional: true },
 ];
 
 class Pull {

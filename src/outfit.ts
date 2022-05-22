@@ -6,12 +6,13 @@ import {
   Familiar,
   familiarWeight,
   Item,
+  myBasestat,
   Slot,
   toSlot,
   useFamiliar,
   weaponHands,
 } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, get, have, Requirement } from "libram";
+import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 
@@ -289,6 +290,8 @@ export class Outfit {
     if (this.familiar === $familiar`Reagnimated Gnome`)
       this.equip($item`gnomish housemaid's kgnee`);
 
+    if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
+
     if (!this.modifier) {
       // Default outfit
       this.equip($item`ice crown`);
@@ -299,8 +302,8 @@ export class Outfit {
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`Cargo Cultist Shorts`);
       this.equip($item`Powerful Glove`);
-      this.equip($item`birch battery`);
       this.equip($item`backup camera`);
+      this.equip($item`birch battery`);
       this.equip($item`combat lover's locket`);
     }
     this.equip($item`miniature crystal ball`);
