@@ -119,8 +119,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
-          .item($item`molybdenum magnet`),
+          .while_(
+            "!match whips out && !times 28 && !hpbelow 30",
+            new Macro().item($item`seal tooth`)
+          )
+          .if_("match whips out", new Macro().item(`molybdenum magnet`)),
         $monster`batwinged gremlin (tool)`
       )
       .kill($monster`batwinged gremlin (tool)`),
@@ -137,8 +140,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
-          .item($item`molybdenum magnet`),
+          .while_(
+            "!match whips out && !times 28 && !hpbelow 30",
+            new Macro().item($item`seal tooth`)
+          )
+          .if_("match whips out", new Macro().item(`molybdenum magnet`)),
         $monster`erudite gremlin (tool)`
       )
       .kill($monster`erudite gremlin (tool)`),
@@ -154,8 +160,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
-          .item($item`molybdenum magnet`),
+          .while_(
+            "!match whips out && !times 28 && !hpbelow 30",
+            new Macro().item($item`seal tooth`)
+          )
+          .if_("match whips out", new Macro().item(`molybdenum magnet`)),
         $monster`spider gremlin (tool)`
       )
       .kill($monster`spider gremlin (tool)`),
@@ -172,8 +181,11 @@ const Junkyard: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro()
-          .while_("!match whips out && !times 28", new Macro().item($item`seal tooth`))
-          .item($item`molybdenum magnet`),
+          .while_(
+            "!match whips out && !times 28 && !hpbelow 30",
+            new Macro().item($item`seal tooth`)
+          )
+          .if_("match whips out", new Macro().item(`molybdenum magnet`)),
         $monster`vegetable gremlin (tool)`
       )
       .kill($monster`vegetable gremlin (tool)`),
