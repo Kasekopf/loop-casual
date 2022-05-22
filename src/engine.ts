@@ -15,6 +15,7 @@ import {
   myMeat,
   myMp,
   myPath,
+  myTurncount,
   restoreHp,
   restoreMp,
   toInt,
@@ -355,6 +356,7 @@ const consumables_blacklist = new Set<Item>(
 function autosellJunk(): void {
   if (myPath() !== "Grey You") return; // final safety
   if (myMeat() >= 10000) return;
+  if (myTurncount() >= 1000) return; // stop after breaking ronin
   if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
 
   // Sell junk items
@@ -382,6 +384,8 @@ function autosellJunk(): void {
 
 function absorbConsumables(): void {
   if (myPath() !== "Grey You") return; // final safety
+  if (myTurncount() >= 1000) return; // stop after breaking ronin
+
   let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
   const absorbed = new Set<string>(absorbed_list.split(","));
 
