@@ -55,6 +55,10 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
       [6, "Accordion Thief"],
     ],
   }),
+  pulls: Args.number({
+    help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
+    default: 20,
+  }),
 });
 export function main(command?: string): void {
   sinceKolmafiaRevision(26394);

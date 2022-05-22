@@ -1,5 +1,6 @@
 import { buyUsingStorage, cliExecute, Item, itemAmount, storageAmount } from "kolmafia";
 import { $item, $items, get, have } from "libram";
+import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
 
@@ -130,7 +131,7 @@ class PullStrategy {
         .map((id) => Item.get(id))
     );
 
-    let count = 20 - pulled.size;
+    let count = args.pulls - pulled.size;
     for (let i = 0; i < this.pulls.length; i++) {
       if (this.pulls[i].wasPulled(pulled)) {
         this.enabled[i] = PullState.PULLED;
