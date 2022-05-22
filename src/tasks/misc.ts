@@ -289,7 +289,12 @@ export const MiscQuest: Quest = {
         return { equip: $items`protonic accelerator pack` };
       },
       combat: new CombatStrategy().macro(() => {
-        if (myHp() < myMaxhp()) return new Macro().attack().repeat();
+        if (
+          myHp() < myMaxhp() ||
+          get("ghostLocation") === $location`The Haunted Wine Cellar` ||
+          get("ghostLocation") === $location`The Overgrown Lot`
+        )
+          return new Macro().attack().repeat();
         else
           return new Macro()
             .skill($skill`Shoot Ghost`)
