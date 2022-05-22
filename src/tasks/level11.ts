@@ -118,6 +118,14 @@ const Desert: Task[] = [
     post: (): void => {
       if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
         return;
+      if (itemAmount($item`worm-riding manual page`) >= 15) {
+        let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
+        while (res.includes("value=2")) {
+          res = runChoice(2);
+        }
+        runChoice(1);
+      }
+      cliExecute("use * desert sightseeing pamphlet");
       if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
     },
   },
@@ -128,6 +136,7 @@ const Desert: Task[] = [
       { item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 },
       { item: $item`killing jar`, useful: () => (get("gnasirProgress") & 4) === 0 },
     ],
+    ready: () => itemAmount($item`worm-riding manual page`) < 15 && !have($item`worm-riding hooks`),
     priority: () =>
       have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
     completed: () => get("desertExploration") >= 100,
