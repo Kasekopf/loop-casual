@@ -17,7 +17,15 @@ import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
+import {
+  $effect,
+  $monster,
+  get,
+  have,
+  PropertiesManager,
+  set,
+  sinceKolmafiaRevision,
+} from "libram";
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
@@ -228,6 +236,13 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
   });
 }
 
+function getMonster(name: string) {
+  if (name === "some Mismatched Twins") return $monster`Mismatched Twins`;
+  if (name === "the Bubblemint Twins") return $monster`Bubblemint Twins`;
+  if (name === "the Big Wheelin' Twins") return $monster`Big Wheelin' Twins`;
+  return toMonster(name);
+}
+
 export function ponderPrediction(): Map<Location, Monster> {
   visitUrl("inventory.php?ponder=1", false);
   const parsedProp = new Map(
@@ -235,7 +250,8 @@ export function ponderPrediction(): Map<Location, Monster> {
       .split("|")
       .map((element) => element.split(":") as [string, string, string])
       .map(
-        ([, location, monster]) => [toLocation(location), toMonster(monster)] as [Location, Monster]
+        ([, location, monster]) =>
+          [toLocation(location), getMonster(monster)] as [Location, Monster]
       )
   );
   return parsedProp;
