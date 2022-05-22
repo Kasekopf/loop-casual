@@ -96,7 +96,7 @@ export const KnobQuest: Quest = {
       completed: () => have($item`Cobb's Knob Menagerie key`),
       do: $location`Cobb's Knob Laboratory`,
       combat: new CombatStrategy().kill($monster`Knob Goblin Very Mad Scientist`),
-      limit: { soft: 10 },
+      limit: { soft: 15 },
     },
   ],
 };
