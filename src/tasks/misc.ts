@@ -42,6 +42,7 @@ import {
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { Engine } from "../engine";
+import { Keys, keyStrategy } from "./keys";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -449,7 +450,10 @@ export const WandQuest: Quest = {
         have($item`ebony wand`) ||
         have($item`hexagonal wand`) ||
         have($item`marble wand`) ||
-        have($item`pine wand`),
+        have($item`pine wand`) ||
+        (keyStrategy.useful(Keys.ZapBoris) === false &&
+          keyStrategy.useful(Keys.ZapJarlsberg) === false &&
+          keyStrategy.useful(Keys.ZapSneaky) === false),
       prepare: () => {
         if (have($item`plus sign`)) use($item`plus sign`);
       },
@@ -470,7 +474,10 @@ export const WandQuest: Quest = {
         have($item`ebony wand`) ||
         have($item`hexagonal wand`) ||
         have($item`marble wand`) ||
-        have($item`pine wand`),
+        have($item`pine wand`) ||
+        (keyStrategy.useful(Keys.ZapBoris) === false &&
+          keyStrategy.useful(Keys.ZapJarlsberg) === false &&
+          keyStrategy.useful(Keys.ZapSneaky) === false),
       do: () => use($item`dead mimic`),
       freeaction: true,
       limit: { tries: 1 },
