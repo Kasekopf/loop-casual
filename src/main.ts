@@ -247,6 +247,8 @@ function getMonster(name: string) {
   if (name === "some Mismatched Twins") return $monster`Mismatched Twins`;
   if (name === "the Bubblemint Twins") return $monster`Bubblemint Twins`;
   if (name === "the Big Wheelin' Twins") return $monster`Big Wheelin' Twins`;
+  if (name === "the Troll Twins") return $monster`Troll Twins`;
+  if (name === "the Mob Penguin Capo") return $monster`Mob Penguin Capo`;
   return toMonster(name);
 }
 

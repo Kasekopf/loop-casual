@@ -304,7 +304,7 @@ export const MiscQuest: Quest = {
           throw `Failed to kill ghost from protonic accelerator pack`;
         }
       },
-      limit: { tries: 10 },
+      limit: { tries: 20 },
     },
     {
       name: "Acquire Birch Battery",
