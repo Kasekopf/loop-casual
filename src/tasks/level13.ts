@@ -1,4 +1,4 @@
-import { cliExecute, myHp, myMaxhp, restoreHp, runChoice, use, visitUrl } from "kolmafia";
+import { cliExecute, myHp, myMaxhp, myPath, restoreHp, runChoice, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $effects,
@@ -16,6 +16,7 @@ import {
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
+import { OverridePriority } from "../priority";
 import { absorptionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
@@ -424,7 +425,8 @@ export const TowerQuest: Quest = {
     {
       name: "Finish",
       after: ["Naughty Sorceress"],
-      completed: () => step("questL13Final") === 999 || args.class === 0,
+      priority: () => OverridePriority.Last,
+      completed: () => step("questL13Final") === 999 || args.class === 0 || myPath() !== "Grey You",
       do: () => {
         visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
         visitUrl("main.php");

@@ -22,6 +22,7 @@ export enum OverridePriority {
   BadOrb = -2,
   BadGoose = -16,
   BadMood = -100,
+  Last = -10000,
 }
 
 export class Prioritization {
