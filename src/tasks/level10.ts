@@ -1,5 +1,5 @@
-import { cliExecute, containsText, itemAmount, myMeat, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, get, have, Macro } from "libram";
+import { cliExecute, containsText, myMeat, use, visitUrl } from "kolmafia";
+import { $effect, $item, $items, $location, $monster, have, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
@@ -144,18 +144,6 @@ export const GiantQuest: Quest = {
       outfit: { modifier: "-combat" },
       combat: new CombatStrategy().kill($monster`Burning Snake of Fire`),
       choices: { 675: 4, 676: 4, 677: 2, 678: 3, 679: 1, 1431: 4 },
-      limit: { soft: 20 },
-    },
-    {
-      name: "Hole in the Sky",
-      after: ["Unlock HITS"],
-      completed: () =>
-        (have($item`star chart`) && itemAmount($item`star`) >= 8 && itemAmount($item`line`) >= 7) ||
-        have($item`Richard's star key`) ||
-        get("nsTowerDoorKeysUsed").includes("Richard's star key"),
-      do: $location`The Hole in the Sky`,
-      outfit: { modifier: "item" },
-      combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
       limit: { soft: 20 },
     },
   ],

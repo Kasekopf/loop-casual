@@ -8,7 +8,7 @@ export const routing: string[] = [
   "Misc/Acquire Cold Medicine Gear",
   "Misc/Acquire Firework Hat",
   "Misc/Acquire Birch Battery",
-  "Misc/Deck",
+  "Keys/Deck",
   "Pull/All",
 
   // Get infinite loop

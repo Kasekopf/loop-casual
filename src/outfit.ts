@@ -15,6 +15,7 @@ import {
 import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
+import { Keys, keyStrategy } from "./tasks/keys";
 
 // Adapted from phccs
 export class Outfit {
@@ -262,14 +263,15 @@ export class Outfit {
         if (!this.modifier || !this.modifier.includes("-combat"))
           this.equip($item`familiar scrapbook`);
       }
-    } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
-      this.equip($familiar`Melodramedary`);
     } else if (
-      !have($item`eleven-foot pole`) ||
-      !have($item`ring of Detect Boring Doors`) ||
-      !have($item`Pick-O-Matic lockpicks`)
+      (!have($item`eleven-foot pole`) ||
+        !have($item`ring of Detect Boring Doors`) ||
+        !have($item`Pick-O-Matic lockpicks`)) &&
+      keyStrategy.useful(Keys.Dungeon) !== false
     ) {
       this.equip($familiar`Gelatinous Cubeling`);
+    } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
+      this.equip($familiar`Melodramedary`);
     }
   }
 

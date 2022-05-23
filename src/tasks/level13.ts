@@ -183,7 +183,7 @@ const ChallengeBosses: Task[] = [
 const Door: Task[] = [
   {
     name: "Boris Lock",
-    after: ["Maze", "Keys/Finish"],
+    after: ["Maze", "Keys/All Heroes"],
     acquire: [{ item: $item`Boris's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Boris"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock1"),
@@ -192,7 +192,7 @@ const Door: Task[] = [
   },
   {
     name: "Jarlsberg Lock",
-    after: ["Maze", "Keys/Finish"],
+    after: ["Maze", "Keys/All Heroes"],
     acquire: [{ item: $item`Jarlsberg's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Jarlsberg"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock2"),
@@ -201,7 +201,7 @@ const Door: Task[] = [
   },
   {
     name: "Sneaky Pete Lock",
-    after: ["Maze", "Keys/Finish"],
+    after: ["Maze", "Keys/All Heroes"],
     acquire: [{ item: $item`Sneaky Pete's key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Sneaky Pete"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock3"),
@@ -210,7 +210,7 @@ const Door: Task[] = [
   },
   {
     name: "Star Lock",
-    after: ["Maze", "Giant/Hole in the Sky"],
+    after: ["Maze", "Keys/Star Key"],
     acquire: [{ item: $item`Richard's star key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("Richard's star key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock4"),
@@ -427,6 +427,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") === 999 || args.class === 0,
       do: () => {
         visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+        visitUrl("main.php");
+        runChoice(args.class);
         runChoice(args.class);
       },
       limit: { tries: 1 },

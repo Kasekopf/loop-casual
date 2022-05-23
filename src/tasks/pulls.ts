@@ -3,6 +3,7 @@ import { $item, $items, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
+import { Keys, keyStrategy } from "./keys";
 
 /**
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
@@ -31,9 +32,9 @@ export const pulls: PullSpec[] = [
   { pull: $item`yule hatchet` },
   { pull: $item`grey down vest` },
   { pull: $item`killing jar` },
-  { pull: $item`Boris's ring` },
-  { pull: $item`Jarlsberg's earring` },
-  { pull: $item`Sneaky Pete's breath spray` },
+  { pull: $item`Boris's ring`, useful: () => keyStrategy.useful(Keys.ZapBoris) },
+  { pull: $item`Jarlsberg's earring`, useful: () => keyStrategy.useful(Keys.ZapJarlsberg) },
+  { pull: $item`Sneaky Pete's breath spray`, useful: () => keyStrategy.useful(Keys.ZapSneaky) },
   { pull: $item`old patched suit-pants`, optional: true },
   { pull: $item`transparent pants`, optional: true },
   { pull: $item`deck of lewd playing cards`, optional: true },
