@@ -571,6 +571,7 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`upgraded ram`,
   $monster`vicious gnauga`,
   $monster`whitesnake`,
+  $monster`Booze Giant`,
   // 5 adv monsters
   $monster`dire pigeon`,
   $monster`gingerbread murderer`,
@@ -578,11 +579,6 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`irate mariachi`,
   $monster`plastered frat orc`,
   $monster`swarm of skulls`,
-]);
-const adventureMonsters: Monster[] = [
-  // 7 adv monsters
-  $monster`Booze Giant`,
-  // 5 adv monsters
   $monster`albino bat`,
   $monster`batrat`,
   $monster`G imp`,
@@ -595,7 +591,9 @@ const adventureMonsters: Monster[] = [
   $monster`swarm of Knob lice`,
   $monster`W imp`,
   $monster`warwelf`,
-];
+]);
+const adventureMonsters: Monster[] = [];
+
 // Other monsters that give skills
 const usefulMonsters: [Monster, Skill][] = [
   [$monster`anglerbush`, $skill`Ponzi Apparatus`],
