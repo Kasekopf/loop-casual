@@ -32,6 +32,7 @@ export const routing: string[] = [
   // Once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
   "Hidden City/Open Temple",
+  "Misc/Fortune",
 
   // Aim for remaining pygmies
   "Hidden City/Bowling Skills",

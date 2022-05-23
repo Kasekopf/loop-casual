@@ -407,6 +407,16 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+    {
+      name: "Fortune",
+      after: ["Hidden City/Open City"],
+      completed: () => get("_clanFortuneBuffUsed") || !have($item`Clan VIP Lounge key`),
+      priority: () => OverridePriority.Free,
+      do: () => {
+        cliExecute("fortune buff susie");
+      },
+      limit: { tries: 1 },
+    },
   ],
 };
 
