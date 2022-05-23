@@ -417,6 +417,20 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
     },
+    {
+      name: "Dog Chow",
+      after: [],
+      ready: () => have($item`Ghost Dog Chow`) && familiarWeight($familiar`Grey Goose`) < 6,
+      completed: () => false,
+      priority: () => OverridePriority.BadGoose,
+      do: () => {
+        use($item`Ghost Dog Chow`);
+        if (familiarWeight($familiar`Grey Goose`) >= 6) use($item`Ghost Dog Chow`);
+      },
+      outfit: { familiar: $familiar`Grey Goose` },
+      freeaction: true,
+      limit: { soft: 20 },
+    },
   ],
 };
 

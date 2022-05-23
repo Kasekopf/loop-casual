@@ -10,6 +10,7 @@ export const routing: string[] = [
   "Misc/Acquire Birch Battery",
   "Keys/Deck",
   "Pull/All",
+  "Misc/Dog Chow", // Eat if there are no other options
 
   // Get infinite loop
   "McLargeHuge/Ore Mountain",
