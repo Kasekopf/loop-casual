@@ -55,6 +55,7 @@ const heroKeys: KeyTask[] = [
     possible: () => !get("dailyDungeonDone") && !get("_dailyDungeonMalwareUsed"),
     after: ["Pull/daily dungeon malware"],
     completed: () => get("dailyDungeonDone") || get("_dailyDungeonMalwareUsed"),
+    priority: () => OverridePriority.BadGoose,
     prepare: () => {
       if (have($item`Pick-O-Matic lockpicks`)) return;
       if (have($item`Platinum Yendorian Express Card`)) return;
@@ -63,7 +64,7 @@ const heroKeys: KeyTask[] = [
     },
     do: $location`The Daily Dungeon`,
     post: () => {
-      if (itemAmount($item`daily dungeon malware`) < get("_loop_casual_malware_amount", 0))
+      if (itemAmount($item`daily dungeon malware`) < get("_loop_gyou_malware_amount", 0))
         set("_dailyDungeonMalwareUsed", true);
       uneffect($effect`Apathy`);
     },
@@ -95,6 +96,7 @@ const heroKeys: KeyTask[] = [
       if (have($item`Platinum Yendorian Express Card`)) return;
       if (have($item`skeleton bone`) && have($item`loose teeth`)) cliExecute("make * skeleton key");
     },
+    priority: () => OverridePriority.BadGoose,
     do: $location`The Daily Dungeon`,
     post: () => {
       uneffect($effect`Apathy`);
@@ -274,6 +276,7 @@ export const KeysQuest: Quest = {
             itemAmount($item`green pixel`)
           ) >=
           30,
+      priority: () => OverridePriority.BadGoose,
       do: $location`8-Bit Realm`,
       outfit: { equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().banish($monster`Bullet Bill`).kill(),
