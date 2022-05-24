@@ -799,6 +799,9 @@ export class AbsorptionTargets {
         this.markObtained(skill);
       }
     }
+
+    // Ignore this monster for now to avoid error
+    this.markAbsorbed($monster`oil baron`);
   }
 }
 
