@@ -62,7 +62,7 @@ export const MiscQuest: Quest = {
     {
       name: "Island Scrip",
       after: ["Unlock Beach"],
-      ready: () => myMeat() >= 500,
+      ready: () => myMeat() >= 6000 || (step("questL11Black") >= 4 && myMeat() >= 500),
       completed: () =>
         itemAmount($item`Shore Inc. Ship Trip Scrip`) >= 3 ||
         have($item`dinghy plans`) ||

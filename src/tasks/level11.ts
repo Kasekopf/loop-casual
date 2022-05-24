@@ -78,7 +78,7 @@ const Desert: Task[] = [
   {
     name: "Scrip",
     after: ["Misc/Unlock Beach"],
-    ready: () => myMeat() >= 500,
+    ready: () => myMeat() >= 6000 || (step("questL11Black") >= 4 && myMeat() >= 500),
     completed: () => have($item`Shore Inc. Ship Trip Scrip`) || have($item`UV-resistant compass`),
     do: $location`The Shore, Inc. Travel Agency`,
     choices: { 793: 1 },
