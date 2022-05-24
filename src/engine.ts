@@ -3,6 +3,7 @@ import {
   autosellPrice,
   drink,
   eat,
+  equippedItem,
   familiarWeight,
   getInventory,
   Item,
@@ -16,8 +17,10 @@ import {
   myMp,
   myPath,
   myTurncount,
+  print,
   restoreHp,
   restoreMp,
+  Slot,
   toInt,
   use,
 } from "kolmafia";
@@ -70,7 +73,7 @@ import {
 } from "./resources";
 import { AbsorptionTargets } from "./tasks/absorb";
 import { Prioritization } from "./priority";
-import { ponderPrediction } from "./main";
+import { args, ponderPrediction } from "./main";
 import { flyersDone } from "./tasks/level12";
 
 export class Engine {
@@ -292,6 +295,11 @@ export class Engine {
 
     // Do any task-specific preparation
     if (task.prepare) task.prepare();
+
+    if (args.verboseequip) {
+      const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
+      print(`Equipped: ${equipped.join(", ")}`);
+    }
 
     // Do the task
     if (typeof task.do === "function") {

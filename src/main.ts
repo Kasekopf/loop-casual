@@ -60,6 +60,9 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
     help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
     default: 20,
   }),
+  verboseequip: Args.flag({
+    help: "Print out equipment usage before each task.",
+  }),
 });
 export function main(command?: string): void {
   sinceKolmafiaRevision(26394);
