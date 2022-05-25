@@ -40,7 +40,7 @@ const Challenges: Task[] = [
       runChoice(1);
       runChoice(6);
     },
-    outfit: { modifier: "init" },
+    outfit: { modifier: "init", familiar: $familiar`Oily Woim` },
     limit: { tries: 1 },
     freeaction: true,
   },
