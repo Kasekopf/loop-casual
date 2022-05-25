@@ -22,7 +22,7 @@ import {
   uneffect,
 } from "libram";
 import { CombatStrategy } from "../combat";
-import { Quest, Task } from "./structure";
+import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 
 export enum Keys {
@@ -53,9 +53,13 @@ const heroKeys: KeyTask[] = [
   {
     which: Keys.Malware,
     possible: () => !get("dailyDungeonDone") && !get("_dailyDungeonMalwareUsed"),
+    ready: () =>
+      step("questL13Final") !== -1 ||
+      (have($item`Pick-O-Matic lockpicks`) &&
+        have($item`ring of Detect Boring Doors`) &&
+        have($item`eleven-foot pole`)),
     after: ["Pull/daily dungeon malware"],
     completed: () => get("dailyDungeonDone") || get("_dailyDungeonMalwareUsed"),
-    priority: () => OverridePriority.BadGoose,
     prepare: () => {
       if (have($item`Pick-O-Matic lockpicks`)) return;
       if (have($item`Platinum Yendorian Express Card`)) return;
@@ -89,6 +93,11 @@ const heroKeys: KeyTask[] = [
   {
     which: Keys.Dungeon,
     possible: () => !get("dailyDungeonDone"),
+    ready: () =>
+      step("questL13Final") !== -1 ||
+      (have($item`Pick-O-Matic lockpicks`) &&
+        have($item`ring of Detect Boring Doors`) &&
+        have($item`eleven-foot pole`)),
     after: ["Daily Dungeon Malware"],
     completed: () => get("dailyDungeonDone"),
     prepare: () => {
@@ -96,7 +105,6 @@ const heroKeys: KeyTask[] = [
       if (have($item`Platinum Yendorian Express Card`)) return;
       if (have($item`skeleton bone`) && have($item`loose teeth`)) cliExecute("make * skeleton key");
     },
-    priority: () => OverridePriority.BadGoose,
     do: $location`The Daily Dungeon`,
     post: () => {
       uneffect($effect`Apathy`);
@@ -265,7 +273,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Digital Key",
-      after: ["Open 8-Bit"],
+      after: ["Open 8-Bit", "Tower/Coronation"],
       completed: () =>
         get("nsTowerDoorKeysUsed").includes("digital key") ||
         have($item`digital key`) ||
@@ -276,7 +284,6 @@ export const KeysQuest: Quest = {
             itemAmount($item`green pixel`)
           ) >=
           30,
-      priority: () => OverridePriority.BadGoose,
       do: $location`8-Bit Realm`,
       outfit: { equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().banish($monster`Bullet Bill`).kill(),
