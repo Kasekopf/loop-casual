@@ -36,7 +36,7 @@ import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
 
-const time_property = "_loop_casual_first_start";
+const time_property = "_loop_gyou_first_start";
 
 export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
   sim: Args.flag({ help: "Check if you have the requirements to run this script" }),
@@ -149,6 +149,7 @@ export function main(command?: string): void {
       )} since first run today started`,
       "purple"
     );
+  print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
 }
 
 function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSource?] | undefined {

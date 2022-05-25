@@ -156,6 +156,10 @@ class PullStrategy {
       }
     }
   }
+
+  public pullsUsed(): number {
+    return get("_roninStoragePulls").split(",").length;
+  }
 }
 
 export const pullStrategy = new PullStrategy(pulls);
