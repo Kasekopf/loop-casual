@@ -29,7 +29,7 @@ import {
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
-import { absorptionTargets } from "./tasks/absorb";
+import { absorptionTargets, remainingAdvAbsorbs, remainingReprocess } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 import { Args } from "./args";
 import { checkRequirements } from "./sim";
@@ -150,6 +150,10 @@ export function main(command?: string): void {
       "purple"
     );
   print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
+  if (myPath() === "Grey You") {
+    print(`   Monsters remaining: ${Array.from(remainingAdvAbsorbs()).join(", ")}`, "purple");
+    print(`   Reprocess remaining: ${Array.from(remainingReprocess()).join(", ")}`, "purple");
+  }
 }
 
 function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSource?] | undefined {

@@ -661,6 +661,7 @@ export class AbsorptionTargets {
         this.targetsBySkill.set(target[1], target[0]);
       }
     }
+
     for (const location of Location.all()) {
       Object.entries(appearanceRates(location))
         .filter((i) => i[1] > 0)
@@ -745,34 +746,13 @@ export class AbsorptionTargets {
   }
 
   public updateAbsorbed(): void {
-    const charsheet = visitUrl("charsheet.php");
-    let match;
-
-    // Mark down all absorbed monsters that didn't give skills
-    const monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
-    do {
-      match = monster_regex.exec(charsheet);
-      if (match) {
-        const name = match[1]
-          .replace(/^a /g, "")
-          .replace(/^an /g, "")
-          .replace(/^some /g, "")
-          .replace(/^the /g, "")
-          .replace(/^The /g, "");
-        this.markAbsorbed(Monster.get(name));
-      }
-    } while (match);
-
-    // Mark down all absorbed monsters that gave skills
-    const skill_regex = new RegExp(
-      /<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g
-    );
-    do {
-      match = skill_regex.exec(charsheet);
-      if (match) {
-        this.markObtained(Skill.get(match[1]));
-      }
-    } while (match);
+    const absorbs = parseAbsorbs();
+    for (const monster of absorbs[0]) {
+      this.markAbsorbed(monster);
+    }
+    for (const skill of absorbs[1]) {
+      this.markObtained(skill);
+    }
   }
 
   public ignoreUselessAbsorbs(): void {
@@ -813,6 +793,55 @@ export const absorptionTargets = new AbsorptionTargets(reprocessTargets, [
   ...adventureMonsters,
   ...usefulMonsters,
 ]);
+
+function parseAbsorbs(): [Monster[], Skill[]] {
+  const charsheet = visitUrl("charsheet.php");
+  const result: [Monster[], Skill[]] = [[], []];
+  let match;
+
+  // Mark down all absorbed monsters that didn't give skills
+  const monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
+  do {
+    match = monster_regex.exec(charsheet);
+    if (match) {
+      const name = match[1]
+        .replace(/^a /g, "")
+        .replace(/^an /g, "")
+        .replace(/^some /g, "")
+        .replace(/^the /g, "")
+        .replace(/^The /g, "");
+      result[0].push(Monster.get(name));
+    }
+  } while (match);
+
+  // Mark down all absorbed monsters that gave skills
+  const skill_regex = new RegExp(
+    /<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g
+  );
+  do {
+    match = skill_regex.exec(charsheet);
+    if (match) {
+      result[1].push(Skill.get(match[1]));
+    }
+  } while (match);
+  return result;
+}
+
+export function remainingAdvAbsorbs(): Monster[] {
+  const absorbs = new Set<Monster>(parseAbsorbs()[0]);
+  return [...reprocessTargets, ...adventureMonsters].filter((mon) => !absorbs.has(mon));
+}
+
+export function remainingReprocess(): Monster[] {
+  const reprocessed = new Set<Monster>(
+    get("gooseReprocessed")
+      .split(",")
+      .map((id) => parseInt(id))
+      .filter((id) => id > 0)
+      .map((id) => Monster.get(id))
+  );
+  return [...reprocessTargets, ...adventureMonsters].filter((mon) => !reprocessed.has(mon));
+}
 
 export const AbsorbQuest: Quest = {
   name: "Absorb",
