@@ -11,6 +11,7 @@ import {
   putCloset,
   runChoice,
   Skill,
+  use,
   visitUrl,
 } from "kolmafia";
 import {
@@ -485,6 +486,9 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Dungeons of Doom`,
     after: [],
+    prepare: () => {
+      if (have($item`plus sign`)) use($item`plus sign`);
+    },
     ready: () => get("lastPlusSignUnlock") === myAscensions(),
     choices: { 25: 3 },
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
