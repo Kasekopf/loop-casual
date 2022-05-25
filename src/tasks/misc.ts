@@ -122,8 +122,7 @@ export const MiscQuest: Quest = {
     {
       name: "Voting",
       after: [],
-      ready: () => false,
-      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || true,
+      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [

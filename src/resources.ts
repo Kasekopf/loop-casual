@@ -1,6 +1,15 @@
-import { cliExecute, Familiar, Item, Monster, Skill } from "kolmafia";
-import { $item, $skill, get, getBanishedMonsters, have, Macro } from "libram";
-import { debug } from "./lib";
+import { cliExecute, Familiar, Item, itemAmount, Monster, Skill, totalTurnsPlayed } from "kolmafia";
+import {
+  $item,
+  $monster,
+  $skill,
+  get,
+  getBanishedMonsters,
+  getKramcoWandererChance,
+  have,
+  Macro,
+} from "libram";
+import { atLevel, debug } from "./lib";
 
 export interface Resource {
   name: string;
@@ -93,7 +102,40 @@ export interface WandererSource extends Resource {
   chance: () => number;
 }
 
-export const wandererSources: WandererSource[] = [];
+export const wandererSources: WandererSource[] = [
+  {
+    name: "Voted",
+    available: () =>
+      have($item`"I Voted!" sticker`) &&
+      totalTurnsPlayed() % 11 === 1 &&
+      get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
+      get("_voteFreeFights") < 3 &&
+      atLevel(5),
+    equip: $item`"I Voted!" sticker`,
+    monster:
+      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    chance: () => 1, // when available
+  },
+  {
+    name: "Cursed Magnifying Glass",
+    available: () =>
+      have($item`cursed magnifying glass`) &&
+      get("_voidFreeFights") < 5 &&
+      get("cursedMagnifyingGlassCount") >= 13 &&
+      (itemAmount($item`barrel of gunpowder`) >= 5 || // Done with cmg + meteor trick
+        get("sidequestLighthouseCompleted") !== "none"),
+    equip: $item`cursed magnifying glass`,
+    monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
+    chance: () => 1, // when available
+  },
+  {
+    name: "Kramco",
+    available: () => have($item`Kramco Sausage-o-Matic™`) && atLevel(5),
+    equip: $item`Kramco Sausage-o-Matic™`,
+    monster: $monster`sausage goblin`,
+    chance: () => getKramcoWandererChance(),
+  },
+];
 
 export function canChargeVoid(): boolean {
   return get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13;
