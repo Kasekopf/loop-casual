@@ -55,6 +55,11 @@ export const routing: string[] = [
   "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
   "Palindome/Cold Snake",
 
+  // Open Hidden City with Sue buff
+  "Hidden/Open Office",
+  "Hidden/Open Hospital",
+  "Hidden/Open Apartment",
+
   // Knock down -combats
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
