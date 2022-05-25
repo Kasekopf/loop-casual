@@ -81,7 +81,11 @@ const heroKeys: KeyTask[] = [
       692: () => {
         if (have($item`Pick-O-Matic lockpicks`)) return 3;
         if (have($item`Platinum Yendorian Express Card`)) return 7;
-        if (itemAmount($item`skeleton key`) > 1) return 2;
+        if (
+          itemAmount($item`skeleton key`) > 1 ||
+          (itemAmount($item`skeleton bone`) > 1 && itemAmount($item`loose teeth`) > 1)
+        )
+          return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
           return 2;
         return 3;
@@ -118,7 +122,11 @@ const heroKeys: KeyTask[] = [
       692: () => {
         if (have($item`Pick-O-Matic lockpicks`)) return 3;
         if (have($item`Platinum Yendorian Express Card`)) return 7;
-        if (itemAmount($item`skeleton key`) > 1) return 2;
+        if (
+          itemAmount($item`skeleton key`) > 1 ||
+          (itemAmount($item`skeleton bone`) > 1 && itemAmount($item`loose teeth`) > 1)
+        )
+          return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
           return 2;
         return 3;

@@ -278,6 +278,7 @@ const Pyramid: Task[] = [
     after: ["Use Bomb"],
     completed: () => step("questL11Pyramid") === 999,
     do: () => visitUrl("place.php?whichplace=pyramid&action=pyramid_state1a"),
+    outfit: { familiar: $familiar`Gelatinous Cubeling` }, // Ensure we get equipment
     combat: new CombatStrategy(true)
       .macro(
         new Macro()
