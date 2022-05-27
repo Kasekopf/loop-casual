@@ -61,10 +61,10 @@ const heroKeys: KeyTask[] = [
     after: ["Pull/daily dungeon malware"],
     completed: () => get("dailyDungeonDone") || get("_dailyDungeonMalwareUsed"),
     prepare: () => {
+      set("_loop_gyou_malware_amount", itemAmount($item`daily dungeon malware`));
       if (have($item`Pick-O-Matic lockpicks`)) return;
       if (have($item`Platinum Yendorian Express Card`)) return;
       if (have($item`skeleton bone`) && have($item`loose teeth`)) cliExecute("make * skeleton key");
-      set("_loop_gyou_malware_amount", itemAmount($item`daily dungeon malware`));
     },
     do: $location`The Daily Dungeon`,
     post: () => {
