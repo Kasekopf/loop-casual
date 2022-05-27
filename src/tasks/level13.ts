@@ -27,7 +27,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
-import { absorptionTargets, remainingAdvAbsorbs, remainingReprocess } from "./absorb";
+import { absorptionTargets } from "./absorb";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -438,8 +438,16 @@ export const TowerQuest: Quest = {
       priority: () => OverridePriority.Last,
       completed: () => step("questL13Final") === 999 || args.class === 0 || myPath() !== "Grey You",
       do: () => {
-        print(`Monsters remaining: ${Array.from(remainingAdvAbsorbs()).join(", ")}`, "purple");
-        print(`Reprocess remaining: ${Array.from(remainingReprocess()).join(", ")}`, "purple");
+        print(
+          `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
+          "purple"
+        );
+        print(
+          `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(
+            ", "
+          )}`,
+          "purple"
+        );
         visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
         visitUrl("main.php");
         runChoice(args.class);

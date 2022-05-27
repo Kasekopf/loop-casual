@@ -57,7 +57,9 @@ export class Prioritization {
           (next_monster_strategy === MonsterStrategy.Ignore ||
             next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
             next_monster_strategy === MonsterStrategy.Banish) &&
-          !absorptionTargets.isTarget(next_monster);
+          !absorptionTargets.isTarget(next_monster) &&
+          (!absorptionTargets.isReprocessTarget(next_monster) ||
+            familiarWeight($familiar`Grey Goose`) < 6);
 
         const others_useless =
           task_combat.can(MonsterStrategy.Ignore) ||
@@ -66,6 +68,7 @@ export class Prioritization {
 
         const others_useful =
           absorptionTargets.hasTargets(task.do) ||
+          absorptionTargets.hasReprocessTargets(task.do) ||
           task_combat.can(MonsterStrategy.Kill) ||
           task_combat.can(MonsterStrategy.KillFree) ||
           task_combat.can(MonsterStrategy.KillHard) ||
@@ -142,11 +145,7 @@ function needsChargedGoose(task: Task, absorptionTargets: AbsorptionTargets): bo
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (!outfit_spec) return true;
     if (outfit_spec.familiar === $familiar`Grey Goose`) return true;
-    if (
-      !outfit_spec.familiar &&
-      (!outfit_spec.modifier ||
-        (!outfit_spec.modifier.includes("meat") && !outfit_spec.modifier.includes("init")))
-    )
+    if (!outfit_spec.familiar && (!outfit_spec.modifier || !outfit_spec.modifier.includes("meat")))
       return true;
   }
   return false;

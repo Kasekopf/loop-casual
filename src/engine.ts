@@ -4,7 +4,6 @@ import {
   drink,
   eat,
   equippedItem,
-  familiarWeight,
   getInventory,
   Item,
   Location,
@@ -173,16 +172,15 @@ export class Engine {
       // (if we have teleportitis, everything is a possible target)
       const absorb_targets =
         task.do instanceof Location
-          ? this.absorptionTargets.remaining(have($effect`Teleportitis`) ? undefined : task.do)
+          ? this.absorptionTargets.remainingReprocess(
+              have($effect`Teleportitis`) ? undefined : task.do
+            )
           : [];
       for (const monster of absorb_targets) {
         if (this.absorptionTargets.isReprocessTarget(monster)) {
-          if (familiarWeight($familiar`Grey Goose`) >= 6 && outfit.equip($familiar`Grey Goose`)) {
-            task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
-            debug(`Target x2: ${monster.name}`, "purple");
-          } else {
-            debug(`Target x2 (no reprocess): ${monster.name}`, "purple");
-          }
+          outfit.equip($familiar`Grey Goose`);
+          task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
+          debug(`Target x2: ${monster.name}`, "purple");
         } else {
           debug(`Target: ${monster.name}`, "purple");
         }

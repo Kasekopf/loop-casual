@@ -28,7 +28,7 @@ import {
   Macro,
 } from "libram";
 import { CombatStrategy } from "../combat";
-import { atLevel, debug } from "../lib";
+import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
 
@@ -518,7 +518,7 @@ const absorbTasks: AbsorbTask[] = [
 ];
 
 // All monsters that give adventures upon absorption
-const reprocessTargets: Set<Monster> = new Set([
+const reprocessTargets: Monster[] = [
   // 10 adv monsters
   $monster`1335 HaXx0r`,
   $monster`Alphabet Giant`,
@@ -595,8 +595,7 @@ const reprocessTargets: Set<Monster> = new Set([
   $monster`swarm of Knob lice`,
   $monster`W imp`,
   $monster`warwelf`,
-]);
-const adventureMonsters: Monster[] = [];
+];
 
 // Other monsters that give skills
 const usefulMonsters: [Monster, Skill][] = [
@@ -641,118 +640,169 @@ const usefulMonsters: [Monster, Skill][] = [
   [$monster`white lion`, $skill`Piezoelectric Honk`],
 ];
 
-// A many-to-many map to track the remaining monsters at each location
-export class AbsorptionTargets {
-  private targetsByLoc = new Map<Location, Set<Monster>>();
-  private repTargetsByLoc = new Map<Location, Set<Monster>>();
-  private locsByTarget = new Map<Monster, Set<Location>>();
-  private targetsBySkill = new Map<Skill, Monster>();
-  private absorbed = new Set<Monster>();
-  private repTargets = new Set<Monster>();
+// A many-to-many map used to track the remaining monsters at each location
+class ManyToMany<A, B> {
+  private aByB = new Map<B, Set<A>>();
+  private bByA = new Map<A, Set<B>>();
 
-  constructor(reprocessTargests: Set<Monster>, targets: (Monster | [Monster, Skill])[]) {
-    targets = targets.concat(Array.from(reprocessTargests));
-    this.repTargets = reprocessTargests;
-    const target_set = new Set();
-    for (const target of targets) {
-      if (target instanceof Monster) target_set.add(target);
-      else {
-        target_set.add(target[0]);
-        this.targetsBySkill.set(target[1], target[0]);
-      }
+  public add(a: A, b: B): void {
+    if (!this.aByB.has(b)) this.aByB.set(b, new Set());
+    this.aByB.get(b)?.add(a);
+    if (!this.bByA.has(a)) this.bByA.set(a, new Set());
+    this.bByA.get(a)?.add(b);
+  }
+
+  public delete(a: A): void {
+    for (const b of this.bByA.get(a) ?? []) {
+      this.aByB.get(b)?.delete(a);
+    }
+    this.bByA.delete(a);
+  }
+
+  public hasB(b: B): boolean {
+    return (this.aByB.get(b)?.size ?? 0) > 0;
+  }
+
+  public remaining(b?: B): IterableIterator<A> | Set<A> | A[] {
+    // Return all remaining A in the many-to-many map
+    if (b === undefined) {
+      return this.bByA.keys();
+    } else {
+      return this.aByB.get(b) ?? [];
+    }
+  }
+
+  public hasA(a: A): boolean {
+    return this.bByA.has(a);
+  }
+
+  public empty(): boolean {
+    return this.bByA.size === 0;
+  }
+}
+
+export class AbsorptionTargets {
+  private absorb = new ManyToMany<Monster, Location>();
+  private reprocess = new ManyToMany<Monster, Location>();
+  private targetsBySkill = new Map<Skill, Monster>();
+
+  constructor(reprocess: Monster[], absorb: [Monster, Skill][]) {
+    const reprocess_set = new Set(reprocess);
+    const absorb_set = new Set<Monster>();
+    for (const target of absorb) {
+      absorb_set.add(target[0]);
+      this.targetsBySkill.set(target[1], target[0]);
     }
 
     for (const location of Location.all()) {
       Object.entries(appearanceRates(location))
         .filter((i) => i[1] > 0)
         .map((i) => Monster.get<Monster>(i[0]))
-        .filter((m) => target_set.has(m))
-        .map((monster) => this.add(monster, location));
+        .map((monster) => {
+          if (reprocess_set.has(monster)) {
+            this.absorb.add(monster, location);
+            this.reprocess.add(monster, location);
+          } else if (absorb_set.has(monster)) {
+            this.absorb.add(monster, location);
+          }
+        });
     }
 
     // Include janitor at all possible locations
-    this.add($monster`pygmy janitor`, $location`The Hidden Apartment Building`);
-    this.add($monster`pygmy janitor`, $location`The Hidden Bowling Alley`);
-    this.add($monster`pygmy janitor`, $location`The Hidden Hospital`);
-    this.add($monster`pygmy janitor`, $location`The Hidden Office Building`);
-    this.add($monster`pygmy janitor`, $location`The Hidden Park`);
-  }
-
-  add(monster: Monster, location: Location) {
-    if (!this.targetsByLoc.has(location)) this.targetsByLoc.set(location, new Set());
-    this.targetsByLoc.get(location)?.add(monster);
-    if (this.repTargets.has(monster)) {
-      if (!this.repTargetsByLoc.has(location)) this.repTargetsByLoc.set(location, new Set());
-      this.repTargetsByLoc.get(location)?.add(monster);
-    }
-    if (!this.locsByTarget.has(monster)) this.locsByTarget.set(monster, new Set());
-    this.locsByTarget.get(monster)?.add(location);
-  }
-
-  delete(monster: Monster) {
-    for (const loc of this.locsByTarget.get(monster) ?? []) {
-      this.targetsByLoc.get(loc)?.delete(monster);
-      this.repTargetsByLoc.get(loc)?.delete(monster);
-    }
-    this.locsByTarget.delete(monster);
+    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Apartment Building`);
+    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Bowling Alley`);
+    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Hospital`);
+    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Office Building`);
+    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Park`);
   }
 
   public completed(): boolean {
     // Return true if we have absorbed all desired monsters
-    return this.locsByTarget.size === 0;
+    return this.absorb.empty();
   }
 
-  public remaining(location?: Location): IterableIterator<Monster> | Set<Monster> | Monster[] {
+  public remainingReprocess(
+    location?: Location
+  ): IterableIterator<Monster> | Set<Monster> | Monster[] {
     // Return all remaining desired and unabsorbed monsters, in this location or everywhere
-    if (location !== undefined) {
-      return this.targetsByLoc.get(location) ?? [];
-    } else {
-      return this.locsByTarget.keys();
-    }
+    return this.reprocess.remaining(location);
+  }
+
+  public remainingAbsorbs(
+    location?: Location
+  ): IterableIterator<Monster> | Set<Monster> | Monster[] {
+    // Return all remaining desired and unabsorbed monsters, in this location or everywhere
+    return this.absorb.remaining(location);
   }
 
   public hasTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster
-    return (this.targetsByLoc.get(location)?.size ?? 0) > 0;
+    return this.absorb.hasB(location);
   }
 
   public hasReprocessTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
-    return (this.repTargetsByLoc.get(location)?.size ?? 0) > 0;
+    return this.reprocess.hasB(location);
   }
 
   public isTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unabsorbed
-    return this.locsByTarget.has(monster);
+    return this.absorb.hasA(monster);
   }
 
   public isReprocessTarget(monster: Monster): boolean {
-    return this.repTargets.has(monster) && !this.absorbed.has(monster);
+    // Return true if the monster is desired and unreprocessed
+    return this.reprocess.hasA(monster);
   }
 
-  public markAbsorbed(monster: Monster | undefined): void {
-    // if (monster) print(monster?.name);
-    if (monster !== undefined) {
-      this.delete(monster);
-      if (!this.absorbed.has(monster)) {
-        // debug(`Absorbed: ${monster.name}`, "purple");
-        this.absorbed.add(monster);
-      }
-    }
+  markAbsorbed(monster: Monster | undefined): void {
+    if (monster !== undefined) this.absorb.delete(monster);
   }
 
-  public markObtained(skill: Skill): void {
+  markObtained(skill: Skill): void {
     this.markAbsorbed(this.targetsBySkill.get(skill));
   }
 
+  markReprocessed(monster: Monster) {
+    this.reprocess.delete(monster);
+  }
+
   public updateAbsorbed(): void {
-    const absorbs = parseAbsorbs();
-    for (const monster of absorbs[0]) {
-      this.markAbsorbed(monster);
-    }
-    for (const skill of absorbs[1]) {
-      this.markObtained(skill);
-    }
+    const charsheet = visitUrl("charsheet.php");
+    let match;
+
+    // Mark down all absorbed monsters that didn't give skills
+    const monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
+    do {
+      match = monster_regex.exec(charsheet);
+      if (match) {
+        const name = match[1]
+          .replace(/^a /g, "")
+          .replace(/^an /g, "")
+          .replace(/^some /g, "")
+          .replace(/^the /g, "")
+          .replace(/^The /g, "");
+        this.markAbsorbed(Monster.get(name));
+      }
+    } while (match);
+
+    // Mark down all absorbed monsters that gave skills
+    const skill_regex = new RegExp(
+      /<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g
+    );
+    do {
+      match = skill_regex.exec(charsheet);
+      if (match) {
+        this.markObtained(Skill.get(match[1]));
+      }
+    } while (match);
+
+    get("gooseReprocessed")
+      .split(",")
+      .map((id) => parseInt(id))
+      .filter((id) => id > 0)
+      .map((id) => Monster.get(id))
+      .map((monster) => this.markReprocessed(monster));
   }
 
   public ignoreUselessAbsorbs(): void {
@@ -772,76 +822,16 @@ export class AbsorptionTargets {
       }
     }
 
-    // Ignore the monsters that are not our moonsign
-    if (!knollAvailable()) this.markAbsorbed($monster`revolving bugbear`);
-    if (!canadiaAvailable()) this.markAbsorbed($monster`cloud of disembodied whiskers`);
-    if (!gnomadsAvailable()) this.markAbsorbed($monster`vicious gnauga`);
-
     // Ignore skills after the NS is defeated
     if (step("questL13Final") > 11) {
       for (const skill of this.targetsBySkill.keys()) {
         this.markObtained(skill);
       }
     }
-
-    // Ignore this monster for now to avoid error
-    this.markAbsorbed($monster`oil baron`);
   }
 }
 
-export const absorptionTargets = new AbsorptionTargets(reprocessTargets, [
-  ...adventureMonsters,
-  ...usefulMonsters,
-]);
-
-function parseAbsorbs(): [Monster[], Skill[]] {
-  const charsheet = visitUrl("charsheet.php");
-  const result: [Monster[], Skill[]] = [[], []];
-  let match;
-
-  // Mark down all absorbed monsters that didn't give skills
-  const monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
-  do {
-    match = monster_regex.exec(charsheet);
-    if (match) {
-      const name = match[1]
-        .replace(/^a /g, "")
-        .replace(/^an /g, "")
-        .replace(/^some /g, "")
-        .replace(/^the /g, "")
-        .replace(/^The /g, "");
-      result[0].push(Monster.get(name));
-    }
-  } while (match);
-
-  // Mark down all absorbed monsters that gave skills
-  const skill_regex = new RegExp(
-    /<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g
-  );
-  do {
-    match = skill_regex.exec(charsheet);
-    if (match) {
-      result[1].push(Skill.get(match[1]));
-    }
-  } while (match);
-  return result;
-}
-
-export function remainingAdvAbsorbs(): Monster[] {
-  const absorbs = new Set<Monster>(parseAbsorbs()[0]);
-  return [...reprocessTargets, ...adventureMonsters].filter((mon) => !absorbs.has(mon));
-}
-
-export function remainingReprocess(): Monster[] {
-  const reprocessed = new Set<Monster>(
-    get("gooseReprocessed")
-      .split(",")
-      .map((id) => parseInt(id))
-      .filter((id) => id > 0)
-      .map((id) => Monster.get(id))
-  );
-  return [...reprocessTargets, ...adventureMonsters].filter((mon) => !reprocessed.has(mon));
-}
+export const absorptionTargets = new AbsorptionTargets(reprocessTargets, usefulMonsters);
 
 export const AbsorbQuest: Quest = {
   name: "Absorb",
@@ -862,12 +852,9 @@ export const AbsorbQuest: Quest = {
       // Add a last task that tracks if all monsters have been absorbed
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
+      ready: () => false,
       completed: () => absorptionTargets.completed(),
       do: (): void => {
-        debug("Remaining monsters:", "red");
-        for (const monster of absorptionTargets.remaining()) {
-          debug(`${monster.name}`, "red");
-        }
         throw "Unable to absorb all target monsters";
       },
       limit: { tries: 1 },
