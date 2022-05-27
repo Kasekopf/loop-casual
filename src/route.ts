@@ -56,9 +56,9 @@ export const routing: string[] = [
   "Palindome/Cold Snake",
 
   // Open Hidden City with Sue buff
-  "Hidden/Open Office",
-  "Hidden/Open Hospital",
-  "Hidden/Open Apartment",
+  "Hidden City/Open Office",
+  "Hidden City/Open Hospital",
+  "Hidden City/Open Apartment",
 
   // Knock down -combats
   "Manor/Finish Floor2",
