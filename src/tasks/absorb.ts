@@ -862,3 +862,36 @@ export const AbsorbQuest: Quest = {
     },
   ],
 };
+
+export const ReprocessQuest: Quest = {
+  name: "Reprocess",
+  tasks: [
+    // Construct a full Task from each minimally-specified AbsorbTask.
+    ...absorbTasks.map((task): Task => {
+      const result = {
+        name: task.do.toString(),
+        completed: () => !absorptionTargets.hasReprocessTargets(task.do),
+        ...task,
+        after: [...task.after, `Absorb/${task.do.toString()}`],
+        ready: () =>
+          (task.ready === undefined || task.ready()) && familiarWeight($familiar`Grey Goose`) >= 6,
+        combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
+        limit: { soft: 20 },
+      };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
+    }),
+    {
+      // Add a last task that tracks if all monsters have been absorbed
+      name: "All",
+      after: absorbTasks.map((task) => task.do.toString()),
+      ready: () => false,
+      completed: () => absorptionTargets.completed(),
+      do: (): void => {
+        throw "Unable to reprocess all target monsters";
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+  ],
+};

@@ -17,7 +17,7 @@ import { TowerQuest } from "./level13";
 import { MiscQuest, WandQuest } from "./misc";
 import { PullQuest } from "./pulls";
 import { KeysQuest } from "./keys";
-import { AbsorbQuest } from "./absorb";
+import { AbsorbQuest, ReprocessQuest } from "./absorb";
 import { Task } from "./structure";
 
 export function all_tasks(): Task[] {
@@ -44,6 +44,7 @@ export function all_tasks(): Task[] {
     WarQuest,
     TowerQuest,
     AbsorbQuest,
+    ReprocessQuest,
   ];
 
   const result: Task[] = [];

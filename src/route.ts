@@ -90,6 +90,7 @@ export const routing: string[] = [
   "Bat/Finish",
   "Tower/Naughty Sorceress",
   "Absorb/All",
+  "Reprocess/All", // Return to locations if reprocessing was missed
 ];
 
 export function prioritize(tasks: Task[]): Task[] {
