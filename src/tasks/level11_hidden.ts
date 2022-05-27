@@ -337,7 +337,7 @@ const Bowling: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
-      .banish(...$monsters`pygmy janitor, pygmy orderlies`),
+      .banish(...$monsters`pygmy orderlies`),
     outfit: {
       modifier: "item",
     },
