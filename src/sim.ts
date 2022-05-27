@@ -1,5 +1,6 @@
 import {
   Familiar,
+  getCampground,
   getWorkshed,
   Item,
   mallPrice,
@@ -133,6 +134,11 @@ function buildIotmList(): Requirement[] {
     {
       thing: $skill`Summon Clip Art`,
       why: "For amulet coin (via familiar jacks)",
+      optional: true,
+    },
+    {
+      thing: new Hardcoded("haunted doghouse" in getCampground(), "haunted doghouse"),
+      why: "For ghost dog chow",
       optional: true,
     },
   ];
