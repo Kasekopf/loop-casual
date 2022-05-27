@@ -241,7 +241,7 @@ export class Outfit {
       // Run maximizer
       if (spec.modifier.includes("item")) {
         outfit.equip($familiar`Grey Goose`);
-        outfit.equip($item`protonic accelerator pack`);
+        if (!spec.modifier.includes("+combat")) outfit.equip($item`protonic accelerator pack`);
       }
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) {
@@ -259,8 +259,10 @@ export class Outfit {
     if (familiarWeight($familiar`Grey Goose`) < 6) {
       if (this.equip($familiar`Grey Goose`)) {
         this.equip($item`yule hatchet`);
-        if (!this.modifier || !this.modifier.includes("-combat"))
+        if (!this.modifier || !this.modifier.includes("-combat")) {
+          this.equip($item`ghostly reins`);
           this.equip($item`familiar scrapbook`);
+        }
       }
     } else if (
       (!have($item`eleven-foot pole`) ||
@@ -295,6 +297,7 @@ export class Outfit {
 
     if (!this.modifier) {
       // Default outfit
+      this.equip($item`giant yellow hat`);
       this.equip($item`ice crown`);
       this.equip($item`industrial fire extinguisher`);
       if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);

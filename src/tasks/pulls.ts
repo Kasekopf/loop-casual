@@ -50,6 +50,7 @@ export const pulls: PullSpec[] = [
         : itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2,
   },
   { pull: $item`mafia thumb ring`, optional: true },
+  { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
 ];
 
