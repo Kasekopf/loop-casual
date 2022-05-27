@@ -383,8 +383,8 @@ export const MiscQuest: Quest = {
       combat: new CombatStrategy().macro(
         new Macro()
           .tryItem($item`cosmic bowling ball`)
-          .tryItem("10769") // Arr, M80; "use Arr, M80" trys and fails to funksling
-          .tryItem("10769")
+          .step("if hascombatitem 10769;use Arr;endif;") // Arr, M80; "use Arr, M80" trys and fails to funksling
+          .step("if hascombatitem 10769;use Arr;endif;")
           .skill($skill`Pseudopod Slap`)
           .repeat()
       ),
