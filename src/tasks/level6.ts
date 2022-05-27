@@ -43,7 +43,15 @@ export const FriarQuest: Quest = {
     },
     {
       name: "Finish",
-      after: ["Heart", "Neck", "Elbow"],
+      after: [
+        "Heart",
+        "Neck",
+        "Elbow",
+        // Finish reprocessing first, since these zones close
+        "Reprocess/The Dark Heart of the Woods",
+        "Reprocess/The Dark Neck of the Woods",
+        "Reprocess/The Dark Elbow of the Woods",
+      ],
       completed: () => step("questL06Friar") === 999,
       do: () => visitUrl("friars.php?action=ritual&pwd"),
       limit: { tries: 1 },

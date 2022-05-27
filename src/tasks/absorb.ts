@@ -117,6 +117,18 @@ const absorbTasks: AbsorbTask[] = [
   },
   // Level 6
   {
+    do: $location`The Dark Heart of the Woods`,
+    after: ["Friar/Heart"],
+  },
+  {
+    do: $location`The Dark Neck of the Woods`,
+    after: ["Friar/Neck"],
+  },
+  {
+    do: $location`The Dark Elbow of the Woods`,
+    after: ["Friar/Elbow"],
+  },
+  {
     do: $location`Pandamonium Slums`,
     prepare: () => {
       if (step("questM10Azazel") === -1) {
@@ -882,7 +894,7 @@ export const ReprocessQuest: Quest = {
       return result;
     }),
     {
-      // Add a last task that tracks if all monsters have been absorbed
+      // Add a last task that tracks if all monsters have been reprocessed
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
       ready: () => false,
