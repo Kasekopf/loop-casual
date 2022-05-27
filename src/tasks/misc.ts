@@ -430,6 +430,22 @@ export const MiscQuest: Quest = {
       freeaction: true,
       limit: { soft: 20 },
     },
+    {
+      name: "Amulet Coin",
+      after: [],
+      completed: () =>
+        have($item`amulet coin`) ||
+        !have($skill`Summon Clip Art`) ||
+        get("tomeSummons") >= 3 ||
+        !have($familiar`Cornbeefadon`),
+      priority: () => OverridePriority.Free,
+      do: () => {
+        retrieveItem($item`box of Familiar Jacks`);
+        use($item`box of Familiar Jacks`);
+      },
+      outfit: { familiar: $familiar`Cornbeefadon` },
+      limit: { tries: 1 },
+    },
   ],
 };
 

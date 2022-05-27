@@ -306,8 +306,9 @@ const Nuns: Task[] = [
     do: $location`The Themthar Hills`,
     outfit: {
       modifier: "meat",
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin`, // Use amulet coin (if we have) to avoid using orb
     },
+    freecombat: true, // Do not equip cmg or carn plant
     combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`)).kill(),
     limit: { soft: 20 },
   },

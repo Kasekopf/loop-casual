@@ -1,5 +1,14 @@
-import { Familiar, getWorkshed, Item, mallPrice, print, printHtml, storageAmount } from "kolmafia";
-import { $familiar, $item, $monster, CombatLoversLocket, get, have } from "libram";
+import {
+  Familiar,
+  getWorkshed,
+  Item,
+  mallPrice,
+  print,
+  printHtml,
+  Skill,
+  storageAmount,
+} from "kolmafia";
+import { $familiar, $item, $monster, $skill, CombatLoversLocket, get, have } from "libram";
 import { pullStrategy } from "./tasks/pulls";
 
 class Hardcoded {
@@ -12,7 +21,7 @@ class Hardcoded {
   }
 }
 
-type Thing = Item | Familiar | Hardcoded;
+type Thing = Item | Familiar | Skill | Hardcoded;
 interface Requirement {
   thing: Thing | Thing[];
   why: string;
@@ -121,6 +130,11 @@ function buildIotmList(): Requirement[] {
       thing: $familiar`Vampire Vintner`,
       why: "Pygmy killing",
     },
+    {
+      thing: $skill`Summon Clip Art`,
+      why: "For amulet coin (via familiar jacks)",
+      optional: true,
+    },
   ];
 
   return requirements;
@@ -136,6 +150,11 @@ function buildMiscList(): Requirement[] {
     {
       thing: $familiar`Hobo Monkey`,
       why: "Meat drops",
+      optional: true,
+    },
+    {
+      thing: $familiar`Cornbeefadon`,
+      why: "For amulet coin, with clip art",
       optional: true,
     },
   ];
@@ -161,6 +180,7 @@ function buildPullList(): Requirement[] {
 function checkThing(thing: Thing): [boolean, string] {
   if (thing instanceof Hardcoded) return [thing.have, thing.name];
   if (thing instanceof Familiar) return [have(thing), thing.hatchling.name];
+  if (thing instanceof Skill) return [have(thing), thing.name];
   return [have(thing) || storageAmount(thing) > 0, thing.name];
 }
 

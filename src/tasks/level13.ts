@@ -360,7 +360,7 @@ export const TowerQuest: Quest = {
       },
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
-      outfit: { modifier: "meat" },
+      outfit: { modifier: "meat", equip: $items`amulet coin` },
       combat: new CombatStrategy(true).killHard(),
       limit: { tries: 2 },
     },
