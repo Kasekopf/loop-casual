@@ -218,7 +218,7 @@ export function checkRequirements(): void {
     ["Expensive Pulls (Optional)", buildPullList().filter((req) => req.optional)],
   ];
   printHtml(
-    "Checking your character... Legend: <font color='#888888'>Have</font> / <font color='red'>Missing & Required</font> / <font color='black'>Missing & Optional"
+    "Checking your character... Legend: <font color='#888888'>✓ Have</font> / <font color='red'>X Missing & Required</font> / <font color='black'>X Missing & Optional"
   );
   for (const [name, requirements] of categories) {
     if (requirements.length === 0) continue;
@@ -227,9 +227,10 @@ export function checkRequirements(): void {
     print(name, "blue");
     for (const [have_it, name, req] of requirements_info.sort((a, b) => a[1].localeCompare(b[1]))) {
       const color = have_it ? "#888888" : req.optional ? "black" : "red";
+      const symbol = have_it ? "✓" : "X";
       if (!have_it && req.optional) missing_optional++;
       if (!have_it && !req.optional) missing++;
-      print(`${name} - ${req.why}`, color);
+      print(`${symbol} ${name} - ${req.why}`, color);
     }
     print("");
   }
@@ -240,11 +241,11 @@ export function checkRequirements(): void {
       `You are missing ${missing} required things. This script will not yet work for you.`,
       "red"
     );
-    if (missing_optional > 0) print(`You are also missing ${missing} optional things.`);
+    if (missing_optional > 0) print(`You are also missing ${missing_optional} optional things.`);
   } else {
     if (missing_optional > 0) {
       print(
-        `You are missing ${missing} optional things. This script should work, but it could do better.`
+        `You are missing ${missing_optional} optional things. This script should work, but it could do better.`
       );
     } else {
       print(`You have everything! You are the shiniest star. This script should work great.`);

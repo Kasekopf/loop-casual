@@ -26,42 +26,45 @@ Run `loopgyou sim` to see "Is the script intended to work unmodified on my chara
 
 ```
 > loopgyou sim
-Checking your character... Legend: Have / Missing & Required / Missing & Optional
+Checking your character... Legend: ✓ Have / X Missing & Required / X Missing & Optional
 IoTMs
-baby camelCalf - Desert progress
-backup camera - Lobsterfrogmen, ML, init
-bottled Vampire Vintner - Pygmy killing
-Cargo Cultist Shorts - War outfit
-Clan VIP Lounge key - YRs, -combat
-combat lover's locket - Reminiscing
-combat lover's locket (Mountain man) - Reminiscing for Ore
-combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
-Cosmic bowling ball - Banishes, Pygmy killing
-grey gosling - Adventures
-industrial fire extinguisher - Ultrahydrated
-Monster Manuel - Checking for monster HP in combat macro
-shortest-order cook - Kill the Wall of Skin, initial exp
-unbreakable umbrella - -combat modifier, ML
-unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
-
-Expensive Pulls
-deck of lewd playing cards - Pull
-HOA regulation book - Pull
-old patched suit-pants - Pull
+✓ backup camera - Lobsterfrogmen, ML, init
+✓ bottled Vampire Vintner - Pygmy killing
+✓ Clan VIP Lounge key - YRs, -combat
+✓ combat lover's locket - Reminiscing
+✓ combat lover's locket (Mountain man) - Reminiscing for Ore
+✓ combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
+✓ Cosmic bowling ball - Banishes, Pygmy killing
+✓ grey gosling - Adventures
+✓ industrial fire extinguisher - Ultrahydrated
+✓ shortest-order cook - Kill the Wall of Skin, initial exp
+✓ unbreakable umbrella - -combat modifier, ML
+✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
 
 IoTMs (Optional)
-Cold medicine cabinet - QoL Equipment
-cursed magnifying glass - Lobsterfrogmen, delay
-Deck of Every Card - Get a key for the NS tower
-fresh coat of paint - Minor boosts in moxie sign
-miniature crystal ball - Monster prediction
-Powerful Glove - Pixels and lobsterfrogmen
-protonic accelerator pack - Wanderers
-SpinMaster™ lathe - Equipment
+✓ baby camelCalf - Desert progress
+✓ Cargo Cultist Shorts - War outfit
+✓ Cold medicine cabinet - QoL Equipment
+✓ cursed magnifying glass - Lobsterfrogmen, delay
+✓ Deck of Every Card - Get a key for the NS tower
+✓ fresh coat of paint - Minor boosts in moxie sign
+✓ haunted doghouse - For ghost dog chow
+✓ miniature crystal ball - Monster prediction
+✓ Powerful Glove - Pixels and lobsterfrogmen
+✓ protonic accelerator pack - Wanderers
+✓ SpinMaster™ lathe - Equipment
+✓ Summon Clip Art - For amulet coin (via familiar jacks)
 
 Miscellany (Optional)
-hobo monkey - Meat drops
-woim - Bonus initiative
+✓ Cornbeefadon - For amulet coin, with clip art
+✓ hobo monkey - Meat drops
+✓ woim - Bonus initiative
+
+Expensive Pulls (Optional)
+✓ deck of lewd playing cards - Pull
+✓ mafia thumb ring - Pull
+✓ old patched suit-pants - Pull
+✓ Space Trip safety headphones OR HOA regulation book - Pull
 
 You have everything! You are the shiniest star. This script should work great.
 ```
