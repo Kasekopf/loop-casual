@@ -726,6 +726,12 @@ export class AbsorptionTargets {
     this.absorb.add($monster`pygmy janitor`, $location`The Hidden Hospital`);
     this.absorb.add($monster`pygmy janitor`, $location`The Hidden Office Building`);
     this.absorb.add($monster`pygmy janitor`, $location`The Hidden Park`);
+
+    // Track the missing HiTS monster
+    this.absorb.add($monster`Little Man in the Canoe`, $location`none`);
+    this.absorb.add($monster`One-Eyed Willie`, $location`none`);
+    this.reprocess.add($monster`Little Man in the Canoe`, $location`none`);
+    this.reprocess.add($monster`One-Eyed Willie`, $location`none`);
   }
 
   public completed(): boolean {

@@ -210,7 +210,7 @@ export const MiscQuest: Quest = {
     {
       name: "Protonic Ghost",
       after: [],
-      completed: () => step("questL13Final") >= 0, // Stop after tower starts
+      completed: () => false,
       priority: () => OverridePriority.Always,
       ready: () => {
         if (!have($item`protonic accelerator pack`)) return false;
