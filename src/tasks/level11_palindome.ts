@@ -1,4 +1,14 @@
-import { canEquip, create, Item, itemAmount, myHash, runChoice, use, visitUrl } from "kolmafia";
+import {
+  canEquip,
+  create,
+  Item,
+  itemAmount,
+  myDaycount,
+  myHash,
+  runChoice,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -63,7 +73,10 @@ const Copperhead: Task[] = [
     name: "Bat Snake",
     after: ["Copperhead Start", "Bat/Use Sonar 1"],
     ready: () => shenItem($item`The Stankara Stone`),
-    completed: () => step("questL11Shen") === 999 || have($item`The Stankara Stone`),
+    completed: () =>
+      step("questL11Shen") === 999 ||
+      have($item`The Stankara Stone`) ||
+      (myDaycount() === 1 && step("questL11Shen") > 1),
     do: $location`The Batrat and Ratbat Burrow`,
     combat: new CombatStrategy().killHard($monster`Batsnake`).killItem(),
     outfit: { modifier: "item" },
@@ -74,7 +87,10 @@ const Copperhead: Task[] = [
     name: "Cold Snake",
     after: ["Copperhead Start", "McLargeHuge/Trapper Return"],
     ready: () => shenItem($item`The First Pizza`),
-    completed: () => step("questL11Shen") === 999 || have($item`The First Pizza`),
+    completed: () =>
+      step("questL11Shen") === 999 ||
+      have($item`The First Pizza`) ||
+      (myDaycount() === 1 && step("questL11Shen") > 3),
     do: $location`Lair of the Ninja Snowmen`,
     combat: new CombatStrategy().killHard($monster`Frozen Solid Snake`),
     limit: { soft: 10 },
