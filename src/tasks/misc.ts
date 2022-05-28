@@ -283,6 +283,8 @@ export const MiscQuest: Quest = {
       outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
           return { equip: $items`Talisman o' Namsilat, protonic accelerator pack` };
+        if (get("ghostLocation") === $location`The Icy Peak`)
+          return { equip: $items`protonic accelerator pack`, modifier: "cold res" };
         return { equip: $items`protonic accelerator pack` };
       },
       combat: new CombatStrategy().macro(() => {
@@ -424,11 +426,26 @@ export const MiscQuest: Quest = {
       priority: () => OverridePriority.BadGoose,
       do: () => {
         use($item`Ghost Dog Chow`);
-        if (familiarWeight($familiar`Grey Goose`) >= 6) use($item`Ghost Dog Chow`);
+        if (familiarWeight($familiar`Grey Goose`) >= 6 && have($item`Ghost Dog Chow`))
+          use($item`Ghost Dog Chow`);
       },
       outfit: { familiar: $familiar`Grey Goose` },
       freeaction: true,
       limit: { soft: 20 },
+    },
+    {
+      name: "Cake-Shaped Arena",
+      after: [],
+      ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
+      completed: () => false,
+      priority: () => OverridePriority.BadGoose,
+      do: () => {
+        // TODO: Does this optimally get exp?
+        cliExecute("train turns 1");
+      },
+      outfit: { familiar: $familiar`Grey Goose`, modifier: "familiar exp" },
+      freeaction: true,
+      limit: { soft: 50 },
     },
     {
       name: "Amulet Coin",

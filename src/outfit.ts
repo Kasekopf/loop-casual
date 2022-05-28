@@ -297,7 +297,7 @@ export class Outfit {
 
     if (!this.modifier) {
       // Default outfit
-      this.equip($item`giant yellow hat`);
+      if (myBasestat($stat`moxie`) >= 47) this.equip($item`giant yellow hat`);
       this.equip($item`ice crown`);
       this.equip($item`industrial fire extinguisher`);
       if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);

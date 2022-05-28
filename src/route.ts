@@ -11,6 +11,7 @@ export const routing: string[] = [
   "Keys/Deck",
   "Pull/All",
   "Misc/Dog Chow", // Eat if there are no other options
+  "Misc/Cake-Shaped Arena", // Arena if there are no charged options
 
   // Get infinite loop
   "McLargeHuge/Ore Mountain",
