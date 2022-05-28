@@ -30,6 +30,7 @@ import {
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { OverridePriority } from "../priority";
 
 const ABoo: Task[] = [
   {
@@ -60,11 +61,14 @@ const ABoo: Task[] = [
     after: ["ABoo Clues"],
     ready: () => have($item`A-Boo clue`) || get("_loopgyou_clue_used", false),
     completed: () => get("booPeakProgress") === 0,
+    priority: () =>
+      get("_loopgyou_clue_used", true) ? OverridePriority.Always : OverridePriority.None,
     prepare: () => {
       if (!get("_loopgyou_clue_used", false)) use($item`A-Boo clue`);
       if (myHp() < myMaxhp()) {
         restoreHp(myMaxhp());
       }
+      set("_loopgyou_clue_used", false);
     },
     do: $location`A-Boo Peak`,
     post: () => {
