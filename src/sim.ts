@@ -57,7 +57,6 @@ function buildIotmList(): Requirement[] {
         "Cold medicine cabinet"
       ),
       why: "QoL Equipment",
-      optional: true,
     },
     {
       thing: $item`fresh coat of paint`,
