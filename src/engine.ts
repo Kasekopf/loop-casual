@@ -203,7 +203,9 @@ export class Engine {
         !flyersDone() &&
         (!(task.do instanceof Location) || !blacklist.has(task.do))
       ) {
-        task_combat.prependMacro(new Macro().tryItem($item`rock band flyers`));
+        task_combat.prependMacro(
+          new Macro().if_("!hpbelow 50", new Macro().tryItem($item`rock band flyers`))
+        );
       }
 
       // Apply resources
