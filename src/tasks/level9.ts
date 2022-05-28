@@ -136,7 +136,7 @@ const Oil: Task[] = [
 const Twin: Task[] = [
   {
     name: "Twin Stench Search",
-    after: ["Start Peaks"],
+    after: ["Start Peaks", "Macguffin/Forest"], // Wait for black paint,
     ready: () => !have($item`rusty hedge trimmers`),
     completed: () => !!(get("twinPeakProgress") & 1),
     do: $location`Twin Peak`,
@@ -266,7 +266,7 @@ export const ChasmQuest: Quest = {
     },
     {
       name: "Bridge",
-      after: ["Start"],
+      after: ["Start", "Macguffin/Forest"], // Wait for black paint
       ready: () =>
         get("smutOrcNoncombatProgress") < 15 ||
         ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 400),
