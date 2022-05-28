@@ -1,16 +1,5 @@
 import { cliExecute, Item, myBasestat, visitUrl } from "kolmafia";
-import {
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  $skill,
-  $stat,
-  get,
-  have,
-  Macro,
-} from "libram";
+import { $item, $location, $monster, $monsters, $skill, $stat, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -114,14 +103,24 @@ const Niche: Task[] = [
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherCyrptUsed")
       )
-        return { equip: $items`industrial fire extinguisher` };
+        return {
+          equip: tryCape(
+            $item`antique machete`,
+            $item`gravy boat`,
+            $item`industrial fire extinguisher`
+          ),
+        };
       else
         return {
           equip: tryCape($item`antique machete`, $item`gravy boat`),
         };
     },
     combat: new CombatStrategy()
-      .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
+      .macro(slay_macro, $monster`dirty old lihc`)
+      .macro(
+        new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro),
+        ...$monsters`basic lihc, senile lihc, slick lihc`
+      )
       .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     limit: { turns: 25 },
   },
