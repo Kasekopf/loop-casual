@@ -80,7 +80,7 @@ export const KnobQuest: Quest = {
     },
     {
       name: "King",
-      after: ["Perfume"],
+      after: ["Harem", "Perfume"],
       priority: () =>
         have($effect`Knob Goblin Perfume`) ? OverridePriority.Effect : OverridePriority.None,
       completed: () => step("questL05Goblin") === 999,
