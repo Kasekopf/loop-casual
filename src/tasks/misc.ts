@@ -463,6 +463,15 @@ export const MiscQuest: Quest = {
       outfit: { familiar: $familiar`Cornbeefadon` },
       limit: { tries: 1 },
     },
+    {
+      name: "Boombox",
+      after: [],
+      priority: () => OverridePriority.Free,
+      completed: () =>
+        !have($item`SongBoom™ BoomBox`) || get("boomBoxSong") === "Total Eclipse of Your Meat",
+      do: () => cliExecute("boombox meat"),
+      limit: { tries: 1 },
+    },
   ],
 };
 
