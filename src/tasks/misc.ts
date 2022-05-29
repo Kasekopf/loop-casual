@@ -455,7 +455,7 @@ export const MiscQuest: Quest = {
       priority: () => OverridePriority.BadGoose,
       do: () => {
         use($item`Ghost Dog Chow`);
-        if (familiarWeight($familiar`Grey Goose`) >= 6 && have($item`Ghost Dog Chow`))
+        if (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
           use($item`Ghost Dog Chow`);
       },
       outfit: { familiar: $familiar`Grey Goose` },
