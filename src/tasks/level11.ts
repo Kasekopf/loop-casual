@@ -39,7 +39,7 @@ const Diary: Task[] = [
         return {
           equip: $items`blackberry galoshes`,
           familiar: $familiar`Reassembled Blackbird`,
-          modifier: "+combat, item",
+          modifier: "50 combat, item",
         };
       }
     },

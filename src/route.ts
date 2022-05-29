@@ -25,14 +25,15 @@ export const routing: string[] = [
   "McLargeHuge/Trapper Request", // open for absorbing
   "Absorb/Cobb's Knob Menagerie, Level 2",
 
+  // ASAP once level 11 is hit, grab -combat
+  "Absorb/The Black Forest",
+
   // Get +item
   "Absorb/Infernal Rackets Backstage",
 
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
 
-  // Once level 11 is hit, grab -combat
-  "Absorb/The Black Forest",
   "Hidden City/Open Temple",
   "Misc/Fortune",
 
