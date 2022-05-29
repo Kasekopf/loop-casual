@@ -370,30 +370,59 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => OverridePriority.Start,
       completed: () => have($skill`Infinite Loop`),
-      acquire: [{ item: $item`Arr, M80`, num: 2 }],
+      acquire: [
+        {
+          item: $item`Arr, M80`,
+          num: 2,
+          useful: () =>
+            have($familiar`Vampire Vintner`) &&
+            have($item`cosmic bowling ball`) &&
+            have($item`unwrapped knock-off retro superhero cape`),
+        },
+        {
+          // Backup plan if missing Vintner/bowling ball
+          item: $item`yellow rocket`,
+          num: 1,
+          useful: () =>
+            !have($familiar`Vampire Vintner`) ||
+            !have($item`cosmic bowling ball`) ||
+            !have($item`unwrapped knock-off retro superhero cape`),
+        },
+      ],
       prepare: () => {
         if (
-          equippedAmount($item`unwrapped knock-off retro superhero cape`) === 0 ||
-          myFamiliar() !== $familiar`Vampire Vintner`
+          (equippedAmount($item`unwrapped knock-off retro superhero cape`) === 0 ||
+            myFamiliar() !== $familiar`Vampire Vintner`) &&
+          !have($item`yellow rocket`)
         )
           abort("Not ready for pygmy locket");
-        cliExecute("retrocape heck hold");
+        if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
+          cliExecute("retrocape heck hold");
       },
       do: () => {
         CombatLoversLocket.reminisce($monster`pygmy witch lawyer`);
       },
       combat: new CombatStrategy().macro(
         new Macro()
+          .tryItem($item`yellow rocket`)
           .tryItem($item`cosmic bowling ball`)
           .step("if hascombatitem 10769;use Arr;endif;") // Arr, M80; "use Arr, M80" trys and fails to funksling
           .step("if hascombatitem 10769;use Arr;endif;")
           .skill($skill`Pseudopod Slap`)
           .repeat()
       ),
-      outfit: {
-        modifier: "init",
-        equip: $items`unwrapped knock-off retro superhero cape`,
-        familiar: $familiar`Vampire Vintner`,
+      outfit: () => {
+        if (
+          have($familiar`Vampire Vintner`) &&
+          have($item`cosmic bowling ball`) &&
+          have($item`unwrapped knock-off retro superhero cape`)
+        )
+          return {
+            modifier: "init",
+            equip: $items`unwrapped knock-off retro superhero cape`,
+            familiar: $familiar`Vampire Vintner`,
+          };
+        else return { modifier: "init" }; // Just use yellow rocket
       },
       limit: { tries: 1 },
     },

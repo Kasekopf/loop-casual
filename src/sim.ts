@@ -125,10 +125,12 @@ function buildIotmList(): Requirement[] {
         "Cosmic bowling ball"
       ),
       why: "Banishes, Pygmy killing",
+      optional: true,
     },
     {
       thing: $familiar`Vampire Vintner`,
       why: "Pygmy killing",
+      optional: true,
     },
     {
       thing: $skill`Summon Clip Art`,
