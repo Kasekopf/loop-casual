@@ -1,5 +1,5 @@
 import { buyUsingStorage, cliExecute, Item, itemAmount, storageAmount } from "kolmafia";
-import { $item, $items, get, have } from "libram";
+import { $familiar, $item, $items, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
@@ -36,7 +36,7 @@ export const pulls: PullSpec[] = [
   { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
   { pull: $item`yule hatchet` },
   { pull: $item`grey down vest` },
-  { pull: $item`killing jar` },
+  { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
   { pull: $item`transparent pants`, optional: true },
   { pull: $item`deck of lewd playing cards`, optional: true },
