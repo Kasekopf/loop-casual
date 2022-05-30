@@ -16,6 +16,7 @@ import {
   $item,
   $items,
   $location,
+  $monster,
   $skill,
   $stat,
   ensureEffect,
@@ -263,6 +264,70 @@ const Door: Task[] = [
   },
 ];
 
+const wand: Task[] = [
+  {
+    name: "Wand W",
+    after: ["Wall of Bones"],
+    ready: () => !have($item`11-leaf clover`),
+    completed: () => have($item`ruby W`) || have($item`WA`) || have($item`Wand of Nagamar`),
+    do: $location`Pandamonium Slums`,
+    outfit: { modifier: "item" },
+    combat: new CombatStrategy().killItem($monster`W imp`),
+    limit: { soft: 20 },
+  },
+  {
+    name: "Wand A",
+    after: ["Wall of Bones"],
+    ready: () => !have($item`11-leaf clover`),
+    completed: () => have($item`metallic A`) || have($item`WA`) || have($item`Wand of Nagamar`),
+    do: $location`The Penultimate Fantasy Airship`,
+    outfit: { modifier: "item" },
+    combat: new CombatStrategy().killItem($monster`MagiMechTech MechaMech`),
+    limit: { soft: 20 },
+  },
+  {
+    name: "Wand N",
+    after: ["Wall of Bones"],
+    ready: () => !have($item`11-leaf clover`),
+    completed: () => have($item`lowercase N`) || have($item`ND`) || have($item`Wand of Nagamar`),
+    do: $location`The Valley of Rof L'm Fao`,
+    outfit: { modifier: "item" },
+    combat: new CombatStrategy().killItem($monster`XXX pr0n`),
+    limit: { soft: 20 },
+  },
+  {
+    name: "Wand D",
+    after: ["Wall of Bones"],
+    ready: () => !have($item`11-leaf clover`),
+    completed: () => have($item`heavy D`) || have($item`ND`) || have($item`Wand of Nagamar`),
+    do: $location`The Castle in the Clouds in the Sky (Basement)`,
+    outfit: { modifier: "item" },
+    combat: new CombatStrategy().killItem($monster`Alphabet Giant`),
+    limit: { soft: 20 },
+  },
+  {
+    name: "Wand Parts",
+    after: ["Wall of Bones"],
+    ready: () => have($item`11-leaf clover`),
+    completed: () =>
+      have($item`Wand of Nagamar`) ||
+      ((have($item`WA`) || (have($item`ruby W`) && have($item`metallic A`))) &&
+        (have($item`ND`) || (have($item`lowercase N`) && have($item`heavy D`)))),
+    prepare: () => use($item`11-leaf clover`),
+    do: $location`The Castle in the Clouds in the Sky (Basement)`,
+    limit: { tries: 1 },
+  },
+  {
+    name: "Wand",
+    after: ["Wand W", "Wand A", "Wand N", "Wand D", "Wand Parts"],
+    completed: () => have($item`Wand of Nagamar`),
+    do: () => {
+      cliExecute("make Wand of Nagamar");
+    },
+    limit: { tries: 1 },
+  },
+];
+
 export const TowerQuest: Quest = {
   name: "Tower",
   tasks: [
@@ -372,21 +437,10 @@ export const TowerQuest: Quest = {
       combat: new CombatStrategy(true).macro(new Macro().item($item`electric boning knife`)),
       limit: { tries: 1 },
     },
-    {
-      name: "Wand Parts",
-      after: ["Wall of Bones"],
-      ready: () => have($item`11-leaf clover`),
-      completed: () =>
-        have($item`Wand of Nagamar`) ||
-        ((have($item`WA`) || (have($item`ruby W`) && have($item`metallic A`))) &&
-          (have($item`ND`) || (have($item`lowercase N`) && have($item`heavy D`)))),
-      prepare: () => use($item`11-leaf clover`),
-      do: $location`The Castle in the Clouds in the Sky (Basement)`,
-      limit: { tries: 1 },
-    },
+    ...wand,
     {
       name: "Mirror",
-      after: ["Wand Parts", "Wall of Bones"],
+      after: ["Wall of Bones", "Wand"],
       acquire: [{ item: $item`Wand of Nagamar` }],
       completed: () => step("questL13Final") > 9,
       do: $location`Tower Level 4`,
