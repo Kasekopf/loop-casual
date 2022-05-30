@@ -9,7 +9,7 @@ import { Keys, keyStrategy } from "./keys";
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
  * useful: True if we need it, false if we don't, undefined if not sure yet.
  * pull: The item to pull, or a list of options to pull.
- * name: If a list of options is
+ * name: If a list of options is given, what to use for the task (& sim) name.
  */
 type PullSpec = {
   optional?: boolean;
