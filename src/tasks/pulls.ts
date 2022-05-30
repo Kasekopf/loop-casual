@@ -40,7 +40,6 @@ export const pulls: PullSpec[] = [
   { pull: $item`old patched suit-pants`, optional: true },
   { pull: $item`transparent pants`, optional: true },
   { pull: $item`deck of lewd playing cards`, optional: true },
-  { pull: $item`11-leaf clover` },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
@@ -52,6 +51,7 @@ export const pulls: PullSpec[] = [
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
+  { pull: $item`11-leaf clover` },
 ];
 
 class Pull {
@@ -153,7 +153,7 @@ class PullStrategy {
           continue;
         case undefined:
           this.enabled[i] = PullState.MAYBE;
-          count;
+          count--;
           continue;
       }
     }
