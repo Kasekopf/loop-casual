@@ -59,7 +59,7 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Horror",
-    after: ["ABoo Clues"],
+    after: ["ABoo Start"],
     ready: () => have($item`A-Boo clue`) || get("_loopgyou_clue_used", false),
     completed: () => get("booPeakProgress") === 0,
     priority: () =>
@@ -73,7 +73,7 @@ const ABoo: Task[] = [
     },
     do: $location`A-Boo Peak`,
     post: () => {
-      if (get("lastEncounter") !== "The Horror...") {
+      if (get("lastEncounter") === "Wooof! Wooooooof!") {
         set("_loopgyou_clue_used", true); // A ghost-dog adventure ate the ABoo Horror; we can just try again
       }
     },
