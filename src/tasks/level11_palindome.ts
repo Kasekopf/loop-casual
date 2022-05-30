@@ -323,8 +323,21 @@ const Dome: Task[] = [
     freeaction: true,
   },
   {
+    name: "Grove",
+    after: ["Alarm Gem"],
+    completed: () =>
+      (have($item`bird rib`) && have($item`lion oil`)) ||
+      have($item`wet stew`) ||
+      have($item`wet stunt nut stew`) ||
+      step("questL11Palindome") >= 5,
+    do: $location`Whitey's Grove`,
+    outfit: { modifier: "50 combat, item" },
+    combat: new CombatStrategy().killItem($monster`whitesnake`).killItem($monster`white lion`),
+    limit: { soft: 15 },
+  },
+  {
     name: "Open Alarm",
-    after: ["Alarm Gem", "Palindome Nuts"],
+    after: ["Alarm Gem", "Palindome Nuts", "Grove"],
     completed: () => step("questL11Palindome") >= 5,
     do: () => {
       if (!have($item`wet stunt nut stew`)) create($item`wet stunt nut stew`);

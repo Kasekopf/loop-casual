@@ -28,7 +28,14 @@ export const pulls: PullSpec[] = [
   { pull: $item`ninja rope` },
   { pull: $item`ninja carabiner` },
   { pull: $item`ninja crampons` },
-  { pull: $item`wet stew` },
+  {
+    pull: $item`wet stew`,
+    useful: () =>
+      step("questL11Palindome") < 5 &&
+      !have($item`wet stunt nut stew`) &&
+      !have($item`wet stew`) &&
+      (!have($item`lion oil`) || !have($item`bird rib`)),
+  },
   {
     pull: $item`Mohawk wig`,
     useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
