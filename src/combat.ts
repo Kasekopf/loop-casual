@@ -1,5 +1,6 @@
 import {
   appearanceRates,
+  equippedAmount,
   equippedItem,
   floor,
   Item,
@@ -12,7 +13,16 @@ import {
   Skill,
   weaponType,
 } from "kolmafia";
-import { $skill, $slot, $stat, getTodaysHolidayWanderers, have, Macro } from "libram";
+import {
+  $item,
+  $monster,
+  $skill,
+  $slot,
+  $stat,
+  getTodaysHolidayWanderers,
+  have,
+  Macro,
+} from "libram";
 import {
   BanishSource,
   CombatResource,
@@ -87,6 +97,14 @@ export class BuiltCombatStrategy {
     this.resources = resources;
 
     // First, kill wanderers
+    const wandererMonsters = wanderers.map((w) => w.monster);
+    if (
+      equippedAmount($item`Kramco Sausage-o-Matic™`) > 0 &&
+      wandererMonsters.find((m) => m === $monster`sausage goblin`) === undefined
+    ) {
+      // Always be ready to fight sausage goblins if we equip Kramco
+      wandererMonsters.push($monster`sausage goblin`);
+    }
     for (const wanderer of wanderers) {
       // Note that we kill hard, which never uses up a freekill
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
