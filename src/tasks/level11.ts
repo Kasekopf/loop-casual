@@ -132,10 +132,7 @@ const Desert: Task[] = [
   {
     name: "Desert",
     after: ["Diary", "Compass"],
-    acquire: [
-      { item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 },
-      { item: $item`killing jar`, useful: () => (get("gnasirProgress") & 4) === 0 },
-    ],
+    acquire: [{ item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 }],
     ready: () =>
       itemAmount($item`worm-riding manual page`) < 15 &&
       !have($item`worm-riding hooks`) &&
@@ -179,8 +176,8 @@ const Desert: Task[] = [
       if ((get("gnasirProgress") & 16) > 0) return;
       if (
         itemAmount($item`worm-riding manual page`) >= 15 ||
-        (get("gnasirProgress") & 2) === 0 ||
-        (get("gnasirProgress") & 4) === 0
+        ((get("gnasirProgress") & 2) === 0 && have($item`can of black paint`)) ||
+        ((get("gnasirProgress") & 4) === 0 && have($item`killing jar`))
       ) {
         let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
         while (res.includes("value=2")) {
