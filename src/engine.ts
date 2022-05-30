@@ -332,6 +332,8 @@ export class Engine {
 
     if (task.completed()) {
       debug(`${task.name} completed!`, "blue");
+    } else if (!(task.ready?.() ?? true)) {
+      debug(`${task.name} not completed! [Again? Not ready]`, "blue");
     } else {
       const priority_explain = new Prioritization(
         task,
