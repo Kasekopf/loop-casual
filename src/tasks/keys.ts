@@ -88,7 +88,7 @@ const heroKeys: KeyTask[] = [
           return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
           return 2;
-        return 3;
+        return 4;
       },
       693: () => (have($item`eleven-foot pole`) ? 2 : 1),
     },
@@ -129,7 +129,7 @@ const heroKeys: KeyTask[] = [
           return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
           return 2;
-        return 3;
+        return 4;
       },
       693: () => (have($item`eleven-foot pole`) ? 2 : 1),
     },
