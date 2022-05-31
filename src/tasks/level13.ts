@@ -450,7 +450,7 @@ export const TowerQuest: Quest = {
     },
     {
       name: "Shadow",
-      after: ["Mirror"],
+      after: ["Mirror", "Absorb/Twin Peak"],
       prepare: () => {
         if (
           have($item`unwrapped knock-off retro superhero cape`) &&
@@ -466,10 +466,14 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 5`,
       outfit: () => {
         if (have($item`unwrapped knock-off retro superhero cape`))
-          return { modifier: "init", equip: $items`unwrapped knock-off retro superhero cape` };
+          return { equip: $items`unwrapped knock-off retro superhero cape` };
         else if (have($item`attorney's badge`))
-          return { modifier: "init, HP", equip: $items`attorney's badge` };
-        else return { modifier: "init, HP" };
+          return {
+            modifier: "HP",
+            equip: $items`attorney's badge`,
+            avoid: $items`extra-wide head candle`,
+          };
+        else return { modifier: "HP", avoid: $items`extra-wide head candle` };
       },
       combat: new CombatStrategy(true).macro(new Macro().item($item`gauze garter`).repeat()),
       limit: { tries: 1 },

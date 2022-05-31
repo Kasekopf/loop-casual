@@ -23,6 +23,7 @@ export class Outfit {
   accesories: Item[] = [];
   familiar?: Familiar;
   modifier?: string;
+  avoid?: Item[];
 
   equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
@@ -194,12 +195,19 @@ export class Outfit {
         ]);
       }
 
-      // Avoid burning CMG void fight just for the modifier
+      if (this.avoid !== undefined) {
+        requirements = Requirement.merge([
+          requirements,
+          new Requirement([], { preventEquip: this.avoid }),
+        ]);
+      }
+
       if (
         have($item`cursed magnifying glass`) &&
         get("cursedMagnifyingGlassCount") >= 13 &&
         !targetEquipment.includes($item`cursed magnifying glass`)
       ) {
+        // Avoid burning CMG void fight just for the modifier
         requirements = Requirement.merge([
           requirements,
           new Requirement([], { preventEquip: [$item`cursed magnifying glass`] }),
@@ -236,6 +244,7 @@ export class Outfit {
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);
     if (spec?.familiar) outfit.equip(spec.familiar);
+    outfit.avoid = spec?.avoid;
 
     if (spec?.modifier) {
       // Run maximizer
