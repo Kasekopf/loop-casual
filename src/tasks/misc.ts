@@ -282,10 +282,10 @@ export const MiscQuest: Quest = {
       },
       outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
-          return { equip: $items`Talisman o' Namsilat, protonic accelerator pack` };
+          return { equip: $items`Talisman o' Namsilat, protonic accelerator pack`, modifier: "DA" };
         if (get("ghostLocation") === $location`The Icy Peak`)
-          return { equip: $items`protonic accelerator pack`, modifier: "cold res" };
-        return { equip: $items`protonic accelerator pack` };
+          return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA" };
+        return { equip: $items`protonic accelerator pack`, modifier: "DA" };
       },
       combat: new CombatStrategy().macro(() => {
         if (
