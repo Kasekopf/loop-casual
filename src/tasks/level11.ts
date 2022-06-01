@@ -232,7 +232,6 @@ const Desert: Task[] = [
       if (have($item`worm-riding hooks`) && have($item`drum machine`)) use($item`drum machine`);
     },
     limit: { soft: 30 },
-    delay: 35,
     choices: { 805: 1 },
   },
 ];
