@@ -142,12 +142,8 @@ export class Prioritization {
 }
 
 function needsChargedGoose(task: Task, absorptionTargets: AbsorptionTargets): boolean {
-  if (task.do instanceof Location && absorptionTargets.hasReprocessTargets(task.do)) {
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (!outfit_spec) return true;
-    if (outfit_spec.familiar === $familiar`Grey Goose`) return true;
-    if (!outfit_spec.familiar && (!outfit_spec.modifier || !outfit_spec.modifier.includes("meat")))
-      return true;
-  }
-  return false;
+  // Note that we purposefully do not check if we will be equipping the goose
+  // in the location. We want to eventually reprocess everything, and so a
+  // charged goose allows us to use the orb to target reprocess monsters.
+  return task.do instanceof Location && absorptionTargets.hasReprocessTargets(task.do);
 }
