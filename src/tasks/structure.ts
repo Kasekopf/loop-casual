@@ -1,4 +1,4 @@
-import { Effect, Familiar, Item, Location } from "kolmafia";
+import { Effect, Familiar, Item, Location, Monster } from "kolmafia";
 import { get } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
 import { CombatStrategy } from "../combat";
@@ -49,6 +49,7 @@ export type Task = {
   freeaction?: boolean | (() => boolean);
   freecombat?: boolean;
   limit: Limit;
+  orbtargets?: () => Monster[];
 };
 
 export function step(questName: StringProperty): number {
