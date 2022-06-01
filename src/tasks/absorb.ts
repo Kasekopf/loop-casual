@@ -732,6 +732,10 @@ export class AbsorptionTargets {
     this.absorb.add($monster`One-Eyed Willie`, $location`none`);
     this.reprocess.add($monster`Little Man in the Canoe`, $location`none`);
     this.reprocess.add($monster`One-Eyed Willie`, $location`none`);
+
+    // Appearance rates for oil baron is based on your current ML
+    this.absorb.add($monster`oil baron`, $location`Oil Peak`);
+    this.reprocess.add($monster`oil baron`, $location`Oil Peak`);
   }
 
   public completed(): boolean {
