@@ -240,7 +240,7 @@ const Door: Task[] = [
   },
   {
     name: "Skeleton Lock",
-    after: ["Maze"],
+    after: ["Maze", "Keys/Skeleton Key"],
     acquire: [{ item: $item`skeleton key` }],
     completed: () => get("nsTowerDoorKeysUsed").includes("skeleton key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock6"),

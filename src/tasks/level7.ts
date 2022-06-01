@@ -181,7 +181,7 @@ const Nook: Task[] = [
     after: ["Nook", "Nook Eye"],
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
-    combat: new CombatStrategy(true).kill(),
+    combat: new CombatStrategy(true).killItem(),
     limit: { tries: 1 },
   },
 ];
