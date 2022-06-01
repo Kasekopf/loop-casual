@@ -111,6 +111,8 @@ const Manor2: Task[] = [
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
     limit: { turns: 5 },
     delay: 5,
+    // No need to search for cosmetics wraith
+    orbtargets: () => [],
   },
   {
     name: "Bathroom",
@@ -121,6 +123,8 @@ const Manor2: Task[] = [
     outfit: { modifier: "-combat" },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
     limit: { soft: 10 },
+    // No need to search for cosmetics wraith
+    orbtargets: () => [],
   },
   {
     name: "Bedroom",
