@@ -28,13 +28,12 @@ export const routing: string[] = [
   // ASAP once level 11 is hit, grab -combat
   "Absorb/The Black Forest",
 
-  // Get +item
-  "Absorb/Infernal Rackets Backstage",
-
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
-
   "Hidden City/Open Temple",
+
+  // Get +item
+  "Absorb/Infernal Rackets Backstage",
   "Misc/Fortune",
 
   // Aim for remaining pygmies
