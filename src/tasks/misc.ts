@@ -4,6 +4,7 @@ import {
   adv1,
   cliExecute,
   equippedAmount,
+  Familiar,
   familiarWeight,
   getWorkshed,
   hermit,
@@ -21,6 +22,7 @@ import {
   totalTurnsPlayed,
   use,
   visitUrl,
+  weightAdjustment,
 } from "kolmafia";
 import {
   $effect,
@@ -43,6 +45,7 @@ import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { Engine } from "../engine";
 import { Keys, keyStrategy } from "./keys";
+import { debug } from "../lib";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -468,11 +471,8 @@ export const MiscQuest: Quest = {
       ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
       completed: () => false,
       priority: () => OverridePriority.BadGoose,
-      do: () => {
-        // TODO: Does this optimally get exp?
-        cliExecute("train turns 1");
-      },
-      outfit: { familiar: $familiar`Grey Goose`, modifier: "familiar exp" },
+      do: arenaFight,
+      outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
       freeaction: true,
       limit: { soft: 50 },
     },
@@ -623,3 +623,112 @@ export const removeTeleportitis = {
   limit: { soft: 2 },
   freeaction: true,
 };
+
+// Cake-shaped arena strengths for all of the possible house familiars (and the goose)
+const houseFamiliars = new Map<Familiar, [number, number, number, number]>([
+  [$familiar`Angry Goat`, [3, 0, 2, 1]],
+  [$familiar`Baby Gravy Fairy`, [0, 3, 1, 2]], // mafia and wiki disagree
+  [$familiar`Barrrnacle`, [0, 2, 1, 3]],
+  [$familiar`Blood-Faced Volleyball`, [0, 1, 3, 2]],
+  [$familiar`Clockwork Grapefruit`, [3, 2, 0, 1]],
+  [$familiar`Cocoabo`, [2, 3, 0, 1]],
+  [$familiar`Fuzzy Dice`, [2, 2, 2, 2]],
+  [$familiar`Ghuol Whelp`, [1, 2, 0, 3]],
+  [$familiar`Grue`, [2, 0, 1, 3]],
+  [$familiar`Hanukkimbo Dreidl`, [2, 1, 3, 1]],
+  [$familiar`Hovering Sombrero`, [0, 3, 2, 1]],
+  [$familiar`Howling Balloon Monkey`, [1, 3, 2, 0]],
+  [$familiar`Killer Bee`, [3, 1, 2, 0]],
+  [$familiar`Leprechaun`, [1, 3, 0, 2]],
+  [$familiar`Levitating Potato`, [0, 1, 2, 3]],
+  [$familiar`MagiMechTech MicroMechaMech`, [3, 0, 1, 2]],
+  [$familiar`Mosquito`, [2, 1, 3, 0]],
+  [$familiar`Sabre-Toothed Lime`, [3, 0, 2, 1]],
+  [$familiar`Spooky Pirate Skeleton`, [2, 3, 1, 0]],
+  [$familiar`Stab Bat`, [3, 2, 1, 0]],
+  [$familiar`Star Starfish`, [2, 1, 3, 0]],
+  [$familiar`Whirling Maple Leaf`, [3, 1, 2, 0]],
+  // Along with our non-house familiar
+  [$familiar`Grey Goose`, [1, 2, 3, 3]],
+]);
+
+function arenaStrength(familiar: Familiar, weight: number, event: number) {
+  const strengths = houseFamiliars.get(familiar);
+  if (strengths === undefined) {
+    throw `Weights for familiar ${familiar.hatchling} not found.`;
+  }
+  const strength = strengths[event - 1];
+  switch (strength) {
+    case 3:
+      return weight + 3;
+    case 2:
+      return weight;
+    case 1:
+      return weight - 3;
+    case 0:
+      return 0;
+  }
+  return 0;
+}
+
+interface ArenaOption {
+  opponent: number;
+  familiar: Familiar;
+  event: number; // 1, 2, 3, 4
+  delta: number; // [My familiar strength] - [House familiar strength]
+}
+
+export function arenaFight() {
+  // Train for a single round in the arena, using our current equipment
+
+  // Parse arena opponents
+  const familiar_regex = new RegExp(
+    /<[^>]+value=(\d+)><\/td><td[^>]*><img[^>]+><\/td><td class=small><b>[^<]+<\/b> the ([^<]+)<br>([\d]+) lb/g
+  );
+  const arena = visitUrl("arena.php");
+  let match;
+  const options: ArenaOption[] = [];
+  do {
+    match = familiar_regex.exec(arena);
+    if (match) {
+      const opponent = parseInt(match[1]);
+      const familiar = Familiar.get(match[2]);
+      const weight = parseInt(match[3]);
+      if (
+        Number.isNaN(opponent) ||
+        Number.isNaN(weight) ||
+        weight === 0 ||
+        familiar === $familiar`none`
+      ) {
+        throw `Unable to parse arena familiar ${match[1]} @ ${match[2]} lbs`;
+      }
+      for (const event of [1, 2, 3, 4]) {
+        options.push({
+          opponent: opponent,
+          familiar: familiar,
+          event: event,
+          delta:
+            arenaStrength(
+              $familiar`Grey Goose`,
+              familiarWeight($familiar`Grey Goose`) + weightAdjustment(),
+              event
+            ) - arenaStrength(familiar, weight, event),
+        });
+      }
+    }
+  } while (match);
+
+  // Find the best opponent.
+  // i.e. the strongest opponent that we can beat with at least 4 weight
+  const bestOption = options.sort((o, p) => o.delta - p.delta).find((o) => o.delta >= 4);
+  if (bestOption === undefined) {
+    debug("Unable to find good arena opponent; defaulting to mafia", "red");
+    cliExecute("train turns 1");
+  } else {
+    debug(`Fighting ${bestOption.familiar} with Δweight=${bestOption.delta}`);
+    const start_exp = $familiar`Grey Goose`.experience;
+    visitUrl(`arena.php?action=go&whichopp=${bestOption.opponent}&event=${bestOption.event}`, true);
+    if (start_exp === $familiar`Grey Goose`.experience) throw `Lost training in cake-shaped arena`;
+    debug(`Experience gained: ${$familiar`Grey Goose`.experience - start_exp}`);
+  }
+}
