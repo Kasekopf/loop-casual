@@ -94,6 +94,7 @@ export const BatQuest: Quest = {
     {
       name: "Lobsterfrogman Drop",
       after: ["Use Sonar 3"],
+      ready: () => get("lastCopyableMonster") === $monster`lobsterfrogman`,
       priority: () =>
         get("lastCopyableMonster") === $monster`lobsterfrogman`
           ? OverridePriority.LastCopyableMonster
