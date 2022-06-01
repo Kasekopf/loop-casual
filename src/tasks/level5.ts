@@ -15,6 +15,7 @@ import { OutfitSpec, Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { absorptionTargets } from "./absorb";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -59,13 +60,38 @@ export const KnobQuest: Quest = {
           return {
             equip: $items`industrial fire extinguisher`,
           };
-        else return {};
+        else
+          return {
+            modifier: "item",
+          };
       },
       combat: new CombatStrategy()
-        .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))
+        .macro(
+          // Always use the fire extinguisher on the guard
+          new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`),
+          $monster`Knob Goblin Harem Guard`
+        )
+        .macro(
+          // Don't use the fire extinguisher if we want to absorb the madam
+          () =>
+            new Macro().externalIf(
+              !absorptionTargets.isTarget($monster`Knob Goblin Madam`),
+              new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
+            ),
+          $monster`Knob Goblin Madam`
+        )
+        .macro(
+          // Don't use the fire extinguisher if we want to absorb the girl
+          () =>
+            new Macro().externalIf(
+              !absorptionTargets.isTarget($monster`Knob Goblin Harem Girl`),
+              new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
+            ),
+          $monster`Knob Goblin Harem Girl`
+        )
         .banish($monster`Knob Goblin Harem Guard`)
         .killItem(),
-      limit: { tries: 2 }, // Allow for Cobb's Knob lab key
+      limit: { soft: 10 }, // Allow for Cobb's Knob lab key
     },
     {
       name: "Perfume",
