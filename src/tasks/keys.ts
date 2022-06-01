@@ -24,7 +24,6 @@ import {
 import { CombatStrategy } from "../combat";
 import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
-import { absorptionTargets } from "./absorb";
 
 export enum Keys {
   Deck = "Deck",
@@ -309,12 +308,7 @@ export const KeysQuest: Quest = {
       outfit: { modifier: "item" },
       combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
       limit: { soft: 20 },
-      orbtargets: () => {
-        const monsters = [];
-        if (!have($item`star chart`)) monsters.push($monster`Astronomer`);
-        monsters.push(...absorptionTargets.remainingAbsorbs($location`The Hole in the Sky`));
-        return monsters;
-      },
+      orbtargets: () => (have($item`star chart`) ? [$monster`Astronomer`] : []),
     },
   ],
 };

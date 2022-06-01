@@ -3,6 +3,7 @@ import { $item, $location, $monster, $monsters, $skill, $stat, get, have, Macro 
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { absorptionTargets } from "./absorb";
 
 function tuneCape(): void {
   if (
@@ -32,6 +33,8 @@ const Alcove: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     ready: () =>
+      // Reprocess the grave rober, then wait for the +init skill
+      absorptionTargets.hasReprocessTargets($location`The Defiled Alcove`) ||
       have($skill`Overclocking`) ||
       (!!(get("twinPeakProgress") & 8) && myBasestat($stat`Muscle`) >= 62),
     completed: () => get("cyrptAlcoveEvilness") <= 25,
@@ -42,6 +45,8 @@ const Alcove: Task[] = [
         modifier: "init 850max",
       };
     },
+    // Modern zmobie does not show up in orb
+    orbtargets: () => [],
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro),
     limit: { turns: 25 },
@@ -76,6 +81,8 @@ const Cranny: Task[] = [
       .kill(
         ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       ),
+    // Do not search for swarm with orb
+    orbtargets: () => [],
     limit: { turns: 25 },
   },
   {
@@ -122,6 +129,7 @@ const Niche: Task[] = [
         ...$monsters`basic lihc, senile lihc, slick lihc`
       )
       .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+    orbtargets: () => [$monster`dirty old lihc`],
     limit: { turns: 25 },
   },
   {
