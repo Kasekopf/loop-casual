@@ -1,31 +1,19 @@
 import {
   cliExecute,
   gametimeToInt,
-  Location,
-  Monster,
   myAdventures,
   myPath,
   print,
   runChoice,
-  toLocation,
-  toMonster,
   turnsPlayed,
   visitUrl,
 } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
-import { convertMilliseconds, debug } from "./lib";
+import { convertMilliseconds, debug, ponderPrediction } from "./lib";
 import { WandererSource, wandererSources } from "./resources";
-import {
-  $effect,
-  $monster,
-  get,
-  have,
-  PropertiesManager,
-  set,
-  sinceKolmafiaRevision,
-} from "libram";
+import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
@@ -255,27 +243,4 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     1340: 3, // Is There A Doctor In The House?
     1341: 1, // Cure her poison
   });
-}
-
-function getMonster(name: string) {
-  if (name === "some Mismatched Twins") return $monster`Mismatched Twins`;
-  if (name === "the Bubblemint Twins") return $monster`Bubblemint Twins`;
-  if (name === "the Big Wheelin' Twins") return $monster`Big Wheelin' Twins`;
-  if (name === "the Troll Twins") return $monster`Troll Twins`;
-  if (name === "the Mob Penguin Capo") return $monster`Mob Penguin Capo`;
-  return toMonster(name);
-}
-
-export function ponderPrediction(): Map<Location, Monster> {
-  visitUrl("inventory.php?ponder=1", false);
-  const parsedProp = new Map(
-    get("crystalBallPredictions")
-      .split("|")
-      .map((element) => element.split(":") as [string, string, string])
-      .map(
-        ([, location, monster]) =>
-          [toLocation(location), getMonster(monster)] as [Location, Monster]
-      )
-  );
-  return parsedProp;
 }

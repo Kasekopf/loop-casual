@@ -1,4 +1,13 @@
-import { buy, cliExecute, itemAmount, myMeat, runChoice, use, visitUrl } from "kolmafia";
+import {
+  buy,
+  cliExecute,
+  familiarWeight,
+  itemAmount,
+  myMeat,
+  runChoice,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -17,7 +26,8 @@ import {
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
-import { atLevel } from "../lib";
+import { atLevel, ponderPrediction } from "../lib";
+import { absorptionTargets } from "./absorb";
 
 const Diary: Task[] = [
   {
@@ -153,7 +163,28 @@ const Desert: Task[] = [
           equip: $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`,
           familiar: $familiar`Melodramedary`,
         };
-      else
+      else if (
+        absorptionTargets.isReprocessTarget($monster`swarm of fire ants`) &&
+        familiarWeight($familiar`Grey Goose`) >= 6 &&
+        have($item`miniature crystal ball`)
+      ) {
+        if (
+          ponderPrediction().get($location`The Arid, Extra-Dry Desert`) ===
+          $monster`swarm of fire ants`
+        ) {
+          // Swoop in for a single adventure to reprocess the fire ants
+          return {
+            equip: $items`UV-resistant compass, miniature crystal ball`,
+            familiar: $familiar`Grey Goose`,
+          };
+        } else {
+          // Wait for the orb to predict swarm of fire ants
+          return {
+            equip: $items`UV-resistant compass, miniature crystal ball`,
+            familiar: $familiar`Melodramedary`,
+          };
+        }
+      } else
         return {
           equip: $items`UV-resistant compass, dromedary drinking helmet`,
           familiar: $familiar`Melodramedary`,

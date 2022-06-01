@@ -72,7 +72,8 @@ import {
 } from "./resources";
 import { AbsorptionTargets } from "./tasks/absorb";
 import { Prioritization } from "./priority";
-import { args, ponderPrediction } from "./main";
+import { args } from "./main";
+import { ponderPrediction } from "./lib";
 import { flyersDone } from "./tasks/level12";
 
 export class Engine {
