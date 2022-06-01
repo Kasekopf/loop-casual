@@ -136,7 +136,8 @@ const Desert: Task[] = [
     ready: () =>
       itemAmount($item`worm-riding manual page`) < 15 &&
       !have($item`worm-riding hooks`) &&
-      (!have($effect`A Girl Named Sue`) || have($effect`Ultrahydrated`)),
+      ((get("desertExploration") === 0 && !have($effect`A Girl Named Sue`)) ||
+        have($effect`Ultrahydrated`)),
     priority: () =>
       have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
     completed: () => get("desertExploration") >= 100,
