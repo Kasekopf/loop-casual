@@ -84,8 +84,9 @@ export const routing: string[] = [
   "Macguffin/Finish",
 
   "Orc Chasm/Start Peaks",
+  "Orc Chasm/Finish",
+  "Reprocess/Twin Peak", // Work on absorbing Twin Peak during war
   "War/Boss Hippie",
-  "Orc Chasm/Finish", // save A-Boo for last
 
   // Finish up with last delay
   "Bat/Finish",
