@@ -121,6 +121,13 @@ const Desert: Task[] = [
       get("desertExploration") >= 100 ||
       have($item`drum machine`) ||
       (get("gnasirProgress") & 16) !== 0,
+    prepare: () => {
+      if (absorptionTargets.hasReprocessTargets($location`The Oasis`)) {
+        // Use ghost dog chow to prepare to reprocess Blur without needing arena adventures
+        while (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
+          use($item`Ghost Dog Chow`);
+      }
+    },
     do: $location`The Oasis`,
     combat: new CombatStrategy().killItem($monster`blur`),
     outfit: { modifier: "item" },
