@@ -112,9 +112,11 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task, why: string, ...wanderers: WandererSource[]): void {
+  public execute(task: Task, priority: Prioritization, ...wanderers: WandererSource[]): void {
     debug(``);
-    debug(`Executing ${task.name} ${why}`, "blue");
+    const reason = priority.explain();
+    const why = reason === "" ? "Route" : reason;
+    debug(`Executing ${task.name} [${why}]`, "blue");
     this.check_limits(task);
 
     // Get needed items
@@ -336,7 +338,7 @@ export class Engine {
     } else if (!(task.ready?.() ?? true)) {
       debug(`${task.name} not completed! [Again? Not ready]`, "blue");
     } else {
-      const priority_explain = new Prioritization(
+      const priority_explain = Prioritization.from(
         task,
         ponderPrediction(),
         this.absorptionTargets

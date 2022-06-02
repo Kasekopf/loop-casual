@@ -153,14 +153,17 @@ export function main(command?: string): void {
   }
 }
 
-function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSource?] | undefined {
+function getNextTask(
+  engine: Engine,
+  tasks: Task[]
+): [Task, Prioritization, WandererSource?] | undefined {
   // Teleportitis overrides all
   if (have($effect`Teleportitis`)) {
     const tele = teleportitisTask(engine, tasks);
     if (tele.completed() && removeTeleportitis.ready()) {
-      return [removeTeleportitis, "[Forced]"];
+      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always)];
     }
-    return [tele, "[Forced]"];
+    return [tele, Prioritization.fixed(OverridePriority.Always)];
   }
 
   const available_tasks = tasks.filter((task) => engine.available(task));
@@ -170,7 +173,7 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSour
     (task) => task.priority?.() === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
-    return [priority, "[Copy last monster]"];
+    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster)];
   }
 
   // If a wanderer is up try to place it in a useful location
@@ -179,20 +182,19 @@ function getNextTask(engine: Engine, tasks: Task[]): [Task, string, WandererSour
     (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
-    return [delay_burning, "[Wanderer]", wanderer];
+    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), wanderer];
   }
 
   // Next, choose tasks by priorty, then by route.
   const orbPredictions = ponderPrediction();
   const task_priorities = available_tasks.map(
     (task) =>
-      [task, new Prioritization(task, orbPredictions, absorptionTargets)] as [Task, Prioritization]
+      [task, Prioritization.from(task, orbPredictions, absorptionTargets)] as [Task, Prioritization]
   );
   const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
   const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);
   if (todo !== undefined) {
-    const reason = todo[1].explain();
-    return [todo[0], reason === "" ? "[Route]" : `[${reason}]`];
+    return todo;
   }
   // No next task
   return undefined;
