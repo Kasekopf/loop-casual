@@ -520,7 +520,7 @@ export const MiscQuest: Quest = {
       name: "Gnome Items",
       after: ["Gnome Shirt"],
       ready: () => myMeat() >= 11000 && gnomadsAvailable(),
-      completed: () => have($skill`Torso Awareness`),
+      completed: () => have($skill`Powers of Observatiogn`),
       priority: () => OverridePriority.Free,
       freeaction: true,
       do: () => {
