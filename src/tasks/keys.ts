@@ -314,6 +314,13 @@ export const KeysQuest: Quest = {
     {
       name: "Skeleton Key",
       after: ["Crypt/Nook Boss", "Tower/Start"],
+      prepare: () => {
+        if (step("questM23Meatsmith") === -1) {
+          visitUrl("shop.php?whichshop=meatsmith");
+          visitUrl("shop.php?whichshop=meatsmith&action=talk");
+          runChoice(1);
+        }
+      },
       completed: () =>
         (have($item`skeleton bone`) && have($item`loose teeth`)) ||
         have($item`skeleton key`) ||
