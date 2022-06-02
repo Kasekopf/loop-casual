@@ -84,16 +84,19 @@ export class Prioritization {
           }
         } else {
           // Use orbtargets to decide if the next monster is useful
-          const targets = [
-            ...task.orbtargets(),
-            ...absorptionTargets.remainingAbsorbs(task.do),
-            ...absorptionTargets.remainingReprocess(task.do),
-          ];
-          if (targets.length > 0) {
-            if (targets.find((t) => t === next_monster) === undefined) {
-              this.priorities.add(OverridePriority.BadOrb);
-            } else {
-              this.priorities.add(OverridePriority.GoodOrb);
+          const fromTask = task.orbtargets();
+          if (fromTask !== undefined) {
+            const targets = [
+              ...fromTask,
+              ...absorptionTargets.remainingAbsorbs(task.do),
+              ...absorptionTargets.remainingReprocess(task.do),
+            ];
+            if (targets.length > 0) {
+              if (targets.find((t) => t === next_monster) === undefined) {
+                this.priorities.add(OverridePriority.BadOrb);
+              } else {
+                this.priorities.add(OverridePriority.GoodOrb);
+              }
             }
           }
         }

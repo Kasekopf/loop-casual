@@ -58,6 +58,7 @@ const Diary: Task[] = [
       .ignore($monster`blackberry bush`)
       .killItem(...$monsters`black adder, black panther`)
       .kill(),
+    orbtargets: () => undefined, // do not dodge anything with orb
     limit: { soft: 15 },
   },
   {
