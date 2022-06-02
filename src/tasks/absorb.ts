@@ -239,7 +239,8 @@ const absorbTasks: AbsorbTask[] = [
       if (numericModifier("Monster Level") < 50 || numericModifier("Monster Level") >= 100)
         throw `Unable to get 50-99 ML for oil barons`;
     },
-    outfit: { modifier: "moxie, ML 50min" },
+    freecombat: true,
+    outfit: { modifier: "ML 50min" },
     limit: { tries: 1 },
   },
   {
