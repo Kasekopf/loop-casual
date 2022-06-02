@@ -134,12 +134,22 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $skill`Summon Clip Art`,
-      why: "For amulet coin (via familiar jacks)",
+      why: "Amulet coin (via familiar jacks)",
       optional: true,
     },
     {
       thing: new Hardcoded("haunted doghouse" in getCampground(), "haunted doghouse"),
-      why: "For ghost dog chow",
+      why: "Ghost dog chow",
+      optional: true,
+    },
+    {
+      thing: $item`SongBoom™ BoomBox`,
+      why: "In-run meat source",
+      optional: true,
+    },
+    {
+      thing: $item`hewn moon-rune spoon`,
+      why: "Access to an extra monster absorb (see tune arg)",
       optional: true,
     },
   ];
@@ -161,7 +171,7 @@ function buildMiscList(): Requirement[] {
     },
     {
       thing: $familiar`Cornbeefadon`,
-      why: "For amulet coin, with clip art",
+      why: "Amulet coin, with clip art",
       optional: true,
     },
   ];
