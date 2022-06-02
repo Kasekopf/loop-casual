@@ -131,6 +131,10 @@ function orbPriority(
 ): OverridePriority {
   if (!(task.do instanceof Location)) return OverridePriority.None;
 
+  // If the goose is not charged, do not aim to reprocess
+  if (absorptionTargets.isReprocessTarget(monster) && familiarWeight($familiar`Grey Goose`) < 6)
+    return OverridePriority.None;
+
   // Determine if a monster is useful or not based on the combat goals
   if (task.orbtargets === undefined) {
     const task_combat = task.combat ?? new CombatStrategy();

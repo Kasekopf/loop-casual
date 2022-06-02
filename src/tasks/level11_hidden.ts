@@ -181,6 +181,10 @@ const Apartment: Task[] = [
       .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
+    orbtargets: () => {
+      if (have($effect`Thrice-Cursed`)) return [];
+      else return [$monster`pygmy shaman`];
+    },
     choices: { 780: 1 },
     limit: { tries: 9 },
   },
@@ -249,6 +253,7 @@ const Office: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Office Building)`)
       .ignore(),
+    orbtargets: () => [],
     limit: { soft: 10 },
   },
   {

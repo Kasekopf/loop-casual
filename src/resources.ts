@@ -70,7 +70,7 @@ export const banishSources: BanishSource[] = [
   },
 ];
 
-export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
+export function unusedBanishes(to_banish: Monster[]): [BanishSource[], Monster[]] {
   const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
   const already_banished = new Map(
     Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
@@ -90,11 +90,14 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
         used_banishes.add($skill`Reflex Hammer`);
     }
   });
-  if (to_banish.length === 0) return []; // All monsters banished.
+  if (to_banish.length === 0) return [[], []]; // All monsters banished.
 
   debug(`Banish targets: ${to_banish.join(", ")}`);
   debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
-  return banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do));
+  return [
+    banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do)),
+    to_banish,
+  ];
 }
 
 export interface WandererSource extends Resource {

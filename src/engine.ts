@@ -71,7 +71,7 @@ import {
   wandererSources,
 } from "./resources";
 import { AbsorptionTargets } from "./tasks/absorb";
-import { Prioritization } from "./priority";
+import { OverridePriority, Prioritization } from "./priority";
 import { args } from "./main";
 import { ponderPrediction } from "./lib";
 import { flyersDone } from "./tasks/level12";
@@ -215,8 +215,17 @@ export class Engine {
       const combat_resources = new CombatResourceAllocation();
       if (wanderers.length === 0) {
         // Set up a banish if needed
-        const banishSources = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
+        const [banishSources, toBanish] = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
         combat_resources.banishWith(outfit.equipFirst(banishSources));
+
+        // Equip an orb if we have a good target.
+        // (If we have banished all the bad targets, there is no need to force an orb)
+        if (
+          priority.has(OverridePriority.GoodOrb) &&
+          (toBanish.length > 0 || !task_combat.can(MonsterStrategy.Banish))
+        ) {
+          outfit.equip($item`miniature crystal ball`);
+        }
 
         // Set up a runaway if there are combats we do not care about
         let runaway = undefined;
