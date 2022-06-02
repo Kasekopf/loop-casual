@@ -1,5 +1,5 @@
 import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "kolmafia";
-import { $monster } from "libram";
+import { $item, $monster, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
@@ -30,6 +30,10 @@ export const TavernQuest: Quest = {
       name: "Basement",
       after: ["Tavernkeep"],
       completed: () => step("questL03Rat") >= 2,
+      priority: () =>
+        atLevel(17) || !have($item`backup camera`)
+          ? OverridePriority.None
+          : OverridePriority.BadGoose, // Wait for backup camera to max out
       do: (): void => {
         visitUrl("cellar.php");
         const layout = getProperty("tavernLayout");
