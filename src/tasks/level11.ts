@@ -45,6 +45,17 @@ const Diary: Task[] = [
           equip: $items`blackberry galoshes`,
           modifier: "+combat",
         };
+      } else if (
+        absorptionTargets.isReprocessTarget($monster`black magic woman`) &&
+        familiarWeight($familiar`Grey Goose`) >= 6 &&
+        ponderPrediction().get($location`The Black Forest`) === $monster`black magic woman`
+      ) {
+        // Swoop in for a single adventure to reprocess the black magic woman
+        return {
+          equip: $items`blackberry galoshes, miniature crystal ball`,
+          familiar: $familiar`Grey Goose`,
+          modifier: "+combat",
+        };
       } else {
         return {
           equip: $items`blackberry galoshes`,
