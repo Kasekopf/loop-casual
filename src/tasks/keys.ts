@@ -313,7 +313,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Skeleton Key",
-      after: ["Crypt/Nook Boss"],
+      after: ["Crypt/Nook Boss", "Tower/Start"],
       completed: () =>
         (have($item`skeleton bone`) && have($item`loose teeth`)) ||
         have($item`skeleton key`) ||
