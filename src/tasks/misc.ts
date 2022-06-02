@@ -2,11 +2,13 @@ import { CombatStrategy } from "../combat";
 import {
   abort,
   adv1,
+  canadiaAvailable,
   cliExecute,
   equippedAmount,
   Familiar,
   familiarWeight,
   getWorkshed,
+  gnomadsAvailable,
   hermit,
   itemAmount,
   knollAvailable,
@@ -46,6 +48,7 @@ import { OverridePriority } from "../priority";
 import { Engine } from "../engine";
 import { Keys, keyStrategy } from "./keys";
 import { debug } from "../lib";
+import { args } from "../main";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -499,6 +502,72 @@ export const MiscQuest: Quest = {
       completed: () =>
         !have($item`SongBoom™ BoomBox`) || get("boomBoxSong") === "Total Eclipse of Your Meat",
       do: () => cliExecute("boombox meat"),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Gnome Shirt",
+      after: [],
+      ready: () => myMeat() >= 11000 && gnomadsAvailable(),
+      completed: () => have($skill`Torso Awareness`),
+      priority: () => OverridePriority.Free,
+      freeaction: true,
+      do: () => {
+        visitUrl("gnomes.php?action=trainskill&whichskill=12");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Gnome Items",
+      after: ["Gnome Shirt"],
+      ready: () => myMeat() >= 11000 && gnomadsAvailable(),
+      completed: () => have($skill`Torso Awareness`),
+      priority: () => OverridePriority.Free,
+      freeaction: true,
+      do: () => {
+        visitUrl("gnomes.php?action=trainskill&whichskill=10");
+      },
+      limit: { tries: 1 },
+    },
+    {
+      name: "Tune from Muscle",
+      after: ["Unlock Beach", "Reprocess/The Bugbear Pen"],
+      ready: () => knollAvailable(),
+      completed: () =>
+        !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
+      priority: () => OverridePriority.Free,
+      freeaction: true,
+      do: () => cliExecute(`spoon ${args.tune}`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Tune from Myst",
+      after: ["Reprocess/Outskirts of Camp Logging Camp"],
+      ready: () => canadiaAvailable(),
+      completed: () =>
+        !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
+      priority: () => OverridePriority.Free,
+      freeaction: true,
+      do: () => cliExecute(`spoon ${args.tune}`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Tune from Moxie",
+      after: ["Reprocess/Thugnderdome", "Gnome Shirt", "Gnome Items"],
+      ready: () => gnomadsAvailable(),
+      completed: () =>
+        !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
+      priority: () => OverridePriority.Free,
+      freeaction: true,
+      do: () => cliExecute(`spoon ${args.tune}`),
+      limit: { tries: 1 },
+    },
+    {
+      name: "Retune Moon",
+      after: ["Tune from Muscle", "Tune from Myst", "Tune from Moxie"],
+      ready: () => false,
+      completed: () =>
+        !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
+      do: () => false,
       limit: { tries: 1 },
     },
   ],

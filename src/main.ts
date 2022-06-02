@@ -51,6 +51,9 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
   verboseequip: Args.flag({
     help: "Print out equipment usage before each task.",
   }),
+  tune: Args.string({
+    help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
+  }),
 });
 export function main(command?: string): void {
   sinceKolmafiaRevision(26394);
