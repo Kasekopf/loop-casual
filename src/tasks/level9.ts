@@ -104,6 +104,7 @@ const Oil: Task[] = [
     outfit: { modifier: "ML, 0.1 item", equip: $items`unbreakable umbrella` },
     combat: new CombatStrategy().killItem(),
     limit: { tries: 11 },
+    orbtargets: undefined,
   },
   {
     name: "Oil Peak",
@@ -111,6 +112,7 @@ const Oil: Task[] = [
     completed: () => get("oilPeakLit"),
     do: $location`Oil Peak`,
     limit: { tries: 1 },
+    orbtargets: undefined,
   },
   {
     name: "Oil Jar", // get oil for jar of oil
@@ -129,6 +131,7 @@ const Oil: Task[] = [
       else return { modifier: "ML, 0.1 item" };
     },
     limit: { soft: 5 },
+    orbtargets: undefined,
   },
 ];
 

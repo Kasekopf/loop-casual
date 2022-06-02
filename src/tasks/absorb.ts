@@ -1,6 +1,9 @@
 import {
   appearanceRates,
   canadiaAvailable,
+  equip,
+  equippedAmount,
+  equippedItem,
   familiarWeight,
   gnomadsAvailable,
   itemAmount,
@@ -8,9 +11,11 @@ import {
   Location,
   Monster,
   myAscensions,
+  numericModifier,
   putCloset,
   runChoice,
   Skill,
+  Slot,
   use,
   visitUrl,
 } from "kolmafia";
@@ -23,6 +28,7 @@ import {
   $monster,
   $skill,
   $skills,
+  $slot,
   get,
   have,
   Macro,
@@ -30,11 +36,12 @@ import {
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
-import { Quest, step, Task } from "./structure";
+import { Limit, Quest, step, Task } from "./structure";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
   do: Location;
+  limit?: Limit;
 }
 
 // A list of all locations that might have important monsters
@@ -205,14 +212,36 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`Twin Peak`,
     after: ["Orc Chasm/Twin Init"],
   },
-  // {
-  //   do: $location`Oil Peak`,
-  //   after: ["Orc Chasm/Oil Peak"],
-  //   prepare: () => {
-  //     if (numericModifier("ML") >= 100) throw `ML is too high to encounter oil cartels`;
-  //   },
-  //   outfit: { modifier: "moxie, ML 50min 50max" },
-  // },
+  {
+    do: $location`Oil Peak`,
+    after: ["Orc Chasm/Oil Peak"],
+    prepare: () => {
+      // Unequip the umbrella if it pushes us over the cap
+      if (
+        equippedAmount($item`unbreakable umbrella`) > 0 &&
+        get("umbrellaState") === "broken" &&
+        numericModifier("Monster Level") >= 80
+      ) {
+        equip($slot`off hand`, $item`none`);
+      }
+
+      // Unequip items one-by-one until we are below 100 ML
+      // (Always leave the backup camera on)
+      for (const slot of Slot.all()) {
+        if (numericModifier("Monster Level") < 100) break;
+
+        const item = equippedItem(slot);
+        if (numericModifier(item, "Monster Level") === 0) continue;
+        if (item === $item`backup camera`) continue; // Always keep equipped to ensure we can get to 50
+        equip(slot, $item`none`);
+      }
+
+      if (numericModifier("Monster Level") < 50 || numericModifier("Monster Level") >= 100)
+        throw `Unable to get 50-99 ML for oil barons`;
+    },
+    outfit: { modifier: "moxie, ML 50min" },
+    limit: { tries: 1 },
+  },
   {
     do: $location`The Valley of Rof L'm Fao`,
     after: ["Orc Chasm/Finish"],
