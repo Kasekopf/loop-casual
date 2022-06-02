@@ -264,6 +264,7 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

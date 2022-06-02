@@ -15,6 +15,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

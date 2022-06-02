@@ -2,6 +2,7 @@ import { drink, Item, itemAmount, toInt, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monsters, $skill, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { OverridePriority } from "../priority";
 import { Quest, step } from "./structure";
 
 export const FriarQuest: Quest = {
@@ -14,6 +15,7 @@ export const FriarQuest: Quest = {
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

@@ -25,6 +25,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {
@@ -33,6 +34,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") >= 1,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

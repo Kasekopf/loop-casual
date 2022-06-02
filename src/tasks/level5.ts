@@ -27,6 +27,7 @@ export const KnobQuest: Quest = {
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

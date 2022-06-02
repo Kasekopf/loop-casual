@@ -15,6 +15,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

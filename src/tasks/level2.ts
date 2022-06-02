@@ -1,6 +1,7 @@
 import { visitUrl } from "kolmafia";
 import { $location } from "libram";
 import { atLevel } from "../lib";
+import { OverridePriority } from "../priority";
 import { Quest, step } from "./structure";
 
 export const MosquitoQuest: Quest = {
@@ -13,6 +14,7 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {

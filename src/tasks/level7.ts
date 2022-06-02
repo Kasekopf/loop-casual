@@ -4,6 +4,7 @@ import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { absorptionTargets } from "./absorb";
+import { OverridePriority } from "../priority";
 
 function tuneCape(): void {
   if (
@@ -196,6 +197,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     ...Alcove,

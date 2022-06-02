@@ -2,6 +2,7 @@ import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "ko
 import { $monster } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { OverridePriority } from "../priority";
 import { Quest, step } from "./structure";
 
 export const TavernQuest: Quest = {
@@ -14,6 +15,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
+      priority: () => OverridePriority.Free,
       freeaction: true,
     },
     {
