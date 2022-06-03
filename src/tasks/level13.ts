@@ -2,9 +2,11 @@ import {
   cliExecute,
   myHp,
   myMaxhp,
+  myMeat,
   myPath,
   print,
   restoreHp,
+  retrieveItem,
   runChoice,
   use,
   visitUrl,
@@ -381,9 +383,7 @@ export const TowerQuest: Quest = {
       after: ["Frank"],
       completed: () => step("questL13Final") > 4,
       prepare: () => {
-        if (myHp() < myMaxhp()) {
-          restoreHp(myMaxhp());
-        }
+        fillHp();
       },
       do: $location`The Hedge Maze`,
       choices: { 1004: 1, 1005: 2, 1008: 2, 1011: 2, 1013: 1, 1022: 1 },
@@ -400,9 +400,7 @@ export const TowerQuest: Quest = {
       after: ["Door"],
       prepare: () => {
         if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
-        if (myHp() < myMaxhp()) {
-          restoreHp(myMaxhp());
-        }
+        fillHp();
       },
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
@@ -419,9 +417,7 @@ export const TowerQuest: Quest = {
       name: "Wall of Meat",
       after: ["Wall of Skin"],
       prepare: () => {
-        if (myHp() < myMaxhp()) {
-          restoreHp(myMaxhp());
-        }
+        fillHp();
       },
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
@@ -458,9 +454,7 @@ export const TowerQuest: Quest = {
         ) {
           cliExecute("retrocape heck hold");
         }
-        if (myHp() < myMaxhp()) {
-          restoreHp(myMaxhp());
-        }
+        fillHp();
       },
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
@@ -516,3 +510,20 @@ export const TowerQuest: Quest = {
     },
   ],
 };
+
+function fillHp() {
+  if (myHp() < myMaxhp()) {
+    if (!restoreHp(myMaxhp())) {
+      // Backup healing plan in a pinch
+      if (have($item`scroll of drastic healing`)) {
+        use($item`scroll of drastic healing`);
+      } else if (get("_hotTubSoaks") < 5) {
+        visitUrl("clan_viplounge.php?action=hottub");
+      }
+      while (myHp() < myMaxhp() && myMeat() >= 1000) {
+        retrieveItem($item`Doc Galaktik's Homeopathic Elixir`);
+        use($item`Doc Galaktik's Homeopathic Elixir`);
+      }
+    }
+  }
+}
