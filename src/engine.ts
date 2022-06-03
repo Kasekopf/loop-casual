@@ -382,9 +382,15 @@ function autosellJunk(): void {
   if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
 
   // Sell junk items
-  const junk = $items`hamethyst, baconstone, porquoise, meat stack, dense meat stack, facsimile dictionary, space blanket`;
+  const junk = $items`hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal`;
   for (const item of junk) {
     if (have(item)) autosell(item, itemAmount(item));
+  }
+
+  // Sell all but one of a few items
+  const partial_junk = $items`porquoise, ruby W, metallic A, lowercase N, heavy D`;
+  for (const item of partial_junk) {
+    if (itemAmount(item) > 1) autosell(item, itemAmount(item) - 1);
   }
 
   // Use wallets
