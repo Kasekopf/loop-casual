@@ -20,6 +20,7 @@ import {
   $items,
   $location,
   $monsters,
+  $skill,
   $stat,
   ensureEffect,
   get,
@@ -272,7 +273,11 @@ export const ChasmQuest: Quest = {
       name: "Bridge",
       after: ["Start", "Macguffin/Forest"], // Wait for black paint
       ready: () =>
-        get("smutOrcNoncombatProgress") < 15 ||
+        ((have($item`frozen jeans`) ||
+          have($skill`Cryocurrency`) ||
+          have($skill`Cooling Tubules`) ||
+          have($skill`Snow-Cooling System`)) &&
+          get("smutOrcNoncombatProgress") < 15) ||
         ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 400),
       completed: () => step("questL09Topping") >= 1,
       prepare: () => {
