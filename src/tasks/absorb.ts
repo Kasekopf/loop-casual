@@ -466,7 +466,7 @@ const absorbTasks: AbsorbTask[] = [
   // These are probably only worthwhile with orb
   {
     do: $location`South of the Border`,
-    after: ["Misc/Unlock Beach"],
+    after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
     choices: { 4: 3 },
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
   },
