@@ -56,7 +56,7 @@ const Alcove: Task[] = [
   {
     name: "Alcove Boss",
     after: ["Alcove"],
-    completed: () => get("cyrptAlcoveEvilness") === 0,
+    completed: () => get("cyrptAlcoveEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Alcove`,
     combat: new CombatStrategy(true).kill(),
     limit: { tries: 1 },
@@ -90,7 +90,7 @@ const Cranny: Task[] = [
   {
     name: "Cranny Boss",
     after: ["Cranny"],
-    completed: () => get("cyrptCrannyEvilness") === 0,
+    completed: () => get("cyrptCrannyEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Cranny`,
     combat: new CombatStrategy(true).killHard(),
     limit: { tries: 1 },
@@ -137,7 +137,7 @@ const Niche: Task[] = [
   {
     name: "Niche Boss",
     after: ["Niche"],
-    completed: () => get("cyrptNicheEvilness") === 0,
+    completed: () => get("cyrptNicheEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Niche`,
     combat: new CombatStrategy(true).kill(),
     limit: { tries: 1 },
@@ -181,7 +181,7 @@ const Nook: Task[] = [
   {
     name: "Nook Boss",
     after: ["Nook", "Nook Eye"],
-    completed: () => get("cyrptNookEvilness") === 0,
+    completed: () => get("cyrptNookEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy(true).killItem(),
     limit: { tries: 1 },
