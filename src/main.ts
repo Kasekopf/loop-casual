@@ -80,76 +80,80 @@ export function main(command?: string): void {
 
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, absorptionTargets);
-  cliExecute("ccs loopgyou");
-  setUniversalProperties(engine.propertyManager);
+  try {
+    cliExecute("ccs loopgyou");
+    setUniversalProperties(engine.propertyManager);
 
-  let actions_left = args.actions ?? Number.MAX_VALUE;
-  absorptionTargets.updateAbsorbed();
-  absorptionTargets.ignoreUselessAbsorbs();
-  if (actions_left < 0) {
-    for (const task of tasks) {
-      debug(
-        `${task.name}: ${
-          task.completed() ? "Done" : engine.available(task) ? "Available" : "Not Available"
-        }`,
-        task.completed() ? "blue" : engine.available(task) ? undefined : "red"
+    let actions_left = args.actions ?? Number.MAX_VALUE;
+    absorptionTargets.updateAbsorbed();
+    absorptionTargets.ignoreUselessAbsorbs();
+    if (actions_left < 0) {
+      for (const task of tasks) {
+        debug(
+          `${task.name}: ${
+            task.completed() ? "Done" : engine.available(task) ? "Available" : "Not Available"
+          }`,
+          task.completed() ? "blue" : engine.available(task) ? undefined : "red"
+        );
+      }
+    }
+
+    while (myAdventures() > 0) {
+      // Note order matters for these strategy updates
+      keyStrategy.update(); // Update key plan with current state
+      pullStrategy.update(); // Update pull plan with current state
+
+      const next = getNextTask(engine, tasks);
+      if (next === undefined) break;
+      if (actions_left <= 0) {
+        debug(`Next task: ${next[0].name}`);
+        return;
+      } else {
+        actions_left -= 1;
+      }
+
+      if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
+      else engine.execute(next[0], next[1]);
+      if (myPath() !== "Grey You") break; // Prism broken
+    }
+
+    const remaining_tasks = tasks.filter((task) => !task.completed());
+    if (!runComplete()) {
+      debug("Remaining tasks:", "red");
+      for (const task of remaining_tasks) {
+        if (!task.completed()) debug(`${task.name}`, "red");
+      }
+      throw `Unable to find available task, but the run is not complete.`;
+    }
+
+    print("Grey you complete!", "purple");
+    print(`   Adventures used: ${turnsPlayed()}`, "purple");
+    print(`   Adventures remaining: ${myAdventures()}`, "purple");
+    if (set_time_now)
+      print(
+        `   Time: ${convertMilliseconds(gametimeToInt() - get(time_property, gametimeToInt()))}`,
+        "purple"
+      );
+    else
+      print(
+        `   Time: ${convertMilliseconds(
+          gametimeToInt() - get(time_property, gametimeToInt())
+        )} since first run today started`,
+        "purple"
+      );
+    print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
+    if (myPath() === "Grey You") {
+      print(
+        `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
+        "purple"
+      );
+      print(
+        `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(", ")}`,
+        "purple"
       );
     }
-  }
-
-  while (myAdventures() > 0) {
-    // Note order matters for these strategy updates
-    keyStrategy.update(); // Update key plan with current state
-    pullStrategy.update(); // Update pull plan with current state
-
-    const next = getNextTask(engine, tasks);
-    if (next === undefined) break;
-    if (actions_left <= 0) {
-      debug(`Next task: ${next[0].name}`);
-      return;
-    } else {
-      actions_left -= 1;
-    }
-
-    if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
-    else engine.execute(next[0], next[1]);
-    if (myPath() !== "Grey You") break; // Prism broken
-  }
-
-  const remaining_tasks = tasks.filter((task) => !task.completed());
-  if (!runComplete()) {
-    debug("Remaining tasks:", "red");
-    for (const task of remaining_tasks) {
-      if (!task.completed()) debug(`${task.name}`, "red");
-    }
-    throw `Unable to find available task, but the run is not complete.`;
-  }
-
-  print("Grey you complete!", "purple");
-  print(`   Adventures used: ${turnsPlayed()}`, "purple");
-  print(`   Adventures remaining: ${myAdventures()}`, "purple");
-  if (set_time_now)
-    print(
-      `   Time: ${convertMilliseconds(gametimeToInt() - get(time_property, gametimeToInt()))}`,
-      "purple"
-    );
-  else
-    print(
-      `   Time: ${convertMilliseconds(
-        gametimeToInt() - get(time_property, gametimeToInt())
-      )} since first run today started`,
-      "purple"
-    );
-  print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
-  if (myPath() === "Grey You") {
-    print(
-      `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
-      "purple"
-    );
-    print(
-      `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(", ")}`,
-      "purple"
-    );
+  } finally {
+    engine.propertyManager.resetAll();
   }
 }
 
@@ -239,6 +243,7 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     autoTuxedo: true,
     autoPinkyRing: true,
     autoGarish: true,
+    allowNonMoodBurning: false,
     allowSummonBurning: true,
     libramSkillsSoftcore: "none",
   });
