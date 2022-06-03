@@ -217,16 +217,20 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
-    ready: () => !have($effect`Everything Looks Yellow`),
     priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-    acquire: [{ item: $item`yellow rocket` }],
+      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
+    acquire: [
+      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
+    ],
     do: $location`The Hatching Chamber`,
-    combat: new CombatStrategy().macro(
-      new Macro().item($item`yellow rocket`),
-      $monster`larval filthworm`
-    ),
-    limit: { tries: 1 },
+    outfit: () => {
+      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
+      else return {};
+    },
+    combat: new CombatStrategy()
+      .macro(new Macro().item($item`yellow rocket`), $monster`larval filthworm`)
+      .killItem(),
+    limit: { soft: 10 },
   },
   {
     name: "Orchard Feeding",
@@ -238,17 +242,21 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
-    ready: () => !have($effect`Everything Looks Yellow`),
     priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-    acquire: [{ item: $item`yellow rocket` }],
+      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
+    acquire: [
+      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
+    ],
     do: $location`The Feeding Chamber`,
     effects: $effects`Filthworm Larva Stench`,
-    combat: new CombatStrategy().macro(
-      new Macro().item($item`yellow rocket`),
-      $monster`filthworm drone`
-    ),
-    limit: { tries: 1 },
+    outfit: () => {
+      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
+      else return {};
+    },
+    combat: new CombatStrategy()
+      .macro(new Macro().item($item`yellow rocket`), $monster`filthworm drone`)
+      .killItem(),
+    limit: { soft: 10 },
   },
   {
     name: "Orchard Guard",
@@ -258,17 +266,21 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
-    ready: () => !have($effect`Everything Looks Yellow`),
     priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-    acquire: [{ item: $item`yellow rocket` }],
+      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
+    acquire: [
+      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
+    ],
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
-    combat: new CombatStrategy().macro(
-      new Macro().item($item`yellow rocket`),
-      $monster`filthworm royal guard`
-    ),
-    limit: { tries: 1 },
+    outfit: () => {
+      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
+      else return {};
+    },
+    combat: new CombatStrategy()
+      .macro(new Macro().item($item`yellow rocket`), $monster`filthworm royal guard`)
+      .killItem(),
+    limit: { soft: 10 },
   },
   {
     name: "Orchard Queen",
