@@ -22,31 +22,6 @@ export const pulls: PullSpec[] = [
   { pull: $item`Boris's ring`, useful: () => keyStrategy.useful(Keys.ZapBoris) },
   { pull: $item`Jarlsberg's earring`, useful: () => keyStrategy.useful(Keys.ZapJarlsberg) },
   { pull: $item`Sneaky Pete's breath spray`, useful: () => keyStrategy.useful(Keys.ZapSneaky) },
-  { pull: $item`book of matches` },
-  { pull: $item`blackberry galoshes` },
-  { pull: $item`antique machete` },
-  { pull: $item`ninja rope` },
-  { pull: $item`ninja carabiner` },
-  { pull: $item`ninja crampons` },
-  {
-    pull: $item`wet stew`,
-    useful: () =>
-      step("questL11Palindome") < 5 &&
-      !have($item`wet stunt nut stew`) &&
-      !have($item`wet stew`) &&
-      (!have($item`lion oil`) || !have($item`bird rib`)),
-  },
-  {
-    pull: $item`Mohawk wig`,
-    useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
-  },
-  { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
-  { pull: $item`yule hatchet` },
-  { pull: $item`grey down vest` },
-  { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
-  { pull: $item`old patched suit-pants`, optional: true },
-  { pull: $item`transparent pants`, optional: true },
-  { pull: $item`deck of lewd playing cards`, optional: true },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
@@ -55,9 +30,34 @@ export const pulls: PullSpec[] = [
         ? undefined
         : itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2,
   },
+  {
+    pull: $item`Mohawk wig`,
+    useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
+  },
+  { pull: $item`ninja rope` },
+  { pull: $item`ninja carabiner` },
+  { pull: $item`ninja crampons` },
+  { pull: $item`blackberry galoshes` },
+  { pull: $item`antique machete` },
+  { pull: $item`book of matches` },
+  { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
+  { pull: $item`yule hatchet` },
+  { pull: $item`grey down vest` },
+  { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
+  { pull: $item`old patched suit-pants`, optional: true },
+  { pull: $item`transparent pants`, optional: true },
+  { pull: $item`deck of lewd playing cards`, optional: true },
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
+  {
+    pull: $item`wet stew`,
+    useful: () =>
+      step("questL11Palindome") < 5 &&
+      !have($item`wet stunt nut stew`) &&
+      !have($item`wet stew`) &&
+      (!have($item`lion oil`) || !have($item`bird rib`)),
+  },
   { pull: $item`11-leaf clover` },
 ];
 
