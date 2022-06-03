@@ -282,7 +282,8 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Digital Key",
-      after: ["Open 8-Bit", "Tower/Coronation"],
+      after: ["Open 8-Bit"],
+      ready: () => step("questL13Final") > 2 || !have($item`Powerful Glove`),
       completed: () =>
         get("nsTowerDoorKeysUsed").includes("digital key") ||
         have($item`digital key`) ||
@@ -294,9 +295,9 @@ export const KeysQuest: Quest = {
           ) >=
           30,
       do: $location`8-Bit Realm`,
-      outfit: { equip: $items`continuum transfunctioner` },
+      outfit: { equip: $items`continuum transfunctioner`, modifier: "item" },
       combat: new CombatStrategy().banish($monster`Bullet Bill`).kill(),
-      limit: { soft: 30 },
+      limit: { soft: 40 },
     },
     {
       name: "Star Key",
