@@ -24,7 +24,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
       outfit: { modifier: "-combat" },
-      limit: { tries: 17 },
+      limit: { tries: 20 },
     },
     {
       name: "Neck",
@@ -33,7 +33,7 @@ export const FriarQuest: Quest = {
       do: $location`The Dark Neck of the Woods`,
       outfit: { modifier: "-combat" },
       choices: { 1428: 2 },
-      limit: { tries: 17 },
+      limit: { tries: 20 },
     },
     {
       name: "Elbow",
@@ -41,7 +41,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
       outfit: { modifier: "-combat" },
-      limit: { tries: 17 },
+      limit: { tries: 20 },
     },
     {
       name: "Finish",

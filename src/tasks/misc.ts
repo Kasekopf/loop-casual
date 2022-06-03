@@ -477,7 +477,7 @@ export const MiscQuest: Quest = {
       do: arenaFight,
       outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
       freeaction: true,
-      limit: { soft: 50 },
+      limit: { soft: 75 },
     },
     {
       name: "Amulet Coin",

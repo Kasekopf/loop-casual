@@ -164,7 +164,7 @@ const Nook: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
-    limit: { soft: 15 },
+    limit: { soft: 25 },
   },
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
