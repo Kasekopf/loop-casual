@@ -88,10 +88,18 @@ export function main(command?: string): void {
     absorptionTargets.updateAbsorbed();
     absorptionTargets.ignoreUselessAbsorbs();
     if (actions_left < 0) {
+      const orbPredictions = ponderPrediction();
       for (const task of tasks) {
+        const priority = Prioritization.from(task, orbPredictions, absorptionTargets);
+        const reason = priority.explain();
+        const why = reason === "" ? "Route" : reason;
         debug(
           `${task.name}: ${
-            task.completed() ? "Done" : engine.available(task) ? "Available" : "Not Available"
+            task.completed()
+              ? "Done"
+              : engine.available(task)
+              ? `Available [${priority.score()}: ${why}]`
+              : "Not Available"
           }`,
           task.completed() ? "blue" : engine.available(task) ? undefined : "red"
         );
