@@ -258,7 +258,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Castle in the Clouds in the Sky (Basement)`,
     after: ["Giant/Basement Finish"],
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
-    choices: { 670: 5, 669: 1, 671: 3 },
+    choices: { 670: 3, 669: 1, 671: 3 },
   },
   {
     do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
