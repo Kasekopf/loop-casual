@@ -1,5 +1,16 @@
 import { cliExecute, Item, myBasestat, visitUrl } from "kolmafia";
-import { $item, $location, $monster, $monsters, $skill, $stat, get, have, Macro } from "libram";
+import {
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  $stat,
+  get,
+  have,
+  Macro,
+} from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
@@ -113,11 +124,7 @@ const Niche: Task[] = [
         !get("fireExtinguisherCyrptUsed")
       )
         return {
-          equip: tryCape(
-            $item`antique machete`,
-            $item`gravy boat`,
-            $item`industrial fire extinguisher`
-          ),
+          equip: $items`gravy boat, industrial fire extinguisher`,
         };
       else
         return {
