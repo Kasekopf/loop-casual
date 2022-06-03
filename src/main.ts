@@ -81,9 +81,6 @@ export function main(command?: string): void {
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, absorptionTargets);
   try {
-    cliExecute("ccs loopgyou");
-    setUniversalProperties(engine.propertyManager);
-
     let actions_left = args.actions ?? Number.MAX_VALUE;
     absorptionTargets.updateAbsorbed();
     absorptionTargets.ignoreUselessAbsorbs();
@@ -104,6 +101,12 @@ export function main(command?: string): void {
           task.completed() ? "blue" : engine.available(task) ? undefined : "red"
         );
       }
+    }
+
+    // Do not bother to set properties if there are no tasks remaining
+    if (tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined) {
+      setUniversalProperties(engine.propertyManager);
+      cliExecute("ccs loopgyou");
     }
 
     while (myAdventures() > 0) {
@@ -133,35 +136,35 @@ export function main(command?: string): void {
       }
       throw `Unable to find available task, but the run is not complete.`;
     }
-
-    print("Grey you complete!", "purple");
-    print(`   Adventures used: ${turnsPlayed()}`, "purple");
-    print(`   Adventures remaining: ${myAdventures()}`, "purple");
-    if (set_time_now)
-      print(
-        `   Time: ${convertMilliseconds(gametimeToInt() - get(time_property, gametimeToInt()))}`,
-        "purple"
-      );
-    else
-      print(
-        `   Time: ${convertMilliseconds(
-          gametimeToInt() - get(time_property, gametimeToInt())
-        )} since first run today started`,
-        "purple"
-      );
-    print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
-    if (myPath() === "Grey You") {
-      print(
-        `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
-        "purple"
-      );
-      print(
-        `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(", ")}`,
-        "purple"
-      );
-    }
   } finally {
     engine.propertyManager.resetAll();
+  }
+
+  print("Grey you complete!", "purple");
+  print(`   Adventures used: ${turnsPlayed()}`, "purple");
+  print(`   Adventures remaining: ${myAdventures()}`, "purple");
+  if (set_time_now)
+    print(
+      `   Time: ${convertMilliseconds(gametimeToInt() - get(time_property, gametimeToInt()))}`,
+      "purple"
+    );
+  else
+    print(
+      `   Time: ${convertMilliseconds(
+        gametimeToInt() - get(time_property, gametimeToInt())
+      )} since first run today started`,
+      "purple"
+    );
+  print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
+  if (myPath() === "Grey You") {
+    print(
+      `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
+      "purple"
+    );
+    print(
+      `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(", ")}`,
+      "purple"
+    );
   }
 }
 
