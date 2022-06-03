@@ -206,7 +206,7 @@ export const CryptQuest: Quest = {
     ...Nook,
     {
       name: "Bonerdagon",
-      after: ["Alcove Boss", "Cranny Boss", "Niche Boss", "Nook Boss"],
+      after: ["Start", "Alcove Boss", "Cranny Boss", "Niche Boss", "Nook Boss"],
       completed: () => step("questL07Cyrptic") >= 1,
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
@@ -215,7 +215,7 @@ export const CryptQuest: Quest = {
     },
     {
       name: "Finish",
-      after: ["Bonerdagon"],
+      after: ["Start", "Bonerdagon"],
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
