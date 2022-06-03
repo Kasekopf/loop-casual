@@ -87,7 +87,7 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Peak",
-    after: ["ABoo Horror"],
+    after: ["ABoo Clues", "ABoo Horror"],
     completed: () => get("booPeakLit"),
     do: $location`A-Boo Peak`,
     limit: { tries: 1 },
