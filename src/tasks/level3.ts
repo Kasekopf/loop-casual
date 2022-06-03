@@ -3,6 +3,7 @@ import { $item, $monster, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
+import { councilSafe } from "./level12";
 import { Quest, step } from "./structure";
 
 export const TavernQuest: Quest = {
@@ -15,7 +16,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {

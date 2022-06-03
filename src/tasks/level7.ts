@@ -5,6 +5,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { absorptionTargets } from "./absorb";
 import { OverridePriority } from "../priority";
+import { councilSafe } from "./level12";
 
 function tuneCape(): void {
   if (
@@ -197,7 +198,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     ...Alcove,
@@ -216,6 +217,7 @@ export const CryptQuest: Quest = {
     {
       name: "Finish",
       after: ["Start", "Bonerdagon"],
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

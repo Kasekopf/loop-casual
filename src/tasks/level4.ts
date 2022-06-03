@@ -4,6 +4,7 @@ import { OutfitSpec, Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { councilSafe } from "./level12";
 
 export const BatQuest: Quest = {
   name: "Bat",
@@ -15,7 +16,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {
@@ -124,6 +125,7 @@ export const BatQuest: Quest = {
     {
       name: "Finish",
       after: ["Boss Bat"],
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       completed: () => step("questL04Bat") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

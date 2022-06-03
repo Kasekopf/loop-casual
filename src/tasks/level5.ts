@@ -16,6 +16,7 @@ import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { absorptionTargets } from "./absorb";
+import { councilSafe } from "./level12";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -27,7 +28,7 @@ export const KnobQuest: Quest = {
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {

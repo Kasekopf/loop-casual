@@ -332,12 +332,7 @@ export const WarQuest: Quest = {
     {
       name: "Start",
       after: [],
-      ready: () =>
-        atLevel(12) &&
-        ((have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
-          (have($item`beer helmet`) &&
-            have($item`distressed denim pants`) &&
-            have($item`bejeweled pledge pin`))),
+      ready: () => atLevel(12) && councilSafe(),
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -473,6 +468,18 @@ export const WarQuest: Quest = {
     },
   ],
 };
+
+export function councilSafe(): boolean {
+  // Check if it is safe to visit the council without making the war outfit worse
+  // (It is harder to get the hippy outfit after the war starts)
+  return (
+    !atLevel(12) ||
+    (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
+    (have($item`beer helmet`) &&
+      have($item`distressed denim pants`) &&
+      have($item`bejeweled pledge pin`))
+  );
+}
 
 function dimesForGarters(): void {
   if (itemAmount($item`gauze garter`) >= 20) return;

@@ -4,6 +4,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
+import { councilSafe } from "./level12";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -15,7 +16,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {
@@ -132,6 +133,7 @@ export const GiantQuest: Quest = {
     {
       name: "Finish",
       after: ["Top Floor"],
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
       limit: { soft: 10 },

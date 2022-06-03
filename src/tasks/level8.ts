@@ -14,6 +14,7 @@ import { Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { councilSafe } from "./level12";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -25,7 +26,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {

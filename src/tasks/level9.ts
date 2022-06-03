@@ -31,6 +31,7 @@ import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
+import { councilSafe } from "./level12";
 
 const ABoo: Task[] = [
   {
@@ -264,7 +265,7 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       freeaction: true,
     },
     {

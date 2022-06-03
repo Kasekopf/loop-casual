@@ -28,6 +28,7 @@ import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel, ponderPrediction } from "../lib";
 import { absorptionTargets } from "./absorb";
+import { councilSafe } from "./level12";
 
 const Diary: Task[] = [
   {
@@ -355,7 +356,7 @@ export const MacguffinQuest: Quest = {
       name: "Start",
       after: [],
       ready: () => atLevel(11),
-      priority: () => OverridePriority.Free,
+      priority: () => OverridePriority.Free, // Always start this quest ASAP, it is key for routing
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -367,6 +368,7 @@ export const MacguffinQuest: Quest = {
     {
       name: "Finish",
       after: ["Boss"],
+      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
       completed: () => step("questL11MacGuffin") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
