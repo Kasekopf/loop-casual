@@ -37,6 +37,7 @@ import {
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
+import { GameState } from "../state";
 import { Limit, Quest, step, Task } from "./structure";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
@@ -561,7 +562,7 @@ const absorbTasks: AbsorbTask[] = [
 ];
 
 // All monsters that give adventures upon absorption
-const reprocessTargets: Monster[] = [
+const reprocessTargets = new Set<Monster>([
   // 10 adv monsters
   $monster`1335 HaXx0r`,
   $monster`Alphabet Giant`,
@@ -638,189 +639,81 @@ const reprocessTargets: Monster[] = [
   $monster`swarm of Knob lice`,
   $monster`W imp`,
   $monster`warwelf`,
-];
+]);
 
 // Other monsters that give skills
-const usefulMonsters: [Monster, Skill][] = [
-  [$monster`anglerbush`, $skill`Ponzi Apparatus`],
-  [$monster`animated ornate nightstand`, $skill`Ominous Substrate`],
-  [$monster`Astronomer`, $skill`Innuendo Circuitry`],
-  [$monster`beanbat`, $skill`Exhaust Tubules`],
-  [$monster`Big Wheelin' Twins`, $skill`Overclocking`],
-  [$monster`black panther`, $skill`Photonic Shroud`],
-  [$monster`Carnivorous Moxie Weed`, $skill`Fluid Dynamics Simulation`],
-  [$monster`Claybender Sorcerer Ghost`, $skill`Ectogenesis`],
-  [$monster`Cobb's Knob oven`, $skill`Microburner`],
-  [$monster`cubist bull`, $skill`Localized Vacuum`],
-  [$monster`demonic icebox`, $skill`Infernal Automata`],
-  [$monster`drunk goat`, $skill`Secondary Fermentation`],
-  [$monster`drunk pygmy`, $skill`Double Nanovision`],
-  [$monster`eXtreme cross-country hippy`, $skill`Microweave`],
-  [$monster`Flock of Stab-bats`, $skill`AUTOEXEC.BAT`],
-  [$monster`junksprite bender`, $skill`Propagation Drive`],
-  [$monster`Knob Goblin Harem Girl`, $skill`Camp Subroutines`],
-  [$monster`Knob Goblin MBA`, $skill`Cryocurrency`],
-  [$monster`lihc`, $skill`Curses Library`],
-  [$monster`malevolent hair clog`, $skill`Clammy Microcilia`],
-  [$monster`me4t begZ0r`, $skill`Financial Spreadsheets`],
-  [$monster`mind flayer`, $skill`Hivemindedness`],
-  [$monster`Ninja Snowman Weaponmaster`, $skill`Cooling Tubules`],
-  // [$monster`oil slick`, $skill`Lubricant Layer`],
-  [$monster`pine bat`, $skill`Conifer Polymers`],
-  [$monster`possessed wine rack`, $skill`Legacy Code`],
-  [$monster`pygmy janitor`, $skill`System Sweep`],
-  [$monster`pygmy witch lawyer`, $skill`Infinite Loop`],
-  [$monster`raging bull`, $skill`Ire Proof`],
-  [$monster`ratbat`, $skill`Nanofur`],
-  [$monster`smut orc screwer`, $skill`Procgen Ribaldry`],
-  [$monster`Snow Queen`, $skill`Snow-Cooling System`],
-  [$monster`Spectral Jellyfish`, $skill`Phase Shift`],
-  [$monster`spooky vampire`, $skill`Autovampirism Routines`],
-  [$monster`steam elemental`, $skill`Steam Mycelia`],
-  [$monster`suckubus`, $skill`Gravitational Compression`],
-  [$monster`Boss Bat`, $skill`Grey Noise`],
-  [$monster`werecougar`, $skill`Anti-Sleaze Recursion`],
-  [$monster`white lion`, $skill`Piezoelectric Honk`],
-];
+const usefulSkills = new Map<Skill, Monster>([
+  [$skill`Ponzi Apparatus`, $monster`anglerbush`],
+  [$skill`Ominous Substrate`, $monster`animated ornate nightstand`],
+  [$skill`Innuendo Circuitry`, $monster`Astronomer`],
+  [$skill`Exhaust Tubules`, $monster`beanbat`],
+  [$skill`Overclocking`, $monster`Big Wheelin' Twins`],
+  [$skill`Photonic Shroud`, $monster`black panther`],
+  [$skill`Fluid Dynamics Simulation`, $monster`Carnivorous Moxie Weed`],
+  [$skill`Ectogenesis`, $monster`Claybender Sorcerer Ghost`],
+  [$skill`Microburner`, $monster`Cobb's Knob oven`],
+  [$skill`Localized Vacuum`, $monster`cubist bull`],
+  [$skill`Infernal Automata`, $monster`demonic icebox`],
+  [$skill`Secondary Fermentation`, $monster`drunk goat`],
+  [$skill`Double Nanovision`, $monster`drunk pygmy`],
+  [$skill`Microweave`, $monster`eXtreme cross-country hippy`],
+  [$skill`AUTOEXEC.BAT`, $monster`Flock of Stab-bats`],
+  [$skill`Propagation Drive`, $monster`junksprite bender`],
+  [$skill`Camp Subroutines`, $monster`Knob Goblin Harem Girl`],
+  [$skill`Cryocurrency`, $monster`Knob Goblin MBA`],
+  [$skill`Curses Library`, $monster`lihc`],
+  [$skill`Clammy Microcilia`, $monster`malevolent hair clog`],
+  [$skill`Financial Spreadsheets`, $monster`me4t begZ0r`],
+  [$skill`Hivemindedness`, $monster`mind flayer`],
+  [$skill`Cooling Tubules`, $monster`Ninja Snowman Weaponmaster`],
+  // [$skill`Lubricant Layer`, $monster`oil slick`],
+  [$skill`Conifer Polymers`, $monster`pine bat`],
+  [$skill`Legacy Code`, $monster`possessed wine rack`],
+  [$skill`System Sweep`, $monster`pygmy janitor`],
+  [$skill`Infinite Loop`, $monster`pygmy witch lawyer`],
+  [$skill`Ire Proof`, $monster`raging bull`],
+  [$skill`Nanofur`, $monster`ratbat`],
+  [$skill`Procgen Ribaldry`, $monster`smut orc screwer`],
+  [$skill`Snow-Cooling System`, $monster`Snow Queen`],
+  [$skill`Phase Shift`, $monster`Spectral Jellyfish`],
+  [$skill`Autovampirism Routines`, $monster`spooky vampire`],
+  [$skill`Steam Mycelia`, $monster`steam elemental`],
+  [$skill`Gravitational Compression`, $monster`suckubus`],
+  [$skill`Grey Noise`, $monster`Boss Bat`],
+  [$skill`Anti-Sleaze Recursion`, $monster`werecougar`],
+  [$skill`Piezoelectric Honk`, $monster`white lion`],
+]);
+const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.values()]);
 
-// A many-to-many map used to track the remaining monsters at each location
-class ManyToMany<A, B> {
-  private aByB = new Map<B, Set<A>>();
-  private bByA = new Map<A, Set<B>>();
+function monstersAt(location: Location): Monster[] {
+  const result = Object.entries(appearanceRates(location))
+    .filter((i) => i[1] > 0)
+    .map((i) => Monster.get<Monster>(i[0]));
 
-  public add(a: A, b: B): void {
-    if (!this.aByB.has(b)) this.aByB.set(b, new Set());
-    this.aByB.get(b)?.add(a);
-    if (!this.bByA.has(a)) this.bByA.set(a, new Set());
-    this.bByA.get(a)?.add(b);
+  // Workaround for some peculiar monsters
+  switch (location) {
+    case $location`The Hidden Apartment Building`:
+    case $location`The Hidden Bowling Alley`:
+    case $location`The Hidden Hospital`:
+    case $location`The Hidden Office Building`:
+    case $location`The Hidden Park`:
+      // Pygmy janitor can appear all over the hidden city
+      result.push($monster`pygmy janitor`);
+      break;
+    case $location`Oil Peak`:
+      // Oil baron appearance depends on ML
+      result.push($monster`oil baron`);
+      break;
   }
-
-  public delete(a: A): void {
-    for (const b of this.bByA.get(a) ?? []) {
-      this.aByB.get(b)?.delete(a);
-    }
-    this.bByA.delete(a);
-  }
-
-  public hasB(b: B): boolean {
-    return (this.aByB.get(b)?.size ?? 0) > 0;
-  }
-
-  public remaining(b?: B): IterableIterator<A> | Set<A> | A[] {
-    // Return all remaining A in the many-to-many map
-    if (b === undefined) {
-      return this.bByA.keys();
-    } else {
-      return this.aByB.get(b) ?? [];
-    }
-  }
-
-  public hasA(a: A): boolean {
-    return this.bByA.has(a);
-  }
-
-  public empty(): boolean {
-    return this.bByA.size === 0;
-  }
+  return result;
 }
 
-export class AbsorptionTargets {
-  private absorb = new ManyToMany<Monster, Location>();
-  private reprocess = new ManyToMany<Monster, Location>();
-  private targetsBySkill = new Map<Skill, Monster>();
+export class AbsorbState {
+  absorbed = new Set<Monster>();
+  reprocessed = new Set<Monster>();
+  ignored = new Set<Monster>();
 
-  constructor(reprocess: Monster[], absorb: [Monster, Skill][]) {
-    const reprocess_set = new Set(reprocess);
-    const absorb_set = new Set<Monster>();
-    for (const target of absorb) {
-      absorb_set.add(target[0]);
-      this.targetsBySkill.set(target[1], target[0]);
-    }
-
-    for (const location of Location.all()) {
-      Object.entries(appearanceRates(location))
-        .filter((i) => i[1] > 0)
-        .map((i) => Monster.get<Monster>(i[0]))
-        .map((monster) => {
-          if (reprocess_set.has(monster)) {
-            this.absorb.add(monster, location);
-            this.reprocess.add(monster, location);
-          } else if (absorb_set.has(monster)) {
-            this.absorb.add(monster, location);
-          }
-        });
-    }
-
-    // Include janitor at all possible locations
-    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Apartment Building`);
-    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Bowling Alley`);
-    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Hospital`);
-    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Office Building`);
-    this.absorb.add($monster`pygmy janitor`, $location`The Hidden Park`);
-
-    // Track the missing HiTS monster
-    this.absorb.add($monster`Little Man in the Canoe`, $location`none`);
-    this.absorb.add($monster`One-Eyed Willie`, $location`none`);
-    this.reprocess.add($monster`Little Man in the Canoe`, $location`none`);
-    this.reprocess.add($monster`One-Eyed Willie`, $location`none`);
-
-    // Appearance rates for oil baron is based on your current ML
-    this.absorb.add($monster`oil baron`, $location`Oil Peak`);
-    this.reprocess.add($monster`oil baron`, $location`Oil Peak`);
-  }
-
-  public completed(): boolean {
-    // Return true if we have absorbed all desired monsters
-    return this.absorb.empty();
-  }
-
-  public remainingReprocess(
-    location?: Location
-  ): IterableIterator<Monster> | Set<Monster> | Monster[] {
-    // Return all remaining desired and unabsorbed monsters, in this location or everywhere
-    return this.reprocess.remaining(location);
-  }
-
-  public remainingAbsorbs(
-    location?: Location
-  ): IterableIterator<Monster> | Set<Monster> | Monster[] {
-    // Return all remaining desired and unabsorbed monsters, in this location or everywhere
-    return this.absorb.remaining(location);
-  }
-
-  public hasTargets(location: Location): boolean {
-    // Return true if the location has at least one desired unabsorbed monster
-    return this.absorb.hasB(location);
-  }
-
-  public hasReprocessTargets(location: Location): boolean {
-    // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
-    return this.reprocess.hasB(location);
-  }
-
-  public isTarget(monster: Monster): boolean {
-    // Return true if the monster is desired and unabsorbed
-    return this.absorb.hasA(monster);
-  }
-
-  public isReprocessTarget(monster: Monster): boolean {
-    // Return true if the monster is desired and unreprocessed
-    return this.reprocess.hasA(monster);
-  }
-
-  markAbsorbed(monster: Monster | undefined): void {
-    if (monster !== undefined) this.absorb.delete(monster);
-  }
-
-  markObtained(skill: Skill): void {
-    this.markAbsorbed(this.targetsBySkill.get(skill));
-  }
-
-  markReprocessed(monster: Monster) {
-    this.reprocess.delete(monster);
-  }
-
-  public updateAbsorbed(): void {
+  constructor() {
     const charsheet = visitUrl("charsheet.php");
     let match;
 
@@ -835,7 +728,7 @@ export class AbsorptionTargets {
           .replace(/^some /g, "")
           .replace(/^the /g, "")
           .replace(/^The /g, "");
-        this.markAbsorbed(Monster.get(name));
+        this.absorbed.add(Monster.get(name));
       }
     } while (match);
 
@@ -846,29 +739,19 @@ export class AbsorptionTargets {
     do {
       match = skill_regex.exec(charsheet);
       if (match) {
-        this.markObtained(Skill.get(match[1]));
+        const monster = usefulSkills.get(Skill.get(match[1]));
+        if (monster === undefined) continue;
+        this.absorbed.add(monster);
       }
     } while (match);
 
+    // Mark down all monsters that we have reprocessed
     get("gooseReprocessed")
       .split(",")
       .map((id) => parseInt(id))
       .filter((id) => id > 0)
       .map((id) => Monster.get(id))
-      .map((monster) => this.markReprocessed(monster));
-  }
-
-  public ignoreUselessAbsorbs(): void {
-    // We need a single +cold dmg source for orcs
-    const neededAnyway = new Set<Skill>();
-    if (
-      !have($item`frozen jeans`) &&
-      !have($skill`Cryocurrency`) &&
-      !have($skill`Cooling Tubules`) &&
-      (getWorkshed() !== $item`cold medicine cabinet` || get("_coldMedicineConsults") === 5)
-    ) {
-      neededAnyway.add($skill`Snow-Cooling System`);
-    }
+      .map((monster) => this.reprocessed.add(monster));
 
     // Ignore the elemental skills that are not useful for the tower
     const needed_elem_skills: { [elem: string]: Skill[] } = {
@@ -881,21 +764,75 @@ export class AbsorptionTargets {
     for (const elem in needed_elem_skills) {
       if (get("nsChallenge2") !== elem) {
         for (const unneeded_skill of needed_elem_skills[elem]) {
-          if (!neededAnyway.has(unneeded_skill)) this.markObtained(unneeded_skill);
+          const monster = usefulSkills.get(unneeded_skill);
+          if (monster === undefined) continue;
+          this.ignored.add(monster);
         }
       }
     }
 
+    // We need a single +cold dmg source for orcs
+    if (
+      !have($item`frozen jeans`) &&
+      !have($skill`Cryocurrency`) &&
+      !have($skill`Cooling Tubules`) &&
+      (getWorkshed() !== $item`cold medicine cabinet` || get("_coldMedicineConsults") === 5)
+    ) {
+      this.ignored.delete($monster`Snow Queen`); // $skill`Snow-Cooling System`
+    }
+
     // Ignore skills after the NS is defeated
     if (step("questL13Final") > 11) {
-      for (const skill of this.targetsBySkill.keys()) {
-        this.markObtained(skill);
+      for (const monster of usefulSkills.values()) {
+        this.ignored.add(monster);
       }
     }
   }
-}
 
-export const absorptionTargets = new AbsorptionTargets(reprocessTargets, usefulMonsters);
+  public remainingReprocess(location?: Location): Monster[] {
+    // Return all remaining desired and unreprocessed monsters, in this location or everywhere
+    if (!location) {
+      return [...reprocessTargets].filter(
+        (monster) => !this.reprocessed.has(monster) && !this.ignored.has(monster)
+      );
+    }
+
+    return monstersAt(location).filter((monster) => this.isReprocessTarget(monster));
+  }
+
+  public remainingAbsorbs(location?: Location): Monster[] {
+    // Return all remaining desired and unabsorbed monsters, in this location or everywhere
+    if (!location) {
+      return [...usefulMonsters].filter(
+        (monster) => !this.absorbed.has(monster) && !this.ignored.has(monster)
+      );
+    }
+
+    return monstersAt(location).filter((monster) => this.isTarget(monster));
+  }
+
+  public hasTargets(location: Location): boolean {
+    // Return true if the location has at least one desired unabsorbed monster
+    return this.remainingAbsorbs(location).length > 0;
+  }
+
+  public hasReprocessTargets(location: Location): boolean {
+    // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
+    return this.remainingReprocess(location).length > 0;
+  }
+
+  public isTarget(monster: Monster): boolean {
+    // Return true if the monster is desired and unabsorbed
+    return usefulMonsters.has(monster) && !this.absorbed.has(monster) && !this.ignored.has(monster);
+  }
+
+  public isReprocessTarget(monster: Monster): boolean {
+    // Return true if the monster is desired and unreprocessed
+    return (
+      reprocessTargets.has(monster) && !this.reprocessed.has(monster) && !this.ignored.has(monster)
+    );
+  }
+}
 
 export const AbsorbQuest: Quest = {
   name: "Absorb",
@@ -904,7 +841,7 @@ export const AbsorbQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: () => !absorptionTargets.hasTargets(task.do),
+        completed: (state: GameState) => !state.absorb.hasTargets(task.do),
         ...task,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
@@ -913,11 +850,11 @@ export const AbsorbQuest: Quest = {
       return result;
     }),
     {
-      // Add a last task that tracks if all monsters have been absorbed
+      // Add a last task for routing
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
       ready: () => false,
-      completed: () => absorptionTargets.completed(),
+      completed: () => true,
       do: (): void => {
         throw "Unable to absorb all target monsters";
       },
@@ -934,11 +871,12 @@ export const ReprocessQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: () => !absorptionTargets.hasReprocessTargets(task.do),
+        completed: (state: GameState) => !state.absorb.hasReprocessTargets(task.do),
         ...task,
         after: [...task.after, `Absorb/${task.do.toString()}`],
-        ready: () =>
-          (task.ready === undefined || task.ready()) && familiarWeight($familiar`Grey Goose`) >= 6,
+        ready: (state: GameState) =>
+          (task.ready === undefined || task.ready(state)) &&
+          familiarWeight($familiar`Grey Goose`) >= 6,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
@@ -946,11 +884,11 @@ export const ReprocessQuest: Quest = {
       return result;
     }),
     {
-      // Add a last task that tracks if all monsters have been reprocessed
+      // Add a last task for routing
       name: "All",
       after: absorbTasks.map((task) => task.do.toString()),
       ready: () => false,
-      completed: () => absorptionTargets.completed(),
+      completed: () => true,
       do: (): void => {
         throw "Unable to reprocess all target monsters";
       },

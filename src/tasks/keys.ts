@@ -25,6 +25,7 @@ import {
 import { CombatStrategy } from "../combat";
 import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
+import { GameState } from "../state";
 
 export enum Keys {
   Deck = "Deck",
@@ -245,13 +246,13 @@ export const KeysQuest: Quest = {
       return {
         ...task,
         name: task.which,
-        completed: () =>
-          task.completed() ||
+        completed: (state: GameState) =>
+          task.completed(state) ||
           keyStrategy.plan.get(task.which) === KeyState.DONE ||
           keyStrategy.plan.get(task.which) === KeyState.UNNEEDED ||
           keyStrategy.plan.get(task.which) === KeyState.IMPOSSIBLE,
-        ready: () =>
-          (task.ready === undefined || task.ready()) &&
+        ready: (state: GameState) =>
+          (task.ready === undefined || task.ready(state)) &&
           keyStrategy.plan.get(task.which) === KeyState.READY,
       };
     }),

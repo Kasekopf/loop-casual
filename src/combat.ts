@@ -31,6 +31,7 @@ import {
   RunawaySource,
   WandererSource,
 } from "./resources";
+import { GameState } from "./state";
 
 export enum MonsterStrategy {
   Ignore, // Task doesn't care what happens
@@ -93,6 +94,7 @@ export class BuiltCombatStrategy {
     abstract: CombatStrategy,
     resources: CombatResourceAllocation,
     wanderers: WandererSource[],
+    state: GameState,
     location: Location | undefined
   ) {
     this.boss = abstract.boss;
@@ -116,27 +118,31 @@ export class BuiltCombatStrategy {
     const autoattack_macros = new CompressedMacro();
     abstract.autoattacks.forEach((value, key) => {
       debug(`a: ${key}`);
-      autoattack_macros.add(key, new Macro().step(...value.map(undelay)));
+      autoattack_macros.add(key, new Macro().step(...value.map((m) => undelay(m, state))));
     });
     this.autoattack.step(autoattack_macros.build());
     if (abstract.default_autoattack)
-      this.autoattack.step(new Macro().step(...abstract.default_autoattack.map(undelay)));
+      this.autoattack.step(
+        new Macro().step(...abstract.default_autoattack.map((m) => undelay(m, state)))
+      );
 
     // If there is macro precursor, do it now
     if (abstract.init_macro) {
-      this.macro = this.macro.step(undelay(abstract.init_macro));
+      this.macro = this.macro.step(undelay(abstract.init_macro, state));
     }
 
     // Perform any monster-specific macros (these may or may not end the fight)
     const monster_macros = new CompressedMacro();
     abstract.macros.forEach((value, key) => {
-      monster_macros.add(key, new Macro().step(...value.map(undelay)));
+      monster_macros.add(key, new Macro().step(...value.map((m) => undelay(m, state))));
     });
     this.macro.step(monster_macros.build());
 
     // Perform the non-monster specific macro
     if (abstract.default_macro)
-      this.macro = this.macro.step(new Macro().step(...abstract.default_macro.map(undelay)));
+      this.macro = this.macro.step(
+        new Macro().step(...abstract.default_macro.map((m) => undelay(m, state)))
+      );
 
     // Perform monster-specific strategies
     const monster_strategies = new CompressedMacro();
@@ -240,11 +246,11 @@ function maxHP(target?: Monster | Location): number {
   return Math.floor(1.05 * base) + numericModifier("Monster Level");
 }
 
-export type DelayedMacro = Macro | (() => Macro);
+export type DelayedMacro = Macro | ((state: GameState) => Macro);
 
-function undelay(macro: DelayedMacro): Macro {
+function undelay(macro: DelayedMacro, state: GameState): Macro {
   if (macro instanceof Macro) return macro;
-  else return macro();
+  else return macro(state);
 }
 
 const holidayMonsters = getTodaysHolidayWanderers();

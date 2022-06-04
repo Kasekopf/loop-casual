@@ -11,18 +11,18 @@ import {
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
-import { convertMilliseconds, debug, ponderPrediction } from "./lib";
-import { BanishState, WandererSource, wandererSources } from "./resources";
+import { convertMilliseconds, debug } from "./lib";
+import { WandererSource, wandererSources } from "./resources";
 import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
-import { absorptionTargets } from "./tasks/absorb";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 import { Args } from "./args";
 import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
+import { GameState } from "./state";
 
 const time_property = "_loop_gyou_first_start";
 
@@ -56,7 +56,7 @@ export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
   }),
 });
 export function main(command?: string): void {
-  sinceKolmafiaRevision(26394);
+  sinceKolmafiaRevision(26473);
 
   Args.fill(args, command);
   if (args.help) {
@@ -79,33 +79,32 @@ export function main(command?: string): void {
     runChoice(-1);
 
   const tasks = prioritize(all_tasks());
-  const engine = new Engine(tasks, absorptionTargets);
+  const engine = new Engine(tasks);
   try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
-    absorptionTargets.updateAbsorbed();
-    absorptionTargets.ignoreUselessAbsorbs();
+    const state = new GameState();
     if (actions_left < 0) {
-      const banishes = new BanishState(tasks.filter((task) => engine.available(task)));
-      const orbPredictions = ponderPrediction();
       for (const task of tasks) {
-        const priority = Prioritization.from(task, orbPredictions, absorptionTargets, banishes);
+        const priority = Prioritization.from(task, state);
         const reason = priority.explain();
         const why = reason === "" ? "Route" : reason;
         debug(
           `${task.name}: ${
-            task.completed()
+            task.completed(state)
               ? "Done"
-              : engine.available(task)
+              : engine.available(task, state)
               ? `Available [${priority.score()}: ${why}]`
               : "Not Available"
           }`,
-          task.completed() ? "blue" : engine.available(task) ? undefined : "red"
+          task.completed(state) ? "blue" : engine.available(task, state) ? undefined : "red"
         );
       }
     }
 
     // Do not bother to set properties if there are no tasks remaining
-    if (tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined) {
+    if (
+      tasks.find((task) => !task.completed(state) && (task.ready?.(state) ?? true)) !== undefined
+    ) {
       setUniversalProperties(engine.propertyManager);
       cliExecute("ccs loopgyou");
     }
@@ -115,7 +114,8 @@ export function main(command?: string): void {
       keyStrategy.update(); // Update key plan with current state
       pullStrategy.update(); // Update pull plan with current state
 
-      const next = getNextTask(engine, tasks);
+      const state = new GameState();
+      const next = getNextTask(engine, tasks, state);
       if (next === undefined) break;
       if (actions_left <= 0) {
         debug(`Next task: ${next[0].name}`);
@@ -124,16 +124,16 @@ export function main(command?: string): void {
         actions_left -= 1;
       }
 
-      if (next[3] !== undefined) engine.execute(next[0], next[1], next[2], next[3]);
-      else engine.execute(next[0], next[1], next[2]);
+      if (next[2] !== undefined) engine.execute(next[0], next[1], state, next[2]);
+      else engine.execute(next[0], next[1], state);
       if (myPath() !== "Grey You") break; // Prism broken
     }
 
-    const remaining_tasks = tasks.filter((task) => !task.completed());
+    const remaining_tasks = tasks.filter((task) => !task.completed(state));
     if (!runComplete()) {
       debug("Remaining tasks:", "red");
       for (const task of remaining_tasks) {
-        if (!task.completed()) debug(`${task.name}`, "red");
+        if (!task.completed(state)) debug(`${task.name}`, "red");
       }
       throw `Unable to find available task, but the run is not complete.`;
     }
@@ -141,6 +141,7 @@ export function main(command?: string): void {
     engine.propertyManager.resetAll();
   }
 
+  const state = new GameState();
   print("Grey you complete!", "purple");
   print(`   Adventures used: ${turnsPlayed()}`, "purple");
   print(`   Adventures remaining: ${myAdventures()}`, "purple");
@@ -159,11 +160,11 @@ export function main(command?: string): void {
   print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
   if (myPath() === "Grey You") {
     print(
-      `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
+      `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
       "purple"
     );
     print(
-      `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(", ")}`,
+      `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
       "purple"
     );
   }
@@ -171,47 +172,40 @@ export function main(command?: string): void {
 
 function getNextTask(
   engine: Engine,
-  tasks: Task[]
-): [Task, Prioritization, BanishState, WandererSource?] | undefined {
-  const banishes = new BanishState(tasks.filter((task) => engine.available(task)));
+  tasks: Task[],
+  state: GameState
+): [Task, Prioritization, WandererSource?] | undefined {
+  const available_tasks = tasks.filter((task) => engine.available(task, state));
 
   // Teleportitis overrides all
   if (have($effect`Teleportitis`)) {
-    const tele = teleportitisTask(engine, tasks);
-    if (tele.completed() && removeTeleportitis.ready()) {
-      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always), banishes];
+    const tele = teleportitisTask(engine, tasks, state);
+    if (tele.completed(state) && removeTeleportitis.ready()) {
+      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always)];
     }
-    return [tele, Prioritization.fixed(OverridePriority.Always), banishes];
+    return [tele, Prioritization.fixed(OverridePriority.Always)];
   }
-
-  const available_tasks = tasks.filter((task) => engine.available(task));
 
   // First, check for any heavily prioritized tasks
   const priority = available_tasks.find(
     (task) => task.priority?.() === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
-    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster), banishes];
+    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster)];
   }
 
   // If a wanderer is up try to place it in a useful location
   const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
   const delay_burning = available_tasks.find(
-    (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
+    (task) => engine.hasDelay(task) && Outfit.create(task, state).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
-    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), banishes, wanderer];
+    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), wanderer];
   }
 
   // Next, choose tasks by priorty, then by route.
-  const orbPredictions = ponderPrediction();
   const task_priorities = available_tasks.map(
-    (task) =>
-      [task, Prioritization.from(task, orbPredictions, absorptionTargets, banishes), banishes] as [
-        Task,
-        Prioritization,
-        BanishState
-      ]
+    (task) => [task, Prioritization.from(task, state)] as [Task, Prioritization]
   );
   const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
   const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);

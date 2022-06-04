@@ -6,8 +6,7 @@ import { familiarWeight, Location, Monster } from "kolmafia";
 import { $effect, $familiar, $skill, have } from "libram";
 import { CombatStrategy, MonsterStrategy } from "./combat";
 import { moodCompatible } from "./moods";
-import { BanishState } from "./resources";
-import { AbsorptionTargets } from "./tasks/absorb";
+import { GameState } from "./state";
 import { Task } from "./tasks/structure";
 
 export enum OverridePriority {
@@ -38,18 +37,13 @@ export class Prioritization {
     return result;
   }
 
-  static from(
-    task: Task,
-    orb_predictions: Map<Location, Monster>,
-    absorptionTargets: AbsorptionTargets,
-    banishes: BanishState
-  ): Prioritization {
+  static from(task: Task, state: GameState): Prioritization {
     const result = new Prioritization();
     const base = task.priority?.() ?? OverridePriority.None;
     if (base !== OverridePriority.None) result.priorities.add(base);
 
     // Check if Grey Goose is charged
-    if (needsChargedGoose(task, absorptionTargets)) {
+    if (needsChargedGoose(task, state)) {
       if (familiarWeight($familiar`Grey Goose`) < 6) {
         // Do not trigger BadGoose if a YR is up, to make the airship flow better.
         // This way we can get the YR off and use the goose separately
@@ -62,17 +56,17 @@ export class Prioritization {
     }
 
     // Dodge useless monsters with the orb
-    if (task.do instanceof Location && orb_predictions !== undefined) {
-      const next_monster = orb_predictions.get(task.do);
+    if (task.do instanceof Location) {
+      const next_monster = state.orb.prediction(task.do);
       if (next_monster !== undefined) {
         result.orb_monster = next_monster;
-        result.priorities.add(orbPriority(task, next_monster, absorptionTargets));
+        result.priorities.add(orbPriority(task, next_monster, state));
       }
     }
 
     // Ensure that the current +/- combat effects are compatible
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    const outfit_spec = typeof task.outfit === "function" ? task.outfit(state) : task.outfit;
     if (!moodCompatible(outfit_spec?.modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(OverridePriority.BadMood);
     }
@@ -96,7 +90,7 @@ export class Prioritization {
     }
 
     // If we have already used banishes in the zone, prefer it
-    if (banishes.isPartiallyBanished(task)) {
+    if (state.banishes.isPartiallyBanished(task)) {
       result.priorities.add(OverridePriority.GoodBanish);
     }
 
@@ -138,15 +132,11 @@ export class Prioritization {
   }
 }
 
-function orbPriority(
-  task: Task,
-  monster: Monster,
-  absorptionTargets: AbsorptionTargets
-): OverridePriority {
+function orbPriority(task: Task, monster: Monster, state: GameState): OverridePriority {
   if (!(task.do instanceof Location)) return OverridePriority.None;
 
   // If the goose is not charged, do not aim to reprocess
-  if (absorptionTargets.isReprocessTarget(monster) && familiarWeight($familiar`Grey Goose`) < 6)
+  if (state.absorb.isReprocessTarget(monster) && familiarWeight($familiar`Grey Goose`) < 6)
     return OverridePriority.None;
 
   // Determine if a monster is useful or not based on the combat goals
@@ -158,8 +148,8 @@ function orbPriority(
       (next_monster_strategy === MonsterStrategy.Ignore ||
         next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
         next_monster_strategy === MonsterStrategy.Banish) &&
-      !absorptionTargets.isTarget(monster) &&
-      (!absorptionTargets.isReprocessTarget(monster) || familiarWeight($familiar`Grey Goose`) < 6);
+      !state.absorb.isTarget(monster) &&
+      (!state.absorb.isReprocessTarget(monster) || familiarWeight($familiar`Grey Goose`) < 6);
 
     const others_useless =
       task_combat.can(MonsterStrategy.Ignore) ||
@@ -167,8 +157,8 @@ function orbPriority(
       task_combat.can(MonsterStrategy.Banish);
 
     const others_useful =
-      absorptionTargets.hasTargets(task.do) ||
-      absorptionTargets.hasReprocessTargets(task.do) ||
+      state.absorb.hasTargets(task.do) ||
+      state.absorb.hasReprocessTargets(task.do) ||
       task_combat.can(MonsterStrategy.Kill) ||
       task_combat.can(MonsterStrategy.KillFree) ||
       task_combat.can(MonsterStrategy.KillHard) ||
@@ -188,8 +178,8 @@ function orbPriority(
   if (fromTask === undefined) return OverridePriority.None;
   const targets = [
     ...fromTask,
-    ...absorptionTargets.remainingAbsorbs(task.do),
-    ...absorptionTargets.remainingReprocess(task.do),
+    ...state.absorb.remainingAbsorbs(task.do),
+    ...state.absorb.remainingReprocess(task.do),
   ];
   if (targets.length === 0) return OverridePriority.None;
   if (targets.find((t) => t === monster) === undefined) {
@@ -199,9 +189,9 @@ function orbPriority(
   }
 }
 
-function needsChargedGoose(task: Task, absorptionTargets: AbsorptionTargets): boolean {
+function needsChargedGoose(task: Task, state: GameState): boolean {
   // Note that we purposefully do not check if we will be equipping the goose
   // in the location. We want to eventually reprocess everything, and so a
   // charged goose allows us to use the orb to target reprocess monsters.
-  return task.do instanceof Location && absorptionTargets.hasReprocessTargets(task.do);
+  return task.do instanceof Location && state.absorb.hasReprocessTargets(task.do);
 }

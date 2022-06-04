@@ -1,5 +1,5 @@
-import { Location, Monster, myBasestat, print, toLocation, toMonster, visitUrl } from "kolmafia";
-import { $monster, $stat, get } from "libram";
+import { myBasestat, print } from "kolmafia";
+import { $stat } from "libram";
 
 export function debug(message: string, color?: string): void {
   if (color) {
@@ -30,27 +30,4 @@ export function atLevel(level: number): boolean {
     myBasestat($stat`mysticality`) >= goal ||
     myBasestat($stat`moxie`) >= goal
   );
-}
-
-function getMonster(name: string) {
-  if (name === "some Mismatched Twins") return $monster`Mismatched Twins`;
-  if (name === "the Bubblemint Twins") return $monster`Bubblemint Twins`;
-  if (name === "the Big Wheelin' Twins") return $monster`Big Wheelin' Twins`;
-  if (name === "the Troll Twins") return $monster`Troll Twins`;
-  if (name === "the Mob Penguin Capo") return $monster`Mob Penguin Capo`;
-  return toMonster(name);
-}
-
-export function ponderPrediction(): Map<Location, Monster> {
-  visitUrl("inventory.php?ponder=1", false);
-  const parsedProp = new Map(
-    get("crystalBallPredictions")
-      .split("|")
-      .map((element) => element.split(":") as [string, string, string])
-      .map(
-        ([, location, monster]) =>
-          [toLocation(location), getMonster(monster)] as [Location, Monster]
-      )
-  );
-  return parsedProp;
 }

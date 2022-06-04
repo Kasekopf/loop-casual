@@ -49,6 +49,7 @@ import { Engine } from "../engine";
 import { Keys, keyStrategy } from "./keys";
 import { debug } from "../lib";
 import { args } from "../main";
+import { GameState } from "../state";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -646,7 +647,7 @@ export const WandQuest: Quest = {
   ],
 };
 
-export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
+export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState): Task {
   // Combine the choice selections from all tasks
   // Where multiple tasks make different choices at the same choice, prefer:
   //  * Earlier tasks to later tasks
@@ -658,8 +659,8 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   choices[785] = 6;
   choices[787] = 6;
 
-  const done_tasks = tasks.filter((task) => task.completed());
-  const left_tasks = tasks.filter((task) => !task.completed());
+  const done_tasks = tasks.filter((task) => task.completed(state));
+  const left_tasks = tasks.filter((task) => !task.completed(state));
   for (const task of [...left_tasks, ...done_tasks].reverse()) {
     for (const choice_id_str in task.choices) {
       const choice_id = parseInt(choice_id_str);

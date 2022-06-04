@@ -73,22 +73,12 @@ const banishSources: BanishSource[] = [
 ];
 
 export class BanishState {
-  already_banished = new Map<Monster, Item | Skill>();
-  used_banishes = new Set<Item | Skill>();
+  already_banished: Map<Monster, Item | Skill>;
 
-  // Record all banishes that are committed to an active task
-  constructor(tasks: Task[]) {
+  constructor() {
     this.already_banished = new Map(
       Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
     );
-
-    for (const task of tasks) {
-      if (task.combat === undefined) continue;
-      for (const monster of task.combat.where(MonsterStrategy.Banish)) {
-        const banished_with = this.already_banished.get(monster);
-        if (banished_with !== undefined) this.used_banishes.add(banished_with);
-      }
-    }
   }
 
   // Return true if some of the monsters in the task are banished
@@ -110,10 +100,17 @@ export class BanishState {
   }
 
   // Return a list of all banishes not allocated to some available task
-  unusedBanishes(): BanishSource[] {
-    return banishSources.filter(
-      (banish) => banish.available() && !this.used_banishes.has(banish.do)
-    );
+  unusedBanishes(tasks: Task[]): BanishSource[] {
+    const used_banishes = new Set<Item | Skill>();
+    for (const task of tasks) {
+      if (task.combat === undefined) continue;
+      for (const monster of task.combat.where(MonsterStrategy.Banish)) {
+        const banished_with = this.already_banished.get(monster);
+        if (banished_with !== undefined) used_banishes.add(banished_with);
+      }
+    }
+
+    return banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do));
   }
 }
 

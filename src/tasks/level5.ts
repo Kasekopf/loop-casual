@@ -15,8 +15,8 @@ import { OutfitSpec, Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
-import { absorptionTargets } from "./absorb";
 import { councilSafe } from "./level12";
+import { GameState } from "../state";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -75,18 +75,18 @@ export const KnobQuest: Quest = {
         )
         .macro(
           // Don't use the fire extinguisher if we want to absorb the madam
-          () =>
+          (state: GameState) =>
             new Macro().externalIf(
-              !absorptionTargets.isTarget($monster`Knob Goblin Madam`),
+              !state.absorb.isTarget($monster`Knob Goblin Madam`),
               new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
             ),
           $monster`Knob Goblin Madam`
         )
         .macro(
           // Don't use the fire extinguisher if we want to absorb the girl
-          () =>
+          (state: GameState) =>
             new Macro().externalIf(
-              !absorptionTargets.isTarget($monster`Knob Goblin Harem Girl`),
+              !state.absorb.isTarget($monster`Knob Goblin Harem Girl`),
               new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
             ),
           $monster`Knob Goblin Harem Girl`

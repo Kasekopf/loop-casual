@@ -30,7 +30,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
-import { absorptionTargets } from "./absorb";
+import { GameState } from "../state";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -477,9 +477,6 @@ export const TowerQuest: Quest = {
       after: ["Shadow"],
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
-      post: () => {
-        absorptionTargets.ignoreUselessAbsorbs(); // Ignore remaining skills
-      },
       outfit: { modifier: "muscle" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
@@ -490,14 +487,13 @@ export const TowerQuest: Quest = {
       priority: () => OverridePriority.Last,
       completed: () => step("questL13Final") === 999 || args.class === 0 || myPath() !== "Grey You",
       do: () => {
+        const state = new GameState();
         print(
-          `   Monsters remaining: ${Array.from(absorptionTargets.remainingAbsorbs()).join(", ")}`,
+          `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
           "purple"
         );
         print(
-          `   Reprocess remaining: ${Array.from(absorptionTargets.remainingReprocess()).join(
-            ", "
-          )}`,
+          `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
           "purple"
         );
         visitUrl("place.php?whichplace=nstower&action=ns_11_prism");

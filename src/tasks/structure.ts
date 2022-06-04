@@ -3,6 +3,7 @@ import { get } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
 import { CombatStrategy } from "../combat";
 import { OverridePriority } from "../priority";
+import { GameState } from "../state";
 
 export type Quest = {
   name: string;
@@ -34,15 +35,15 @@ export interface OutfitSpec {
 export type Task = {
   name: string;
   after: string[];
-  ready?: () => boolean;
+  ready?: (state: GameState) => boolean;
   priority?: () => OverridePriority;
-  prepare?: () => void;
-  completed: () => boolean;
+  prepare?: (state: GameState) => void;
+  completed: (state: GameState) => boolean;
   do: Location | (() => void);
   post?: () => void;
   choices?: { [id: number]: number | (() => number) };
   combat?: CombatStrategy;
-  outfit?: OutfitSpec | (() => OutfitSpec);
+  outfit?: OutfitSpec | ((state: GameState) => OutfitSpec);
   effects?: Effect[];
   acquire?: AcquireItem[];
   delay?: number | (() => number);
