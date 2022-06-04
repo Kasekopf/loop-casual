@@ -465,12 +465,12 @@ const absorbTasks: AbsorbTask[] = [
   },
   // Misc areas
   // These are probably only worthwhile with orb
-  {
-    do: $location`South of the Border`,
-    after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
-    choices: { 4: 3 },
-    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
-  },
+  // {
+  //   do: $location`South of the Border`,
+  //   after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
+  //   choices: { 4: 3 },
+  //   outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
+  // },
   {
     do: $location`The Unquiet Garves`,
     after: ["Crypt/Start"],
