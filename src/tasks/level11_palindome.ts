@@ -102,6 +102,7 @@ const Copperhead: Task[] = [
       $monster`Frozen Solid Snake`,
       $monster`ninja snowman assassin`
     ),
+    orbtargets: () => [], // no assassins in orbs
     limit: { soft: 10 },
     delay: 5,
   },

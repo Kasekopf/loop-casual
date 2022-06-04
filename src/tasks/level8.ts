@@ -92,6 +92,7 @@ export const McLargeHugeQuest: Quest = {
         $monster`Frozen Solid Snake`,
         $monster`ninja snowman assassin`
       ),
+      orbtargets: () => [], // no assassins in orbs
       freeaction: true,
     },
     {

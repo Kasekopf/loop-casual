@@ -209,7 +209,11 @@ export class Engine {
         (!(task.do instanceof Location) || !blacklist.has(task.do))
       ) {
         task_combat.prependMacro(
-          new Macro().if_("!hpbelow 50", new Macro().tryItem($item`rock band flyers`))
+          new Macro().if_(
+            // Avoid sausage goblin (2104) and ninja snowman assassin (1185)
+            "!hpbelow 50 && !monsterid 2104 && !monsterid 1185",
+            new Macro().tryItem($item`rock band flyers`)
+          )
         );
       }
 
