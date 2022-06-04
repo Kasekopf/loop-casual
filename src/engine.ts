@@ -183,6 +183,7 @@ export class Engine {
       for (const monster of absorb_targets) {
         if (state.absorb.isReprocessTarget(monster)) {
           outfit.equip($familiar`Grey Goose`);
+          task_combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
           task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
           debug(`Target x2: ${monster.name}`, "purple");
         } else {
