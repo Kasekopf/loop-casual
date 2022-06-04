@@ -82,7 +82,7 @@ export function main(command?: string): void {
   const engine = new Engine(tasks);
   try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
-    const state = new GameState();
+    let state = new GameState();
     if (actions_left < 0) {
       for (const task of tasks) {
         const priority = Prioritization.from(task, state);
@@ -114,7 +114,6 @@ export function main(command?: string): void {
       keyStrategy.update(); // Update key plan with current state
       pullStrategy.update(); // Update pull plan with current state
 
-      const state = new GameState();
       const next = getNextTask(engine, tasks, state);
       if (next === undefined) break;
       if (actions_left <= 0) {
@@ -124,8 +123,8 @@ export function main(command?: string): void {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) engine.execute(next[0], next[1], state, next[2]);
-      else engine.execute(next[0], next[1], state);
+      if (next[2] !== undefined) state = engine.execute(next[0], next[1], state, next[2]);
+      else state = engine.execute(next[0], next[1], state);
       if (myPath() !== "Grey You") break; // Prism broken
     }
 

@@ -113,7 +113,7 @@ export class Engine {
     priority: Prioritization,
     state: GameState,
     ...wanderers: WandererSource[]
-  ): void {
+  ): GameState {
     debug(``);
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
@@ -373,6 +373,7 @@ export class Engine {
       }
       this.check_limits(task); // Error if too many tries occur
     }
+    return new_state;
   }
 
   public check_limits(task: Task): void {
