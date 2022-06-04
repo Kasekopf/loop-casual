@@ -1,5 +1,5 @@
 import { drink, Item, itemAmount, toInt, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monsters, $skill, have } from "libram";
+import { $item, $items, $location, $monsters, $skill, get, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
@@ -24,7 +24,12 @@ export const FriarQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
-      outfit: { modifier: "-combat" },
+      outfit: () => {
+        if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("hot wing")) {
+          return { modifier: "-combat", equip: $items`latte lovers member's mug` };
+        }
+        return { modifier: "-combat" };
+      },
       limit: { tries: 20 },
     },
     {

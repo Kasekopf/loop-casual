@@ -41,6 +41,23 @@ const banishSources: BanishSource[] = [
     do: $skill`System Sweep`,
   },
   {
+    name: "Latte",
+    available: () =>
+      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
+      have($item`latte lovers member's mug`),
+    prepare: (): void => {
+      if (get("_latteBanishUsed")) {
+        const modifiers = [];
+        if (get("latteUnlocks").includes("hot wing")) modifiers.push("hot wing");
+        if (get("latteUnlocks").includes("cajun")) modifiers.push("cajun");
+        modifiers.push("cinnamon", "pumpkin", "vanilla");
+        cliExecute(`latte refill ${modifiers.slice(0, 3).join(" ")}`); // Always unlocked
+      }
+    },
+    do: $skill`Throw Latte on Opponent`,
+    equip: $item`latte lovers member's mug`,
+  },
+  {
     name: "Reflex Hammer",
     available: () => get("_reflexHammerUsed") < 3 && have($item`Lil' Doctor™ bag`),
     do: $skill`Reflex Hammer`,
@@ -52,17 +69,6 @@ const banishSources: BanishSource[] = [
       get("_kgbTranquilizerDartUses") < 3 && have($item`Kremlin's Greatest Briefcase`),
     do: $skill`KGB tranquilizer dart`,
     equip: $item`Kremlin's Greatest Briefcase`,
-  },
-  {
-    name: "Latte",
-    available: () =>
-      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
-      have($item`latte lovers member's mug`),
-    prepare: (): void => {
-      if (get("_latteBanishUsed")) cliExecute("latte refill cinnamon pumpkin vanilla"); // Always unlocked
-    },
-    do: $skill`Throw Latte on Opponent`,
-    equip: $item`latte lovers member's mug`,
   },
   {
     name: "Middle Finger",
