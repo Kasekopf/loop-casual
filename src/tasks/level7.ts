@@ -135,8 +135,17 @@ const Niche: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro, $monster`dirty old lihc`)
       .macro(
+        // Don't use the fire extinguisher if we want to absorb the lihc
+        () =>
+          new Macro().externalIf(
+            !absorptionTargets.isTarget($monster`basic lihc`),
+            new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
+          ),
+        $monster`basic lihc`
+      )
+      .macro(
         new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro),
-        ...$monsters`basic lihc, senile lihc, slick lihc`
+        ...$monsters`senile lihc, slick lihc`
       )
       .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
     orbtargets: () => [$monster`dirty old lihc`],
