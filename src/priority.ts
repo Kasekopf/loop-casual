@@ -6,6 +6,7 @@ import { familiarWeight, Location, Monster } from "kolmafia";
 import { $effect, $familiar, $skill, have } from "libram";
 import { CombatStrategy, MonsterStrategy } from "./combat";
 import { moodCompatible } from "./moods";
+import { BanishState } from "./resources";
 import { AbsorptionTargets } from "./tasks/absorb";
 import { Task } from "./tasks/structure";
 
@@ -19,6 +20,7 @@ export enum OverridePriority {
   GoodOrb = 15,
   YR = 10,
   GoodGoose = 1,
+  GoodBanish = 0.5,
   None = 0,
   BadOrb = -2,
   BadGoose = -16,
@@ -39,7 +41,8 @@ export class Prioritization {
   static from(
     task: Task,
     orb_predictions: Map<Location, Monster>,
-    absorptionTargets: AbsorptionTargets
+    absorptionTargets: AbsorptionTargets,
+    banishes: BanishState
   ): Prioritization {
     const result = new Prioritization();
     const base = task.priority?.() ?? OverridePriority.None;
@@ -87,6 +90,12 @@ export class Prioritization {
     ) {
       result.priorities.add(OverridePriority.BadMood);
     }
+
+    // If we have already used banishes in the zone, prefer it
+    if (banishes.isPartiallyBanished(task)) {
+      result.priorities.add(OverridePriority.GoodBanish);
+    }
+
     return result;
   }
 
@@ -101,6 +110,7 @@ export class Prioritization {
       [OverridePriority.GoodOrb, this.orb_monster ? `Target ${this.orb_monster}` : `Target ?`],
       [OverridePriority.YR, "Yellow ray"],
       [OverridePriority.GoodGoose, "Goose charged"],
+      [OverridePriority.GoodBanish, "Banishes committed"],
       [OverridePriority.BadOrb, this.orb_monster ? `Avoid ${this.orb_monster}` : `Avoid ?`],
       [OverridePriority.BadGoose, "Goose not charged"],
       [OverridePriority.BadMood, "Wrong combat modifiers"],

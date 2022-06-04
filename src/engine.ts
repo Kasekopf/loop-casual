@@ -63,10 +63,10 @@ import {
 } from "kolmafia";
 import { debug } from "./lib";
 import {
+  BanishState,
   canChargeVoid,
   freekillSources,
   runawaySources,
-  unusedBanishes,
   WandererSource,
   wandererSources,
 } from "./resources";
@@ -112,7 +112,12 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public execute(task: Task, priority: Prioritization, ...wanderers: WandererSource[]): void {
+  public execute(
+    task: Task,
+    priority: Prioritization,
+    banishes: BanishState,
+    ...wanderers: WandererSource[]
+  ): void {
     debug(``);
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
@@ -215,14 +220,23 @@ export class Engine {
       const combat_resources = new CombatResourceAllocation();
       if (wanderers.length === 0) {
         // Set up a banish if needed
-        const [banishSources, toBanish] = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
+        const banishSources = banishes.unusedBanishes();
         combat_resources.banishWith(outfit.equipFirst(banishSources));
+        if (task_combat.can(MonsterStrategy.Banish)) {
+          debug(
+            `Banish targets: ${task_combat
+              .where(MonsterStrategy.Banish)
+              .filter((monster) => !banishes.already_banished.has(monster))
+              .join(", ")}`
+          );
+          debug(`Banishes used: ${Array.from(banishes.used_banishes).join(", ")}`);
+        }
 
         // Equip an orb if we have a good target.
         // (If we have banished all the bad targets, there is no need to force an orb)
         if (
           priority.has(OverridePriority.GoodOrb) &&
-          (toBanish.length > 0 || !task_combat.can(MonsterStrategy.Banish))
+          (!task_combat.can(MonsterStrategy.Banish) || !banishes.isFullyBanished(task))
         ) {
           outfit.equip($item`miniature crystal ball`);
         }
@@ -350,7 +364,8 @@ export class Engine {
       const priority_explain = Prioritization.from(
         task,
         ponderPrediction(),
-        this.absorptionTargets
+        this.absorptionTargets,
+        new BanishState(this.tasks.filter((task) => this.available(task)))
       ).explain();
       if (priority_explain !== "") {
         debug(`${task.name} not completed! [Again? ${priority_explain}]`, "blue");

@@ -9,7 +9,9 @@ import {
   have,
   Macro,
 } from "libram";
-import { atLevel, debug } from "./lib";
+import { MonsterStrategy } from "./combat";
+import { atLevel } from "./lib";
+import { Task } from "./tasks/structure";
 
 export interface Resource {
   name: string;
@@ -27,7 +29,7 @@ export interface BanishSource extends CombatResource {
   do: Item | Skill;
 }
 
-export const banishSources: BanishSource[] = [
+const banishSources: BanishSource[] = [
   {
     name: "Bowl Curveball",
     available: () => have($item`cosmic bowling ball`),
@@ -70,34 +72,49 @@ export const banishSources: BanishSource[] = [
   },
 ];
 
-export function unusedBanishes(to_banish: Monster[]): [BanishSource[], Monster[]] {
-  const used_banishes: Set<Item | Skill> = new Set<Item | Skill>();
-  const already_banished = new Map(
-    Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
-  );
+export class BanishState {
+  already_banished = new Map<Monster, Item | Skill>();
+  used_banishes = new Set<Item | Skill>();
 
-  // Record monsters that still need to be banished, and the banishes used
-  to_banish.forEach((monster) => {
-    const banished_with = already_banished.get(monster);
-    if (banished_with === undefined) {
-      to_banish.push(monster);
-    } else {
-      used_banishes.add(banished_with);
-      // Map strange banish tracking to our resources
-      if (banished_with === $item`training scroll:  Snokebomb`)
-        used_banishes.add($skill`Snokebomb`);
-      if (banished_with === $item`tomayohawk-style reflex hammer`)
-        used_banishes.add($skill`Reflex Hammer`);
+  // Record all banishes that are committed to an active task
+  constructor(tasks: Task[]) {
+    this.already_banished = new Map(
+      Array.from(getBanishedMonsters(), (entry) => [entry[1], entry[0]])
+    );
+
+    for (const task of tasks) {
+      if (task.combat === undefined) continue;
+      for (const monster of task.combat.where(MonsterStrategy.Banish)) {
+        const banished_with = this.already_banished.get(monster);
+        if (banished_with !== undefined) this.used_banishes.add(banished_with);
+      }
     }
-  });
-  if (to_banish.length === 0) return [[], []]; // All monsters banished.
+  }
 
-  debug(`Banish targets: ${to_banish.join(", ")}`);
-  debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
-  return [
-    banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do)),
-    to_banish,
-  ];
+  // Return true if some of the monsters in the task are banished
+  isPartiallyBanished(task: Task): boolean {
+    return (
+      task.combat
+        ?.where(MonsterStrategy.Banish)
+        ?.find((monster) => this.already_banished.has(monster)) !== undefined
+    );
+  }
+
+  // Return true if all requested monsters in the task are banished
+  isFullyBanished(task: Task): boolean {
+    return (
+      task.combat
+        ?.where(MonsterStrategy.Banish)
+        ?.find((monster) => !this.already_banished.has(monster)) === undefined
+    );
+  }
+
+  // Return a list of all banishes not allocated to some available task
+  unusedBanishes(): BanishSource[] {
+    return banishSources.filter(
+      (banish) => banish.available() && !this.used_banishes.has(banish.do)
+    );
+  }
 }
 
 export interface WandererSource extends Resource {

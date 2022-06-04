@@ -296,7 +296,7 @@ export const KeysQuest: Quest = {
           30,
       do: $location`8-Bit Realm`,
       outfit: { equip: $items`continuum transfunctioner`, modifier: "item" },
-      combat: new CombatStrategy().banish($monster`Bullet Bill`).kill(),
+      combat: new CombatStrategy().kill(),
       limit: { soft: 40 },
     },
     {

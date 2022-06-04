@@ -12,7 +12,7 @@ import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine";
 import { convertMilliseconds, debug, ponderPrediction } from "./lib";
-import { WandererSource, wandererSources } from "./resources";
+import { BanishState, WandererSource, wandererSources } from "./resources";
 import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
 import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
@@ -85,9 +85,10 @@ export function main(command?: string): void {
     absorptionTargets.updateAbsorbed();
     absorptionTargets.ignoreUselessAbsorbs();
     if (actions_left < 0) {
+      const banishes = new BanishState(tasks.filter((task) => engine.available(task)));
       const orbPredictions = ponderPrediction();
       for (const task of tasks) {
-        const priority = Prioritization.from(task, orbPredictions, absorptionTargets);
+        const priority = Prioritization.from(task, orbPredictions, absorptionTargets, banishes);
         const reason = priority.explain();
         const why = reason === "" ? "Route" : reason;
         debug(
@@ -123,8 +124,8 @@ export function main(command?: string): void {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
-      else engine.execute(next[0], next[1]);
+      if (next[3] !== undefined) engine.execute(next[0], next[1], next[2], next[3]);
+      else engine.execute(next[0], next[1], next[2]);
       if (myPath() !== "Grey You") break; // Prism broken
     }
 
@@ -171,14 +172,16 @@ export function main(command?: string): void {
 function getNextTask(
   engine: Engine,
   tasks: Task[]
-): [Task, Prioritization, WandererSource?] | undefined {
+): [Task, Prioritization, BanishState, WandererSource?] | undefined {
+  const banishes = new BanishState(tasks.filter((task) => engine.available(task)));
+
   // Teleportitis overrides all
   if (have($effect`Teleportitis`)) {
     const tele = teleportitisTask(engine, tasks);
     if (tele.completed() && removeTeleportitis.ready()) {
-      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always)];
+      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always), banishes];
     }
-    return [tele, Prioritization.fixed(OverridePriority.Always)];
+    return [tele, Prioritization.fixed(OverridePriority.Always), banishes];
   }
 
   const available_tasks = tasks.filter((task) => engine.available(task));
@@ -188,7 +191,7 @@ function getNextTask(
     (task) => task.priority?.() === OverridePriority.LastCopyableMonster
   );
   if (priority !== undefined) {
-    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster)];
+    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster), banishes];
   }
 
   // If a wanderer is up try to place it in a useful location
@@ -197,14 +200,18 @@ function getNextTask(
     (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
-    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), wanderer];
+    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), banishes, wanderer];
   }
 
   // Next, choose tasks by priorty, then by route.
   const orbPredictions = ponderPrediction();
   const task_priorities = available_tasks.map(
     (task) =>
-      [task, Prioritization.from(task, orbPredictions, absorptionTargets)] as [Task, Prioritization]
+      [task, Prioritization.from(task, orbPredictions, absorptionTargets, banishes), banishes] as [
+        Task,
+        Prioritization,
+        BanishState
+      ]
   );
   const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
   const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);
