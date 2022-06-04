@@ -5,6 +5,8 @@ import {
   itemAmount,
   myDaycount,
   myHash,
+  myMaxhp,
+  restoreHp,
   runChoice,
   use,
   visitUrl,
@@ -85,14 +87,21 @@ const Copperhead: Task[] = [
   },
   {
     name: "Cold Snake",
-    after: ["Copperhead Start", "McLargeHuge/Trapper Return"],
+    after: ["Copperhead Start", "McLargeHuge/Trapper Return", "Misc/Summon Lion"],
     ready: () => shenItem($item`The First Pizza`),
     completed: () =>
       step("questL11Shen") === 999 ||
       have($item`The First Pizza`) ||
       (myDaycount() === 1 && step("questL11Shen") > 3),
+    prepare: () => {
+      restoreHp(myMaxhp());
+    },
     do: $location`Lair of the Ninja Snowmen`,
-    combat: new CombatStrategy().killHard($monster`Frozen Solid Snake`),
+    outfit: { modifier: "50 combat, init" },
+    combat: new CombatStrategy().killHard(
+      $monster`Frozen Solid Snake`,
+      $monster`ninja snowman assassin`
+    ),
     limit: { soft: 10 },
     delay: 5,
   },

@@ -569,6 +569,17 @@ export const MiscQuest: Quest = {
       do: () => false,
       limit: { tries: 1 },
     },
+    {
+      name: "Summon Lion",
+      after: ["Hidden City/Bowling Skills"],
+      ready: () => have($item`white page`),
+      completed: () => have($skill`Piezoelectric Honk`),
+      do: () => use($item`white page`),
+      limit: { tries: 1 },
+      choices: { 940: 2 },
+      outfit: { modifier: "item" },
+      combat: new CombatStrategy().killItem($monster`white lion`),
+    },
   ],
 };
 

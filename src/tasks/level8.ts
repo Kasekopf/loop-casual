@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myMeat, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myMaxhp, myMeat, restoreHp, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
@@ -77,13 +77,26 @@ export const McLargeHugeQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Ninja",
+      after: ["Trapper Return", "Misc/Summon Lion", "Palindome/Cold Snake"],
+      completed: () =>
+        (have($item`ninja rope`) && have($item`ninja carabiner`) && have($item`ninja crampons`)) ||
+        step("questL08Trapper") >= 3,
+      prepare: () => {
+        restoreHp(myMaxhp());
+      },
+      do: $location`Lair of the Ninja Snowmen`,
+      outfit: { modifier: "50 combat, init" },
+      limit: { soft: 20 },
+      combat: new CombatStrategy().killHard(
+        $monster`Frozen Solid Snake`,
+        $monster`ninja snowman assassin`
+      ),
+      freeaction: true,
+    },
+    {
       name: "Climb",
       after: ["Trapper Return"],
-      acquire: [
-        { item: $item`ninja rope` },
-        { item: $item`ninja carabiner` },
-        { item: $item`ninja crampons` },
-      ],
       completed: () => step("questL08Trapper") >= 3,
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");

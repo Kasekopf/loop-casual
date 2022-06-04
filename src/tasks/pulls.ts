@@ -34,9 +34,8 @@ export const pulls: PullSpec[] = [
     pull: $item`Mohawk wig`,
     useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
   },
-  { pull: $item`ninja rope` },
-  { pull: $item`ninja carabiner` },
-  { pull: $item`ninja crampons` },
+  { pull: $item`white page` },
+  { pull: $item`portable cassette player` },
   { pull: $item`blackberry galoshes` },
   { pull: $item`antique machete` },
   { pull: $item`book of matches` },
@@ -59,6 +58,21 @@ export const pulls: PullSpec[] = [
       (!have($item`lion oil`) || !have($item`bird rib`)),
   },
   { pull: $item`11-leaf clover` },
+  {
+    pull: $item`ninja rope`,
+    useful: () =>
+      !have($item`ninja rope`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+  },
+  {
+    pull: $item`ninja carabiner`,
+    useful: () =>
+      !have($item`ninja carabiner`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+  },
+  {
+    pull: $item`ninja crampons`,
+    useful: () =>
+      !have($item`ninja crampons`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+  },
 ];
 
 class Pull {
