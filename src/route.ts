@@ -10,8 +10,6 @@ export const routing: string[] = [
   "Misc/Acquire Birch Battery",
   "Keys/Deck",
   "Pull/All",
-  "Misc/Dog Chow", // Eat if there are no other options
-  "Misc/Cake-Shaped Arena", // Arena if there are no charged options
 
   // Get infinite loop
   "McLargeHuge/Ore Mountain",
@@ -94,6 +92,9 @@ export const routing: string[] = [
   "Tower/Naughty Sorceress",
   "Absorb/All",
   "Reprocess/All", // Return to locations if reprocessing was missed
+
+  "Misc/Dog Chow", // Eat if there are no other options
+  "Misc/Cake-Shaped Arena", // Arena if there are no charged options
 ];
 
 export function prioritize(tasks: Task[]): Task[] {

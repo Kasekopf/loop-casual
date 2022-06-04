@@ -458,7 +458,6 @@ export const MiscQuest: Quest = {
       after: [],
       ready: () => have($item`Ghost Dog Chow`) && familiarWeight($familiar`Grey Goose`) < 6,
       completed: () => false,
-      priority: () => OverridePriority.BadGoose,
       do: () => {
         use($item`Ghost Dog Chow`);
         if (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
@@ -473,7 +472,6 @@ export const MiscQuest: Quest = {
       after: [],
       ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
       completed: () => false,
-      priority: () => OverridePriority.BadGoose,
       do: arenaFight,
       outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
       freeaction: true,
