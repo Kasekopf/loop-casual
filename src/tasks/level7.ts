@@ -47,9 +47,10 @@ const Alcove: Task[] = [
     prepare: tuneCape,
     ready: () =>
       // Reprocess the grave rober, then wait for the +init skill
-      absorptionTargets.hasReprocessTargets($location`The Defiled Alcove`) ||
-      have($skill`Overclocking`) ||
-      (!!(get("twinPeakProgress") & 8) && myBasestat($stat`Muscle`) >= 62),
+      (absorptionTargets.hasReprocessTargets($location`The Defiled Alcove`) ||
+        have($skill`Overclocking`) ||
+        !!(get("twinPeakProgress") & 8)) &&
+      myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
