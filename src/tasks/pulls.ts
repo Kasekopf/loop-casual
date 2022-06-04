@@ -34,6 +34,11 @@ export const pulls: PullSpec[] = [
     pull: $item`Mohawk wig`,
     useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
   },
+  {
+    pull: $items`Greatest American Pants, navel ring of navel gazing`,
+    optional: true,
+    name: "Runaway IoTM",
+  },
   { pull: $item`white page` },
   { pull: $item`portable cassette player` },
   { pull: $item`blackberry galoshes` },
@@ -49,6 +54,7 @@ export const pulls: PullSpec[] = [
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
+  { pull: $item`11-leaf clover` },
   {
     pull: $item`wet stew`,
     useful: () =>
@@ -57,7 +63,6 @@ export const pulls: PullSpec[] = [
       !have($item`wet stew`) &&
       (!have($item`lion oil`) || !have($item`bird rib`)),
   },
-  { pull: $item`11-leaf clover` },
   {
     pull: $item`ninja rope`,
     useful: () =>

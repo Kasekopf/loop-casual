@@ -183,6 +183,29 @@ export const runawaySources: RunawaySource[] = [
     chance: () => 1,
     banishes: true,
   },
+  {
+    name: "GAP",
+    available: () => have($item`Greatest American Pants`),
+    equip: $item`Greatest American Pants`,
+    do: new Macro().runaway(),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
+  },
+  {
+    name: "Navel Ring",
+    available: () => have($item`navel ring of navel gazing`),
+    equip: $item`navel ring of navel gazing`,
+    do: new Macro().runaway(),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
+  },
+  {
+    name: "Peppermint Parasol",
+    available: () => have($item`peppermint parasol`),
+    do: new Macro().item($item`peppermint parasol`),
+    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    banishes: false,
+  },
 ];
 
 export interface FreekillSource extends CombatResource {

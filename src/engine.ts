@@ -4,12 +4,14 @@ import {
   drink,
   eat,
   equippedItem,
+  familiarWeight,
   getInventory,
   Item,
   Location,
   myBasestat,
   myBuffedstat,
   myHp,
+  myLevel,
   myMaxhp,
   myMaxmp,
   myMeat,
@@ -239,11 +241,19 @@ export class Engine {
 
         // Set up a runaway if there are combats we do not care about
         let runaway = undefined;
-        if (task_combat.can(MonsterStrategy.Ignore)) {
+        if (
+          task_combat.can(MonsterStrategy.Ignore) &&
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myLevel() >= 11
+        ) {
           runaway = outfit.equipFirst(runawaySources);
           combat_resources.runawayWith(runaway);
         }
-        if (task_combat.can(MonsterStrategy.IgnoreNoBanish)) {
+        if (
+          task_combat.can(MonsterStrategy.IgnoreNoBanish) &&
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myLevel() >= 11
+        ) {
           if (runaway !== undefined && !runaway.banishes)
             combat_resources.runawayNoBanishWith(runaway);
           else
