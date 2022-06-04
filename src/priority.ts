@@ -51,7 +51,11 @@ export class Prioritization {
     // Check if Grey Goose is charged
     if (needsChargedGoose(task, absorptionTargets)) {
       if (familiarWeight($familiar`Grey Goose`) < 6) {
-        result.priorities.add(OverridePriority.BadGoose);
+        // Do not trigger BadGoose if a YR is up, to make the airship flow better.
+        // This way we can get the YR off and use the goose separately
+        if (!result.priorities.has(OverridePriority.YR)) {
+          result.priorities.add(OverridePriority.BadGoose);
+        }
       } else {
         result.priorities.add(OverridePriority.GoodGoose);
       }
