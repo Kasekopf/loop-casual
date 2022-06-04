@@ -310,7 +310,7 @@ export const KeysQuest: Quest = {
       outfit: { modifier: "item" },
       combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
       limit: { soft: 20 },
-      orbtargets: () => (have($item`star chart`) ? [$monster`Astronomer`] : []),
+      orbtargets: () => (!have($item`star chart`) ? [$monster`Astronomer`] : []),
     },
     {
       name: "Skeleton Key",

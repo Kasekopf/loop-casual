@@ -342,6 +342,7 @@ const Bowling: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
+      .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy orderlies`),
     outfit: {
       modifier: "item",
@@ -359,6 +360,7 @@ const Bowling: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
+      .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy janitor, pygmy orderlies`),
     outfit: {
       modifier: "item",
@@ -403,7 +405,9 @@ export const HiddenQuest: Quest = {
         equip: $items`antique machete`,
       },
       choices: { 791: 1 },
-      combat: new CombatStrategy(true).kill(...$monsters`dense liana, Protector Spectre`),
+      combat: new CombatStrategy(true)
+        .kill(...$monsters`dense liana, Protector Spectre`)
+        .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],
     },

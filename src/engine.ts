@@ -310,8 +310,15 @@ export class Engine {
         wanderers,
         task.do instanceof Location ? task.do : undefined
       );
+
+      const auto_str = combat.autoattack.toString();
+      if (auto_str.length > 0) {
+        debug(`Auto: ${auto_str}`, "purple");
+        combat.autoattack.setAutoAttack();
+      } else {
+        setAutoAttack(0);
+      }
       debug(combat.macro.toString(), "blue");
-      setAutoAttack(0);
       combat.macro.save();
     } else {
       // Prepare only as requested by the task

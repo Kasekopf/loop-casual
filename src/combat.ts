@@ -23,6 +23,7 @@ import {
   have,
   Macro,
 } from "libram";
+import { debug } from "./lib";
 import {
   BanishSource,
   CombatResource,
@@ -84,6 +85,7 @@ export class CombatResourceAllocation {
 
 export class BuiltCombatStrategy {
   macro: Macro = new Macro();
+  autoattack: Macro = new Macro();
   boss: boolean;
   resources: CombatResourceAllocation;
 
@@ -109,6 +111,16 @@ export class BuiltCombatStrategy {
       // Note that we kill hard, which never uses up a freekill
       this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
     }
+
+    // Set up the autoattack
+    const autoattack_macros = new CompressedMacro();
+    abstract.autoattacks.forEach((value, key) => {
+      debug(`a: ${key}`);
+      autoattack_macros.add(key, new Macro().step(...value.map(undelay)));
+    });
+    this.autoattack.step(autoattack_macros.build());
+    if (abstract.default_autoattack)
+      this.autoattack.step(new Macro().step(...abstract.default_autoattack.map(undelay)));
 
     // If there is macro precursor, do it now
     if (abstract.init_macro) {
@@ -241,8 +253,10 @@ export class CombatStrategy {
   init_macro?: DelayedMacro;
   default_strategy: MonsterStrategy = MonsterStrategy.Ignore;
   default_macro?: DelayedMacro[];
+  default_autoattack?: DelayedMacro[];
   strategy: Map<Monster, MonsterStrategy> = new Map();
   macros: Map<Monster, DelayedMacro[]> = new Map();
+  autoattacks: Map<Monster, DelayedMacro[]> = new Map();
   boss: boolean;
 
   constructor(boss?: boolean) {
@@ -308,6 +322,18 @@ export class CombatStrategy {
     return this;
   }
 
+  public autoattack(strategy: DelayedMacro, ...monsters: Monster[]): CombatStrategy {
+    if (monsters.length === 0) {
+      if (this.default_autoattack === undefined) this.default_autoattack = [];
+      this.default_autoattack.push(strategy);
+    }
+    for (const monster of monsters) {
+      if (!this.autoattacks.has(monster)) this.autoattacks.set(monster, []);
+      this.autoattacks.get(monster)?.push(strategy);
+    }
+    return this;
+  }
+
   public can(do_this: MonsterStrategy): boolean {
     if (do_this === this.default_strategy) return true;
     return Array.from(this.strategy.values()).includes(do_this);
@@ -325,8 +351,10 @@ export class CombatStrategy {
     const result = new CombatStrategy(this.boss);
     result.default_strategy = this.default_strategy;
     result.default_macro = this.default_macro;
+    result.default_autoattack = this.default_autoattack;
     result.strategy = new Map(this.strategy);
     result.macros = new Map(this.macros);
+    result.autoattacks = new Map(this.autoattacks);
     return result;
   }
 }
