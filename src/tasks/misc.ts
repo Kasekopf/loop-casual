@@ -110,6 +110,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Kgnee",
       after: [],
+      priority: () => OverridePriority.Free,
       ready: () =>
         have($familiar`Reagnimated Gnome`) &&
         !have($item`gnomish housemaid's kgnee`) &&
@@ -129,6 +130,7 @@ export const MiscQuest: Quest = {
     {
       name: "Voting",
       after: [],
+      priority: () => OverridePriority.Free,
       completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
@@ -442,6 +444,7 @@ export const MiscQuest: Quest = {
         hermit($item`11-leaf clover`, 3);
         set("_loop_gyou_clovers", "true");
       },
+      freeaction: true,
       limit: { tries: 1 },
     },
     {
@@ -452,6 +455,7 @@ export const MiscQuest: Quest = {
       do: () => {
         cliExecute("fortune buff susie");
       },
+      freeaction: true,
       limit: { tries: 1 },
     },
     {
@@ -492,6 +496,7 @@ export const MiscQuest: Quest = {
         use($item`box of Familiar Jacks`);
       },
       outfit: { familiar: $familiar`Cornbeefadon` },
+      freeaction: true,
       limit: { tries: 1 },
     },
     {
@@ -501,6 +506,7 @@ export const MiscQuest: Quest = {
       completed: () =>
         !have($item`SongBoom™ BoomBox`) || get("boomBoxSong") === "Total Eclipse of Your Meat",
       do: () => cliExecute("boombox meat"),
+      freeaction: true,
       limit: { tries: 1 },
     },
     {
