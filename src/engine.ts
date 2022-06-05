@@ -159,7 +159,7 @@ export class Engine {
       // (if we have teleportitis, everything is a possible target)
       const absorb_targets =
         task.do instanceof Location
-          ? state.absorb.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do)
+          ? state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do)
           : [];
       for (const monster of absorb_targets) {
         if (state.absorb.isReprocessTarget(monster)) {
@@ -213,7 +213,11 @@ export class Engine {
               .filter((monster) => !state.banishes.already_banished.has(monster))
               .join(", ")}`
           );
-          debug(`Banishes available: ${Array.from(banishSources).join(", ")}`);
+          debug(
+            `Banishes available: ${Array.from(banishSources)
+              .map((b) => b.do)
+              .join(", ")}`
+          );
         }
 
         // Equip an orb if we have a good target.
