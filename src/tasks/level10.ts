@@ -54,10 +54,9 @@ export const GiantQuest: Quest = {
       limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
-      combat: new CombatStrategy().macro(
-        new Macro().item($item`yellow rocket`),
-        $monster`Quiet Healer`
-      ),
+      combat: new CombatStrategy()
+        .macro(new Macro().item($item`yellow rocket`), $monster`Quiet Healer`)
+        .killItem($monster`Burly Sidekick`),
     },
     {
       name: "Airship",
