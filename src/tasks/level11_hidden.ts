@@ -50,7 +50,7 @@ const Temple: Task[] = [
   },
   {
     name: "Temple Nostril",
-    after: ["Open Temple", "Macguffin/Diary"],
+    after: ["Open Temple"],
     acquire: [{ item: $item`stone wool` }],
     completed: () => have($item`the Nostril of the Serpent`) || step("questL11Worship") >= 3,
     do: $location`The Hidden Temple`,
@@ -60,7 +60,7 @@ const Temple: Task[] = [
   },
   {
     name: "Open City",
-    after: ["Temple Nostril"],
+    after: ["Temple Nostril", "Macguffin/Diary"],
     acquire: [{ item: $item`stone wool` }],
     completed: () => step("questL11Worship") >= 3,
     do: () => {
