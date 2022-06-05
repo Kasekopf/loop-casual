@@ -5,7 +5,6 @@ import {
   equippedAmount,
   equippedItem,
   familiarWeight,
-  getWorkshed,
   gnomadsAvailable,
   itemAmount,
   knollAvailable,
@@ -754,6 +753,7 @@ export class AbsorbState {
       .map((monster) => this.reprocessed.add(monster));
 
     // Ignore the elemental skills that are not useful for the tower
+    const ignored_skills = new Set<Skill>();
     const needed_elem_skills: { [elem: string]: Skill[] } = {
       hot: $skills`Microburner, Infernal Automata, Steam Mycelia`,
       cold: $skills`Cryocurrency, Cooling Tubules, Snow-Cooling System`,
@@ -764,10 +764,16 @@ export class AbsorbState {
     for (const elem in needed_elem_skills) {
       if (get("nsChallenge2") !== elem) {
         for (const unneeded_skill of needed_elem_skills[elem]) {
-          const monster = usefulSkills.get(unneeded_skill);
-          if (monster === undefined) continue;
-          this.ignored.add(monster);
+          ignored_skills.add(unneeded_skill);
         }
+      }
+    }
+
+    // No need for resistance skills if we already have enough
+    const res_skills = $skills`Ire Proof, Nanofur, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Clammy Microcilia, Lubricant Layer`;
+    if (have($item`ice crown`) && have($item`unwrapped knock-off retro superhero cape`)) {
+      for (const skill of res_skills) {
+        ignored_skills.add(skill);
       }
     }
 
@@ -775,10 +781,15 @@ export class AbsorbState {
     if (
       !have($item`frozen jeans`) &&
       !have($skill`Cryocurrency`) &&
-      !have($skill`Cooling Tubules`) &&
-      (getWorkshed() !== $item`cold medicine cabinet` || get("_coldMedicineConsults") === 5)
+      !have($skill`Cooling Tubules`)
     ) {
-      this.ignored.delete($monster`Snow Queen`); // $skill`Snow-Cooling System`
+      ignored_skills.delete($skill`Snow-Cooling System`);
+    }
+
+    for (const skill of ignored_skills) {
+      const monster = usefulSkills.get(skill);
+      if (monster === undefined) continue;
+      this.ignored.add(monster);
     }
 
     // Ignore skills after the NS is defeated
