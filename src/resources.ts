@@ -92,7 +92,11 @@ export class BanishState {
     return (
       task.combat
         ?.where(MonsterStrategy.Banish)
-        ?.find((monster) => this.already_banished.has(monster)) !== undefined
+        ?.find(
+          (monster) =>
+            this.already_banished.has(monster) &&
+            this.already_banished.get(monster) !== $item`ice house`
+        ) !== undefined
     );
   }
 
