@@ -143,25 +143,6 @@ export class Engine {
       }
     }
 
-    // Prepare choice selections
-    const choices: { [choice: number]: number } = {};
-    for (const choice_id_str in task.choices) {
-      const choice_id = parseInt(choice_id_str);
-      const choice = task.choices[choice_id];
-      if (typeof choice === "number") choices[choice_id] = choice;
-      else choices[choice_id] = choice();
-    }
-    this.propertyManager.setChoices(choices);
-    const ignored_noncombats = [
-      "Wooof! Wooooooof!",
-      "Seeing-Eyes Dog",
-      "Playing Fetch",
-      "Lights Out in the",
-    ];
-    const ignored_noncombats_seen = ignored_noncombats.filter(
-      (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
-    );
-
     // Prepare basic equipment
     const outfit = Outfit.create(task, state);
     for (const wanderer of wanderers) {
@@ -337,6 +318,25 @@ export class Engine {
       applyEffects(outfit.modifier ?? "", task.effects || []);
       outfit.dress();
     }
+
+    // Prepare choice selections
+    const choices: { [choice: number]: number } = {};
+    for (const choice_id_str in task.choices) {
+      const choice_id = parseInt(choice_id_str);
+      const choice = task.choices[choice_id];
+      if (typeof choice === "number") choices[choice_id] = choice;
+      else choices[choice_id] = choice();
+    }
+    this.propertyManager.setChoices(choices);
+    const ignored_noncombats = [
+      "Wooof! Wooooooof!",
+      "Seeing-Eyes Dog",
+      "Playing Fetch",
+      "Lights Out in the",
+    ];
+    const ignored_noncombats_seen = ignored_noncombats.filter(
+      (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
+    );
 
     // Do any task-specific preparation
     if (task.prepare) task.prepare(state);
