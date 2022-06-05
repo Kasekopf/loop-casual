@@ -97,7 +97,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Climb",
-      after: ["Trapper Return"],
+      after: ["Trapper Return", "Ninja"],
       completed: () => step("questL08Trapper") >= 3,
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
