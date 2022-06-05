@@ -355,6 +355,10 @@ export class Engine {
       task.do();
     } else {
       adv1(task.do, 0, "");
+      if (get("lastEncounter") === "Wooof! Wooooooof!") {
+        // Encounter halloween dog adventure; just retry
+        adv1(task.do, 0, "");
+      }
     }
     runCombat();
     while (inMultiFight()) runCombat();
