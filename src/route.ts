@@ -45,6 +45,11 @@ export const routing: string[] = [
   "Misc/Hermit Clover",
   "Absorb/The Dungeons of Doom",
 
+  // Open Hidden City with Sue buff
+  "Hidden City/Open Office",
+  "Hidden City/Open Hospital",
+  "Hidden City/Open Apartment",
+
   // Line up -combats
   "Manor/Start Floor2",
   "Manor/Bedroom",
@@ -54,11 +59,6 @@ export const routing: string[] = [
   "Palindome/Bat Snake",
   "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
   "Palindome/Cold Snake",
-
-  // Open Hidden City with Sue buff
-  "Hidden City/Open Office",
-  "Hidden City/Open Hospital",
-  "Hidden City/Open Apartment",
 
   // Knock down -combats
   "Manor/Finish Floor2",
