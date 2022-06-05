@@ -80,7 +80,7 @@ const ABoo: Task[] = [
       }
     },
     effects: $effects`Red Door Syndrome`,
-    outfit: { modifier: "spooky res, cold res", familiar: $familiar`Exotic Parrot` },
+    outfit: { modifier: "100 spooky res, 100 cold res, HP", familiar: $familiar`Exotic Parrot` },
     choices: { 611: 1 },
     limit: { tries: 4 },
     freeaction: true,
