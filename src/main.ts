@@ -84,6 +84,9 @@ export function main(command?: string): void {
     let actions_left = args.actions ?? Number.MAX_VALUE;
     let state = new GameState();
     if (actions_left < 0) {
+      // Update the strategy for the printout
+      keyStrategy.update();
+      pullStrategy.update();
       for (const task of tasks) {
         const priority = Prioritization.from(task, state);
         const reason = priority.explain();
