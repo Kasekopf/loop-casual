@@ -1,13 +1,10 @@
 import {
   itemAmount,
   myBasestat,
-  myHp,
-  myMaxhp,
   myMaxmp,
   myMeat,
   myMp,
   numericModifier,
-  restoreHp,
   restoreMp,
   use,
   visitUrl,
@@ -33,6 +30,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
 import { councilSafe } from "./level12";
+import { fillHp } from "./level13";
 
 const ABoo: Task[] = [
   {
@@ -68,9 +66,7 @@ const ABoo: Task[] = [
       get("_loopgyou_clue_used", false) ? OverridePriority.Always : OverridePriority.None,
     prepare: () => {
       if (!get("_loopgyou_clue_used", false)) use($item`A-Boo clue`);
-      if (myHp() < myMaxhp()) {
-        restoreHp(myMaxhp());
-      }
+      fillHp();
       set("_loopgyou_clue_used", false);
     },
     do: $location`A-Boo Peak`,

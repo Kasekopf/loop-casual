@@ -507,7 +507,7 @@ export const TowerQuest: Quest = {
   ],
 };
 
-function fillHp() {
+export function fillHp() {
   if (myHp() < myMaxhp()) {
     if (!restoreHp(myMaxhp())) {
       // Backup healing plan in a pinch
@@ -516,7 +516,9 @@ function fillHp() {
       } else if (get("_hotTubSoaks") < 5) {
         visitUrl("clan_viplounge.php?action=hottub");
       }
-      while (myHp() < myMaxhp() && myMeat() >= 1000) {
+      let tries = 0;
+      while (myHp() < myMaxhp() && myMeat() >= 1000 && tries < 20) {
+        tries++;
         retrieveItem($item`Doc Galaktik's Homeopathic Elixir`);
         use($item`Doc Galaktik's Homeopathic Elixir`);
       }
