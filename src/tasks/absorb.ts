@@ -30,6 +30,7 @@ import {
   $skills,
   $slot,
   get,
+  getBanishedMonsters,
   have,
   Macro,
 } from "libram";
@@ -793,6 +794,10 @@ export class AbsorbState {
         this.ignored.add(monster);
       }
     }
+
+    // Don't bother to chase the ice house banished monster
+    const icehouse = getBanishedMonsters().get($item`ice house`);
+    if (icehouse !== undefined) this.ignored.add(icehouse);
   }
 
   public remainingReprocess(location?: Location): Monster[] {
