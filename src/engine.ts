@@ -207,10 +207,10 @@ export class Engine {
       if (wanderers.length === 0) {
         // Set up a banish if needed
 
-        const available_tasks = this.tasks.filter((task) => this.available(task, state));
-        const banishSources = state.banishes.unusedBanishes(available_tasks);
-        combat_resources.banishWith(outfit.equipFirst(banishSources));
-        if (task_combat.can(MonsterStrategy.Banish)) {
+        if (task_combat.can(MonsterStrategy.Banish) && !state.banishes.isFullyBanished(task)) {
+          const available_tasks = this.tasks.filter((task) => this.available(task, state));
+          const banishSources = state.banishes.unusedBanishes(available_tasks);
+          combat_resources.banishWith(outfit.equipFirst(banishSources));
           debug(
             `Banish targets: ${task_combat
               .where(MonsterStrategy.Banish)
