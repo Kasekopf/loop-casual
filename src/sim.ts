@@ -153,6 +153,11 @@ function buildIotmList(): Requirement[] {
       why: "Access to an extra monster absorb (see tune arg)",
       optional: true,
     },
+    {
+      thing: new Hardcoded(get("hasMaydayContract"), "MayDay™ contract"),
+      why: "+combat, early meat",
+      optional: true,
+    },
   ];
 
   return requirements;

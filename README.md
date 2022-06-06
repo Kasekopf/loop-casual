@@ -49,6 +49,7 @@ IoTMs (Optional)
 ✓ fresh coat of paint - Minor boosts in moxie sign
 ✓ haunted doghouse - Ghost dog chow
 ✓ hewn moon-rune spoon - Access to an extra monster absorb (see tune arg)
+✓ MayDay™ contract - +combat, early meat
 ✓ miniature crystal ball - Monster prediction
 ✓ Powerful Glove - Pixels and lobsterfrogmen
 ✓ protonic accelerator pack - Wanderers
