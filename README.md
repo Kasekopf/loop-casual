@@ -36,7 +36,6 @@ IoTMs
 ✓ combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
 ✓ grey gosling - Adventures
 ✓ industrial fire extinguisher - Ultrahydrated
-✓ shortest-order cook - Kill the Wall of Skin, initial exp
 ✓ unbreakable umbrella - -combat modifier, ML
 ✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
 
@@ -48,20 +47,24 @@ IoTMs (Optional)
 ✓ cursed magnifying glass - Lobsterfrogmen, delay
 ✓ Deck of Every Card - Get a key for the NS tower
 ✓ fresh coat of paint - Minor boosts in moxie sign
-✓ haunted doghouse - For ghost dog chow
+✓ haunted doghouse - Ghost dog chow
+✓ hewn moon-rune spoon - Access to an extra monster absorb (see tune arg)
 ✓ miniature crystal ball - Monster prediction
 ✓ Powerful Glove - Pixels and lobsterfrogmen
 ✓ protonic accelerator pack - Wanderers
+✓ shortest-order cook - Kill the Wall of Skin, initial exp
+✓ SongBoom™ BoomBox - In-run meat source
 ✓ SpinMaster™ lathe - Equipment
-✓ Summon Clip Art - For amulet coin (via familiar jacks)
+✓ Summon Clip Art - Amulet coin (via familiar jacks)
 
 Miscellany (Optional)
-✓ Cornbeefadon - For amulet coin, with clip art
+✓ Cornbeefadon - Amulet coin, with clip art
 ✓ hobo monkey - Meat drops
 ✓ woim - Bonus initiative
 
 Expensive Pulls (Optional)
 ✓ deck of lewd playing cards - Pull
+✓ Greatest American Pants OR navel ring of navel gazing - Pull
 ✓ mafia thumb ring - Pull
 ✓ old patched suit-pants - Pull
 ✓ Space Trip safety headphones OR HOA regulation book - Pull

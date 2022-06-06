@@ -65,7 +65,12 @@ const Diary: Task[] = [
         };
       }
     },
-    choices: { 923: 1, 924: 1 },
+    choices: {
+      923: 1,
+      924: () => (have($familiar`Shorter-Order Cook`) || have($item`beehive`) ? 1 : 3),
+      1018: 1,
+      1019: 1,
+    },
     combat: new CombatStrategy()
       .ignore($monster`blackberry bush`)
       .killItem(...$monsters`black adder, black panther`)

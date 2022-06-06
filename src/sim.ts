@@ -45,6 +45,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $familiar`Shorter-Order Cook`,
       why: "Kill the Wall of Skin, initial exp",
+      optional: true,
     },
     {
       thing: $item`Deck of Every Card`,

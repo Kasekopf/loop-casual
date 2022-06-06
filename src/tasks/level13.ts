@@ -396,8 +396,23 @@ export const TowerQuest: Quest = {
     },
     ...Door,
     {
+      name: "Beehive",
+      after: ["Macguffin/Forest", "Reprocess/Forest"],
+      completed: () =>
+        have($item`beehive`) || have($familiar`Shorter-Order Cook`) || step("questL13Final") > 6,
+      do: $location`The Black Forest`,
+      choices: {
+        923: 1,
+        924: 3,
+        1018: 1,
+        1019: 1,
+      },
+      outfit: { modifier: "-combat" },
+      limit: { soft: 5 },
+    },
+    {
       name: "Wall of Skin",
-      after: ["Door"],
+      after: ["Door", "Beehive"],
       prepare: () => {
         if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
         fillHp();
