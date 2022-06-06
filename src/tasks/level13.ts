@@ -36,7 +36,7 @@ import { Quest, step, Task } from "./structure";
 const Challenges: Task[] = [
   {
     name: "Speed Challenge",
-    after: ["Start", "Absorb/Twin Peak"],
+    after: ["Start", "Absorb/Overclocking"],
     completed: () => get("nsContestants1") > -1,
     do: (): void => {
       visitUrl("place.php?whichplace=nstower&action=ns_01_contestbooth");

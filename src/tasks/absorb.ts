@@ -43,6 +43,7 @@ import { Limit, Quest, step, Task } from "./structure";
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
   do: Location;
   limit?: Limit;
+  skill?: Skill; // A skill for which to generate a separate Absorb task, for routing
 }
 
 // A list of all locations that might have important monsters
@@ -118,10 +119,12 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Cobb's Knob Menagerie, Level 2`,
     after: ["Knob/Open Menagerie"],
+    skill: $skill`Fluid Dynamics Simulation`,
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
     after: ["Knob/Open Menagerie"],
+    skill: $skill`Phase Shift`,
   },
   // Level 6
   {
@@ -165,6 +168,7 @@ const absorbTasks: AbsorbTask[] = [
       }
     },
     after: ["Friar/Finish"],
+    skill: $skill`Gravitational Compression`,
   },
   // Level 7
   {
@@ -212,6 +216,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Twin Peak`,
     after: ["Orc Chasm/Twin Init"],
+    skill: $skill`Overclocking`,
   },
   {
     do: $location`Oil Peak`,
@@ -283,6 +288,7 @@ const absorbTasks: AbsorbTask[] = [
     after: ["Macguffin/Forest"],
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 923: 1, 924: 1 },
+    skill: $skill`Photonic Shroud`,
   },
   // Level 11: Hidden City
   {
@@ -334,6 +340,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Conservatory`,
     after: ["Manor/Start"],
     choices: { 899: 2 },
+    skill: $skill`Ponzi Apparatus`,
   },
   {
     do: $location`The Haunted Kitchen`,
@@ -528,6 +535,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`The Dungeons of Doom`,
+    skill: $skill`Hivemindedness`,
     after: [],
     prepare: () => {
       if (have($item`plus sign`)) use($item`plus sign`);
@@ -854,12 +862,26 @@ export const AbsorbQuest: Quest = {
         name: task.do.toString(),
         completed: (state: GameState) => !state.absorb.hasTargets(task.do),
         ...task,
+        after: task.skill ? [...task.after, task.skill.name] : task.after,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 20 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
       return result;
     }),
+    ...absorbTasks
+      .filter((task) => task.skill !== undefined)
+      .map((task): Task => {
+        const result = {
+          name: task.skill?.name ?? "",
+          completed: () => have(task.skill ?? $skill`none`),
+          ...task,
+          combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
+          limit: { soft: 20 },
+        };
+        if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+        return result;
+      }),
     {
       // Add a last task for routing
       name: "All",

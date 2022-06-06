@@ -15,23 +15,23 @@ export const routing: string[] = [
   "McLargeHuge/Ore Mountain",
   "Misc/Locket Pygmy",
 
-  "Absorb/The Haunted Conservatory", // Get +meat early, we'll want a lot
+  "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
   // Get initial -combat
   "Knob/King",
-  "Absorb/Cobb's Knob Menagerie, Level 3",
+  "Absorb/Phase Shift",
   "McLargeHuge/Trapper Request", // open for absorbing
-  "Absorb/Cobb's Knob Menagerie, Level 2",
+  "Absorb/Fluid Dynamics Simulation",
 
   // ASAP once level 11 is hit, grab -combat
-  "Absorb/The Black Forest",
+  "Absorb/Photonic Shroud",
 
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
   "Hidden City/Open Temple",
 
   // Get +item
-  "Absorb/Infernal Rackets Backstage",
+  "Absorb/Gravitational Compression",
   "Misc/Fortune",
 
   // Aim for remaining pygmies
@@ -43,7 +43,7 @@ export const routing: string[] = [
   // For MP regen, ASAP
   "Wand/Wand",
   "Misc/Hermit Clover",
-  "Absorb/The Dungeons of Doom",
+  "Absorb/Hivemindedness",
 
   // Open Hidden City with Sue buff
   "Hidden City/Open Office",
