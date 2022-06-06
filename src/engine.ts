@@ -8,6 +8,7 @@ import {
   getInventory,
   Item,
   Location,
+  Monster,
   myBasestat,
   myBuffedstat,
   myHp,
@@ -159,7 +160,10 @@ export class Engine {
       // (if we have teleportitis, everything is a possible target)
       const absorb_targets =
         task.do instanceof Location
-          ? state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do)
+          ? new Set<Monster>([
+              ...state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
+              ...state.absorb.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
+            ])
           : [];
       for (const monster of absorb_targets) {
         if (state.absorb.isReprocessTarget(monster)) {
