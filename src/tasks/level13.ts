@@ -397,7 +397,7 @@ export const TowerQuest: Quest = {
     ...Door,
     {
       name: "Beehive",
-      after: ["Macguffin/Forest", "Reprocess/Forest"],
+      after: ["Macguffin/Forest", "Reprocess/The Black Forest"],
       completed: () =>
         have($item`beehive`) || have($familiar`Shorter-Order Cook`) || step("questL13Final") > 6,
       do: $location`The Black Forest`,
