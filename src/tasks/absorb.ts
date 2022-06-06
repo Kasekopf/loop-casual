@@ -694,24 +694,8 @@ const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.va
 
 function monstersAt(location: Location): Monster[] {
   const result = Object.entries(appearanceRates(location))
-    .filter((i) => i[1] > 0)
+    .filter((i) => i[1] !== -2) // Avoid impossible monsters
     .map((i) => Monster.get<Monster>(i[0]));
-
-  // Workaround for some peculiar monsters
-  switch (location) {
-    case $location`The Hidden Apartment Building`:
-    case $location`The Hidden Bowling Alley`:
-    case $location`The Hidden Hospital`:
-    case $location`The Hidden Office Building`:
-    case $location`The Hidden Park`:
-      // Pygmy janitor can appear all over the hidden city
-      result.push($monster`pygmy janitor`);
-      break;
-    case $location`Oil Peak`:
-      // Oil baron appearance depends on ML
-      result.push($monster`oil baron`);
-      break;
-  }
   return result;
 }
 
