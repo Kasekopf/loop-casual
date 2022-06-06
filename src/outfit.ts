@@ -267,13 +267,16 @@ export class Outfit {
   }
 
   public equipCharging(): void {
+    if (this.modifier?.includes("-combat")) {
+      // Modifier plays strangely with the umbrella
+      this.equip($item`unbreakable umbrella`);
+    }
+
     if (familiarWeight($familiar`Grey Goose`) < 6) {
       if (this.equip($familiar`Grey Goose`)) {
         this.equip($item`yule hatchet`);
-        if (!this.modifier || !this.modifier.includes("-combat")) {
-          this.equip($item`ghostly reins`);
-          this.equip($item`familiar scrapbook`);
-        }
+        this.equip($item`ghostly reins`);
+        this.equip($item`familiar scrapbook`);
       }
     } else if (
       (!have($item`eleven-foot pole`) ||
