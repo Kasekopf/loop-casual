@@ -50,6 +50,7 @@ export const GiantQuest: Quest = {
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
+      orbtargets: () => undefined,
       outfit: { modifier: "-combat" },
       limit: { soft: 50 },
       delay: () =>
