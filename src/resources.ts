@@ -48,7 +48,7 @@ const banishSources: BanishSource[] = [
     prepare: (): void => {
       if (get("_latteBanishUsed")) {
         const modifiers = [];
-        if (get("latteUnlocks").includes("hot wing")) modifiers.push("hot wing");
+        if (get("latteUnlocks").includes("wing")) modifiers.push("wing");
         if (get("latteUnlocks").includes("cajun")) modifiers.push("cajun");
         modifiers.push("cinnamon", "pumpkin", "vanilla");
         cliExecute(`latte refill ${modifiers.slice(0, 3).join(" ")}`); // Always unlocked

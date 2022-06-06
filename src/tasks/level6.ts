@@ -25,7 +25,7 @@ export const FriarQuest: Quest = {
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
       outfit: () => {
-        if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("hot wing")) {
+        if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("wing")) {
           return { modifier: "-combat", equip: $items`latte lovers member's mug` };
         }
         return { modifier: "-combat" };
