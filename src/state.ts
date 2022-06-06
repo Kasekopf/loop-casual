@@ -1,5 +1,5 @@
-import { Location, Monster } from "kolmafia";
-import { CrystalBall } from "libram";
+import { Location, Monster, toLocation, toMonster, visitUrl } from "kolmafia";
+import { get } from "libram";
 import { BanishState } from "./resources";
 import { AbsorbState } from "./tasks/absorb";
 
@@ -19,7 +19,16 @@ class OrbState {
   predictions: Map<Location, Monster>;
 
   constructor() {
-    this.predictions = CrystalBall.ponder();
+    visitUrl("inventory.php?ponder=1", false);
+    this.predictions = new Map(
+      get("crystalBallPredictions")
+        .split("|")
+        .map((element) => element.split(":") as [string, string, string])
+        .map(
+          ([, location, monster]) =>
+            [toLocation(location), toMonster(monster)] as [Location, Monster]
+        )
+    );
   }
 
   prediction(loc: Location): Monster | undefined {
