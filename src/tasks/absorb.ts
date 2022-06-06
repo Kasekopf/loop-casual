@@ -305,6 +305,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Hidden Park`,
     after: ["Hidden City/Open City", "Hidden City/Banish Janitors"],
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: {
       789: () => {
         return get("relocatePygmyJanitor") === myAscensions() ? 2 : 3;
@@ -350,13 +351,14 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Haunted Billiards Room`,
     after: ["Manor/Billiards"],
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
+    combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`chalkdust wraith`),
     choices: { 900: 2 },
   },
   {
     do: $location`The Haunted Library`,
     after: ["Manor/Library"],
     choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
-    combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`chalkdust wraith`),
   },
   {
     do: $location`The Haunted Gallery`,
@@ -472,12 +474,13 @@ const absorbTasks: AbsorbTask[] = [
   },
   // Misc areas
   // These are probably only worthwhile with orb
-  // {
-  //   do: $location`South of the Border`,
-  //   after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
-  //   choices: { 4: 3 },
-  //   outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
-  // },
+  {
+    do: $location`South of the Border`,
+    ready: () => have($item`miniature crystal ball`),
+    after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
+    choices: { 4: 3 },
+    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
+  },
   {
     do: $location`The Unquiet Garves`,
     after: ["Crypt/Start"],

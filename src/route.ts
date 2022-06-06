@@ -90,6 +90,7 @@ export const routing: string[] = [
   // Finish up with last delay
   "Bat/Finish",
   "Tower/Naughty Sorceress",
+  "Absorb/South of the Border", // If we are doing this, do it early to give room for orb
   "Absorb/All",
   "Reprocess/All", // Return to locations if reprocessing was missed
 
