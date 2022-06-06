@@ -459,6 +459,18 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Friar Buff",
+      after: ["Friar/Finish", "Macguffin/Desert"], // After the desert to avoid wasting it on the camel
+      completed: () => get("friarsBlessingReceived"),
+      ready: () => familiarWeight($familiar`Grey Goose`) < 6,
+      priority: () => OverridePriority.Free,
+      do: () => {
+        cliExecute("friars familiar");
+      },
+      freeaction: true,
+      limit: { tries: 1 },
+    },
+    {
       name: "Dog Chow",
       after: [],
       ready: () => have($item`Ghost Dog Chow`) && familiarWeight($familiar`Grey Goose`) < 6,
