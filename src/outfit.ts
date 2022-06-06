@@ -38,6 +38,10 @@ export class Outfit {
         this.accesories.push(item);
         return true;
       }
+      if (slot === $slot`off-hand`) {
+        const weapon = this.equips.get($slot`weapon`);
+        if (weapon && weaponHands(weapon) === 2) return false;
+      }
       if (!this.equips.has(slot)) {
         this.equips.set(slot, item);
         return true;
@@ -110,6 +114,10 @@ export class Outfit {
       if (slot === $slot`acc1`) {
         if (this.accesories.length >= 3) return false;
         return true;
+      }
+      if (slot === $slot`off-hand`) {
+        const weapon = this.equips.get($slot`weapon`);
+        if (weapon && weaponHands(weapon) === 2) return false;
       }
       if (!this.equips.has(slot)) {
         return true;
