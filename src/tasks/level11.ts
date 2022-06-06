@@ -340,7 +340,7 @@ const Pyramid: Task[] = [
     combat: new CombatStrategy(true)
       .macro(
         new Macro()
-          .trySkill($skill`Saucegeyser`)
+          .while_("!mpbelow 20", new Macro().trySkill($skill`Infinite Loop`))
           .attack()
           .repeat()
       )
