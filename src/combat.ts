@@ -23,7 +23,6 @@ import {
   have,
   Macro,
 } from "libram";
-import { debug } from "./lib";
 import {
   BanishSource,
   CombatResource,
@@ -117,7 +116,6 @@ export class BuiltCombatStrategy {
     // Set up the autoattack
     const autoattack_macros = new CompressedMacro();
     abstract.autoattacks.forEach((value, key) => {
-      debug(`a: ${key}`);
       autoattack_macros.add(key, new Macro().step(...value.map((m) => undelay(m, state))));
     });
     this.autoattack.step(autoattack_macros.build());
