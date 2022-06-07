@@ -326,7 +326,7 @@ const Nuns: Task[] = [
     },
     freecombat: true, // Do not equip cmg or carn plant
     combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`)).kill(),
-    limit: { soft: 20 },
+    limit: { soft: 25 },
   },
 ];
 
@@ -424,7 +424,7 @@ export const WarQuest: Quest = {
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
       combat: new CombatStrategy().kill(),
-      limit: { tries: 9 },
+      limit: { tries: 10 },
     },
     ...Orchard,
     {
@@ -439,7 +439,7 @@ export const WarQuest: Quest = {
       outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
       do: $location`The Battlefield (Frat Uniform)`,
       combat: new CombatStrategy().kill(),
-      limit: { tries: 8 },
+      limit: { tries: 9 },
     },
     ...Nuns,
     {
@@ -455,7 +455,7 @@ export const WarQuest: Quest = {
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
       combat: new CombatStrategy().kill(),
-      limit: { tries: 26 },
+      limit: { tries: 30 },
     },
     {
       name: "Boss Hippie",
