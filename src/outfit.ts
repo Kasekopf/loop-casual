@@ -267,7 +267,8 @@ export class Outfit {
         outfit.equip($familiar`Hobo Monkey`);
         outfit.equip($familiar`Leprechaun`); // backup
       }
-      if (spec.modifier.includes("+combat")) outfit.equip($item`thermal blanket`);
+      if (spec.modifier.includes("+combat") && !spec.modifier.includes("res"))
+        outfit.equip($item`thermal blanket`);
       outfit.modifier = spec.modifier;
     }
 

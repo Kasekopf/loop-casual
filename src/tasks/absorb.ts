@@ -200,7 +200,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
-    outfit: { modifier: "cold res 5min, +combat", equip: $items`miniature crystal ball` },
+    outfit: { modifier: "10 cold res 5min, +combat", equip: $items`miniature crystal ball` },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
   // Level 9
@@ -238,6 +238,7 @@ const absorbTasks: AbsorbTask[] = [
         if (numericModifier("Monster Level") < 100) break;
 
         const item = equippedItem(slot);
+        if (item === $item`none`) continue;
         if (numericModifier(item, "Monster Level") === 0) continue;
         if (item === $item`backup camera`) continue; // Always keep equipped to ensure we can get to 50
         equip(slot, $item`none`);
