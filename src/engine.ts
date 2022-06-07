@@ -359,7 +359,10 @@ export class Engine {
       task.do();
     } else {
       adv1(task.do, 0, "");
-      if (get("lastEncounter") === "Wooof! Wooooooof!") {
+      if (
+        get("lastEncounter") === "Wooof! Wooooooof!" ||
+        get("lastEncounter") === "Playing Fetch*"
+      ) {
         // Encounter halloween dog adventure; just retry
         adv1(task.do, 0, "");
       }

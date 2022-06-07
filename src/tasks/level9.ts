@@ -23,7 +23,6 @@ import {
   get,
   have,
   Macro,
-  set,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
@@ -65,16 +64,10 @@ const ABoo: Task[] = [
     priority: () =>
       get("_loopgyou_clue_used", false) ? OverridePriority.Always : OverridePriority.None,
     prepare: () => {
-      if (!get("_loopgyou_clue_used", false)) use($item`A-Boo clue`);
+      use($item`A-Boo clue`);
       fillHp();
-      set("_loopgyou_clue_used", false);
     },
     do: $location`A-Boo Peak`,
-    post: () => {
-      if (get("lastEncounter") === "Wooof! Wooooooof!") {
-        set("_loopgyou_clue_used", true); // A ghost-dog adventure ate the ABoo Horror; we can just try again
-      }
-    },
     effects: $effects`Red Door Syndrome`,
     outfit: { modifier: "100 spooky res, 100 cold res, HP", familiar: $familiar`Exotic Parrot` },
     choices: { 611: 1 },
