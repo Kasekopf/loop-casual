@@ -17,8 +17,11 @@ import {
   myFamiliar,
   myHp,
   myMaxhp,
+  myMaxmp,
   myMeat,
   myPrimestat,
+  mySign,
+  numericModifier,
   retrieveItem,
   runChoice,
   totalTurnsPlayed,
@@ -548,7 +551,9 @@ export const MiscQuest: Quest = {
     {
       name: "Tune from Muscle",
       after: ["Unlock Beach", "Reprocess/The Bugbear Pen"],
-      ready: () => knollAvailable(),
+      ready: () =>
+        knollAvailable() &&
+        (mySign() !== "Vole" || myMaxmp() - numericModifier("Maximum MP") >= 50),
       completed: () =>
         !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
       priority: () => OverridePriority.Free,
