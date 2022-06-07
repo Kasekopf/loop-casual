@@ -79,8 +79,9 @@ const ABoo: Task[] = [
       skipDefaults: true,
     },
     choices: { 611: 1 },
-    limit: { tries: 4 },
+    limit: { tries: 5 },
     freeaction: true,
+    expectbeatenup: true,
   },
   {
     name: "ABoo Peak",

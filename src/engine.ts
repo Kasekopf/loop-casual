@@ -6,6 +6,7 @@ import {
   equippedItem,
   familiarWeight,
   getInventory,
+  haveEffect,
   Item,
   Location,
   Monster,
@@ -360,6 +361,7 @@ export class Engine {
     }
 
     // Do the task
+    const beaten_turns = haveEffect($effect`Beaten Up`);
     if (typeof task.do === "function") {
       task.do();
     } else {
@@ -379,7 +381,8 @@ export class Engine {
 
     absorbConsumables();
     autosellJunk();
-    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+    if (haveEffect($effect`Beaten Up`) > beaten_turns && !task.expectbeatenup)
+      throw "Fight was lost; stop.";
     for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {
       if (have(poisoned)) uneffect(poisoned);
     }
