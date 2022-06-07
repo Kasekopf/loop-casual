@@ -36,6 +36,7 @@ export const routing: string[] = [
 
   // Aim for remaining pygmies
   "Hidden City/Bowling Skills",
+  "Manor/Kitchen", // finish kitchen early for +meat
   "Giant/Airship YR Healer",
   "Misc/Retune Moon",
   "War/Flyers Start", // Start the war and get flyers
