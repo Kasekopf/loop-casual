@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myMaxhp, myMeat, restoreHp, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, myMeat, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
@@ -15,6 +15,7 @@ import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
+import { fillHp } from "./level13";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -83,7 +84,7 @@ export const McLargeHugeQuest: Quest = {
         (have($item`ninja rope`) && have($item`ninja carabiner`) && have($item`ninja crampons`)) ||
         step("questL08Trapper") >= 3,
       prepare: () => {
-        restoreHp(myMaxhp());
+        fillHp();
       },
       do: $location`Lair of the Ninja Snowmen`,
       outfit: { modifier: "50 combat, init" },
