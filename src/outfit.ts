@@ -1,4 +1,5 @@
 import {
+  canEquip,
   cliExecute,
   equip,
   equippedAmount,
@@ -31,6 +32,7 @@ export class Outfit {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.equip(val));
     if (!have(item)) return false;
+    if (item instanceof Item && !canEquip(item)) return false;
 
     if (item instanceof Item) {
       const slot = toSlot(item);
@@ -109,6 +111,7 @@ export class Outfit {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.canEquip(val)); // TODO: smarter
     if (!have(item)) return false;
+    if (item instanceof Item && !canEquip(item)) return false;
 
     if (item instanceof Item) {
       const slot = toSlot(item);
