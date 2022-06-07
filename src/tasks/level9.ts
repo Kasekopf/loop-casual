@@ -45,7 +45,6 @@ const ABoo: Task[] = [
     name: "ABoo Clues",
     after: ["ABoo Start"],
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
-    ready: () => !get("_loopgyou_clue_used", false),
     do: $location`A-Boo Peak`,
     outfit: { modifier: "item", equip: $items`Space Trip safety headphones, HOA regulation book` },
     combat: new CombatStrategy()
@@ -58,18 +57,27 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Horror",
-    after: ["ABoo Start"],
-    ready: () => have($item`A-Boo clue`) || get("_loopgyou_clue_used", false),
+    after: [
+      "ABoo Start",
+      "Absorb/The Batrat and Ratbat Burrow",
+      "Absorb/The Spooky Forest",
+      "Absorb/The eXtreme Slope",
+      "Absorb/A-Boo Peak",
+    ],
+    ready: () => have($item`A-Boo clue`),
     completed: () => get("booPeakProgress") === 0,
-    priority: () =>
-      get("_loopgyou_clue_used", false) ? OverridePriority.Always : OverridePriority.None,
     prepare: () => {
+      if (have($item`pec oil`)) ensureEffect($effect`Oiled-Up`);
       use($item`A-Boo clue`);
       fillHp();
     },
     do: $location`A-Boo Peak`,
     effects: $effects`Red Door Syndrome`,
-    outfit: { modifier: "100 spooky res, 100 cold res, HP", familiar: $familiar`Exotic Parrot` },
+    outfit: {
+      modifier: "100 spooky res, 100 cold res, HP",
+      familiar: $familiar`Exotic Parrot`,
+      skipDefaults: true,
+    },
     choices: { 611: 1 },
     limit: { tries: 4 },
     freeaction: true,

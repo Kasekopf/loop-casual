@@ -532,7 +532,7 @@ export function fillHp() {
         visitUrl("clan_viplounge.php?action=hottub");
       }
       let tries = 0;
-      while (myHp() < myMaxhp() && myMeat() >= 1000 && tries < 20) {
+      while (myHp() < myMaxhp() && myMeat() >= 1000 && tries < 30) {
         tries++;
         retrieveItem($item`Doc Galaktik's Homeopathic Elixir`);
         use($item`Doc Galaktik's Homeopathic Elixir`);

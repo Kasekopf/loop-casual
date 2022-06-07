@@ -268,7 +268,9 @@ export class Engine {
       }
 
       // Charge familiars if needed
-      outfit.equipCharging();
+      if (!outfit.skipDefaults) {
+        outfit.equipCharging();
+      }
 
       // Set up more wanderers if delay is needed
       if (wanderers.length === 0 && this.hasDelay(task))
@@ -278,20 +280,23 @@ export class Engine {
       applyEffects(outfit.modifier ?? "", task.effects || []);
 
       // Prepare full outfit
-      if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
-      const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-      // if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
-      if (
-        canChargeVoid() &&
-        (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
-        !freecombat &&
-        ((task_combat.can(MonsterStrategy.Kill) &&
-          !combat_resources.has(MonsterStrategy.KillFree)) ||
-          task_combat.can(MonsterStrategy.KillHard) ||
-          task_combat.boss)
-      )
-        outfit.equip($item`cursed magnifying glass`);
-      outfit.equipDefaults();
+
+      if (!outfit.skipDefaults) {
+        if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
+        const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
+        // if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
+        if (
+          canChargeVoid() &&
+          (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
+          !freecombat &&
+          ((task_combat.can(MonsterStrategy.Kill) &&
+            !combat_resources.has(MonsterStrategy.KillFree)) ||
+            task_combat.can(MonsterStrategy.KillHard) ||
+            task_combat.boss)
+        )
+          outfit.equip($item`cursed magnifying glass`);
+        outfit.equipDefaults();
+      }
       outfit.dress();
 
       // Prepare resources if needed

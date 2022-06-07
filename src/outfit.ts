@@ -22,6 +22,7 @@ import { GameState } from "./state";
 export class Outfit {
   equips: Map<Slot, Item> = new Map<Slot, Item>();
   accesories: Item[] = [];
+  skipDefaults = false;
   familiar?: Familiar;
   modifier?: string;
   avoid?: Item[];
@@ -271,6 +272,7 @@ export class Outfit {
         outfit.equip($item`thermal blanket`);
       outfit.modifier = spec.modifier;
     }
+    outfit.skipDefaults = spec?.skipDefaults ?? false;
 
     return outfit;
   }

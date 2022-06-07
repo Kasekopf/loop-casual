@@ -211,7 +211,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`A-Boo Peak`,
-    after: ["Orc Chasm/ABoo Peak"],
+    after: ["Orc Chasm/ABoo Clues"],
     combat: new CombatStrategy().macro(new Macro().attack().repeat()),
   },
   {

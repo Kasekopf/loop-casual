@@ -30,6 +30,7 @@ export interface OutfitSpec {
   modifier?: string; // Modifier to maximize
   familiar?: Familiar; // Familiar to use
   avoid?: Item[]; // Items that cause issues and so should not be equipped
+  skipDefaults?: boolean; // Do not equip default equipment; fully maximize
 }
 
 export type Task = {
