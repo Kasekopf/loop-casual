@@ -74,7 +74,7 @@ const ABoo: Task[] = [
     do: $location`A-Boo Peak`,
     effects: $effects`Red Door Syndrome`,
     outfit: {
-      modifier: "100 spooky res, 100 cold res, HP",
+      modifier: "20 spooky res, 20 cold res, HP",
       familiar: $familiar`Exotic Parrot`,
       skipDefaults: true,
     },

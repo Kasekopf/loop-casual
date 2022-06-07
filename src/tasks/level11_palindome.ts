@@ -192,6 +192,7 @@ const Zepplin: Task[] = [
         return {
           modifier: "sleaze dmg, sleaze spell dmg",
           equip: $items`transparent pants, deck of lewd playing cards`,
+          skipDefaults: true,
         };
       if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
         return {
