@@ -324,6 +324,7 @@ const Dome: Task[] = [
         `choice.php?pwd=${myHash()}&whichchoice=872&option=1&photo1=2259&photo2=7264&photo3=7263&photo4=7265`
       );
       use(1, Item.get(7270));
+      visitUrl("place.php?whichplace=palindome&action=pal_mroffice");
     },
     outfit: { equip: $items`Talisman o' Namsilat` },
     limit: { tries: 1 },

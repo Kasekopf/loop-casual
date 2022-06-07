@@ -85,7 +85,7 @@ const Cranny: Task[] = [
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`antique machete`, $item`gravy boat`, $item`transparent pants`),
+        equip: tryCape($item`antique machete`, $item`gravy boat`, $item`old patched suit-pants`),
         modifier: "-combat, ML",
       };
     },

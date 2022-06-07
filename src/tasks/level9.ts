@@ -144,7 +144,7 @@ const Twin: Task[] = [
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
     effects: $effects`Red Door Syndrome`,
-    outfit: { modifier: "stench res 4min, -combat, item" },
+    outfit: { modifier: "100 stench res 4min, -combat, item" },
     combat: new CombatStrategy().killItem(
       ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
