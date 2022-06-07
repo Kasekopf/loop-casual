@@ -106,7 +106,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
   for (const [slot, item] of hotswapped) equip(item, slot);
 }
 
-function swapEquipmentForMp(mpgoal: number): [Slot, Item][] {
+export function swapEquipmentForMp(mpgoal: number): [Slot, Item][] {
   const hotswapped: [Slot, Item][] = [];
   const inventory_options = Object.entries(getInventory())
     .map((v) => Item.get(v[0]))
@@ -116,20 +116,24 @@ function swapEquipmentForMp(mpgoal: number): [Slot, Item][] {
     if (slot === $slot`weapon` || slot === $slot`off-hand`) continue; // skip weapon handedness (for now)
     const item = equippedItem(slot);
     if (item === $item`none`) continue;
-    if (numericModifier(item, "Maximum HP") > 0 || numericModifier(item, "Maximum MP") > 0)
-      continue; // Do not replace items that already provide a bonus (for now)
 
     // Find an item in the same slot that gives more max MP
     const canonical_slot =
       slot === $slot`acc3` ? $slot`acc1` : slot === $slot`acc2` ? $slot`acc1` : slot;
     const slot_options = inventory_options
-      .filter((item) => equippedAmount(item) === 0 && toSlot(item) === canonical_slot)
+      .filter(
+        (it) =>
+          equippedAmount(it) === 0 &&
+          toSlot(it) === canonical_slot &&
+          numericModifier(it, "Maximum HP") >= numericModifier(item, "Maximum HP") &&
+          numericModifier(it, "Maximum MP") > numericModifier(item, "Maximum MP")
+      )
       .sort((a, b) => numericModifier(b, "Maximum MP") - numericModifier(a, "Maximum MP"));
 
     // If there is such an item, equip it
     if (slot_options.length === 0) continue;
     hotswapped.push([slot, item]);
-    equip(item, slot);
+    equip(slot, slot_options[0]);
   }
   return hotswapped;
 }
