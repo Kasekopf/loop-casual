@@ -7,6 +7,7 @@ import {
   $location,
   $monster,
   $skill,
+  ensureEffect,
   get,
   have,
   Macro,
@@ -26,6 +27,9 @@ export const KnobQuest: Quest = {
       after: [],
       ready: () => atLevel(5),
       completed: () => step("questL05Goblin") >= 0,
+      prepare: () => {
+        if (have($item`natural magick candle`)) ensureEffect($effect`The Odour of Magick`);
+      },
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
       priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
