@@ -102,7 +102,8 @@ export function applyEffects(modifier: string, required: Effect[]): void {
     ensureEffect(effect);
   }
 
-  // If we hotswapped equipment, restore our old equipment
+  // If we hotswapped equipment, restore our old equipment (in-reverse, to work well if we moved equipment around)
+  hotswapped.reverse();
   for (const [slot, item] of hotswapped) equip(item, slot);
 }
 
