@@ -36,6 +36,9 @@ const Diary: Task[] = [
     after: ["Start"],
     acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
+    prepare: () => {
+      if (have($item`MayDay™ supply package`)) use($item`MayDay™ supply package`);
+    },
     do: $location`The Black Forest`,
     post: () => {
       if (have($effect`Really Quite Poisoned`)) uneffect($effect`Really Quite Poisoned`);
@@ -44,7 +47,7 @@ const Diary: Task[] = [
       if (have($item`reassembled blackbird`)) {
         return {
           equip: $items`blackberry galoshes`,
-          modifier: "+combat",
+          modifier: "50 combat 5max, -1ML",
         };
       } else if (
         state.absorb.isReprocessTarget($monster`black magic woman`) &&
@@ -55,13 +58,13 @@ const Diary: Task[] = [
         return {
           equip: $items`blackberry galoshes, miniature crystal ball`,
           familiar: $familiar`Grey Goose`,
-          modifier: "+combat",
+          modifier: "50 combat 5max, -1ML",
         };
       } else {
         return {
           equip: $items`blackberry galoshes`,
           familiar: $familiar`Reassembled Blackbird`,
-          modifier: "50 combat, item",
+          modifier: "50 combat 5max, item, -1ML",
         };
       }
     },
