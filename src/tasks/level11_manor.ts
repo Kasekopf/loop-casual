@@ -21,8 +21,6 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") >= 1,
     prepare: () => {
       if (have($item`rainbow glitter candle`)) use($item`rainbow glitter candle`);
-      // eslint-disable-next-line libram/verify-constants
-      if (have($item`MayDay™ supply package`)) use($item`MayDay™ supply package`);
     },
     do: $location`The Haunted Kitchen`,
     outfit: { modifier: "stench res, hot res" },
