@@ -366,7 +366,7 @@ const Bowling: Task[] = [
       modifier: "item",
     },
     choices: { 788: 1 },
-    limit: { soft: 20 },
+    limit: { soft: 25 },
   },
   {
     name: "Finish Bowling",
