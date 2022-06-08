@@ -170,7 +170,9 @@ const Nook: Task[] = [
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
     post: (): void => {
-      while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
+      // Use evil eyes via chat until mafia tracking is fixed
+      if (get("cyrptNookEvilness") > 25) cliExecute("/use * evil eye");
+      // while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
     },
     outfit: (): OutfitSpec => {
       return {
