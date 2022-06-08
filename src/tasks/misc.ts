@@ -556,7 +556,7 @@ export const MiscQuest: Quest = {
         knollAvailable() &&
         (mySign() !== "Vole" ||
           (myMaxmp() - numericModifier("Maximum MP") >= 50 &&
-            myMaxmp() - numericModifier("Maximum MP") >= 60 &&
+            myMaxhp() - numericModifier("Maximum HP") >= 60 &&
             myMeat() >= 11000)),
       completed: () =>
         !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
