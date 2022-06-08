@@ -21,6 +21,7 @@ import {
   myMeat,
   myPrimestat,
   mySign,
+  myTurncount,
   numericModifier,
   retrieveItem,
   runChoice,
@@ -50,7 +51,7 @@ import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { Engine } from "../engine";
 import { Keys, keyStrategy } from "./keys";
-import { debug } from "../lib";
+import { atLevel, debug } from "../lib";
 import { args } from "../main";
 import { GameState } from "../state";
 
@@ -605,6 +606,17 @@ export const MiscQuest: Quest = {
       choices: { 940: 2 },
       outfit: { modifier: "item" },
       combat: new CombatStrategy().killItem($monster`white lion`),
+    },
+    {
+      name: "Mayday",
+      after: ["Macguffin/Start"],
+      priority: () => OverridePriority.Free,
+      completed: () =>
+        !get("hasMaydayContract") || (!have($item`MayDay™ supply package`) && atLevel(11)),
+      ready: () => have($item`MayDay™ supply package`) && myTurncount() < 1000,
+      do: () => use($item`MayDay™ supply package`),
+      limit: { tries: 1 },
+      freeaction: true,
     },
   ],
 };
