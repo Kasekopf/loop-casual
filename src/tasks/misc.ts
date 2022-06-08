@@ -553,7 +553,10 @@ export const MiscQuest: Quest = {
       after: ["Unlock Beach", "Reprocess/The Bugbear Pen"],
       ready: () =>
         knollAvailable() &&
-        (mySign() !== "Vole" || myMaxmp() - numericModifier("Maximum MP") >= 50),
+        (mySign() !== "Vole" ||
+          (myMaxmp() - numericModifier("Maximum MP") >= 50 &&
+            myMaxmp() - numericModifier("Maximum MP") >= 60 &&
+            myMeat() >= 11000)),
       completed: () =>
         !have($item`hewn moon-rune spoon`) || args.tune === undefined || get("moonTuned", false),
       priority: () => OverridePriority.Free,
