@@ -158,7 +158,7 @@ const Zepplin: Task[] = [
   },
   {
     name: "Protesters",
-    after: ["Protesters Start"],
+    after: ["Protesters Start", "Misc/Hermit Clover"],
     ready: () =>
       canEquip($item`transparent pants`) &&
       (itemAmount($item`11-leaf clover`) > 1 ||

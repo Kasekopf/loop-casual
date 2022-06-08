@@ -441,7 +441,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Hermit Clover",
-      after: [],
+      after: ["Palindome/Protesters Start"],
       ready: () => myMeat() >= 1000,
       completed: () => get("_loop_gyou_clovers") === "true",
       do: () => {
