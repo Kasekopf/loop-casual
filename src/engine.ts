@@ -10,6 +10,7 @@ import {
   Item,
   Location,
   Monster,
+  myAdventures,
   myBasestat,
   myBuffedstat,
   myHp,
@@ -362,6 +363,8 @@ export class Engine {
 
     // Do the task
     const beaten_turns = haveEffect($effect`Beaten Up`);
+    const start_advs = myAdventures();
+    const goose_weight = familiarWeight($familiar`Grey Goose`);
     if (typeof task.do === "function") {
       task.do();
     } else {
@@ -381,8 +384,21 @@ export class Engine {
 
     absorbConsumables();
     autosellJunk();
-    if (haveEffect($effect`Beaten Up`) > beaten_turns && !task.expectbeatenup)
-      throw "Fight was lost; stop.";
+    // Crash if we unexpectedly lost the fight
+    if (!task.expectbeatenup && have($effect`Beaten Up`)) {
+      if (
+        haveEffect($effect`Beaten Up`) > beaten_turns || // Turns of beaten-up increased, so we lost
+        (haveEffect($effect`Beaten Up`) === beaten_turns &&
+          // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
+          (myAdventures() < start_advs ||
+            // Check if adventures went down but also we reprocessed a monster
+            (familiarWeight($familiar`Grey Goose`) < goose_weight &&
+              (myAdventures() === start_advs + 4 ||
+                myAdventures() === start_advs + 6 ||
+                myAdventures() === start_advs + 9))))
+      )
+        throw "Fight was lost; stop.";
+    }
     for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {
       if (have(poisoned)) uneffect(poisoned);
     }
