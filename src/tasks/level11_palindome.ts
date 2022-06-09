@@ -27,6 +27,7 @@ import {
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { CombatStrategy } from "../combat";
+import { fillHp } from "./level13";
 
 function shenItem(item: Item) {
   return (
@@ -325,6 +326,7 @@ const Dome: Task[] = [
       );
       use(1, Item.get(7270));
       visitUrl("place.php?whichplace=palindome&action=pal_mroffice");
+      fillHp();
     },
     outfit: { equip: $items`Talisman o' Namsilat` },
     limit: { tries: 1 },
