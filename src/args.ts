@@ -140,7 +140,7 @@ export class Args {
 
     const argsWithHelp = {
       ...args,
-      help: this.flag({ help: "Show this message and exit.", default: false, setting: "" }),
+      help: this.flag({ help: "Show this message and exit.", setting: "" }),
     };
 
     const res: { [key: string]: unknown } & ArgMetadata<T> = {
