@@ -34,7 +34,6 @@ IoTMs
 ✓ combat lover's locket (Mountain man) - Reminiscing for Ore
 ✓ combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
 ✓ grey gosling - Adventures
-✓ industrial fire extinguisher - Ultrahydrated
 
 IoTMs (Optional)
 ✓ baby camelCalf - Desert progress
@@ -47,6 +46,7 @@ IoTMs (Optional)
 ✓ fresh coat of paint - Minor boosts in moxie sign
 ✓ haunted doghouse - Ghost dog chow
 ✓ hewn moon-rune spoon - Access to an extra monster absorb (see tune arg)
+✓ industrial fire extinguisher - Harem outfit, Bat hole, stone wool, Crypt, Ultrahydrated
 ✓ MayDay™ contract - +combat, early meat
 ✓ miniature crystal ball - Monster prediction
 ✓ Powerful Glove - Pixels and lobsterfrogmen

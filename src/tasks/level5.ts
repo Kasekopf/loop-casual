@@ -97,7 +97,7 @@ export const KnobQuest: Quest = {
         )
         .banish($monster`Knob Goblin Harem Guard`)
         .killItem(),
-      limit: { soft: 10 }, // Allow for Cobb's Knob lab key
+      limit: { soft: 20 }, // Allow for Cobb's Knob lab key
     },
     {
       name: "Perfume",

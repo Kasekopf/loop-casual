@@ -24,6 +24,7 @@ export const BatQuest: Quest = {
       after: [],
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 1,
       do: $location`Guano Junction`,
+      ready: () => have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`),
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },
