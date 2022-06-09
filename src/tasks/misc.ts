@@ -706,11 +706,6 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
   //  * Earlier tasks to later tasks
   //  * Uncompleted tasks to completed tasks
   const choices: Task["choices"] = { 3: 3 }; // The goal choice
-  // Escape the hidden city alters if nothing else is available
-  choices[781] = 6;
-  choices[783] = 6;
-  choices[785] = 6;
-  choices[787] = 6;
 
   const done_tasks = tasks.filter((task) => task.completed(state));
   const left_tasks = tasks.filter((task) => !task.completed(state));
@@ -720,6 +715,12 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
       choices[choice_id] = task.choices[choice_id];
     }
   }
+
+  // Escape the hidden city alters
+  choices[781] = 6;
+  choices[783] = 6;
+  choices[785] = 6;
+  choices[787] = 6;
 
   return {
     name: "Teleportitis",
