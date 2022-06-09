@@ -24,7 +24,6 @@ import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
-import { hash } from "./_git_commit";
 
 const time_property = "_loop_gyou_first_start";
 
@@ -75,7 +74,7 @@ export function main(command?: string): void {
     return;
   }
 
-  debug(`Running loopgyou ${hash} in KoLmafia r${getRevision()}`);
+  debug(`Running in KoLmafia r${getRevision()}`);
   if (args.version) return;
 
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;

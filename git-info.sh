@@ -1,1 +1,0 @@
-echo "export const hash = '$(git rev-parse --short HEAD)';" > src/_git_commit.ts
