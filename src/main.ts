@@ -29,7 +29,8 @@ import GitCommit from "./_git_commit";
 const time_property = "_loop_gyou_first_start";
 
 export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
-  sim: Args.flag({ help: "Check if you have the requirements to run this script" }),
+  sim: Args.flag({ help: "Check if you have the requirements to run this script." }),
+  version: Args.flag({ help: "Show script version and exit." }),
   actions: Args.number({
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
   }),
@@ -70,11 +71,13 @@ export function main(command?: string): void {
     return;
   }
 
+  debug(`Running loopgyou ${GitCommit.hash} in KoLmafia r${getRevision()}`);
+  if (args.version) return;
+
+  if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
+
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
-
-  debug(`Running loopgyou ${GitCommit.hash} in KoLmafia r${getRevision()}`);
-  if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
 
   // Clear intro adventure
   set("choiceAdventure1464", 1);
