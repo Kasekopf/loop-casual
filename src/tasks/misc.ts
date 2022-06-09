@@ -728,6 +728,10 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
     ready: () => have($effect`Teleportitis`),
     completed: () => get("lastPlusSignUnlock") === myAscensions(),
     do: $location`The Enormous Greater-Than Sign`,
+    post: () => {
+      // Some tracking is broken when we encounter it with teleportitis
+      if (get("lastEncounter") === "Having a Ball in the Ballroom") set("questM21Dance", "step4");
+    },
     outfit: { equip: $items`antique machete` },
     choices: choices,
     limit: { soft: 20 },
