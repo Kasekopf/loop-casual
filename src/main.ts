@@ -28,36 +28,40 @@ import GitCommit from "./_git_commit";
 
 const time_property = "_loop_gyou_first_start";
 
-export const args = Args.create("loopgyou", "A script to complete gyou runs.", {
-  sim: Args.flag({ help: "Check if you have the requirements to run this script." }),
-  version: Args.flag({ help: "Show script version and exit." }),
-  actions: Args.number({
-    help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
-  }),
-  class: Args.number({
-    help: "If given, break the prism and choose a class at the end of the run.",
-    default: 0,
-    options: [
-      [0, "Stay as Grey You"],
-      [1, "Seal Clubber"],
-      [2, "Turtle Tamer"],
-      [3, "Pastamancer"],
-      [4, "Saurceror"],
-      [5, "Disco Bandit"],
-      [6, "Accordion Thief"],
-    ],
-  }),
-  pulls: Args.number({
-    help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
-    default: 20,
-  }),
-  verboseequip: Args.flag({
-    help: "Print out equipment usage before each task.",
-  }),
-  tune: Args.string({
-    help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
-  }),
-});
+export const args = Args.create(
+  "loopgyou",
+  'This is a script to complete Grey You Softcore runs.\n\nYou must ascend manually into a Grey You Softcore run before running the script. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.\n\nThe arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).',
+  {
+    sim: Args.flag({ help: "Check if you have the requirements to run this script." }),
+    version: Args.flag({ help: "Show script version and exit." }),
+    actions: Args.number({
+      help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
+    }),
+    class: Args.number({
+      help: "If given, break the prism and choose a class at the end of the run.",
+      default: 0,
+      options: [
+        [0, "Stay as Grey You"],
+        [1, "Seal Clubber"],
+        [2, "Turtle Tamer"],
+        [3, "Pastamancer"],
+        [4, "Saurceror"],
+        [5, "Disco Bandit"],
+        [6, "Accordion Thief"],
+      ],
+    }),
+    pulls: Args.number({
+      help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
+      default: 20,
+    }),
+    verboseequip: Args.flag({
+      help: "Print out equipment usage before each task.",
+    }),
+    tune: Args.string({
+      help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
+    }),
+  }
+);
 export function main(command?: string): void {
   sinceKolmafiaRevision(26473);
 
