@@ -274,15 +274,15 @@ export class Engine {
         outfit.equipCharging();
       }
 
-      // Set up more wanderers if delay is needed
-      if (wanderers.length === 0 && this.hasDelay(task))
-        wanderers = outfit.equipUntilCapped(wandererSources);
+      if (wanderers.length === 0) {
+        // Set up more wanderers if delay is needed
+        if (this.hasDelay(task)) wanderers = outfit.equipUntilCapped(wandererSources);
 
-      // Prepare mood
-      applyEffects(outfit.modifier ?? "", task.effects || []);
+        // Prepare mood (no need if there is a forced wanderer)
+        applyEffects(outfit.modifier ?? "", task.effects || []);
+      }
 
       // Prepare full outfit
-
       if (!outfit.skipDefaults) {
         if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
         const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
