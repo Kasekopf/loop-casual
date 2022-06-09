@@ -3,7 +3,7 @@
  */
 
 import { familiarWeight, Location, Monster } from "kolmafia";
-import { $effect, $familiar, $skill, have } from "libram";
+import { $effect, $familiar, $item, $skill, get, have } from "libram";
 import { CombatStrategy, MonsterStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { GameState } from "./state";
@@ -84,7 +84,16 @@ export class Prioritization {
     if (
       outfit_spec?.modifier &&
       outfit_spec.modifier.includes("-combat") &&
-      !have($skill`Phase Shift`)
+      !have($skill`Phase Shift`) &&
+      !(
+        // All these add up to -25 combat fine, no need to wait
+        (
+          have($item`Space Trip safety headphones`) &&
+          have($item`unbreakable umbrella`) &&
+          have($item`protonic accelerator pack`) &&
+          (!get("_olympicSwimmingPool") || have($effect`Silent Running`))
+        )
+      )
     ) {
       result.priorities.add(OverridePriority.BadMood);
     }
