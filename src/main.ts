@@ -38,7 +38,7 @@ export const args = Args.create(
       help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
     }),
     class: Args.number({
-      help: "If given, break the prism and choose a class at the end of the run.",
+      help: "If given, break the prism and choose a class at the end of the run. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
       default: 0,
       options: [
         [0, "Stay as Grey You"],
