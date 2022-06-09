@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn run build:types && yarn run build:js",
+    "git-info": "echo export default \"{\\\"hash\\\": \\\"$(git rev-parse --short HEAD)\\\"}\"  > src/_git_commit.ts",
+    "build": "yarn git-info; yarn run build:types && yarn run build:js",
     "build:types": "tsc",
     "build:js": "webpack",
     "lint": "eslint src && prettier --check .",

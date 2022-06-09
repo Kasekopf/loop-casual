@@ -1,6 +1,7 @@
 import {
   cliExecute,
   gametimeToInt,
+  getRevision,
   myAdventures,
   myPath,
   print,
@@ -23,6 +24,7 @@ import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
+import GitCommit from "./_git_commit";
 
 const time_property = "_loop_gyou_first_start";
 
@@ -71,6 +73,7 @@ export function main(command?: string): void {
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
 
+  debug(`Running loopgyou ${GitCommit.hash} in KoLmafia r${getRevision()}`);
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
 
   // Clear intro adventure

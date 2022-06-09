@@ -2,3 +2,4 @@ node_modules
 .DS_Store
 KoLmafia
 yarn-error.log
+src/_git_commit.ts
