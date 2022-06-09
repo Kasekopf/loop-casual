@@ -103,7 +103,7 @@ const Oil: Task[] = [
     do: $location`Oil Peak`,
     outfit: { modifier: "ML, 0.1 item", equip: $items`unbreakable umbrella` },
     combat: new CombatStrategy().killItem(),
-    limit: { tries: 11 },
+    limit: { tries: 18 },
     orbtargets: undefined,
   },
   {
@@ -300,7 +300,7 @@ export const ChasmQuest: Quest = {
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
       choices: { 1345: 3 },
       freeaction: () => get("smutOrcNoncombatProgress") >= 15,
-      limit: { soft: 32 },
+      limit: { soft: 45 },
     },
     {
       name: "Start Peaks",
