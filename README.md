@@ -36,8 +36,6 @@ IoTMs
 ✓ combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
 ✓ grey gosling - Adventures
 ✓ industrial fire extinguisher - Ultrahydrated
-✓ unbreakable umbrella - -combat modifier, ML
-✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
 
 IoTMs (Optional)
 ✓ baby camelCalf - Desert progress
@@ -57,6 +55,8 @@ IoTMs (Optional)
 ✓ SongBoom™ BoomBox - In-run meat source
 ✓ SpinMaster™ lathe - Equipment
 ✓ Summon Clip Art - Amulet coin (via familiar jacks)
+✓ unbreakable umbrella - -combat modifier, ML
+✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
 
 Miscellany (Optional)
 ✓ Cornbeefadon - Amulet coin, with clip art

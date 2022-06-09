@@ -39,6 +39,14 @@ export const pulls: PullSpec[] = [
     optional: true,
     name: "Runaway IoTM",
   },
+  {
+    pull: $item`ring of conflict`, // Last chance for -5% combat frequency
+    useful: () =>
+      !have($item`unbreakable umbrella`) &&
+      !have($item`Space Trip safety headphones`) &&
+      storageAmount($item`Space Trip safety headphones`) === 0 &&
+      !have($item`protonic accelerator pack`),
+  },
   { pull: $item`white page` },
   { pull: $item`portable cassette player` },
   { pull: $item`blackberry galoshes` },

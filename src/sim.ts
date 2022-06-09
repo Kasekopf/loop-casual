@@ -41,6 +41,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $item`unwrapped knock-off retro superhero cape`,
       why: "Slay the dead in crypt, pygmy killing",
+      optional: true,
     },
     {
       thing: $familiar`Shorter-Order Cook`,
@@ -119,6 +120,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $item`unbreakable umbrella`,
       why: "-combat modifier, ML",
+      optional: true,
     },
     {
       thing: new Hardcoded(
