@@ -10,6 +10,7 @@ import {
   getWorkshed,
   gnomadsAvailable,
   hermit,
+  initiativeModifier,
   itemAmount,
   knollAvailable,
   myAscensions,
@@ -411,6 +412,9 @@ export const MiscQuest: Quest = {
           abort("Not ready for pygmy locket");
         if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
           cliExecute("retrocape heck hold");
+
+        if (initiativeModifier() < 50) cliExecute("pool stylishly");
+        if (initiativeModifier() < 50) abort("Not ready for pygmy locket");
       },
       do: () => {
         CombatLoversLocket.reminisce($monster`pygmy witch lawyer`);
@@ -435,7 +439,7 @@ export const MiscQuest: Quest = {
             equip: $items`unwrapped knock-off retro superhero cape`,
             familiar: $familiar`Vampire Vintner`,
           };
-        else return { modifier: "init" }; // Just use yellow rocket
+        else return { modifier: "init, -1ML" }; // Just use yellow rocket
       },
       limit: { tries: 1 },
     },

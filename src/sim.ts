@@ -93,6 +93,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $item`backup camera`,
       why: "Lobsterfrogmen, ML, init",
+      optional: true,
     },
     {
       thing: $item`combat lover's locket`,

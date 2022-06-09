@@ -28,7 +28,6 @@ Run `loopgyou sim` to see "Is the script intended to work unmodified on my chara
 > loopgyou sim
 Checking your character... Legend: ✓ Have / X Missing & Required / X Missing & Optional
 IoTMs
-✓ backup camera - Lobsterfrogmen, ML, init
 ✓ Clan VIP Lounge key - YRs, -combat
 ✓ Cold medicine cabinet - QoL Equipment
 ✓ combat lover's locket - Reminiscing
@@ -39,6 +38,7 @@ IoTMs
 
 IoTMs (Optional)
 ✓ baby camelCalf - Desert progress
+✓ backup camera - Lobsterfrogmen, ML, init
 ✓ bottled Vampire Vintner - Pygmy killing
 ✓ Cargo Cultist Shorts - War outfit
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
