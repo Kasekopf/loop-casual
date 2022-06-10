@@ -1,0 +1,38 @@
+name: Release loopgyou
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: 'gyou'
+          
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        yarn install
+        yarn run build
+    - run: |
+          git config user.name "Build Script"
+          git config user.email "<>"
+          echo "export const lastCommitHash: string | undefined = \"$(git rev-parse --short HEAD)\";" > src/_git_commit.ts
+          git switch release
+          rm -rf scripts/
+          mv KoLmafia/* ./
+          git add ccs/
+          git add scripts/
+          git commit -m "Build Mafia files for commit $GITHUB_SHA"
+          git push origin release
