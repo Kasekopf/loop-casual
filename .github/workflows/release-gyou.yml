@@ -24,12 +24,12 @@ jobs:
     - name: Build
       run: |
         yarn install
+        echo "export const lastCommitHash: string | undefined = \"$(git rev-parse --short HEAD)\";" > src/_git_commit.ts
         yarn run build
     - run: |
           git config user.name "Build Script"
           git config user.email "<>"
           git fetch --all
-          echo "export const lastCommitHash: string | undefined = \"$(git rev-parse --short HEAD)\";" > src/_git_commit.ts
           git switch release
           rm -rf scripts/
           mv KoLmafia/* ./
