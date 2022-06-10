@@ -100,7 +100,7 @@ const Temple: Task[] = [
       )
       .killItem($monster`baa-relief sheep`),
     choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
-    limit: { soft: 10 },
+    limit: { soft: 20 },
   },
   {
     name: "Temple Nostril",

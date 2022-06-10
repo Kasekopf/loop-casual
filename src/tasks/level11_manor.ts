@@ -98,7 +98,7 @@ const Manor2: Task[] = [
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
     outfit: { modifier: "-combat" },
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Bathroom Delay",
@@ -120,7 +120,7 @@ const Manor2: Task[] = [
     choices: { 881: 1, 105: 1, 892: 1 },
     outfit: { modifier: "-combat" },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
     // No need to search for cosmetics wraith
     orbtargets: () => [],
   },
@@ -149,7 +149,7 @@ const Manor2: Task[] = [
       )
       .ignore($monster`tumbleweed`),
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Bedroom Camera",
