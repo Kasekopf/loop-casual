@@ -537,6 +537,7 @@ const absorbTasks: AbsorbTask[] = [
         visitUrl("choice.php?pwd=&whichchoice=1065&option=1");
       }
     },
+    choices: { 1061: 5 },
   },
   {
     do: $location`The Dungeons of Doom`,
