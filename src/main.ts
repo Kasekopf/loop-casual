@@ -6,6 +6,8 @@ import {
   myPath,
   print,
   runChoice,
+  svnAtHead,
+  svnExists,
   turnsPlayed,
   visitUrl,
 } from "kolmafia";
@@ -27,6 +29,7 @@ import { GameState } from "./state";
 import { lastCommitHash } from "./_git_commit";
 
 const time_property = "_loop_gyou_first_start";
+const svn_name = "Kasekopf-loop-casual-branches-release";
 
 export const args = Args.create(
   "loopgyou",
@@ -78,6 +81,11 @@ export function main(command?: string): void {
   debug(
     `Running loopgyou version [${lastCommitHash ?? "custom-built"}] in KoLmafia r${getRevision()}`
   );
+  if (svnExists(svn_name) && !svnAtHead(svn_name))
+    debug(
+      'A newer version of this script is available and can be obtained with "svn update".',
+      "red"
+    );
   if (args.version) return;
 
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
