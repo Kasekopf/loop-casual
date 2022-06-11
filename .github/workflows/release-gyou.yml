@@ -36,7 +36,7 @@ jobs:
           rm -rf ccs/
           git checkout gyou KoLmafia/ccs
           mv KoLmafia/* ./
-          git rm KoLmafia
+          git rm -rf KoLmafia
           git add ccs/
           git add scripts/
           git commit -m "Build Mafia files for commit $GITHUB_SHA"
