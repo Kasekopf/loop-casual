@@ -272,6 +272,8 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     allowNonMoodBurning: false,
     allowSummonBurning: true,
     libramSkillsSoftcore: "none",
+    louvreGoal: 7,
+    louvreDesiredGoal: 7,
   });
   propertyManager.setChoices({
     1106: 3, // Ghost Dog Chow
