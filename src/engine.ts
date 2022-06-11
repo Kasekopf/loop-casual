@@ -48,7 +48,6 @@ export class Engine {
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
-    this.setUniversalProperties();
   }
 
   public available(task: Task): boolean {
@@ -272,7 +271,7 @@ export class Engine {
       throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.${failureMessage}`;
   }
 
-  private setUniversalProperties() {
+  public setUniversalProperties() {
     // Properties adapted from garbo
     this.propertyManager.set({
       logPreferenceChange: true,
@@ -307,14 +306,27 @@ export class Engine {
       autoTuxedo: true,
       autoPinkyRing: true,
       autoGarish: true,
+      allowNonMoodBurning: false,
       allowSummonBurning: true,
       libramSkillsSoftcore: "none",
+      louvreGoal: 7,
+      louvreDesiredGoal: 7,
     });
     this.propertyManager.setChoices({
       1106: 3, // Ghost Dog Chow
       1107: 1, // tennis ball
       1340: 3, // Is There A Doctor In The House?
       1341: 1, // Cure her poison
+      // June cleaver noncombats
+      1467: 1,
+      1468: 1,
+      1469: 2,
+      1470: 2,
+      1471: 1,
+      1472: 2,
+      1473: 2,
+      1474: 2,
+      1475: 1,
     });
   }
 }

@@ -100,43 +100,51 @@ export function main(command?: string): void {
   }
 
   const engine = new Engine(tasks);
-  cliExecute("ccs loopcasual");
-
-  let actions_left = args.actions ?? Number.MAX_VALUE;
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    // Locate the next task.
-    const next = engine.getNextTask();
-    if (next === undefined) break;
-
-    // Track the number of actions remaining to execute.
-    // If there are no more actions left, just print our plan and exit.
-    if (actions_left <= 0) {
-      debug(`Next task: ${next[0].name}`);
-      return;
-    } else {
-      actions_left -= 1;
+  try {
+    // Do not bother to set properties if there are no tasks remaining
+    if (tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined) {
+      engine.setUniversalProperties();
+      cliExecute("ccs loopcasual");
     }
 
-    // Do the next task.
-    if (next[1] !== undefined) engine.execute(next[0], next[1]);
-    else engine.execute(next[0]);
-  }
+    let actions_left = args.actions ?? Number.MAX_VALUE;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      // Locate the next task.
+      const next = engine.getNextTask();
+      if (next === undefined) break;
 
-  // Script is done; ensure we have finished
-  takeCloset(myClosetMeat());
+      // Track the number of actions remaining to execute.
+      // If there are no more actions left, just print our plan and exit.
+      if (actions_left <= 0) {
+        debug(`Next task: ${next[0].name}`);
+        return;
+      } else {
+        actions_left -= 1;
+      }
 
-  const remaining_tasks = tasks.filter((task) => !task.completed());
-  if (!runComplete()) {
-    debug("Remaining tasks:", "red");
-    for (const task of remaining_tasks) {
-      if (!task.completed()) debug(`${task.name}`, "red");
+      // Do the next task.
+      if (next[1] !== undefined) engine.execute(next[0], next[1]);
+      else engine.execute(next[0]);
     }
-    if (myAdventures() === 0) {
-      throw `Ran out of adventures. Consider setting higher stomach, liver, and spleen usage, or a higher voa.`;
-    } else {
-      throw `Unable to find available task, but the run is not complete.`;
+
+    // Script is done; ensure we have finished
+    takeCloset(myClosetMeat());
+
+    const remaining_tasks = tasks.filter((task) => !task.completed());
+    if (!runComplete()) {
+      debug("Remaining tasks:", "red");
+      for (const task of remaining_tasks) {
+        if (!task.completed()) debug(`${task.name}`, "red");
+      }
+      if (myAdventures() === 0) {
+        throw `Ran out of adventures. Consider setting higher stomach, liver, and spleen usage, or a higher voa.`;
+      } else {
+        throw `Unable to find available task, but the run is not complete.`;
+      }
     }
+  } finally {
+    engine.propertyManager.resetAll();
   }
 
   print("Casual complete!", "purple");
