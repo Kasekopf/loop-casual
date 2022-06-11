@@ -33,6 +33,8 @@ jobs:
           git fetch --all
           git switch release
           rm -rf scripts/
+          rm -rf ccs/
+          git checkout gyou KoLmafia/ccs
           mv KoLmafia/* ./
           git add ccs/
           git add scripts/
