@@ -858,7 +858,7 @@ export const AbsorbQuest: Quest = {
         ...task,
         after: task.skill ? [...task.after, task.skill.name] : task.after,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
-        limit: { soft: 20 },
+        limit: { soft: 25 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
       return result;
@@ -871,7 +871,7 @@ export const AbsorbQuest: Quest = {
           completed: () => have(task.skill ?? $skill`none`),
           ...task,
           combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
-          limit: { soft: 20 },
+          limit: { soft: 25 },
         };
         if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
         return result;
@@ -905,7 +905,7 @@ export const ReprocessQuest: Quest = {
           (task.ready === undefined || task.ready(state)) &&
           familiarWeight($familiar`Grey Goose`) >= 6,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
-        limit: { soft: 20 },
+        limit: { soft: 25 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
       return result;
