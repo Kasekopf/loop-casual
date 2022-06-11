@@ -295,7 +295,7 @@ const Orchard: Task[] = [
     outfit: { modifier: "items" },
     effects: $effects`Filthworm Guard Stench`,
     combat: new CombatStrategy(true).kill(),
-    limit: { tries: 1 },
+    limit: { tries: 2 }, // allow wanderer
   },
   {
     name: "Orchard Finish",
