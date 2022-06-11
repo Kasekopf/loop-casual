@@ -27,7 +27,11 @@ export const pulls: PullSpec[] = [
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
     useful: () =>
       get("trapperOre") === ""
-        ? undefined
+        ? itemAmount($item`asbestos ore`) >= 3 &&
+          itemAmount($item`linoleum ore`) >= 3 &&
+          itemAmount($item`chrome ore`) >= 3
+          ? false
+          : undefined
         : itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2,
   },
   {
