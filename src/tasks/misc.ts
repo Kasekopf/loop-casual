@@ -361,14 +361,23 @@ export const KeysQuest: Quest = {
           set("_dailyDungeonMalwareUsed", true);
         uneffect($effect`Apathy`);
       },
-      outfit: { equip: $items`ring of Detect Boring Doors` },
+      outfit: {
+        equip: $items`ring of Detect Boring Doors`,
+        avoid: $items`carnivorous potted plant`,
+      },
       combat: new CombatStrategy().macro(
         new Macro()
           .item($item`daily dungeon malware`)
           .attack()
           .repeat()
       ),
-      choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
+      choices: {
+        689: 1,
+        690: 2,
+        691: 3, // Do not skip the second chest; there is a chance we skip all the monsters
+        692: 3,
+        693: 2,
+      },
       limit: { soft: 11 },
     },
     {
@@ -378,7 +387,9 @@ export const KeysQuest: Quest = {
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
       post: () => uneffect($effect`Apathy`),
-      outfit: { equip: $items`ring of Detect Boring Doors` },
+      outfit: {
+        equip: $items`ring of Detect Boring Doors`,
+      },
       combat: new CombatStrategy().kill(),
       choices: { 689: 1, 690: 2, 691: 2, 692: 3, 693: 2 },
       limit: { tries: 11 },

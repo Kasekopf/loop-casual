@@ -1,4 +1,5 @@
 import {
+  cliExecute,
   equip,
   equippedAmount,
   equippedItem,
@@ -22,11 +23,13 @@ export class Outfit {
   skipDefaults = false;
   familiar?: Familiar;
   modifier?: string;
+  avoid?: Item[];
 
   equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.equip(val));
     if (!have(item)) return false;
+    if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
 
     if (item instanceof Item) {
       const slot = toSlot(item);
@@ -101,6 +104,7 @@ export class Outfit {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.canEquip(val)); // TODO: smarter
     if (!have(item)) return false;
+    if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
 
     if (item instanceof Item) {
       const slot = toSlot(item);
@@ -172,6 +176,10 @@ export class Outfit {
       }
     }
 
+    for (const item of this.avoid ?? []) {
+      if (equippedAmount(item) > 0) cliExecute(`unequip ${item.name}`);
+    }
+
     if (this.modifier) {
       // Handle familiar equipment manually to avoid weird Left-Hand Man behavior
       const fam_equip = this.equips.get($slot`familiar`);
@@ -193,6 +201,13 @@ export class Outfit {
         ]);
       }
 
+      if (this.avoid !== undefined) {
+        requirements = Requirement.merge([
+          requirements,
+          new Requirement([], { preventEquip: this.avoid }),
+        ]);
+      }
+
       if (!requirements.maximize()) {
         throw `Unable to maximize ${this.modifier}`;
       }
@@ -205,6 +220,7 @@ export class Outfit {
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);
     if (spec?.familiar) outfit.equip(spec.familiar);
+    outfit.avoid = spec?.avoid;
 
     if (spec?.modifier) {
       // Run maximizer
