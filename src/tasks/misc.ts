@@ -40,6 +40,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  $stat,
   CombatLoversLocket,
   get,
   getSaleValue,
@@ -631,6 +632,10 @@ export const WandQuest: Quest = {
     {
       name: "Plus Sign",
       after: [],
+      ready: () =>
+        myBasestat($stat`muscle`) >= 45 &&
+        myBasestat($stat`mysticality`) >= 45 &&
+        myBasestat($stat`moxie`) >= 45,
       completed: () => have($item`plus sign`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
