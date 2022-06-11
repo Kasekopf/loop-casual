@@ -5985,8 +5985,9 @@ var Orchard = [{
   effects: (0,template_string/* $effects */.lh)(_templateObject93 || (_templateObject93 = level12_taggedTemplateLiteral(["Filthworm Guard Stench"]))),
   combat: new src_combat.CombatStrategy(true).kill(),
   limit: {
-    tries: 1
-  }
+    tries: 2
+  } // allow wanderer
+
 }, {
   name: "Orchard Finish",
   after: ["Orchard Queen", "Open Orchard"],
@@ -8239,7 +8240,7 @@ var AbsorbQuest = {
       combat: ((_task$combat = task.combat) !== null && _task$combat !== void 0 ? _task$combat : new src_combat.CombatStrategy()).ignore(),
       // killing targetting monsters is set in the engine
       limit: {
-        soft: 20
+        soft: 25
       }
     });
 
@@ -8261,7 +8262,7 @@ var AbsorbQuest = {
       combat: ((_task$combat2 = task.combat) !== null && _task$combat2 !== void 0 ? _task$combat2 : new src_combat.CombatStrategy()).ignore(),
       // killing targetting monsters is set in the engine
       limit: {
-        soft: 20
+        soft: 25
       }
     });
 
@@ -8298,7 +8299,7 @@ var ReprocessQuest = {
       combat: ((_task$combat3 = task.combat) !== null && _task$combat3 !== void 0 ? _task$combat3 : new src_combat.CombatStrategy()).ignore(),
       // killing targetting monsters is set in the engine
       limit: {
-        soft: 20
+        soft: 25
       }
     });
 
@@ -15359,7 +15360,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "a32f72c";
+var lastCommitHash = "041319c";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -15397,6 +15398,7 @@ function main_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) 
 
 
 var time_property = "_loop_gyou_first_start";
+var svn_name = "Kasekopf-loop-casual-branches-release";
 var args = Args.create("loopgyou", 'This is a script to complete Grey You Softcore runs. Run "loopgyou sim" without quotes to check if this script will work for you.\n\nYou must ascend manually into a Grey You Softcore run before running the script. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.\n\nThe arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).', {
   sim: Args.flag({
     help: "Check if you have the requirements to run this script.",
@@ -15440,6 +15442,7 @@ function main(command) {
   }
 
   debug("Running loopgyou version [".concat(lastCommitHash !== null && lastCommitHash !== void 0 ? lastCommitHash : "custom-built", "] in KoLmafia r").concat((0,external_kolmafia_.getRevision)()));
+  if ((0,external_kolmafia_.svnExists)(svn_name) && !(0,external_kolmafia_.svnAtHead)(svn_name)) debug('A newer version of this script is available and can be obtained with "svn update".', "red");
   if (args.version) return;
   if ((0,external_kolmafia_.myPath)() !== "Grey You") throw "You are not currently in a Grey You run. Please start one.";
   var set_time_now = (0,property/* get */.U2)(time_property, -1) === -1;
@@ -15623,7 +15626,9 @@ function setUniversalProperties(propertyManager) {
     autoGarish: true,
     allowNonMoodBurning: false,
     allowSummonBurning: true,
-    libramSkillsSoftcore: "none"
+    libramSkillsSoftcore: "none",
+    louvreGoal: 7,
+    louvreDesiredGoal: 7
   });
   propertyManager.setChoices({
     1106: 3,
