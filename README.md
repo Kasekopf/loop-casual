@@ -8,17 +8,39 @@ The script is designed to be run as part of a loop. In particular, it expects th
 
 ### Installation
 
-This script is not currently in a state where it will work for most users out of the box. You may need to make a few custom typescript modifications. Thus it cannot yet be checked out through the mafia GUI.
+To install the script, use the following command in the KoLMafia CLI.
 
-1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
-2. Copy [loopgyou.ccs](KoLmafia/ccs/loopgyou.ccs) from KoLmafia/ccs to your Mafia css directory.
-3. Copy loopgyou.js and loopgyou-combat.js from KoLmafia/scripts/loop-gyou to your Mafia scripts directory.
+```
+svn checkout https://github.com/Kasekopf/loop-casual/branches/release/
+```
 
 ### Usage
 
 1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements (see below for more details).
 2. Ascend into a Grey You Softcore run. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.
-3. Run `loopgyou` and watch it go! If you are more hesitent, you can run `loopgyou actions 10` to only do 10 things and stop. Run `loopgyou help` for the full set of script options.
+3. Run `loopgyou` and watch it go! If you are more hesitent, you can run `loopgyou actions 10` to only do 10 things and stop.
+
+Run `loopgyou help` for the full set of script options:
+
+```
+The arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).
+Options:
+  sim - Check if you have the requirements to run this script.
+  version - Show script version and exit.
+  actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
+  class NUMBER - If given, break the prism and choose a class at the end of the run. You will be reduced to 40 adventures with full organs after breaking the prism. [default: 0] [setting: loopgyou_class]
+    class 0 - Stay as Grey You
+    class 1 - Seal Clubber
+    class 2 - Turtle Tamer
+    class 3 - Pastamancer
+    class 4 - Saurceror
+    class 5 - Disco Bandit
+    class 6 - Accordion Thief
+  pulls NUMBER - Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming. [default: 20] [setting: loopgyou_pulls]
+  verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
+  tune TEXT - Use your hewn moon-rune spoon to retune to this sign when optimal. [setting: loopgyou_tune]
+  help - Show this message and exit.
+```
 
 ### Will this script work for me?
 
@@ -72,3 +94,11 @@ Expensive Pulls (Optional)
 
 You have everything! You are the shiniest star. This script should work great.
 ```
+
+### Manual Intallation
+
+If you would like to make your owm modifications to the script, the recommended way is to compile and install the script manually.
+
+1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
+2. Copy [loopgyou.ccs](KoLmafia/ccs/loopgyou.ccs) from KoLmafia/ccs to your Mafia css directory.
+3. Copy loopgyou.js and loopgyou-combat.js from KoLmafia/scripts/loop-gyou to your Mafia scripts directory.
