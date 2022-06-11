@@ -95,9 +95,9 @@ Expensive Pulls (Optional)
 You have everything! You are the shiniest star. This script should work great.
 ```
 
-### Manual Intallation
+### Manual Installation
 
-If you would like to make your owm modifications to the script, the recommended way is to compile and install the script manually.
+If you would like to make your own modifications to the script, the recommended way is to compile and install the script manually.
 
 1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
 2. Copy [loopgyou.ccs](KoLmafia/ccs/loopgyou.ccs) from KoLmafia/ccs to your Mafia css directory.
