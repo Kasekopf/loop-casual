@@ -160,21 +160,23 @@ export const LevelingQuest: Quest = {
       post: (): void => {
         if (get("_snojoFreeFights") === 10) cliExecute("hottub"); // Clean -stat effects
       },
-      combat: new CombatStrategy().macro((): Macro => {
-        if (have($familiar`Frumious Bandersnatch`) && have($item`Greatest American Pants`)) {
-          // Grind exp for Bandersnatch
-          return new Macro()
-            .skill($skill`Curse of Weaksauce`)
-            .skill($skill`Stuffed Mortar Shell`)
-            .while_("!pastround 27 && !hpbelow 100", new Macro().skill($skill`Cannelloni Cannon`))
-            .trySkill($skill`Saucegeyser`)
-            .attack()
-            .repeat();
-        } else {
-          // no need to grind exp
-          return new Macro().skill($skill`Saucegeyser`).repeat();
-        }
-      }),
+      combat: new CombatStrategy()
+        .macro((): Macro => {
+          if (have($familiar`Frumious Bandersnatch`) && have($item`Greatest American Pants`)) {
+            // Grind exp for Bandersnatch
+            return new Macro()
+              .skill($skill`Curse of Weaksauce`)
+              .skill($skill`Stuffed Mortar Shell`)
+              .while_("!pastround 27 && !hpbelow 100", new Macro().skill($skill`Cannelloni Cannon`))
+              .trySkill($skill`Saucegeyser`)
+              .attack()
+              .repeat();
+          } else {
+            // no need to grind exp
+            return new Macro().skill($skill`Saucegeyser`).repeat();
+          }
+        })
+        .killHard(),
       outfit: {
         familiar: $familiar`Frumious Bandersnatch`,
         equip: $items`Greatest American Pants, familiar scrapbook`,
