@@ -5,6 +5,8 @@ import {
   cliExecute,
   drink,
   eat,
+  equip,
+  familiarEquippedEquipment,
   haveEffect,
   Item,
   itemAmount,
@@ -21,13 +23,16 @@ import {
   setProperty,
   turnsPerCast,
   use,
+  useFamiliar,
   useSkill,
 } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $skill,
+  $slot,
   Diet,
   get,
   getAverageAdventures,
@@ -94,6 +99,14 @@ export const DietQuest: Quest = {
       completed: () => !have($item`Kramco Sausage-o-Matic™`) || get("_sausagesEaten") >= 23, // Cap at 23 sausages to avoid burning through an entire supply
       ready: () => have($item`magical sausage casing`),
       do: (): void => {
+        // Pump-and-grind cannot be used from Left-Hand Man
+        if (
+          have($familiar`Left-Hand Man`) &&
+          familiarEquippedEquipment($familiar`Left-Hand Man`) === $item`Kramco Sausage-o-Matic™`
+        ) {
+          useFamiliar($familiar`Left-Hand Man`);
+          equip($slot`familiar`, $item`none`);
+        }
         eat(1, $item`magical sausage`);
       },
       limit: { tries: 23 },
