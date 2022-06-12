@@ -128,7 +128,7 @@ const Junkyard: Task[] = [
       )
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`batwinged gremlin (tool)`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Junkyard Wrench",
@@ -150,7 +150,7 @@ const Junkyard: Task[] = [
       )
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`erudite gremlin (tool)`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Junkyard Pliers",
@@ -171,7 +171,7 @@ const Junkyard: Task[] = [
       )
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`spider gremlin (tool)`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Junkyard Screwdriver",
@@ -193,7 +193,7 @@ const Junkyard: Task[] = [
       )
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`vegetable gremlin (tool)`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Junkyard End",
