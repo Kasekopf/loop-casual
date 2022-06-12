@@ -180,6 +180,10 @@ export class Outfit {
       if (equippedAmount(item) > 0) cliExecute(`unequip ${item.name}`);
     }
 
+    for (const item of this.avoid ?? []) {
+      if (equippedAmount(item) > 0) cliExecute(`unequip ${item.name}`);
+    }
+
     if (this.modifier) {
       // Handle familiar equipment manually to avoid weird Left-Hand Man behavior
       const fam_equip = this.equips.get($slot`familiar`);
@@ -235,7 +239,6 @@ export class Outfit {
           outfit.equip($familiar`Jumpsuited Hound Dog`);
         }
       }
-      if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
       if (spec.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
       if (spec.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
       outfit.modifier = spec.modifier;
@@ -249,7 +252,9 @@ export class Outfit {
     if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
     this.equip($item`lucky gold ring`);
 
-    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
+    // low priority familiars for combat frequency
+    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`);
+    if (this.modifier?.includes("+combat")) this.equip($familiar`Jumpsuited Hound Dog`);
 
     if (!this.modifier) {
       // Default outfit

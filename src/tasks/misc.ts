@@ -2,6 +2,7 @@ import {
   adv1,
   cliExecute,
   familiarEquippedEquipment,
+  familiarWeight,
   itemAmount,
   myBasestat,
   myPrimestat,
@@ -303,6 +304,22 @@ export const MiscQuest: Quest = {
           .skill($skill`Trap Ghost`)
       ),
       limit: { tries: 10 },
+    },
+    {
+      name: "Goose Exp",
+      after: [],
+      priority: () => true,
+      completed: () =>
+        familiarWeight($familiar`Grey Goose`) >= 9 ||
+        get("_loop_casual_chef_goose") === "true" ||
+        !have($familiar`Grey Goose`) ||
+        !have($familiar`Shorter-Order Cook`),
+      do: () => {
+        set("_loop_casual_chef_goose", "true");
+      },
+      outfit: { familiar: $familiar`Grey Goose` },
+      limit: { tries: 1 },
+      freeaction: true,
     },
   ],
 };

@@ -83,7 +83,12 @@ export class BuiltCombatStrategy {
     // First, kill wanderers
     for (const wanderer of wanderers) {
       // Note that we kill hard, which never uses up a freekill
-      this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
+      this.macro = this.macro.if_(
+        wanderer.monster,
+        new Macro()
+          .step(wanderer.macro ?? new Macro())
+          .step(this.prepare_macro(MonsterStrategy.KillHard))
+      );
     }
 
     // Second, perform any monster-specific strategies (these may or may not end the fight)

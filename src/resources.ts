@@ -170,6 +170,7 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
 export interface WandererSource extends Resource {
   monster: Monster | string;
   chance: () => number;
+  macro?: Macro;
 }
 
 export const wandererSources: WandererSource[] = [
@@ -225,18 +226,41 @@ export const wandererSources: WandererSource[] = [
     chance: () => 1, // when available
   },
   {
-    name: "Kramco",
-    available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
-    equip: $item`Kramco Sausage-o-Matic™`,
-    monster: $monster`sausage goblin`,
-    chance: () => getKramcoWandererChance(),
-  },
-  {
     name: "Goth",
     available: () => have($familiar`Artistic Goth Kid`) && get("_hipsterAdv") < 7,
     equip: $familiar`Artistic Goth Kid`,
     monster: "monstername Black Crayon *",
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
+  },
+  {
+    name: "Kramco (Drones)",
+    available: () =>
+      have($item`Kramco Sausage-o-Matic™`) &&
+      myLevel() >= 10 &&
+      have($familiar`Grey Goose`) &&
+      familiarWeight($familiar`Grey Goose`) >= 6 &&
+      itemAmount($item`teacher's pen`) >= 3 &&
+      getKramcoWandererChance() === 1,
+    equip: [
+      $item`Kramco Sausage-o-Matic™`,
+      $familiar`Grey Goose`,
+      // Get 11 famexp at the end of the fight, to maintain goose weight
+      $item`yule hatchet`,
+      $item`grey down vest`,
+      $item`teacher's pen`,
+      $item`teacher's pen`,
+      $item`teacher's pen`,
+    ],
+    monster: $monster`sausage goblin`,
+    chance: () => getKramcoWandererChance(),
+    macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
+  },
+  {
+    name: "Kramco",
+    available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
+    equip: $item`Kramco Sausage-o-Matic™`,
+    monster: $monster`sausage goblin`,
+    chance: () => getKramcoWandererChance(),
   },
 ];
 
