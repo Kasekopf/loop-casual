@@ -341,5 +341,7 @@ export class Outfit {
       this.equip($item`combat lover's locket`);
     }
     this.equip($item`miniature crystal ball`);
+    // If we never found a better familiar, just keep charging the goose
+    this.equip($familiar`Grey Goose`);
   }
 }
