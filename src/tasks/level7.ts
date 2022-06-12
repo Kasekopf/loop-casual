@@ -170,7 +170,7 @@ const Nook: Task[] = [
     priority: () => get("lastCopyableMonster") === $monster`spiny skelelton`,
     prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
-    ready: () => get("camelSpit") >= 100,
+    ready: () => get("camelSpit") >= 100 || !have($familiar`Melodramedary`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: (): void => {
       useSkill($skill`Map the Monsters`);
