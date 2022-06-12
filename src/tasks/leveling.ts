@@ -184,6 +184,7 @@ export const LevelingQuest: Quest = {
       },
       effects: $effects`Spirit of Peppermint`,
       limit: { tries: 10 },
+      freecombat: true,
     },
     {
       name: "God Lobster",
