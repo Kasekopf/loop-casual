@@ -10408,7 +10408,7 @@ var ManorBasement = [{
   choices: {
     891: 2
   },
-  combat: (_CombatStrategy$killI2 = new src_combat.CombatStrategy().killItem((0,template_string/* $monster */.O4)(level11_manor_templateObject54 || (level11_manor_templateObject54 = level11_manor_taggedTemplateLiteral(["cabinet of Dr. Limpieza"]))))).banish.apply(_CombatStrategy$killI2, level11_manor_toConsumableArray((0,template_string/* $monsters */.fr)(level11_manor_templateObject55 || (level11_manor_templateObject55 = level11_manor_taggedTemplateLiteral(["plaid ghost, possessed laundry press"]))))).killFree(),
+  combat: (_CombatStrategy$killI2 = new src_combat.CombatStrategy().killItem((0,template_string/* $monster */.O4)(level11_manor_templateObject54 || (level11_manor_templateObject54 = level11_manor_taggedTemplateLiteral(["cabinet of Dr. Limpieza"]))))).banish.apply(_CombatStrategy$killI2, level11_manor_toConsumableArray((0,template_string/* $monsters */.fr)(level11_manor_templateObject55 || (level11_manor_templateObject55 = level11_manor_taggedTemplateLiteral(["plaid ghost, possessed laundry press"]))))),
   limit: {
     soft: 10
   }
@@ -15365,7 +15365,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "29d3166";
+var lastCommitHash = "3a7b5b4";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
