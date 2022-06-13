@@ -254,8 +254,7 @@ const ManorBasement: Task[] = [
     choices: { 891: 2 },
     combat: new CombatStrategy()
       .killItem($monster`cabinet of Dr. Limpieza`)
-      .banish(...$monsters`plaid ghost, possessed laundry press`)
-      .killFree(),
+      .banish(...$monsters`plaid ghost, possessed laundry press`),
     limit: { soft: 10 },
   },
   {
