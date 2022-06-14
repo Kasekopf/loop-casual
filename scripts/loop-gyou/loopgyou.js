@@ -4856,14 +4856,14 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
       wandererMonsters.push((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$monster */ .O4)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["sausage goblin"]))));
     }
 
-    var _iterator = _createForOfIteratorHelper(wanderers),
+    var _iterator = _createForOfIteratorHelper(wandererMonsters),
         _step;
 
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var wanderer = _step.value;
         // Note that we kill hard, which never uses up a freekill
-        this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
+        this.macro = this.macro.if_(wanderer, this.prepare_macro(MonsterStrategy.KillHard));
       } // Set up the autoattack
 
     } catch (err) {
@@ -15365,7 +15365,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "3a7b5b4";
+var lastCommitHash = "1158a5e";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
