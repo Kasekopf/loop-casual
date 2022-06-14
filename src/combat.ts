@@ -108,9 +108,9 @@ export class BuiltCombatStrategy {
       // Always be ready to fight sausage goblins if we equip Kramco
       wandererMonsters.push($monster`sausage goblin`);
     }
-    for (const wanderer of wanderers) {
+    for (const wanderer of wandererMonsters) {
       // Note that we kill hard, which never uses up a freekill
-      this.macro = this.macro.if_(wanderer.monster, this.prepare_macro(MonsterStrategy.KillHard));
+      this.macro = this.macro.if_(wanderer, this.prepare_macro(MonsterStrategy.KillHard));
     }
 
     // Set up the autoattack
