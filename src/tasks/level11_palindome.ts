@@ -220,8 +220,15 @@ const Zepplin: Task[] = [
   {
     name: "Zepplin",
     after: ["Protesters Finish"],
-    acquire: [{ item: $item`Red Zeppelin ticket` }],
     completed: () => step("questL11Ron") >= 5,
+    prepare: () => {
+      if (have($item`Red Zeppelin ticket`)) return;
+      visitUrl("woods.php");
+      visitUrl("shop.php?whichshop=blackmarket");
+      visitUrl("shop.php?whichshop=blackmarket&action=buyitem&whichrow=289&ajax=1&quantity=1");
+      if (!have($item`Red Zeppelin ticket`))
+        throw `Unable to buy Red Zeppelin ticket; please buy manually`;
+    },
     do: $location`The Red Zeppelin`,
     combat: new CombatStrategy()
       .kill($monster`Ron "The Weasel" Copperhead`)
