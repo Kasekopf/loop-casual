@@ -79,6 +79,21 @@ import { args } from "./main";
 import { flyersDone } from "./tasks/level12";
 import { GameState } from "./state";
 
+const wanderingNCs = new Set<string>([
+  "Wooof! Wooooooof!",
+  "Playing Fetch*",
+  "A Pound of Cure",
+  "Aunts not Ants",
+  "Bath Time",
+  "Beware of Aligator",
+  "Delicious Sprouts",
+  "Hypnotic Master",
+  "Lost and Found",
+  "Poetic Justice",
+  "Summer Days",
+  "Teacher's Pet",
+]);
+
 export class Engine {
   attempts: { [task_name: string]: number } = {};
   propertyManager = new PropertiesManager();
@@ -362,18 +377,19 @@ export class Engine {
     }
 
     // Do the task
-    const beaten_turns = haveEffect($effect`Beaten Up`);
+    let beaten_turns = haveEffect($effect`Beaten Up`);
     const start_advs = myAdventures();
     const goose_weight = familiarWeight($familiar`Grey Goose`);
     if (typeof task.do === "function") {
       task.do();
     } else {
       adv1(task.do, 0, "");
-      if (
-        get("lastEncounter") === "Wooof! Wooooooof!" ||
-        get("lastEncounter") === "Playing Fetch*"
-      ) {
-        // Encounter halloween dog adventure; just retry
+      // If we encounter a free wandering noncombat, just retry
+      if (wanderingNCs.has(get("lastEncounter"))) {
+        if (get("lastEncounter") === "Poetic Justice") {
+          // Our choice for this one leads to 5 turns of Beaten Up
+          beaten_turns = haveEffect($effect`Beaten Up`);
+        }
         adv1(task.do, 0, "");
       }
     }
