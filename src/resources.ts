@@ -138,6 +138,15 @@ export const banishSources: BanishSource[] = [
     available: () => true,
     do: $item`divine champagne popper`,
   },
+  // Turn-taking banishes: lowest priority
+  {
+    name: "Crystal Skull",
+    prepare: () => {
+      retrieveItem($item`crystal skull`);
+    },
+    available: () => true,
+    do: $item`crystal skull`,
+  },
 ];
 
 export function unusedBanishes(to_banish: Monster[]): BanishSource[] {

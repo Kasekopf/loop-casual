@@ -64,7 +64,10 @@ const ABoo: Task[] = [
             .trySkill(`Duplicate`)
             .tryItem(`yellow rocket`);
         } else {
-          return new Macro().trySkill($skill`Feel Envy`);
+          return new Macro()
+            .trySkill($skill`Feel Envy`)
+            .trySkill($skill`Saucegeyser`)
+            .repeat();
         }
       })
       .killHard(),
