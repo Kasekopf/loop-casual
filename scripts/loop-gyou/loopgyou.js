@@ -15389,7 +15389,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "cc535a2";
+var lastCommitHash = "710c365";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -15457,7 +15457,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
   })
 });
 function main(command) {
-  sinceKolmafiaRevision(26473);
+  sinceKolmafiaRevision(26499);
   Args.fill(args, command);
 
   if (args.help) {
