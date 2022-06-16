@@ -79,7 +79,7 @@ import { args } from "./main";
 import { flyersDone } from "./tasks/level12";
 import { GameState } from "./state";
 
-const wanderingNCs = new Set<string>([
+export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
   "Playing Fetch*",
   "A Pound of Cure",

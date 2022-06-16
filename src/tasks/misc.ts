@@ -51,7 +51,7 @@ import {
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
-import { Engine } from "../engine";
+import { Engine, wanderingNCs } from "../engine";
 import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../main";
@@ -294,6 +294,9 @@ export const MiscQuest: Quest = {
       },
       do: () => {
         adv1(get("ghostLocation") ?? $location`none`, 0, "");
+        if (wanderingNCs.has(get("lastEncounter"))) {
+          adv1(get("ghostLocation") ?? $location`none`, 0, "");
+        }
       },
       outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
