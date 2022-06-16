@@ -103,8 +103,8 @@ const Oil: Task[] = [
     do: $location`Oil Peak`,
     outfit: () => {
       if (have($item`unbreakable umbrella`))
-        return { modifier: "ML max 80, 0.1 item", equip: $items`unbreakable umbrella` };
-      else return { modifier: "ML max 100, 0.1 item" };
+        return { modifier: "ML 80 max, 0.1 item", equip: $items`unbreakable umbrella` };
+      else return { modifier: "ML 100 max, 0.1 item" };
     },
     combat: new CombatStrategy().killItem(),
     limit: { tries: 18 },
