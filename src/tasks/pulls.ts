@@ -59,6 +59,7 @@ export const pulls: PullSpec[] = [
   { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
   { pull: $item`yule hatchet` },
   { pull: $item`grey down vest` },
+  { pull: $item`teacher's pen` },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
   { pull: $item`transparent pants`, optional: true },

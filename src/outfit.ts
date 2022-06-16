@@ -7,6 +7,7 @@ import {
   Familiar,
   familiarWeight,
   Item,
+  itemAmount,
   myBasestat,
   Slot,
   toSlot,
@@ -292,6 +293,7 @@ export class Outfit {
       if (this.equip($familiar`Grey Goose`)) {
         this.equip($item`yule hatchet`);
         this.equip($item`ghostly reins`);
+        this.equip($item`teacher's pen`);
         this.equip($item`familiar scrapbook`);
       }
     } else if (
@@ -318,6 +320,7 @@ export class Outfit {
 
     if (this.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
       this.equip($item`grey down vest`);
+    if (!this.modifier && itemAmount($item`teacher's pen`) >= 2) this.equip($item`teacher's pen`);
     if (this.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
       this.equip($item`dromedary drinking helmet`);
     if (this.familiar === $familiar`Reagnimated Gnome`)
