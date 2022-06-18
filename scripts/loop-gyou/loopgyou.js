@@ -9669,7 +9669,7 @@ var GiantQuest = {
   }]
 };
 ;// CONCATENATED MODULE: ./src/tasks/level11_hidden.ts
-var level11_hidden_templateObject, level11_hidden_templateObject2, level11_hidden_templateObject3, level11_hidden_templateObject4, level11_hidden_templateObject5, level11_hidden_templateObject6, level11_hidden_templateObject7, level11_hidden_templateObject8, level11_hidden_templateObject9, level11_hidden_templateObject10, level11_hidden_templateObject11, level11_hidden_templateObject12, level11_hidden_templateObject13, level11_hidden_templateObject14, level11_hidden_templateObject15, level11_hidden_templateObject16, level11_hidden_templateObject17, level11_hidden_templateObject18, level11_hidden_templateObject19, level11_hidden_templateObject20, level11_hidden_templateObject21, level11_hidden_templateObject22, level11_hidden_templateObject23, level11_hidden_templateObject24, level11_hidden_templateObject25, level11_hidden_templateObject26, level11_hidden_templateObject27, level11_hidden_templateObject28, level11_hidden_templateObject29, level11_hidden_templateObject30, level11_hidden_templateObject31, level11_hidden_templateObject32, level11_hidden_templateObject33, _CombatStrategy$killH, level11_hidden_templateObject34, level11_hidden_templateObject35, level11_hidden_templateObject36, level11_hidden_templateObject37, level11_hidden_templateObject38, level11_hidden_templateObject39, level11_hidden_templateObject40, level11_hidden_templateObject41, _CombatStrategy$killH2, level11_hidden_templateObject42, level11_hidden_templateObject43, level11_hidden_templateObject44, level11_hidden_templateObject45, level11_hidden_templateObject46, level11_hidden_templateObject47, level11_hidden_templateObject48, level11_hidden_templateObject49, level11_hidden_templateObject50, level11_hidden_templateObject51, level11_hidden_templateObject52, level11_hidden_templateObject53, level11_hidden_templateObject54, level11_hidden_templateObject55, level11_hidden_templateObject56, level11_hidden_templateObject57, level11_hidden_templateObject58, _CombatStrategy$kill, level11_hidden_templateObject59, level11_hidden_templateObject60, level11_hidden_templateObject61, level11_hidden_templateObject62, level11_hidden_templateObject63, level11_hidden_templateObject64, level11_hidden_templateObject65, level11_hidden_templateObject66, level11_hidden_templateObject67, level11_hidden_templateObject68, level11_hidden_templateObject69, level11_hidden_templateObject70, _CombatStrategy$killH3, level11_hidden_templateObject71, level11_hidden_templateObject72, level11_hidden_templateObject73, level11_hidden_templateObject74, level11_hidden_templateObject75, level11_hidden_templateObject76, level11_hidden_templateObject77, level11_hidden_templateObject78, level11_hidden_templateObject79, level11_hidden_templateObject80, level11_hidden_templateObject81, level11_hidden_templateObject82, level11_hidden_templateObject83, level11_hidden_templateObject84, level11_hidden_templateObject85, level11_hidden_templateObject86, level11_hidden_templateObject87, level11_hidden_templateObject88, _CombatStrategy$killH4, level11_hidden_templateObject89, level11_hidden_templateObject90, level11_hidden_templateObject91, level11_hidden_templateObject92, level11_hidden_templateObject93, level11_hidden_templateObject94, level11_hidden_templateObject95, _CombatStrategy$killH5, level11_hidden_templateObject96, level11_hidden_templateObject97, level11_hidden_templateObject98, level11_hidden_templateObject99, level11_hidden_templateObject100, level11_hidden_templateObject101, level11_hidden_templateObject102, level11_hidden_templateObject103, level11_hidden_templateObject104, level11_hidden_CombatStrategy, level11_hidden_templateObject105, level11_hidden_templateObject106, level11_hidden_templateObject107, level11_hidden_templateObject108;
+var level11_hidden_templateObject, level11_hidden_templateObject2, level11_hidden_templateObject3, level11_hidden_templateObject4, level11_hidden_templateObject5, level11_hidden_templateObject6, level11_hidden_templateObject7, level11_hidden_templateObject8, level11_hidden_templateObject9, level11_hidden_templateObject10, level11_hidden_templateObject11, level11_hidden_templateObject12, level11_hidden_templateObject13, level11_hidden_templateObject14, level11_hidden_templateObject15, level11_hidden_templateObject16, level11_hidden_templateObject17, level11_hidden_templateObject18, level11_hidden_templateObject19, level11_hidden_templateObject20, level11_hidden_templateObject21, level11_hidden_templateObject22, level11_hidden_templateObject23, level11_hidden_templateObject24, level11_hidden_templateObject25, level11_hidden_templateObject26, level11_hidden_templateObject27, level11_hidden_templateObject28, level11_hidden_templateObject29, level11_hidden_templateObject30, level11_hidden_templateObject31, level11_hidden_templateObject32, level11_hidden_templateObject33, level11_hidden_templateObject34, level11_hidden_templateObject35, level11_hidden_templateObject36, level11_hidden_templateObject37, level11_hidden_templateObject38, level11_hidden_templateObject39, level11_hidden_templateObject40, level11_hidden_templateObject41, level11_hidden_templateObject42, level11_hidden_templateObject43, level11_hidden_templateObject44, _CombatStrategy$killH, level11_hidden_templateObject45, level11_hidden_templateObject46, level11_hidden_templateObject47, level11_hidden_templateObject48, level11_hidden_templateObject49, level11_hidden_templateObject50, level11_hidden_templateObject51, level11_hidden_templateObject52, _CombatStrategy$killH2, level11_hidden_templateObject53, level11_hidden_templateObject54, level11_hidden_templateObject55, level11_hidden_templateObject56, level11_hidden_templateObject57, level11_hidden_templateObject58, level11_hidden_templateObject59, level11_hidden_templateObject60, level11_hidden_templateObject61, level11_hidden_templateObject62, level11_hidden_templateObject63, level11_hidden_templateObject64, level11_hidden_templateObject65, level11_hidden_templateObject66, level11_hidden_templateObject67, level11_hidden_templateObject68, level11_hidden_templateObject69, _CombatStrategy$kill, level11_hidden_templateObject70, level11_hidden_templateObject71, level11_hidden_templateObject72, level11_hidden_templateObject73, level11_hidden_templateObject74, level11_hidden_templateObject75, level11_hidden_templateObject76, level11_hidden_templateObject77, level11_hidden_templateObject78, level11_hidden_templateObject79, level11_hidden_templateObject80, level11_hidden_templateObject81, _CombatStrategy$killH3, level11_hidden_templateObject82, level11_hidden_templateObject83, level11_hidden_templateObject84, level11_hidden_templateObject85, level11_hidden_templateObject86, level11_hidden_templateObject87, level11_hidden_templateObject88, level11_hidden_templateObject89, level11_hidden_templateObject90, level11_hidden_templateObject91, level11_hidden_templateObject92, level11_hidden_templateObject93, level11_hidden_templateObject94, level11_hidden_templateObject95, level11_hidden_templateObject96, level11_hidden_templateObject97, level11_hidden_templateObject98, level11_hidden_templateObject99, _CombatStrategy$killH4, level11_hidden_templateObject100, level11_hidden_templateObject101, level11_hidden_templateObject102, level11_hidden_templateObject103, level11_hidden_templateObject104, level11_hidden_templateObject105, level11_hidden_templateObject106, _CombatStrategy$killH5, level11_hidden_templateObject107, level11_hidden_templateObject108, level11_hidden_templateObject109, level11_hidden_templateObject110, level11_hidden_templateObject111, level11_hidden_templateObject112, level11_hidden_templateObject113, level11_hidden_templateObject114, level11_hidden_templateObject115, level11_hidden_CombatStrategy, level11_hidden_templateObject116, level11_hidden_templateObject117, level11_hidden_templateObject118, level11_hidden_templateObject119;
 
 function level11_hidden_toConsumableArray(arr) { return level11_hidden_arrayWithoutHoles(arr) || level11_hidden_iterableToArray(arr) || level11_hidden_unsupportedIterableToArray(arr) || level11_hidden_nonIterableSpread(); }
 
@@ -9775,16 +9775,25 @@ var Temple = [{
   name: "Temple Wool",
   after: ["Open Temple"],
   completed: () => (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(level11_hidden_templateObject11 || (level11_hidden_templateObject11 = level11_hidden_taggedTemplateLiteral(["stone wool"])))) >= 2 || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(level11_hidden_templateObject12 || (level11_hidden_templateObject12 = level11_hidden_taggedTemplateLiteral(["stone wool"])))) === 1 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject13 || (level11_hidden_templateObject13 = level11_hidden_taggedTemplateLiteral(["the Nostril of the Serpent"])))) || step("questL11Worship") >= 3,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject14 || (level11_hidden_templateObject14 = level11_hidden_taggedTemplateLiteral(["The Hidden Temple"]))),
+  priority: () => {
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject14 || (level11_hidden_templateObject14 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))))) return OverridePriority.None;
+    if ((0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(level11_hidden_templateObject15 || (level11_hidden_templateObject15 = level11_hidden_taggedTemplateLiteral(["Grey Goose"])))) >= 6) return OverridePriority.GoodGoose;
+    return OverridePriority.BadGoose;
+  },
+  prepare: () => {
+    if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(level11_hidden_templateObject16 || (level11_hidden_templateObject16 = level11_hidden_taggedTemplateLiteral(["11-leaf clover"])))) > 1 && !(0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject17 || (level11_hidden_templateObject17 = level11_hidden_taggedTemplateLiteral(["Lucky!"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject18 || (level11_hidden_templateObject18 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(level11_hidden_templateObject19 || (level11_hidden_templateObject19 = level11_hidden_taggedTemplateLiteral(["11-leaf clover"]))));
+  },
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject20 || (level11_hidden_templateObject20 = level11_hidden_taggedTemplateLiteral(["The Hidden Temple"]))),
   outfit: () => {
-    if ((0,property/* get */.U2)("_fireExtinguisherCharge") >= 10) return {
-      equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject15 || (level11_hidden_templateObject15 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))),
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject21 || (level11_hidden_templateObject21 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"])))) && (0,property/* get */.U2)("_fireExtinguisherCharge") >= 10) return {
+      equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject22 || (level11_hidden_templateObject22 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))),
       modifier: "+combat"
     };else return {
+      familiar: (0,template_string/* $familiar */.HP)(level11_hidden_templateObject23 || (level11_hidden_templateObject23 = level11_hidden_taggedTemplateLiteral(["Grey Goose"]))),
       modifier: "+combat, item"
     };
   },
-  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject16 || (level11_hidden_templateObject16 = level11_hidden_taggedTemplateLiteral(["Fire Extinguisher: Polar Vortex"])))).trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject17 || (level11_hidden_templateObject17 = level11_hidden_taggedTemplateLiteral(["Fire Extinguisher: Polar Vortex"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject18 || (level11_hidden_templateObject18 = level11_hidden_taggedTemplateLiteral(["baa-relief sheep"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject19 || (level11_hidden_templateObject19 = level11_hidden_taggedTemplateLiteral(["baa-relief sheep"])))),
+  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject24 || (level11_hidden_templateObject24 = level11_hidden_taggedTemplateLiteral(["Fire Extinguisher: Polar Vortex"])))).trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject25 || (level11_hidden_templateObject25 = level11_hidden_taggedTemplateLiteral(["Fire Extinguisher: Polar Vortex"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject26 || (level11_hidden_templateObject26 = level11_hidden_taggedTemplateLiteral(["baa-relief sheep"])))).macro(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject27 || (level11_hidden_templateObject27 = level11_hidden_taggedTemplateLiteral(["Emit Matter Duplicating Drones"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject28 || (level11_hidden_templateObject28 = level11_hidden_taggedTemplateLiteral(["Baa'baa'bu'ran"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject29 || (level11_hidden_templateObject29 = level11_hidden_taggedTemplateLiteral(["baa-relief sheep"]))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject30 || (level11_hidden_templateObject30 = level11_hidden_taggedTemplateLiteral(["Baa'baa'bu'ran"])))),
   choices: {
     579: 2,
     580: 1,
@@ -9797,13 +9806,13 @@ var Temple = [{
 }, {
   name: "Temple Nostril",
   after: ["Open Temple", "Temple Wool"],
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject20 || (level11_hidden_templateObject20 = level11_hidden_taggedTemplateLiteral(["the Nostril of the Serpent"])))) || step("questL11Worship") >= 3,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject21 || (level11_hidden_templateObject21 = level11_hidden_taggedTemplateLiteral(["The Hidden Temple"]))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject31 || (level11_hidden_templateObject31 = level11_hidden_taggedTemplateLiteral(["the Nostril of the Serpent"])))) || step("questL11Worship") >= 3,
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject32 || (level11_hidden_templateObject32 = level11_hidden_taggedTemplateLiteral(["The Hidden Temple"]))),
   choices: {
     579: 2,
     582: 1
   },
-  effects: (0,template_string/* $effects */.lh)(level11_hidden_templateObject22 || (level11_hidden_templateObject22 = level11_hidden_taggedTemplateLiteral(["Stone-Faced"]))),
+  effects: (0,template_string/* $effects */.lh)(level11_hidden_templateObject33 || (level11_hidden_templateObject33 = level11_hidden_taggedTemplateLiteral(["Stone-Faced"]))),
   limit: {
     tries: 1
   }
@@ -9811,7 +9820,7 @@ var Temple = [{
   name: "Open City",
   after: ["Temple Nostril", "Macguffin/Diary"],
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject23 || (level11_hidden_templateObject23 = level11_hidden_taggedTemplateLiteral(["stone wool"])))
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject34 || (level11_hidden_templateObject34 = level11_hidden_taggedTemplateLiteral(["stone wool"])))
   }],
   completed: () => step("questL11Worship") >= 3,
   do: () => {
@@ -9825,7 +9834,7 @@ var Temple = [{
     (0,external_kolmafia_.cliExecute)("dvorak");
     manualChoice(125, 3);
   },
-  effects: (0,template_string/* $effects */.lh)(level11_hidden_templateObject24 || (level11_hidden_templateObject24 = level11_hidden_taggedTemplateLiteral(["Stone-Faced"]))),
+  effects: (0,template_string/* $effects */.lh)(level11_hidden_templateObject35 || (level11_hidden_templateObject35 = level11_hidden_taggedTemplateLiteral(["Stone-Faced"]))),
   limit: {
     tries: 1
   }
@@ -9834,9 +9843,9 @@ var Apartment = [{
   name: "Open Apartment",
   after: ["Open City"],
   completed: () => (0,property/* get */.U2)("hiddenApartmentProgress") >= 1,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject25 || (level11_hidden_templateObject25 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northwest)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject36 || (level11_hidden_templateObject36 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northwest)"]))),
   outfit: {
-    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject26 || (level11_hidden_templateObject26 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject37 || (level11_hidden_templateObject37 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   },
   choices: {
     781: 1
@@ -9846,16 +9855,16 @@ var Apartment = [{
   },
   freecombat: true,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject27 || (level11_hidden_templateObject27 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject38 || (level11_hidden_templateObject38 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   }]
 }, {
   name: "Apartment Files",
   // Get the last McClusky files here if needed, as a backup plan
   after: ["Office Files", "Banish Janitors"],
-  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject28 || (level11_hidden_templateObject28 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject29 || (level11_hidden_templateObject29 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject30 || (level11_hidden_templateObject30 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.Effect : OverridePriority.None,
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject31 || (level11_hidden_templateObject31 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 5)"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject32 || (level11_hidden_templateObject32 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject33 || (level11_hidden_templateObject33 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
-  combat: (_CombatStrategy$killH = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject34 || (level11_hidden_templateObject34 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"])))).kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject35 || (level11_hidden_templateObject35 = level11_hidden_taggedTemplateLiteral(["pygmy witch accountant"]))))).banish.apply(_CombatStrategy$killH, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject36 || (level11_hidden_templateObject36 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer"]))))).ignoreNoBanish((0,template_string/* $monster */.O4)(level11_hidden_templateObject37 || (level11_hidden_templateObject37 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
+  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject39 || (level11_hidden_templateObject39 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject40 || (level11_hidden_templateObject40 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject41 || (level11_hidden_templateObject41 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.Effect : OverridePriority.None,
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject42 || (level11_hidden_templateObject42 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 5)"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject43 || (level11_hidden_templateObject43 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7,
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject44 || (level11_hidden_templateObject44 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
+  combat: (_CombatStrategy$killH = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject45 || (level11_hidden_templateObject45 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"])))).kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject46 || (level11_hidden_templateObject46 = level11_hidden_taggedTemplateLiteral(["pygmy witch accountant"]))))).banish.apply(_CombatStrategy$killH, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject47 || (level11_hidden_templateObject47 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer"]))))).ignoreNoBanish((0,template_string/* $monster */.O4)(level11_hidden_templateObject48 || (level11_hidden_templateObject48 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
   limit: {
     tries: 9
   },
@@ -9866,12 +9875,12 @@ var Apartment = [{
   name: "Apartment",
   after: ["Open Apartment", "Apartment Files"],
   // Wait until after all needed pygmy witch lawyers are done
-  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject38 || (level11_hidden_templateObject38 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject39 || (level11_hidden_templateObject39 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject40 || (level11_hidden_templateObject40 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject49 || (level11_hidden_templateObject49 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject50 || (level11_hidden_templateObject50 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || (0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject51 || (level11_hidden_templateObject51 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.Effect : OverridePriority.None,
   completed: () => (0,property/* get */.U2)("hiddenApartmentProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject41 || (level11_hidden_templateObject41 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
-  combat: (_CombatStrategy$killH2 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject42 || (level11_hidden_templateObject42 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"]))))).banish.apply(_CombatStrategy$killH2, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject43 || (level11_hidden_templateObject43 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer, pygmy witch accountant"]))))).ignoreNoBanish((0,template_string/* $monster */.O4)(level11_hidden_templateObject44 || (level11_hidden_templateObject44 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject52 || (level11_hidden_templateObject52 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
+  combat: (_CombatStrategy$killH2 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject53 || (level11_hidden_templateObject53 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"]))))).banish.apply(_CombatStrategy$killH2, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject54 || (level11_hidden_templateObject54 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer, pygmy witch accountant"]))))).ignoreNoBanish((0,template_string/* $monster */.O4)(level11_hidden_templateObject55 || (level11_hidden_templateObject55 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
   orbtargets: () => {
-    if ((0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject45 || (level11_hidden_templateObject45 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"]))))) return [];else return [(0,template_string/* $monster */.O4)(level11_hidden_templateObject46 || (level11_hidden_templateObject46 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))];
+    if ((0,lib/* have */.lf)((0,template_string/* $effect */._G)(level11_hidden_templateObject56 || (level11_hidden_templateObject56 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"]))))) return [];else return [(0,template_string/* $monster */.O4)(level11_hidden_templateObject57 || (level11_hidden_templateObject57 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))];
   },
   choices: {
     780: 1
@@ -9883,7 +9892,7 @@ var Apartment = [{
   name: "Finish Apartment",
   after: ["Apartment"],
   completed: () => (0,property/* get */.U2)("hiddenApartmentProgress") >= 8,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject47 || (level11_hidden_templateObject47 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northwest)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject58 || (level11_hidden_templateObject58 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northwest)"]))),
   choices: {
     781: 2
   },
@@ -9896,9 +9905,9 @@ var Office = [{
   name: "Open Office",
   after: ["Open City"],
   completed: () => (0,property/* get */.U2)("hiddenOfficeProgress") >= 1,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject48 || (level11_hidden_templateObject48 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northeast)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject59 || (level11_hidden_templateObject59 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northeast)"]))),
   outfit: {
-    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject49 || (level11_hidden_templateObject49 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject60 || (level11_hidden_templateObject60 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   },
   choices: {
     785: 1
@@ -9908,14 +9917,14 @@ var Office = [{
   },
   freecombat: true,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject50 || (level11_hidden_templateObject50 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject61 || (level11_hidden_templateObject61 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   }]
 }, {
   name: "Office Files",
   after: ["Open Office", "Banish Janitors"],
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject51 || (level11_hidden_templateObject51 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 1)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject52 || (level11_hidden_templateObject52 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 2)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject53 || (level11_hidden_templateObject53 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 3)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject54 || (level11_hidden_templateObject54 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 4)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject55 || (level11_hidden_templateObject55 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 5)"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject56 || (level11_hidden_templateObject56 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7 || (0,template_string/* $location */.PG)(level11_hidden_templateObject57 || (level11_hidden_templateObject57 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))).turnsSpent >= 10,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject58 || (level11_hidden_templateObject58 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
-  combat: (_CombatStrategy$kill = new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject59 || (level11_hidden_templateObject59 = level11_hidden_taggedTemplateLiteral(["pygmy witch accountant"]))))).banish.apply(_CombatStrategy$kill, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject60 || (level11_hidden_templateObject60 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy headhunter, pygmy witch lawyer"]))))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject62 || (level11_hidden_templateObject62 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 1)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject63 || (level11_hidden_templateObject63 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 2)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject64 || (level11_hidden_templateObject64 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 3)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject65 || (level11_hidden_templateObject65 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 4)"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject66 || (level11_hidden_templateObject66 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 5)"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject67 || (level11_hidden_templateObject67 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7 || (0,template_string/* $location */.PG)(level11_hidden_templateObject68 || (level11_hidden_templateObject68 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))).turnsSpent >= 10,
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject69 || (level11_hidden_templateObject69 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
+  combat: (_CombatStrategy$kill = new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject70 || (level11_hidden_templateObject70 = level11_hidden_taggedTemplateLiteral(["pygmy witch accountant"]))))).banish.apply(_CombatStrategy$kill, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject71 || (level11_hidden_templateObject71 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy headhunter, pygmy witch lawyer"]))))),
   choices: {
     786: 2
   },
@@ -9925,8 +9934,8 @@ var Office = [{
 }, {
   name: "Office Clip",
   after: ["Office Files", "Apartment Files"],
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject61 || (level11_hidden_templateObject61 = level11_hidden_taggedTemplateLiteral(["boring binder clip"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject62 || (level11_hidden_templateObject62 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject63 || (level11_hidden_templateObject63 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject72 || (level11_hidden_templateObject72 = level11_hidden_taggedTemplateLiteral(["boring binder clip"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject73 || (level11_hidden_templateObject73 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || (0,property/* get */.U2)("hiddenOfficeProgress") >= 7,
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject74 || (level11_hidden_templateObject74 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
   choices: {
     786: 2
   },
@@ -9938,11 +9947,11 @@ var Office = [{
   name: "Office Boss",
   after: ["Office Clip"],
   completed: () => (0,property/* get */.U2)("hiddenOfficeProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject64 || (level11_hidden_templateObject64 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject75 || (level11_hidden_templateObject75 = level11_hidden_taggedTemplateLiteral(["The Hidden Office Building"]))),
   choices: {
     786: 1
   },
-  combat: new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject65 || (level11_hidden_templateObject65 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Office Building)"])))).ignore(),
+  combat: new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject76 || (level11_hidden_templateObject76 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Office Building)"])))).ignore(),
   orbtargets: () => [],
   limit: {
     soft: 10
@@ -9951,7 +9960,7 @@ var Office = [{
   name: "Finish Office",
   after: ["Office Boss"],
   completed: () => (0,property/* get */.U2)("hiddenOfficeProgress") >= 8,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject66 || (level11_hidden_templateObject66 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northeast)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject77 || (level11_hidden_templateObject77 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northeast)"]))),
   choices: {
     785: 2
   },
@@ -9964,9 +9973,9 @@ var Hospital = [{
   name: "Open Hospital",
   after: ["Open City"],
   completed: () => (0,property/* get */.U2)("hiddenHospitalProgress") >= 1,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject67 || (level11_hidden_templateObject67 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southwest)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject78 || (level11_hidden_templateObject78 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southwest)"]))),
   outfit: {
-    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject68 || (level11_hidden_templateObject68 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject79 || (level11_hidden_templateObject79 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   },
   choices: {
     783: 1
@@ -9976,16 +9985,16 @@ var Hospital = [{
   },
   freecombat: true,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject69 || (level11_hidden_templateObject69 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject80 || (level11_hidden_templateObject80 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   }]
 }, {
   name: "Hospital",
   after: ["Open Hospital", "Banish Janitors"],
   completed: () => (0,property/* get */.U2)("hiddenHospitalProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject70 || (level11_hidden_templateObject70 = level11_hidden_taggedTemplateLiteral(["The Hidden Hospital"]))),
-  combat: (_CombatStrategy$killH3 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject71 || (level11_hidden_templateObject71 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Hospital)"])))).kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject72 || (level11_hidden_templateObject72 = level11_hidden_taggedTemplateLiteral(["pygmy witch surgeon"]))))).banish.apply(_CombatStrategy$killH3, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject73 || (level11_hidden_templateObject73 = level11_hidden_taggedTemplateLiteral(["pygmy orderlies, pygmy janitor, pygmy witch nurse"]))))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject81 || (level11_hidden_templateObject81 = level11_hidden_taggedTemplateLiteral(["The Hidden Hospital"]))),
+  combat: (_CombatStrategy$killH3 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject82 || (level11_hidden_templateObject82 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Hospital)"])))).kill((0,template_string/* $monster */.O4)(level11_hidden_templateObject83 || (level11_hidden_templateObject83 = level11_hidden_taggedTemplateLiteral(["pygmy witch surgeon"]))))).banish.apply(_CombatStrategy$killH3, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject84 || (level11_hidden_templateObject84 = level11_hidden_taggedTemplateLiteral(["pygmy orderlies, pygmy janitor, pygmy witch nurse"]))))),
   outfit: {
-    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject74 || (level11_hidden_templateObject74 = level11_hidden_taggedTemplateLiteral(["half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees"])))
+    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject85 || (level11_hidden_templateObject85 = level11_hidden_taggedTemplateLiteral(["half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees"])))
   },
   choices: {
     784: 1
@@ -9997,7 +10006,7 @@ var Hospital = [{
   name: "Finish Hospital",
   after: ["Hospital"],
   completed: () => (0,property/* get */.U2)("hiddenHospitalProgress") >= 8,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject75 || (level11_hidden_templateObject75 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southwest)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject86 || (level11_hidden_templateObject86 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southwest)"]))),
   choices: {
     783: 2
   },
@@ -10010,9 +10019,9 @@ var Bowling = [{
   name: "Open Bowling",
   after: ["Open City"],
   completed: () => (0,property/* get */.U2)("hiddenBowlingAlleyProgress") >= 1,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject76 || (level11_hidden_templateObject76 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southeast)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject87 || (level11_hidden_templateObject87 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southeast)"]))),
   outfit: {
-    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject77 || (level11_hidden_templateObject77 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject88 || (level11_hidden_templateObject88 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   },
   choices: {
     787: 1
@@ -10022,28 +10031,28 @@ var Bowling = [{
   },
   freecombat: true,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject78 || (level11_hidden_templateObject78 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject89 || (level11_hidden_templateObject89 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
   }]
 }, {
   name: "Bowling Skills",
   after: ["Open Bowling"],
   ready: () => (0,external_kolmafia_.myMeat)() >= 500,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject79 || (level11_hidden_templateObject79 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))),
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject90 || (level11_hidden_templateObject90 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))),
     optional: true
   }],
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(level11_hidden_templateObject80 || (level11_hidden_templateObject80 = level11_hidden_taggedTemplateLiteral(["System Sweep"])))) && (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(level11_hidden_templateObject81 || (level11_hidden_templateObject81 = level11_hidden_taggedTemplateLiteral(["Double Nanovision"])))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(level11_hidden_templateObject91 || (level11_hidden_templateObject91 = level11_hidden_taggedTemplateLiteral(["System Sweep"])))) && (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(level11_hidden_templateObject92 || (level11_hidden_templateObject92 = level11_hidden_taggedTemplateLiteral(["Double Nanovision"])))),
   prepare: () => {
     // No need for more bowling progress after we beat the boss
-    if ((0,property/* get */.U2)("hiddenBowlingAlleyProgress") >= 7 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject82 || (level11_hidden_templateObject82 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))))) (0,external_kolmafia_.putCloset)((0,template_string/* $item */.xr)(level11_hidden_templateObject83 || (level11_hidden_templateObject83 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(level11_hidden_templateObject84 || (level11_hidden_templateObject84 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))))); // Open the hidden tavern if it is available.
+    if ((0,property/* get */.U2)("hiddenBowlingAlleyProgress") >= 7 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject93 || (level11_hidden_templateObject93 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))))) (0,external_kolmafia_.putCloset)((0,template_string/* $item */.xr)(level11_hidden_templateObject94 || (level11_hidden_templateObject94 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(level11_hidden_templateObject95 || (level11_hidden_templateObject95 = level11_hidden_taggedTemplateLiteral(["bowling ball"]))))); // Open the hidden tavern if it is available.
 
-    if ((0,property/* get */.U2)("hiddenTavernUnlock") < (0,external_kolmafia_.myAscensions)() && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject85 || (level11_hidden_templateObject85 = level11_hidden_taggedTemplateLiteral(["book of matches"]))))) {
-      (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(level11_hidden_templateObject86 || (level11_hidden_templateObject86 = level11_hidden_taggedTemplateLiteral(["book of matches"]))));
-      (0,external_kolmafia_.buy)((0,template_string/* $item */.xr)(level11_hidden_templateObject87 || (level11_hidden_templateObject87 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))));
+    if ((0,property/* get */.U2)("hiddenTavernUnlock") < (0,external_kolmafia_.myAscensions)() && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_hidden_templateObject96 || (level11_hidden_templateObject96 = level11_hidden_taggedTemplateLiteral(["book of matches"]))))) {
+      (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(level11_hidden_templateObject97 || (level11_hidden_templateObject97 = level11_hidden_taggedTemplateLiteral(["book of matches"]))));
+      (0,external_kolmafia_.buy)((0,template_string/* $item */.xr)(level11_hidden_templateObject98 || (level11_hidden_templateObject98 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))));
     }
   },
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject88 || (level11_hidden_templateObject88 = level11_hidden_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
-  combat: (_CombatStrategy$killH4 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject89 || (level11_hidden_templateObject89 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Bowling Alley)"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject90 || (level11_hidden_templateObject90 = level11_hidden_taggedTemplateLiteral(["pygmy bowler"])))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject91 || (level11_hidden_templateObject91 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject92 || (level11_hidden_templateObject92 = level11_hidden_taggedTemplateLiteral(["drunk pygmy"]))))).banish.apply(_CombatStrategy$killH4, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject93 || (level11_hidden_templateObject93 = level11_hidden_taggedTemplateLiteral(["pygmy orderlies"]))))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject99 || (level11_hidden_templateObject99 = level11_hidden_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
+  combat: (_CombatStrategy$killH4 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject100 || (level11_hidden_templateObject100 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Bowling Alley)"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject101 || (level11_hidden_templateObject101 = level11_hidden_taggedTemplateLiteral(["pygmy bowler"])))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject102 || (level11_hidden_templateObject102 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject103 || (level11_hidden_templateObject103 = level11_hidden_taggedTemplateLiteral(["drunk pygmy"]))))).banish.apply(_CombatStrategy$killH4, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject104 || (level11_hidden_templateObject104 = level11_hidden_taggedTemplateLiteral(["pygmy orderlies"]))))),
   outfit: {
     modifier: "item"
   },
@@ -10058,12 +10067,12 @@ var Bowling = [{
   after: ["Open Bowling", "Banish Janitors"],
   ready: () => (0,external_kolmafia_.myMeat)() >= 500,
   acquire: [{
-    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject94 || (level11_hidden_templateObject94 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))),
+    item: (0,template_string/* $item */.xr)(level11_hidden_templateObject105 || (level11_hidden_templateObject105 = level11_hidden_taggedTemplateLiteral(["Bowl of Scorpions"]))),
     optional: true
   }],
   completed: () => (0,property/* get */.U2)("hiddenBowlingAlleyProgress") >= 7,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject95 || (level11_hidden_templateObject95 = level11_hidden_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
-  combat: (_CombatStrategy$killH5 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject96 || (level11_hidden_templateObject96 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Bowling Alley)"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject97 || (level11_hidden_templateObject97 = level11_hidden_taggedTemplateLiteral(["pygmy bowler"])))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject98 || (level11_hidden_templateObject98 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject99 || (level11_hidden_templateObject99 = level11_hidden_taggedTemplateLiteral(["drunk pygmy"]))))).banish.apply(_CombatStrategy$killH5, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject100 || (level11_hidden_templateObject100 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy orderlies"]))))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject106 || (level11_hidden_templateObject106 = level11_hidden_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
+  combat: (_CombatStrategy$killH5 = new src_combat.CombatStrategy().killHard((0,template_string/* $monster */.O4)(level11_hidden_templateObject107 || (level11_hidden_templateObject107 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Bowling Alley)"])))).killItem((0,template_string/* $monster */.O4)(level11_hidden_templateObject108 || (level11_hidden_templateObject108 = level11_hidden_taggedTemplateLiteral(["pygmy bowler"])))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject109 || (level11_hidden_templateObject109 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject110 || (level11_hidden_templateObject110 = level11_hidden_taggedTemplateLiteral(["drunk pygmy"]))))).banish.apply(_CombatStrategy$killH5, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject111 || (level11_hidden_templateObject111 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy orderlies"]))))),
   outfit: {
     modifier: "item"
   },
@@ -10077,7 +10086,7 @@ var Bowling = [{
   name: "Finish Bowling",
   after: ["Bowling"],
   completed: () => (0,property/* get */.U2)("hiddenBowlingAlleyProgress") >= 8,
-  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject101 || (level11_hidden_templateObject101 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southeast)"]))),
+  do: (0,template_string/* $location */.PG)(level11_hidden_templateObject112 || (level11_hidden_templateObject112 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southeast)"]))),
   choices: {
     787: 2
   },
@@ -10092,7 +10101,7 @@ var HiddenQuest = {
     name: "Banish Janitors",
     after: ["Bowling Skills"],
     completed: () => (0,property/* get */.U2)("relocatePygmyJanitor") === (0,external_kolmafia_.myAscensions)(),
-    do: (0,template_string/* $location */.PG)(level11_hidden_templateObject102 || (level11_hidden_templateObject102 = level11_hidden_taggedTemplateLiteral(["The Hidden Park"]))),
+    do: (0,template_string/* $location */.PG)(level11_hidden_templateObject113 || (level11_hidden_templateObject113 = level11_hidden_taggedTemplateLiteral(["The Hidden Park"]))),
     outfit: {
       modifier: "-combat"
     },
@@ -10106,19 +10115,19 @@ var HiddenQuest = {
     name: "Boss",
     after: ["Finish Office", "Finish Apartment", "Finish Hospital", "Finish Bowling"],
     completed: () => step("questL11Worship") === 999,
-    do: (0,template_string/* $location */.PG)(level11_hidden_templateObject103 || (level11_hidden_templateObject103 = level11_hidden_taggedTemplateLiteral(["A Massive Ziggurat"]))),
+    do: (0,template_string/* $location */.PG)(level11_hidden_templateObject114 || (level11_hidden_templateObject114 = level11_hidden_taggedTemplateLiteral(["A Massive Ziggurat"]))),
     outfit: {
-      equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject104 || (level11_hidden_templateObject104 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+      equip: (0,template_string/* $items */.vS)(level11_hidden_templateObject115 || (level11_hidden_templateObject115 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
     },
     choices: {
       791: 1
     },
-    combat: (level11_hidden_CombatStrategy = new src_combat.CombatStrategy(true)).kill.apply(level11_hidden_CombatStrategy, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject105 || (level11_hidden_templateObject105 = level11_hidden_taggedTemplateLiteral(["dense liana, Protector Spectre"]))))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject106 || (level11_hidden_templateObject106 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject107 || (level11_hidden_templateObject107 = level11_hidden_taggedTemplateLiteral(["dense liana"])))),
+    combat: (level11_hidden_CombatStrategy = new src_combat.CombatStrategy(true)).kill.apply(level11_hidden_CombatStrategy, level11_hidden_toConsumableArray((0,template_string/* $monsters */.fr)(level11_hidden_templateObject116 || (level11_hidden_templateObject116 = level11_hidden_taggedTemplateLiteral(["dense liana, Protector Spectre"]))))).autoattack(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(level11_hidden_templateObject117 || (level11_hidden_templateObject117 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), (0,template_string/* $monster */.O4)(level11_hidden_templateObject118 || (level11_hidden_templateObject118 = level11_hidden_taggedTemplateLiteral(["dense liana"])))),
     limit: {
       tries: 4
     },
     acquire: [{
-      item: (0,template_string/* $item */.xr)(level11_hidden_templateObject108 || (level11_hidden_templateObject108 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+      item: (0,template_string/* $item */.xr)(level11_hidden_templateObject119 || (level11_hidden_templateObject119 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
     }]
   }])
 };
@@ -15398,7 +15407,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "8e11443";
+var lastCommitHash = "5d3068c";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
