@@ -1,6 +1,7 @@
 import {
   buy,
   cliExecute,
+  familiarWeight,
   itemAmount,
   myAscensions,
   myHash,
@@ -12,6 +13,7 @@ import {
 import {
   $effect,
   $effects,
+  $familiar,
   $item,
   $items,
   $location,
@@ -77,19 +79,27 @@ const Temple: Task[] = [
     do: () => use($item`Spooky Temple map`),
     limit: { tries: 1 },
     freeaction: true,
-  },
-  {
+  }, {
     name: "Temple Wool",
     after: ["Open Temple"],
     completed: () =>
       itemAmount($item`stone wool`) >= 2 ||
       (itemAmount($item`stone wool`) === 1 && have($item`the Nostril of the Serpent`)) ||
       step("questL11Worship") >= 3,
+    priority: () => {
+      if (have($item`industrial fire extinguisher`)) return OverridePriority.None;
+      if (familiarWeight($familiar`Grey Goose`) >= 6) return OverridePriority.GoodGoose;
+      return OverridePriority.BadGoose;
+    },
+    prepare: () => {
+      if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`) && !have($item`industrial fire extinguisher`))
+        use($item`11-leaf clover`);
+    },
     do: $location`The Hidden Temple`,
     outfit: () => {
-      if (get("_fireExtinguisherCharge") >= 10)
+      if (have($item`industrial fire extinguisher`) && get("_fireExtinguisherCharge") >= 10)
         return { equip: $items`industrial fire extinguisher`, modifier: "+combat" };
-      else return { modifier: "+combat, item" };
+      else return { familiar: $familiar`Grey Goose`, modifier: "+combat, item" };
     },
     combat: new CombatStrategy()
       .macro(
@@ -97,8 +107,12 @@ const Temple: Task[] = [
           .trySkill($skill`Fire Extinguisher: Polar Vortex`)
           .trySkill($skill`Fire Extinguisher: Polar Vortex`),
         $monster`baa-relief sheep`
+      ).macro(
+        new Macro()
+          .trySkill($skill`Emit Matter Duplicating Drones`),
+        $monster`Baa'baa'bu'ran`
       )
-      .killItem($monster`baa-relief sheep`),
+      .killItem($monster`baa-relief sheep`, $monster`Baa'baa'bu'ran`),
     choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
     limit: { soft: 20 },
   },
