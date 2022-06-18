@@ -729,6 +729,10 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
   choices[783] = 6;
   choices[785] = 6;
   choices[787] = 6;
+  if (step("questL11Worship") >= 3) {
+    // Escape the hidden heart of the hidden temple
+    choices[580] = 3;
+  }
 
   return {
     name: "Teleportitis",

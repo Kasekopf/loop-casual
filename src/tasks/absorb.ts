@@ -301,6 +301,7 @@ const absorbTasks: AbsorbTask[] = [
       579: () => {
         return get("lastTempleAdventures") === myAscensions() ? 2 : 1;
       },
+      580: 3,
       581: 3,
     },
   },
