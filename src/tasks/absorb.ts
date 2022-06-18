@@ -174,7 +174,7 @@ const absorbTasks: AbsorbTask[] = [
   // Level 7
   {
     do: $location`The VERY Unquiet Garves`,
-    after: ["Crypt/Finish"],
+    after: ["Crypt/Start", "Crypt/Finish"],
   },
   // Level 8
   {
