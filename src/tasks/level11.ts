@@ -34,7 +34,6 @@ const Diary: Task[] = [
   {
     name: "Forest",
     after: ["Start"],
-    acquire: [{ item: $item`blackberry galoshes` }],
     completed: () => step("questL11Black") >= 2,
     prepare: () => {
       if (have($item`MayDay™ supply package`)) use($item`MayDay™ supply package`);
@@ -70,7 +69,12 @@ const Diary: Task[] = [
     },
     choices: {
       923: 1,
-      924: () => (have($familiar`Shorter-Order Cook`) || have($item`beehive`) ? 1 : 3),
+      924: () => {
+        if (!have($familiar`Shorter-Order Cook`) && !have($item`beehive`)) return 3;
+        if (!have($item`blackberry galoshes`) && itemAmount($item`blackberry`) >= 3) return 2;
+        return 1;
+      },
+      928: 4,
       1018: 1,
       1019: 1,
     },
