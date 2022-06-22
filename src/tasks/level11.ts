@@ -179,6 +179,7 @@ const Desert: Task[] = [
     after: ["Diary", "Compass"],
     acquire: [{ item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 }],
     ready: () =>
+      (have($item`can of black paint`) || myMeat() >= 1000 || (get("gnasirProgress") & 2) !== 0) &&
       itemAmount($item`worm-riding manual page`) < 15 &&
       !have($item`worm-riding hooks`) &&
       ((get("desertExploration") === 0 && !have($effect`A Girl Named Sue`)) ||
