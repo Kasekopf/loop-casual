@@ -7581,7 +7581,7 @@ var absorbTasks = [// Level 2
   prepare: () => {
     // Unequip the umbrella if it pushes us over the cap
     if ((0,external_kolmafia_.equippedAmount)((0,template_string/* $item */.xr)(absorb_templateObject44 || (absorb_templateObject44 = absorb_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0 && (0,property/* get */.U2)("umbrellaState") === "broken" && (0,external_kolmafia_.numericModifier)("Monster Level") >= 80) {
-      (0,external_kolmafia_.equip)((0,template_string/* $slot */.Jh)(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["off hand"]))), (0,template_string/* $item */.xr)(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["none"]))));
+      (0,external_kolmafia_.equip)((0,template_string/* $slot */.Jh)(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["off-hand"]))), (0,template_string/* $item */.xr)(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["none"]))));
     } // Unequip items one-by-one until we are below 100 ML
     // (Always leave the backup camera on)
 
@@ -15407,7 +15407,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "15fed98";
+var lastCommitHash = "3063e95";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
