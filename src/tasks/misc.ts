@@ -56,6 +56,15 @@ export const MiscQuest: Quest = {
       do: () => {
         const options = $items`skeletal skiff, yellow submarine`;
         const bestChoice = options.sort((a, b) => retrievePrice(a) - retrievePrice(b))[0];
+        if (bestChoice === $item`yellow submarine`) {
+          // Open the mystic store if needed
+          if (!have($item`continuum transfunctioner`)) {
+            visitUrl("place.php?whichplace=forestvillage&action=fv_mystic");
+            runChoice(1);
+            runChoice(1);
+            runChoice(1);
+          }
+        }
         retrieveItem(bestChoice);
       },
       limit: { tries: 1 },
