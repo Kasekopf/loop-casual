@@ -184,7 +184,7 @@ export const MiscQuest: Quest = {
 
         const monsterVote =
           votingMonsterPriority.indexOf(get("_voteMonster1")) <
-          votingMonsterPriority.indexOf(get("_voteMonster2"))
+            votingMonsterPriority.indexOf(get("_voteMonster2"))
             ? 1
             : 2;
 
@@ -192,22 +192,22 @@ export const MiscQuest: Quest = {
           [
             0,
             initPriority.get(get("_voteLocal1")) ||
-              (get("_voteLocal1").indexOf("-") === -1 ? 1 : -1),
+            (get("_voteLocal1").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             1,
             initPriority.get(get("_voteLocal2")) ||
-              (get("_voteLocal2").indexOf("-") === -1 ? 1 : -1),
+            (get("_voteLocal2").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             2,
             initPriority.get(get("_voteLocal3")) ||
-              (get("_voteLocal3").indexOf("-") === -1 ? 1 : -1),
+            (get("_voteLocal3").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             3,
             initPriority.get(get("_voteLocal4")) ||
-              (get("_voteLocal4").indexOf("-") === -1 ? 1 : -1),
+            (get("_voteLocal4").indexOf("-") === -1 ? 1 : -1),
           ],
         ];
 
@@ -417,7 +417,7 @@ export const MiscQuest: Quest = {
         if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
           cliExecute("retrocape heck hold");
 
-        if (initiativeModifier() < 50) cliExecute("pool stylishly");
+        if (initiativeModifier() < 50) cliExecute("pool stylish");
         if (initiativeModifier() < 50) abort("Not ready for pygmy locket");
       },
       do: () => {
