@@ -31,6 +31,7 @@ jobs:
           git config user.name "Build Script"
           git config user.email "<>"
           git fetch --all
+          SHA=$(git rev-parse --short HEAD)
           git switch release
           rm -rf scripts/
           rm -rf ccs/
@@ -39,5 +40,5 @@ jobs:
           git rm -rf KoLmafia
           git add ccs/
           git add scripts/
-          git commit -m "Build Mafia files for commit $GITHUB_SHA"
+          git commit -m "Build Mafia files for commit $SHA"
           git push origin release
