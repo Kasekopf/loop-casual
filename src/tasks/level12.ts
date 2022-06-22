@@ -33,6 +33,9 @@ function ensureFluffers(flufferCount: number): void {
 
     const neededOfSource = Math.ceil(neededFluffers * sourceMultiplier);
     cliExecute(`acquire ${neededOfSource} ${stuffingFlufferSource}`);
+    if (itemAmount(stuffingFlufferSource) < neededOfSource) {
+      throw `Unable to acquire ${stuffingFlufferSource}; maybe raising your pricing limit will help?`;
+    }
     if (stuffingFlufferSource === $item`cornucopia`) {
       use(neededOfSource, $item`cornucopia`);
     }
