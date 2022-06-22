@@ -229,7 +229,7 @@ const absorbTasks: AbsorbTask[] = [
         get("umbrellaState") === "broken" &&
         numericModifier("Monster Level") >= 80
       ) {
-        equip($slot`off hand`, $item`none`);
+        equip($slot`off-hand`, $item`none`);
       }
 
       // Unequip items one-by-one until we are below 100 ML
