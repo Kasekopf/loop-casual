@@ -95,7 +95,7 @@ export function main(command?: string): void {
       tasks = prioritize(organ_tasks(), true);
       break;
     case "!organ":
-      tasks = prioritize([...level_tasks(), ...organ_tasks()], true);
+      tasks = prioritize([...level_tasks(), ...quest_tasks()], true);
       break;
   }
 
