@@ -178,9 +178,9 @@ export class Engine {
       const absorb_targets =
         task.do instanceof Location
           ? new Set<Monster>([
-              ...state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
-              ...state.absorb.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
-            ])
+            ...state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
+            ...state.absorb.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
+          ])
           : [];
       for (const monster of absorb_targets) {
         if (state.absorb.isReprocessTarget(monster)) {
@@ -358,6 +358,20 @@ export class Engine {
       else choices[choice_id] = choice();
     }
     this.propertyManager.setChoices(choices);
+    if (equippedAmount($item`June cleaver`) > 0) {
+      this.propertyManager.setChoices({
+        // June cleaver noncombats
+        1467: 3, // +adv
+        1468: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1469: get("_juneCleaverSkips", 0) < 5 ? 4 : 3,
+        1470: 2, // teacher's pen
+        1471: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+        1472: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1473: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1474: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
+        1475: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
+      })
+    }
     const ignored_noncombats = [
       "Wooof! Wooooooof!",
       "Seeing-Eyes Dog",

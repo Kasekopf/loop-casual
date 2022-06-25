@@ -112,10 +112,9 @@ export function main(command?: string): void {
         const reason = priority.explain();
         const why = reason === "" ? "Route" : reason;
         debug(
-          `${task.name}: ${
-            task.completed(state)
-              ? "Done"
-              : engine.available(task, state)
+          `${task.name}: ${task.completed(state)
+            ? "Done"
+            : engine.available(task, state)
               ? `Available [${priority.score()}: ${why}]`
               : "Not Available"
           }`,
@@ -288,15 +287,5 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     1107: 1, // tennis ball
     1340: 3, // Is There A Doctor In The House?
     1341: 1, // Cure her poison
-    // June cleaver noncombats
-    1467: 3,
-    1468: 1,
-    1469: 3,
-    1470: 2,
-    1471: 1,
-    1472: 2,
-    1473: 2,
-    1474: 2,
-    1475: 1,
   });
 }
