@@ -276,6 +276,8 @@ export const ChasmQuest: Quest = {
       after: ["Start", "Macguffin/Forest"], // Wait for black paint
       ready: () =>
         ((have($item`frozen jeans`) ||
+          have($item`industrial fire extinguisher`) ||
+          (have($item`June cleaver`) && get("_juneCleaverCold", 0) >= 5) ||
           have($skill`Cryocurrency`) ||
           have($skill`Cooling Tubules`) ||
           have($skill`Snow-Cooling System`)) &&
@@ -294,11 +296,20 @@ export const ChasmQuest: Quest = {
         visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
       },
       outfit: () => {
-        if (get("smutOrcNoncombatProgress") < 15)
+        if (get("smutOrcNoncombatProgress") < 15) {
+          const equip = $items`Space Trip safety headphones, HOA regulation book`;
+          if (!have($skill`Cryocurrency`) &&
+            !have($skill`Cooling Tubules`) &&
+            !have($skill`Snow-Cooling System`)) {
+            if (have($item`frozen jeans`)) equip.push($item`frozen jeans`);
+            else if (have($item`June cleaver`) && get("_juneCleaverCold", 0) >= 5) equip.push($item`June cleaver`);
+            else if (have($item`industrial fire extinguisher`)) equip.push($item`industrial fire extinguisher`);
+          }
           return {
             modifier: "item",
-            equip: $items`frozen jeans, Space Trip safety headphones, HOA regulation book`,
+            equip: equip,
           };
+        }
         else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
