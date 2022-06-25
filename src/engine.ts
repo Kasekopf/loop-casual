@@ -1,11 +1,13 @@
 import {
   autosell,
   autosellPrice,
+  descToItem,
   drink,
   eat,
   equippedItem,
   familiarWeight,
   getInventory,
+  getWorkshed,
   haveEffect,
   Item,
   Location,
@@ -26,7 +28,9 @@ import {
   restoreMp,
   Slot,
   toInt,
+  totalTurnsPlayed,
   use,
+  visitUrl,
 } from "kolmafia";
 import { Task } from "./tasks/structure";
 import {
@@ -414,6 +418,7 @@ export class Engine {
 
     absorbConsumables();
     autosellJunk();
+    if (myAdventures() !== start_advs) getExtros();
     // Crash if we unexpectedly lost the fight
     if (!task.expectbeatenup && have($effect`Beaten Up`)) {
       if (
@@ -530,4 +535,28 @@ function absorbConsumables(): void {
     }
   }
   set("_loop_gyou_absorbed_consumables", absorbed_list);
+}
+
+
+function getExtros(): void {
+  if (getWorkshed() !== $item`cold medicine cabinet`) return;
+  if (!have($item`ice crown`)) return;
+  if (!have($item`frozen jeans`)) return;
+  if (
+    get("_coldMedicineConsults") >= 5 ||
+    get("_nextColdMedicineConsult") > totalTurnsPlayed()
+  ) {
+    return;
+  }
+  const options = visitUrl("campground.php?action=workshed");
+  let match;
+  const regexp = /descitem\((\d+)\)/g;
+  while ((match = regexp.exec(options)) !== null) {
+    const item = descToItem(match[1]);
+    if (item === $item`Extrovermectin™`) {
+      visitUrl("campground.php?action=workshed");
+      runChoice(5);
+      return;
+    }
+  }
 }
