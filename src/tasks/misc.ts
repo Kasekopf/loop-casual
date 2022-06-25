@@ -528,10 +528,28 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => OverridePriority.Free,
       completed: () =>
-        !have($item`SongBoom™ BoomBox`) || get("boomBoxSong") === "Total Eclipse of Your Meat",
+        !have($item`SongBoom™ BoomBox`)
+        || get("boomBoxSong") === "Total Eclipse of Your Meat"
+        || (have($skill`System Sweep`) && have($skill`Double Nanovision`))
+        || get("_boomBoxSongsLeft") === 0,
       do: () => cliExecute("boombox meat"),
       freeaction: true,
       limit: { tries: 1 },
+    },
+    {
+      name: "Boombox Seasoning",
+      after: [],
+      priority: () => OverridePriority.Free,
+      ready: () => have($skill`System Sweep`)
+        && have($skill`Double Nanovision`)
+        && (get("currentNunneryMeat") === 0 || get("currentNunneryMeat") === 100000),
+      completed: () =>
+        !have($item`SongBoom™ BoomBox`)
+        || get("boomBoxSong") === "Food Vibrations"
+        || get("_boomBoxSongsLeft") === 0,
+      do: () => cliExecute("boombox food"),
+      freeaction: true,
+      limit: { tries: 2 },
     },
     {
       name: "Gnome Shirt",

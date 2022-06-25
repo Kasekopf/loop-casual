@@ -317,6 +317,7 @@ const Nuns: Task[] = [
     completed: () => get("sidequestNunsCompleted") !== "none",
     priority: () => (have($effect`Winklered`) ? OverridePriority.Effect : OverridePriority.None),
     prepare: () => {
+      if (have($item`SongBoom™ BoomBox`) && get("boomBoxSong") !== "Total Eclipse of Your Meat") cliExecute("boombox meat");
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
     },
     do: $location`The Themthar Hills`,
@@ -325,7 +326,7 @@ const Nuns: Task[] = [
       equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin`, // Use amulet coin (if we have) to avoid using orb
     },
     freecombat: true, // Do not equip cmg or carn plant
-    combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`)).kill(),
+    combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`).trySkill($skill`Sing Along`)).kill(),
     limit: { soft: 25 },
   },
 ];
