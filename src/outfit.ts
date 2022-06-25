@@ -184,7 +184,7 @@ export class Outfit {
       if (
         currentEquip === $item`none` ||
         equippedAmount(currentEquip) >
-          accessoryEquips.filter((accessory) => accessory === currentEquip).length
+        accessoryEquips.filter((accessory) => accessory === currentEquip).length
       ) {
         equip(slot, toEquip);
       }
@@ -331,6 +331,7 @@ export class Outfit {
       // Default outfit
       if (myBasestat($stat`moxie`) >= 47) this.equip($item`giant yellow hat`);
       this.equip($item`ice crown`);
+      this.equip($item`June cleaver`);
       this.equip($item`industrial fire extinguisher`);
       if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);
       this.equip($item`familiar scrapbook`);
