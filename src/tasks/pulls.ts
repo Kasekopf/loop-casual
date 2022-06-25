@@ -41,7 +41,7 @@ export const pulls: PullSpec[] = [
   {
     pull: $item`1,970 carat gold`,
     useful: () => {
-      if (myMeat() < 200) return true;
+      if (myMeat() < 200 && step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`)) return true;
       if (myMeat() < 4000 && step("questL11Black") === 2 && !have($item`forged identification documents`)) return true;
       if (have($skill`System Sweep`) && have($skill`Double Nanovision`)) return false;  // early run is over
       return undefined;
