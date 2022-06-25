@@ -1,5 +1,5 @@
-import { buyUsingStorage, cliExecute, Item, itemAmount, storageAmount } from "kolmafia";
-import { $familiar, $item, $items, get, have } from "libram";
+import { buyUsingStorage, cliExecute, Item, itemAmount, myMeat, storageAmount } from "kolmafia";
+import { $familiar, $item, $items, $skill, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
@@ -39,6 +39,15 @@ export const pulls: PullSpec[] = [
     useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
   },
   {
+    pull: $item`1,970 carat gold`,
+    useful: () => {
+      if (myMeat() < 200) return true;
+      if (myMeat() < 4000 && step("questL11Black") === 2 && !have($item`forged identification documents`)) return true;
+      if (have($skill`System Sweep`) && have($skill`Double Nanovision`)) return false;  // early run is over
+      return undefined;
+    },
+  },
+  {
     pull: $items`Greatest American Pants, navel ring of navel gazing`,
     optional: true,
     name: "Runaway IoTM",
@@ -53,13 +62,13 @@ export const pulls: PullSpec[] = [
   },
   { pull: $item`white page` },
   { pull: $item`portable cassette player` },
-  { pull: $item`blackberry galoshes` },
   { pull: $item`antique machete` },
   { pull: $item`book of matches` },
   { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
   { pull: $item`yule hatchet` },
   { pull: $item`grey down vest` },
   { pull: $item`teacher's pen` },
+  { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
   { pull: $item`transparent pants`, optional: true },
@@ -111,8 +120,8 @@ class Pull {
       pull instanceof Item
         ? () => [pull]
         : typeof pull === "function"
-        ? () => [pull()]
-        : () => pull;
+          ? () => [pull()]
+          : () => pull;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
   }
