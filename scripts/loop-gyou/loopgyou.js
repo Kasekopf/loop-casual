@@ -7673,7 +7673,7 @@ var absorbTasks = [// Level 2
   }
 }, {
   do: (0,template_string/* $location */.PG)(absorb_templateObject59 || (absorb_templateObject59 = absorb_taggedTemplateLiteral(["The Hole in the Sky"]))),
-  after: ["Keys/Star Key"]
+  after: ["Giant/Unlock HITS", "Keys/Star Key"]
 }, // Level 11
 {
   do: (0,template_string/* $location */.PG)(absorb_templateObject60 || (absorb_templateObject60 = absorb_taggedTemplateLiteral(["The Black Forest"]))),
@@ -15496,7 +15496,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "875d706";
+var lastCommitHash = "a577e00";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
