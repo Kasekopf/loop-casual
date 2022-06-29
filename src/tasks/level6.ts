@@ -134,6 +134,7 @@ export const OrganQuest: Quest = {
       outfit: { equip: $items`observational glasses` },
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
     {
       name: "Azazel",
@@ -142,6 +143,7 @@ export const OrganQuest: Quest = {
       do: () => visitUrl("pandamonium.php?action=temp"),
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
     {
       name: "Finish",
@@ -150,6 +152,7 @@ export const OrganQuest: Quest = {
       do: () => drink($item`steel margarita`),
       limit: { tries: 1 },
       freeaction: true,
+      noadventures: true,
     },
   ],
 };
