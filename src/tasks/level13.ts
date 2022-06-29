@@ -3,9 +3,7 @@ import {
   myHp,
   myMaxhp,
   myMeat,
-  myPath,
   myTurncount,
-  print,
   restoreHp,
   retrieveItem,
   runChoice,
@@ -30,8 +28,6 @@ import {
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
 import { Quest, step, Task } from "./structure";
 
 const Challenges: Task[] = [
@@ -498,29 +494,6 @@ export const TowerQuest: Quest = {
       outfit: { modifier: "muscle" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 1 },
-    },
-    {
-      name: "Finish",
-      after: ["Naughty Sorceress"],
-      priority: () => OverridePriority.Last,
-      completed: () => step("questL13Final") === 999 || args.class === 0 || myPath() !== "Grey You",
-      do: () => {
-        const state = new GameState();
-        print(
-          `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
-          "purple"
-        );
-        print(
-          `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
-          "purple"
-        );
-        visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
-        visitUrl("main.php");
-        runChoice(args.class);
-        runChoice(args.class);
-      },
-      limit: { tries: 1 },
-      freeaction: true,
     },
   ],
 };

@@ -42,10 +42,8 @@ export const args = Args.create(
       help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
     }),
     class: Args.number({
-      help: "If given, break the prism and choose a class at the end of the run. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
-      default: 0,
+      help: "If given, break the prism and choose a class. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
       options: [
-        [0, "Stay as Grey You"],
         [1, "Seal Clubber"],
         [2, "Turtle Tamer"],
         [3, "Pastamancer"],
@@ -94,6 +92,26 @@ export function main(command?: string): void {
   if (args.version) return;
 
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
+
+  // Break the prism and exit if requested
+  if (args.class !== undefined) {
+    if (step("questL13Final") <= 11) throw `You have not finished your Grey You run. Do not set this argument yet.`
+    const state = new GameState();
+    print(
+      `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
+      "purple"
+    );
+    print(
+      `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
+      "purple"
+    );
+    if (step("questL13Final") === 999) return;
+    visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+    visitUrl("main.php");
+    runChoice(args.class);
+    runChoice(args.class);
+    return;
+  }
 
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());
