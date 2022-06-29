@@ -26,6 +26,7 @@ import { CombatStrategy } from "../combat";
 import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { GameState } from "../state";
+import { towerSkip } from "./level13";
 
 export enum Keys {
   Deck = "Deck",
@@ -288,13 +289,14 @@ export const KeysQuest: Quest = {
       completed: () =>
         get("nsTowerDoorKeysUsed").includes("digital key") ||
         have($item`digital key`) ||
-        itemAmount($item`white pixel`) +
+        (itemAmount($item`white pixel`) +
           Math.min(
             itemAmount($item`blue pixel`),
             itemAmount($item`red pixel`),
             itemAmount($item`green pixel`)
           ) >=
-          30,
+          30) ||
+        towerSkip(),
       do: $location`8-Bit Realm`,
       outfit: { equip: $items`continuum transfunctioner`, modifier: "item" },
       combat: new CombatStrategy().kill(),
@@ -306,7 +308,8 @@ export const KeysQuest: Quest = {
       completed: () =>
         (have($item`star chart`) && itemAmount($item`star`) >= 8 && itemAmount($item`line`) >= 7) ||
         have($item`Richard's star key`) ||
-        get("nsTowerDoorKeysUsed").includes("Richard's star key"),
+        get("nsTowerDoorKeysUsed").includes("Richard's star key") ||
+        towerSkip(),
       do: $location`The Hole in the Sky`,
       outfit: { modifier: "item" },
       combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
@@ -326,7 +329,8 @@ export const KeysQuest: Quest = {
       completed: () =>
         (have($item`skeleton bone`) && have($item`loose teeth`)) ||
         have($item`skeleton key`) ||
-        get("nsTowerDoorKeysUsed").includes("skeleton key"),
+        get("nsTowerDoorKeysUsed").includes("skeleton key") ||
+        towerSkip(),
       outfit: { modifier: "item" },
       combat: new CombatStrategy()
         .killItem(...$monsters`factory-irregular skeleton, remaindered skeleton, swarm of skulls`)

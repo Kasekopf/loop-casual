@@ -4,6 +4,7 @@ import {
   getRevision,
   myAdventures,
   myPath,
+  myTurncount,
   print,
   runChoice,
   svnAtHead,
@@ -62,6 +63,10 @@ export const args = Args.create(
     }),
     tune: Args.string({
       help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
+    }),
+    delaytower: Args.flag({
+      help: "Delay the NS tower until after ronin ends.",
+      default: false,
     }),
   }
 );
@@ -163,7 +168,11 @@ export function main(command?: string): void {
   }
 
   const state = new GameState();
-  print("Grey you complete!", "purple");
+  if (step("questL13Final") > 11) {
+    print("Grey you complete!", "purple");
+  } else {
+    print("Grey you partially complete! Rerun after ronin ends.", "purple");
+  }
   print(`   Adventures used: ${turnsPlayed()}`, "purple");
   print(`   Adventures remaining: ${myAdventures()}`, "purple");
   if (set_time_now)
@@ -238,7 +247,9 @@ function getNextTask(
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") > 11 || myPath() !== "Grey You";
+  return step("questL13Final") > 11
+    || myPath() !== "Grey You"
+    || (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1);
 }
 
 function setUniversalProperties(propertyManager: PropertiesManager) {

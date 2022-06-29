@@ -11,6 +11,7 @@ import { get } from "libram";
  *    ${script name}_${argument name} is used; set to "" for no setting.
  *    A value in this setting is used as the new default for this argument,
  *    and can be overridden by a command line argument.
+ * @member hidden If true, do not display this option in the help text.
  * @member default A default value to use if no value is provided.
  *    Note that 'default' is effectively optional, as all methods that take
  *    an ArgSpec allow for 'default' to be omitted. But it is typed as
@@ -21,6 +22,7 @@ interface ArgSpec<T> {
   help?: string;
   options?: [T, string?][];
   setting?: string;
+  hidden?: boolean;
   default: T;
 }
 /**
@@ -227,6 +229,7 @@ export class Args {
     printHtml(`<font color='blue'><b>Options:</b></font>`);
     for (const k in spec) {
       const arg = spec[k];
+      if (arg.hidden) continue;
 
       const nameText = `<font color='blue'>${arg.key ?? k}</font>`;
       const valueText =
@@ -237,9 +240,8 @@ export class Args {
       const settingText =
         arg.setting === ""
           ? ""
-          : `<font color='#888888'>[setting: ${
-              arg.setting ?? `${scriptName}_${arg.key ?? k}`
-            }]</font>`;
+          : `<font color='#888888'>[setting: ${arg.setting ?? `${scriptName}_${arg.key ?? k}`
+          }]</font>`;
 
       printHtml(
         `&nbsp;&nbsp;${[nameText, valueText, "-", helpText, defaultText, settingText].join(" ")}`
@@ -312,8 +314,8 @@ type ArgMap = {
 };
 type ParsedArgs<T extends ArgMap> = {
   [k in keyof T]: T[k] extends Arg<unknown>
-    ? Exclude<ReturnType<T[k]["parser"]>, undefined>
-    : ReturnType<T[k]["parser"]>;
+  ? Exclude<ReturnType<T[k]["parser"]>, undefined>
+  : ReturnType<T[k]["parser"]>;
 } & ArgMetadata<T>;
 
 /**
