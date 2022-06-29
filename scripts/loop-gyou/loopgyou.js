@@ -8404,6 +8404,7 @@ function level13_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings
 var Challenges = [{
   name: "Speed Challenge",
   after: ["Start", "Absorb/Overclocking"],
+  ready: () => towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants1") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8421,7 +8422,7 @@ var Challenges = [{
 }, {
   name: "Moxie Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject2 || (level13_templateObject2 = level13_taggedTemplateLiteral(["Moxie"]))),
+  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject2 || (level13_templateObject2 = level13_taggedTemplateLiteral(["Moxie"]))) && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants2") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8438,7 +8439,7 @@ var Challenges = [{
 }, {
   name: "Muscle Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject3 || (level13_templateObject3 = level13_taggedTemplateLiteral(["Muscle"]))),
+  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject3 || (level13_templateObject3 = level13_taggedTemplateLiteral(["Muscle"]))) && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants2") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8455,7 +8456,7 @@ var Challenges = [{
 }, {
   name: "Mysticality Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject4 || (level13_templateObject4 = level13_taggedTemplateLiteral(["Mysticality"]))),
+  ready: () => (0,property/* get */.U2)("nsChallenge1") === (0,template_string/* $stat */.Ri)(level13_templateObject4 || (level13_templateObject4 = level13_taggedTemplateLiteral(["Mysticality"]))) && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants2") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8472,7 +8473,7 @@ var Challenges = [{
 }, {
   name: "Hot Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge2") === "hot",
+  ready: () => (0,property/* get */.U2)("nsChallenge2") === "hot" && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants3") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8489,7 +8490,7 @@ var Challenges = [{
 }, {
   name: "Cold Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge2") === "cold",
+  ready: () => (0,property/* get */.U2)("nsChallenge2") === "cold" && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants3") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8506,7 +8507,7 @@ var Challenges = [{
 }, {
   name: "Spooky Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge2") === "spooky",
+  ready: () => (0,property/* get */.U2)("nsChallenge2") === "spooky" && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants3") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8523,7 +8524,7 @@ var Challenges = [{
 }, {
   name: "Stench Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge2") === "stench",
+  ready: () => (0,property/* get */.U2)("nsChallenge2") === "stench" && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants3") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8540,7 +8541,7 @@ var Challenges = [{
 }, {
   name: "Sleaze Challenge",
   after: ["Start"],
-  ready: () => (0,property/* get */.U2)("nsChallenge2") === "sleaze",
+  ready: () => (0,property/* get */.U2)("nsChallenge2") === "sleaze" && towerReady(),
   completed: () => (0,property/* get */.U2)("nsContestants3") > -1,
   do: () => {
     (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_01_contestbooth");
@@ -8669,7 +8670,7 @@ var wand = [{
   name: "Wand W",
   after: ["Wall of Bones"],
   ready: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject14 || (level13_templateObject14 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject15 || (level13_templateObject15 = level13_taggedTemplateLiteral(["ruby W"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject16 || (level13_templateObject16 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject17 || (level13_templateObject17 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject15 || (level13_templateObject15 = level13_taggedTemplateLiteral(["ruby W"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject16 || (level13_templateObject16 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject17 || (level13_templateObject17 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || towerSkip(),
   do: (0,template_string/* $location */.PG)(level13_templateObject18 || (level13_templateObject18 = level13_taggedTemplateLiteral(["Pandamonium Slums"]))),
   outfit: {
     modifier: "item"
@@ -8682,7 +8683,7 @@ var wand = [{
   name: "Wand A",
   after: ["Wall of Bones"],
   ready: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject20 || (level13_templateObject20 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject21 || (level13_templateObject21 = level13_taggedTemplateLiteral(["metallic A"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject22 || (level13_templateObject22 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject23 || (level13_templateObject23 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject21 || (level13_templateObject21 = level13_taggedTemplateLiteral(["metallic A"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject22 || (level13_templateObject22 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject23 || (level13_templateObject23 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || towerSkip(),
   do: (0,template_string/* $location */.PG)(level13_templateObject24 || (level13_templateObject24 = level13_taggedTemplateLiteral(["The Penultimate Fantasy Airship"]))),
   outfit: {
     modifier: "item"
@@ -8695,7 +8696,7 @@ var wand = [{
   name: "Wand N",
   after: ["Wall of Bones"],
   ready: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject26 || (level13_templateObject26 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject27 || (level13_templateObject27 = level13_taggedTemplateLiteral(["lowercase N"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject28 || (level13_templateObject28 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject29 || (level13_templateObject29 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject27 || (level13_templateObject27 = level13_taggedTemplateLiteral(["lowercase N"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject28 || (level13_templateObject28 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject29 || (level13_templateObject29 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || towerSkip(),
   do: (0,template_string/* $location */.PG)(level13_templateObject30 || (level13_templateObject30 = level13_taggedTemplateLiteral(["The Valley of Rof L'm Fao"]))),
   outfit: {
     modifier: "item"
@@ -8708,7 +8709,7 @@ var wand = [{
   name: "Wand D",
   after: ["Wall of Bones"],
   ready: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject32 || (level13_templateObject32 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject33 || (level13_templateObject33 = level13_taggedTemplateLiteral(["heavy D"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject34 || (level13_templateObject34 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject35 || (level13_templateObject35 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject33 || (level13_templateObject33 = level13_taggedTemplateLiteral(["heavy D"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject34 || (level13_templateObject34 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject35 || (level13_templateObject35 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || towerSkip(),
   do: (0,template_string/* $location */.PG)(level13_templateObject36 || (level13_templateObject36 = level13_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
   outfit: {
     modifier: "item"
@@ -8721,7 +8722,7 @@ var wand = [{
   name: "Wand Parts",
   after: ["Wall of Bones"],
   ready: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject38 || (level13_templateObject38 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
-  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject39 || (level13_templateObject39 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject40 || (level13_templateObject40 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject41 || (level13_templateObject41 = level13_taggedTemplateLiteral(["ruby W"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject42 || (level13_templateObject42 = level13_taggedTemplateLiteral(["metallic A"]))))) && ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject43 || (level13_templateObject43 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject44 || (level13_templateObject44 = level13_taggedTemplateLiteral(["lowercase N"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject45 || (level13_templateObject45 = level13_taggedTemplateLiteral(["heavy D"]))))),
+  completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject39 || (level13_templateObject39 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))) || ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject40 || (level13_templateObject40 = level13_taggedTemplateLiteral(["WA"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject41 || (level13_templateObject41 = level13_taggedTemplateLiteral(["ruby W"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject42 || (level13_templateObject42 = level13_taggedTemplateLiteral(["metallic A"]))))) && ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject43 || (level13_templateObject43 = level13_taggedTemplateLiteral(["ND"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject44 || (level13_templateObject44 = level13_taggedTemplateLiteral(["lowercase N"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject45 || (level13_templateObject45 = level13_taggedTemplateLiteral(["heavy D"]))))) || towerSkip(),
   prepare: () => (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(level13_templateObject46 || (level13_templateObject46 = level13_taggedTemplateLiteral(["11-leaf clover"])))),
   do: (0,template_string/* $location */.PG)(level13_templateObject47 || (level13_templateObject47 = level13_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
   limit: {
@@ -8729,6 +8730,7 @@ var wand = [{
   }
 }, {
   name: "Wand",
+  ready: () => towerReady(),
   after: ["Wand W", "Wand A", "Wand N", "Wand D", "Wand Parts"],
   completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level13_templateObject48 || (level13_templateObject48 = level13_taggedTemplateLiteral(["Wand of Nagamar"])))),
   do: () => {
@@ -8957,6 +8959,16 @@ function fillHp() {
       }
     }
   }
+}
+/* Skip this until ronin if the tower is delayed. */
+
+function towerReady() {
+  return !args.delaytower || (0,external_kolmafia_.myTurncount)() >= 1000;
+}
+/* Skip this entirely, either in-ronin or when delaying until ronin. */
+
+function towerSkip() {
+  return args.delaytower || (0,external_kolmafia_.myTurncount)() >= 1000;
 }
 ;// CONCATENATED MODULE: ./src/tasks/level8.ts
 var level8_templateObject, level8_templateObject2, _CombatStrategy$killI, level8_templateObject3, level8_templateObject4, level8_templateObject5, level8_templateObject6, level8_templateObject7, level8_templateObject8, level8_templateObject9, level8_templateObject10, level8_templateObject11, level8_templateObject12, level8_templateObject13, level8_templateObject14, level8_templateObject15, level8_templateObject16, level8_templateObject17, level8_templateObject18, level8_templateObject19;
@@ -11965,6 +11977,7 @@ function keys_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.sl
 
 
 
+
 var Keys;
 
 (function (Keys) {
@@ -12234,7 +12247,7 @@ var KeysQuest = {
     name: "Digital Key",
     after: ["Open 8-Bit"],
     ready: () => step("questL13Final") > 2 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject51 || (keys_templateObject51 = keys_taggedTemplateLiteral(["Powerful Glove"])))),
-    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30,
+    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30 || towerSkip(),
     do: (0,template_string/* $location */.PG)(keys_templateObject57 || (keys_templateObject57 = keys_taggedTemplateLiteral(["8-Bit Realm"]))),
     outfit: {
       equip: (0,template_string/* $items */.vS)(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))),
@@ -12247,7 +12260,7 @@ var KeysQuest = {
   }, {
     name: "Star Key",
     after: ["Giant/Unlock HITS"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key"),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key") || towerSkip(),
     do: (0,template_string/* $location */.PG)(keys_templateObject63 || (keys_templateObject63 = keys_taggedTemplateLiteral(["The Hole in the Sky"]))),
     outfit: {
       modifier: "item"
@@ -12267,7 +12280,7 @@ var KeysQuest = {
         (0,external_kolmafia_.runChoice)(1);
       }
     },
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key"),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key") || towerSkip(),
     outfit: {
       modifier: "item"
     },
@@ -13566,8 +13579,7 @@ var MiscQuest = {
     name: "Acquire Firework Hat",
     after: [],
     priority: () => OverridePriority.Free,
-    ready: () => !(0,property/* get */.U2)("_fireworksShopHatBought"),
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(misc_templateObject67 || (misc_templateObject67 = misc_taggedTemplateLiteral(["sombrero-mounted sparkler"])))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(misc_templateObject67 || (misc_templateObject67 = misc_taggedTemplateLiteral(["sombrero-mounted sparkler"])))) || (0,property/* get */.U2)("_fireworksShopHatBought"),
     do: () => {
       (0,external_kolmafia_.cliExecute)("acquire sombrero-mounted sparkler");
     },
@@ -14754,6 +14766,7 @@ function args_createClass(Constructor, protoProps, staticProps) { if (protoProps
  *    ${script name}_${argument name} is used; set to "" for no setting.
  *    A value in this setting is used as the new default for this argument,
  *    and can be overridden by a command line argument.
+ * @member hidden If true, do not display this option in the help text.
  * @member default A default value to use if no value is provided.
  *    Note that 'default' is effectively optional, as all methods that take
  *    an ArgSpec allow for 'default' to be omitted. But it is typed as
@@ -14942,6 +14955,7 @@ var Args = /*#__PURE__*/function () {
         var _arg$key, _arg$help, _arg$setting, _arg$key2, _arg$options;
 
         var arg = spec[_k6];
+        if (arg.hidden) continue;
         var nameText = "<font color='blue'>".concat((_arg$key = arg.key) !== null && _arg$key !== void 0 ? _arg$key : _k6, "</font>");
         var valueText = arg.valueHelpName === "FLAG" ? "" : "<font color='purple'>".concat(arg.valueHelpName, "</font>");
         var helpText = (_arg$help = arg.help) !== null && _arg$help !== void 0 ? _arg$help : "";
@@ -15482,7 +15496,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "9301838";
+var lastCommitHash = "875d706";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -15547,6 +15561,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
   }),
   tune: Args.string({
     help: "Use your hewn moon-rune spoon to retune to this sign when optimal."
+  }),
+  delaytower: Args.flag({
+    help: "Delay the NS tower until after ronin ends.",
+    default: false
   })
 });
 function main(command) {
@@ -15661,7 +15679,13 @@ function main(command) {
   }
 
   var state = new GameState();
-  (0,external_kolmafia_.print)("Grey you complete!", "purple");
+
+  if (step("questL13Final") > 11) {
+    (0,external_kolmafia_.print)("Grey you complete!", "purple");
+  } else {
+    (0,external_kolmafia_.print)("Grey you partially complete! Rerun after ronin ends.", "purple");
+  }
+
   (0,external_kolmafia_.print)("   Adventures used: ".concat((0,external_kolmafia_.turnsPlayed)()), "purple");
   (0,external_kolmafia_.print)("   Adventures remaining: ".concat((0,external_kolmafia_.myAdventures)()), "purple");
   if (set_time_now) (0,external_kolmafia_.print)("   Time: ".concat(convertMilliseconds((0,external_kolmafia_.gametimeToInt)() - (0,property/* get */.U2)(time_property, (0,external_kolmafia_.gametimeToInt)()))), "purple");else (0,external_kolmafia_.print)("   Time: ".concat(convertMilliseconds((0,external_kolmafia_.gametimeToInt)() - (0,property/* get */.U2)(time_property, (0,external_kolmafia_.gametimeToInt)())), " since first run today started"), "purple");
@@ -15719,7 +15743,7 @@ function getNextTask(engine, tasks, state) {
 }
 
 function runComplete() {
-  return step("questL13Final") > 11 || (0,external_kolmafia_.myPath)() !== "Grey You";
+  return step("questL13Final") > 11 || (0,external_kolmafia_.myPath)() !== "Grey You" || args.delaytower && (0,external_kolmafia_.myTurncount)() < 1000 && step("questL13Final") !== -1;
 }
 
 function setUniversalProperties(propertyManager) {
