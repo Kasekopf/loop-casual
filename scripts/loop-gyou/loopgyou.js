@@ -7174,1226 +7174,10 @@ function findMonster(criteria) {
   if (!options.length) return null;
   return options.reduce((a, b) => value(a) > value(b) ? a : b);
 }
-;// CONCATENATED MODULE: ./src/resources.ts
-var resources_templateObject, resources_templateObject2, resources_templateObject3, resources_templateObject4, resources_templateObject5, resources_templateObject6, resources_templateObject7, resources_templateObject8, resources_templateObject9, resources_templateObject10, resources_templateObject11, resources_templateObject12, resources_templateObject13, resources_templateObject14, resources_templateObject15, resources_templateObject16, resources_templateObject17, resources_templateObject18, resources_templateObject19, resources_templateObject20, resources_templateObject21, resources_templateObject22, resources_templateObject23, resources_templateObject24, resources_templateObject25, resources_templateObject26, resources_templateObject27, resources_templateObject28, resources_templateObject29, resources_templateObject30, resources_templateObject31, resources_templateObject32, resources_templateObject33, resources_templateObject34;
-
-function resources_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = resources_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function resources_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return resources_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return resources_arrayLikeToArray(o, minLen); }
-
-function resources_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function resources_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function resources_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function resources_createClass(Constructor, protoProps, staticProps) { if (protoProps) resources_defineProperties(Constructor.prototype, protoProps); if (staticProps) resources_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function resources_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function resources_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-
-
-
-
-var banishSources = [{
-  name: "Bowl Curveball",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject || (resources_templateObject = resources_taggedTemplateLiteral(["cosmic bowling ball"])))),
-  do: (0,template_string/* $skill */.tm)(resources_templateObject2 || (resources_templateObject2 = resources_taggedTemplateLiteral(["Bowl a Curveball"])))
-}, {
-  name: "System Sweep",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(resources_templateObject3 || (resources_templateObject3 = resources_taggedTemplateLiteral(["System Sweep"])))),
-  do: (0,template_string/* $skill */.tm)(resources_templateObject4 || (resources_templateObject4 = resources_taggedTemplateLiteral(["System Sweep"])))
-}, {
-  name: "Latte",
-  available: () => (!(0,property/* get */.U2)("_latteBanishUsed") || (0,property/* get */.U2)("_latteRefillsUsed") < 2) && // Save one refil for aftercore
-  (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject5 || (resources_templateObject5 = resources_taggedTemplateLiteral(["latte lovers member's mug"])))),
-  prepare: () => {
-    if ((0,property/* get */.U2)("_latteBanishUsed")) {
-      var modifiers = [];
-      if ((0,property/* get */.U2)("latteUnlocks").includes("wing")) modifiers.push("wing");
-      if ((0,property/* get */.U2)("latteUnlocks").includes("cajun")) modifiers.push("cajun");
-      modifiers.push("cinnamon", "pumpkin", "vanilla");
-      (0,external_kolmafia_.cliExecute)("latte refill ".concat(modifiers.slice(0, 3).join(" "))); // Always unlocked
-    }
-  },
-  do: (0,template_string/* $skill */.tm)(resources_templateObject6 || (resources_templateObject6 = resources_taggedTemplateLiteral(["Throw Latte on Opponent"]))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject7 || (resources_templateObject7 = resources_taggedTemplateLiteral(["latte lovers member's mug"])))
-}, {
-  name: "Reflex Hammer",
-  available: () => (0,property/* get */.U2)("_reflexHammerUsed") < 3 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject8 || (resources_templateObject8 = resources_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))),
-  do: (0,template_string/* $skill */.tm)(resources_templateObject9 || (resources_templateObject9 = resources_taggedTemplateLiteral(["Reflex Hammer"]))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject10 || (resources_templateObject10 = resources_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))
-}, {
-  name: "KGB dart",
-  available: () => (0,property/* get */.U2)("_kgbTranquilizerDartUses") < 3 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject11 || (resources_templateObject11 = resources_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))),
-  do: (0,template_string/* $skill */.tm)(resources_templateObject12 || (resources_templateObject12 = resources_taggedTemplateLiteral(["KGB tranquilizer dart"]))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject13 || (resources_templateObject13 = resources_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))
-}, {
-  name: "Middle Finger",
-  available: () => !(0,property/* get */.U2)("_mafiaMiddleFingerRingUsed") && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject14 || (resources_templateObject14 = resources_taggedTemplateLiteral(["mafia middle finger ring"])))),
-  do: (0,template_string/* $skill */.tm)(resources_templateObject15 || (resources_templateObject15 = resources_taggedTemplateLiteral(["Show them your ring"]))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject16 || (resources_templateObject16 = resources_taggedTemplateLiteral(["mafia middle finger ring"])))
-}];
-var BanishState = /*#__PURE__*/function () {
-  function BanishState() {
-    resources_classCallCheck(this, BanishState);
-
-    resources_defineProperty(this, "already_banished", void 0);
-
-    this.already_banished = new Map(Array.from((0,lib/* getBanishedMonsters */.$c)(), entry => [entry[1], entry[0]]));
-  } // Return true if some of the monsters in the task are banished
-
-
-  resources_createClass(BanishState, [{
-    key: "isPartiallyBanished",
-    value: function isPartiallyBanished(task) {
-      var _task$combat, _task$combat$where;
-
-      return ((_task$combat = task.combat) === null || _task$combat === void 0 ? void 0 : (_task$combat$where = _task$combat.where(src_combat.MonsterStrategy.Banish)) === null || _task$combat$where === void 0 ? void 0 : _task$combat$where.find(monster => this.already_banished.has(monster) && this.already_banished.get(monster) !== (0,template_string/* $item */.xr)(resources_templateObject17 || (resources_templateObject17 = resources_taggedTemplateLiteral(["ice house"]))))) !== undefined;
-    } // Return true if all requested monsters in the task are banished
-
-  }, {
-    key: "isFullyBanished",
-    value: function isFullyBanished(task) {
-      var _task$combat2, _task$combat2$where;
-
-      return ((_task$combat2 = task.combat) === null || _task$combat2 === void 0 ? void 0 : (_task$combat2$where = _task$combat2.where(src_combat.MonsterStrategy.Banish)) === null || _task$combat2$where === void 0 ? void 0 : _task$combat2$where.find(monster => !this.already_banished.has(monster))) === undefined;
-    } // Return a list of all banishes not allocated to some available task
-
-  }, {
-    key: "unusedBanishes",
-    value: function unusedBanishes(tasks) {
-      var used_banishes = new Set();
-
-      var _iterator = resources_createForOfIteratorHelper(tasks),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var task = _step.value;
-          if (task.combat === undefined) continue;
-
-          var _iterator2 = resources_createForOfIteratorHelper(task.combat.where(src_combat.MonsterStrategy.Banish)),
-              _step2;
-
-          try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var monster = _step2.value;
-              var banished_with = this.already_banished.get(monster);
-              if (banished_with !== undefined) used_banishes.add(banished_with);
-            }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      return banishSources.filter(banish => banish.available() && !used_banishes.has(banish.do));
-    }
-  }]);
-
-  return BanishState;
-}();
-var wandererSources = [{
-  name: "Voted",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject18 || (resources_templateObject18 = resources_taggedTemplateLiteral(["\"I Voted!\" sticker"])))) && (0,external_kolmafia_.totalTurnsPlayed)() % 11 === 1 && (0,property/* get */.U2)("lastVoteMonsterTurn") < (0,external_kolmafia_.totalTurnsPlayed)() && (0,property/* get */.U2)("_voteFreeFights") < 3 && atLevel(5),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject19 || (resources_templateObject19 = resources_taggedTemplateLiteral(["\"I Voted!\" sticker"]))),
-  monster: "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
-  chance: () => 1 // when available
-
-}, {
-  name: "Cursed Magnifying Glass",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject20 || (resources_templateObject20 = resources_taggedTemplateLiteral(["cursed magnifying glass"])))) && (0,property/* get */.U2)("_voidFreeFights") < 5 && (0,property/* get */.U2)("cursedMagnifyingGlassCount") >= 13 && ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(resources_templateObject21 || (resources_templateObject21 = resources_taggedTemplateLiteral(["barrel of gunpowder"])))) >= 5 || // Done with cmg + meteor trick
-  (0,property/* get */.U2)("sidequestLighthouseCompleted") !== "none"),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject22 || (resources_templateObject22 = resources_taggedTemplateLiteral(["cursed magnifying glass"]))),
-  monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
-  chance: () => 1 // when available
-
-}, {
-  name: "Kramco",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject23 || (resources_templateObject23 = resources_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) && atLevel(5),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject24 || (resources_templateObject24 = resources_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"]))),
-  monster: (0,template_string/* $monster */.O4)(resources_templateObject25 || (resources_templateObject25 = resources_taggedTemplateLiteral(["sausage goblin"]))),
-  chance: () => (0,lib/* getKramcoWandererChance */.ve)()
-}];
-function canChargeVoid() {
-  return (0,property/* get */.U2)("_voidFreeFights") < 5 && (0,property/* get */.U2)("cursedMagnifyingGlassCount") < 13;
-}
-var runawayValue = (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject26 || (resources_templateObject26 = resources_taggedTemplateLiteral(["Greatest American Pants"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject27 || (resources_templateObject27 = resources_taggedTemplateLiteral(["navel ring of navel gazing"])))) ? 0.8 * (0,property/* get */.U2)("valueOfAdventure") : (0,property/* get */.U2)("valueOfAdventure");
-var runawaySources = [{
-  name: "Bowl Curveball",
-  available: () => false,
-  do: new dist_combat/* Macro */.LE().skill((0,template_string/* $skill */.tm)(resources_templateObject28 || (resources_templateObject28 = resources_taggedTemplateLiteral(["Bowl a Curveball"])))),
-  chance: () => 1,
-  banishes: true
-}, {
-  name: "GAP",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject29 || (resources_templateObject29 = resources_taggedTemplateLiteral(["Greatest American Pants"])))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject30 || (resources_templateObject30 = resources_taggedTemplateLiteral(["Greatest American Pants"]))),
-  do: new dist_combat/* Macro */.LE().runaway(),
-  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
-  banishes: false
-}, {
-  name: "Navel Ring",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject31 || (resources_templateObject31 = resources_taggedTemplateLiteral(["navel ring of navel gazing"])))),
-  equip: (0,template_string/* $item */.xr)(resources_templateObject32 || (resources_templateObject32 = resources_taggedTemplateLiteral(["navel ring of navel gazing"]))),
-  do: new dist_combat/* Macro */.LE().runaway(),
-  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
-  banishes: false
-}, {
-  name: "Peppermint Parasol",
-  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject33 || (resources_templateObject33 = resources_taggedTemplateLiteral(["peppermint parasol"])))),
-  do: new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(resources_templateObject34 || (resources_templateObject34 = resources_taggedTemplateLiteral(["peppermint parasol"])))),
-  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
-  banishes: false
-}];
-var freekillSources = [];
-;// CONCATENATED MODULE: ./src/tasks/absorb.ts
-var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, absorb_templateObject104, absorb_templateObject105, absorb_templateObject106, absorb_templateObject107, absorb_templateObject108, absorb_templateObject109, absorb_templateObject110, absorb_templateObject111, absorb_templateObject112, absorb_templateObject113, absorb_templateObject114, absorb_templateObject115, absorb_templateObject116, absorb_templateObject117, absorb_templateObject118, absorb_templateObject119, absorb_templateObject120, absorb_templateObject121, absorb_templateObject122, absorb_templateObject123, absorb_templateObject124, absorb_templateObject125, absorb_templateObject126, absorb_templateObject127, absorb_templateObject128, absorb_templateObject129, absorb_templateObject130, absorb_templateObject131, absorb_templateObject132, absorb_templateObject133, absorb_templateObject134, absorb_templateObject135, absorb_templateObject136, absorb_templateObject137, absorb_templateObject138, absorb_templateObject139, absorb_templateObject140, absorb_templateObject141, absorb_templateObject142, absorb_templateObject143, absorb_templateObject144, absorb_templateObject145, absorb_templateObject146, absorb_templateObject147, absorb_templateObject148, absorb_templateObject149, absorb_templateObject150, absorb_templateObject151, absorb_templateObject152, absorb_templateObject153, absorb_templateObject154, absorb_templateObject155, absorb_templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292;
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { absorb_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function absorb_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function absorb_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function absorb_createClass(Constructor, protoProps, staticProps) { if (protoProps) absorb_defineProperties(Constructor.prototype, protoProps); if (staticProps) absorb_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function absorb_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function absorb_toConsumableArray(arr) { return absorb_arrayWithoutHoles(arr) || absorb_iterableToArray(arr) || absorb_unsupportedIterableToArray(arr) || absorb_nonIterableSpread(); }
-
-function absorb_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function absorb_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function absorb_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return absorb_arrayLikeToArray(arr); }
-
-function absorb_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = absorb_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function absorb_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return absorb_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return absorb_arrayLikeToArray(o, minLen); }
-
-function absorb_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function absorb_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-
-
-
-
-
- // Add a shorthand for expressing absorption-only tasks; there are a lot.
-
-// A list of all locations that might have important monsters
-// Roughly in order of unlock in a basic run
-var absorbTasks = [// Level 2
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject || (absorb_templateObject = absorb_taggedTemplateLiteral(["The Spooky Forest"]))),
-  after: ["Hidden City/Open Temple"],
-  choices: {
-    502: 2,
-    505: 2,
-    334: 1
-  }
-}, // Level 3
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject2 || (absorb_templateObject2 = absorb_taggedTemplateLiteral(["A Barroom Brawl"]))),
-  after: ["Tavern/Start"]
-}, // Level 4
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject3 || (absorb_templateObject3 = absorb_taggedTemplateLiteral(["The Bat Hole Entrance"]))),
-  after: ["Bat/Start"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject4 || (absorb_templateObject4 = absorb_taggedTemplateLiteral(["Guano Junction"]))),
-  after: ["Bat/Get Sonar 3"],
-  choices: {
-    1427: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject5 || (absorb_templateObject5 = absorb_taggedTemplateLiteral(["The Batrat and Ratbat Burrow"]))),
-  after: ["Bat/Use Sonar 1", "Palindome/Bat Snake"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject6 || (absorb_templateObject6 = absorb_taggedTemplateLiteral(["The Beanbat Chamber"]))),
-  after: ["Bat/Use Sonar 2", "Giant/Grow Beanstalk"]
-}, // Level 5
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject7 || (absorb_templateObject7 = absorb_taggedTemplateLiteral(["The Outskirts of Cobb's Knob"]))),
-  after: ["Knob/Open Knob"],
-  choices: {
-    111: 3,
-    113: 2,
-    118: 1
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject8 || (absorb_templateObject8 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject9 || (absorb_templateObject9 = absorb_taggedTemplateLiteral(["Cobb's Knob Kitchens"]))),
-  after: ["Knob/Open Knob"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject10 || (absorb_templateObject10 = absorb_taggedTemplateLiteral(["Cobb's Knob Barracks"]))),
-  after: ["Knob/Open Knob"],
-  choices: {
-    522: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject11 || (absorb_templateObject11 = absorb_taggedTemplateLiteral(["Cobb's Knob Harem"]))),
-  after: ["Knob/King"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject12 || (absorb_templateObject12 = absorb_taggedTemplateLiteral(["Cobb's Knob Treasury"]))),
-  after: ["Knob/Open Knob"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject13 || (absorb_templateObject13 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject14 || (absorb_templateObject14 = absorb_taggedTemplateLiteral(["Cobb's Knob Laboratory"]))),
-  after: ["Knob/King"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject15 || (absorb_templateObject15 = absorb_taggedTemplateLiteral(["The Knob Shaft"]))),
-  after: ["Knob/King"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject16 || (absorb_templateObject16 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject17 || (absorb_templateObject17 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 1"]))),
-  after: ["Knob/Open Menagerie"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject18 || (absorb_templateObject18 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 2"]))),
-  after: ["Knob/Open Menagerie"],
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject19 || (absorb_templateObject19 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"])))
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject20 || (absorb_templateObject20 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 3"]))),
-  after: ["Knob/Open Menagerie"],
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject21 || (absorb_templateObject21 = absorb_taggedTemplateLiteral(["Phase Shift"])))
-}, // Level 6
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject22 || (absorb_templateObject22 = absorb_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
-  after: ["Friar/Heart"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject23 || (absorb_templateObject23 = absorb_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
-  after: ["Friar/Neck"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject24 || (absorb_templateObject24 = absorb_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
-  after: ["Friar/Elbow"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject25 || (absorb_templateObject25 = absorb_taggedTemplateLiteral(["Pandamonium Slums"]))),
-  prepare: () => {
-    if (step("questM10Azazel") === -1) {
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
-    }
-  },
-  after: ["Friar/Finish"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject26 || (absorb_templateObject26 = absorb_taggedTemplateLiteral(["The Laugh Floor"]))),
-  prepare: () => {
-    if (step("questM10Azazel") === -1) {
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
-    }
-  },
-  after: ["Friar/Finish"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject27 || (absorb_templateObject27 = absorb_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
-  prepare: () => {
-    if (step("questM10Azazel") === -1) {
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
-      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
-    }
-  },
-  after: ["Friar/Finish"],
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject28 || (absorb_templateObject28 = absorb_taggedTemplateLiteral(["Gravitational Compression"])))
-}, // Level 7
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject29 || (absorb_templateObject29 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"]))),
-  after: ["Crypt/Start", "Crypt/Finish"]
-}, // Level 8
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject30 || (absorb_templateObject30 = absorb_taggedTemplateLiteral(["Itznotyerzitz Mine"]))),
-  after: ["McLargeHuge/Trapper Request"],
-  choices: {
-    18: 3,
-    19: 3,
-    20: 3,
-    556: 2
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject31 || (absorb_templateObject31 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject32 || (absorb_templateObject32 = absorb_taggedTemplateLiteral(["The Goatlet"]))),
-  after: ["McLargeHuge/Goatlet"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject33 || (absorb_templateObject33 = absorb_taggedTemplateLiteral(["Lair of the Ninja Snowmen"]))),
-  after: ["McLargeHuge/Climb", "Palindome/Cold Snake"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject34 || (absorb_templateObject34 = absorb_taggedTemplateLiteral(["The eXtreme Slope"]))),
-  after: ["McLargeHuge/Climb"],
-  choices: {
-    15: 3,
-    16: 3,
-    17: 3,
-    575: 3
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject35 || (absorb_templateObject35 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject36 || (absorb_templateObject36 = absorb_taggedTemplateLiteral(["The Icy Peak"]))),
-  after: ["McLargeHuge/Peak"],
-  outfit: {
-    modifier: "10 cold res 5min, +combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject37 || (absorb_templateObject37 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat(), (0,template_string/* $monster */.O4)(absorb_templateObject38 || (absorb_templateObject38 = absorb_taggedTemplateLiteral(["Snow Queen"]))))
-}, // Level 9
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject39 || (absorb_templateObject39 = absorb_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))),
-  after: ["Orc Chasm/Bridge"],
-  choices: {
-    1345: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject40 || (absorb_templateObject40 = absorb_taggedTemplateLiteral(["A-Boo Peak"]))),
-  after: ["Orc Chasm/ABoo Clues"],
-  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat())
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject41 || (absorb_templateObject41 = absorb_taggedTemplateLiteral(["Twin Peak"]))),
-  after: ["Orc Chasm/Twin Init"],
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject42 || (absorb_templateObject42 = absorb_taggedTemplateLiteral(["Overclocking"])))
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject43 || (absorb_templateObject43 = absorb_taggedTemplateLiteral(["Oil Peak"]))),
-  after: ["Orc Chasm/Oil Peak"],
-  prepare: () => {
-    // Unequip the umbrella if it pushes us over the cap
-    if ((0,external_kolmafia_.equippedAmount)((0,template_string/* $item */.xr)(absorb_templateObject44 || (absorb_templateObject44 = absorb_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0 && (0,property/* get */.U2)("umbrellaState") === "broken" && (0,external_kolmafia_.numericModifier)("Monster Level") >= 80) {
-      (0,external_kolmafia_.equip)((0,template_string/* $slot */.Jh)(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["off-hand"]))), (0,template_string/* $item */.xr)(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["none"]))));
-    } // Unequip items one-by-one until we are below 100 ML
-    // (Always leave the backup camera on)
-
-
-    var _iterator = absorb_createForOfIteratorHelper(external_kolmafia_.Slot.all()),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var slot = _step.value;
-        if ((0,external_kolmafia_.numericModifier)("Monster Level") < 100) break;
-        var item = (0,external_kolmafia_.equippedItem)(slot);
-        if (item === (0,template_string/* $item */.xr)(absorb_templateObject47 || (absorb_templateObject47 = absorb_taggedTemplateLiteral(["none"])))) continue;
-        if ((0,external_kolmafia_.numericModifier)(item, "Monster Level") === 0) continue;
-        if (item === (0,template_string/* $item */.xr)(absorb_templateObject48 || (absorb_templateObject48 = absorb_taggedTemplateLiteral(["backup camera"])))) continue; // Always keep equipped to ensure we can get to 50
-
-        (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(absorb_templateObject49 || (absorb_templateObject49 = absorb_taggedTemplateLiteral(["none"]))));
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
-    if ((0,external_kolmafia_.numericModifier)("Monster Level") < 50 || (0,external_kolmafia_.numericModifier)("Monster Level") >= 100) throw "Unable to get 50-99 ML for oil barons";
-  },
-  freecombat: true,
-  outfit: {
-    modifier: "ML 50min"
-  },
-  limit: {
-    tries: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject50 || (absorb_templateObject50 = absorb_taggedTemplateLiteral(["The Valley of Rof L'm Fao"]))),
-  after: ["Orc Chasm/Finish"]
-}, // Level 10
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject51 || (absorb_templateObject51 = absorb_taggedTemplateLiteral(["The Penultimate Fantasy Airship"]))),
-  after: ["Giant/Airship"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject52 || (absorb_templateObject52 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    178: 2,
-    182: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject53 || (absorb_templateObject53 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
-  after: ["Giant/Basement Finish"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject54 || (absorb_templateObject54 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    670: 3,
-    669: 1,
-    671: 3
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject55 || (absorb_templateObject55 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Ground Floor)"]))),
-  after: ["Giant/Ground"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject56 || (absorb_templateObject56 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    672: 3,
-    673: 3,
-    674: 3,
-    1026: 3
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject57 || (absorb_templateObject57 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
-  after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject58 || (absorb_templateObject58 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    675: 4,
-    676: 4,
-    677: 4,
-    678: 1,
-    679: 1,
-    1431: 4
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject59 || (absorb_templateObject59 = absorb_taggedTemplateLiteral(["The Hole in the Sky"]))),
-  after: ["Giant/Unlock HITS", "Keys/Star Key"]
-}, // Level 11
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject60 || (absorb_templateObject60 = absorb_taggedTemplateLiteral(["The Black Forest"]))),
-  after: ["Macguffin/Forest"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject61 || (absorb_templateObject61 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    923: 1,
-    924: 1
-  },
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject62 || (absorb_templateObject62 = absorb_taggedTemplateLiteral(["Photonic Shroud"])))
-}, // Level 11: Hidden City
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject63 || (absorb_templateObject63 = absorb_taggedTemplateLiteral(["The Hidden Temple"]))),
-  after: ["Hidden City/Open City"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject64 || (absorb_templateObject64 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    579: () => {
-      return (0,property/* get */.U2)("lastTempleAdventures") === (0,external_kolmafia_.myAscensions)() ? 2 : 1;
-    },
-    580: 3,
-    581: 3
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject65 || (absorb_templateObject65 = absorb_taggedTemplateLiteral(["The Hidden Park"]))),
-  after: ["Hidden City/Open City", "Hidden City/Banish Janitors"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject66 || (absorb_templateObject66 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    789: () => {
-      return (0,property/* get */.U2)("relocatePygmyJanitor") === (0,external_kolmafia_.myAscensions)() ? 2 : 3;
-    }
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject67 || (absorb_templateObject67 = absorb_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
-  after: ["Hidden City/Apartment"],
-  choices: {
-    780: 4
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject68 || (absorb_templateObject68 = absorb_taggedTemplateLiteral(["The Hidden Office Building"]))),
-  after: ["Hidden City/Office Boss"],
-  choices: {
-    786: 4
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject69 || (absorb_templateObject69 = absorb_taggedTemplateLiteral(["The Hidden Hospital"]))),
-  after: ["Hidden City/Hospital"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject70 || (absorb_templateObject70 = absorb_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
-  after: ["Hidden City/Bowling"]
-}, // Level 11: Manor
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject71 || (absorb_templateObject71 = absorb_taggedTemplateLiteral(["The Haunted Pantry"]))),
-  after: [],
-  choices: {
-    114: 2,
-    115: 1,
-    116: 4,
-    117: 1
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject72 || (absorb_templateObject72 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject73 || (absorb_templateObject73 = absorb_taggedTemplateLiteral(["The Haunted Conservatory"]))),
-  after: ["Manor/Start"],
-  choices: {
-    899: 2
-  },
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject74 || (absorb_templateObject74 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"])))
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject75 || (absorb_templateObject75 = absorb_taggedTemplateLiteral(["The Haunted Kitchen"]))),
-  after: ["Manor/Kitchen"],
-  choices: {
-    893: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject76 || (absorb_templateObject76 = absorb_taggedTemplateLiteral(["The Haunted Billiards Room"]))),
-  after: ["Manor/Billiards"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject77 || (absorb_templateObject77 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat(), (0,template_string/* $monster */.O4)(absorb_templateObject78 || (absorb_templateObject78 = absorb_taggedTemplateLiteral(["chalkdust wraith"])))),
-  choices: {
-    900: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject79 || (absorb_templateObject79 = absorb_taggedTemplateLiteral(["The Haunted Library"]))),
-  after: ["Manor/Library"],
-  choices: {
-    163: 4,
-    888: 4,
-    889: 5,
-    894: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject80 || (absorb_templateObject80 = absorb_taggedTemplateLiteral(["The Haunted Gallery"]))),
-  after: ["Manor/Gallery"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject81 || (absorb_templateObject81 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    89: 6,
-    896: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject82 || (absorb_templateObject82 = absorb_taggedTemplateLiteral(["The Haunted Bathroom"]))),
-  after: ["Manor/Bathroom"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject83 || (absorb_templateObject83 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    881: 1,
-    105: 1,
-    892: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject84 || (absorb_templateObject84 = absorb_taggedTemplateLiteral(["The Haunted Bedroom"]))),
-  after: ["Manor/Bedroom"],
-  choices: {
-    876: 1,
-    877: 1,
-    878: 4,
-    879: 1,
-    880: 1,
-    897: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject85 || (absorb_templateObject85 = absorb_taggedTemplateLiteral(["The Haunted Ballroom"]))),
-  after: ["Manor/Ballroom"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject86 || (absorb_templateObject86 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    881: 1,
-    105: 1,
-    892: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject87 || (absorb_templateObject87 = absorb_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
-  after: ["Manor/Wine Cellar"],
-  choices: {
-    901: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject88 || (absorb_templateObject88 = absorb_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
-  after: ["Manor/Laundry Room"],
-  choices: {
-    891: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject89 || (absorb_templateObject89 = absorb_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
-  after: ["Manor/Boiler Room"],
-  choices: {
-    902: 2
-  }
-}, {
-  prepare: () => {
-    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
-  },
-  do: (0,template_string/* $location */.PG)(absorb_templateObject90 || (absorb_templateObject90 = absorb_taggedTemplateLiteral(["The Haunted Storage Room"]))),
-  after: ["Manor/Finish Floor2"],
-  choices: {
-    886: 6,
-    890: 1
-  }
-}, {
-  prepare: () => {
-    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
-  },
-  do: (0,template_string/* $location */.PG)(absorb_templateObject91 || (absorb_templateObject91 = absorb_taggedTemplateLiteral(["The Haunted Nursery"]))),
-  after: ["Manor/Finish Floor2"],
-  choices: {
-    884: 6,
-    898: 2
-  }
-}, {
-  prepare: () => {
-    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
-  },
-  do: (0,template_string/* $location */.PG)(absorb_templateObject92 || (absorb_templateObject92 = absorb_taggedTemplateLiteral(["The Haunted Laboratory"]))),
-  after: ["Manor/Finish Floor2"],
-  choices: {
-    884: 6,
-    903: 2
-  }
-}, // Level 11: Palindome
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject93 || (absorb_templateObject93 = absorb_taggedTemplateLiteral(["The Copperhead Club"]))),
-  after: ["Palindome/Copperhead"],
-  choices: {
-    855: 4
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject94 || (absorb_templateObject94 = absorb_taggedTemplateLiteral(["A Mob of Zeppelin Protesters"]))),
-  after: ["Palindome/Protesters Finish"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject95 || (absorb_templateObject95 = absorb_taggedTemplateLiteral(["The Red Zeppelin"]))),
-  after: ["Palindome/Zepplin"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject96 || (absorb_templateObject96 = absorb_taggedTemplateLiteral(["Inside the Palindome"]))),
-  after: ["Palindome/Palindome Photos"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject97 || (absorb_templateObject97 = absorb_taggedTemplateLiteral(["Talisman o' Namsilat, miniature crystal ball"])))
-  },
-  choices: {
-    2: 2,
-    126: 1,
-    127: 1,
-    180: 2
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject98 || (absorb_templateObject98 = absorb_taggedTemplateLiteral(["Whitey's Grove"]))),
-  after: ["Palindome/Open Alarm"],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject99 || (absorb_templateObject99 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  },
-  choices: {
-    73: 3,
-    74: 2,
-    75: 2
-  }
-}, // Level 11: Pyramid
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject100 || (absorb_templateObject100 = absorb_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
-  after: ["Macguffin/Desert"]
-}, {
-  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(absorb_templateObject101 || (absorb_templateObject101 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(absorb_templateObject102 || (absorb_templateObject102 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? OverridePriority.Effect : OverridePriority.None,
-  do: (0,template_string/* $location */.PG)(absorb_templateObject103 || (absorb_templateObject103 = absorb_taggedTemplateLiteral(["The Oasis"]))),
-  after: ["Macguffin/Desert"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject104 || (absorb_templateObject104 = absorb_taggedTemplateLiteral(["The Upper Chamber"]))),
-  after: ["Macguffin/Upper Chamber"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject105 || (absorb_templateObject105 = absorb_taggedTemplateLiteral(["The Middle Chamber"]))),
-  after: ["Macguffin/Middle Chamber"]
-}, // Misc areas
-// These are probably only worthwhile with orb
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject106 || (absorb_templateObject106 = absorb_taggedTemplateLiteral(["South of the Border"]))),
-  ready: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject107 || (absorb_templateObject107 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))),
-  after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
-  choices: {
-    4: 3
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject108 || (absorb_templateObject108 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject109 || (absorb_templateObject109 = absorb_taggedTemplateLiteral(["The Unquiet Garves"]))),
-  after: ["Crypt/Start"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject110 || (absorb_templateObject110 = absorb_taggedTemplateLiteral(["The Old Landfill"]))),
-  after: ["Mosquito/Start"],
-  prepare: () => {
-    if (step("questM19Hippy") === -1) {
-      (0,external_kolmafia_.visitUrl)("place.php?whichplace=woods&action=woods_smokesignals");
-      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=798&option=1");
-      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=798&option=2");
-      (0,external_kolmafia_.visitUrl)("woods.php");
-    }
-
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject111 || (absorb_templateObject111 = absorb_taggedTemplateLiteral(["funky junk key"]))))) {
-      (0,external_kolmafia_.putCloset)((0,template_string/* $item */.xr)(absorb_templateObject112 || (absorb_templateObject112 = absorb_taggedTemplateLiteral(["funky junk key"]))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(absorb_templateObject113 || (absorb_templateObject113 = absorb_taggedTemplateLiteral(["funky junk key"])))));
-    }
-  },
-  ready: () => atLevel(6)
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject114 || (absorb_templateObject114 = absorb_taggedTemplateLiteral(["The Skeleton Store"]))),
-  after: [],
-  prepare: () => {
-    if (step("questM23Meatsmith") === -1) {
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=meatsmith");
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=meatsmith&action=talk");
-      (0,external_kolmafia_.runChoice)(1);
-    }
-  },
-  choices: {
-    1060: 1
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject115 || (absorb_templateObject115 = absorb_taggedTemplateLiteral(["The Overgrown Lot"]))),
-  after: [],
-  prepare: () => {
-    if (step("questM24Doc") === -1) {
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=doc");
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=doc&action=talk");
-      (0,external_kolmafia_.runChoice)(1);
-    }
-  },
-  choices: {
-    1062: 3
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject116 || (absorb_templateObject116 = absorb_taggedTemplateLiteral(["Madness Bakery"]))),
-  after: [],
-  prepare: () => {
-    if (step("questM25Armorer") === -1) {
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=armory");
-      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=armory&action=talk");
-      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=1065&option=1");
-    }
-  },
-  choices: {
-    1061: 5
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject117 || (absorb_templateObject117 = absorb_taggedTemplateLiteral(["The Dungeons of Doom"]))),
-  skill: (0,template_string/* $skill */.tm)(absorb_templateObject118 || (absorb_templateObject118 = absorb_taggedTemplateLiteral(["Hivemindedness"]))),
-  after: [],
-  prepare: () => {
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject119 || (absorb_templateObject119 = absorb_taggedTemplateLiteral(["plus sign"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(absorb_templateObject120 || (absorb_templateObject120 = absorb_taggedTemplateLiteral(["plus sign"]))));
-  },
-  ready: () => (0,property/* get */.U2)("lastPlusSignUnlock") === (0,external_kolmafia_.myAscensions)(),
-  choices: {
-    25: 3
-  },
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject121 || (absorb_templateObject121 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, // Moon-sign zones
-{
-  do: (0,template_string/* $location */.PG)(absorb_templateObject122 || (absorb_templateObject122 = absorb_taggedTemplateLiteral(["The Bugbear Pen"]))),
-  ready: () => (0,external_kolmafia_.knollAvailable)(),
-  prepare: () => {
-    if (step("questM03Bugbear") === -1) {
-      (0,external_kolmafia_.visitUrl)("place.php?whichplace=knoll_friendly&action=dk_mayor");
-    }
-  },
-  after: ["Mosquito/Start"]
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject123 || (absorb_templateObject123 = absorb_taggedTemplateLiteral(["Outskirts of Camp Logging Camp"]))),
-  ready: () => (0,external_kolmafia_.canadiaAvailable)(),
-  after: [],
-  outfit: {
-    modifier: "+combat",
-    equip: (0,template_string/* $items */.vS)(absorb_templateObject124 || (absorb_templateObject124 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-  }
-}, {
-  do: (0,template_string/* $location */.PG)(absorb_templateObject125 || (absorb_templateObject125 = absorb_taggedTemplateLiteral(["Thugnderdome"]))),
-  ready: () => (0,external_kolmafia_.gnomadsAvailable)(),
-  after: []
-}]; // All monsters that give adventures upon absorption
-
-var reprocessTargets = new Set([// 10 adv monsters
-(0,template_string/* $monster */.O4)(absorb_templateObject126 || (absorb_templateObject126 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), (0,template_string/* $monster */.O4)(absorb_templateObject127 || (absorb_templateObject127 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject128 || (absorb_templateObject128 = absorb_taggedTemplateLiteral(["black magic woman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject129 || (absorb_templateObject129 = absorb_taggedTemplateLiteral(["blur"]))), (0,template_string/* $monster */.O4)(absorb_templateObject130 || (absorb_templateObject130 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), (0,template_string/* $monster */.O4)(absorb_templateObject131 || (absorb_templateObject131 = absorb_taggedTemplateLiteral(["coaltergeist"]))), (0,template_string/* $monster */.O4)(absorb_templateObject132 || (absorb_templateObject132 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject133 || (absorb_templateObject133 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), (0,template_string/* $monster */.O4)(absorb_templateObject134 || (absorb_templateObject134 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), (0,template_string/* $monster */.O4)(absorb_templateObject135 || (absorb_templateObject135 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), (0,template_string/* $monster */.O4)(absorb_templateObject136 || (absorb_templateObject136 = absorb_taggedTemplateLiteral(["mad wino"]))), (0,template_string/* $monster */.O4)(absorb_templateObject137 || (absorb_templateObject137 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), (0,template_string/* $monster */.O4)(absorb_templateObject138 || (absorb_templateObject138 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), (0,template_string/* $monster */.O4)(absorb_templateObject139 || (absorb_templateObject139 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), (0,template_string/* $monster */.O4)(absorb_templateObject140 || (absorb_templateObject140 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), (0,template_string/* $monster */.O4)(absorb_templateObject141 || (absorb_templateObject141 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), (0,template_string/* $monster */.O4)(absorb_templateObject142 || (absorb_templateObject142 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject143 || (absorb_templateObject143 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), (0,template_string/* $monster */.O4)(absorb_templateObject144 || (absorb_templateObject144 = absorb_taggedTemplateLiteral(["Raver Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject145 || (absorb_templateObject145 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject146 || (absorb_templateObject146 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), (0,template_string/* $monster */.O4)(absorb_templateObject147 || (absorb_templateObject147 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
-(0,template_string/* $monster */.O4)(absorb_templateObject148 || (absorb_templateObject148 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), (0,template_string/* $monster */.O4)(absorb_templateObject149 || (absorb_templateObject149 = absorb_taggedTemplateLiteral(["basic lihc"]))), (0,template_string/* $monster */.O4)(absorb_templateObject150 || (absorb_templateObject150 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), (0,template_string/* $monster */.O4)(absorb_templateObject151 || (absorb_templateObject151 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), (0,template_string/* $monster */.O4)(absorb_templateObject152 || (absorb_templateObject152 = absorb_taggedTemplateLiteral(["CH Imp"]))), (0,template_string/* $monster */.O4)(absorb_templateObject153 || (absorb_templateObject153 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), (0,template_string/* $monster */.O4)(absorb_templateObject154 || (absorb_templateObject154 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), (0,template_string/* $monster */.O4)(absorb_templateObject155 || (absorb_templateObject155 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), (0,template_string/* $monster */.O4)(absorb_templateObject156 || (absorb_templateObject156 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), (0,template_string/* $monster */.O4)(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), (0,template_string/* $monster */.O4)(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), (0,template_string/* $monster */.O4)(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), (0,template_string/* $monster */.O4)(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), (0,template_string/* $monster */.O4)(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), (0,template_string/* $monster */.O4)(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["model skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), (0,template_string/* $monster */.O4)(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["oil baron"]))), (0,template_string/* $monster */.O4)(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["party skelteon"]))), (0,template_string/* $monster */.O4)(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), (0,template_string/* $monster */.O4)(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), (0,template_string/* $monster */.O4)(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), (0,template_string/* $monster */.O4)(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), (0,template_string/* $monster */.O4)(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["serialbus"]))), (0,template_string/* $monster */.O4)(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["sheet ghost"]))), (0,template_string/* $monster */.O4)(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), (0,template_string/* $monster */.O4)(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), (0,template_string/* $monster */.O4)(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), (0,template_string/* $monster */.O4)(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), (0,template_string/* $monster */.O4)(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["upgraded ram"]))), (0,template_string/* $monster */.O4)(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), (0,template_string/* $monster */.O4)(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["whitesnake"]))), (0,template_string/* $monster */.O4)(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
-(0,template_string/* $monster */.O4)(_templateObject181 || (_templateObject181 = absorb_taggedTemplateLiteral(["dire pigeon"]))), (0,template_string/* $monster */.O4)(_templateObject182 || (_templateObject182 = absorb_taggedTemplateLiteral(["gingerbread murderer"]))), (0,template_string/* $monster */.O4)(_templateObject183 || (_templateObject183 = absorb_taggedTemplateLiteral(["grave rober"]))), (0,template_string/* $monster */.O4)(_templateObject184 || (_templateObject184 = absorb_taggedTemplateLiteral(["irate mariachi"]))), (0,template_string/* $monster */.O4)(_templateObject185 || (_templateObject185 = absorb_taggedTemplateLiteral(["plastered frat orc"]))), (0,template_string/* $monster */.O4)(_templateObject186 || (_templateObject186 = absorb_taggedTemplateLiteral(["swarm of skulls"]))), (0,template_string/* $monster */.O4)(_templateObject187 || (_templateObject187 = absorb_taggedTemplateLiteral(["albino bat"]))), (0,template_string/* $monster */.O4)(_templateObject188 || (_templateObject188 = absorb_taggedTemplateLiteral(["batrat"]))), (0,template_string/* $monster */.O4)(_templateObject189 || (_templateObject189 = absorb_taggedTemplateLiteral(["G imp"]))), (0,template_string/* $monster */.O4)(_templateObject190 || (_templateObject190 = absorb_taggedTemplateLiteral(["Knob Goblin Bean Counter"]))), (0,template_string/* $monster */.O4)(_templateObject191 || (_templateObject191 = absorb_taggedTemplateLiteral(["Knob Goblin Madam"]))), (0,template_string/* $monster */.O4)(_templateObject192 || (_templateObject192 = absorb_taggedTemplateLiteral(["Knob Goblin Master Chef"]))), (0,template_string/* $monster */.O4)(_templateObject193 || (_templateObject193 = absorb_taggedTemplateLiteral(["L imp"]))), (0,template_string/* $monster */.O4)(_templateObject194 || (_templateObject194 = absorb_taggedTemplateLiteral(["magical fruit bat"]))), (0,template_string/* $monster */.O4)(_templateObject195 || (_templateObject195 = absorb_taggedTemplateLiteral(["P imp"]))), (0,template_string/* $monster */.O4)(_templateObject196 || (_templateObject196 = absorb_taggedTemplateLiteral(["swarm of Knob lice"]))), (0,template_string/* $monster */.O4)(_templateObject197 || (_templateObject197 = absorb_taggedTemplateLiteral(["W imp"]))), (0,template_string/* $monster */.O4)(_templateObject198 || (_templateObject198 = absorb_taggedTemplateLiteral(["warwelf"])))]); // Other monsters that give skills
-
-var usefulSkills = new Map([[(0,template_string/* $skill */.tm)(_templateObject199 || (_templateObject199 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"]))), (0,template_string/* $monster */.O4)(_templateObject200 || (_templateObject200 = absorb_taggedTemplateLiteral(["anglerbush"])))], [(0,template_string/* $skill */.tm)(_templateObject201 || (_templateObject201 = absorb_taggedTemplateLiteral(["Ominous Substrate"]))), (0,template_string/* $monster */.O4)(_templateObject202 || (_templateObject202 = absorb_taggedTemplateLiteral(["animated ornate nightstand"])))], [(0,template_string/* $skill */.tm)(_templateObject203 || (_templateObject203 = absorb_taggedTemplateLiteral(["Innuendo Circuitry"]))), (0,template_string/* $monster */.O4)(_templateObject204 || (_templateObject204 = absorb_taggedTemplateLiteral(["Astronomer"])))], [(0,template_string/* $skill */.tm)(_templateObject205 || (_templateObject205 = absorb_taggedTemplateLiteral(["Exhaust Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject206 || (_templateObject206 = absorb_taggedTemplateLiteral(["beanbat"])))], [(0,template_string/* $skill */.tm)(_templateObject207 || (_templateObject207 = absorb_taggedTemplateLiteral(["Overclocking"]))), (0,template_string/* $monster */.O4)(_templateObject208 || (_templateObject208 = absorb_taggedTemplateLiteral(["Big Wheelin' Twins"])))], [(0,template_string/* $skill */.tm)(_templateObject209 || (_templateObject209 = absorb_taggedTemplateLiteral(["Photonic Shroud"]))), (0,template_string/* $monster */.O4)(_templateObject210 || (_templateObject210 = absorb_taggedTemplateLiteral(["black panther"])))], [(0,template_string/* $skill */.tm)(_templateObject211 || (_templateObject211 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))), (0,template_string/* $monster */.O4)(_templateObject212 || (_templateObject212 = absorb_taggedTemplateLiteral(["Carnivorous Moxie Weed"])))], [(0,template_string/* $skill */.tm)(_templateObject213 || (_templateObject213 = absorb_taggedTemplateLiteral(["Ectogenesis"]))), (0,template_string/* $monster */.O4)(_templateObject214 || (_templateObject214 = absorb_taggedTemplateLiteral(["Claybender Sorcerer Ghost"])))], [(0,template_string/* $skill */.tm)(_templateObject215 || (_templateObject215 = absorb_taggedTemplateLiteral(["Microburner"]))), (0,template_string/* $monster */.O4)(_templateObject216 || (_templateObject216 = absorb_taggedTemplateLiteral(["Cobb's Knob oven"])))], [(0,template_string/* $skill */.tm)(_templateObject217 || (_templateObject217 = absorb_taggedTemplateLiteral(["Localized Vacuum"]))), (0,template_string/* $monster */.O4)(_templateObject218 || (_templateObject218 = absorb_taggedTemplateLiteral(["cubist bull"])))], [(0,template_string/* $skill */.tm)(_templateObject219 || (_templateObject219 = absorb_taggedTemplateLiteral(["Infernal Automata"]))), (0,template_string/* $monster */.O4)(_templateObject220 || (_templateObject220 = absorb_taggedTemplateLiteral(["demonic icebox"])))], [(0,template_string/* $skill */.tm)(_templateObject221 || (_templateObject221 = absorb_taggedTemplateLiteral(["Secondary Fermentation"]))), (0,template_string/* $monster */.O4)(_templateObject222 || (_templateObject222 = absorb_taggedTemplateLiteral(["drunk goat"])))], [(0,template_string/* $skill */.tm)(_templateObject223 || (_templateObject223 = absorb_taggedTemplateLiteral(["Double Nanovision"]))), (0,template_string/* $monster */.O4)(_templateObject224 || (_templateObject224 = absorb_taggedTemplateLiteral(["drunk pygmy"])))], [(0,template_string/* $skill */.tm)(_templateObject225 || (_templateObject225 = absorb_taggedTemplateLiteral(["Microweave"]))), (0,template_string/* $monster */.O4)(_templateObject226 || (_templateObject226 = absorb_taggedTemplateLiteral(["eXtreme cross-country hippy"])))], [(0,template_string/* $skill */.tm)(_templateObject227 || (_templateObject227 = absorb_taggedTemplateLiteral(["AUTOEXEC.BAT"]))), (0,template_string/* $monster */.O4)(_templateObject228 || (_templateObject228 = absorb_taggedTemplateLiteral(["Flock of Stab-bats"])))], [(0,template_string/* $skill */.tm)(_templateObject229 || (_templateObject229 = absorb_taggedTemplateLiteral(["Propagation Drive"]))), (0,template_string/* $monster */.O4)(_templateObject230 || (_templateObject230 = absorb_taggedTemplateLiteral(["junksprite bender"])))], [(0,template_string/* $skill */.tm)(_templateObject231 || (_templateObject231 = absorb_taggedTemplateLiteral(["Camp Subroutines"]))), (0,template_string/* $monster */.O4)(_templateObject232 || (_templateObject232 = absorb_taggedTemplateLiteral(["Knob Goblin Harem Girl"])))], [(0,template_string/* $skill */.tm)(_templateObject233 || (_templateObject233 = absorb_taggedTemplateLiteral(["Cryocurrency"]))), (0,template_string/* $monster */.O4)(_templateObject234 || (_templateObject234 = absorb_taggedTemplateLiteral(["Knob Goblin MBA"])))], [(0,template_string/* $skill */.tm)(_templateObject235 || (_templateObject235 = absorb_taggedTemplateLiteral(["Curses Library"]))), (0,template_string/* $monster */.O4)(_templateObject236 || (_templateObject236 = absorb_taggedTemplateLiteral(["lihc"])))], [(0,template_string/* $skill */.tm)(_templateObject237 || (_templateObject237 = absorb_taggedTemplateLiteral(["Clammy Microcilia"]))), (0,template_string/* $monster */.O4)(_templateObject238 || (_templateObject238 = absorb_taggedTemplateLiteral(["malevolent hair clog"])))], [(0,template_string/* $skill */.tm)(_templateObject239 || (_templateObject239 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"]))), (0,template_string/* $monster */.O4)(_templateObject240 || (_templateObject240 = absorb_taggedTemplateLiteral(["me4t begZ0r"])))], [(0,template_string/* $skill */.tm)(_templateObject241 || (_templateObject241 = absorb_taggedTemplateLiteral(["Hivemindedness"]))), (0,template_string/* $monster */.O4)(_templateObject242 || (_templateObject242 = absorb_taggedTemplateLiteral(["mind flayer"])))], [(0,template_string/* $skill */.tm)(_templateObject243 || (_templateObject243 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject244 || (_templateObject244 = absorb_taggedTemplateLiteral(["Ninja Snowman Weaponmaster"])))], // [$skill`Lubricant Layer`, $monster`oil slick`],
-[(0,template_string/* $skill */.tm)(_templateObject245 || (_templateObject245 = absorb_taggedTemplateLiteral(["Conifer Polymers"]))), (0,template_string/* $monster */.O4)(_templateObject246 || (_templateObject246 = absorb_taggedTemplateLiteral(["pine bat"])))], [(0,template_string/* $skill */.tm)(_templateObject247 || (_templateObject247 = absorb_taggedTemplateLiteral(["Legacy Code"]))), (0,template_string/* $monster */.O4)(_templateObject248 || (_templateObject248 = absorb_taggedTemplateLiteral(["possessed wine rack"])))], [(0,template_string/* $skill */.tm)(_templateObject249 || (_templateObject249 = absorb_taggedTemplateLiteral(["System Sweep"]))), (0,template_string/* $monster */.O4)(_templateObject250 || (_templateObject250 = absorb_taggedTemplateLiteral(["pygmy janitor"])))], [(0,template_string/* $skill */.tm)(_templateObject251 || (_templateObject251 = absorb_taggedTemplateLiteral(["Infinite Loop"]))), (0,template_string/* $monster */.O4)(_templateObject252 || (_templateObject252 = absorb_taggedTemplateLiteral(["pygmy witch lawyer"])))], [(0,template_string/* $skill */.tm)(_templateObject253 || (_templateObject253 = absorb_taggedTemplateLiteral(["Ire Proof"]))), (0,template_string/* $monster */.O4)(_templateObject254 || (_templateObject254 = absorb_taggedTemplateLiteral(["raging bull"])))], [(0,template_string/* $skill */.tm)(_templateObject255 || (_templateObject255 = absorb_taggedTemplateLiteral(["Nanofur"]))), (0,template_string/* $monster */.O4)(_templateObject256 || (_templateObject256 = absorb_taggedTemplateLiteral(["ratbat"])))], [(0,template_string/* $skill */.tm)(_templateObject257 || (_templateObject257 = absorb_taggedTemplateLiteral(["Procgen Ribaldry"]))), (0,template_string/* $monster */.O4)(_templateObject258 || (_templateObject258 = absorb_taggedTemplateLiteral(["smut orc screwer"])))], [(0,template_string/* $skill */.tm)(_templateObject259 || (_templateObject259 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))), (0,template_string/* $monster */.O4)(_templateObject260 || (_templateObject260 = absorb_taggedTemplateLiteral(["Snow Queen"])))], [(0,template_string/* $skill */.tm)(_templateObject261 || (_templateObject261 = absorb_taggedTemplateLiteral(["Phase Shift"]))), (0,template_string/* $monster */.O4)(_templateObject262 || (_templateObject262 = absorb_taggedTemplateLiteral(["Spectral Jellyfish"])))], [(0,template_string/* $skill */.tm)(_templateObject263 || (_templateObject263 = absorb_taggedTemplateLiteral(["Autovampirism Routines"]))), (0,template_string/* $monster */.O4)(_templateObject264 || (_templateObject264 = absorb_taggedTemplateLiteral(["spooky vampire"])))], [(0,template_string/* $skill */.tm)(_templateObject265 || (_templateObject265 = absorb_taggedTemplateLiteral(["Steam Mycelia"]))), (0,template_string/* $monster */.O4)(_templateObject266 || (_templateObject266 = absorb_taggedTemplateLiteral(["steam elemental"])))], [(0,template_string/* $skill */.tm)(_templateObject267 || (_templateObject267 = absorb_taggedTemplateLiteral(["Gravitational Compression"]))), (0,template_string/* $monster */.O4)(_templateObject268 || (_templateObject268 = absorb_taggedTemplateLiteral(["suckubus"])))], [(0,template_string/* $skill */.tm)(_templateObject269 || (_templateObject269 = absorb_taggedTemplateLiteral(["Grey Noise"]))), (0,template_string/* $monster */.O4)(_templateObject270 || (_templateObject270 = absorb_taggedTemplateLiteral(["Boss Bat"])))], [(0,template_string/* $skill */.tm)(_templateObject271 || (_templateObject271 = absorb_taggedTemplateLiteral(["Anti-Sleaze Recursion"]))), (0,template_string/* $monster */.O4)(_templateObject272 || (_templateObject272 = absorb_taggedTemplateLiteral(["werecougar"])))], [(0,template_string/* $skill */.tm)(_templateObject273 || (_templateObject273 = absorb_taggedTemplateLiteral(["Piezoelectric Honk"]))), (0,template_string/* $monster */.O4)(_templateObject274 || (_templateObject274 = absorb_taggedTemplateLiteral(["white lion"])))]]);
-var usefulMonsters = new Set([].concat(absorb_toConsumableArray(reprocessTargets), absorb_toConsumableArray(usefulSkills.values())));
-
-function monstersAt(location) {
-  var result = Object.entries((0,external_kolmafia_.appearanceRates)(location)).filter(i => i[1] !== -2) // Avoid impossible monsters
-  .map(i => external_kolmafia_.Monster.get(i[0]));
-  return result;
-}
-
-var AbsorbState = /*#__PURE__*/function () {
-  function AbsorbState() {
-    absorb_classCallCheck(this, AbsorbState);
-
-    absorb_defineProperty(this, "absorbed", new Set());
-
-    absorb_defineProperty(this, "reprocessed", new Set());
-
-    absorb_defineProperty(this, "ignored", new Set());
-
-    var charsheet = (0,external_kolmafia_.visitUrl)("charsheet.php");
-    var match; // Mark down all absorbed monsters that didn't give skills
-
-    var monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
-
-    do {
-      match = monster_regex.exec(charsheet);
-
-      if (match) {
-        var name = match[1].replace(/^a /g, "").replace(/^an /g, "").replace(/^some /g, "").replace(/^the /g, "").replace(/^The /g, "");
-        this.absorbed.add(external_kolmafia_.Monster.get(name));
-      }
-    } while (match); // Mark down all absorbed monsters that gave skills
-
-
-    var skill_regex = new RegExp(/<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g);
-
-    do {
-      match = skill_regex.exec(charsheet);
-
-      if (match) {
-        var monster = usefulSkills.get(external_kolmafia_.Skill.get(match[1]));
-        if (monster === undefined) continue;
-        this.absorbed.add(monster);
-      }
-    } while (match); // Mark down all monsters that we have reprocessed
-
-
-    (0,property/* get */.U2)("gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_.Monster.get(id)).map(monster => this.reprocessed.add(monster)); // Ignore the elemental skills that are not useful for the tower
-
-    var ignored_skills = new Set();
-    var needed_elem_skills = {
-      hot: (0,template_string/* $skills */.nx)(_templateObject275 || (_templateObject275 = absorb_taggedTemplateLiteral(["Microburner, Infernal Automata, Steam Mycelia"]))),
-      cold: (0,template_string/* $skills */.nx)(_templateObject276 || (_templateObject276 = absorb_taggedTemplateLiteral(["Cryocurrency, Cooling Tubules, Snow-Cooling System"]))),
-      spooky: (0,template_string/* $skills */.nx)(_templateObject277 || (_templateObject277 = absorb_taggedTemplateLiteral(["Curses Library, Ominous Substrate, Legacy Code"]))),
-      stench: (0,template_string/* $skills */.nx)(_templateObject278 || (_templateObject278 = absorb_taggedTemplateLiteral(["Exhaust Tubules, Secondary Fermentation, AUTOEXEC.BAT"]))),
-      sleaze: (0,template_string/* $skills */.nx)(_templateObject279 || (_templateObject279 = absorb_taggedTemplateLiteral(["Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry"])))
-    };
-
-    for (var _elem in needed_elem_skills) {
-      if ((0,property/* get */.U2)("nsChallenge2") !== _elem) {
-        var _iterator2 = absorb_createForOfIteratorHelper(needed_elem_skills[_elem]),
-            _step2;
-
-        try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var unneeded_skill = _step2.value;
-            ignored_skills.add(unneeded_skill);
-          }
-        } catch (err) {
-          _iterator2.e(err);
-        } finally {
-          _iterator2.f();
-        }
-      }
-    } // No need for resistance skills if we already have enough
-
-
-    var res_skills = (0,template_string/* $skills */.nx)(_templateObject280 || (_templateObject280 = absorb_taggedTemplateLiteral(["Ire Proof, Nanofur, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Clammy Microcilia, Lubricant Layer"])));
-
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject281 || (_templateObject281 = absorb_taggedTemplateLiteral(["ice crown"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject282 || (_templateObject282 = absorb_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))))) {
-      var _iterator3 = absorb_createForOfIteratorHelper(res_skills),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var skill = _step3.value;
-          ignored_skills.add(skill);
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
-    } // We need a single +cold dmg source for orcs
-
-
-    if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject283 || (_templateObject283 = absorb_taggedTemplateLiteral(["frozen jeans"])))) && !(0,lib/* have */.lf)((0,template_string/* $skill */.tm)(_templateObject284 || (_templateObject284 = absorb_taggedTemplateLiteral(["Cryocurrency"])))) && !(0,lib/* have */.lf)((0,template_string/* $skill */.tm)(_templateObject285 || (_templateObject285 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))))) {
-      ignored_skills.delete((0,template_string/* $skill */.tm)(_templateObject286 || (_templateObject286 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))));
-    }
-
-    var _iterator4 = absorb_createForOfIteratorHelper(ignored_skills),
-        _step4;
-
-    try {
-      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-        var _skill = _step4.value;
-
-        var _monster2 = usefulSkills.get(_skill);
-
-        if (_monster2 === undefined) continue;
-        this.ignored.add(_monster2);
-      } // Ignore skills after the NS is defeated
-
-    } catch (err) {
-      _iterator4.e(err);
-    } finally {
-      _iterator4.f();
-    }
-
-    if (step("questL13Final") > 11) {
-      var _iterator5 = absorb_createForOfIteratorHelper(usefulSkills.values()),
-          _step5;
-
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _monster = _step5.value;
-          this.ignored.add(_monster);
-        }
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
-      }
-    } // Don't bother to chase the ice house banished monster
-
-
-    var icehouse = (0,lib/* getBanishedMonsters */.$c)().get((0,template_string/* $item */.xr)(_templateObject287 || (_templateObject287 = absorb_taggedTemplateLiteral(["ice house"]))));
-    if (icehouse !== undefined) this.ignored.add(icehouse);
-  }
-
-  absorb_createClass(AbsorbState, [{
-    key: "remainingReprocess",
-    value: function remainingReprocess(location) {
-      // Return all remaining desired and unreprocessed monsters, in this location or everywhere
-      if (!location) {
-        return absorb_toConsumableArray(reprocessTargets).filter(monster => !this.reprocessed.has(monster) && !this.ignored.has(monster));
-      }
-
-      return monstersAt(location).filter(monster => this.isReprocessTarget(monster));
-    }
-  }, {
-    key: "remainingAbsorbs",
-    value: function remainingAbsorbs(location) {
-      // Return all remaining desired and unabsorbed monsters, in this location or everywhere
-      if (!location) {
-        return absorb_toConsumableArray(usefulMonsters).filter(monster => !this.absorbed.has(monster) && !this.ignored.has(monster));
-      }
-
-      return monstersAt(location).filter(monster => this.isTarget(monster));
-    }
-  }, {
-    key: "hasTargets",
-    value: function hasTargets(location) {
-      // Return true if the location has at least one desired unabsorbed monster
-      return this.remainingAbsorbs(location).length > 0;
-    }
-  }, {
-    key: "hasReprocessTargets",
-    value: function hasReprocessTargets(location) {
-      // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
-      return this.remainingReprocess(location).length > 0;
-    }
-  }, {
-    key: "isTarget",
-    value: function isTarget(monster) {
-      // Return true if the monster is desired and unabsorbed
-      return usefulMonsters.has(monster) && !this.absorbed.has(monster) && !this.ignored.has(monster);
-    }
-  }, {
-    key: "isReprocessTarget",
-    value: function isReprocessTarget(monster) {
-      // Return true if the monster is desired and unreprocessed
-      return reprocessTargets.has(monster) && !this.reprocessed.has(monster) && !this.ignored.has(monster);
-    }
-  }]);
-
-  return AbsorbState;
-}();
-var AbsorbQuest = {
-  name: "Absorb",
-  tasks: [].concat(absorb_toConsumableArray(absorbTasks.map(task => {
-    var _task$combat;
-
-    var result = _objectSpread(_objectSpread({
-      name: task.do.toString(),
-      completed: state => !state.absorb.hasTargets(task.do)
-    }, task), {}, {
-      after: task.skill ? [].concat(absorb_toConsumableArray(task.after), [task.skill.name]) : task.after,
-      combat: ((_task$combat = task.combat) !== null && _task$combat !== void 0 ? _task$combat : new src_combat.CombatStrategy()).ignore(),
-      // killing targetting monsters is set in the engine
-      limit: {
-        soft: 25
-      }
-    });
-
-    if (result.outfit === undefined) result.outfit = {
-      equip: (0,template_string/* $items */.vS)(_templateObject288 || (_templateObject288 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-    };
-    return result;
-  })), absorb_toConsumableArray(absorbTasks.filter(task => task.skill !== undefined).map(task => {
-    var _task$skill$name, _task$skill, _task$combat2;
-
-    var result = _objectSpread(_objectSpread({
-      name: (_task$skill$name = (_task$skill = task.skill) === null || _task$skill === void 0 ? void 0 : _task$skill.name) !== null && _task$skill$name !== void 0 ? _task$skill$name : "",
-      completed: () => {
-        var _task$skill2;
-
-        return (0,lib/* have */.lf)((_task$skill2 = task.skill) !== null && _task$skill2 !== void 0 ? _task$skill2 : (0,template_string/* $skill */.tm)(_templateObject289 || (_templateObject289 = absorb_taggedTemplateLiteral(["none"]))));
-      }
-    }, task), {}, {
-      combat: ((_task$combat2 = task.combat) !== null && _task$combat2 !== void 0 ? _task$combat2 : new src_combat.CombatStrategy()).ignore(),
-      // killing targetting monsters is set in the engine
-      limit: {
-        soft: 25
-      }
-    });
-
-    if (result.outfit === undefined) result.outfit = {
-      equip: (0,template_string/* $items */.vS)(_templateObject290 || (_templateObject290 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-    };
-    return result;
-  })), [{
-    // Add a last task for routing
-    name: "All",
-    after: absorbTasks.map(task => task.do.toString()),
-    ready: () => false,
-    completed: () => true,
-    do: () => {
-      throw "Unable to absorb all target monsters";
-    },
-    limit: {
-      tries: 1
-    },
-    freeaction: true
-  }])
-};
-var ReprocessQuest = {
-  name: "Reprocess",
-  tasks: [].concat(absorb_toConsumableArray(absorbTasks.map(task => {
-    var _task$combat3;
-
-    var result = _objectSpread(_objectSpread({
-      name: task.do.toString(),
-      completed: state => !state.absorb.hasReprocessTargets(task.do)
-    }, task), {}, {
-      after: [].concat(absorb_toConsumableArray(task.after), ["Absorb/".concat(task.do.toString())]),
-      ready: state => (task.ready === undefined || task.ready(state)) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(_templateObject291 || (_templateObject291 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
-      combat: ((_task$combat3 = task.combat) !== null && _task$combat3 !== void 0 ? _task$combat3 : new src_combat.CombatStrategy()).ignore(),
-      // killing targetting monsters is set in the engine
-      limit: {
-        soft: 25
-      }
-    });
-
-    if (result.outfit === undefined) result.outfit = {
-      equip: (0,template_string/* $items */.vS)(_templateObject292 || (_templateObject292 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
-    };
-    return result;
-  })), [{
-    // Add a last task for routing
-    name: "All",
-    after: absorbTasks.map(task => task.do.toString()),
-    ready: () => false,
-    completed: () => true,
-    do: () => {
-      throw "Unable to reprocess all target monsters";
-    },
-    limit: {
-      tries: 1
-    },
-    freeaction: true
-  }])
-};
-;// CONCATENATED MODULE: ./src/state.ts
-function state_slicedToArray(arr, i) { return state_arrayWithHoles(arr) || state_iterableToArrayLimit(arr, i) || state_unsupportedIterableToArray(arr, i) || state_nonIterableRest(); }
-
-function state_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function state_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return state_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return state_arrayLikeToArray(o, minLen); }
-
-function state_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function state_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function state_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function state_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function state_createClass(Constructor, protoProps, staticProps) { if (protoProps) state_defineProperties(Constructor.prototype, protoProps); if (staticProps) state_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function state_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function state_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-var GameState = /*#__PURE__*/state_createClass(function GameState() {
-  state_classCallCheck(this, GameState);
-
-  state_defineProperty(this, "banishes", void 0);
-
-  state_defineProperty(this, "absorb", void 0);
-
-  state_defineProperty(this, "orb", void 0);
-
-  this.banishes = new BanishState();
-  this.absorb = new AbsorbState();
-  this.orb = new OrbState();
-});
-
-var OrbState = /*#__PURE__*/function () {
-  function OrbState() {
-    state_classCallCheck(this, OrbState);
-
-    state_defineProperty(this, "predictions", void 0);
-
-    (0,external_kolmafia_.visitUrl)("inventory.php?ponder=1", false);
-    this.predictions = new Map((0,property/* get */.U2)("crystalBallPredictions").split("|").map(element => element.split(":")).map(_ref => {
-      var _ref2 = state_slicedToArray(_ref, 3),
-          location = _ref2[1],
-          monster = _ref2[2];
-
-      return [(0,external_kolmafia_.toLocation)(location), (0,external_kolmafia_.toMonster)(monster)];
-    }));
-  }
-
-  state_createClass(OrbState, [{
-    key: "prediction",
-    value: function prediction(loc) {
-      return this.predictions.get(loc);
-    }
-  }]);
-
-  return OrbState;
-}();
 ;// CONCATENATED MODULE: ./src/tasks/level13.ts
 var level13_templateObject, level13_templateObject2, level13_templateObject3, level13_templateObject4, level13_templateObject5, level13_templateObject6, level13_templateObject7, level13_templateObject8, level13_templateObject9, level13_templateObject10, level13_templateObject11, level13_templateObject12, level13_templateObject13, level13_templateObject14, level13_templateObject15, level13_templateObject16, level13_templateObject17, level13_templateObject18, level13_templateObject19, level13_templateObject20, level13_templateObject21, level13_templateObject22, level13_templateObject23, level13_templateObject24, level13_templateObject25, level13_templateObject26, level13_templateObject27, level13_templateObject28, level13_templateObject29, level13_templateObject30, level13_templateObject31, level13_templateObject32, level13_templateObject33, level13_templateObject34, level13_templateObject35, level13_templateObject36, level13_templateObject37, level13_templateObject38, level13_templateObject39, level13_templateObject40, level13_templateObject41, level13_templateObject42, level13_templateObject43, level13_templateObject44, level13_templateObject45, level13_templateObject46, level13_templateObject47, level13_templateObject48, level13_templateObject49, level13_templateObject50, level13_templateObject51, level13_templateObject52, level13_templateObject53, level13_templateObject54, level13_templateObject55, level13_templateObject56, level13_templateObject57, level13_templateObject58, level13_templateObject59, level13_templateObject60, level13_templateObject61, level13_templateObject62, level13_templateObject63, level13_templateObject64, level13_templateObject65, level13_templateObject66, level13_templateObject67, level13_templateObject68, level13_templateObject69, level13_templateObject70, level13_templateObject71, level13_templateObject72, level13_templateObject73, level13_templateObject74, level13_templateObject75, level13_templateObject76, level13_templateObject77, level13_templateObject78, level13_templateObject79, level13_templateObject80, level13_templateObject81;
 
 function level13_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-
 
 
 
@@ -8920,24 +7704,6 @@ var TowerQuest = {
     limit: {
       tries: 1
     }
-  }, {
-    name: "Finish",
-    after: ["Naughty Sorceress"],
-    priority: () => OverridePriority.Last,
-    completed: () => step("questL13Final") === 999 || args["class"] === 0 || (0,external_kolmafia_.myPath)() !== "Grey You",
-    do: () => {
-      var state = new GameState();
-      (0,external_kolmafia_.print)("   Monsters remaining: ".concat(Array.from(state.absorb.remainingAbsorbs()).join(", ")), "purple");
-      (0,external_kolmafia_.print)("   Reprocess remaining: ".concat(Array.from(state.absorb.remainingReprocess()).join(", ")), "purple");
-      (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_11_prism");
-      (0,external_kolmafia_.visitUrl)("main.php");
-      (0,external_kolmafia_.runChoice)(args["class"]);
-      (0,external_kolmafia_.runChoice)(args["class"]);
-    },
-    limit: {
-      tries: 1
-    },
-    freeaction: true
   }])
 };
 function fillHp() {
@@ -11941,12 +10707,194 @@ var Requirement = /*#__PURE__*/function () {
 
   return Requirement;
 }();
+;// CONCATENATED MODULE: ./src/resources.ts
+var resources_templateObject, resources_templateObject2, resources_templateObject3, resources_templateObject4, resources_templateObject5, resources_templateObject6, resources_templateObject7, resources_templateObject8, resources_templateObject9, resources_templateObject10, resources_templateObject11, resources_templateObject12, resources_templateObject13, resources_templateObject14, resources_templateObject15, resources_templateObject16, resources_templateObject17, resources_templateObject18, resources_templateObject19, resources_templateObject20, resources_templateObject21, resources_templateObject22, resources_templateObject23, resources_templateObject24, resources_templateObject25, resources_templateObject26, resources_templateObject27, resources_templateObject28, resources_templateObject29, resources_templateObject30, resources_templateObject31, resources_templateObject32, resources_templateObject33, resources_templateObject34;
+
+function resources_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = resources_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function resources_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return resources_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return resources_arrayLikeToArray(o, minLen); }
+
+function resources_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function resources_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function resources_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function resources_createClass(Constructor, protoProps, staticProps) { if (protoProps) resources_defineProperties(Constructor.prototype, protoProps); if (staticProps) resources_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function resources_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function resources_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+var banishSources = [{
+  name: "Bowl Curveball",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject || (resources_templateObject = resources_taggedTemplateLiteral(["cosmic bowling ball"])))),
+  do: (0,template_string/* $skill */.tm)(resources_templateObject2 || (resources_templateObject2 = resources_taggedTemplateLiteral(["Bowl a Curveball"])))
+}, {
+  name: "System Sweep",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(resources_templateObject3 || (resources_templateObject3 = resources_taggedTemplateLiteral(["System Sweep"])))),
+  do: (0,template_string/* $skill */.tm)(resources_templateObject4 || (resources_templateObject4 = resources_taggedTemplateLiteral(["System Sweep"])))
+}, {
+  name: "Latte",
+  available: () => (!(0,property/* get */.U2)("_latteBanishUsed") || (0,property/* get */.U2)("_latteRefillsUsed") < 2) && // Save one refil for aftercore
+  (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject5 || (resources_templateObject5 = resources_taggedTemplateLiteral(["latte lovers member's mug"])))),
+  prepare: () => {
+    if ((0,property/* get */.U2)("_latteBanishUsed")) {
+      var modifiers = [];
+      if ((0,property/* get */.U2)("latteUnlocks").includes("wing")) modifiers.push("wing");
+      if ((0,property/* get */.U2)("latteUnlocks").includes("cajun")) modifiers.push("cajun");
+      modifiers.push("cinnamon", "pumpkin", "vanilla");
+      (0,external_kolmafia_.cliExecute)("latte refill ".concat(modifiers.slice(0, 3).join(" "))); // Always unlocked
+    }
+  },
+  do: (0,template_string/* $skill */.tm)(resources_templateObject6 || (resources_templateObject6 = resources_taggedTemplateLiteral(["Throw Latte on Opponent"]))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject7 || (resources_templateObject7 = resources_taggedTemplateLiteral(["latte lovers member's mug"])))
+}, {
+  name: "Reflex Hammer",
+  available: () => (0,property/* get */.U2)("_reflexHammerUsed") < 3 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject8 || (resources_templateObject8 = resources_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))),
+  do: (0,template_string/* $skill */.tm)(resources_templateObject9 || (resources_templateObject9 = resources_taggedTemplateLiteral(["Reflex Hammer"]))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject10 || (resources_templateObject10 = resources_taggedTemplateLiteral(["Lil' Doctor\u2122 bag"])))
+}, {
+  name: "KGB dart",
+  available: () => (0,property/* get */.U2)("_kgbTranquilizerDartUses") < 3 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject11 || (resources_templateObject11 = resources_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))),
+  do: (0,template_string/* $skill */.tm)(resources_templateObject12 || (resources_templateObject12 = resources_taggedTemplateLiteral(["KGB tranquilizer dart"]))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject13 || (resources_templateObject13 = resources_taggedTemplateLiteral(["Kremlin's Greatest Briefcase"])))
+}, {
+  name: "Middle Finger",
+  available: () => !(0,property/* get */.U2)("_mafiaMiddleFingerRingUsed") && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject14 || (resources_templateObject14 = resources_taggedTemplateLiteral(["mafia middle finger ring"])))),
+  do: (0,template_string/* $skill */.tm)(resources_templateObject15 || (resources_templateObject15 = resources_taggedTemplateLiteral(["Show them your ring"]))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject16 || (resources_templateObject16 = resources_taggedTemplateLiteral(["mafia middle finger ring"])))
+}];
+var BanishState = /*#__PURE__*/function () {
+  function BanishState() {
+    resources_classCallCheck(this, BanishState);
+
+    resources_defineProperty(this, "already_banished", void 0);
+
+    this.already_banished = new Map(Array.from((0,lib/* getBanishedMonsters */.$c)(), entry => [entry[1], entry[0]]));
+  } // Return true if some of the monsters in the task are banished
+
+
+  resources_createClass(BanishState, [{
+    key: "isPartiallyBanished",
+    value: function isPartiallyBanished(task) {
+      var _task$combat, _task$combat$where;
+
+      return ((_task$combat = task.combat) === null || _task$combat === void 0 ? void 0 : (_task$combat$where = _task$combat.where(src_combat.MonsterStrategy.Banish)) === null || _task$combat$where === void 0 ? void 0 : _task$combat$where.find(monster => this.already_banished.has(monster) && this.already_banished.get(monster) !== (0,template_string/* $item */.xr)(resources_templateObject17 || (resources_templateObject17 = resources_taggedTemplateLiteral(["ice house"]))))) !== undefined;
+    } // Return true if all requested monsters in the task are banished
+
+  }, {
+    key: "isFullyBanished",
+    value: function isFullyBanished(task) {
+      var _task$combat2, _task$combat2$where;
+
+      return ((_task$combat2 = task.combat) === null || _task$combat2 === void 0 ? void 0 : (_task$combat2$where = _task$combat2.where(src_combat.MonsterStrategy.Banish)) === null || _task$combat2$where === void 0 ? void 0 : _task$combat2$where.find(monster => !this.already_banished.has(monster))) === undefined;
+    } // Return a list of all banishes not allocated to some available task
+
+  }, {
+    key: "unusedBanishes",
+    value: function unusedBanishes(tasks) {
+      var used_banishes = new Set();
+
+      var _iterator = resources_createForOfIteratorHelper(tasks),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var task = _step.value;
+          if (task.combat === undefined) continue;
+
+          var _iterator2 = resources_createForOfIteratorHelper(task.combat.where(src_combat.MonsterStrategy.Banish)),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var monster = _step2.value;
+              var banished_with = this.already_banished.get(monster);
+              if (banished_with !== undefined) used_banishes.add(banished_with);
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return banishSources.filter(banish => banish.available() && !used_banishes.has(banish.do));
+    }
+  }]);
+
+  return BanishState;
+}();
+var wandererSources = [{
+  name: "Voted",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject18 || (resources_templateObject18 = resources_taggedTemplateLiteral(["\"I Voted!\" sticker"])))) && (0,external_kolmafia_.totalTurnsPlayed)() % 11 === 1 && (0,property/* get */.U2)("lastVoteMonsterTurn") < (0,external_kolmafia_.totalTurnsPlayed)() && (0,property/* get */.U2)("_voteFreeFights") < 3 && atLevel(5),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject19 || (resources_templateObject19 = resources_taggedTemplateLiteral(["\"I Voted!\" sticker"]))),
+  monster: "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+  chance: () => 1 // when available
+
+}, {
+  name: "Cursed Magnifying Glass",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject20 || (resources_templateObject20 = resources_taggedTemplateLiteral(["cursed magnifying glass"])))) && (0,property/* get */.U2)("_voidFreeFights") < 5 && (0,property/* get */.U2)("cursedMagnifyingGlassCount") >= 13 && ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(resources_templateObject21 || (resources_templateObject21 = resources_taggedTemplateLiteral(["barrel of gunpowder"])))) >= 5 || // Done with cmg + meteor trick
+  (0,property/* get */.U2)("sidequestLighthouseCompleted") !== "none"),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject22 || (resources_templateObject22 = resources_taggedTemplateLiteral(["cursed magnifying glass"]))),
+  monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
+  chance: () => 1 // when available
+
+}, {
+  name: "Kramco",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject23 || (resources_templateObject23 = resources_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) && atLevel(5),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject24 || (resources_templateObject24 = resources_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"]))),
+  monster: (0,template_string/* $monster */.O4)(resources_templateObject25 || (resources_templateObject25 = resources_taggedTemplateLiteral(["sausage goblin"]))),
+  chance: () => (0,lib/* getKramcoWandererChance */.ve)()
+}];
+function canChargeVoid() {
+  return (0,property/* get */.U2)("_voidFreeFights") < 5 && (0,property/* get */.U2)("cursedMagnifyingGlassCount") < 13;
+}
+var runawayValue = (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject26 || (resources_templateObject26 = resources_taggedTemplateLiteral(["Greatest American Pants"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject27 || (resources_templateObject27 = resources_taggedTemplateLiteral(["navel ring of navel gazing"])))) ? 0.8 * (0,property/* get */.U2)("valueOfAdventure") : (0,property/* get */.U2)("valueOfAdventure");
+var runawaySources = [{
+  name: "Bowl Curveball",
+  available: () => false,
+  do: new dist_combat/* Macro */.LE().skill((0,template_string/* $skill */.tm)(resources_templateObject28 || (resources_templateObject28 = resources_taggedTemplateLiteral(["Bowl a Curveball"])))),
+  chance: () => 1,
+  banishes: true
+}, {
+  name: "GAP",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject29 || (resources_templateObject29 = resources_taggedTemplateLiteral(["Greatest American Pants"])))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject30 || (resources_templateObject30 = resources_taggedTemplateLiteral(["Greatest American Pants"]))),
+  do: new dist_combat/* Macro */.LE().runaway(),
+  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
+  banishes: false
+}, {
+  name: "Navel Ring",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject31 || (resources_templateObject31 = resources_taggedTemplateLiteral(["navel ring of navel gazing"])))),
+  equip: (0,template_string/* $item */.xr)(resources_templateObject32 || (resources_templateObject32 = resources_taggedTemplateLiteral(["navel ring of navel gazing"]))),
+  do: new dist_combat/* Macro */.LE().runaway(),
+  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
+  banishes: false
+}, {
+  name: "Peppermint Parasol",
+  available: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(resources_templateObject33 || (resources_templateObject33 = resources_taggedTemplateLiteral(["peppermint parasol"])))),
+  do: new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(resources_templateObject34 || (resources_templateObject34 = resources_taggedTemplateLiteral(["peppermint parasol"])))),
+  chance: () => (0,property/* get */.U2)("_navelRunaways") < 3 ? 1 : 0.2,
+  banishes: false
+}];
+var freekillSources = [];
 ;// CONCATENATED MODULE: ./src/tasks/keys.ts
 var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_templateObject69, keys_CombatStrategy, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_templateObject76, keys_templateObject77, keys_templateObject78;
 
-function keys_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function keys_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? keys_ownKeys(Object(source), !0).forEach(function (key) { keys_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : keys_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { keys_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function keys_toConsumableArray(arr) { return keys_arrayWithoutHoles(arr) || keys_iterableToArray(arr) || keys_unsupportedIterableToArray(arr) || keys_nonIterableSpread(); }
 
@@ -12211,7 +11159,7 @@ var keyStrategy = new KeyStrategy(heroKeys);
 var KeysQuest = {
   name: "Keys",
   tasks: [].concat(keys_toConsumableArray(keyStrategy.tasks.map(task => {
-    return keys_objectSpread(keys_objectSpread({}, task), {}, {
+    return _objectSpread(_objectSpread({}, task), {}, {
       name: task.which,
       completed: state => task.completed(state) || keyStrategy.plan.get(task.which) === KeyState.DONE || keyStrategy.plan.get(task.which) === KeyState.UNNEEDED || keyStrategy.plan.get(task.which) === KeyState.IMPOSSIBLE,
       ready: state => (task.ready === undefined || task.ready(state)) && keyStrategy.plan.get(task.which) === KeyState.READY
@@ -12743,6 +11691,1038 @@ var Outfit = /*#__PURE__*/function () {
   }]);
 
   return Outfit;
+}();
+;// CONCATENATED MODULE: ./src/tasks/absorb.ts
+var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, absorb_templateObject104, absorb_templateObject105, absorb_templateObject106, absorb_templateObject107, absorb_templateObject108, absorb_templateObject109, absorb_templateObject110, absorb_templateObject111, absorb_templateObject112, absorb_templateObject113, absorb_templateObject114, absorb_templateObject115, absorb_templateObject116, absorb_templateObject117, absorb_templateObject118, absorb_templateObject119, absorb_templateObject120, absorb_templateObject121, absorb_templateObject122, absorb_templateObject123, absorb_templateObject124, absorb_templateObject125, absorb_templateObject126, absorb_templateObject127, absorb_templateObject128, absorb_templateObject129, absorb_templateObject130, absorb_templateObject131, absorb_templateObject132, absorb_templateObject133, absorb_templateObject134, absorb_templateObject135, absorb_templateObject136, absorb_templateObject137, absorb_templateObject138, absorb_templateObject139, absorb_templateObject140, absorb_templateObject141, absorb_templateObject142, absorb_templateObject143, absorb_templateObject144, absorb_templateObject145, absorb_templateObject146, absorb_templateObject147, absorb_templateObject148, absorb_templateObject149, absorb_templateObject150, absorb_templateObject151, absorb_templateObject152, absorb_templateObject153, absorb_templateObject154, absorb_templateObject155, absorb_templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292;
+
+function absorb_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function absorb_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? absorb_ownKeys(Object(source), !0).forEach(function (key) { absorb_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : absorb_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function absorb_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function absorb_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function absorb_createClass(Constructor, protoProps, staticProps) { if (protoProps) absorb_defineProperties(Constructor.prototype, protoProps); if (staticProps) absorb_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function absorb_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function absorb_toConsumableArray(arr) { return absorb_arrayWithoutHoles(arr) || absorb_iterableToArray(arr) || absorb_unsupportedIterableToArray(arr) || absorb_nonIterableSpread(); }
+
+function absorb_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function absorb_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function absorb_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return absorb_arrayLikeToArray(arr); }
+
+function absorb_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = absorb_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function absorb_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return absorb_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return absorb_arrayLikeToArray(o, minLen); }
+
+function absorb_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function absorb_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+
+ // Add a shorthand for expressing absorption-only tasks; there are a lot.
+
+// A list of all locations that might have important monsters
+// Roughly in order of unlock in a basic run
+var absorbTasks = [// Level 2
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject || (absorb_templateObject = absorb_taggedTemplateLiteral(["The Spooky Forest"]))),
+  after: ["Hidden City/Open Temple"],
+  choices: {
+    502: 2,
+    505: 2,
+    334: 1
+  }
+}, // Level 3
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject2 || (absorb_templateObject2 = absorb_taggedTemplateLiteral(["A Barroom Brawl"]))),
+  after: ["Tavern/Start"]
+}, // Level 4
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject3 || (absorb_templateObject3 = absorb_taggedTemplateLiteral(["The Bat Hole Entrance"]))),
+  after: ["Bat/Start"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject4 || (absorb_templateObject4 = absorb_taggedTemplateLiteral(["Guano Junction"]))),
+  after: ["Bat/Get Sonar 3"],
+  choices: {
+    1427: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject5 || (absorb_templateObject5 = absorb_taggedTemplateLiteral(["The Batrat and Ratbat Burrow"]))),
+  after: ["Bat/Use Sonar 1", "Palindome/Bat Snake"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject6 || (absorb_templateObject6 = absorb_taggedTemplateLiteral(["The Beanbat Chamber"]))),
+  after: ["Bat/Use Sonar 2", "Giant/Grow Beanstalk"]
+}, // Level 5
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject7 || (absorb_templateObject7 = absorb_taggedTemplateLiteral(["The Outskirts of Cobb's Knob"]))),
+  after: ["Knob/Open Knob"],
+  choices: {
+    111: 3,
+    113: 2,
+    118: 1
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject8 || (absorb_templateObject8 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject9 || (absorb_templateObject9 = absorb_taggedTemplateLiteral(["Cobb's Knob Kitchens"]))),
+  after: ["Knob/Open Knob"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject10 || (absorb_templateObject10 = absorb_taggedTemplateLiteral(["Cobb's Knob Barracks"]))),
+  after: ["Knob/Open Knob"],
+  choices: {
+    522: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject11 || (absorb_templateObject11 = absorb_taggedTemplateLiteral(["Cobb's Knob Harem"]))),
+  after: ["Knob/King"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject12 || (absorb_templateObject12 = absorb_taggedTemplateLiteral(["Cobb's Knob Treasury"]))),
+  after: ["Knob/Open Knob"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject13 || (absorb_templateObject13 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject14 || (absorb_templateObject14 = absorb_taggedTemplateLiteral(["Cobb's Knob Laboratory"]))),
+  after: ["Knob/King"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject15 || (absorb_templateObject15 = absorb_taggedTemplateLiteral(["The Knob Shaft"]))),
+  after: ["Knob/King"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject16 || (absorb_templateObject16 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject17 || (absorb_templateObject17 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 1"]))),
+  after: ["Knob/Open Menagerie"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject18 || (absorb_templateObject18 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 2"]))),
+  after: ["Knob/Open Menagerie"],
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject19 || (absorb_templateObject19 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"])))
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject20 || (absorb_templateObject20 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 3"]))),
+  after: ["Knob/Open Menagerie"],
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject21 || (absorb_templateObject21 = absorb_taggedTemplateLiteral(["Phase Shift"])))
+}, // Level 6
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject22 || (absorb_templateObject22 = absorb_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
+  after: ["Friar/Heart"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject23 || (absorb_templateObject23 = absorb_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
+  after: ["Friar/Neck"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject24 || (absorb_templateObject24 = absorb_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
+  after: ["Friar/Elbow"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject25 || (absorb_templateObject25 = absorb_taggedTemplateLiteral(["Pandamonium Slums"]))),
+  prepare: () => {
+    if (step("questM10Azazel") === -1) {
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
+    }
+  },
+  after: ["Friar/Finish"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject26 || (absorb_templateObject26 = absorb_taggedTemplateLiteral(["The Laugh Floor"]))),
+  prepare: () => {
+    if (step("questM10Azazel") === -1) {
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
+    }
+  },
+  after: ["Friar/Finish"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject27 || (absorb_templateObject27 = absorb_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
+  prepare: () => {
+    if (step("questM10Azazel") === -1) {
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=temp");
+      (0,external_kolmafia_.visitUrl)("pandamonium.php?action=sven");
+    }
+  },
+  after: ["Friar/Finish"],
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject28 || (absorb_templateObject28 = absorb_taggedTemplateLiteral(["Gravitational Compression"])))
+}, // Level 7
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject29 || (absorb_templateObject29 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"]))),
+  after: ["Crypt/Start", "Crypt/Finish"]
+}, // Level 8
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject30 || (absorb_templateObject30 = absorb_taggedTemplateLiteral(["Itznotyerzitz Mine"]))),
+  after: ["McLargeHuge/Trapper Request"],
+  choices: {
+    18: 3,
+    19: 3,
+    20: 3,
+    556: 2
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject31 || (absorb_templateObject31 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject32 || (absorb_templateObject32 = absorb_taggedTemplateLiteral(["The Goatlet"]))),
+  after: ["McLargeHuge/Goatlet"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject33 || (absorb_templateObject33 = absorb_taggedTemplateLiteral(["Lair of the Ninja Snowmen"]))),
+  after: ["McLargeHuge/Climb", "Palindome/Cold Snake"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject34 || (absorb_templateObject34 = absorb_taggedTemplateLiteral(["The eXtreme Slope"]))),
+  after: ["McLargeHuge/Climb"],
+  choices: {
+    15: 3,
+    16: 3,
+    17: 3,
+    575: 3
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject35 || (absorb_templateObject35 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject36 || (absorb_templateObject36 = absorb_taggedTemplateLiteral(["The Icy Peak"]))),
+  after: ["McLargeHuge/Peak"],
+  outfit: {
+    modifier: "10 cold res 5min, +combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject37 || (absorb_templateObject37 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat(), (0,template_string/* $monster */.O4)(absorb_templateObject38 || (absorb_templateObject38 = absorb_taggedTemplateLiteral(["Snow Queen"]))))
+}, // Level 9
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject39 || (absorb_templateObject39 = absorb_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))),
+  after: ["Orc Chasm/Bridge"],
+  choices: {
+    1345: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject40 || (absorb_templateObject40 = absorb_taggedTemplateLiteral(["A-Boo Peak"]))),
+  after: ["Orc Chasm/ABoo Clues"],
+  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat())
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject41 || (absorb_templateObject41 = absorb_taggedTemplateLiteral(["Twin Peak"]))),
+  after: ["Orc Chasm/Twin Init"],
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject42 || (absorb_templateObject42 = absorb_taggedTemplateLiteral(["Overclocking"])))
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject43 || (absorb_templateObject43 = absorb_taggedTemplateLiteral(["Oil Peak"]))),
+  after: ["Orc Chasm/Oil Peak"],
+  prepare: () => {
+    // Unequip the umbrella if it pushes us over the cap
+    if ((0,external_kolmafia_.equippedAmount)((0,template_string/* $item */.xr)(absorb_templateObject44 || (absorb_templateObject44 = absorb_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0 && (0,property/* get */.U2)("umbrellaState") === "broken" && (0,external_kolmafia_.numericModifier)("Monster Level") >= 80) {
+      (0,external_kolmafia_.equip)((0,template_string/* $slot */.Jh)(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["off-hand"]))), (0,template_string/* $item */.xr)(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["none"]))));
+    } // Unequip items one-by-one until we are below 100 ML
+    // (Always leave the backup camera on)
+
+
+    var _iterator = absorb_createForOfIteratorHelper(external_kolmafia_.Slot.all()),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var slot = _step.value;
+        if ((0,external_kolmafia_.numericModifier)("Monster Level") < 100) break;
+        var item = (0,external_kolmafia_.equippedItem)(slot);
+        if (item === (0,template_string/* $item */.xr)(absorb_templateObject47 || (absorb_templateObject47 = absorb_taggedTemplateLiteral(["none"])))) continue;
+        if ((0,external_kolmafia_.numericModifier)(item, "Monster Level") === 0) continue;
+        if (item === (0,template_string/* $item */.xr)(absorb_templateObject48 || (absorb_templateObject48 = absorb_taggedTemplateLiteral(["backup camera"])))) continue; // Always keep equipped to ensure we can get to 50
+
+        (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(absorb_templateObject49 || (absorb_templateObject49 = absorb_taggedTemplateLiteral(["none"]))));
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    if ((0,external_kolmafia_.numericModifier)("Monster Level") < 50 || (0,external_kolmafia_.numericModifier)("Monster Level") >= 100) throw "Unable to get 50-99 ML for oil barons";
+  },
+  freecombat: true,
+  outfit: {
+    modifier: "ML 50min"
+  },
+  limit: {
+    tries: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject50 || (absorb_templateObject50 = absorb_taggedTemplateLiteral(["The Valley of Rof L'm Fao"]))),
+  after: ["Orc Chasm/Finish"]
+}, // Level 10
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject51 || (absorb_templateObject51 = absorb_taggedTemplateLiteral(["The Penultimate Fantasy Airship"]))),
+  after: ["Giant/Airship"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject52 || (absorb_templateObject52 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    178: 2,
+    182: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject53 || (absorb_templateObject53 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
+  after: ["Giant/Basement Finish"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject54 || (absorb_templateObject54 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    670: 3,
+    669: 1,
+    671: 3
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject55 || (absorb_templateObject55 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Ground Floor)"]))),
+  after: ["Giant/Ground"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject56 || (absorb_templateObject56 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    672: 3,
+    673: 3,
+    674: 3,
+    1026: 3
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject57 || (absorb_templateObject57 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
+  after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject58 || (absorb_templateObject58 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    675: 4,
+    676: 4,
+    677: 4,
+    678: 1,
+    679: 1,
+    1431: 4
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject59 || (absorb_templateObject59 = absorb_taggedTemplateLiteral(["The Hole in the Sky"]))),
+  after: ["Giant/Unlock HITS", "Keys/Star Key"]
+}, // Level 11
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject60 || (absorb_templateObject60 = absorb_taggedTemplateLiteral(["The Black Forest"]))),
+  after: ["Macguffin/Forest"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject61 || (absorb_templateObject61 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    923: 1,
+    924: 1
+  },
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject62 || (absorb_templateObject62 = absorb_taggedTemplateLiteral(["Photonic Shroud"])))
+}, // Level 11: Hidden City
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject63 || (absorb_templateObject63 = absorb_taggedTemplateLiteral(["The Hidden Temple"]))),
+  after: ["Hidden City/Open City"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject64 || (absorb_templateObject64 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    579: () => {
+      return (0,property/* get */.U2)("lastTempleAdventures") === (0,external_kolmafia_.myAscensions)() ? 2 : 1;
+    },
+    580: 3,
+    581: 3
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject65 || (absorb_templateObject65 = absorb_taggedTemplateLiteral(["The Hidden Park"]))),
+  after: ["Hidden City/Open City", "Hidden City/Banish Janitors"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject66 || (absorb_templateObject66 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    789: () => {
+      return (0,property/* get */.U2)("relocatePygmyJanitor") === (0,external_kolmafia_.myAscensions)() ? 2 : 3;
+    }
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject67 || (absorb_templateObject67 = absorb_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
+  after: ["Hidden City/Apartment"],
+  choices: {
+    780: 4
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject68 || (absorb_templateObject68 = absorb_taggedTemplateLiteral(["The Hidden Office Building"]))),
+  after: ["Hidden City/Office Boss"],
+  choices: {
+    786: 4
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject69 || (absorb_templateObject69 = absorb_taggedTemplateLiteral(["The Hidden Hospital"]))),
+  after: ["Hidden City/Hospital"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject70 || (absorb_templateObject70 = absorb_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
+  after: ["Hidden City/Bowling"]
+}, // Level 11: Manor
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject71 || (absorb_templateObject71 = absorb_taggedTemplateLiteral(["The Haunted Pantry"]))),
+  after: [],
+  choices: {
+    114: 2,
+    115: 1,
+    116: 4,
+    117: 1
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject72 || (absorb_templateObject72 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject73 || (absorb_templateObject73 = absorb_taggedTemplateLiteral(["The Haunted Conservatory"]))),
+  after: ["Manor/Start"],
+  choices: {
+    899: 2
+  },
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject74 || (absorb_templateObject74 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"])))
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject75 || (absorb_templateObject75 = absorb_taggedTemplateLiteral(["The Haunted Kitchen"]))),
+  after: ["Manor/Kitchen"],
+  choices: {
+    893: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject76 || (absorb_templateObject76 = absorb_taggedTemplateLiteral(["The Haunted Billiards Room"]))),
+  after: ["Manor/Billiards"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject77 || (absorb_templateObject77 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().attack().repeat(), (0,template_string/* $monster */.O4)(absorb_templateObject78 || (absorb_templateObject78 = absorb_taggedTemplateLiteral(["chalkdust wraith"])))),
+  choices: {
+    900: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject79 || (absorb_templateObject79 = absorb_taggedTemplateLiteral(["The Haunted Library"]))),
+  after: ["Manor/Library"],
+  choices: {
+    163: 4,
+    888: 4,
+    889: 5,
+    894: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject80 || (absorb_templateObject80 = absorb_taggedTemplateLiteral(["The Haunted Gallery"]))),
+  after: ["Manor/Gallery"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject81 || (absorb_templateObject81 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    89: 6,
+    896: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject82 || (absorb_templateObject82 = absorb_taggedTemplateLiteral(["The Haunted Bathroom"]))),
+  after: ["Manor/Bathroom"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject83 || (absorb_templateObject83 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    881: 1,
+    105: 1,
+    892: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject84 || (absorb_templateObject84 = absorb_taggedTemplateLiteral(["The Haunted Bedroom"]))),
+  after: ["Manor/Bedroom"],
+  choices: {
+    876: 1,
+    877: 1,
+    878: 4,
+    879: 1,
+    880: 1,
+    897: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject85 || (absorb_templateObject85 = absorb_taggedTemplateLiteral(["The Haunted Ballroom"]))),
+  after: ["Manor/Ballroom"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject86 || (absorb_templateObject86 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    881: 1,
+    105: 1,
+    892: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject87 || (absorb_templateObject87 = absorb_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
+  after: ["Manor/Wine Cellar"],
+  choices: {
+    901: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject88 || (absorb_templateObject88 = absorb_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
+  after: ["Manor/Laundry Room"],
+  choices: {
+    891: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject89 || (absorb_templateObject89 = absorb_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
+  after: ["Manor/Boiler Room"],
+  choices: {
+    902: 2
+  }
+}, {
+  prepare: () => {
+    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
+  },
+  do: (0,template_string/* $location */.PG)(absorb_templateObject90 || (absorb_templateObject90 = absorb_taggedTemplateLiteral(["The Haunted Storage Room"]))),
+  after: ["Manor/Finish Floor2"],
+  choices: {
+    886: 6,
+    890: 1
+  }
+}, {
+  prepare: () => {
+    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
+  },
+  do: (0,template_string/* $location */.PG)(absorb_templateObject91 || (absorb_templateObject91 = absorb_taggedTemplateLiteral(["The Haunted Nursery"]))),
+  after: ["Manor/Finish Floor2"],
+  choices: {
+    884: 6,
+    898: 2
+  }
+}, {
+  prepare: () => {
+    if (step("questM17Babies") === -1) (0,external_kolmafia_.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
+  },
+  do: (0,template_string/* $location */.PG)(absorb_templateObject92 || (absorb_templateObject92 = absorb_taggedTemplateLiteral(["The Haunted Laboratory"]))),
+  after: ["Manor/Finish Floor2"],
+  choices: {
+    884: 6,
+    903: 2
+  }
+}, // Level 11: Palindome
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject93 || (absorb_templateObject93 = absorb_taggedTemplateLiteral(["The Copperhead Club"]))),
+  after: ["Palindome/Copperhead"],
+  choices: {
+    855: 4
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject94 || (absorb_templateObject94 = absorb_taggedTemplateLiteral(["A Mob of Zeppelin Protesters"]))),
+  after: ["Palindome/Protesters Finish"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject95 || (absorb_templateObject95 = absorb_taggedTemplateLiteral(["The Red Zeppelin"]))),
+  after: ["Palindome/Zepplin"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject96 || (absorb_templateObject96 = absorb_taggedTemplateLiteral(["Inside the Palindome"]))),
+  after: ["Palindome/Palindome Photos"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject97 || (absorb_templateObject97 = absorb_taggedTemplateLiteral(["Talisman o' Namsilat, miniature crystal ball"])))
+  },
+  choices: {
+    2: 2,
+    126: 1,
+    127: 1,
+    180: 2
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject98 || (absorb_templateObject98 = absorb_taggedTemplateLiteral(["Whitey's Grove"]))),
+  after: ["Palindome/Open Alarm"],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject99 || (absorb_templateObject99 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  },
+  choices: {
+    73: 3,
+    74: 2,
+    75: 2
+  }
+}, // Level 11: Pyramid
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject100 || (absorb_templateObject100 = absorb_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
+  after: ["Macguffin/Desert"]
+}, {
+  priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(absorb_templateObject101 || (absorb_templateObject101 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(absorb_templateObject102 || (absorb_templateObject102 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? OverridePriority.Effect : OverridePriority.None,
+  do: (0,template_string/* $location */.PG)(absorb_templateObject103 || (absorb_templateObject103 = absorb_taggedTemplateLiteral(["The Oasis"]))),
+  after: ["Macguffin/Desert"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject104 || (absorb_templateObject104 = absorb_taggedTemplateLiteral(["The Upper Chamber"]))),
+  after: ["Macguffin/Upper Chamber"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject105 || (absorb_templateObject105 = absorb_taggedTemplateLiteral(["The Middle Chamber"]))),
+  after: ["Macguffin/Middle Chamber"]
+}, // Misc areas
+// These are probably only worthwhile with orb
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject106 || (absorb_templateObject106 = absorb_taggedTemplateLiteral(["South of the Border"]))),
+  ready: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject107 || (absorb_templateObject107 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))),
+  after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
+  choices: {
+    4: 3
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject108 || (absorb_templateObject108 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject109 || (absorb_templateObject109 = absorb_taggedTemplateLiteral(["The Unquiet Garves"]))),
+  after: ["Crypt/Start"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject110 || (absorb_templateObject110 = absorb_taggedTemplateLiteral(["The Old Landfill"]))),
+  after: ["Mosquito/Start"],
+  prepare: () => {
+    if (step("questM19Hippy") === -1) {
+      (0,external_kolmafia_.visitUrl)("place.php?whichplace=woods&action=woods_smokesignals");
+      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=798&option=1");
+      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=798&option=2");
+      (0,external_kolmafia_.visitUrl)("woods.php");
+    }
+
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject111 || (absorb_templateObject111 = absorb_taggedTemplateLiteral(["funky junk key"]))))) {
+      (0,external_kolmafia_.putCloset)((0,template_string/* $item */.xr)(absorb_templateObject112 || (absorb_templateObject112 = absorb_taggedTemplateLiteral(["funky junk key"]))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(absorb_templateObject113 || (absorb_templateObject113 = absorb_taggedTemplateLiteral(["funky junk key"])))));
+    }
+  },
+  ready: () => atLevel(6)
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject114 || (absorb_templateObject114 = absorb_taggedTemplateLiteral(["The Skeleton Store"]))),
+  after: [],
+  prepare: () => {
+    if (step("questM23Meatsmith") === -1) {
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=meatsmith");
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=meatsmith&action=talk");
+      (0,external_kolmafia_.runChoice)(1);
+    }
+  },
+  choices: {
+    1060: 1
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject115 || (absorb_templateObject115 = absorb_taggedTemplateLiteral(["The Overgrown Lot"]))),
+  after: [],
+  prepare: () => {
+    if (step("questM24Doc") === -1) {
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=doc");
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=doc&action=talk");
+      (0,external_kolmafia_.runChoice)(1);
+    }
+  },
+  choices: {
+    1062: 3
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject116 || (absorb_templateObject116 = absorb_taggedTemplateLiteral(["Madness Bakery"]))),
+  after: [],
+  prepare: () => {
+    if (step("questM25Armorer") === -1) {
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=armory");
+      (0,external_kolmafia_.visitUrl)("shop.php?whichshop=armory&action=talk");
+      (0,external_kolmafia_.visitUrl)("choice.php?pwd=&whichchoice=1065&option=1");
+    }
+  },
+  choices: {
+    1061: 5
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject117 || (absorb_templateObject117 = absorb_taggedTemplateLiteral(["The Dungeons of Doom"]))),
+  skill: (0,template_string/* $skill */.tm)(absorb_templateObject118 || (absorb_templateObject118 = absorb_taggedTemplateLiteral(["Hivemindedness"]))),
+  after: [],
+  prepare: () => {
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(absorb_templateObject119 || (absorb_templateObject119 = absorb_taggedTemplateLiteral(["plus sign"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(absorb_templateObject120 || (absorb_templateObject120 = absorb_taggedTemplateLiteral(["plus sign"]))));
+  },
+  ready: () => (0,property/* get */.U2)("lastPlusSignUnlock") === (0,external_kolmafia_.myAscensions)(),
+  choices: {
+    25: 3
+  },
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject121 || (absorb_templateObject121 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, // Moon-sign zones
+{
+  do: (0,template_string/* $location */.PG)(absorb_templateObject122 || (absorb_templateObject122 = absorb_taggedTemplateLiteral(["The Bugbear Pen"]))),
+  ready: () => (0,external_kolmafia_.knollAvailable)(),
+  prepare: () => {
+    if (step("questM03Bugbear") === -1) {
+      (0,external_kolmafia_.visitUrl)("place.php?whichplace=knoll_friendly&action=dk_mayor");
+    }
+  },
+  after: ["Mosquito/Start"]
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject123 || (absorb_templateObject123 = absorb_taggedTemplateLiteral(["Outskirts of Camp Logging Camp"]))),
+  ready: () => (0,external_kolmafia_.canadiaAvailable)(),
+  after: [],
+  outfit: {
+    modifier: "+combat",
+    equip: (0,template_string/* $items */.vS)(absorb_templateObject124 || (absorb_templateObject124 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+  }
+}, {
+  do: (0,template_string/* $location */.PG)(absorb_templateObject125 || (absorb_templateObject125 = absorb_taggedTemplateLiteral(["Thugnderdome"]))),
+  ready: () => (0,external_kolmafia_.gnomadsAvailable)(),
+  after: []
+}]; // All monsters that give adventures upon absorption
+
+var reprocessTargets = new Set([// 10 adv monsters
+(0,template_string/* $monster */.O4)(absorb_templateObject126 || (absorb_templateObject126 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), (0,template_string/* $monster */.O4)(absorb_templateObject127 || (absorb_templateObject127 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject128 || (absorb_templateObject128 = absorb_taggedTemplateLiteral(["black magic woman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject129 || (absorb_templateObject129 = absorb_taggedTemplateLiteral(["blur"]))), (0,template_string/* $monster */.O4)(absorb_templateObject130 || (absorb_templateObject130 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), (0,template_string/* $monster */.O4)(absorb_templateObject131 || (absorb_templateObject131 = absorb_taggedTemplateLiteral(["coaltergeist"]))), (0,template_string/* $monster */.O4)(absorb_templateObject132 || (absorb_templateObject132 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject133 || (absorb_templateObject133 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), (0,template_string/* $monster */.O4)(absorb_templateObject134 || (absorb_templateObject134 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), (0,template_string/* $monster */.O4)(absorb_templateObject135 || (absorb_templateObject135 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), (0,template_string/* $monster */.O4)(absorb_templateObject136 || (absorb_templateObject136 = absorb_taggedTemplateLiteral(["mad wino"]))), (0,template_string/* $monster */.O4)(absorb_templateObject137 || (absorb_templateObject137 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), (0,template_string/* $monster */.O4)(absorb_templateObject138 || (absorb_templateObject138 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), (0,template_string/* $monster */.O4)(absorb_templateObject139 || (absorb_templateObject139 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), (0,template_string/* $monster */.O4)(absorb_templateObject140 || (absorb_templateObject140 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), (0,template_string/* $monster */.O4)(absorb_templateObject141 || (absorb_templateObject141 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), (0,template_string/* $monster */.O4)(absorb_templateObject142 || (absorb_templateObject142 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject143 || (absorb_templateObject143 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), (0,template_string/* $monster */.O4)(absorb_templateObject144 || (absorb_templateObject144 = absorb_taggedTemplateLiteral(["Raver Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject145 || (absorb_templateObject145 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject146 || (absorb_templateObject146 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), (0,template_string/* $monster */.O4)(absorb_templateObject147 || (absorb_templateObject147 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
+(0,template_string/* $monster */.O4)(absorb_templateObject148 || (absorb_templateObject148 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), (0,template_string/* $monster */.O4)(absorb_templateObject149 || (absorb_templateObject149 = absorb_taggedTemplateLiteral(["basic lihc"]))), (0,template_string/* $monster */.O4)(absorb_templateObject150 || (absorb_templateObject150 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), (0,template_string/* $monster */.O4)(absorb_templateObject151 || (absorb_templateObject151 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), (0,template_string/* $monster */.O4)(absorb_templateObject152 || (absorb_templateObject152 = absorb_taggedTemplateLiteral(["CH Imp"]))), (0,template_string/* $monster */.O4)(absorb_templateObject153 || (absorb_templateObject153 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), (0,template_string/* $monster */.O4)(absorb_templateObject154 || (absorb_templateObject154 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), (0,template_string/* $monster */.O4)(absorb_templateObject155 || (absorb_templateObject155 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), (0,template_string/* $monster */.O4)(absorb_templateObject156 || (absorb_templateObject156 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), (0,template_string/* $monster */.O4)(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), (0,template_string/* $monster */.O4)(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), (0,template_string/* $monster */.O4)(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), (0,template_string/* $monster */.O4)(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), (0,template_string/* $monster */.O4)(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), (0,template_string/* $monster */.O4)(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["model skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), (0,template_string/* $monster */.O4)(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["oil baron"]))), (0,template_string/* $monster */.O4)(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["party skelteon"]))), (0,template_string/* $monster */.O4)(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), (0,template_string/* $monster */.O4)(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), (0,template_string/* $monster */.O4)(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), (0,template_string/* $monster */.O4)(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), (0,template_string/* $monster */.O4)(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["serialbus"]))), (0,template_string/* $monster */.O4)(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["sheet ghost"]))), (0,template_string/* $monster */.O4)(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), (0,template_string/* $monster */.O4)(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), (0,template_string/* $monster */.O4)(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), (0,template_string/* $monster */.O4)(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), (0,template_string/* $monster */.O4)(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["upgraded ram"]))), (0,template_string/* $monster */.O4)(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), (0,template_string/* $monster */.O4)(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["whitesnake"]))), (0,template_string/* $monster */.O4)(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
+(0,template_string/* $monster */.O4)(_templateObject181 || (_templateObject181 = absorb_taggedTemplateLiteral(["dire pigeon"]))), (0,template_string/* $monster */.O4)(_templateObject182 || (_templateObject182 = absorb_taggedTemplateLiteral(["gingerbread murderer"]))), (0,template_string/* $monster */.O4)(_templateObject183 || (_templateObject183 = absorb_taggedTemplateLiteral(["grave rober"]))), (0,template_string/* $monster */.O4)(_templateObject184 || (_templateObject184 = absorb_taggedTemplateLiteral(["irate mariachi"]))), (0,template_string/* $monster */.O4)(_templateObject185 || (_templateObject185 = absorb_taggedTemplateLiteral(["plastered frat orc"]))), (0,template_string/* $monster */.O4)(_templateObject186 || (_templateObject186 = absorb_taggedTemplateLiteral(["swarm of skulls"]))), (0,template_string/* $monster */.O4)(_templateObject187 || (_templateObject187 = absorb_taggedTemplateLiteral(["albino bat"]))), (0,template_string/* $monster */.O4)(_templateObject188 || (_templateObject188 = absorb_taggedTemplateLiteral(["batrat"]))), (0,template_string/* $monster */.O4)(_templateObject189 || (_templateObject189 = absorb_taggedTemplateLiteral(["G imp"]))), (0,template_string/* $monster */.O4)(_templateObject190 || (_templateObject190 = absorb_taggedTemplateLiteral(["Knob Goblin Bean Counter"]))), (0,template_string/* $monster */.O4)(_templateObject191 || (_templateObject191 = absorb_taggedTemplateLiteral(["Knob Goblin Madam"]))), (0,template_string/* $monster */.O4)(_templateObject192 || (_templateObject192 = absorb_taggedTemplateLiteral(["Knob Goblin Master Chef"]))), (0,template_string/* $monster */.O4)(_templateObject193 || (_templateObject193 = absorb_taggedTemplateLiteral(["L imp"]))), (0,template_string/* $monster */.O4)(_templateObject194 || (_templateObject194 = absorb_taggedTemplateLiteral(["magical fruit bat"]))), (0,template_string/* $monster */.O4)(_templateObject195 || (_templateObject195 = absorb_taggedTemplateLiteral(["P imp"]))), (0,template_string/* $monster */.O4)(_templateObject196 || (_templateObject196 = absorb_taggedTemplateLiteral(["swarm of Knob lice"]))), (0,template_string/* $monster */.O4)(_templateObject197 || (_templateObject197 = absorb_taggedTemplateLiteral(["W imp"]))), (0,template_string/* $monster */.O4)(_templateObject198 || (_templateObject198 = absorb_taggedTemplateLiteral(["warwelf"])))]); // Other monsters that give skills
+
+var usefulSkills = new Map([[(0,template_string/* $skill */.tm)(_templateObject199 || (_templateObject199 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"]))), (0,template_string/* $monster */.O4)(_templateObject200 || (_templateObject200 = absorb_taggedTemplateLiteral(["anglerbush"])))], [(0,template_string/* $skill */.tm)(_templateObject201 || (_templateObject201 = absorb_taggedTemplateLiteral(["Ominous Substrate"]))), (0,template_string/* $monster */.O4)(_templateObject202 || (_templateObject202 = absorb_taggedTemplateLiteral(["animated ornate nightstand"])))], [(0,template_string/* $skill */.tm)(_templateObject203 || (_templateObject203 = absorb_taggedTemplateLiteral(["Innuendo Circuitry"]))), (0,template_string/* $monster */.O4)(_templateObject204 || (_templateObject204 = absorb_taggedTemplateLiteral(["Astronomer"])))], [(0,template_string/* $skill */.tm)(_templateObject205 || (_templateObject205 = absorb_taggedTemplateLiteral(["Exhaust Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject206 || (_templateObject206 = absorb_taggedTemplateLiteral(["beanbat"])))], [(0,template_string/* $skill */.tm)(_templateObject207 || (_templateObject207 = absorb_taggedTemplateLiteral(["Overclocking"]))), (0,template_string/* $monster */.O4)(_templateObject208 || (_templateObject208 = absorb_taggedTemplateLiteral(["Big Wheelin' Twins"])))], [(0,template_string/* $skill */.tm)(_templateObject209 || (_templateObject209 = absorb_taggedTemplateLiteral(["Photonic Shroud"]))), (0,template_string/* $monster */.O4)(_templateObject210 || (_templateObject210 = absorb_taggedTemplateLiteral(["black panther"])))], [(0,template_string/* $skill */.tm)(_templateObject211 || (_templateObject211 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))), (0,template_string/* $monster */.O4)(_templateObject212 || (_templateObject212 = absorb_taggedTemplateLiteral(["Carnivorous Moxie Weed"])))], [(0,template_string/* $skill */.tm)(_templateObject213 || (_templateObject213 = absorb_taggedTemplateLiteral(["Ectogenesis"]))), (0,template_string/* $monster */.O4)(_templateObject214 || (_templateObject214 = absorb_taggedTemplateLiteral(["Claybender Sorcerer Ghost"])))], [(0,template_string/* $skill */.tm)(_templateObject215 || (_templateObject215 = absorb_taggedTemplateLiteral(["Microburner"]))), (0,template_string/* $monster */.O4)(_templateObject216 || (_templateObject216 = absorb_taggedTemplateLiteral(["Cobb's Knob oven"])))], [(0,template_string/* $skill */.tm)(_templateObject217 || (_templateObject217 = absorb_taggedTemplateLiteral(["Localized Vacuum"]))), (0,template_string/* $monster */.O4)(_templateObject218 || (_templateObject218 = absorb_taggedTemplateLiteral(["cubist bull"])))], [(0,template_string/* $skill */.tm)(_templateObject219 || (_templateObject219 = absorb_taggedTemplateLiteral(["Infernal Automata"]))), (0,template_string/* $monster */.O4)(_templateObject220 || (_templateObject220 = absorb_taggedTemplateLiteral(["demonic icebox"])))], [(0,template_string/* $skill */.tm)(_templateObject221 || (_templateObject221 = absorb_taggedTemplateLiteral(["Secondary Fermentation"]))), (0,template_string/* $monster */.O4)(_templateObject222 || (_templateObject222 = absorb_taggedTemplateLiteral(["drunk goat"])))], [(0,template_string/* $skill */.tm)(_templateObject223 || (_templateObject223 = absorb_taggedTemplateLiteral(["Double Nanovision"]))), (0,template_string/* $monster */.O4)(_templateObject224 || (_templateObject224 = absorb_taggedTemplateLiteral(["drunk pygmy"])))], [(0,template_string/* $skill */.tm)(_templateObject225 || (_templateObject225 = absorb_taggedTemplateLiteral(["Microweave"]))), (0,template_string/* $monster */.O4)(_templateObject226 || (_templateObject226 = absorb_taggedTemplateLiteral(["eXtreme cross-country hippy"])))], [(0,template_string/* $skill */.tm)(_templateObject227 || (_templateObject227 = absorb_taggedTemplateLiteral(["AUTOEXEC.BAT"]))), (0,template_string/* $monster */.O4)(_templateObject228 || (_templateObject228 = absorb_taggedTemplateLiteral(["Flock of Stab-bats"])))], [(0,template_string/* $skill */.tm)(_templateObject229 || (_templateObject229 = absorb_taggedTemplateLiteral(["Propagation Drive"]))), (0,template_string/* $monster */.O4)(_templateObject230 || (_templateObject230 = absorb_taggedTemplateLiteral(["junksprite bender"])))], [(0,template_string/* $skill */.tm)(_templateObject231 || (_templateObject231 = absorb_taggedTemplateLiteral(["Camp Subroutines"]))), (0,template_string/* $monster */.O4)(_templateObject232 || (_templateObject232 = absorb_taggedTemplateLiteral(["Knob Goblin Harem Girl"])))], [(0,template_string/* $skill */.tm)(_templateObject233 || (_templateObject233 = absorb_taggedTemplateLiteral(["Cryocurrency"]))), (0,template_string/* $monster */.O4)(_templateObject234 || (_templateObject234 = absorb_taggedTemplateLiteral(["Knob Goblin MBA"])))], [(0,template_string/* $skill */.tm)(_templateObject235 || (_templateObject235 = absorb_taggedTemplateLiteral(["Curses Library"]))), (0,template_string/* $monster */.O4)(_templateObject236 || (_templateObject236 = absorb_taggedTemplateLiteral(["lihc"])))], [(0,template_string/* $skill */.tm)(_templateObject237 || (_templateObject237 = absorb_taggedTemplateLiteral(["Clammy Microcilia"]))), (0,template_string/* $monster */.O4)(_templateObject238 || (_templateObject238 = absorb_taggedTemplateLiteral(["malevolent hair clog"])))], [(0,template_string/* $skill */.tm)(_templateObject239 || (_templateObject239 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"]))), (0,template_string/* $monster */.O4)(_templateObject240 || (_templateObject240 = absorb_taggedTemplateLiteral(["me4t begZ0r"])))], [(0,template_string/* $skill */.tm)(_templateObject241 || (_templateObject241 = absorb_taggedTemplateLiteral(["Hivemindedness"]))), (0,template_string/* $monster */.O4)(_templateObject242 || (_templateObject242 = absorb_taggedTemplateLiteral(["mind flayer"])))], [(0,template_string/* $skill */.tm)(_templateObject243 || (_templateObject243 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject244 || (_templateObject244 = absorb_taggedTemplateLiteral(["Ninja Snowman Weaponmaster"])))], // [$skill`Lubricant Layer`, $monster`oil slick`],
+[(0,template_string/* $skill */.tm)(_templateObject245 || (_templateObject245 = absorb_taggedTemplateLiteral(["Conifer Polymers"]))), (0,template_string/* $monster */.O4)(_templateObject246 || (_templateObject246 = absorb_taggedTemplateLiteral(["pine bat"])))], [(0,template_string/* $skill */.tm)(_templateObject247 || (_templateObject247 = absorb_taggedTemplateLiteral(["Legacy Code"]))), (0,template_string/* $monster */.O4)(_templateObject248 || (_templateObject248 = absorb_taggedTemplateLiteral(["possessed wine rack"])))], [(0,template_string/* $skill */.tm)(_templateObject249 || (_templateObject249 = absorb_taggedTemplateLiteral(["System Sweep"]))), (0,template_string/* $monster */.O4)(_templateObject250 || (_templateObject250 = absorb_taggedTemplateLiteral(["pygmy janitor"])))], [(0,template_string/* $skill */.tm)(_templateObject251 || (_templateObject251 = absorb_taggedTemplateLiteral(["Infinite Loop"]))), (0,template_string/* $monster */.O4)(_templateObject252 || (_templateObject252 = absorb_taggedTemplateLiteral(["pygmy witch lawyer"])))], [(0,template_string/* $skill */.tm)(_templateObject253 || (_templateObject253 = absorb_taggedTemplateLiteral(["Ire Proof"]))), (0,template_string/* $monster */.O4)(_templateObject254 || (_templateObject254 = absorb_taggedTemplateLiteral(["raging bull"])))], [(0,template_string/* $skill */.tm)(_templateObject255 || (_templateObject255 = absorb_taggedTemplateLiteral(["Nanofur"]))), (0,template_string/* $monster */.O4)(_templateObject256 || (_templateObject256 = absorb_taggedTemplateLiteral(["ratbat"])))], [(0,template_string/* $skill */.tm)(_templateObject257 || (_templateObject257 = absorb_taggedTemplateLiteral(["Procgen Ribaldry"]))), (0,template_string/* $monster */.O4)(_templateObject258 || (_templateObject258 = absorb_taggedTemplateLiteral(["smut orc screwer"])))], [(0,template_string/* $skill */.tm)(_templateObject259 || (_templateObject259 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))), (0,template_string/* $monster */.O4)(_templateObject260 || (_templateObject260 = absorb_taggedTemplateLiteral(["Snow Queen"])))], [(0,template_string/* $skill */.tm)(_templateObject261 || (_templateObject261 = absorb_taggedTemplateLiteral(["Phase Shift"]))), (0,template_string/* $monster */.O4)(_templateObject262 || (_templateObject262 = absorb_taggedTemplateLiteral(["Spectral Jellyfish"])))], [(0,template_string/* $skill */.tm)(_templateObject263 || (_templateObject263 = absorb_taggedTemplateLiteral(["Autovampirism Routines"]))), (0,template_string/* $monster */.O4)(_templateObject264 || (_templateObject264 = absorb_taggedTemplateLiteral(["spooky vampire"])))], [(0,template_string/* $skill */.tm)(_templateObject265 || (_templateObject265 = absorb_taggedTemplateLiteral(["Steam Mycelia"]))), (0,template_string/* $monster */.O4)(_templateObject266 || (_templateObject266 = absorb_taggedTemplateLiteral(["steam elemental"])))], [(0,template_string/* $skill */.tm)(_templateObject267 || (_templateObject267 = absorb_taggedTemplateLiteral(["Gravitational Compression"]))), (0,template_string/* $monster */.O4)(_templateObject268 || (_templateObject268 = absorb_taggedTemplateLiteral(["suckubus"])))], [(0,template_string/* $skill */.tm)(_templateObject269 || (_templateObject269 = absorb_taggedTemplateLiteral(["Grey Noise"]))), (0,template_string/* $monster */.O4)(_templateObject270 || (_templateObject270 = absorb_taggedTemplateLiteral(["Boss Bat"])))], [(0,template_string/* $skill */.tm)(_templateObject271 || (_templateObject271 = absorb_taggedTemplateLiteral(["Anti-Sleaze Recursion"]))), (0,template_string/* $monster */.O4)(_templateObject272 || (_templateObject272 = absorb_taggedTemplateLiteral(["werecougar"])))], [(0,template_string/* $skill */.tm)(_templateObject273 || (_templateObject273 = absorb_taggedTemplateLiteral(["Piezoelectric Honk"]))), (0,template_string/* $monster */.O4)(_templateObject274 || (_templateObject274 = absorb_taggedTemplateLiteral(["white lion"])))]]);
+var usefulMonsters = new Set([].concat(absorb_toConsumableArray(reprocessTargets), absorb_toConsumableArray(usefulSkills.values())));
+
+function monstersAt(location) {
+  var result = Object.entries((0,external_kolmafia_.appearanceRates)(location)).filter(i => i[1] !== -2) // Avoid impossible monsters
+  .map(i => external_kolmafia_.Monster.get(i[0]));
+  return result;
+}
+
+var AbsorbState = /*#__PURE__*/function () {
+  function AbsorbState() {
+    absorb_classCallCheck(this, AbsorbState);
+
+    absorb_defineProperty(this, "absorbed", new Set());
+
+    absorb_defineProperty(this, "reprocessed", new Set());
+
+    absorb_defineProperty(this, "ignored", new Set());
+
+    var charsheet = (0,external_kolmafia_.visitUrl)("charsheet.php");
+    var match; // Mark down all absorbed monsters that didn't give skills
+
+    var monster_regex = new RegExp(/Absorbed [^<]* from ([^<]*)\./g);
+
+    do {
+      match = monster_regex.exec(charsheet);
+
+      if (match) {
+        var name = match[1].replace(/^a /g, "").replace(/^an /g, "").replace(/^some /g, "").replace(/^the /g, "").replace(/^The /g, "");
+        this.absorbed.add(external_kolmafia_.Monster.get(name));
+      }
+    } while (match); // Mark down all absorbed monsters that gave skills
+
+
+    var skill_regex = new RegExp(/<a onClick='javascript:poop\("[^"]*","skill", \d+, \d+\)'>([^<]*)<\/a>/g);
+
+    do {
+      match = skill_regex.exec(charsheet);
+
+      if (match) {
+        var monster = usefulSkills.get(external_kolmafia_.Skill.get(match[1]));
+        if (monster === undefined) continue;
+        this.absorbed.add(monster);
+      }
+    } while (match); // Mark down all monsters that we have reprocessed
+
+
+    (0,property/* get */.U2)("gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_.Monster.get(id)).map(monster => this.reprocessed.add(monster)); // Ignore the elemental skills that are not useful for the tower
+
+    var ignored_skills = new Set();
+    var needed_elem_skills = {
+      hot: (0,template_string/* $skills */.nx)(_templateObject275 || (_templateObject275 = absorb_taggedTemplateLiteral(["Microburner, Infernal Automata, Steam Mycelia"]))),
+      cold: (0,template_string/* $skills */.nx)(_templateObject276 || (_templateObject276 = absorb_taggedTemplateLiteral(["Cryocurrency, Cooling Tubules, Snow-Cooling System"]))),
+      spooky: (0,template_string/* $skills */.nx)(_templateObject277 || (_templateObject277 = absorb_taggedTemplateLiteral(["Curses Library, Ominous Substrate, Legacy Code"]))),
+      stench: (0,template_string/* $skills */.nx)(_templateObject278 || (_templateObject278 = absorb_taggedTemplateLiteral(["Exhaust Tubules, Secondary Fermentation, AUTOEXEC.BAT"]))),
+      sleaze: (0,template_string/* $skills */.nx)(_templateObject279 || (_templateObject279 = absorb_taggedTemplateLiteral(["Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry"])))
+    };
+
+    for (var _elem in needed_elem_skills) {
+      if ((0,property/* get */.U2)("nsChallenge2") !== _elem) {
+        var _iterator2 = absorb_createForOfIteratorHelper(needed_elem_skills[_elem]),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var unneeded_skill = _step2.value;
+            ignored_skills.add(unneeded_skill);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+      }
+    } // No need for resistance skills if we already have enough
+
+
+    var res_skills = (0,template_string/* $skills */.nx)(_templateObject280 || (_templateObject280 = absorb_taggedTemplateLiteral(["Ire Proof, Nanofur, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Clammy Microcilia, Lubricant Layer"])));
+
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject281 || (_templateObject281 = absorb_taggedTemplateLiteral(["ice crown"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject282 || (_templateObject282 = absorb_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))))) {
+      var _iterator3 = absorb_createForOfIteratorHelper(res_skills),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var skill = _step3.value;
+          ignored_skills.add(skill);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+    } // We need a single +cold dmg source for orcs
+
+
+    if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject283 || (_templateObject283 = absorb_taggedTemplateLiteral(["frozen jeans"])))) && !(0,lib/* have */.lf)((0,template_string/* $skill */.tm)(_templateObject284 || (_templateObject284 = absorb_taggedTemplateLiteral(["Cryocurrency"])))) && !(0,lib/* have */.lf)((0,template_string/* $skill */.tm)(_templateObject285 || (_templateObject285 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))))) {
+      ignored_skills.delete((0,template_string/* $skill */.tm)(_templateObject286 || (_templateObject286 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))));
+    }
+
+    var _iterator4 = absorb_createForOfIteratorHelper(ignored_skills),
+        _step4;
+
+    try {
+      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+        var _skill = _step4.value;
+
+        var _monster2 = usefulSkills.get(_skill);
+
+        if (_monster2 === undefined) continue;
+        this.ignored.add(_monster2);
+      } // Ignore skills after the NS is defeated
+
+    } catch (err) {
+      _iterator4.e(err);
+    } finally {
+      _iterator4.f();
+    }
+
+    if (step("questL13Final") > 11) {
+      var _iterator5 = absorb_createForOfIteratorHelper(usefulSkills.values()),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var _monster = _step5.value;
+          this.ignored.add(_monster);
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+    } // Don't bother to chase the ice house banished monster
+
+
+    var icehouse = (0,lib/* getBanishedMonsters */.$c)().get((0,template_string/* $item */.xr)(_templateObject287 || (_templateObject287 = absorb_taggedTemplateLiteral(["ice house"]))));
+    if (icehouse !== undefined) this.ignored.add(icehouse);
+  }
+
+  absorb_createClass(AbsorbState, [{
+    key: "remainingReprocess",
+    value: function remainingReprocess(location) {
+      // Return all remaining desired and unreprocessed monsters, in this location or everywhere
+      if (!location) {
+        return absorb_toConsumableArray(reprocessTargets).filter(monster => !this.reprocessed.has(monster) && !this.ignored.has(monster));
+      }
+
+      return monstersAt(location).filter(monster => this.isReprocessTarget(monster));
+    }
+  }, {
+    key: "remainingAbsorbs",
+    value: function remainingAbsorbs(location) {
+      // Return all remaining desired and unabsorbed monsters, in this location or everywhere
+      if (!location) {
+        return absorb_toConsumableArray(usefulMonsters).filter(monster => !this.absorbed.has(monster) && !this.ignored.has(monster));
+      }
+
+      return monstersAt(location).filter(monster => this.isTarget(monster));
+    }
+  }, {
+    key: "hasTargets",
+    value: function hasTargets(location) {
+      // Return true if the location has at least one desired unabsorbed monster
+      return this.remainingAbsorbs(location).length > 0;
+    }
+  }, {
+    key: "hasReprocessTargets",
+    value: function hasReprocessTargets(location) {
+      // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
+      return this.remainingReprocess(location).length > 0;
+    }
+  }, {
+    key: "isTarget",
+    value: function isTarget(monster) {
+      // Return true if the monster is desired and unabsorbed
+      return usefulMonsters.has(monster) && !this.absorbed.has(monster) && !this.ignored.has(monster);
+    }
+  }, {
+    key: "isReprocessTarget",
+    value: function isReprocessTarget(monster) {
+      // Return true if the monster is desired and unreprocessed
+      return reprocessTargets.has(monster) && !this.reprocessed.has(monster) && !this.ignored.has(monster);
+    }
+  }]);
+
+  return AbsorbState;
+}();
+var AbsorbQuest = {
+  name: "Absorb",
+  tasks: [].concat(absorb_toConsumableArray(absorbTasks.map(task => {
+    var _task$combat;
+
+    var result = absorb_objectSpread(absorb_objectSpread({
+      name: task.do.toString(),
+      completed: state => !state.absorb.hasTargets(task.do)
+    }, task), {}, {
+      after: task.skill ? [].concat(absorb_toConsumableArray(task.after), [task.skill.name]) : task.after,
+      combat: ((_task$combat = task.combat) !== null && _task$combat !== void 0 ? _task$combat : new src_combat.CombatStrategy()).ignore(),
+      // killing targetting monsters is set in the engine
+      limit: {
+        soft: 25
+      }
+    });
+
+    if (result.outfit === undefined) result.outfit = {
+      equip: (0,template_string/* $items */.vS)(_templateObject288 || (_templateObject288 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    };
+    return result;
+  })), absorb_toConsumableArray(absorbTasks.filter(task => task.skill !== undefined).map(task => {
+    var _task$skill$name, _task$skill, _task$combat2;
+
+    var result = absorb_objectSpread(absorb_objectSpread({
+      name: (_task$skill$name = (_task$skill = task.skill) === null || _task$skill === void 0 ? void 0 : _task$skill.name) !== null && _task$skill$name !== void 0 ? _task$skill$name : "",
+      completed: () => {
+        var _task$skill2;
+
+        return (0,lib/* have */.lf)((_task$skill2 = task.skill) !== null && _task$skill2 !== void 0 ? _task$skill2 : (0,template_string/* $skill */.tm)(_templateObject289 || (_templateObject289 = absorb_taggedTemplateLiteral(["none"]))));
+      }
+    }, task), {}, {
+      combat: ((_task$combat2 = task.combat) !== null && _task$combat2 !== void 0 ? _task$combat2 : new src_combat.CombatStrategy()).ignore(),
+      // killing targetting monsters is set in the engine
+      limit: {
+        soft: 25
+      }
+    });
+
+    if (result.outfit === undefined) result.outfit = {
+      equip: (0,template_string/* $items */.vS)(_templateObject290 || (_templateObject290 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    };
+    return result;
+  })), [{
+    // Add a last task for routing
+    name: "All",
+    after: absorbTasks.map(task => task.do.toString()),
+    ready: () => false,
+    completed: () => true,
+    do: () => {
+      throw "Unable to absorb all target monsters";
+    },
+    limit: {
+      tries: 1
+    },
+    freeaction: true
+  }])
+};
+var ReprocessQuest = {
+  name: "Reprocess",
+  tasks: [].concat(absorb_toConsumableArray(absorbTasks.map(task => {
+    var _task$combat3;
+
+    var result = absorb_objectSpread(absorb_objectSpread({
+      name: task.do.toString(),
+      completed: state => !state.absorb.hasReprocessTargets(task.do)
+    }, task), {}, {
+      after: [].concat(absorb_toConsumableArray(task.after), ["Absorb/".concat(task.do.toString())]),
+      ready: state => (task.ready === undefined || task.ready(state)) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(_templateObject291 || (_templateObject291 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
+      combat: ((_task$combat3 = task.combat) !== null && _task$combat3 !== void 0 ? _task$combat3 : new src_combat.CombatStrategy()).ignore(),
+      // killing targetting monsters is set in the engine
+      limit: {
+        soft: 25
+      }
+    });
+
+    if (result.outfit === undefined) result.outfit = {
+      equip: (0,template_string/* $items */.vS)(_templateObject292 || (_templateObject292 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    };
+    return result;
+  })), [{
+    // Add a last task for routing
+    name: "All",
+    after: absorbTasks.map(task => task.do.toString()),
+    ready: () => false,
+    completed: () => true,
+    do: () => {
+      throw "Unable to reprocess all target monsters";
+    },
+    limit: {
+      tries: 1
+    },
+    freeaction: true
+  }])
+};
+;// CONCATENATED MODULE: ./src/state.ts
+function state_slicedToArray(arr, i) { return state_arrayWithHoles(arr) || state_iterableToArrayLimit(arr, i) || state_unsupportedIterableToArray(arr, i) || state_nonIterableRest(); }
+
+function state_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function state_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return state_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return state_arrayLikeToArray(o, minLen); }
+
+function state_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function state_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function state_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function state_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function state_createClass(Constructor, protoProps, staticProps) { if (protoProps) state_defineProperties(Constructor.prototype, protoProps); if (staticProps) state_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function state_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function state_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var GameState = /*#__PURE__*/state_createClass(function GameState() {
+  state_classCallCheck(this, GameState);
+
+  state_defineProperty(this, "banishes", void 0);
+
+  state_defineProperty(this, "absorb", void 0);
+
+  state_defineProperty(this, "orb", void 0);
+
+  this.banishes = new BanishState();
+  this.absorb = new AbsorbState();
+  this.orb = new OrbState();
+});
+
+var OrbState = /*#__PURE__*/function () {
+  function OrbState() {
+    state_classCallCheck(this, OrbState);
+
+    state_defineProperty(this, "predictions", void 0);
+
+    (0,external_kolmafia_.visitUrl)("inventory.php?ponder=1", false);
+    this.predictions = new Map((0,property/* get */.U2)("crystalBallPredictions").split("|").map(element => element.split(":")).map(_ref => {
+      var _ref2 = state_slicedToArray(_ref, 3),
+          location = _ref2[1],
+          monster = _ref2[2];
+
+      return [(0,external_kolmafia_.toLocation)(location), (0,external_kolmafia_.toMonster)(monster)];
+    }));
+  }
+
+  state_createClass(OrbState, [{
+    key: "prediction",
+    value: function prediction(loc) {
+      return this.predictions.get(loc);
+    }
+  }]);
+
+  return OrbState;
 }();
 ;// CONCATENATED MODULE: ./src/engine.ts
 var engine_templateObject, engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8, engine_templateObject9, engine_templateObject10, engine_templateObject11, engine_templateObject12, engine_templateObject13, engine_templateObject14, engine_templateObject15, engine_templateObject16, engine_templateObject17, engine_templateObject18, engine_templateObject19, engine_templateObject20, engine_templateObject21, engine_templateObject22, engine_templateObject23, engine_templateObject24, engine_templateObject25, engine_templateObject26, engine_templateObject27, engine_templateObject28, engine_templateObject29, engine_templateObject30, engine_templateObject31, engine_templateObject32, engine_templateObject33, engine_templateObject34, engine_templateObject35, engine_templateObject36;
@@ -15496,7 +15476,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "a577e00";
+var lastCommitHash = "5dd7be2";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -15548,9 +15528,8 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time."
   }),
   class: Args.number({
-    help: "If given, break the prism and choose a class at the end of the run. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
-    default: 0,
-    options: [[0, "Stay as Grey You"], [1, "Seal Clubber"], [2, "Turtle Tamer"], [3, "Pastamancer"], [4, "Saurceror"], [5, "Disco Bandit"], [6, "Accordion Thief"]]
+    help: "If given, break the prism and choose a class. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
+    options: [[1, "Seal Clubber"], [2, "Turtle Tamer"], [3, "Pastamancer"], [4, "Saurceror"], [5, "Disco Bandit"], [6, "Accordion Thief"]]
   }),
   pulls: Args.number({
     help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
@@ -15584,7 +15563,23 @@ function main(command) {
   debug("Running loopgyou version [".concat(lastCommitHash !== null && lastCommitHash !== void 0 ? lastCommitHash : "custom-built", "] in KoLmafia r").concat((0,external_kolmafia_.getRevision)()));
   if (lastCommitHash !== undefined && (0,external_kolmafia_.svnExists)(svn_name) && !(0,external_kolmafia_.svnAtHead)(svn_name)) debug('A newer version of this script is available and can be obtained with "svn update".', "red");
   if (args.version) return;
-  if ((0,external_kolmafia_.myPath)() !== "Grey You") throw "You are not currently in a Grey You run. Please start one.";
+  if ((0,external_kolmafia_.myPath)() !== "Grey You") throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
+
+  if (args.class !== undefined) {
+    if (step("questL13Final") <= 11) throw "You have not finished your Grey You run. Do not set this argument yet.";
+
+    var _state = new GameState();
+
+    (0,external_kolmafia_.print)("   Monsters remaining: ".concat(Array.from(_state.absorb.remainingAbsorbs()).join(", ")), "purple");
+    (0,external_kolmafia_.print)("   Reprocess remaining: ".concat(Array.from(_state.absorb.remainingReprocess()).join(", ")), "purple");
+    if (step("questL13Final") === 999) return;
+    (0,external_kolmafia_.visitUrl)("place.php?whichplace=nstower&action=ns_11_prism");
+    (0,external_kolmafia_.visitUrl)("main.php");
+    (0,external_kolmafia_.runChoice)(args.class);
+    (0,external_kolmafia_.runChoice)(args.class);
+    return;
+  }
+
   var set_time_now = (0,property/* get */.U2)(time_property, -1) === -1;
   if (set_time_now) (0,property/* set */.t8)(time_property, (0,external_kolmafia_.gametimeToInt)()); // Clear intro adventure
 
@@ -15598,7 +15593,7 @@ function main(command) {
 
     var actions_left = (_args$actions = args.actions) !== null && _args$actions !== void 0 ? _args$actions : Number.MAX_VALUE;
 
-    var _state = new GameState();
+    var _state2 = new GameState();
 
     if (actions_left < 0) {
       // Update the strategy for the printout
@@ -15611,10 +15606,10 @@ function main(command) {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var task = _step.value;
-          var priority = Prioritization.from(task, _state);
+          var priority = Prioritization.from(task, _state2);
           var reason = priority.explain();
           var why = reason === "" ? "Route" : reason;
-          debug("".concat(task.name, ": ").concat(task.completed(_state) ? "Done" : engine.available(task, _state) ? "Available [".concat(priority.score(), ": ").concat(why, "]") : "Not Available"), task.completed(_state) ? "blue" : engine.available(task, _state) ? undefined : "red");
+          debug("".concat(task.name, ": ").concat(task.completed(_state2) ? "Done" : engine.available(task, _state2) ? "Available [".concat(priority.score(), ": ").concat(why, "]") : "Not Available"), task.completed(_state2) ? "blue" : engine.available(task, _state2) ? undefined : "red");
         }
       } catch (err) {
         _iterator.e(err);
@@ -15627,7 +15622,7 @@ function main(command) {
     if (tasks.find(task => {
       var _task$ready, _task$ready2;
 
-      return !task.completed(_state) && ((_task$ready = (_task$ready2 = task.ready) === null || _task$ready2 === void 0 ? void 0 : _task$ready2.call(task, _state)) !== null && _task$ready !== void 0 ? _task$ready : true);
+      return !task.completed(_state2) && ((_task$ready = (_task$ready2 = task.ready) === null || _task$ready2 === void 0 ? void 0 : _task$ready2.call(task, _state2)) !== null && _task$ready !== void 0 ? _task$ready : true);
     }) !== undefined) {
       setUniversalProperties(engine.propertyManager);
       (0,external_kolmafia_.cliExecute)("ccs loopgyou");
@@ -15639,7 +15634,7 @@ function main(command) {
 
       pullStrategy.update(); // Update pull plan with current state
 
-      var next = getNextTask(engine, tasks, _state);
+      var next = getNextTask(engine, tasks, _state2);
       if (next === undefined) break;
 
       if (actions_left <= 0) {
@@ -15649,11 +15644,11 @@ function main(command) {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) _state = engine.execute(next[0], next[1], _state, next[2]);else _state = engine.execute(next[0], next[1], _state);
+      if (next[2] !== undefined) _state2 = engine.execute(next[0], next[1], _state2, next[2]);else _state2 = engine.execute(next[0], next[1], _state2);
       if ((0,external_kolmafia_.myPath)() !== "Grey You") break; // Prism broken
     }
 
-    var remaining_tasks = tasks.filter(task => !task.completed(_state));
+    var remaining_tasks = tasks.filter(task => !task.completed(_state2));
 
     if (!runComplete()) {
       debug("Remaining tasks:", "red");
@@ -15664,7 +15659,7 @@ function main(command) {
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var _task = _step2.value;
-          if (!_task.completed(_state)) debug("".concat(_task.name), "red");
+          if (!_task.completed(_state2)) debug("".concat(_task.name), "red");
         }
       } catch (err) {
         _iterator2.e(err);
