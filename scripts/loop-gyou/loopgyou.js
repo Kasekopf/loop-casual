@@ -13247,7 +13247,7 @@ function absorbConsumables() {
     if (consumables_blacklist.has(item)) continue;
 
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
-      (0,external_kolmafia_.drink)(item);
+      (0,external_kolmafia_.overdrink)(item);
       absorbed_list += absorbed_list.length > 0 ? ",".concat(item_id) : item_id;
     }
 
@@ -15476,7 +15476,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "5dd7be2";
+var lastCommitHash = "3211bb9";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
