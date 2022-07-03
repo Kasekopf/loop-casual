@@ -2,7 +2,6 @@ import {
   autosell,
   autosellPrice,
   descToItem,
-  drink,
   eat,
   equippedItem,
   familiarWeight,
@@ -23,6 +22,7 @@ import {
   myMp,
   myPath,
   myTurncount,
+  overdrink,
   print,
   restoreHp,
   restoreMp,
@@ -526,7 +526,7 @@ function absorbConsumables(): void {
     const item_id = `${toInt(item)}`;
     if (consumables_blacklist.has(item)) continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
-      drink(item);
+      overdrink(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
     if (item.fullness > 0 && !absorbed.has(item_id)) {
