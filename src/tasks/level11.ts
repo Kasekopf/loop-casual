@@ -95,6 +95,7 @@ const Diary: Task[] = [
       visitUrl("shop.php?whichshop=blackmarket");
       visitUrl("shop.php?whichshop=blackmarket&action=buyitem&whichrow=281&ajax=1&quantity=1");
     },
+    outfit: { equip: $items`designer sweatpants` },
     limit: { tries: 1 },
     freeaction: true,
   },

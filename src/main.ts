@@ -69,7 +69,7 @@ export const args = Args.create(
   }
 );
 export function main(command?: string): void {
-  sinceKolmafiaRevision(26499);
+  sinceKolmafiaRevision(26539);
 
   Args.fill(args, command);
   if (args.help) {

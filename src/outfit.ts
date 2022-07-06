@@ -337,6 +337,7 @@ export class Outfit {
       this.equip($item`familiar scrapbook`);
       this.equip($item`protonic accelerator pack`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
+      this.equip($item`designer sweatpants`);
       this.equip($item`Cargo Cultist Shorts`);
       this.equip($item`Powerful Glove`);
       if (
