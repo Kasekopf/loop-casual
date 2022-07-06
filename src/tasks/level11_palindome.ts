@@ -188,21 +188,25 @@ const Zepplin: Task[] = [
       .kill(),
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     outfit: () => {
+      const sleazeitems = $items`deck of lewd playing cards`;
+      if (have($item`designer sweatpants`)) sleazeitems.push($item`designer sweatpants`);
+      else if (have($item`transparent pants`)) sleazeitems.push($item`transparent pants`);
+
       if (itemAmount($item`11-leaf clover`) > 1 || have($effect`Lucky!`))
         return {
           modifier: "sleaze dmg, sleaze spell dmg",
-          equip: $items`transparent pants, deck of lewd playing cards`,
+          equip: sleazeitems,
           skipDefaults: true,
         };
       if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
         return {
           modifier: "-combat, item",
           familiar: $familiar`Melodramedary`,
-          equip: $items`transparent pants, deck of lewd playing cards`,
+          equip: sleazeitems,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
-        equip: $items`transparent pants, deck of lewd playing cards`,
+        equip: sleazeitems,
       };
     },
     limit: { soft: 30 },

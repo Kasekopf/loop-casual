@@ -71,7 +71,7 @@ export const pulls: PullSpec[] = [
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
-  { pull: $item`transparent pants`, optional: true },
+  { pull: $item`transparent pants`, optional: true, useful: () => !have($item`designer sweatpants`) },
   { pull: $item`deck of lewd playing cards`, optional: true },
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
