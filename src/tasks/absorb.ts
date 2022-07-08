@@ -131,14 +131,17 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Dark Heart of the Woods`,
     after: ["Friar/Heart"],
+    ready: () => step("questL06Friar") < 999,
   },
   {
     do: $location`The Dark Neck of the Woods`,
     after: ["Friar/Neck"],
+    ready: () => step("questL06Friar") < 999,
   },
   {
     do: $location`The Dark Elbow of the Woods`,
     after: ["Friar/Elbow"],
+    ready: () => step("questL06Friar") < 999,
   },
   {
     do: $location`Pandamonium Slums`,
