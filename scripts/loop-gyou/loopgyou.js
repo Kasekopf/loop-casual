@@ -11823,13 +11823,16 @@ var absorbTasks = [// Level 2
 }, // Level 6
 {
   do: (0,template_string/* $location */.PG)(absorb_templateObject22 || (absorb_templateObject22 = absorb_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
-  after: ["Friar/Heart"]
+  after: ["Friar/Heart"],
+  ready: () => step("questL06Friar") < 999
 }, {
   do: (0,template_string/* $location */.PG)(absorb_templateObject23 || (absorb_templateObject23 = absorb_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
-  after: ["Friar/Neck"]
+  after: ["Friar/Neck"],
+  ready: () => step("questL06Friar") < 999
 }, {
   do: (0,template_string/* $location */.PG)(absorb_templateObject24 || (absorb_templateObject24 = absorb_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
-  after: ["Friar/Elbow"]
+  after: ["Friar/Elbow"],
+  ready: () => step("questL06Friar") < 999
 }, {
   do: (0,template_string/* $location */.PG)(absorb_templateObject25 || (absorb_templateObject25 = absorb_taggedTemplateLiteral(["Pandamonium Slums"]))),
   prepare: () => {
@@ -15488,7 +15491,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "621eb47";
+var lastCommitHash = "0ccda7b";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
