@@ -53,7 +53,7 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Ore Mountain",
       after: [],
-      completed: () => itemAmount($item`asbestos ore`) >= 2 || step("questL08Trapper") >= 2,
+      completed: () => itemAmount($item`asbestos ore`) >= 3 || step("questL08Trapper") >= 2 || CombatLoversLocket.monstersReminisced().includes($monster`mountain man`) || !CombatLoversLocket.have(),
       ready: () =>
         !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
       priority: () =>

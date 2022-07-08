@@ -25,14 +25,14 @@ export const pulls: PullSpec[] = [
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
-    useful: () =>
-      get("trapperOre") === ""
-        ? itemAmount($item`asbestos ore`) >= 3 &&
-          itemAmount($item`linoleum ore`) >= 3 &&
-          itemAmount($item`chrome ore`) >= 3
-          ? false
-          : undefined
-        : itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2,
+    useful: () => {
+      if (itemAmount($item`asbestos ore`) >= 3 &&
+        itemAmount($item`linoleum ore`) >= 3 &&
+        itemAmount($item`chrome ore`) >= 3) return false;
+      if (have($item`Deck of Every Card`)) return false;
+      if (get("trapperOre") === "") return undefined;
+      return itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2;
+    },
   },
   {
     pull: $item`Mohawk wig`,
