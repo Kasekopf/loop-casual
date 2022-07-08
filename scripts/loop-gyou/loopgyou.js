@@ -13570,6 +13570,8 @@ var MiscQuest = {
     priority: () => OverridePriority.Free,
     completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(misc_templateObject67 || (misc_templateObject67 = misc_taggedTemplateLiteral(["sombrero-mounted sparkler"])))) || (0,property/* get */.U2)("_fireworksShopHatBought"),
     do: () => {
+      (0,external_kolmafia_.visitUrl)("clan_viplounge.php");
+      (0,external_kolmafia_.visitUrl)("clan_viplounge.php?action=fwshop&whichfloor=2");
       (0,external_kolmafia_.cliExecute)("acquire sombrero-mounted sparkler");
     },
     limit: {
@@ -15491,7 +15493,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "0ccda7b";
+var lastCommitHash = "2523089";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
