@@ -347,6 +347,8 @@ export const MiscQuest: Quest = {
       priority: () => OverridePriority.Free,
       completed: () => have($item`sombrero-mounted sparkler`) || get("_fireworksShopHatBought"),
       do: () => {
+        visitUrl("clan_viplounge.php");
+        visitUrl("clan_viplounge.php?action=fwshop&whichfloor=2");
         cliExecute("acquire sombrero-mounted sparkler");
       },
       limit: { tries: 1 },
