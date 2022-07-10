@@ -646,6 +646,16 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
+    {
+      name: "Open Fantasy",
+      after: [],
+      completed: () => have($item`FantasyRealm G. E. M.`),
+      do: () => {
+        visitUrl("place.php?whichplace=realm_fantasy&action=fr_initcenter");
+      },
+      choices: { 1280: 1 },
+      limit: { tries: 1 },
+    }
   ],
 };
 
