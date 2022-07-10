@@ -10895,7 +10895,7 @@ var runawaySources = [{
 }];
 var freekillSources = [];
 ;// CONCATENATED MODULE: ./src/tasks/keys.ts
-var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_templateObject69, keys_CombatStrategy, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_templateObject76, keys_templateObject77, keys_templateObject78;
+var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_templateObject69, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_CombatStrategy, keys_templateObject76, keys_templateObject77, keys_templateObject78, keys_templateObject79, keys_templateObject80, keys_templateObject81, keys_templateObject82, keys_templateObject83, keys_templateObject84;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -11035,12 +11035,25 @@ var heroKeys = [{
     tries: 15
   }
 }, {
-  which: Keys.ZapBoris,
-  possible: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0,
-  after: ["Pull/Boris's ring", "Wand/Wand"],
-  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject43 || (keys_templateObject43 = keys_taggedTemplateLiteral(["Boris's ring"])))),
+  which: Keys.ZapSneaky,
+  possible: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject43 || (keys_templateObject43 = keys_taggedTemplateLiteral(["Boris's ring"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject44 || (keys_templateObject44 = keys_taggedTemplateLiteral(["Jarlsberg's earring"])))),
+  after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
+  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject45 || (keys_templateObject45 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"])))),
   do: () => {
-    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject44 || (keys_templateObject44 = keys_taggedTemplateLiteral(["Boris's ring"]))));
+    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject46 || (keys_templateObject46 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"]))));
+    (0,external_kolmafia_.cliExecute)("zap Sneaky Pete's breath spray");
+  },
+  limit: {
+    tries: 1
+  },
+  freeaction: true
+}, {
+  which: Keys.ZapBoris,
+  possible: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject47 || (keys_templateObject47 = keys_taggedTemplateLiteral(["Jarlsberg's earring"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject48 || (keys_templateObject48 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"])))),
+  after: ["Pull/Boris's ring", "Wand/Wand"],
+  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject49 || (keys_templateObject49 = keys_taggedTemplateLiteral(["Boris's ring"])))),
+  do: () => {
+    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject50 || (keys_templateObject50 = keys_taggedTemplateLiteral(["Boris's ring"]))));
     (0,external_kolmafia_.cliExecute)("zap Boris's ring");
   },
   limit: {
@@ -11049,26 +11062,12 @@ var heroKeys = [{
   freeaction: true
 }, {
   which: Keys.ZapJarlsberg,
-  possible: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0,
+  possible: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject51 || (keys_templateObject51 = keys_taggedTemplateLiteral(["Boris's ring"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"])))),
   after: ["Pull/Jarlsberg's earring", "Wand/Wand"],
-  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject45 || (keys_templateObject45 = keys_taggedTemplateLiteral(["Jarlsberg's earring"])))),
+  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["Jarlsberg's earring"])))),
   do: () => {
-    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject46 || (keys_templateObject46 = keys_taggedTemplateLiteral(["Jarlsberg's earring"]))));
+    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["Jarlsberg's earring"]))));
     (0,external_kolmafia_.cliExecute)("zap Jarlsberg's earring");
-  },
-  limit: {
-    tries: 1
-  },
-  freeaction: true
-}, {
-  which: Keys.ZapSneaky,
-  possible: () => (0,property/* get */.U2)("_zapCount") < 2 ? undefined : (0,property/* get */.U2)("lastZapperWandExplosionDay") <= 0,
-  // Wand might explode
-  after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
-  completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject47 || (keys_templateObject47 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"])))),
-  do: () => {
-    unequipAcc((0,template_string/* $item */.xr)(keys_templateObject48 || (keys_templateObject48 = keys_taggedTemplateLiteral(["Sneaky Pete's breath spray"]))));
-    (0,external_kolmafia_.cliExecute)("zap Sneaky Pete's breath spray");
   },
   limit: {
     tries: 1
@@ -11183,9 +11182,9 @@ var KeysQuest = {
   }, {
     name: "Open 8-Bit",
     after: [],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject49 || (keys_templateObject49 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))),
     do: () => {
-      if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject50 || (keys_templateObject50 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))))) {
+      if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))))) {
         (0,external_kolmafia_.visitUrl)("place.php?whichplace=forestvillage&action=fv_mystic");
         (0,external_kolmafia_.runChoice)(1);
         (0,external_kolmafia_.runChoice)(1);
@@ -11199,11 +11198,11 @@ var KeysQuest = {
   }, {
     name: "Digital Key",
     after: ["Open 8-Bit"],
-    ready: () => step("questL13Final") > 2 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject51 || (keys_templateObject51 = keys_taggedTemplateLiteral(["Powerful Glove"])))),
-    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30 || towerSkip(),
-    do: (0,template_string/* $location */.PG)(keys_templateObject57 || (keys_templateObject57 = keys_taggedTemplateLiteral(["8-Bit Realm"]))),
+    ready: () => step("questL13Final") > 2 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject57 || (keys_templateObject57 = keys_taggedTemplateLiteral(["Powerful Glove"])))),
+    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30 || towerSkip(),
+    do: (0,template_string/* $location */.PG)(keys_templateObject63 || (keys_templateObject63 = keys_taggedTemplateLiteral(["8-Bit Realm"]))),
     outfit: {
-      equip: (0,template_string/* $items */.vS)(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))),
+      equip: (0,template_string/* $items */.vS)(keys_templateObject64 || (keys_templateObject64 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))),
       modifier: "item"
     },
     combat: new src_combat.CombatStrategy().kill(),
@@ -11213,16 +11212,16 @@ var KeysQuest = {
   }, {
     name: "Star Key",
     after: ["Giant/Unlock HITS"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key") || towerSkip(),
-    do: (0,template_string/* $location */.PG)(keys_templateObject63 || (keys_templateObject63 = keys_taggedTemplateLiteral(["The Hole in the Sky"]))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject65 || (keys_templateObject65 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject66 || (keys_templateObject66 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key") || towerSkip(),
+    do: (0,template_string/* $location */.PG)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["The Hole in the Sky"]))),
     outfit: {
       modifier: "item"
     },
-    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(keys_templateObject64 || (keys_templateObject64 = keys_taggedTemplateLiteral(["Astronomer"])))).killItem(),
+    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(keys_templateObject70 || (keys_templateObject70 = keys_taggedTemplateLiteral(["Astronomer"])))).killItem(),
     limit: {
       soft: 20
     },
-    orbtargets: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject65 || (keys_templateObject65 = keys_taggedTemplateLiteral(["star chart"])))) ? [(0,template_string/* $monster */.O4)(keys_templateObject66 || (keys_templateObject66 = keys_taggedTemplateLiteral(["Astronomer"])))] : []
+    orbtargets: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject71 || (keys_templateObject71 = keys_taggedTemplateLiteral(["star chart"])))) ? [(0,template_string/* $monster */.O4)(keys_templateObject72 || (keys_templateObject72 = keys_taggedTemplateLiteral(["Astronomer"])))] : []
   }, {
     name: "Skeleton Key",
     after: ["Crypt/Nook Boss", "Tower/Start"],
@@ -11233,12 +11232,12 @@ var KeysQuest = {
         (0,external_kolmafia_.runChoice)(1);
       }
     },
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key") || towerSkip(),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject73 || (keys_templateObject73 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject74 || (keys_templateObject74 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject75 || (keys_templateObject75 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key") || towerSkip(),
     outfit: {
       modifier: "item"
     },
-    combat: (keys_CombatStrategy = new src_combat.CombatStrategy()).killItem.apply(keys_CombatStrategy, keys_toConsumableArray((0,template_string/* $monsters */.fr)(keys_templateObject70 || (keys_templateObject70 = keys_taggedTemplateLiteral(["factory-irregular skeleton, remaindered skeleton, swarm of skulls"]))))).banish((0,template_string/* $monster */.O4)(keys_templateObject71 || (keys_templateObject71 = keys_taggedTemplateLiteral(["novelty tropical skeleton"])))),
-    do: (0,template_string/* $location */.PG)(keys_templateObject72 || (keys_templateObject72 = keys_taggedTemplateLiteral(["The Skeleton Store"]))),
+    combat: (keys_CombatStrategy = new src_combat.CombatStrategy()).killItem.apply(keys_CombatStrategy, keys_toConsumableArray((0,template_string/* $monsters */.fr)(keys_templateObject76 || (keys_templateObject76 = keys_taggedTemplateLiteral(["factory-irregular skeleton, remaindered skeleton, swarm of skulls"]))))).banish((0,template_string/* $monster */.O4)(keys_templateObject77 || (keys_templateObject77 = keys_taggedTemplateLiteral(["novelty tropical skeleton"])))),
+    do: (0,template_string/* $location */.PG)(keys_templateObject78 || (keys_templateObject78 = keys_taggedTemplateLiteral(["The Skeleton Store"]))),
     limit: {
       soft: 10
     }
@@ -11246,23 +11245,23 @@ var KeysQuest = {
 };
 
 function keyCount() {
-  var count = (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject73 || (keys_templateObject73 = keys_taggedTemplateLiteral(["fat loot token"]))));
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject74 || (keys_templateObject74 = keys_taggedTemplateLiteral(["Boris's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Boris")) count++;
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject75 || (keys_templateObject75 = keys_taggedTemplateLiteral(["Jarlsberg's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject76 || (keys_templateObject76 = keys_taggedTemplateLiteral(["Sneaky Pete's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;
+  var count = (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject79 || (keys_templateObject79 = keys_taggedTemplateLiteral(["fat loot token"]))));
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject80 || (keys_templateObject80 = keys_taggedTemplateLiteral(["Boris's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Boris")) count++;
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject81 || (keys_templateObject81 = keys_taggedTemplateLiteral(["Jarlsberg's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject82 || (keys_templateObject82 = keys_taggedTemplateLiteral(["Sneaky Pete's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;
   return count;
 }
 
 function unequipAcc(acc) {
   if (!(0,external_kolmafia_.haveEquipped)(acc)) return;
 
-  var _iterator2 = keys_createForOfIteratorHelper((0,template_string/* $slots */.ei)(keys_templateObject77 || (keys_templateObject77 = keys_taggedTemplateLiteral(["acc1, acc2, acc3"])))),
+  var _iterator2 = keys_createForOfIteratorHelper((0,template_string/* $slots */.ei)(keys_templateObject83 || (keys_templateObject83 = keys_taggedTemplateLiteral(["acc1, acc2, acc3"])))),
       _step2;
 
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var slot = _step2.value;
-      if ((0,external_kolmafia_.equippedItem)(slot) === acc) (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(keys_templateObject78 || (keys_templateObject78 = keys_taggedTemplateLiteral(["none"]))));
+      if ((0,external_kolmafia_.equippedItem)(slot) === acc) (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(keys_templateObject84 || (keys_templateObject84 = keys_taggedTemplateLiteral(["none"]))));
     }
   } catch (err) {
     _iterator2.e(err);
@@ -15493,7 +15492,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "2523089";
+var lastCommitHash = "1dd8ede";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
