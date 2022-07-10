@@ -139,8 +139,21 @@ const heroKeys: KeyTask[] = [
     limit: { tries: 15 },
   },
   {
+    which: Keys.ZapSneaky,
+    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Boris's ring`) && !have($item`Jarlsberg's earring`),
+    after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
+    completed: () =>
+      get("lastZapperWandExplosionDay") >= 1 || !have($item`Sneaky Pete's breath spray`),
+    do: () => {
+      unequipAcc($item`Sneaky Pete's breath spray`);
+      cliExecute("zap Sneaky Pete's breath spray");
+    },
+    limit: { tries: 1 },
+    freeaction: true,
+  },
+  {
     which: Keys.ZapBoris,
-    possible: () => get("lastZapperWandExplosionDay") <= 0,
+    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Jarlsberg's earring`) && !have($item`Sneaky Pete's breath spray`),
     after: ["Pull/Boris's ring", "Wand/Wand"],
     completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Boris's ring`),
     do: () => {
@@ -152,25 +165,12 @@ const heroKeys: KeyTask[] = [
   },
   {
     which: Keys.ZapJarlsberg,
-    possible: () => get("lastZapperWandExplosionDay") <= 0,
+    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Boris's ring`) && !have($item`Sneaky Pete's breath spray`),
     after: ["Pull/Jarlsberg's earring", "Wand/Wand"],
     completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Jarlsberg's earring`),
     do: () => {
       unequipAcc($item`Jarlsberg's earring`);
       cliExecute("zap Jarlsberg's earring");
-    },
-    limit: { tries: 1 },
-    freeaction: true,
-  },
-  {
-    which: Keys.ZapSneaky,
-    possible: () => (get("_zapCount") < 2 ? undefined : get("lastZapperWandExplosionDay") <= 0), // Wand might explode
-    after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
-    completed: () =>
-      get("lastZapperWandExplosionDay") >= 1 || !have($item`Sneaky Pete's breath spray`),
-    do: () => {
-      unequipAcc($item`Sneaky Pete's breath spray`);
-      cliExecute("zap Sneaky Pete's breath spray");
     },
     limit: { tries: 1 },
     freeaction: true,
