@@ -706,9 +706,7 @@ export const WandQuest: Quest = {
         have($item`hexagonal wand`) ||
         have($item`marble wand`) ||
         have($item`pine wand`) ||
-        (keyStrategy.useful(Keys.ZapBoris) === false &&
-          keyStrategy.useful(Keys.ZapJarlsberg) === false &&
-          keyStrategy.useful(Keys.ZapSneaky) === false),
+        keyStrategy.useful(Keys.Zap) === false,
       prepare: () => {
         if (have($item`plus sign`)) use($item`plus sign`);
       },
@@ -730,9 +728,7 @@ export const WandQuest: Quest = {
         have($item`hexagonal wand`) ||
         have($item`marble wand`) ||
         have($item`pine wand`) ||
-        (keyStrategy.useful(Keys.ZapBoris) === false &&
-          keyStrategy.useful(Keys.ZapJarlsberg) === false &&
-          keyStrategy.useful(Keys.ZapSneaky) === false),
+        keyStrategy.useful(Keys.Zap) === false,
       do: () => use($item`dead mimic`),
       freeaction: true,
       limit: { tries: 1 },

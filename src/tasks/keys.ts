@@ -5,8 +5,10 @@ import {
   haveEquipped,
   Item,
   itemAmount,
+  mallPrice,
   myBasestat,
   runChoice,
+  storageAmount,
   visitUrl,
 } from "kolmafia";
 import {
@@ -36,9 +38,7 @@ export enum Keys {
   Malware = "Daily Dungeon Malware",
   Dungeon = "Daily Dungeon",
   Fantasy = "Fantasy",
-  ZapBoris = "Zap Boris",
-  ZapSneaky = "Zap Sneaky",
-  ZapJarlsberg = "Zap Jarlsberg",
+  Zap = "Zap",
 }
 
 type KeyTask = Omit<Task, "name"> & { which: Keys; possible: () => boolean | undefined };
@@ -158,38 +158,14 @@ const heroKeys: KeyTask[] = [
     limit: { tries: 5 },
   },
   {
-    which: Keys.ZapSneaky,
-    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Boris's ring`) && !have($item`Jarlsberg's earring`),
-    after: ["Pull/Sneaky Pete's breath spray", "Wand/Wand"],
+    which: Keys.Zap,
+    possible: () => get("lastZapperWandExplosionDay") <= 0,
+    after: ["Pull/Key Zappable", "Wand/Wand"],
     completed: () =>
-      get("lastZapperWandExplosionDay") >= 1 || !have($item`Sneaky Pete's breath spray`),
+      get("lastZapperWandExplosionDay") >= 1 || (get("_zapCount") >= 1 && !have(keyStrategy.getZapChoice())),
     do: () => {
-      unequipAcc($item`Sneaky Pete's breath spray`);
-      cliExecute("zap Sneaky Pete's breath spray");
-    },
-    limit: { tries: 1 },
-    freeaction: true,
-  },
-  {
-    which: Keys.ZapBoris,
-    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Jarlsberg's earring`) && !have($item`Sneaky Pete's breath spray`),
-    after: ["Pull/Boris's ring", "Wand/Wand"],
-    completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Boris's ring`),
-    do: () => {
-      unequipAcc($item`Boris's ring`);
-      cliExecute("zap Boris's ring");
-    },
-    limit: { tries: 1 },
-    freeaction: true,
-  },
-  {
-    which: Keys.ZapJarlsberg,
-    possible: () => get("lastZapperWandExplosionDay") <= 0 && !have($item`Boris's ring`) && !have($item`Sneaky Pete's breath spray`),
-    after: ["Pull/Jarlsberg's earring", "Wand/Wand"],
-    completed: () => get("lastZapperWandExplosionDay") >= 1 || !have($item`Jarlsberg's earring`),
-    do: () => {
-      unequipAcc($item`Jarlsberg's earring`);
-      cliExecute("zap Jarlsberg's earring");
+      unequipAcc(keyStrategy.getZapChoice());
+      cliExecute(`zap ${keyStrategy.getZapChoice()}`)
     },
     limit: { tries: 1 },
     freeaction: true,
@@ -207,6 +183,7 @@ enum KeyState {
 class KeyStrategy {
   plan = new Map<Keys, KeyState>();
   tasks: KeyTask[];
+  zap_choice?: Item;
 
   constructor(tasks: KeyTask[]) {
     this.tasks = tasks;
@@ -255,6 +232,13 @@ class KeyStrategy {
     if (this.plan.get(key) === KeyState.READY) return true;
     if (this.plan.get(key) === KeyState.MAYBE) return undefined;
     return false;
+  }
+
+  public getZapChoice(): Item {
+    if (!this.zap_choice) {
+      this.zap_choice = makeZapChoice();
+    }
+    return this.zap_choice;
   }
 }
 export const keyStrategy = new KeyStrategy(heroKeys);
@@ -373,4 +357,12 @@ function unequipAcc(acc: Item): void {
   for (const slot of $slots`acc1, acc2, acc3`) {
     if (equippedItem(slot) === acc) equip(slot, $item`none`);
   }
+}
+
+function makeZapChoice(): Item {
+  const options = $items`Boris's ring, Jarlsberg's earring, Sneaky Pete's breath spray`;
+  for (const option of options) if (have(option)) return option;
+  for (const option of options) if (storageAmount(option) > 0) return option;
+  // If we don't have any of the zappables, just buy the lowest priced one
+  return options.sort((i, j) => mallPrice(i) - mallPrice(j))[0];
 }

@@ -19,9 +19,7 @@ type PullSpec = {
 export const pulls: PullSpec[] = [
   // Always pull the key items first
   { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) },
-  { pull: $item`Boris's ring`, useful: () => keyStrategy.useful(Keys.ZapBoris) },
-  { pull: $item`Jarlsberg's earring`, useful: () => keyStrategy.useful(Keys.ZapJarlsberg) },
-  { pull: $item`Sneaky Pete's breath spray`, useful: () => keyStrategy.useful(Keys.ZapSneaky) },
+  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
