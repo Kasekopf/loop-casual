@@ -653,6 +653,7 @@ export const MiscQuest: Quest = {
       completed: () => have($item`FantasyRealm G. E. M.`),
       do: () => {
         visitUrl("place.php?whichplace=realm_fantasy&action=fr_initcenter");
+        runChoice(-1);
       },
       choices: { 1280: 1 },
       limit: { tries: 1 },
