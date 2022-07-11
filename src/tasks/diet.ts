@@ -189,19 +189,22 @@ function chewSafe(qty: number, item: Item) {
   if (!chew(qty, item)) throw "Failed to chew safely";
 }
 
+type MenuData = {
+  turns: number // Est. number of turns provided by an item; used for the price cap
+};
 function consumeSafe(
   qty: number,
   item: Item,
   mpa: number,
+  data?: MenuData,
   additionalValue?: number,
-  skipAcquire?: boolean
+  skipAcquire?: boolean,
 ) {
   const spleenCleaned = spleenCleaners.get(item);
   if (spleenCleaned && mySpleenUse() < spleenCleaned) {
     throw "No spleen to clear with this.";
   }
-  // Treat special seasoning as providing 1 adv for the purpose of a price cap.
-  const averageAdventures = item === $item`Special Seasoning` ? 1 : getAverageAdventures(item);
+  const averageAdventures = data?.turns ?? getAverageAdventures(item);
   if (!skipAcquire && (averageAdventures > 0 || additionalValue)) {
     const cap = Math.max(0, averageAdventures * mpa) + (additionalValue ?? 0);
     acquire(qty, item, cap);
@@ -233,7 +236,7 @@ function itemPriority<T>(menuItems: MenuItem<T>[]) {
   }
 }
 
-function menu() {
+function menu(): MenuItem<MenuData>[] {
   const spaghettiBreakfast =
     have($item`spaghetti breakfast`) &&
     myFullness() === 0 &&
@@ -283,10 +286,10 @@ function menu() {
     new MenuItem($item`blood-drive sticker`),
 
     // HELPERS
-    new MenuItem($item`Special Seasoning`),
-    new MenuItem($item`pocket wish`, { maximum: 1, effect: $effect`Refined Palate` }),
-    new MenuItem($item`toasted brie`, { maximum: 1 }),
-    new MenuItem($item`potion of the field gar`, { maximum: 1 }),
+    new MenuItem($item`Special Seasoning`, { data: { turns: 1 }}),
+    new MenuItem($item`pocket wish`, { maximum: 1, effect: $effect`Refined Palate`, data: { turns: 10 } }),
+    new MenuItem($item`toasted brie`, { maximum: 1, data: { turns: 10 } }),
+    new MenuItem($item`potion of the field gar`, { maximum: 1, data: { turns: 5 } }),
   ];
 }
 
@@ -294,7 +297,7 @@ function shotglassMenu() {
   return menu().filter((menuItem) => menuItem.size === 1 && menuItem.organ === "booze");
 }
 
-function consumeDiet<T>(diet: Diet<T>, mpa: number) {
+function consumeDiet(diet: Diet<MenuData>, mpa: number) {
   const plannedDietEntries = diet.entries.sort(
     (a, b) => itemPriority(b.menuItems) - itemPriority(a.menuItems)
   );
@@ -315,7 +318,7 @@ function consumeDiet<T>(diet: Diet<T>, mpa: number) {
           if (menuItem.effect === $effect`Refined Palate`) {
             cliExecute(`genie effect ${menuItem.effect}`);
           } else {
-            consumeSafe(dietEntry.quantity, menuItem.item, mpa);
+            consumeSafe(dietEntry.quantity, menuItem.item, mpa, menuItem.data);
           }
         }
         dietEntry.quantity -= quantity;
