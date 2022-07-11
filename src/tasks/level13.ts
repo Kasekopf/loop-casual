@@ -1,4 +1,4 @@
-import { myLevel, runChoice, useSkill, visitUrl } from "kolmafia";
+import { myAdventures, myLevel, runChoice, useSkill, visitUrl } from "kolmafia";
 import { $effects, $familiar, $item, $items, $location, $skill, $stat, get, Macro } from "libram";
 import { CombatStrategy } from "../combat";
 import { Quest, step, Task } from "./structure";
@@ -288,6 +288,7 @@ export const TowerQuest: Quest = {
     {
       name: "Maze",
       after: ["Frank"],
+      ready: () => myAdventures() >= 4,
       completed: () => step("questL13Final") > 4,
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       do: $location`The Hedge Maze`,
