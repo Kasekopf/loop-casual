@@ -154,7 +154,7 @@ export class Outfit {
   }
 
   dress(): void {
-    if (this.familiar) useFamiliar(this.familiar);
+    if (this.familiar !== undefined) useFamiliar(this.familiar);
     const targetEquipment = Array.from(this.equips.values());
     const accessorySlots = $slots`acc1, acc2, acc3`;
     for (const slot of $slots`weapon, off-hand, hat, shirt, pants, familiar, buddy-bjorn, crown-of-thrones, back`) {
