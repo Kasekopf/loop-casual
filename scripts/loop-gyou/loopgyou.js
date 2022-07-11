@@ -13869,6 +13869,7 @@ var MiscQuest = {
     completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(misc_templateObject133 || (misc_templateObject133 = misc_taggedTemplateLiteral(["FantasyRealm G. E. M."])))),
     do: () => {
       (0,external_kolmafia_.visitUrl)("place.php?whichplace=realm_fantasy&action=fr_initcenter");
+      (0,external_kolmafia_.runChoice)(-1);
     },
     choices: {
       1280: 1
@@ -15523,7 +15524,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "0907fd8";
+var lastCommitHash = "40ea8e3";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
