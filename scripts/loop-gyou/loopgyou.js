@@ -13865,6 +13865,7 @@ var MiscQuest = {
   }, {
     name: "Open Fantasy",
     after: [],
+    ready: () => (0,property/* get */.U2)("frAlways") || (0,property/* get */.U2)("_frToday"),
     completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(misc_templateObject133 || (misc_templateObject133 = misc_taggedTemplateLiteral(["FantasyRealm G. E. M."])))),
     do: () => {
       (0,external_kolmafia_.visitUrl)("place.php?whichplace=realm_fantasy&action=fr_initcenter");
@@ -15522,7 +15523,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "a24f419";
+var lastCommitHash = "0907fd8";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
