@@ -649,6 +649,7 @@ export const MiscQuest: Quest = {
     {
       name: "Open Fantasy",
       after: [],
+      ready: () => get("frAlways") || get("_frToday"),
       completed: () => have($item`FantasyRealm G. E. M.`),
       do: () => {
         visitUrl("place.php?whichplace=realm_fantasy&action=fr_initcenter");
