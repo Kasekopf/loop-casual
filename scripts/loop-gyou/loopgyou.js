@@ -7908,7 +7908,7 @@ function level9_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.
 var ABoo = [{
   name: "ABoo Start",
   after: ["Start Peaks"],
-  completed: () => (0,template_string/* $location */.PG)(level9_templateObject || (level9_templateObject = level9_taggedTemplateLiteral(["A-Boo Peak"]))).noncombatQueue.includes("Faction Traction = Inaction") || (0,property/* get */.U2)("booPeakProgress") < 50,
+  completed: () => (0,template_string/* $location */.PG)(level9_templateObject || (level9_templateObject = level9_taggedTemplateLiteral(["A-Boo Peak"]))).noncombatQueue.includes("Faction Traction = Inaction") || (0,property/* get */.U2)("booPeakProgress") < 100,
   do: (0,template_string/* $location */.PG)(level9_templateObject2 || (level9_templateObject2 = level9_taggedTemplateLiteral(["A-Boo Peak"]))),
   limit: {
     tries: 1
@@ -15537,7 +15537,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "354fe39";
+var lastCommitHash = "7c57ea3";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
