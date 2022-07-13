@@ -33,9 +33,13 @@ import {
   $items,
   $skill,
   $slot,
+  clamp,
   Diet,
   get,
   getAverageAdventures,
+  getRemainingLiver,
+  getRemainingSpleen,
+  getRemainingStomach,
   have,
   MenuItem,
   sumNumbers,
@@ -214,7 +218,7 @@ function consumeSafe(
   if (itemType(item) === "food") eatSafe(qty, item, mpa);
   else if (itemType(item) === "booze") drinkSafe(qty, item);
   else if (itemType(item) === "spleen item") chewSafe(qty, item);
-  else use(qty, item);
+  else if (item !== $item`Special Seasoning`) use(qty, item);
 }
 
 // Item priority - higher means we eat it first.
@@ -302,18 +306,35 @@ function consumeDiet(diet: Diet<MenuData>, mpa: number) {
     (a, b) => itemPriority(b.menuItems) - itemPriority(a.menuItems)
   );
 
+  print(`Diet Plan:`)
   for (const dietEntry of plannedDietEntries) {
     print(`${dietEntry.target()} ${dietEntry.helpers().join(",")}`);
   }
 
   while (sumNumbers(plannedDietEntries.map((e) => e.quantity)) > 0) {
+    let progressed = false;
     for (const dietEntry of plannedDietEntries) {
       let quantity = dietEntry.quantity;
+
+      // Compute the usable quantity of the diet entry
+      const organ = dietEntry.target().organ ?? itemType(dietEntry.target().item);
+      if (organ === "food") {
+        quantity = clamp(Math.floor(getRemainingStomach() / dietEntry.target().size), 0, quantity);
+      } else if (organ === "booze") {
+        quantity = clamp(Math.floor(getRemainingLiver() / dietEntry.target().size), 0, quantity);
+        if (dietEntry.target().size === 1 && !get("_mimeArmyShotglassUsed") && have($item`mime army shotglass`) && quantity === 0) {
+          quantity = 1;
+        }
+      } else if (organ === "spleen item") {
+        quantity = clamp(Math.floor(getRemainingSpleen() / dietEntry.target().size), 0, quantity);
+      }
       const clean = spleenCleaners.get(dietEntry.target().item);
       if (clean) {
-        quantity = Math.floor(mySpleenUse() / clean);
+        quantity = clamp(Math.floor(mySpleenUse() / clean), 0, quantity);
       }
+
       if (quantity > 0) {
+        progressed = true;
         for (const menuItem of dietEntry.menuItems) {
           if (menuItem.effect === $effect`Refined Palate`) {
             cliExecute(`genie effect ${menuItem.effect}`);
@@ -324,5 +345,7 @@ function consumeDiet(diet: Diet<MenuData>, mpa: number) {
         dietEntry.quantity -= quantity;
       }
     }
+
+    if (!progressed) throw `Unable to determine what to consume next`;
   }
 }
