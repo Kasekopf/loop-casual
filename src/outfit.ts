@@ -32,7 +32,7 @@ export class Outfit {
   equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.equip(val));
-    if (!have(item)) return false;
+    if (!have(item) && item !== $familiar`none`) return false;
     if (item instanceof Item && !canEquip(item)) return false;
     if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
 
@@ -79,7 +79,6 @@ export class Outfit {
       return false;
     } else {
       if (this.familiar && this.familiar !== item) return false;
-      if (!have(item)) return false;
       this.familiar = item;
       return true;
     }
@@ -112,7 +111,7 @@ export class Outfit {
   canEquip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
     if (item === undefined) return true;
     if (Array.isArray(item)) return item.every((val) => this.canEquip(val)); // TODO: smarter
-    if (!have(item)) return false;
+    if (!have(item) && item !== $familiar`none`) return false;
     if (item instanceof Item && !canEquip(item)) return false;
     if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
 
@@ -148,7 +147,6 @@ export class Outfit {
       return false;
     } else {
       if (this.familiar && this.familiar !== item) return false;
-      if (!have(item)) return false;
       return true;
     }
   }
@@ -259,7 +257,7 @@ export class Outfit {
 
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);
-    if (spec?.familiar) outfit.equip(spec.familiar);
+    if (spec?.familiar !== undefined) outfit.equip(spec.familiar);
     outfit.avoid = spec?.avoid;
 
     if (spec?.modifier) {
