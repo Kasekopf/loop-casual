@@ -318,7 +318,14 @@ export class Engine {
           outfit.equip($item`cursed magnifying glass`);
         outfit.equipDefaults();
       }
-      outfit.dress();
+      try {
+        outfit.dress();
+      } catch {
+        // If we fail to dress, this is maybe just a mafia desync.
+        // So refresh our inventory and try again (once).
+        cliExecute("inv refresh");
+        outfit.dress();
+      }
 
       // Prepare resources if needed
       wanderers.map((source) => source.prepare && source.prepare());
