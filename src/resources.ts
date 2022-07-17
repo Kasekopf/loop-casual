@@ -127,6 +127,7 @@ export class BanishState {
 export interface WandererSource extends Resource {
   monster: Monster | string;
   chance: () => number;
+  action?: Macro;
 }
 
 export const wandererSources: WandererSource[] = [
@@ -161,6 +162,7 @@ export const wandererSources: WandererSource[] = [
     equip: $item`Kramco Sausage-o-Matic™`,
     monster: $monster`sausage goblin`,
     chance: () => getKramcoWandererChance(),
+    action: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
   },
 ];
 

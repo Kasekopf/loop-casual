@@ -100,17 +100,17 @@ export class BuiltCombatStrategy {
     this.resources = resources;
 
     // First, kill wanderers
-    const wandererMonsters = wanderers.map((w) => w.monster);
+    const wandererMonsters: [string | Monster, Macro][] = wanderers.map((w) => [w.monster, w.action ?? new Macro()]);
     if (
       equippedAmount($item`Kramco Sausage-o-Matic™`) > 0 &&
-      wandererMonsters.find((m) => m === $monster`sausage goblin`) === undefined
+      wandererMonsters.find((m) => m[0] === $monster`sausage goblin`) === undefined
     ) {
       // Always be ready to fight sausage goblins if we equip Kramco
-      wandererMonsters.push($monster`sausage goblin`);
+      wandererMonsters.push([$monster`sausage goblin`, new Macro().trySkill($skill`Emit Matter Duplicating Drones`)]);
     }
     for (const wanderer of wandererMonsters) {
       // Note that we kill hard, which never uses up a freekill
-      this.macro = this.macro.if_(wanderer, this.prepare_macro(MonsterStrategy.KillHard));
+      this.macro = this.macro.if_(wanderer[0], new Macro().step(wanderer[1]).step(this.prepare_macro(MonsterStrategy.KillHard)));
     }
 
     // Set up the autoattack
