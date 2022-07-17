@@ -1,14 +1,10 @@
-import { cliExecute, itemAmount, myMeat, visitUrl } from "kolmafia";
+import { itemAmount, visitUrl } from "kolmafia";
 import {
-  $effect,
   $item,
-  $items,
   $location,
   $monster,
   $monsters,
-  CombatLoversLocket,
   have,
-  Macro,
 } from "libram";
 import { Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
@@ -51,27 +47,8 @@ export const McLargeHugeQuest: Quest = {
       limit: { soft: 15 },
     },
     {
-      name: "Ore Mountain",
-      after: [],
-      completed: () => itemAmount($item`asbestos ore`) >= 3 || step("questL08Trapper") >= 2 || CombatLoversLocket.monstersReminisced().includes($monster`mountain man`) || !CombatLoversLocket.have(),
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () =>
-        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-      acquire: [{ item: $item`yellow rocket` }],
-      prepare: () => {
-        cliExecute("retrocape heck hold");
-      },
-      do: () => {
-        CombatLoversLocket.reminisce($monster`mountain man`);
-      },
-      outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
-      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
-      limit: { tries: 1 },
-    },
-    {
       name: "Trapper Return",
-      after: ["Goatlet", "Pull/Ore", "Ore Mountain"],
+      after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man"],
       completed: () => step("questL08Trapper") >= 2,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
@@ -79,7 +56,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Ninja",
-      after: ["Trapper Return", "Misc/Summon Lion", "Palindome/Cold Snake"],
+      after: ["Trapper Return", "Summon/White Lion", "Palindome/Cold Snake"],
       completed: () =>
         (have($item`ninja rope`) && have($item`ninja carabiner`) && have($item`ninja crampons`)) ||
         step("questL08Trapper") >= 3,

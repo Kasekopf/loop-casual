@@ -87,7 +87,7 @@ const Copperhead: Task[] = [
   },
   {
     name: "Cold Snake",
-    after: ["Copperhead Start", "McLargeHuge/Trapper Return", "Misc/Summon Lion"],
+    after: ["Copperhead Start", "McLargeHuge/Trapper Return", "Summon/White Lion"],
     ready: () => shenItem($item`The First Pizza`),
     completed: () =>
       step("questL11Shen") === 999 ||

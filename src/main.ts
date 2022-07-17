@@ -28,6 +28,7 @@ import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
 import { lastCommitHash } from "./_git_commit";
+import { summonStrategy } from "./tasks/summons";
 
 const time_property = "_loop_gyou_first_start";
 const svn_name = "Kasekopf-loop-casual-branches-release";
@@ -66,6 +67,10 @@ export const args = Args.create(
       help: "Delay the NS tower until after ronin ends.",
       default: false,
     }),
+    fax: Args.boolean({
+      help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
+      default: true,
+    })
   }
 );
 export function main(command?: string): void {
@@ -128,6 +133,7 @@ export function main(command?: string): void {
     let state = new GameState();
     if (actions_left < 0) {
       // Update the strategy for the printout
+      summonStrategy.update(state);
       keyStrategy.update();
       pullStrategy.update();
       for (const task of tasks) {

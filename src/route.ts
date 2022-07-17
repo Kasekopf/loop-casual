@@ -12,8 +12,8 @@ export const routing: string[] = [
   "Pull/All",
 
   // Get infinite loop
-  "McLargeHuge/Ore Mountain",
-  "Misc/Locket Pygmy",
+  "Summon/Pygmy Witch Lawyer",
+  "Summon/Mountain Man",
 
   "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
