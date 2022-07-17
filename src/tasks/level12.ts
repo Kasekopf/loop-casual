@@ -13,14 +13,15 @@ import {
   get,
   have,
   Macro,
+  set,
 } from "libram";
 import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
-import { atLevel } from "../lib";
+import { atLevel, debug } from "../lib";
 
 export function flyersDone(): boolean {
-  return get("flyeredML") >= 10500;
+  return get("flyeredML") >= 10000;
 }
 
 const Flyers: Task[] = [
@@ -43,9 +44,17 @@ const Flyers: Task[] = [
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
       visitUrl("bigisland.php?place=concert&pwd");
+      cliExecute("refresh inv");
+      if (have($item`rock band flyers`)) {
+        debug("Mafia tracking was incorrect for rock band flyers; continuing to flyer...");
+        set("_loopgyou_flyeredML_buffer", get("_loopgyou_flyeredML_buffer", 0) + (get("flyeredML") - 9900));
+        set("flyeredML", 9900);
+      } else if (get("_loopgyou_flyeredML_buffer", 0) > 0) {
+        debug(`Mafia tracking was incorrect for rock band flyers; quest completed at ${get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)}`);
+      }
     },
     freeaction: true,
-    limit: { tries: 1 },
+    limit: { soft: 10, message: "See https://kolmafia.us/threads/flyeredml-tracking-wrong.27567/" },
   },
 ];
 
