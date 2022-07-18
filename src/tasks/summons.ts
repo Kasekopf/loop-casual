@@ -283,7 +283,7 @@ export const SummonQuest: Quest = {
         // Some extra safety around the Pygmy Witch Lawyer summon
         if (task.target === $monster`pygmy witch lawyer`) {
           if (get("_loopgyou_fought_pygmy", false)) {
-            if (!userConfirm("We already tried to fight a pygmy witch lawyer today and lost. Are you sure we can win this time? Consider fighting a pygymy witch lawyer yourself (buy yellow rocket; ensure you have no ML running and +50 combat initative). Press yes to let the script try the fight again, or no to abort.")) {
+            if (!userConfirm("We already tried to fight a pygmy witch lawyer today and lost (or failed to start the fight). Are you sure we can win this time? Consider fighting a pygymy witch lawyer yourself (buy yellow rocket; ensure you have no ML running and +50 combat initative). Press yes to let the script try the fight again, or no to abort.")) {
               throw `Abort requested`;
             }
           }
