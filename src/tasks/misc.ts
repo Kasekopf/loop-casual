@@ -419,7 +419,7 @@ export const MiscQuest: Quest = {
       name: "Dog Chow",
       after: [],
       ready: () => have($item`Ghost Dog Chow`) && familiarWeight($familiar`Grey Goose`) < 6,
-      completed: () => false,
+      completed: (state: GameState) => state.absorb.remainingReprocess().length === 0,
       do: () => {
         use($item`Ghost Dog Chow`);
         if (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
@@ -433,7 +433,7 @@ export const MiscQuest: Quest = {
       name: "Cake-Shaped Arena",
       after: [],
       ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
-      completed: () => false,
+      completed: (state: GameState) => state.absorb.remainingReprocess().length === 0,
       do: arenaFight,
       outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
       freeaction: true,
