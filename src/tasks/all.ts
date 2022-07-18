@@ -18,6 +18,7 @@ import { MiscQuest, WandQuest } from "./misc";
 import { PullQuest } from "./pulls";
 import { KeysQuest } from "./keys";
 import { AbsorbQuest, ReprocessQuest } from "./absorb";
+import { SummonQuest } from "./summons";
 import { Task } from "./structure";
 
 export function all_tasks(): Task[] {
@@ -27,6 +28,7 @@ export function all_tasks(): Task[] {
     PullQuest,
     WandQuest,
     KeysQuest,
+    SummonQuest,
     MosquitoQuest,
     TavernQuest,
     BatQuest,

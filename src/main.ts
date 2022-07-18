@@ -162,6 +162,7 @@ export function main(command?: string): void {
 
     while (myAdventures() > 0) {
       // Note order matters for these strategy updates
+      summonStrategy.update(state); // Update summon plan with current state
       keyStrategy.update(); // Update key plan with current state
       pullStrategy.update(); // Update pull plan with current state
 

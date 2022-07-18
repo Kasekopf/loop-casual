@@ -2,6 +2,7 @@ import {
   abort,
   canadiaAvailable,
   canFaxbot,
+  chatPrivate,
   cliExecute,
   equippedAmount,
   familiarWeight,
@@ -10,7 +11,7 @@ import {
   initiativeModifier,
   itemAmount,
   knollAvailable,
-  Monster, myAscensions, myFamiliar, myMeat, runCombat, use, userConfirm
+  Monster, myAscensions, myFamiliar, myMeat, runCombat, use, userConfirm, wait
 } from "kolmafia";
 import {
   $effect,
@@ -203,7 +204,15 @@ const summonSources: SummonSource[] = [
     name: "Fax",
     available: () => args.fax && !get("_photocopyUsed") ? 1 : 0,
     canFight: (mon: Monster) => canFaxbot(mon),
-    summon: (mon: Monster) => faxbot(mon),
+    summon: (mon: Monster) => {
+      chatPrivate("cheesefax", mon.name);
+      for (let i = 0; i < 3; i++) {
+        wait(10);
+        if (checkFax(mon)) break;
+        if (i === 2) throw `Failed to acquire photocopied ${mon.name}.`;
+      }
+      use($item`photocopied monster`);
+    },
   },
   {
     name: "Combat Locket",
@@ -218,6 +227,14 @@ const summonSources: SummonSource[] = [
     summon: (mon: Monster) => cliExecute(`genie monster ${mon.name}`),
   }
 ];
+
+// From garbo
+function checkFax(mon: Monster): boolean {
+  if (!have($item`photocopied monster`)) cliExecute("fax receive");
+  if (get("photocopyMonster") === mon) return true;
+  cliExecute("fax send");
+  return false;
+}
 
 class SummonStrategy {
   targets: SummonTarget[];
@@ -260,7 +277,7 @@ export const SummonQuest: Quest = {
   tasks: summonTargets.map((task): Task => {
     return {
       ...task,
-      name: task.target.name.toUpperCase(),
+      name: task.target.name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()), // capitalize first letter of each word
       ready: (state: GameState) => (task.ready?.(state) ?? true) && (summonStrategy.getSourceFor(task.target) !== undefined),
       do: () => {
         // Some extra safety around the Pygmy Witch Lawyer summon
