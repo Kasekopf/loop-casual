@@ -14,7 +14,7 @@ import {
   useFamiliar,
   weaponHands,
 } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
+import { $familiar, $item, $skill, $slot, $slots, $stat, get, getKramcoWandererChance, have, Requirement } from "libram";
 import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 import { Keys, keyStrategy } from "./tasks/keys";
@@ -287,7 +287,8 @@ export class Outfit {
       this.equip($item`unbreakable umbrella`);
     }
 
-    if (familiarWeight($familiar`Grey Goose`) < 6) {
+    if (familiarWeight($familiar`Grey Goose`) < 6 ||
+      (familiarWeight($familiar`Grey Goose`) >= 6 && [...this.equips.values()].includes($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() === 1)) {
       if (this.equip($familiar`Grey Goose`)) {
         this.equip($item`yule hatchet`);
         this.equip($item`ghostly reins`);
