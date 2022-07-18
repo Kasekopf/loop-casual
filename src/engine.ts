@@ -323,7 +323,8 @@ export class Engine {
       } catch {
         // If we fail to dress, this is maybe just a mafia desync.
         // So refresh our inventory and try again (once).
-        cliExecute("inv refresh");
+        debug("Possible mafia desync detected; refreshing...");
+        cliExecute("refresh all");
         outfit.dress();
       }
 

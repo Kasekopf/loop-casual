@@ -166,7 +166,10 @@ export class Outfit {
     //Order is anchored here to prevent DFSS shenanigans
     for (const slot of $slots`weapon, off-hand, hat, back, shirt, pants, familiar, buddy-bjorn, crown-of-thrones`) {
       const equipment = this.equips.get(slot);
-      if (equipment) equip(slot, equipment);
+      if (equipment) {
+        equip(slot, equipment);
+        if (equippedItem(slot) !== equipment) throw `Failed to equip ${equipment}`;
+      }
     }
 
     //We don't care what order accessories are equipped in, just that they're equipped
@@ -185,6 +188,7 @@ export class Outfit {
         accessoryEquips.filter((accessory) => accessory === currentEquip).length
       ) {
         equip(slot, toEquip);
+        if (equippedItem(slot) !== toEquip) throw `Failed to equip ${toEquip}`;
       }
     }
 
