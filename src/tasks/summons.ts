@@ -6,7 +6,6 @@ import {
   cliExecute,
   equippedAmount,
   familiarWeight,
-  faxbot,
   gnomadsAvailable,
   initiativeModifier,
   itemAmount,
@@ -154,6 +153,7 @@ const summonTargets: SummonTarget[] = [
       target: target.target,
       after: target.after,
       completed: (state: GameState) => !state.absorb.isReprocessTarget(target.target) || !target.needed(),
+      priority: () => OverridePriority.GoodGoose,
       ready: () => familiarWeight($familiar`Grey Goose`) >= 6,
       outfit: () => {
         if (CombatLoversLocket.have() && !CombatLoversLocket.unlockedLocketMonsters().includes(target.target)) {
