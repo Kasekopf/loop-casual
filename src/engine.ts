@@ -206,7 +206,7 @@ export class Engine {
       }
 
       // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
-      const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest`);
+      const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest, Oil Peak`);
       if (
         myBasestat($stat`Moxie`) >= 200 &&
         myBuffedstat($stat`Moxie`) >= 200 &&
