@@ -4647,7 +4647,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var libram__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1762);
 /* harmony import */ var libram__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(678);
 /* harmony import */ var libram__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3311);
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12;
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -4763,11 +4763,15 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
     this.boss = abstract.boss;
     this.resources = resources; // First, kill wanderers
 
-    var wandererMonsters = wanderers.map(w => w.monster);
+    var wandererMonsters = wanderers.map(w => {
+      var _w$action;
 
-    if ((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.equippedAmount)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$item */ .xr)(_templateObject || (_templateObject = _taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) > 0 && wandererMonsters.find(m => m === (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$monster */ .O4)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["sausage goblin"])))) === undefined) {
+      return [w.monster, (_w$action = w.action) !== null && _w$action !== void 0 ? _w$action : new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE()];
+    });
+
+    if ((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.equippedAmount)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$item */ .xr)(_templateObject || (_templateObject = _taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) > 0 && wandererMonsters.find(m => m[0] === (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$monster */ .O4)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["sausage goblin"])))) === undefined) {
       // Always be ready to fight sausage goblins if we equip Kramco
-      wandererMonsters.push((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$monster */ .O4)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["sausage goblin"]))));
+      wandererMonsters.push([(0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$monster */ .O4)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["sausage goblin"]))), new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().trySkill((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["Emit Matter Duplicating Drones"]))))]);
     }
 
     var _iterator = _createForOfIteratorHelper(wandererMonsters),
@@ -4777,7 +4781,7 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var wanderer = _step.value;
         // Note that we kill hard, which never uses up a freekill
-        this.macro = this.macro.if_(wanderer, this.prepare_macro(MonsterStrategy.KillHard));
+        this.macro = this.macro.if_(wanderer[0], new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().step(wanderer[1]).step(this.prepare_macro(MonsterStrategy.KillHard)));
       } // Set up the autoattack
 
     } catch (err) {
@@ -4830,7 +4834,7 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
       } // Upgrade normal kills to hard kills if we are underleveled
 
 
-      if (strategy === MonsterStrategy.Kill && this.resources.has(MonsterStrategy.KillFree) === undefined && monster && (0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.monsterDefense)(monster) * 1.25 > (0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.myBuffedstat)((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.weaponType)((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.equippedItem)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$slot */ .Jh)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["Weapon"]))))))) {
+      if (strategy === MonsterStrategy.Kill && this.resources.has(MonsterStrategy.KillFree) === undefined && monster && (0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.monsterDefense)(monster) * 1.25 > (0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.myBuffedstat)((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.weaponType)((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.equippedItem)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$slot */ .Jh)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["Weapon"]))))))) {
         strategy = MonsterStrategy.KillHard;
       } // Use the appropriate resource if provided
 
@@ -4842,12 +4846,12 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
       var killing_stat = undefined;
 
       if ((0,kolmafia__WEBPACK_IMPORTED_MODULE_0__.myMp)() >= 20) {
-        if (strategy === MonsterStrategy.KillItem && (0,libram__WEBPACK_IMPORTED_MODULE_3__/* .have */ .lf)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["Double Nanovision"]))))) {
-          killing_stat = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$stat */ .Ri)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["Mysticality"])));
-          killing_blow = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["Double Nanovision"])));
-        } else if ((0,libram__WEBPACK_IMPORTED_MODULE_3__/* .have */ .lf)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["Infinite Loop"]))))) {
-          killing_stat = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$stat */ .Ri)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["Moxie"])));
-          killing_blow = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["Infinite Loop"])));
+        if (strategy === MonsterStrategy.KillItem && (0,libram__WEBPACK_IMPORTED_MODULE_3__/* .have */ .lf)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["Double Nanovision"]))))) {
+          killing_stat = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$stat */ .Ri)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["Mysticality"])));
+          killing_blow = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["Double Nanovision"])));
+        } else if ((0,libram__WEBPACK_IMPORTED_MODULE_3__/* .have */ .lf)((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["Infinite Loop"]))))) {
+          killing_stat = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$stat */ .Ri)(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["Moxie"])));
+          killing_blow = (0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["Infinite Loop"])));
         }
       } // Otherwise, default to standard strategies
 
@@ -4870,7 +4874,7 @@ var BuiltCombatStrategy = /*#__PURE__*/function () {
             var slaps = Math.ceil(HPgap / 10);
 
             if (slaps > 0) {
-              return new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().while_("!times ".concat(slaps), new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().skill((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["Pseudopod Slap"]))))).while_("!mpbelow 20", new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().skill(killing_blow)).attack().repeat();
+              return new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().while_("!times ".concat(slaps), new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().skill((0,libram__WEBPACK_IMPORTED_MODULE_2__/* .$skill */ .tm)(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["Pseudopod Slap"]))))).while_("!mpbelow 20", new libram__WEBPACK_IMPORTED_MODULE_1__/* .Macro */ .LE().skill(killing_blow)).attack().repeat();
             }
           }
 
