@@ -3,6 +3,7 @@ import {
   create,
   Item,
   itemAmount,
+  myBasestat,
   myDaycount,
   myHash,
   myMaxhp,
@@ -20,6 +21,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  $stat,
   ensureEffect,
   get,
   have,
@@ -74,7 +76,8 @@ const Copperhead: Task[] = [
   {
     name: "Bat Snake",
     after: ["Copperhead Start", "Bat/Use Sonar 1"],
-    ready: () => shenItem($item`The Stankara Stone`),
+    ready: () => shenItem($item`The Stankara Stone`) &&
+      ($location`The Batrat and Ratbat Burrow`.turnsSpent < 5 || myBasestat($stat`Moxie`) >= 200),
     completed: () =>
       step("questL11Shen") === 999 ||
       have($item`The Stankara Stone`) ||
