@@ -10,7 +10,7 @@ import {
   initiativeModifier,
   itemAmount,
   knollAvailable,
-  Monster, myAscensions, myFamiliar, myMeat, runCombat, use, userConfirm, wait
+  Monster, myAscensions, myFamiliar, myMeat, runCombat, use, userConfirm, visitUrl, wait
 } from "kolmafia";
 import {
   $effect,
@@ -224,7 +224,10 @@ const summonSources: SummonSource[] = [
     name: "Wish",
     available: () => have($item`genie bottle`) ? 3 - get("_genieWishesUsed") : 0,
     canFight: () => true,
-    summon: (mon: Monster) => cliExecute(`genie monster ${mon.name}`),
+    summon: (mon: Monster) => {
+      cliExecute(`genie monster ${mon.name}`);
+      visitUrl("main.php");
+    },
   }
 ];
 
