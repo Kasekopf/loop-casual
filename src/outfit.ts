@@ -167,6 +167,9 @@ export class Outfit {
     for (const slot of $slots`weapon, off-hand, hat, back, shirt, pants, familiar, buddy-bjorn, crown-of-thrones`) {
       const equipment = this.equips.get(slot);
       if (equipment) {
+        if (slot === $slot`off-hand` && !this.equips.has($slot`weapon`) && weaponHands(equippedItem($slot`weapon`)) > 1) {
+          equip($item`none`, $slot`weapon`); // can't equip an off-hand with a two-handed weapon
+        }
         equip(slot, equipment);
         if (equippedItem(slot) !== equipment) throw `Failed to equip ${equipment}`;
       }
