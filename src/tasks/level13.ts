@@ -137,7 +137,8 @@ const ChallengeBosses: Task[] = [
     after: ["Speed Challenge"],
     completed: () => get("nsContestants1") === 0,
     do: $location`Fastest Adventurer Contest`,
-    combat: new CombatStrategy(true).killHard(),
+    boss: true,
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 1 },
   },
   {
@@ -145,7 +146,8 @@ const ChallengeBosses: Task[] = [
     after: ["Muscle Challenge", "Moxie Challenge", "Mysticality Challenge"],
     completed: () => get("nsContestants2") === 0,
     do: $location`A Crowd of (Stat) Adventurers`,
-    combat: new CombatStrategy(true).killHard(),
+    boss: true,
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 1 },
   },
   {
@@ -159,7 +161,8 @@ const ChallengeBosses: Task[] = [
     ],
     completed: () => get("nsContestants3") === 0,
     do: $location`A Crowd of (Element) Adventurers`,
-    combat: new CombatStrategy(true).killHard(),
+    boss: true,
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 1 },
   },
 ];
@@ -308,7 +311,8 @@ export const TowerQuest: Quest = {
       do: $location`Tower Level 1`,
       effects: $effects`Spiky Shell, Jalapeño Saucesphere, Psalm of Pointiness, Scarysauce`,
       outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`bejeweled cufflinks` },
-      combat: new CombatStrategy(true).macro(new Macro().attack().repeat()),
+      boss: true,
+      combat: new CombatStrategy().macro(new Macro().attack().repeat()),
       limit: { tries: 1 },
     },
     {
@@ -318,7 +322,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
       outfit: { modifier: "meat", skipDefaults: true },
-      combat: new CombatStrategy(true).killHard(),
+      boss: true,
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
     },
     {
@@ -328,7 +333,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 8,
       do: $location`Tower Level 3`,
       outfit: { modifier: "spell dmg" },
-      combat: new CombatStrategy(true).macro(new Macro().skill($skill`Garbage Nova`).repeat()),
+      boss: true,
+      combat: new CombatStrategy().macro(new Macro().skill($skill`Garbage Nova`).repeat()),
       limit: { tries: 1 },
     },
     {
@@ -349,7 +355,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
       outfit: { modifier: "init" },
-      combat: new CombatStrategy(true).macro(
+      boss: true,
+      combat: new CombatStrategy().macro(
         new Macro().item([$item`gauze garter`, $item`gauze garter`]).repeat()
       ),
       limit: { tries: 1 },
@@ -361,7 +368,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
       outfit: { modifier: "muscle" },
-      combat: new CombatStrategy(true).kill(),
+      boss: true,
+      combat: new CombatStrategy().kill(),
       limit: { tries: 1 },
     },
     {

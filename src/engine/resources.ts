@@ -168,7 +168,7 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
 }
 
 export interface WandererSource extends Resource {
-  monster: Monster | string;
+  monsters: Monster[];
   chance: () => number;
   macro?: Macro;
 }
@@ -184,8 +184,13 @@ export const wandererSources: WandererSource[] = [
       myLevel() >= 10 &&
       have($item`mutant legs`),
     equip: $items`"I Voted!" sticker, mutant legs`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    monsters: [
+      $monster`government bureaucrat`,
+      $monster`terrible mutant`,
+      $monster`angry ghost`,
+      $monster`annoyed snake`,
+      $monster`slime blob`,
+    ],
     chance: () => 1, // when available
   },
   {
@@ -198,8 +203,13 @@ export const wandererSources: WandererSource[] = [
       myLevel() >= 10 &&
       have($item`mutant arm`),
     equip: $items`"I Voted!" sticker, mutant arm`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    monsters: [
+      $monster`government bureaucrat`,
+      $monster`terrible mutant`,
+      $monster`angry ghost`,
+      $monster`annoyed snake`,
+      $monster`slime blob`,
+    ],
     chance: () => 1, // when available
   },
   {
@@ -211,8 +221,13 @@ export const wandererSources: WandererSource[] = [
       get("_voteFreeFights") < 3 &&
       myLevel() >= 10,
     equip: $item`"I Voted!" sticker`,
-    monster:
-      "monsterid 2094 || monsterid 2095 || monsterid 2096 || monsterid 2097 || monsterid 2098",
+    monsters: [
+      $monster`government bureaucrat`,
+      $monster`terrible mutant`,
+      $monster`angry ghost`,
+      $monster`annoyed snake`,
+      $monster`slime blob`,
+    ],
     chance: () => 1, // when available
   },
   {
@@ -222,14 +237,41 @@ export const wandererSources: WandererSource[] = [
       get("_voidFreeFights") < 5 &&
       get("cursedMagnifyingGlassCount") >= 13,
     equip: $item`cursed magnifying glass`,
-    monster: "monsterid 2227 || monsterid 2228 || monsterid 2229",
+    monsters: [
+      $monster`void guy`,
+      $monster`void slab`,
+      $monster`void spider`,
+    ],
     chance: () => 1, // when available
   },
   {
     name: "Goth",
     available: () => have($familiar`Artistic Goth Kid`) && get("_hipsterAdv") < 7,
     equip: $familiar`Artistic Goth Kid`,
-    monster: "monstername Black Crayon *",
+    monsters: [
+      $monster`Black Crayon Beast`,
+      $monster`Black Crayon Beetle`,
+      $monster`Black Crayon Constellation`,
+      $monster`Black Crayon Golem`,
+      $monster`Black Crayon Demon`,
+      $monster`Black Crayon Man`,
+      $monster`Black Crayon Elemental`,
+      $monster`Black Crayon Crimbo Elf`,
+      $monster`Black Crayon Fish`,
+      $monster`Black Crayon Goblin`,
+      $monster`Black Crayon Hippy`,
+      $monster`Black Crayon Hobo`,
+      $monster`Black Crayon Shambling Monstrosity`,
+      $monster`Black Crayon Manloid`,
+      $monster`Black Crayon Mer-kin`,
+      $monster`Black Crayon Frat Orc`,
+      $monster`Black Crayon Penguin`,
+      $monster`Black Crayon Pirate`,
+      $monster`Black Crayon Flower`,
+      $monster`Black Crayon Slime`,
+      $monster`Black Crayon Undead Thing`,
+      $monster`Black Crayon Spiraling Shape`,
+    ],
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
   },
   {
@@ -251,7 +293,7 @@ export const wandererSources: WandererSource[] = [
       $item`teacher's pen`,
       $item`teacher's pen`,
     ],
-    monster: $monster`sausage goblin`,
+    monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
     macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
   },
@@ -259,7 +301,7 @@ export const wandererSources: WandererSource[] = [
     name: "Kramco",
     available: () => have($item`Kramco Sausage-o-Matic™`) && myLevel() >= 10,
     equip: $item`Kramco Sausage-o-Matic™`,
-    monster: $monster`sausage goblin`,
+    monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
   },
 ];

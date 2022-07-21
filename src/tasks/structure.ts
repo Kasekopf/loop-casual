@@ -50,6 +50,7 @@ export type Task = {
   freecombat?: boolean;
   limit: Limit;
   noadventures?: boolean;
+  boss?: boolean;
 };
 
 export function step(questName: StringProperty): number {

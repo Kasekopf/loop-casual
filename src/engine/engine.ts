@@ -1,12 +1,14 @@
-import { Location, myAdventures } from "kolmafia";
+import { Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "../tasks/structure";
 import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
 import {
-  BuiltCombatStrategy,
-  CombatResourceAllocation,
+  CombatActions,
   CombatStrategy,
-  MonsterStrategy,
+  MyActionDefaults,
 } from "./combat";
+import {
+  CombatResources
+} from "../grimoire";
 import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
@@ -150,36 +152,37 @@ export class Engine {
     if (!task.freeaction) {
       // Prepare combat macro
       const task_combat = task.combat ?? new CombatStrategy();
-      const combat_resources = new CombatResourceAllocation();
+      if (task_combat.getDefaultAction() === undefined) task_combat.ignore();
+      const combat_resources = new CombatResources<CombatActions>();
 
       if (wanderers.length === 0) {
         // Set up a banish if needed
-        const banishSources = unusedBanishes(task_combat.where(MonsterStrategy.Banish));
-        combat_resources.banishWith(outfit.equipFirst(banishSources));
+        const banishSources = unusedBanishes(task_combat.where("banish").filter((mon) => mon instanceof Monster));
+        combat_resources.provide("banish", outfit.equipFirst(banishSources));
 
         // Set up a runaway if there are combats we do not care about
         let runaway = undefined;
-        if (task_combat.can(MonsterStrategy.Ignore)) {
+        if (task_combat.can("ignore")) {
           runaway = outfit.equipFirst(runawaySources);
-          combat_resources.runawayWith(runaway);
+          combat_resources.provide("ignore", runaway);
         }
-        if (task_combat.can(MonsterStrategy.IgnoreNoBanish)) {
+        if (task_combat.can("ignoreNoBanish")) {
           if (runaway !== undefined && !runaway.banishes)
-            combat_resources.runawayNoBanishWith(runaway);
+            combat_resources.provide("ignoreNoBanish", runaway);
           else
-            combat_resources.runawayNoBanishWith(
+            combat_resources.provide("ignoreNoBanish",
               outfit.equipFirst(runawaySources.filter((source) => !source.banishes))
             );
         }
 
         // Set up a free kill if needed, or if no free kills will ever be needed again
         if (
-          task_combat.can(MonsterStrategy.KillFree) ||
-          (task_combat.can(MonsterStrategy.Kill) &&
-            !task_combat.boss &&
-            this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
+          task_combat.can("killFree") ||
+          (task_combat.can("kill") &&
+            !task.boss &&
+            this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")))
         ) {
-          combat_resources.freekillWith(outfit.equipFirst(freekillSources));
+          combat_resources.provide("killFree", outfit.equipFirst(freekillSources));
         }
       }
 
@@ -192,27 +195,36 @@ export class Engine {
 
       // Prepare full outfit
       if (!outfit.skipDefaults) {
-        if (task_combat.boss) outfit.equip($familiar`Machine Elf`);
+        if (task.boss) outfit.equip($familiar`Machine Elf`);
         const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-        if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
+        if (!task.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
         if (
           canChargeVoid() &&
           !freecombat &&
-          ((task_combat.can(MonsterStrategy.Kill) &&
-            !combat_resources.has(MonsterStrategy.KillFree)) ||
-            task_combat.can(MonsterStrategy.KillHard) ||
-            task_combat.boss)
+          ((task_combat.can("kill") &&
+            !combat_resources.has("killFree")) ||
+            task_combat.can("killHard") ||
+            task.boss)
         )
           outfit.equip($item`cursed magnifying glass`);
         outfit.equipDefaults();
       }
       outfit.dress();
 
+      // Kill wanderers
+      for (const wanderer of wanderers) {
+        task_combat.killHard(wanderer.monsters)
+      }
+      if (combat_resources.has("killFree")) {
+        // Upgrade normal kills to free kills if provided
+        task_combat.killFree(task_combat.where("kill") ?? []);
+        if (task_combat.getDefaultAction() === "kill") task_combat.killFree();
+      }
       // Prepare combat macro (after effects and outfit)
-      const combat = new BuiltCombatStrategy(task_combat, combat_resources, wanderers);
-      debug(combat.macro.toString(), "blue");
+      const macro = task_combat.compile(combat_resources, new MyActionDefaults(), undefined);
+      debug(macro.toString(), "blue");
       setAutoAttack(0);
-      combat.macro.save();
+      macro.save();
 
       // Prepare resources if needed
       wanderers.map((source) => source.prepare && source.prepare());
