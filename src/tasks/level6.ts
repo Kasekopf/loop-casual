@@ -1,6 +1,6 @@
 import { drink, Item, itemAmount, myLevel, toInt, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monsters, $skill, have } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { Quest, step } from "./structure";
 
 export const FriarQuest: Quest = {

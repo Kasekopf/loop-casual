@@ -30,7 +30,7 @@ import {
   Witchess,
 } from "libram";
 import { Quest } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { args } from "../main";
 
 function primestatId(): number {

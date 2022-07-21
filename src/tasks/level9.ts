@@ -13,7 +13,7 @@ import {
   SourceTerminal,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 const ABoo: Task[] = [
   {

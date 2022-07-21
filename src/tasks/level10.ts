@@ -1,6 +1,6 @@
 import { cliExecute, containsText, myLevel, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, have } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { Quest, step } from "./structure";
 
 export const GiantQuest: Quest = {

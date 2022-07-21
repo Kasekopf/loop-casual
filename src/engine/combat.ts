@@ -17,6 +17,7 @@ import {
   WandererSource,
 } from "./resources";
 
+
 export enum MonsterStrategy {
   Ignore, // Task doesn't care what happens
   IgnoreNoBanish, // Task doesn't care what happens, as long as it is not banished

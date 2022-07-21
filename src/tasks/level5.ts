@@ -1,7 +1,7 @@
 import { myLevel, use, visitUrl } from "kolmafia";
 import { $effects, $item, $location, $monster, have } from "libram";
 import { Quest, step } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 export const KnobQuest: Quest = {
   name: "Knob",

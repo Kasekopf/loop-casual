@@ -1,8 +1,8 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
 import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
 import { Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
-import { runawayValue } from "../resources";
+import { CombatStrategy } from "../engine/combat";
+import { runawayValue } from "../engine/resources";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);

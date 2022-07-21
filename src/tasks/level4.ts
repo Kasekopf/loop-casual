@@ -1,7 +1,7 @@
 import { myLevel, use, visitUrl } from "kolmafia";
 import { $item, $location, $monster } from "libram";
 import { Quest, step } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 export const BatQuest: Quest = {
   name: "Bat",

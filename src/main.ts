@@ -11,7 +11,7 @@ import {
 } from "kolmafia";
 import { all_tasks, level_tasks, organ_tasks, quest_tasks } from "./tasks/all";
 import { prioritize } from "./route";
-import { Engine } from "./engine";
+import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
 import { $skill, get, have, set } from "libram";
 import { step, Task } from "./tasks/structure";

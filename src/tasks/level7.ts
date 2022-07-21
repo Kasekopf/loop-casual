@@ -24,7 +24,7 @@ import {
   Macro,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 function tuneCape(): void {
   if (

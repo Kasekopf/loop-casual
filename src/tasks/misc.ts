@@ -31,7 +31,7 @@ import {
   set,
   uneffect,
 } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { OutfitSpec, Quest, step } from "./structure";
 
 export const MiscQuest: Quest = {

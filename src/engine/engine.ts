@@ -1,5 +1,5 @@
 import { Location, myAdventures } from "kolmafia";
-import { Task } from "./tasks/structure";
+import { Task } from "../tasks/structure";
 import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
 import {
   BuiltCombatStrategy,
@@ -27,7 +27,7 @@ import {
   setAutoAttack,
   useSkill,
 } from "kolmafia";
-import { debug } from "./lib";
+import { debug } from "../lib";
 import {
   canChargeVoid,
   freekillSources,

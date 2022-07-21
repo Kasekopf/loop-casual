@@ -11,7 +11,7 @@ import {
 } from "kolmafia";
 import { $item, $items, $location, get } from "libram";
 import { Quest, step } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual

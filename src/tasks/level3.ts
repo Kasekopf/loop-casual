@@ -1,6 +1,6 @@
 import { getProperty, myLevel, runChoice, runCombat, visitUrl } from "kolmafia";
 import { $effects } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { Quest, step } from "./structure";
 
 export const TavernQuest: Quest = {

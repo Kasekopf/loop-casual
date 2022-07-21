@@ -15,7 +15,7 @@ import {
   uneffect,
 } from "libram";
 import { Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 
 function shenItem(item: Item) {
   return (

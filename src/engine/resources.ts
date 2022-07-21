@@ -34,7 +34,7 @@ import {
   Macro,
   sum,
 } from "libram";
-import { debug } from "./lib";
+import { debug } from "../lib";
 
 export interface Resource {
   name: string;
