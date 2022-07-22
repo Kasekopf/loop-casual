@@ -7,9 +7,8 @@ import {
   MyActionDefaults,
 } from "./combat";
 import {
-  CombatResources
+  CombatResources,
 } from "../grimoire";
-import { Outfit } from "./outfit";
 import { applyEffects } from "./moods";
 import {
   adv1,
@@ -38,6 +37,9 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
+import {
+  createOutfit, equipDefaults, equipFirst, equipInitial, equipUntilCapped
+} from "./outfit";
 
 export class Engine {
   attempts: { [task_name: string]: number } = {};
@@ -82,7 +84,7 @@ export class Engine {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = this.tasks.find(
       (task) =>
-        this.hasDelay(task) && this.available(task) && Outfit.create(task).canEquip(wanderer?.equip)
+        this.hasDelay(task) && this.available(task) && createOutfit(task).canEquip(wanderer?.equip)
     );
     if (wanderer !== undefined && delay_burning !== undefined) {
       return [delay_burning, wanderer];
@@ -142,7 +144,8 @@ export class Engine {
     );
 
     // Prepare basic equipment
-    const outfit = Outfit.create(task);
+    const outfit = createOutfit(task);
+    equipInitial(outfit);
     const wanderers = wanderer ? [wanderer] : [];
     for (const wanderer of wanderers) {
       if (!outfit.equip(wanderer?.equip))
@@ -158,12 +161,12 @@ export class Engine {
       if (wanderers.length === 0) {
         // Set up a banish if needed
         const banishSources = unusedBanishes(task_combat.where("banish").filter((mon) => mon instanceof Monster));
-        combat_resources.provide("banish", outfit.equipFirst(banishSources));
+        combat_resources.provide("banish", equipFirst(outfit, banishSources));
 
         // Set up a runaway if there are combats we do not care about
         let runaway = undefined;
         if (task_combat.can("ignore")) {
-          runaway = outfit.equipFirst(runawaySources);
+          runaway = equipFirst(outfit, runawaySources);
           combat_resources.provide("ignore", runaway);
         }
         if (task_combat.can("ignoreNoBanish")) {
@@ -171,7 +174,7 @@ export class Engine {
             combat_resources.provide("ignoreNoBanish", runaway);
           else
             combat_resources.provide("ignoreNoBanish",
-              outfit.equipFirst(runawaySources.filter((source) => !source.banishes))
+              equipFirst(outfit, runawaySources.filter((source) => !source.banishes))
             );
         }
 
@@ -182,13 +185,13 @@ export class Engine {
             !task.boss &&
             this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")))
         ) {
-          combat_resources.provide("killFree", outfit.equipFirst(freekillSources));
+          combat_resources.provide("killFree", equipFirst(outfit, freekillSources));
         }
       }
 
       // Set up more wanderers if delay is needed
       if (wanderers.length === 0 && this.hasDelay(task))
-        wanderers.push(...outfit.equipUntilCapped(wandererSources));
+        wanderers.push(...equipUntilCapped(outfit, wandererSources));
 
       // Prepare mood
       applyEffects(outfit.modifier ?? "", task.effects || []);
@@ -207,7 +210,7 @@ export class Engine {
             task.boss)
         )
           outfit.equip($item`cursed magnifying glass`);
-        outfit.equipDefaults();
+        equipDefaults(outfit);
       }
       outfit.dress();
 
