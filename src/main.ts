@@ -101,13 +101,8 @@ export function main(command?: string): void {
   }
 
   const engine = new Engine(tasks);
-  try {
-    // Do not bother to set properties if there are no tasks remaining
-    if (tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined) {
-      engine.setUniversalProperties();
-      cliExecute("ccs loopcasual");
-    }
 
+  try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -118,15 +113,14 @@ export function main(command?: string): void {
       // Track the number of actions remaining to execute.
       // If there are no more actions left, just print our plan and exit.
       if (actions_left <= 0) {
-        debug(`Next task: ${next[0].name}`);
+        debug(`Next task: ${next.name}`);
         return;
       } else {
         actions_left -= 1;
       }
 
       // Do the next task.
-      if (next[1] !== undefined) engine.execute(next[0], next[1]);
-      else engine.execute(next[0]);
+      engine.execute(next);
     }
 
     // Script is done; ensure we have finished

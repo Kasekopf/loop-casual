@@ -1,31 +1,22 @@
-import { Location, Monster, myAdventures } from "kolmafia";
+import { cliExecute, Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
-import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
+import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import {
   CombatActions,
-  CombatStrategy,
   MyActionDefaults,
 } from "./combat";
 import {
+  Engine as BaseEngine,
   CombatResources,
+  CombatStrategy,
+  Outfit
 } from "../grimoire";
 import { applyEffects } from "./moods";
 import {
-  adv1,
-  buy,
-  choiceFollowsFight,
-  cliExecute,
-  equippedAmount,
-  inMultiFight,
-  itemAmount,
   myHp,
   myMaxhp,
   myMaxmp,
   restoreMp,
-  retrieveItem,
-  runChoice,
-  runCombat,
-  setAutoAttack,
   useSkill,
 } from "kolmafia";
 import { debug } from "../lib";
@@ -41,28 +32,18 @@ import {
   createOutfit, equipDefaults, equipFirst, equipInitial, equipUntilCapped
 } from "./outfit";
 
-export class Engine {
-  attempts: { [task_name: string]: number } = {};
-  propertyManager = new PropertiesManager();
-  tasks: Task[];
-  tasks_by_name = new Map<string, Task>();
+type ActiveTask = Task & {
+  wanderer?: WandererSource;
+};
 
+export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   constructor(tasks: Task[]) {
-    this.tasks = tasks;
-    for (const task of tasks) {
-      this.tasks_by_name.set(task.name, task);
-    }
+    super(tasks, { combat_defaults: new MyActionDefaults()});
   }
 
   public available(task: Task): boolean {
-    for (const after of task.after ?? []) {
-      const after_task = this.tasks_by_name.get(after);
-      if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
-      if (!after_task.completed()) return false;
-    }
-    if (task.ready && !task.ready()) return false;
     if (myAdventures() === 0 && !task.noadventures) return false;
-    return !task.completed();
+    return super.available(task);
   }
 
   public hasDelay(task: Task): boolean {
@@ -71,13 +52,13 @@ export class Engine {
     return task.do.turnsSpent < task.delay;
   }
 
-  public getNextTask(): [Task, WandererSource?] | undefined {
+  public getNextTask(): ActiveTask | undefined {
     // First, check for any prioritized tasks
     const priority = this.tasks.find(
       (task) => this.available(task) && task.priority !== undefined && task.priority()
     );
     if (priority !== undefined) {
-      return [priority];
+      return priority;
     }
 
     // If a wanderer is up try to place it in a useful location
@@ -87,247 +68,134 @@ export class Engine {
         this.hasDelay(task) && this.available(task) && createOutfit(task).canEquip(wanderer?.equip)
     );
     if (wanderer !== undefined && delay_burning !== undefined) {
-      return [delay_burning, wanderer];
+      return {...delay_burning, wanderer: wanderer};
     }
 
     // Otherwise, just advance the next quest on the route
     const todo = this.tasks.find((task) => this.available(task));
-    if (todo !== undefined) return [todo];
+    if (todo !== undefined) return todo;
 
     // No next task
     return undefined;
   }
 
-  public execute(task: Task, wanderer?: WandererSource): void {
+  public execute(task: ActiveTask): void {
     debug(``);
     debug(`Executing ${task.name}`, "blue");
-    this.check_limits(task);
-
-    // Get needed items
-    for (const to_get of task.acquire || []) {
-      const num_needed = to_get.num ?? 1;
-      const num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
-      if (num_needed <= num_have) continue;
-      if (to_get.useful !== undefined && !to_get.useful()) continue;
-      if (to_get.item === $item`makeshift garbage shirt`) {
-        // Hardcode to avoid mafia weirdness
-        cliExecute("fold makeshift garbage shirt");
-      } else if (to_get.price !== undefined) {
-        debug(`Purchasing ${num_needed - num_have} ${to_get.item} below ${to_get.price}`);
-        buy(to_get.item, num_needed - num_have, to_get.price);
-      } else {
-        debug(`Acquiring ${num_needed} ${to_get.item}`);
-        retrieveItem(to_get.item, num_needed);
-      }
-      if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed && !to_get.optional) {
-        throw `Task ${task.name} was unable to acquire ${num_needed} ${to_get.item}`;
-      }
+    this.checkLimits(task);
+    super.execute(task);
+    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+    if (task.completed()) {
+      debug(`${task.name} completed!`, "blue");
+    } else {
+      debug(`${task.name} not completed!`, "blue");
     }
+  }
 
-    // Prepare choice selections
-    const choices: { [choice: number]: number } = {};
-    for (const choice_id_str in task.choices) {
-      const choice_id = parseInt(choice_id_str);
-      const choice = task.choices[choice_id];
-      if (typeof choice === "number") choices[choice_id] = choice;
-      else choices[choice_id] = choice();
-    }
-    this.propertyManager.setChoices(choices);
-    const ignored_noncombats = [
-      "Wooof! Wooooooof!",
-      "Seeing-Eyes Dog",
-      "Playing Fetch",
-      "Lights Out in the",
-    ];
-    const ignored_noncombats_seen = ignored_noncombats.filter(
-      (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
-    );
-
-    // Prepare basic equipment
-    const outfit = createOutfit(task);
+  customize(
+    task: ActiveTask,
+    outfit: Outfit,
+    combat: CombatStrategy<CombatActions>,
+    resources: CombatResources<CombatActions>
+  ): void {
     equipInitial(outfit);
-    const wanderers = wanderer ? [wanderer] : [];
+    const wanderers = task.wanderer ? [task.wanderer] : [];
     for (const wanderer of wanderers) {
       if (!outfit.equip(wanderer?.equip))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
-    if (!task.freeaction) {
-      // Prepare combat macro
-      const task_combat = task.combat ?? new CombatStrategy();
-      if (task_combat.getDefaultAction() === undefined) task_combat.ignore();
-      const combat_resources = new CombatResources<CombatActions>();
-
-      if (wanderers.length === 0) {
-        // Set up a banish if needed
-        const banishSources = unusedBanishes(task_combat.where("banish").filter((mon) => mon instanceof Monster));
-        combat_resources.provide("banish", equipFirst(outfit, banishSources));
-
-        // Set up a runaway if there are combats we do not care about
-        let runaway = undefined;
-        if (task_combat.can("ignore")) {
-          runaway = equipFirst(outfit, runawaySources);
-          combat_resources.provide("ignore", runaway);
-        }
-        if (task_combat.can("ignoreNoBanish")) {
-          if (runaway !== undefined && !runaway.banishes)
-            combat_resources.provide("ignoreNoBanish", runaway);
-          else
-            combat_resources.provide("ignoreNoBanish",
-              equipFirst(outfit, runawaySources.filter((source) => !source.banishes))
-            );
-        }
-
-        // Set up a free kill if needed, or if no free kills will ever be needed again
-        if (
-          task_combat.can("killFree") ||
-          (task_combat.can("kill") &&
-            !task.boss &&
-            this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")))
-        ) {
-          combat_resources.provide("killFree", equipFirst(outfit, freekillSources));
-        }
-      }
-
-      // Set up more wanderers if delay is needed
-      if (wanderers.length === 0 && this.hasDelay(task))
-        wanderers.push(...equipUntilCapped(outfit, wandererSources));
-
-      // Prepare mood
-      applyEffects(outfit.modifier ?? "", task.effects || []);
-
-      // Prepare full outfit
-      if (!outfit.skipDefaults) {
-        if (task.boss) outfit.equip($familiar`Machine Elf`);
-        const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-        if (!task.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
-        if (
-          canChargeVoid() &&
-          !freecombat &&
-          ((task_combat.can("kill") &&
-            !combat_resources.has("killFree")) ||
-            task_combat.can("killHard") ||
-            task.boss)
-        )
-          outfit.equip($item`cursed magnifying glass`);
-        equipDefaults(outfit);
-      }
-      outfit.dress();
-
-      // Kill wanderers
-      for (const wanderer of wanderers) {
-        task_combat.killHard(wanderer.monsters)
-      }
-      if (combat_resources.has("killFree") && !task.boss) {
-        // Upgrade normal kills to free kills if provided
-        task_combat.killFree((task_combat.where("kill") ?? []).filter((mon) => !mon.boss));
-        if (task_combat.getDefaultAction() === "kill") task_combat.killFree();
-      }
-      // Prepare combat macro (after effects and outfit)
-      const macro = task_combat.compile(combat_resources, new MyActionDefaults(), undefined);
-      debug(macro.toString(), "blue");
-      setAutoAttack(0);
-      macro.save();
-
-      // Prepare resources if needed
-      wanderers.map((source) => source.prepare && source.prepare());
-      combat_resources.all().map((source) => source.prepare && source.prepare());
-
-      // HP/MP upkeep
-      if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
-      if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
-    } else {
+    if (task.freeaction) {
       // Prepare only as requested by the task
       applyEffects(outfit.modifier ?? "", task.effects || []);
-      outfit.dress();
+      return;
     }
 
-    // Do any task-specific preparation
-    if (task.prepare) task.prepare();
+    // Prepare combat macro
+    if (combat.getDefaultAction() === undefined) combat.action("ignore");
 
-    // Do the task
-    if (typeof task.do === "function") {
-      task.do();
-    } else {
-      adv1(task.do, 0, "");
+    if (wanderers.length === 0) {
+      // Set up a banish if needed
+      const banishSources = unusedBanishes(combat.where("banish").filter((mon) => mon instanceof Monster));
+      resources.provide("banish", equipFirst(outfit, banishSources));
+
+      // Set up a runaway if there are combats we do not care about
+      let runaway = undefined;
+      if (combat.can("ignore")) {
+        runaway = equipFirst(outfit, runawaySources);
+        resources.provide("ignore", runaway);
+      }
+      if (combat.can("ignoreNoBanish")) {
+        if (runaway !== undefined && !runaway.banishes)
+          resources.provide("ignoreNoBanish", runaway);
+        else
+          resources.provide("ignoreNoBanish",
+            equipFirst(outfit, runawaySources.filter((source) => !source.banishes))
+          );
+      }
+
+      // Set up a free kill if needed, or if no free kills will ever be needed again
+      if (
+        combat.can("killFree") ||
+        (combat.can("kill") &&
+          !task.boss &&
+          this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")))
+      ) {
+        resources.provide("killFree", equipFirst(outfit, freekillSources));
+      }
     }
-    runCombat();
-    while (inMultiFight()) runCombat();
-    if (choiceFollowsFight()) runChoice(-1);
-    if (task.post) task.post();
 
-    if (have($effect`Beaten Up`)) throw "Fight was lost; stop.";
+    // Set up more wanderers if delay is needed
+    if (wanderers.length === 0 && this.hasDelay(task))
+      wanderers.push(...equipUntilCapped(outfit, wandererSources));
 
-    // Mark the number of attempts (unless an ignored noncombat occured)
-    if (!(task.name in this.attempts)) this.attempts[task.name] = 0;
-    if (
-      ignored_noncombats.filter(
-        (name) => task.do instanceof Location && task.do.noncombatQueue.includes(name)
-      ).length === ignored_noncombats_seen.length
-    ) {
-      this.attempts[task.name]++;
+    // Prepare mood
+    applyEffects(outfit.modifier ?? "", task.effects || []);
+
+    // Prepare full outfit
+    if (!outfit.skipDefaults) {
+      if (task.boss) outfit.equip($familiar`Machine Elf`);
+      const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
+      if (!task.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
+      if (
+        canChargeVoid() &&
+        !freecombat &&
+        ((combat.can("kill") &&
+          !resources.has("killFree")) ||
+          combat.can("killHard") ||
+          task.boss)
+      )
+        outfit.equip($item`cursed magnifying glass`);
+      equipDefaults(outfit);
     }
 
-    if (task.completed()) {
-      debug(`${task.name} completed!`, "blue");
-    } else {
-      debug(`${task.name} not completed!`, "blue");
-      this.check_limits(task); // Error if too many tries occur
+    // Kill wanderers
+    for (const wanderer of wanderers) {
+      combat.action("killHard", wanderer.monsters)
+    }
+    if (resources.has("killFree") && !task.boss) {
+      // Upgrade normal kills to free kills if provided
+      combat.action("killFree", (combat.where("kill") ?? []).filter((mon) => !mon.boss));
+      if (combat.getDefaultAction() === "kill") combat.action("killFree");
     }
   }
 
-  public check_limits(task: Task): void {
-    const failureMessage = task.limit.message ? ` ${task.limit.message}` : "";
-    if (task.limit.tries && this.attempts[task.name] >= task.limit.tries)
-      throw `Task ${task.name} did not complete within ${task.limit.tries} attempts. Please check what went wrong.${failureMessage}`;
-    if (task.limit.soft && this.attempts[task.name] >= task.limit.soft)
-      throw `Task ${task.name} did not complete within ${task.limit.soft} attempts. Please check what went wrong (you may just be unlucky).${failureMessage}`;
-    if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns)
-      throw `Task ${task.name} did not complete within ${task.limit.turns} turns. Please check what went wrong.${failureMessage}`;
+  dress(task: Task, outfit: Outfit): void {
+    super.dress(task, outfit);
+
+    // HP/MP upkeep
+    if (!task.freeaction) {
+      if (myHp() < myMaxhp() / 2) useSkill($skill`Cannelloni Cocoon`);
+      if (!have($effect`Super Skill`)) restoreMp(myMaxmp() < 200 ? myMaxmp() : 200);
+    }
   }
 
-  public setUniversalProperties() {
-    // Properties adapted from garbo
-    this.propertyManager.set({
-      logPreferenceChange: true,
-      logPreferenceChangeFilter: [
-        ...new Set([
-          ...get("logPreferenceChangeFilter").split(","),
-          "libram_savedMacro",
-          "maximizerMRUList",
-          "testudinalTeachings",
-          "_lastCombatStarted",
-        ]),
-      ]
-        .sort()
-        .filter((a) => a)
-        .join(","),
-      battleAction: "custom combat script",
-      autoSatisfyWithMall: true,
-      autoSatisfyWithNPCs: true,
-      autoSatisfyWithCoinmasters: true,
-      autoSatisfyWithStash: false,
-      dontStopForCounters: true,
-      maximizerFoldables: true,
-      hpAutoRecovery: 0.0,
-      hpAutoRecoveryTarget: 0.0,
-      mpAutoRecovery: 0.0,
-      mpAutoRecoveryTarget: 0.0,
-      afterAdventureScript: "",
-      betweenBattleScript: "",
-      choiceAdventureScript: "",
-      familiarScript: "",
-      currentMood: "apathetic",
-      autoTuxedo: true,
-      autoPinkyRing: true,
-      autoGarish: true,
-      allowNonMoodBurning: false,
-      allowSummonBurning: true,
-      libramSkillsSoftcore: "none",
+  initPropertiesManager(manager: PropertiesManager): void {
+    manager.set({
       louvreGoal: 7,
       louvreDesiredGoal: 7,
     });
-    this.propertyManager.setChoices({
+    manager.setChoices({
       1106: 3, // Ghost Dog Chow
       1107: 1, // tennis ball
       1340: 3, // Is There A Doctor In The House?
@@ -343,5 +211,6 @@ export class Engine {
       1474: 2,
       1475: 1,
     });
+    cliExecute("ccs loopcasual");
   }
 }
