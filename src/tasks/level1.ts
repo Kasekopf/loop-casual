@@ -1,6 +1,7 @@
 import { use, visitUrl } from "kolmafia";
 import { $item, have } from "libram";
-import { Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { step } from "../grimoire";
 
 export const TootQuest: Quest = {
   name: "Toot",

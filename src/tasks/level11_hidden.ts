@@ -1,8 +1,9 @@
 import { cliExecute, myHash, use, visitUrl } from "kolmafia";
 import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { runawayValue } from "../engine/resources";
+import { step } from "../grimoire";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);
@@ -329,7 +330,7 @@ export const HiddenQuest: Quest = {
       },
       choices: { 791: 1 },
       boss: true,
-      combat: new CombatStrategy().kill(...$monsters`dense liana, Protector Spectre`),
+      combat: new CombatStrategy().kill($monsters`dense liana, Protector Spectre`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],
     },

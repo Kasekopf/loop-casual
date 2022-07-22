@@ -13,7 +13,7 @@ import {
   weaponHands,
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, get, have, Requirement } from "libram";
-import { Task } from "../tasks/structure";
+import { Task } from "./task";
 import { canChargeVoid, Resource } from "./resources";
 
 // Adapted from phccs

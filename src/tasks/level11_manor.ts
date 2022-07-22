@@ -14,8 +14,9 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
+import { step } from "../grimoire";
 
 const Manor1: Task[] = [
   {

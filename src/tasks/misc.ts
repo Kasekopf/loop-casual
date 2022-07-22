@@ -32,7 +32,8 @@ import {
   uneffect,
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
-import { OutfitSpec, Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { OutfitSpec, step } from "../grimoire";
 
 export const MiscQuest: Quest = {
   name: "Misc",

@@ -14,8 +14,9 @@ import { prioritize } from "./route";
 import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
 import { $skill, get, have, set } from "libram";
-import { step, Task } from "./tasks/structure";
+import { Task } from "./engine/task";
 import { Args } from "./args";
+import { step } from "./grimoire";
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({

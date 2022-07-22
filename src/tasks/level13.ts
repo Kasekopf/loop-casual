@@ -1,7 +1,8 @@
 import { myAdventures, myLevel, runChoice, useSkill, visitUrl } from "kolmafia";
 import { $effects, $familiar, $item, $items, $location, $skill, $stat, get, Macro } from "libram";
 import { CombatStrategy } from "../engine/combat";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "../grimoire";
 
 const Challenges: Task[] = [
   {

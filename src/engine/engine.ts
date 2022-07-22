@@ -1,5 +1,5 @@
 import { Location, Monster, myAdventures } from "kolmafia";
-import { Task } from "../tasks/structure";
+import { Task } from "./task";
 import { $effect, $familiar, $item, $skill, get, have, PropertiesManager } from "libram";
 import {
   CombatActions,
@@ -53,7 +53,7 @@ export class Engine {
   }
 
   public available(task: Task): boolean {
-    for (const after of task.after) {
+    for (const after of task.after ?? []) {
       const after_task = this.tasks_by_name.get(after);
       if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
       if (!after_task.completed()) return false;

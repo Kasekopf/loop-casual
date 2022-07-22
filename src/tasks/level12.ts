@@ -10,8 +10,9 @@ import {
   visitUrl,
 } from "kolmafia";
 import { $item, $items, $location, get } from "libram";
-import { Quest, step } from "./structure";
+import { Quest } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
+import { step } from "../grimoire";
 
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual

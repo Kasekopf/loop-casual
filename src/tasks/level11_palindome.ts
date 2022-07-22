@@ -14,8 +14,9 @@ import {
   Macro,
   uneffect,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
+import { step } from "../grimoire";
 
 function shenItem(item: Item) {
   return (

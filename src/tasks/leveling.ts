@@ -29,7 +29,7 @@ import {
   set,
   Witchess,
 } from "libram";
-import { Quest } from "./structure";
+import { Quest } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { args } from "../main";
 

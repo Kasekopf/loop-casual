@@ -45,7 +45,7 @@ import {
   sumNumbers,
 } from "libram";
 import { args } from "../main";
-import { Quest } from "./structure";
+import { Quest } from "../engine/task";
 
 export const DietQuest: Quest = {
   name: "Diet",

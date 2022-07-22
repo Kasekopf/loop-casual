@@ -12,8 +12,9 @@ import {
   have,
   Macro,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
+import { OutfitSpec, step } from "../grimoire";
 
 const Diary: Task[] = [
   {
