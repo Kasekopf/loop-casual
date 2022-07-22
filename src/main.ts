@@ -15,8 +15,7 @@ import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
 import { $skill, get, have, set } from "libram";
 import { Task } from "./engine/task";
-import { Args } from "./args";
-import { step } from "./grimoire";
+import { Args, step } from "./grimoire";
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
