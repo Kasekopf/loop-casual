@@ -215,9 +215,9 @@ export class Engine {
       for (const wanderer of wanderers) {
         task_combat.killHard(wanderer.monsters)
       }
-      if (combat_resources.has("killFree")) {
+      if (combat_resources.has("killFree") && !task.boss) {
         // Upgrade normal kills to free kills if provided
-        task_combat.killFree(task_combat.where("kill") ?? []);
+        task_combat.killFree((task_combat.where("kill") ?? []).filter((mon) => !mon.boss));
         if (task_combat.getDefaultAction() === "kill") task_combat.killFree();
       }
       // Prepare combat macro (after effects and outfit)
