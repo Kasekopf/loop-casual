@@ -423,7 +423,7 @@ export const runawaySources: RunawaySource[] = [
         ensureEffect($effect`Ode to Booze`, 5);
       }
     },
-    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`iFlail`],
+    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`familiar scrapbook`],
     do: new Macro().runaway(),
     chance: () => 1,
     banishes: false,
