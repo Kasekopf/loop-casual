@@ -426,7 +426,7 @@ export class Engine {
     autosellJunk();
     if (myAdventures() !== start_advs) getExtros();
     // Crash if we unexpectedly lost the fight
-    if (!task.expectbeatenup && have($effect`Beaten Up`)) {
+    if (!task.expectbeatenup && have($effect`Beaten Up`) && haveEffect($effect`Beaten Up`) !== 5) { // Poetic Justice gives 5
       if (
         haveEffect($effect`Beaten Up`) > beaten_turns || // Turns of beaten-up increased, so we lost
         (haveEffect($effect`Beaten Up`) === beaten_turns &&
