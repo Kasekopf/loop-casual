@@ -14305,7 +14305,7 @@ function have() {
 
 function availableLocketMonsters() {
   if (reminiscesLeft() === 0) return [];
-  return Object.entries(getLocketMonsters()).filter(_ref => {
+  return Object.entries((0,external_kolmafia_.getLocketMonsters)()).filter(_ref => {
     var _ref2 = CombatLoversLocket_slicedToArray(_ref, 2),
         unused = _ref2[1];
 
@@ -14314,7 +14314,7 @@ function availableLocketMonsters() {
     var _ref4 = CombatLoversLocket_slicedToArray(_ref3, 1),
         name = _ref4[0];
 
-    return toMonster(name);
+    return (0,external_kolmafia_.toMonster)(name);
   });
 }
 /**
@@ -14552,7 +14552,7 @@ var summonSources = [{
 }, {
   name: "Combat Locket",
   available: () => have() ? reminiscesLeft() : 0,
-  canFight: mon => unlockedLocketMonsters().includes(mon),
+  canFight: mon => availableLocketMonsters().includes(mon),
   summon: mon => reminisce(mon)
 }, {
   name: "Wish",
@@ -15769,7 +15769,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "231dd2e";
+var lastCommitHash = "ec71a4f";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
