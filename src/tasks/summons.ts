@@ -217,7 +217,7 @@ const summonSources: SummonSource[] = [
   {
     name: "Combat Locket",
     available: () => CombatLoversLocket.have() ? CombatLoversLocket.reminiscesLeft() : 0,
-    canFight: (mon: Monster) => CombatLoversLocket.unlockedLocketMonsters().includes(mon),
+    canFight: (mon: Monster) => CombatLoversLocket.availableLocketMonsters().includes(mon),
     summon: (mon: Monster) => CombatLoversLocket.reminisce(mon),
   },
   {
