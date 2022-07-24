@@ -12643,7 +12643,7 @@ var OrbState = /*#__PURE__*/function () {
   return OrbState;
 }();
 ;// CONCATENATED MODULE: ./src/engine.ts
-var engine_templateObject, engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8, engine_templateObject9, engine_templateObject10, engine_templateObject11, engine_templateObject12, engine_templateObject13, engine_templateObject14, engine_templateObject15, engine_templateObject16, engine_templateObject17, engine_templateObject18, engine_templateObject19, engine_templateObject20, engine_templateObject21, engine_templateObject22, engine_templateObject23, engine_templateObject24, engine_templateObject25, engine_templateObject26, engine_templateObject27, engine_templateObject28, engine_templateObject29, engine_templateObject30, engine_templateObject31, engine_templateObject32, engine_templateObject33, engine_templateObject34, engine_templateObject35, engine_templateObject36, engine_templateObject37;
+var engine_templateObject, engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8, engine_templateObject9, engine_templateObject10, engine_templateObject11, engine_templateObject12, engine_templateObject13, engine_templateObject14, engine_templateObject15, engine_templateObject16, engine_templateObject17, engine_templateObject18, engine_templateObject19, engine_templateObject20, engine_templateObject21, engine_templateObject22, engine_templateObject23, engine_templateObject24, engine_templateObject25, engine_templateObject26, engine_templateObject27, engine_templateObject28, engine_templateObject29, engine_templateObject30, engine_templateObject31, engine_templateObject32, engine_templateObject33, engine_templateObject34, engine_templateObject35, engine_templateObject36, engine_templateObject37, engine_templateObject38;
 
 function engine_toConsumableArray(arr) { return engine_arrayWithoutHoles(arr) || engine_iterableToArray(arr) || engine_unsupportedIterableToArray(arr) || engine_nonIterableSpread(); }
 
@@ -12771,7 +12771,7 @@ var Engine = /*#__PURE__*/function () {
           if (num_needed <= num_have) continue;
           if (to_get.useful !== undefined && !to_get.useful()) continue;
 
-          if (to_get.item === (0,template_string/* $item */.xr)(engine_templateObject26 || (engine_templateObject26 = engine_taggedTemplateLiteral(["makeshift garbage shirt"])))) {
+          if (to_get.item === (0,template_string/* $item */.xr)(engine_templateObject27 || (engine_templateObject27 = engine_taggedTemplateLiteral(["makeshift garbage shirt"])))) {
             // Hardcode to avoid mafia weirdness
             (0,external_kolmafia_.cliExecute)("fold makeshift garbage shirt");
           } else if (to_get.price !== undefined) {
@@ -13025,14 +13025,15 @@ var Engine = /*#__PURE__*/function () {
       autosellJunk();
       if ((0,external_kolmafia_.myAdventures)() !== start_advs) getExtros(); // Crash if we unexpectedly lost the fight
 
-      if (!task.expectbeatenup && (0,lib/* have */.lf)((0,template_string/* $effect */._G)(engine_templateObject21 || (engine_templateObject21 = engine_taggedTemplateLiteral(["Beaten Up"]))))) {
-        if ((0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject22 || (engine_templateObject22 = engine_taggedTemplateLiteral(["Beaten Up"])))) > beaten_turns || // Turns of beaten-up increased, so we lost
-        (0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject23 || (engine_templateObject23 = engine_taggedTemplateLiteral(["Beaten Up"])))) === beaten_turns && ( // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
+      if (!task.expectbeatenup && (0,lib/* have */.lf)((0,template_string/* $effect */._G)(engine_templateObject21 || (engine_templateObject21 = engine_taggedTemplateLiteral(["Beaten Up"])))) && (0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject22 || (engine_templateObject22 = engine_taggedTemplateLiteral(["Beaten Up"])))) !== 5) {
+        // Poetic Justice gives 5
+        if ((0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject23 || (engine_templateObject23 = engine_taggedTemplateLiteral(["Beaten Up"])))) > beaten_turns || // Turns of beaten-up increased, so we lost
+        (0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject24 || (engine_templateObject24 = engine_taggedTemplateLiteral(["Beaten Up"])))) === beaten_turns && ( // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
         (0,external_kolmafia_.myAdventures)() < start_advs || // Check if adventures went down but also we reprocessed a monster
-        (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(engine_templateObject24 || (engine_templateObject24 = engine_taggedTemplateLiteral(["Grey Goose"])))) < goose_weight && ((0,external_kolmafia_.myAdventures)() === start_advs + 4 || (0,external_kolmafia_.myAdventures)() === start_advs + 6 || (0,external_kolmafia_.myAdventures)() === start_advs + 9))) throw "Fight was lost (debug info: ".concat(beaten_turns, " => ").concat((0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject25 || (engine_templateObject25 = engine_taggedTemplateLiteral(["Beaten Up"])))), ", (").concat(start_advs, " => ").concat((0,external_kolmafia_.myAdventures)(), "); stop.");
+        (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(engine_templateObject25 || (engine_templateObject25 = engine_taggedTemplateLiteral(["Grey Goose"])))) < goose_weight && ((0,external_kolmafia_.myAdventures)() === start_advs + 4 || (0,external_kolmafia_.myAdventures)() === start_advs + 6 || (0,external_kolmafia_.myAdventures)() === start_advs + 9))) throw "Fight was lost (debug info: ".concat(beaten_turns, " => ").concat((0,external_kolmafia_.haveEffect)((0,template_string/* $effect */._G)(engine_templateObject26 || (engine_templateObject26 = engine_taggedTemplateLiteral(["Beaten Up"])))), ", (").concat(start_advs, " => ").concat((0,external_kolmafia_.myAdventures)(), "); stop.");
       }
 
-      var _iterator6 = engine_createForOfIteratorHelper((0,template_string/* $effects */.lh)(engine_templateObject27 || (engine_templateObject27 = engine_taggedTemplateLiteral(["Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole"])))),
+      var _iterator6 = engine_createForOfIteratorHelper((0,template_string/* $effects */.lh)(engine_templateObject28 || (engine_templateObject28 = engine_taggedTemplateLiteral(["Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole"])))),
           _step6;
 
       try {
@@ -13085,7 +13086,7 @@ var Engine = /*#__PURE__*/function () {
 
   return Engine;
 }();
-var consumables_blacklist = new Set((0,template_string/* $items */.vS)(engine_templateObject28 || (engine_templateObject28 = engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name]"]))));
+var consumables_blacklist = new Set((0,template_string/* $items */.vS)(engine_templateObject29 || (engine_templateObject29 = engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name]"]))));
 
 function autosellJunk() {
   if ((0,external_kolmafia_.myPath)() !== "Grey You") return; // final safety
@@ -13093,9 +13094,9 @@ function autosellJunk() {
   if ((0,external_kolmafia_.myMeat)() >= 10000) return;
   if ((0,external_kolmafia_.myTurncount)() >= 1000) return; // stop after breaking ronin
 
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject29 || (engine_templateObject29 = engine_taggedTemplateLiteral(["pork elf goodies sack"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(engine_templateObject30 || (engine_templateObject30 = engine_taggedTemplateLiteral(["pork elf goodies sack"])))); // Sell junk items
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject30 || (engine_templateObject30 = engine_taggedTemplateLiteral(["pork elf goodies sack"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(engine_templateObject31 || (engine_templateObject31 = engine_taggedTemplateLiteral(["pork elf goodies sack"])))); // Sell junk items
 
-  var junk = (0,template_string/* $items */.vS)(engine_templateObject31 || (engine_templateObject31 = engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones"])));
+  var junk = (0,template_string/* $items */.vS)(engine_templateObject32 || (engine_templateObject32 = engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones"])));
 
   var _iterator7 = engine_createForOfIteratorHelper(junk),
       _step7;
@@ -13112,7 +13113,7 @@ function autosellJunk() {
     _iterator7.f();
   }
 
-  var partial_junk = (0,template_string/* $items */.vS)(engine_templateObject32 || (engine_templateObject32 = engine_taggedTemplateLiteral(["porquoise, ruby W, metallic A, lowercase N, heavy D"])));
+  var partial_junk = (0,template_string/* $items */.vS)(engine_templateObject33 || (engine_templateObject33 = engine_taggedTemplateLiteral(["porquoise, ruby W, metallic A, lowercase N, heavy D"])));
 
   var _iterator8 = engine_createForOfIteratorHelper(partial_junk),
       _step8;
@@ -13129,7 +13130,7 @@ function autosellJunk() {
     _iterator8.f();
   }
 
-  var wallets = (0,template_string/* $items */.vS)(engine_templateObject33 || (engine_templateObject33 = engine_taggedTemplateLiteral(["ancient vinyl coin purse, black pension check, old leather wallet, Gathered Meat-Clip, old coin purse"])));
+  var wallets = (0,template_string/* $items */.vS)(engine_templateObject34 || (engine_templateObject34 = engine_taggedTemplateLiteral(["ancient vinyl coin purse, black pension check, old leather wallet, Gathered Meat-Clip, old coin purse"])));
 
   var _iterator9 = engine_createForOfIteratorHelper(wallets),
       _step9;
@@ -13185,9 +13186,9 @@ function absorbConsumables() {
 }
 
 function getExtros() {
-  if ((0,external_kolmafia_.getWorkshed)() !== (0,template_string/* $item */.xr)(engine_templateObject34 || (engine_templateObject34 = engine_taggedTemplateLiteral(["cold medicine cabinet"])))) return;
-  if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject35 || (engine_templateObject35 = engine_taggedTemplateLiteral(["ice crown"]))))) return;
-  if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject36 || (engine_templateObject36 = engine_taggedTemplateLiteral(["frozen jeans"]))))) return;
+  if ((0,external_kolmafia_.getWorkshed)() !== (0,template_string/* $item */.xr)(engine_templateObject35 || (engine_templateObject35 = engine_taggedTemplateLiteral(["cold medicine cabinet"])))) return;
+  if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject36 || (engine_templateObject36 = engine_taggedTemplateLiteral(["ice crown"]))))) return;
+  if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject37 || (engine_templateObject37 = engine_taggedTemplateLiteral(["frozen jeans"]))))) return;
 
   if ((0,property/* get */.U2)("_coldMedicineConsults") >= 5 || (0,property/* get */.U2)("_nextColdMedicineConsult") > (0,external_kolmafia_.totalTurnsPlayed)()) {
     return;
@@ -13200,7 +13201,7 @@ function getExtros() {
   while ((match = regexp.exec(options)) !== null) {
     var item = (0,external_kolmafia_.descToItem)(match[1]);
 
-    if (item === (0,template_string/* $item */.xr)(engine_templateObject37 || (engine_templateObject37 = engine_taggedTemplateLiteral(["Extrovermectin\u2122"])))) {
+    if (item === (0,template_string/* $item */.xr)(engine_templateObject38 || (engine_templateObject38 = engine_taggedTemplateLiteral(["Extrovermectin\u2122"])))) {
       (0,external_kolmafia_.visitUrl)("campground.php?action=workshed");
       (0,external_kolmafia_.runChoice)(5);
       return;
@@ -15769,7 +15770,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "ec71a4f";
+var lastCommitHash = "396cb4f";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
