@@ -8,18 +8,20 @@ import { Keys, keyStrategy } from "./keys";
 /**
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
  * useful: True if we need it, false if we don't, undefined if not sure yet.
+ * duplicate: True if we should pull it even if we have it.
  * pull: The item to pull, or a list of options to pull.
  * name: If a list of options is given, what to use for the task (& sim) name.
  */
 type PullSpec = {
   optional?: boolean;
   useful?: () => boolean | undefined;
+  duplicate?: boolean;
 } & ({ pull: Item } | { pull: Item[] | (() => Item | undefined); name: string });
 
 export const pulls: PullSpec[] = [
   // Always pull the key items first
   { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) },
-  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) },
+  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap), duplicate: true },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
@@ -31,6 +33,7 @@ export const pulls: PullSpec[] = [
       if (get("trapperOre") === "") return undefined;
       return itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2;
     },
+    duplicate: true,
   },
   {
     pull: $item`Mohawk wig`,
@@ -65,7 +68,7 @@ export const pulls: PullSpec[] = [
   { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
   { pull: $item`yule hatchet` },
   { pull: $item`grey down vest` },
-  { pull: $item`teacher's pen` },
+  { pull: $item`teacher's pen`, duplicate: true },
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
@@ -74,7 +77,7 @@ export const pulls: PullSpec[] = [
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
-  { pull: $item`11-leaf clover` },
+  { pull: $item`11-leaf clover`, duplicate: true },
   {
     pull: $item`wet stew`,
     useful: () =>
@@ -86,17 +89,17 @@ export const pulls: PullSpec[] = [
   {
     pull: $item`ninja rope`,
     useful: () =>
-      !have($item`ninja rope`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
   {
     pull: $item`ninja carabiner`,
     useful: () =>
-      !have($item`ninja carabiner`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
   {
     pull: $item`ninja crampons`,
     useful: () =>
-      !have($item`ninja crampons`) && step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
 ];
 
@@ -104,6 +107,7 @@ class Pull {
   items: () => (Item | undefined)[];
   name: string;
   optional: boolean;
+  duplicate: boolean;
   useful: () => boolean | undefined;
 
   constructor(spec: PullSpec) {
@@ -120,6 +124,7 @@ class Pull {
         : typeof pull === "function"
           ? () => [pull()]
           : () => pull;
+    this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
   }
@@ -127,6 +132,7 @@ class Pull {
   public wasPulled(pulled: Set<Item>) {
     for (const item of this.items()) {
       if (item === undefined) continue;
+      if (!this.duplicate && have(item)) return true;
       if (pulled.has(item)) return true;
     }
     return false;
