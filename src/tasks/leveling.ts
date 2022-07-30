@@ -52,7 +52,10 @@ export const LevelingQuest: Quest = {
       name: "Cloud Talk",
       after: [],
       ready: () => get("getawayCampsiteUnlocked"),
-      completed: () => have($effect`That's Just Cloud-Talk, Man`) || myLevel() >= args.levelto,
+      completed: () =>
+        have($effect`That's Just Cloud-Talk, Man`) ||
+        get("_campAwayCloudBuffs", 0) > 1 ||
+        myLevel() >= args.levelto,
       do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
       freeaction: true,
       limit: { tries: 1 },
