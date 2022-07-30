@@ -354,11 +354,11 @@ export class CombatStrategy {
   public clone(): CombatStrategy {
     const result = new CombatStrategy(this.boss);
     result.default_strategy = this.default_strategy;
-    result.default_macro = this.default_macro;
-    result.default_autoattack = this.default_autoattack;
+    if (this.default_macro) result.default_macro = [...this.default_macro];
+    if (this.default_autoattack) result.default_macro = [...this.default_autoattack];
     result.strategy = new Map(this.strategy);
-    result.macros = new Map(this.macros);
-    result.autoattacks = new Map(this.autoattacks);
+    for (const pair of this.macros) result.macros.set(pair[0], [...pair[1]]);
+    for (const pair of this.autoattacks) result.autoattacks.set(pair[0], [...pair[1]]);
     return result;
   }
 }
