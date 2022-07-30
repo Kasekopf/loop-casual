@@ -38,6 +38,9 @@ export class Outfit {
 
     if (item instanceof Item) {
       const slot = toSlot(item);
+      if (slot === $slot`familiar` && this.familiar === $familiar`none`) {
+        return false;
+      }
       if (slot === $slot`acc1`) {
         if (this.accesories.length >= 3) return false;
         this.accesories.push(item);
@@ -117,6 +120,9 @@ export class Outfit {
 
     if (item instanceof Item) {
       const slot = toSlot(item);
+      if (slot === $slot`familiar` && this.familiar === $familiar`none`) {
+        return false;
+      }
       if (slot === $slot`acc1`) {
         if (this.accesories.length >= 3) return false;
         return true;
