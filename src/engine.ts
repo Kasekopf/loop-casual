@@ -24,6 +24,7 @@ import {
   myTurncount,
   overdrink,
   print,
+  putCloset,
   restoreHp,
   restoreMp,
   Slot,
@@ -536,6 +537,7 @@ function absorbConsumables(): void {
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
     if (item.fullness > 0 && !absorbed.has(item_id)) {
+      if (have($item`Special Seasoning`)) putCloset(itemAmount($item`Special Seasoning`), $item`Special Seasoning`)
       eat(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
