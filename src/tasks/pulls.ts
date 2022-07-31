@@ -20,8 +20,8 @@ type PullSpec = {
 
 export const pulls: PullSpec[] = [
   // Always pull the key items first
-  { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) },
-  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap), duplicate: true },
+  { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) && !args.delaytower },
+  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) && !args.delaytower, duplicate: true },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),

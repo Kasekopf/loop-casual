@@ -19,6 +19,7 @@ import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 import { Keys, keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
+import { args } from "./main";
 
 // Adapted from phccs
 export class Outfit {
@@ -312,7 +313,8 @@ export class Outfit {
       (!have($item`eleven-foot pole`) ||
         !have($item`ring of Detect Boring Doors`) ||
         !have($item`Pick-O-Matic lockpicks`)) &&
-      keyStrategy.useful(Keys.Dungeon) !== false
+      keyStrategy.useful(Keys.Dungeon) !== false &&
+      !args.delaytower
     ) {
       this.equip($familiar`Gelatinous Cubeling`);
     } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {

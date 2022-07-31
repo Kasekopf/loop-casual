@@ -29,6 +29,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { GameState } from "../state";
+import { args } from "../main";
 
 const Diary: Task[] = [
   {
@@ -348,7 +349,7 @@ const Pyramid: Task[] = [
     completed: () => step("questL11Pyramid") === 999,
     do: () => visitUrl("place.php?whichplace=pyramid&action=pyramid_state1a"),
     outfit: () => {
-      if (!have($item`Pick-O-Matic lockpicks`)) return { familiar: $familiar`Gelatinous Cubeling` }; // Ensure we get equipment
+      if (!have($item`Pick-O-Matic lockpicks`) && !args.delaytower) return { familiar: $familiar`Gelatinous Cubeling` }; // Ensure we get equipment
       return {};
     },
     combat: new CombatStrategy(true)
