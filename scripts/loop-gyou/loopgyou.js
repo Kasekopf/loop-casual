@@ -7036,7 +7036,7 @@ var Nook = [{
   },
   combat: (level7_CombatStrategy = new src_combat.CombatStrategy()).macro.apply(level7_CombatStrategy, [slay_macro].concat(level7_toConsumableArray((0,template_string/* $monsters */.fr)(level7_templateObject38 || (level7_templateObject38 = level7_taggedTemplateLiteral(["spiny skelelton, toothy sklelton"])))))).banish((0,template_string/* $monster */.O4)(level7_templateObject39 || (level7_templateObject39 = level7_taggedTemplateLiteral(["party skelteon"])))),
   limit: {
-    soft: 25
+    soft: 30
   }
 }, {
   name: "Nook Eye",
@@ -7831,7 +7831,7 @@ var ABoo = [{
     1430: 1
   },
   limit: {
-    soft: 10
+    soft: 15
   }
 }, {
   name: "ABoo Horror",
@@ -8686,7 +8686,7 @@ var Hospital = [{
     784: 1
   },
   limit: {
-    soft: 15
+    soft: 20
   }
 }, {
   name: "Finish Hospital",
@@ -8881,7 +8881,8 @@ var Manor1 = [{
   },
   combat: new src_combat.CombatStrategy().ignore().killItem((0,template_string/* $monster */.O4)(level11_manor_templateObject10 || (level11_manor_templateObject10 = level11_manor_taggedTemplateLiteral(["chalkdust wraith"])))).kill((0,template_string/* $monster */.O4)(level11_manor_templateObject11 || (level11_manor_templateObject11 = level11_manor_taggedTemplateLiteral(["pooltergeist (ultra-rare)"])))),
   limit: {
-    soft: 20
+    soft: 20,
+    message: "Consider increasing your permanent pool skill with \"A Shark's Chum\", if you have not."
   }
 }, {
   name: "Library",
@@ -15856,7 +15857,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "98ab482";
+var lastCommitHash = "a114dfd";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
