@@ -8,7 +8,6 @@ import {
   getInventory,
   getWorkshed,
   haveEffect,
-  haveEquipped,
   Item,
   Location,
   Monster,
@@ -41,9 +40,7 @@ import {
   $familiar,
   $item,
   $items,
-  $location,
   $locations,
-  $monster,
   $skill,
   $stat,
   get,
@@ -341,14 +338,6 @@ export class Engine {
       if (myMp() < 40 && myMaxmp() >= 40) restoreMp(40);
       else if (myMp() < 20) restoreMp(20);
 
-      // Always be ready to fight a surprise ghost
-      if (task.do instanceof Location) {
-        const ghost = protonicGhosts.get(task.do);
-        if (ghost && haveEquipped($item`protonic accelerator pack`)) {
-          task_combat.macro(new Macro().attack().repeat(), ghost);
-        }
-      }
-
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(
         task_combat,
@@ -579,20 +568,3 @@ function getExtros(): void {
     }
   }
 }
-
-
-const protonicGhosts = new Map<Location, Monster>([
-  [$location`Cobb's Knob Treasury`, $monster`The ghost of Ebenoozer Screege`],
-  [$location`The Haunted Conservatory`, $monster`The ghost of Lord Montague Spookyraven`],
-  [$location`The Haunted Gallery`, $monster`The ghost of Waldo the Carpathian`],
-  [$location`The Haunted Kitchen`, $monster`The Icewoman`],
-  [$location`The Haunted Wine Cellar`, $monster`The ghost of Jim Unfortunato`],
-  [$location`The Icy Peak`, $monster`The ghost of Sam McGee`],
-  [$location`Inside the Palindome`, $monster`Emily Koops, a spooky lime`],
-  [$location`Madness Bakery`, $monster`the ghost of Monsieur Baguelle`],
-  [$location`The Old Landfill`, $monster`The ghost of Vanillica "Trashblossom" Gorton`],
-  [$location`The Overgrown Lot`, $monster`the ghost of Oily McBindle`],
-  [$location`The Skeleton Store`, $monster`boneless blobghost`],
-  [$location`The Smut Orc Logging Camp`, $monster`The ghost of Richard Cockingham`],
-  [$location`The Spooky Forest`, $monster`The Headless Horseman`]
-]);
