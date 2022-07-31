@@ -3,6 +3,7 @@ import {
   $coinmaster,
   $effect,
   $effects,
+  $familiar,
   $item,
   $items,
   $location,
@@ -330,9 +331,18 @@ const Nuns: Task[] = [
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
     },
     do: $location`The Themthar Hills`,
-    outfit: {
-      modifier: "meat",
-      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin`, // Use amulet coin (if we have) to avoid using orb
+    outfit: () => {
+      if (have($familiar`Trick-or-Treating Tot`) && have($item`li'l pirate costume`)) {
+        return {
+          modifier: "meat",
+          familiar: $familiar`Trick-or-Treating Tot`,
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, li'l pirate costume`,
+        };
+      }
+      return {
+        modifier: "meat",
+        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin`, // Use amulet coin (if we have) to avoid using orb
+      }
     },
     freecombat: true, // Do not equip cmg or carn plant
     combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`).trySkill($skill`Sing Along`)).kill(),
