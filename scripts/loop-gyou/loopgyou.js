@@ -5758,7 +5758,7 @@ function atLevel(level) {
 // EXTERNAL MODULE: ./node_modules/libram/dist/combat.js
 var dist_combat = __webpack_require__(1762);
 ;// CONCATENATED MODULE: ./src/tasks/level12.ts
-var level12_templateObject, level12_templateObject2, level12_templateObject3, level12_templateObject4, level12_templateObject5, level12_templateObject6, level12_templateObject7, level12_templateObject8, level12_templateObject9, level12_templateObject10, level12_templateObject11, _CombatStrategy, level12_templateObject12, level12_templateObject13, level12_templateObject14, level12_templateObject15, level12_templateObject16, level12_templateObject17, level12_templateObject18, level12_templateObject19, level12_templateObject20, level12_templateObject21, level12_templateObject22, level12_templateObject23, level12_templateObject24, level12_templateObject25, level12_templateObject26, level12_templateObject27, level12_templateObject28, level12_templateObject29, level12_templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46, _templateObject47, _templateObject48, _templateObject49, _templateObject50, _templateObject51, _templateObject52, _templateObject53, _templateObject54, _templateObject55, _templateObject56, _templateObject57, _templateObject58, _templateObject59, _templateObject60, _templateObject61, _templateObject62, _templateObject63, _templateObject64, _templateObject65, _templateObject66, _templateObject67, _templateObject68, _templateObject69, _templateObject70, _templateObject71, _templateObject72, _templateObject73, _templateObject74, _templateObject75, _templateObject76, _templateObject77, _templateObject78, _templateObject79, _templateObject80, _templateObject81, _templateObject82, _templateObject83, _templateObject84, _templateObject85, _templateObject86, _templateObject87, _templateObject88, _templateObject89, _templateObject90, _templateObject91, _templateObject92, _templateObject93, _templateObject94, _templateObject95, _templateObject96, _templateObject97, _templateObject98, _templateObject99, _templateObject100, _templateObject101, _templateObject102, _templateObject103, _templateObject104, _templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128, _templateObject129, _templateObject130, _templateObject131, _templateObject132, _templateObject133, _templateObject134, _templateObject135, _templateObject136, _templateObject137, _templateObject138, _templateObject139, _templateObject140, _templateObject141, _templateObject142, _templateObject143, _templateObject144, _templateObject145, _templateObject146;
+var level12_templateObject, level12_templateObject2, level12_templateObject3, level12_templateObject4, level12_templateObject5, level12_templateObject6, level12_templateObject7, level12_templateObject8, level12_templateObject9, level12_templateObject10, level12_templateObject11, _CombatStrategy, level12_templateObject12, level12_templateObject13, level12_templateObject14, level12_templateObject15, level12_templateObject16, level12_templateObject17, level12_templateObject18, level12_templateObject19, level12_templateObject20, level12_templateObject21, level12_templateObject22, level12_templateObject23, level12_templateObject24, level12_templateObject25, level12_templateObject26, level12_templateObject27, level12_templateObject28, level12_templateObject29, level12_templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46, _templateObject47, _templateObject48, _templateObject49, _templateObject50, _templateObject51, _templateObject52, _templateObject53, _templateObject54, _templateObject55, _templateObject56, _templateObject57, _templateObject58, _templateObject59, _templateObject60, _templateObject61, _templateObject62, _templateObject63, _templateObject64, _templateObject65, _templateObject66, _templateObject67, _templateObject68, _templateObject69, _templateObject70, _templateObject71, _templateObject72, _templateObject73, _templateObject74, _templateObject75, _templateObject76, _templateObject77, _templateObject78, _templateObject79, _templateObject80, _templateObject81, _templateObject82, _templateObject83, _templateObject84, _templateObject85, _templateObject86, _templateObject87, _templateObject88, _templateObject89, _templateObject90, _templateObject91, _templateObject92, _templateObject93, _templateObject94, _templateObject95, _templateObject96, _templateObject97, _templateObject98, _templateObject99, _templateObject100, _templateObject101, _templateObject102, _templateObject103, _templateObject104, _templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128, _templateObject129, _templateObject130, _templateObject131, _templateObject132, _templateObject133, _templateObject134, _templateObject135, _templateObject136, _templateObject137, _templateObject138, _templateObject139, _templateObject140, _templateObject141, _templateObject142, _templateObject143, _templateObject144, _templateObject145, _templateObject146, _templateObject147, _templateObject148, _templateObject149, _templateObject150;
 
 function level12_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = level12_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -6054,14 +6054,24 @@ var Nuns = [{
     if (!(0,property/* get */.U2)("concertVisited")) (0,lib/* ensureEffect */.pq)((0,template_string/* $effect */._G)(_templateObject98 || (_templateObject98 = level12_taggedTemplateLiteral(["Winklered"]))));
   },
   do: (0,template_string/* $location */.PG)(_templateObject99 || (_templateObject99 = level12_taggedTemplateLiteral(["The Themthar Hills"]))),
-  outfit: {
-    modifier: "meat",
-    equip: (0,template_string/* $items */.vS)(_templateObject100 || (_templateObject100 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin"]))) // Use amulet coin (if we have) to avoid using orb
+  outfit: () => {
+    if ((0,lib/* have */.lf)((0,template_string/* $familiar */.HP)(_templateObject100 || (_templateObject100 = level12_taggedTemplateLiteral(["Trick-or-Treating Tot"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject101 || (_templateObject101 = level12_taggedTemplateLiteral(["li'l pirate costume"]))))) {
+      return {
+        modifier: "meat",
+        familiar: (0,template_string/* $familiar */.HP)(_templateObject102 || (_templateObject102 = level12_taggedTemplateLiteral(["Trick-or-Treating Tot"]))),
+        equip: (0,template_string/* $items */.vS)(_templateObject103 || (_templateObject103 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin, li'l pirate costume"])))
+      };
+    }
 
+    return {
+      modifier: "meat",
+      equip: (0,template_string/* $items */.vS)(_templateObject104 || (_templateObject104 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin"]))) // Use amulet coin (if we have) to avoid using orb
+
+    };
   },
   freecombat: true,
   // Do not equip cmg or carn plant
-  combat: new src_combat.CombatStrategy(true).macro(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(_templateObject101 || (_templateObject101 = level12_taggedTemplateLiteral(["Bowl Straight Up"])))).trySkill((0,template_string/* $skill */.tm)(_templateObject102 || (_templateObject102 = level12_taggedTemplateLiteral(["Sing Along"]))))).kill(),
+  combat: new src_combat.CombatStrategy(true).macro(new dist_combat/* Macro */.LE().trySkill((0,template_string/* $skill */.tm)(_templateObject105 || (_templateObject105 = level12_taggedTemplateLiteral(["Bowl Straight Up"])))).trySkill((0,template_string/* $skill */.tm)(_templateObject106 || (_templateObject106 = level12_taggedTemplateLiteral(["Sing Along"]))))).kill(),
   limit: {
     soft: 25
   }
@@ -6081,38 +6091,38 @@ var WarQuest = {
   }, {
     name: "Outfit Hippy",
     after: ["Misc/Unlock Island"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject103 || (_templateObject103 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject104 || (_templateObject104 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))),
-    ready: () => !(0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject105 || (_templateObject105 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) && ((0,external_kolmafia_.myMeat)() >= 250 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject106 || (_templateObject106 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
-    priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject107 || (_templateObject107 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) ? OverridePriority.None : OverridePriority.YR,
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject107 || (_templateObject107 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject108 || (_templateObject108 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))),
+    ready: () => !(0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject109 || (_templateObject109 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) && ((0,external_kolmafia_.myMeat)() >= 250 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject110 || (_templateObject110 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
+    priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject111 || (_templateObject111 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) ? OverridePriority.None : OverridePriority.YR,
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject108 || (_templateObject108 = level12_taggedTemplateLiteral(["yellow rocket"])))
+      item: (0,template_string/* $item */.xr)(_templateObject112 || (_templateObject112 = level12_taggedTemplateLiteral(["yellow rocket"])))
     }],
-    do: (0,template_string/* $location */.PG)(_templateObject109 || (_templateObject109 = level12_taggedTemplateLiteral(["Hippy Camp"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject113 || (_templateObject113 = level12_taggedTemplateLiteral(["Hippy Camp"]))),
     limit: {
       soft: 5
     },
     outfit: {
       modifier: "+combat"
     },
-    combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(_templateObject110 || (_templateObject110 = level12_taggedTemplateLiteral(["yellow rocket"])))))
+    combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(_templateObject114 || (_templateObject114 = level12_taggedTemplateLiteral(["yellow rocket"])))))
   }, {
     name: "Outfit Frat",
     after: ["Start", "Outfit Hippy"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject111 || (_templateObject111 = level12_taggedTemplateLiteral(["beer helmet"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject112 || (_templateObject112 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject113 || (_templateObject113 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))),
-    ready: () => !(0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject114 || (_templateObject114 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) && ((0,external_kolmafia_.myMeat)() >= 250 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject115 || (_templateObject115 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
-    priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject116 || (_templateObject116 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) ? OverridePriority.None : OverridePriority.YR,
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject115 || (_templateObject115 = level12_taggedTemplateLiteral(["beer helmet"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject116 || (_templateObject116 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject117 || (_templateObject117 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))),
+    ready: () => !(0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject118 || (_templateObject118 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) && ((0,external_kolmafia_.myMeat)() >= 250 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject119 || (_templateObject119 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
+    priority: () => (0,lib/* have */.lf)((0,template_string/* $effect */._G)(_templateObject120 || (_templateObject120 = level12_taggedTemplateLiteral(["Everything Looks Yellow"])))) ? OverridePriority.None : OverridePriority.YR,
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject117 || (_templateObject117 = level12_taggedTemplateLiteral(["yellow rocket"])))
+      item: (0,template_string/* $item */.xr)(_templateObject121 || (_templateObject121 = level12_taggedTemplateLiteral(["yellow rocket"])))
     }],
-    do: (0,template_string/* $location */.PG)(_templateObject118 || (_templateObject118 = level12_taggedTemplateLiteral(["Frat House"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject122 || (_templateObject122 = level12_taggedTemplateLiteral(["Frat House"]))),
     limit: {
       soft: 5
     },
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject119 || (_templateObject119 = level12_taggedTemplateLiteral(["filthy corduroys, filthy knitted dread sack"]))),
+      equip: (0,template_string/* $items */.vS)(_templateObject123 || (_templateObject123 = level12_taggedTemplateLiteral(["filthy corduroys, filthy knitted dread sack"]))),
       modifier: "+combat"
     },
-    combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(_templateObject120 || (_templateObject120 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
+    combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(_templateObject124 || (_templateObject124 = level12_taggedTemplateLiteral(["yellow rocket"]))))),
     choices: {
       142: 3,
       143: 3,
@@ -6126,10 +6136,10 @@ var WarQuest = {
     after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
     completed: () => step("questL12War") >= 1,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject121 || (_templateObject121 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"]))),
+      equip: (0,template_string/* $items */.vS)(_templateObject125 || (_templateObject125 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"]))),
       modifier: "-combat"
     },
-    do: (0,template_string/* $location */.PG)(_templateObject122 || (_templateObject122 = level12_taggedTemplateLiteral(["Wartime Hippy Camp (Frat Disguise)"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject126 || (_templateObject126 = level12_taggedTemplateLiteral(["Wartime Hippy Camp (Frat Disguise)"]))),
     choices: {
       142: 3,
       143: 3,
@@ -6145,17 +6155,17 @@ var WarQuest = {
     name: "Open Orchard",
     after: ["Flyers End", "Lighthouse End", "Junkyard End"],
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject123 || (_templateObject123 = level12_taggedTemplateLiteral(["beer helmet"])))
+      item: (0,template_string/* $item */.xr)(_templateObject127 || (_templateObject127 = level12_taggedTemplateLiteral(["beer helmet"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject124 || (_templateObject124 = level12_taggedTemplateLiteral(["distressed denim pants"])))
+      item: (0,template_string/* $item */.xr)(_templateObject128 || (_templateObject128 = level12_taggedTemplateLiteral(["distressed denim pants"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject125 || (_templateObject125 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
+      item: (0,template_string/* $item */.xr)(_templateObject129 || (_templateObject129 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
     }],
     completed: () => (0,property/* get */.U2)("hippiesDefeated") >= 64,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject126 || (_templateObject126 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
+      equip: (0,template_string/* $items */.vS)(_templateObject130 || (_templateObject130 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
-    do: (0,template_string/* $location */.PG)(_templateObject127 || (_templateObject127 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject131 || (_templateObject131 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
     post: dimesForGarters,
     combat: new src_combat.CombatStrategy().kill(),
     limit: {
@@ -6165,17 +6175,17 @@ var WarQuest = {
     name: "Open Nuns",
     after: ["Orchard Finish"],
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject128 || (_templateObject128 = level12_taggedTemplateLiteral(["beer helmet"])))
+      item: (0,template_string/* $item */.xr)(_templateObject132 || (_templateObject132 = level12_taggedTemplateLiteral(["beer helmet"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject129 || (_templateObject129 = level12_taggedTemplateLiteral(["distressed denim pants"])))
+      item: (0,template_string/* $item */.xr)(_templateObject133 || (_templateObject133 = level12_taggedTemplateLiteral(["distressed denim pants"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject130 || (_templateObject130 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
+      item: (0,template_string/* $item */.xr)(_templateObject134 || (_templateObject134 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
     }],
     completed: () => (0,property/* get */.U2)("hippiesDefeated") >= 192,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject131 || (_templateObject131 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
+      equip: (0,template_string/* $items */.vS)(_templateObject135 || (_templateObject135 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
-    do: (0,template_string/* $location */.PG)(_templateObject132 || (_templateObject132 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject136 || (_templateObject136 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
     combat: new src_combat.CombatStrategy().kill(),
     limit: {
       tries: 9
@@ -6184,17 +6194,17 @@ var WarQuest = {
     name: "Clear",
     after: ["Nuns"],
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject133 || (_templateObject133 = level12_taggedTemplateLiteral(["beer helmet"])))
+      item: (0,template_string/* $item */.xr)(_templateObject137 || (_templateObject137 = level12_taggedTemplateLiteral(["beer helmet"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject134 || (_templateObject134 = level12_taggedTemplateLiteral(["distressed denim pants"])))
+      item: (0,template_string/* $item */.xr)(_templateObject138 || (_templateObject138 = level12_taggedTemplateLiteral(["distressed denim pants"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject135 || (_templateObject135 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
+      item: (0,template_string/* $item */.xr)(_templateObject139 || (_templateObject139 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
     }],
     completed: () => (0,property/* get */.U2)("hippiesDefeated") >= 1000,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject136 || (_templateObject136 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
+      equip: (0,template_string/* $items */.vS)(_templateObject140 || (_templateObject140 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
-    do: (0,template_string/* $location */.PG)(_templateObject137 || (_templateObject137 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
+    do: (0,template_string/* $location */.PG)(_templateObject141 || (_templateObject141 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
     post: dimesForGarters,
     combat: new src_combat.CombatStrategy().kill(),
     limit: {
@@ -6205,7 +6215,7 @@ var WarQuest = {
     after: ["Clear"],
     completed: () => step("questL12War") === 999,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject138 || (_templateObject138 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
+      equip: (0,template_string/* $items */.vS)(_templateObject142 || (_templateObject142 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
     prepare: dimesForGarters,
     do: () => {
@@ -6221,12 +6231,12 @@ var WarQuest = {
 function councilSafe() {
   // Check if it is safe to visit the council without making the war outfit worse
   // (It is harder to get the hippy outfit after the war starts)
-  return !atLevel(12) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject139 || (_templateObject139 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject140 || (_templateObject140 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject141 || (_templateObject141 = level12_taggedTemplateLiteral(["beer helmet"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject142 || (_templateObject142 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject143 || (_templateObject143 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
+  return !atLevel(12) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject143 || (_templateObject143 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject144 || (_templateObject144 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject145 || (_templateObject145 = level12_taggedTemplateLiteral(["beer helmet"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject146 || (_templateObject146 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(_templateObject147 || (_templateObject147 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
 }
 
 function dimesForGarters() {
-  if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(_templateObject144 || (_templateObject144 = level12_taggedTemplateLiteral(["gauze garter"])))) >= 20) return;
-  var to_sell = (0,template_string/* $items */.vS)(_templateObject145 || (_templateObject145 = level12_taggedTemplateLiteral(["pink clay bead, purple clay bead, green clay bead, communications windchimes, bullet-proof corduroys, round purple sunglasses, reinforced beaded headband"])));
+  if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(_templateObject148 || (_templateObject148 = level12_taggedTemplateLiteral(["gauze garter"])))) >= 20) return;
+  var to_sell = (0,template_string/* $items */.vS)(_templateObject149 || (_templateObject149 = level12_taggedTemplateLiteral(["pink clay bead, purple clay bead, green clay bead, communications windchimes, bullet-proof corduroys, round purple sunglasses, reinforced beaded headband"])));
 
   var _iterator = level12_createForOfIteratorHelper(to_sell),
       _step;
@@ -6242,7 +6252,7 @@ function dimesForGarters() {
     _iterator.f();
   }
 
-  if ((0,template_string/* $coinmaster */.$L)(_templateObject146 || (_templateObject146 = level12_taggedTemplateLiteral(["Quartersmaster"]))).availableTokens >= 2) (0,external_kolmafia_.cliExecute)("make * gauze garter");
+  if ((0,template_string/* $coinmaster */.$L)(_templateObject150 || (_templateObject150 = level12_taggedTemplateLiteral(["Quartersmaster"]))).availableTokens >= 2) (0,external_kolmafia_.cliExecute)("make * gauze garter");
 }
 ;// CONCATENATED MODULE: ./src/tasks/level2.ts
 var level2_templateObject, level2_templateObject2, level2_templateObject3;
@@ -8130,7 +8140,7 @@ var ChasmQuest = {
   }])
 };
 ;// CONCATENATED MODULE: ./src/tasks/level10.ts
-var level10_templateObject, level10_templateObject2, level10_templateObject3, level10_templateObject4, level10_templateObject5, level10_templateObject6, level10_templateObject7, level10_templateObject8, level10_templateObject9, level10_templateObject10, level10_templateObject11, level10_templateObject12, level10_templateObject13, level10_templateObject14, level10_templateObject15, level10_templateObject16, level10_templateObject17, level10_templateObject18, level10_templateObject19, level10_templateObject20, level10_templateObject21, level10_templateObject22, level10_templateObject23, level10_templateObject24, level10_templateObject25, level10_templateObject26, level10_templateObject27, level10_templateObject28, level10_templateObject29, level10_templateObject30, level10_templateObject31, level10_templateObject32, level10_templateObject33, level10_templateObject34, level10_templateObject35, level10_templateObject36, level10_templateObject37, level10_templateObject38, level10_templateObject39, level10_templateObject40;
+var level10_templateObject, level10_templateObject2, level10_templateObject3, level10_templateObject4, level10_templateObject5, level10_templateObject6, level10_templateObject7, level10_templateObject8, level10_templateObject9, level10_templateObject10, level10_templateObject11, level10_templateObject12, level10_templateObject13, level10_templateObject14, level10_templateObject15, level10_templateObject16, level10_templateObject17, level10_templateObject18, level10_templateObject19, level10_templateObject20, level10_templateObject21, level10_templateObject22, level10_templateObject23, level10_templateObject24, level10_templateObject25, level10_templateObject26, level10_templateObject27, level10_templateObject28, level10_templateObject29, level10_templateObject30, level10_templateObject31, level10_templateObject32, level10_templateObject33, level10_templateObject34, level10_templateObject35, level10_templateObject36, level10_templateObject37, level10_templateObject38, level10_templateObject39;
 
 function level10_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -8294,16 +8304,13 @@ var GiantQuest = {
   }, {
     name: "Top Floor",
     after: ["Ground"],
-    acquire: [{
-      item: (0,template_string/* $item */.xr)(level10_templateObject34 || (level10_templateObject34 = level10_taggedTemplateLiteral(["Mohawk wig"])))
-    }],
     completed: () => step("questL10Garbage") >= 10,
-    do: (0,template_string/* $location */.PG)(level10_templateObject35 || (level10_templateObject35 = level10_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
+    do: (0,template_string/* $location */.PG)(level10_templateObject34 || (level10_templateObject34 = level10_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
     outfit: {
-      equip: (0,template_string/* $items */.vS)(level10_templateObject36 || (level10_templateObject36 = level10_taggedTemplateLiteral(["Mohawk wig"]))),
+      equip: (0,template_string/* $items */.vS)(level10_templateObject35 || (level10_templateObject35 = level10_taggedTemplateLiteral(["Mohawk wig"]))),
       modifier: "-combat"
     },
-    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level10_templateObject37 || (level10_templateObject37 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
+    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level10_templateObject36 || (level10_templateObject36 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
     choices: {
       675: 4,
       676: 4,
@@ -8328,12 +8335,12 @@ var GiantQuest = {
   }, {
     name: "Unlock HITS",
     after: ["Top Floor"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level10_templateObject38 || (level10_templateObject38 = level10_taggedTemplateLiteral(["steam-powered model rocketship"])))),
-    do: (0,template_string/* $location */.PG)(level10_templateObject39 || (level10_templateObject39 = level10_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(level10_templateObject37 || (level10_templateObject37 = level10_taggedTemplateLiteral(["steam-powered model rocketship"])))),
+    do: (0,template_string/* $location */.PG)(level10_templateObject38 || (level10_templateObject38 = level10_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
     outfit: {
       modifier: "-combat"
     },
-    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level10_templateObject40 || (level10_templateObject40 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
+    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(level10_templateObject39 || (level10_templateObject39 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
     choices: {
       675: 4,
       676: 4,
@@ -9577,6 +9584,7 @@ function level11_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings
 
 
 
+
 var Diary = [{
   name: "Forest",
   after: ["Start"],
@@ -9878,7 +9886,7 @@ var Pyramid = [{
   completed: () => step("questL11Pyramid") === 999,
   do: () => (0,external_kolmafia_.visitUrl)("place.php?whichplace=pyramid&action=pyramid_state1a"),
   outfit: () => {
-    if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_templateObject102 || (level11_templateObject102 = level11_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return {
+    if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(level11_templateObject102 || (level11_templateObject102 = level11_taggedTemplateLiteral(["Pick-O-Matic lockpicks"])))) && !args.delaytower) return {
       familiar: (0,template_string/* $familiar */.HP)(level11_templateObject103 || (level11_templateObject103 = level11_taggedTemplateLiteral(["Gelatinous Cubeling"])))
     }; // Ensure we get equipment
 
@@ -10790,7 +10798,7 @@ var runawaySources = [{
 }];
 var freekillSources = [];
 ;// CONCATENATED MODULE: ./src/tasks/keys.ts
-var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_CombatStrategy, keys_templateObject69, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_templateObject76, keys_templateObject77, keys_templateObject78;
+var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_templateObject69, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_templateObject76, keys_templateObject77, keys_CombatStrategy, keys_templateObject78, keys_templateObject79, keys_templateObject80, keys_templateObject81, keys_templateObject82, keys_templateObject83, keys_templateObject84, keys_templateObject85, keys_templateObject86, keys_templateObject87;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -10854,39 +10862,51 @@ var heroKeys = [{
 }, {
   which: Keys.Malware,
   possible: () => !(0,property/* get */.U2)("dailyDungeonDone") && !(0,property/* get */.U2)("_dailyDungeonMalwareUsed"),
-  ready: () => step("questL13Final") !== -1 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject3 || (keys_templateObject3 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject4 || (keys_templateObject4 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject5 || (keys_templateObject5 = keys_taggedTemplateLiteral(["eleven-foot pole"])))),
+  acquire: [{
+    item: (0,template_string/* $item */.xr)(keys_templateObject3 || (keys_templateObject3 = keys_taggedTemplateLiteral(["daily dungeon malware"])))
+  }, {
+    item: (0,template_string/* $item */.xr)(keys_templateObject4 || (keys_templateObject4 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))),
+    optional: true
+  }, {
+    item: (0,template_string/* $item */.xr)(keys_templateObject5 || (keys_templateObject5 = keys_taggedTemplateLiteral(["eleven-foot pole"]))),
+    optional: true
+  }, {
+    item: (0,template_string/* $item */.xr)(keys_templateObject6 || (keys_templateObject6 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
+    optional: true
+  }],
+  ready: () => (step("questL13Final") !== -1 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject7 || (keys_templateObject7 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject8 || (keys_templateObject8 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject9 || (keys_templateObject9 = keys_taggedTemplateLiteral(["eleven-foot pole"]))))) && towerReady(),
   after: ["Pull/daily dungeon malware"],
   completed: () => (0,property/* get */.U2)("dailyDungeonDone") || (0,property/* get */.U2)("_dailyDungeonMalwareUsed"),
   prepare: () => {
-    (0,property/* set */.t8)("_loop_gyou_malware_amount", (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject6 || (keys_templateObject6 = keys_taggedTemplateLiteral(["daily dungeon malware"])))));
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject7 || (keys_templateObject7 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return;
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject8 || (keys_templateObject8 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return;
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject9 || (keys_templateObject9 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject10 || (keys_templateObject10 = keys_taggedTemplateLiteral(["loose teeth"]))))) (0,external_kolmafia_.cliExecute)("make * skeleton key");
+    (0,property/* set */.t8)("_loop_gyou_malware_amount", (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject10 || (keys_templateObject10 = keys_taggedTemplateLiteral(["daily dungeon malware"])))));
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject11 || (keys_templateObject11 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return;
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject12 || (keys_templateObject12 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return;
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject13 || (keys_templateObject13 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject14 || (keys_templateObject14 = keys_taggedTemplateLiteral(["loose teeth"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject15 || (keys_templateObject15 = keys_taggedTemplateLiteral(["skeleton key"]))))) (0,external_kolmafia_.cliExecute)("make skeleton key");
   },
-  do: (0,template_string/* $location */.PG)(keys_templateObject11 || (keys_templateObject11 = keys_taggedTemplateLiteral(["The Daily Dungeon"]))),
+  do: (0,template_string/* $location */.PG)(keys_templateObject16 || (keys_templateObject16 = keys_taggedTemplateLiteral(["The Daily Dungeon"]))),
   post: () => {
-    if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject12 || (keys_templateObject12 = keys_taggedTemplateLiteral(["daily dungeon malware"])))) < (0,property/* get */.U2)("_loop_gyou_malware_amount", 0)) (0,property/* set */.t8)("_dailyDungeonMalwareUsed", true);
-    (0,lib/* uneffect */.Lo)((0,template_string/* $effect */._G)(keys_templateObject13 || (keys_templateObject13 = keys_taggedTemplateLiteral(["Apathy"]))));
+    if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject17 || (keys_templateObject17 = keys_taggedTemplateLiteral(["daily dungeon malware"])))) < (0,property/* get */.U2)("_loop_gyou_malware_amount", 0)) (0,property/* set */.t8)("_dailyDungeonMalwareUsed", true);
+    (0,lib/* uneffect */.Lo)((0,template_string/* $effect */._G)(keys_templateObject18 || (keys_templateObject18 = keys_taggedTemplateLiteral(["Apathy"]))));
   },
   outfit: {
-    equip: (0,template_string/* $items */.vS)(keys_templateObject14 || (keys_templateObject14 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
+    equip: (0,template_string/* $items */.vS)(keys_templateObject19 || (keys_templateObject19 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
     modifier: "init"
   },
   // Avoid apathy
-  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(keys_templateObject15 || (keys_templateObject15 = keys_taggedTemplateLiteral(["daily dungeon malware"]))))).kill(),
+  combat: new src_combat.CombatStrategy().macro(new dist_combat/* Macro */.LE().item((0,template_string/* $item */.xr)(keys_templateObject20 || (keys_templateObject20 = keys_taggedTemplateLiteral(["daily dungeon malware"]))))).kill(),
   choices: {
     689: 1,
-    690: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject16 || (keys_templateObject16 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
+    690: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject21 || (keys_templateObject21 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
     691: () => 3,
     // Do not skip the second chest; there is a chance we skip all the monsters
     692: () => {
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject17 || (keys_templateObject17 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return 3;
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject18 || (keys_templateObject18 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return 7;
-      if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject19 || (keys_templateObject19 = keys_taggedTemplateLiteral(["skeleton key"])))) > 1 || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject20 || (keys_templateObject20 = keys_taggedTemplateLiteral(["skeleton bone"])))) > 1 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject21 || (keys_templateObject21 = keys_taggedTemplateLiteral(["loose teeth"])))) > 1) return 2;
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject22 || (keys_templateObject22 = keys_taggedTemplateLiteral(["skeleton key"])))) && (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key")) return 2;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject22 || (keys_templateObject22 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return 3;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject23 || (keys_templateObject23 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return 7;
+      if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject24 || (keys_templateObject24 = keys_taggedTemplateLiteral(["skeleton key"])))) + min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject25 || (keys_templateObject25 = keys_taggedTemplateLiteral(["skeleton bone"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject26 || (keys_templateObject26 = keys_taggedTemplateLiteral(["loose teeth"]))))) > 1) return 2;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject27 || (keys_templateObject27 = keys_taggedTemplateLiteral(["skeleton key"])))) && (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key")) return 2;
       return 4;
     },
-    693: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject23 || (keys_templateObject23 = keys_taggedTemplateLiteral(["eleven-foot pole"])))) ? 2 : 1
+    693: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject28 || (keys_templateObject28 = keys_taggedTemplateLiteral(["eleven-foot pole"])))) ? 2 : 1
   },
   limit: {
     tries: 15
@@ -10894,36 +10914,46 @@ var heroKeys = [{
 }, {
   which: Keys.Dungeon,
   possible: () => !(0,property/* get */.U2)("dailyDungeonDone"),
-  ready: () => step("questL13Final") !== -1 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject24 || (keys_templateObject24 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject25 || (keys_templateObject25 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject26 || (keys_templateObject26 = keys_taggedTemplateLiteral(["eleven-foot pole"])))),
+  acquire: [{
+    item: (0,template_string/* $item */.xr)(keys_templateObject29 || (keys_templateObject29 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))),
+    optional: true
+  }, {
+    item: (0,template_string/* $item */.xr)(keys_templateObject30 || (keys_templateObject30 = keys_taggedTemplateLiteral(["eleven-foot pole"]))),
+    optional: true
+  }, {
+    item: (0,template_string/* $item */.xr)(keys_templateObject31 || (keys_templateObject31 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
+    optional: true
+  }],
+  ready: () => (step("questL13Final") !== -1 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject32 || (keys_templateObject32 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject33 || (keys_templateObject33 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject34 || (keys_templateObject34 = keys_taggedTemplateLiteral(["eleven-foot pole"]))))) && towerReady(),
   after: ["Daily Dungeon Malware"],
   completed: () => (0,property/* get */.U2)("dailyDungeonDone"),
   prepare: () => {
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject27 || (keys_templateObject27 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return;
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject28 || (keys_templateObject28 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return;
-    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject29 || (keys_templateObject29 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject30 || (keys_templateObject30 = keys_taggedTemplateLiteral(["loose teeth"]))))) (0,external_kolmafia_.cliExecute)("make * skeleton key");
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject35 || (keys_templateObject35 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return;
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject36 || (keys_templateObject36 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return;
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject37 || (keys_templateObject37 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject38 || (keys_templateObject38 = keys_taggedTemplateLiteral(["loose teeth"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject39 || (keys_templateObject39 = keys_taggedTemplateLiteral(["skeleton key"]))))) (0,external_kolmafia_.cliExecute)("make skeleton key");
   },
-  do: (0,template_string/* $location */.PG)(keys_templateObject31 || (keys_templateObject31 = keys_taggedTemplateLiteral(["The Daily Dungeon"]))),
+  do: (0,template_string/* $location */.PG)(keys_templateObject40 || (keys_templateObject40 = keys_taggedTemplateLiteral(["The Daily Dungeon"]))),
   post: () => {
-    (0,lib/* uneffect */.Lo)((0,template_string/* $effect */._G)(keys_templateObject32 || (keys_templateObject32 = keys_taggedTemplateLiteral(["Apathy"]))));
+    (0,lib/* uneffect */.Lo)((0,template_string/* $effect */._G)(keys_templateObject41 || (keys_templateObject41 = keys_taggedTemplateLiteral(["Apathy"]))));
   },
   outfit: {
-    equip: (0,template_string/* $items */.vS)(keys_templateObject33 || (keys_templateObject33 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
+    equip: (0,template_string/* $items */.vS)(keys_templateObject42 || (keys_templateObject42 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"]))),
     modifier: "init"
   },
   // Avoid apathy
   combat: new src_combat.CombatStrategy().kill(),
   choices: {
     689: 1,
-    690: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject34 || (keys_templateObject34 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
-    691: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject35 || (keys_templateObject35 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
+    690: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject43 || (keys_templateObject43 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
+    691: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject44 || (keys_templateObject44 = keys_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) ? 2 : 3,
     692: () => {
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject36 || (keys_templateObject36 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return 3;
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject37 || (keys_templateObject37 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return 7;
-      if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject38 || (keys_templateObject38 = keys_taggedTemplateLiteral(["skeleton key"])))) > 1 || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject39 || (keys_templateObject39 = keys_taggedTemplateLiteral(["skeleton bone"])))) > 1 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject40 || (keys_templateObject40 = keys_taggedTemplateLiteral(["loose teeth"])))) > 1) return 2;
-      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject41 || (keys_templateObject41 = keys_taggedTemplateLiteral(["skeleton key"])))) && (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key")) return 2;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject45 || (keys_templateObject45 = keys_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) return 3;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject46 || (keys_templateObject46 = keys_taggedTemplateLiteral(["Platinum Yendorian Express Card"]))))) return 7;
+      if ((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject47 || (keys_templateObject47 = keys_taggedTemplateLiteral(["skeleton key"])))) + min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject48 || (keys_templateObject48 = keys_taggedTemplateLiteral(["skeleton bone"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject49 || (keys_templateObject49 = keys_taggedTemplateLiteral(["loose teeth"]))))) > 1) return 2;
+      if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject50 || (keys_templateObject50 = keys_taggedTemplateLiteral(["skeleton key"])))) && (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key")) return 2;
       return 4;
     },
-    693: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject42 || (keys_templateObject42 = keys_taggedTemplateLiteral(["eleven-foot pole"])))) ? 2 : 1
+    693: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject51 || (keys_templateObject51 = keys_taggedTemplateLiteral(["eleven-foot pole"])))) ? 2 : 1
   },
   limit: {
     tries: 15
@@ -10932,12 +10962,12 @@ var heroKeys = [{
   which: Keys.Fantasy,
   possible: () => (0,property/* get */.U2)("frAlways") || (0,property/* get */.U2)("_frToday"),
   after: ["Misc/Open Fantasy"],
-  ready: () => (0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(keys_templateObject43 || (keys_templateObject43 = keys_taggedTemplateLiteral(["moxie"])))) >= 120,
-  completed: () => (0,template_string/* $location */.PG)(keys_templateObject44 || (keys_templateObject44 = keys_taggedTemplateLiteral(["The Bandit Crossroads"]))).turnsSpent >= 5,
-  do: (0,template_string/* $location */.PG)(keys_templateObject45 || (keys_templateObject45 = keys_taggedTemplateLiteral(["The Bandit Crossroads"]))),
+  ready: () => (0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["moxie"])))) >= 120,
+  completed: () => (0,template_string/* $location */.PG)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["The Bandit Crossroads"]))).turnsSpent >= 5,
+  do: (0,template_string/* $location */.PG)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["The Bandit Crossroads"]))),
   outfit: {
-    familiar: (0,template_string/* $familiar */.HP)(keys_templateObject46 || (keys_templateObject46 = keys_taggedTemplateLiteral(["none"]))),
-    equip: (0,template_string/* $items */.vS)(keys_templateObject47 || (keys_templateObject47 = keys_taggedTemplateLiteral(["FantasyRealm G. E. M."]))),
+    familiar: (0,template_string/* $familiar */.HP)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["none"]))),
+    equip: (0,template_string/* $items */.vS)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["FantasyRealm G. E. M."]))),
     modifier: "moxie"
   },
   combat: new src_combat.CombatStrategy().kill(),
@@ -10951,6 +10981,7 @@ var heroKeys = [{
   completed: () => (0,property/* get */.U2)("lastZapperWandExplosionDay") >= 1 || (0,property/* get */.U2)("_zapCount") >= 1 && !(0,lib/* have */.lf)(keyStrategy.getZapChoice()),
   do: () => {
     unequipAcc(keyStrategy.getZapChoice());
+    if (!(0,lib/* have */.lf)(keyStrategy.getZapChoice()) && (0,external_kolmafia_.myTurncount)() >= 1000) (0,external_kolmafia_.buy)(keyStrategy.getZapChoice(), 1, 100000);
     (0,external_kolmafia_.cliExecute)("zap ".concat(keyStrategy.getZapChoice()));
   },
   limit: {
@@ -11077,9 +11108,9 @@ var KeysQuest = {
   }, {
     name: "Open 8-Bit",
     after: [],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject48 || (keys_templateObject48 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject57 || (keys_templateObject57 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))),
     do: () => {
-      if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject49 || (keys_templateObject49 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))))) {
+      if (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))))) {
         (0,external_kolmafia_.visitUrl)("place.php?whichplace=forestvillage&action=fv_mystic");
         (0,external_kolmafia_.runChoice)(1);
         (0,external_kolmafia_.runChoice)(1);
@@ -11093,11 +11124,11 @@ var KeysQuest = {
   }, {
     name: "Digital Key",
     after: ["Open 8-Bit"],
-    ready: () => step("questL13Final") > 2 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject50 || (keys_templateObject50 = keys_taggedTemplateLiteral(["Powerful Glove"])))),
-    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject51 || (keys_templateObject51 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject52 || (keys_templateObject52 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject53 || (keys_templateObject53 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject54 || (keys_templateObject54 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject55 || (keys_templateObject55 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30 || towerSkip(),
-    do: (0,template_string/* $location */.PG)(keys_templateObject56 || (keys_templateObject56 = keys_taggedTemplateLiteral(["8-Bit Realm"]))),
+    ready: () => step("questL13Final") > 2 || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["Powerful Glove"])))),
+    completed: () => (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("digital key") || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["digital key"])))) || (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["white pixel"])))) + Math.min((0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["blue pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject63 || (keys_templateObject63 = keys_taggedTemplateLiteral(["red pixel"])))), (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject64 || (keys_templateObject64 = keys_taggedTemplateLiteral(["green pixel"]))))) >= 30 || towerSkip(),
+    do: (0,template_string/* $location */.PG)(keys_templateObject65 || (keys_templateObject65 = keys_taggedTemplateLiteral(["8-Bit Realm"]))),
     outfit: {
-      equip: (0,template_string/* $items */.vS)(keys_templateObject57 || (keys_templateObject57 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))),
+      equip: (0,template_string/* $items */.vS)(keys_templateObject66 || (keys_templateObject66 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))),
       modifier: "item"
     },
     combat: new src_combat.CombatStrategy().kill(),
@@ -11107,16 +11138,16 @@ var KeysQuest = {
   }, {
     name: "Star Key",
     after: ["Giant/Unlock HITS"],
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject60 || (keys_templateObject60 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject61 || (keys_templateObject61 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key") || towerSkip(),
-    do: (0,template_string/* $location */.PG)(keys_templateObject62 || (keys_templateObject62 = keys_taggedTemplateLiteral(["The Hole in the Sky"]))),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["star chart"])))) && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["star"])))) >= 8 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["line"])))) >= 7 || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject70 || (keys_templateObject70 = keys_taggedTemplateLiteral(["Richard's star key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Richard's star key") || towerSkip(),
+    do: (0,template_string/* $location */.PG)(keys_templateObject71 || (keys_templateObject71 = keys_taggedTemplateLiteral(["The Hole in the Sky"]))),
     outfit: {
       modifier: "item"
     },
-    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(keys_templateObject63 || (keys_templateObject63 = keys_taggedTemplateLiteral(["Astronomer"])))).killItem(),
+    combat: new src_combat.CombatStrategy().kill((0,template_string/* $monster */.O4)(keys_templateObject72 || (keys_templateObject72 = keys_taggedTemplateLiteral(["Astronomer"])))).killItem(),
     limit: {
       soft: 20
     },
-    orbtargets: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject64 || (keys_templateObject64 = keys_taggedTemplateLiteral(["star chart"])))) ? [(0,template_string/* $monster */.O4)(keys_templateObject65 || (keys_templateObject65 = keys_taggedTemplateLiteral(["Astronomer"])))] : []
+    orbtargets: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject73 || (keys_templateObject73 = keys_taggedTemplateLiteral(["star chart"])))) ? [(0,template_string/* $monster */.O4)(keys_templateObject74 || (keys_templateObject74 = keys_taggedTemplateLiteral(["Astronomer"])))] : []
   }, {
     name: "Skeleton Key",
     after: ["Crypt/Nook Boss", "Tower/Start"],
@@ -11127,12 +11158,12 @@ var KeysQuest = {
         (0,external_kolmafia_.runChoice)(1);
       }
     },
-    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject66 || (keys_templateObject66 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject67 || (keys_templateObject67 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject68 || (keys_templateObject68 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key") || towerSkip(),
+    completed: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject75 || (keys_templateObject75 = keys_taggedTemplateLiteral(["skeleton bone"])))) && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject76 || (keys_templateObject76 = keys_taggedTemplateLiteral(["loose teeth"])))) || (0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject77 || (keys_templateObject77 = keys_taggedTemplateLiteral(["skeleton key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("skeleton key") || towerSkip(),
     outfit: {
       modifier: "item"
     },
-    combat: (keys_CombatStrategy = new src_combat.CombatStrategy()).killItem.apply(keys_CombatStrategy, keys_toConsumableArray((0,template_string/* $monsters */.fr)(keys_templateObject69 || (keys_templateObject69 = keys_taggedTemplateLiteral(["factory-irregular skeleton, remaindered skeleton, swarm of skulls"]))))).banish((0,template_string/* $monster */.O4)(keys_templateObject70 || (keys_templateObject70 = keys_taggedTemplateLiteral(["novelty tropical skeleton"])))),
-    do: (0,template_string/* $location */.PG)(keys_templateObject71 || (keys_templateObject71 = keys_taggedTemplateLiteral(["The Skeleton Store"]))),
+    combat: (keys_CombatStrategy = new src_combat.CombatStrategy()).killItem.apply(keys_CombatStrategy, keys_toConsumableArray((0,template_string/* $monsters */.fr)(keys_templateObject78 || (keys_templateObject78 = keys_taggedTemplateLiteral(["factory-irregular skeleton, remaindered skeleton, swarm of skulls"]))))).banish((0,template_string/* $monster */.O4)(keys_templateObject79 || (keys_templateObject79 = keys_taggedTemplateLiteral(["novelty tropical skeleton"])))),
+    do: (0,template_string/* $location */.PG)(keys_templateObject80 || (keys_templateObject80 = keys_taggedTemplateLiteral(["The Skeleton Store"]))),
     limit: {
       soft: 10
     }
@@ -11140,23 +11171,23 @@ var KeysQuest = {
 };
 
 function keyCount() {
-  var count = (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject72 || (keys_templateObject72 = keys_taggedTemplateLiteral(["fat loot token"]))));
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject73 || (keys_templateObject73 = keys_taggedTemplateLiteral(["Boris's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Boris")) count++;
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject74 || (keys_templateObject74 = keys_taggedTemplateLiteral(["Jarlsberg's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
-  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject75 || (keys_templateObject75 = keys_taggedTemplateLiteral(["Sneaky Pete's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;
+  var count = (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(keys_templateObject81 || (keys_templateObject81 = keys_taggedTemplateLiteral(["fat loot token"]))));
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject82 || (keys_templateObject82 = keys_taggedTemplateLiteral(["Boris's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Boris")) count++;
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject83 || (keys_templateObject83 = keys_taggedTemplateLiteral(["Jarlsberg's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
+  if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(keys_templateObject84 || (keys_templateObject84 = keys_taggedTemplateLiteral(["Sneaky Pete's key"])))) || (0,property/* get */.U2)("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;
   return count;
 }
 
 function unequipAcc(acc) {
   if (!(0,external_kolmafia_.haveEquipped)(acc)) return;
 
-  var _iterator2 = keys_createForOfIteratorHelper((0,template_string/* $slots */.ei)(keys_templateObject76 || (keys_templateObject76 = keys_taggedTemplateLiteral(["acc1, acc2, acc3"])))),
+  var _iterator2 = keys_createForOfIteratorHelper((0,template_string/* $slots */.ei)(keys_templateObject85 || (keys_templateObject85 = keys_taggedTemplateLiteral(["acc1, acc2, acc3"])))),
       _step2;
 
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var slot = _step2.value;
-      if ((0,external_kolmafia_.equippedItem)(slot) === acc) (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(keys_templateObject77 || (keys_templateObject77 = keys_taggedTemplateLiteral(["none"]))));
+      if ((0,external_kolmafia_.equippedItem)(slot) === acc) (0,external_kolmafia_.equip)(slot, (0,template_string/* $item */.xr)(keys_templateObject86 || (keys_templateObject86 = keys_taggedTemplateLiteral(["none"]))));
     }
   } catch (err) {
     _iterator2.e(err);
@@ -11166,7 +11197,7 @@ function unequipAcc(acc) {
 }
 
 function makeZapChoice() {
-  var options = (0,template_string/* $items */.vS)(keys_templateObject78 || (keys_templateObject78 = keys_taggedTemplateLiteral(["Boris's ring, Jarlsberg's earring, Sneaky Pete's breath spray"])));
+  var options = (0,template_string/* $items */.vS)(keys_templateObject87 || (keys_templateObject87 = keys_taggedTemplateLiteral(["Boris's ring, Jarlsberg's earring, Sneaky Pete's breath spray"])));
 
   var _iterator3 = keys_createForOfIteratorHelper(options),
       _step3;
@@ -11199,6 +11230,10 @@ function makeZapChoice() {
 
   return options.sort((i, j) => (0,external_kolmafia_.mallPrice)(i) - (0,external_kolmafia_.mallPrice)(j))[0];
 }
+
+function min(a, b) {
+  return a < b ? a : b;
+}
 ;// CONCATENATED MODULE: ./src/outfit.ts
 var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28, outfit_templateObject29, outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86, outfit_templateObject87, outfit_templateObject88, outfit_templateObject89, outfit_templateObject90, outfit_templateObject91, outfit_templateObject92, outfit_templateObject93, outfit_templateObject94, outfit_templateObject95, outfit_templateObject96, outfit_templateObject97, outfit_templateObject98, outfit_templateObject99, outfit_templateObject100, outfit_templateObject101, outfit_templateObject102, outfit_templateObject103, outfit_templateObject104, outfit_templateObject105;
 
@@ -11230,7 +11265,8 @@ function outfit_defineProperty(obj, key, value) { if (key in obj) { Object.defin
 
 
 
-// Adapted from phccs
+ // Adapted from phccs
+
 var Outfit = /*#__PURE__*/function () {
   function Outfit() {
     outfit_classCallCheck(this, Outfit);
@@ -11545,7 +11581,7 @@ var Outfit = /*#__PURE__*/function () {
           this.equip((0,template_string/* $item */.xr)(outfit_templateObject56 || (outfit_templateObject56 = outfit_taggedTemplateLiteral(["teacher's pen"]))));
           this.equip((0,template_string/* $item */.xr)(outfit_templateObject57 || (outfit_templateObject57 = outfit_taggedTemplateLiteral(["familiar scrapbook"]))));
         }
-      } else if ((!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject58 || (outfit_templateObject58 = outfit_taggedTemplateLiteral(["eleven-foot pole"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject59 || (outfit_templateObject59 = outfit_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject60 || (outfit_templateObject60 = outfit_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) && keyStrategy.useful(Keys.Dungeon) !== false) {
+      } else if ((!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject58 || (outfit_templateObject58 = outfit_taggedTemplateLiteral(["eleven-foot pole"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject59 || (outfit_templateObject59 = outfit_taggedTemplateLiteral(["ring of Detect Boring Doors"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(outfit_templateObject60 || (outfit_templateObject60 = outfit_taggedTemplateLiteral(["Pick-O-Matic lockpicks"]))))) && keyStrategy.useful(Keys.Dungeon) !== false && !args.delaytower) {
         this.equip((0,template_string/* $familiar */.HP)(outfit_templateObject61 || (outfit_templateObject61 = outfit_taggedTemplateLiteral(["Gelatinous Cubeling"]))));
       } else if ((0,property/* get */.U2)("camelSpit") < 100 && (0,property/* get */.U2)("zeppelinProtestors") < 80) {
         this.equip((0,template_string/* $familiar */.HP)(outfit_templateObject62 || (outfit_templateObject62 = outfit_taggedTemplateLiteral(["Melodramedary"]))));
@@ -11643,7 +11679,7 @@ var Outfit = /*#__PURE__*/function () {
   return Outfit;
 }();
 ;// CONCATENATED MODULE: ./src/tasks/absorb.ts
-var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, absorb_templateObject104, absorb_templateObject105, absorb_templateObject106, absorb_templateObject107, absorb_templateObject108, absorb_templateObject109, absorb_templateObject110, absorb_templateObject111, absorb_templateObject112, absorb_templateObject113, absorb_templateObject114, absorb_templateObject115, absorb_templateObject116, absorb_templateObject117, absorb_templateObject118, absorb_templateObject119, absorb_templateObject120, absorb_templateObject121, absorb_templateObject122, absorb_templateObject123, absorb_templateObject124, absorb_templateObject125, absorb_templateObject126, absorb_templateObject127, absorb_templateObject128, absorb_templateObject129, absorb_templateObject130, absorb_templateObject131, absorb_templateObject132, absorb_templateObject133, absorb_templateObject134, absorb_templateObject135, absorb_templateObject136, absorb_templateObject137, absorb_templateObject138, absorb_templateObject139, absorb_templateObject140, absorb_templateObject141, absorb_templateObject142, absorb_templateObject143, absorb_templateObject144, absorb_templateObject145, absorb_templateObject146, _templateObject147, _templateObject148, _templateObject149, _templateObject150, _templateObject151, _templateObject152, _templateObject153, _templateObject154, _templateObject155, _templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292;
+var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, absorb_templateObject104, absorb_templateObject105, absorb_templateObject106, absorb_templateObject107, absorb_templateObject108, absorb_templateObject109, absorb_templateObject110, absorb_templateObject111, absorb_templateObject112, absorb_templateObject113, absorb_templateObject114, absorb_templateObject115, absorb_templateObject116, absorb_templateObject117, absorb_templateObject118, absorb_templateObject119, absorb_templateObject120, absorb_templateObject121, absorb_templateObject122, absorb_templateObject123, absorb_templateObject124, absorb_templateObject125, absorb_templateObject126, absorb_templateObject127, absorb_templateObject128, absorb_templateObject129, absorb_templateObject130, absorb_templateObject131, absorb_templateObject132, absorb_templateObject133, absorb_templateObject134, absorb_templateObject135, absorb_templateObject136, absorb_templateObject137, absorb_templateObject138, absorb_templateObject139, absorb_templateObject140, absorb_templateObject141, absorb_templateObject142, absorb_templateObject143, absorb_templateObject144, absorb_templateObject145, absorb_templateObject146, absorb_templateObject147, absorb_templateObject148, absorb_templateObject149, absorb_templateObject150, _templateObject151, _templateObject152, _templateObject153, _templateObject154, _templateObject155, _templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292;
 
 function absorb_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -12325,8 +12361,8 @@ var absorbTasks = [// Level 2
 }]; // All monsters that give adventures upon absorption
 
 var reprocessTargets = new Set([// 10 adv monsters
-(0,template_string/* $monster */.O4)(absorb_templateObject126 || (absorb_templateObject126 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), (0,template_string/* $monster */.O4)(absorb_templateObject127 || (absorb_templateObject127 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject128 || (absorb_templateObject128 = absorb_taggedTemplateLiteral(["black magic woman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject129 || (absorb_templateObject129 = absorb_taggedTemplateLiteral(["blur"]))), (0,template_string/* $monster */.O4)(absorb_templateObject130 || (absorb_templateObject130 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), (0,template_string/* $monster */.O4)(absorb_templateObject131 || (absorb_templateObject131 = absorb_taggedTemplateLiteral(["coaltergeist"]))), (0,template_string/* $monster */.O4)(absorb_templateObject132 || (absorb_templateObject132 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject133 || (absorb_templateObject133 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), (0,template_string/* $monster */.O4)(absorb_templateObject134 || (absorb_templateObject134 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), (0,template_string/* $monster */.O4)(absorb_templateObject135 || (absorb_templateObject135 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), (0,template_string/* $monster */.O4)(absorb_templateObject136 || (absorb_templateObject136 = absorb_taggedTemplateLiteral(["mad wino"]))), (0,template_string/* $monster */.O4)(absorb_templateObject137 || (absorb_templateObject137 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), (0,template_string/* $monster */.O4)(absorb_templateObject138 || (absorb_templateObject138 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), (0,template_string/* $monster */.O4)(absorb_templateObject139 || (absorb_templateObject139 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), (0,template_string/* $monster */.O4)(absorb_templateObject140 || (absorb_templateObject140 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), (0,template_string/* $monster */.O4)(absorb_templateObject141 || (absorb_templateObject141 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), (0,template_string/* $monster */.O4)(absorb_templateObject142 || (absorb_templateObject142 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject143 || (absorb_templateObject143 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), (0,template_string/* $monster */.O4)(absorb_templateObject144 || (absorb_templateObject144 = absorb_taggedTemplateLiteral(["Raver Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject145 || (absorb_templateObject145 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject146 || (absorb_templateObject146 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), (0,template_string/* $monster */.O4)(_templateObject147 || (_templateObject147 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
-(0,template_string/* $monster */.O4)(_templateObject148 || (_templateObject148 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), (0,template_string/* $monster */.O4)(_templateObject149 || (_templateObject149 = absorb_taggedTemplateLiteral(["basic lihc"]))), (0,template_string/* $monster */.O4)(_templateObject150 || (_templateObject150 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), (0,template_string/* $monster */.O4)(_templateObject151 || (_templateObject151 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), (0,template_string/* $monster */.O4)(_templateObject152 || (_templateObject152 = absorb_taggedTemplateLiteral(["CH Imp"]))), (0,template_string/* $monster */.O4)(_templateObject153 || (_templateObject153 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), (0,template_string/* $monster */.O4)(_templateObject154 || (_templateObject154 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), (0,template_string/* $monster */.O4)(_templateObject155 || (_templateObject155 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), (0,template_string/* $monster */.O4)(_templateObject156 || (_templateObject156 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), (0,template_string/* $monster */.O4)(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), (0,template_string/* $monster */.O4)(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), (0,template_string/* $monster */.O4)(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), (0,template_string/* $monster */.O4)(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), (0,template_string/* $monster */.O4)(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), (0,template_string/* $monster */.O4)(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["model skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), (0,template_string/* $monster */.O4)(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["oil baron"]))), (0,template_string/* $monster */.O4)(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["party skelteon"]))), (0,template_string/* $monster */.O4)(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), (0,template_string/* $monster */.O4)(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), (0,template_string/* $monster */.O4)(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), (0,template_string/* $monster */.O4)(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), (0,template_string/* $monster */.O4)(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["serialbus"]))), (0,template_string/* $monster */.O4)(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["sheet ghost"]))), (0,template_string/* $monster */.O4)(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), (0,template_string/* $monster */.O4)(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), (0,template_string/* $monster */.O4)(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), (0,template_string/* $monster */.O4)(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), (0,template_string/* $monster */.O4)(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["upgraded ram"]))), (0,template_string/* $monster */.O4)(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), (0,template_string/* $monster */.O4)(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["whitesnake"]))), (0,template_string/* $monster */.O4)(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
+(0,template_string/* $monster */.O4)(absorb_templateObject126 || (absorb_templateObject126 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), (0,template_string/* $monster */.O4)(absorb_templateObject127 || (absorb_templateObject127 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject128 || (absorb_templateObject128 = absorb_taggedTemplateLiteral(["black magic woman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject129 || (absorb_templateObject129 = absorb_taggedTemplateLiteral(["blur"]))), (0,template_string/* $monster */.O4)(absorb_templateObject130 || (absorb_templateObject130 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), (0,template_string/* $monster */.O4)(absorb_templateObject131 || (absorb_templateObject131 = absorb_taggedTemplateLiteral(["coaltergeist"]))), (0,template_string/* $monster */.O4)(absorb_templateObject132 || (absorb_templateObject132 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject133 || (absorb_templateObject133 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), (0,template_string/* $monster */.O4)(absorb_templateObject134 || (absorb_templateObject134 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), (0,template_string/* $monster */.O4)(absorb_templateObject135 || (absorb_templateObject135 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), (0,template_string/* $monster */.O4)(absorb_templateObject136 || (absorb_templateObject136 = absorb_taggedTemplateLiteral(["mad wino"]))), (0,template_string/* $monster */.O4)(absorb_templateObject137 || (absorb_templateObject137 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), (0,template_string/* $monster */.O4)(absorb_templateObject138 || (absorb_templateObject138 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), (0,template_string/* $monster */.O4)(absorb_templateObject139 || (absorb_templateObject139 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), (0,template_string/* $monster */.O4)(absorb_templateObject140 || (absorb_templateObject140 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), (0,template_string/* $monster */.O4)(absorb_templateObject141 || (absorb_templateObject141 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), (0,template_string/* $monster */.O4)(absorb_templateObject142 || (absorb_templateObject142 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), (0,template_string/* $monster */.O4)(absorb_templateObject143 || (absorb_templateObject143 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), (0,template_string/* $monster */.O4)(absorb_templateObject144 || (absorb_templateObject144 = absorb_taggedTemplateLiteral(["Raver Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject145 || (absorb_templateObject145 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), (0,template_string/* $monster */.O4)(absorb_templateObject146 || (absorb_templateObject146 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), (0,template_string/* $monster */.O4)(absorb_templateObject147 || (absorb_templateObject147 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
+(0,template_string/* $monster */.O4)(absorb_templateObject148 || (absorb_templateObject148 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), (0,template_string/* $monster */.O4)(absorb_templateObject149 || (absorb_templateObject149 = absorb_taggedTemplateLiteral(["basic lihc"]))), (0,template_string/* $monster */.O4)(absorb_templateObject150 || (absorb_templateObject150 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), (0,template_string/* $monster */.O4)(_templateObject151 || (_templateObject151 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), (0,template_string/* $monster */.O4)(_templateObject152 || (_templateObject152 = absorb_taggedTemplateLiteral(["CH Imp"]))), (0,template_string/* $monster */.O4)(_templateObject153 || (_templateObject153 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), (0,template_string/* $monster */.O4)(_templateObject154 || (_templateObject154 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), (0,template_string/* $monster */.O4)(_templateObject155 || (_templateObject155 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), (0,template_string/* $monster */.O4)(_templateObject156 || (_templateObject156 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), (0,template_string/* $monster */.O4)(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), (0,template_string/* $monster */.O4)(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), (0,template_string/* $monster */.O4)(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), (0,template_string/* $monster */.O4)(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), (0,template_string/* $monster */.O4)(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), (0,template_string/* $monster */.O4)(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["model skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), (0,template_string/* $monster */.O4)(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["oil baron"]))), (0,template_string/* $monster */.O4)(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["party skelteon"]))), (0,template_string/* $monster */.O4)(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), (0,template_string/* $monster */.O4)(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), (0,template_string/* $monster */.O4)(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), (0,template_string/* $monster */.O4)(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), (0,template_string/* $monster */.O4)(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["serialbus"]))), (0,template_string/* $monster */.O4)(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["sheet ghost"]))), (0,template_string/* $monster */.O4)(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), (0,template_string/* $monster */.O4)(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), (0,template_string/* $monster */.O4)(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), (0,template_string/* $monster */.O4)(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), (0,template_string/* $monster */.O4)(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), (0,template_string/* $monster */.O4)(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["upgraded ram"]))), (0,template_string/* $monster */.O4)(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), (0,template_string/* $monster */.O4)(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["whitesnake"]))), (0,template_string/* $monster */.O4)(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
 (0,template_string/* $monster */.O4)(_templateObject181 || (_templateObject181 = absorb_taggedTemplateLiteral(["dire pigeon"]))), (0,template_string/* $monster */.O4)(_templateObject182 || (_templateObject182 = absorb_taggedTemplateLiteral(["gingerbread murderer"]))), (0,template_string/* $monster */.O4)(_templateObject183 || (_templateObject183 = absorb_taggedTemplateLiteral(["grave rober"]))), (0,template_string/* $monster */.O4)(_templateObject184 || (_templateObject184 = absorb_taggedTemplateLiteral(["irate mariachi"]))), (0,template_string/* $monster */.O4)(_templateObject185 || (_templateObject185 = absorb_taggedTemplateLiteral(["plastered frat orc"]))), (0,template_string/* $monster */.O4)(_templateObject186 || (_templateObject186 = absorb_taggedTemplateLiteral(["swarm of skulls"]))), (0,template_string/* $monster */.O4)(_templateObject187 || (_templateObject187 = absorb_taggedTemplateLiteral(["albino bat"]))), (0,template_string/* $monster */.O4)(_templateObject188 || (_templateObject188 = absorb_taggedTemplateLiteral(["batrat"]))), (0,template_string/* $monster */.O4)(_templateObject189 || (_templateObject189 = absorb_taggedTemplateLiteral(["G imp"]))), (0,template_string/* $monster */.O4)(_templateObject190 || (_templateObject190 = absorb_taggedTemplateLiteral(["Knob Goblin Bean Counter"]))), (0,template_string/* $monster */.O4)(_templateObject191 || (_templateObject191 = absorb_taggedTemplateLiteral(["Knob Goblin Madam"]))), (0,template_string/* $monster */.O4)(_templateObject192 || (_templateObject192 = absorb_taggedTemplateLiteral(["Knob Goblin Master Chef"]))), (0,template_string/* $monster */.O4)(_templateObject193 || (_templateObject193 = absorb_taggedTemplateLiteral(["L imp"]))), (0,template_string/* $monster */.O4)(_templateObject194 || (_templateObject194 = absorb_taggedTemplateLiteral(["magical fruit bat"]))), (0,template_string/* $monster */.O4)(_templateObject195 || (_templateObject195 = absorb_taggedTemplateLiteral(["P imp"]))), (0,template_string/* $monster */.O4)(_templateObject196 || (_templateObject196 = absorb_taggedTemplateLiteral(["swarm of Knob lice"]))), (0,template_string/* $monster */.O4)(_templateObject197 || (_templateObject197 = absorb_taggedTemplateLiteral(["W imp"]))), (0,template_string/* $monster */.O4)(_templateObject198 || (_templateObject198 = absorb_taggedTemplateLiteral(["warwelf"])))]); // Other monsters that give skills
 
 var usefulSkills = new Map([[(0,template_string/* $skill */.tm)(_templateObject199 || (_templateObject199 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"]))), (0,template_string/* $monster */.O4)(_templateObject200 || (_templateObject200 = absorb_taggedTemplateLiteral(["anglerbush"])))], [(0,template_string/* $skill */.tm)(_templateObject201 || (_templateObject201 = absorb_taggedTemplateLiteral(["Ominous Substrate"]))), (0,template_string/* $monster */.O4)(_templateObject202 || (_templateObject202 = absorb_taggedTemplateLiteral(["animated ornate nightstand"])))], [(0,template_string/* $skill */.tm)(_templateObject203 || (_templateObject203 = absorb_taggedTemplateLiteral(["Innuendo Circuitry"]))), (0,template_string/* $monster */.O4)(_templateObject204 || (_templateObject204 = absorb_taggedTemplateLiteral(["Astronomer"])))], [(0,template_string/* $skill */.tm)(_templateObject205 || (_templateObject205 = absorb_taggedTemplateLiteral(["Exhaust Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject206 || (_templateObject206 = absorb_taggedTemplateLiteral(["beanbat"])))], [(0,template_string/* $skill */.tm)(_templateObject207 || (_templateObject207 = absorb_taggedTemplateLiteral(["Overclocking"]))), (0,template_string/* $monster */.O4)(_templateObject208 || (_templateObject208 = absorb_taggedTemplateLiteral(["Big Wheelin' Twins"])))], [(0,template_string/* $skill */.tm)(_templateObject209 || (_templateObject209 = absorb_taggedTemplateLiteral(["Photonic Shroud"]))), (0,template_string/* $monster */.O4)(_templateObject210 || (_templateObject210 = absorb_taggedTemplateLiteral(["black panther"])))], [(0,template_string/* $skill */.tm)(_templateObject211 || (_templateObject211 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))), (0,template_string/* $monster */.O4)(_templateObject212 || (_templateObject212 = absorb_taggedTemplateLiteral(["Carnivorous Moxie Weed"])))], [(0,template_string/* $skill */.tm)(_templateObject213 || (_templateObject213 = absorb_taggedTemplateLiteral(["Ectogenesis"]))), (0,template_string/* $monster */.O4)(_templateObject214 || (_templateObject214 = absorb_taggedTemplateLiteral(["Claybender Sorcerer Ghost"])))], [(0,template_string/* $skill */.tm)(_templateObject215 || (_templateObject215 = absorb_taggedTemplateLiteral(["Microburner"]))), (0,template_string/* $monster */.O4)(_templateObject216 || (_templateObject216 = absorb_taggedTemplateLiteral(["Cobb's Knob oven"])))], [(0,template_string/* $skill */.tm)(_templateObject217 || (_templateObject217 = absorb_taggedTemplateLiteral(["Localized Vacuum"]))), (0,template_string/* $monster */.O4)(_templateObject218 || (_templateObject218 = absorb_taggedTemplateLiteral(["cubist bull"])))], [(0,template_string/* $skill */.tm)(_templateObject219 || (_templateObject219 = absorb_taggedTemplateLiteral(["Infernal Automata"]))), (0,template_string/* $monster */.O4)(_templateObject220 || (_templateObject220 = absorb_taggedTemplateLiteral(["demonic icebox"])))], [(0,template_string/* $skill */.tm)(_templateObject221 || (_templateObject221 = absorb_taggedTemplateLiteral(["Secondary Fermentation"]))), (0,template_string/* $monster */.O4)(_templateObject222 || (_templateObject222 = absorb_taggedTemplateLiteral(["drunk goat"])))], [(0,template_string/* $skill */.tm)(_templateObject223 || (_templateObject223 = absorb_taggedTemplateLiteral(["Double Nanovision"]))), (0,template_string/* $monster */.O4)(_templateObject224 || (_templateObject224 = absorb_taggedTemplateLiteral(["drunk pygmy"])))], [(0,template_string/* $skill */.tm)(_templateObject225 || (_templateObject225 = absorb_taggedTemplateLiteral(["Microweave"]))), (0,template_string/* $monster */.O4)(_templateObject226 || (_templateObject226 = absorb_taggedTemplateLiteral(["eXtreme cross-country hippy"])))], [(0,template_string/* $skill */.tm)(_templateObject227 || (_templateObject227 = absorb_taggedTemplateLiteral(["AUTOEXEC.BAT"]))), (0,template_string/* $monster */.O4)(_templateObject228 || (_templateObject228 = absorb_taggedTemplateLiteral(["Flock of Stab-bats"])))], [(0,template_string/* $skill */.tm)(_templateObject229 || (_templateObject229 = absorb_taggedTemplateLiteral(["Propagation Drive"]))), (0,template_string/* $monster */.O4)(_templateObject230 || (_templateObject230 = absorb_taggedTemplateLiteral(["junksprite bender"])))], [(0,template_string/* $skill */.tm)(_templateObject231 || (_templateObject231 = absorb_taggedTemplateLiteral(["Camp Subroutines"]))), (0,template_string/* $monster */.O4)(_templateObject232 || (_templateObject232 = absorb_taggedTemplateLiteral(["Knob Goblin Harem Girl"])))], [(0,template_string/* $skill */.tm)(_templateObject233 || (_templateObject233 = absorb_taggedTemplateLiteral(["Cryocurrency"]))), (0,template_string/* $monster */.O4)(_templateObject234 || (_templateObject234 = absorb_taggedTemplateLiteral(["Knob Goblin MBA"])))], [(0,template_string/* $skill */.tm)(_templateObject235 || (_templateObject235 = absorb_taggedTemplateLiteral(["Curses Library"]))), (0,template_string/* $monster */.O4)(_templateObject236 || (_templateObject236 = absorb_taggedTemplateLiteral(["lihc"])))], [(0,template_string/* $skill */.tm)(_templateObject237 || (_templateObject237 = absorb_taggedTemplateLiteral(["Clammy Microcilia"]))), (0,template_string/* $monster */.O4)(_templateObject238 || (_templateObject238 = absorb_taggedTemplateLiteral(["malevolent hair clog"])))], [(0,template_string/* $skill */.tm)(_templateObject239 || (_templateObject239 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"]))), (0,template_string/* $monster */.O4)(_templateObject240 || (_templateObject240 = absorb_taggedTemplateLiteral(["me4t begZ0r"])))], [(0,template_string/* $skill */.tm)(_templateObject241 || (_templateObject241 = absorb_taggedTemplateLiteral(["Hivemindedness"]))), (0,template_string/* $monster */.O4)(_templateObject242 || (_templateObject242 = absorb_taggedTemplateLiteral(["mind flayer"])))], [(0,template_string/* $skill */.tm)(_templateObject243 || (_templateObject243 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))), (0,template_string/* $monster */.O4)(_templateObject244 || (_templateObject244 = absorb_taggedTemplateLiteral(["Ninja Snowman Weaponmaster"])))], // [$skill`Lubricant Layer`, $monster`oil slick`],
@@ -13871,8 +13907,10 @@ function teleportitisTask(engine, tasks, state) {
   if (step("questL11Worship") >= 3) {
     // Escape the hidden heart of the hidden temple
     choices[580] = 3;
-  }
+  } // Exit NEP intro choice
 
+
+  choices[1322] = 3;
   return {
     name: "Teleportitis",
     after: ["Wand/Get Teleportitis"],
@@ -14027,11 +14065,11 @@ function pulls_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.s
 var pulls = [// Always pull the key items first
 {
   pull: (0,template_string/* $item */.xr)(pulls_templateObject || (pulls_templateObject = pulls_taggedTemplateLiteral(["daily dungeon malware"]))),
-  useful: () => keyStrategy.useful(Keys.Malware)
+  useful: () => keyStrategy.useful(Keys.Malware) && !args.delaytower
 }, {
   name: "Key Zappable",
   pull: () => keyStrategy.getZapChoice(),
-  useful: () => keyStrategy.useful(Keys.Zap),
+  useful: () => keyStrategy.useful(Keys.Zap) && !args.delaytower,
   duplicate: true
 }, {
   name: "Ore",
@@ -14044,68 +14082,68 @@ var pulls = [// Always pull the key items first
   },
   duplicate: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject6 || (pulls_templateObject6 = pulls_taggedTemplateLiteral(["Mohawk wig"]))),
-  useful: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject7 || (pulls_templateObject7 = pulls_taggedTemplateLiteral(["S.O.C.K."])))) ? !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject8 || (pulls_templateObject8 = pulls_taggedTemplateLiteral(["Mohawk wig"])))) : undefined // if one didn't drop naturally
-
-}, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject9 || (pulls_templateObject9 = pulls_taggedTemplateLiteral(["1,970 carat gold"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject6 || (pulls_templateObject6 = pulls_taggedTemplateLiteral(["1,970 carat gold"]))),
   useful: () => {
-    if ((0,external_kolmafia_.myMeat)() < 200 && step("questM05Toot") > 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject10 || (pulls_templateObject10 = pulls_taggedTemplateLiteral(["letter from King Ralph XI"]))))) return true;
-    if ((0,external_kolmafia_.myMeat)() < 4000 && step("questL11Black") === 2 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject11 || (pulls_templateObject11 = pulls_taggedTemplateLiteral(["forged identification documents"]))))) return true;
-    if ((0,lib/* have */.lf)((0,template_string/* $skill */.tm)(pulls_templateObject12 || (pulls_templateObject12 = pulls_taggedTemplateLiteral(["System Sweep"])))) && (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(pulls_templateObject13 || (pulls_templateObject13 = pulls_taggedTemplateLiteral(["Double Nanovision"]))))) return false; // early run is over
+    if ((0,external_kolmafia_.myMeat)() < 200 && step("questM05Toot") > 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject7 || (pulls_templateObject7 = pulls_taggedTemplateLiteral(["letter from King Ralph XI"]))))) return true;
+    if ((0,external_kolmafia_.myMeat)() < 4000 && step("questL11Black") === 2 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject8 || (pulls_templateObject8 = pulls_taggedTemplateLiteral(["forged identification documents"]))))) return true;
+    if ((0,lib/* have */.lf)((0,template_string/* $skill */.tm)(pulls_templateObject9 || (pulls_templateObject9 = pulls_taggedTemplateLiteral(["System Sweep"])))) && (0,lib/* have */.lf)((0,template_string/* $skill */.tm)(pulls_templateObject10 || (pulls_templateObject10 = pulls_taggedTemplateLiteral(["Double Nanovision"]))))) return false; // early run is over
 
     return undefined;
   }
 }, {
-  pull: (0,template_string/* $items */.vS)(pulls_templateObject14 || (pulls_templateObject14 = pulls_taggedTemplateLiteral(["Greatest American Pants, navel ring of navel gazing"]))),
+  pull: (0,template_string/* $items */.vS)(pulls_templateObject11 || (pulls_templateObject11 = pulls_taggedTemplateLiteral(["Greatest American Pants, navel ring of navel gazing"]))),
   optional: true,
   name: "Runaway IoTM"
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject15 || (pulls_templateObject15 = pulls_taggedTemplateLiteral(["ring of conflict"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject12 || (pulls_templateObject12 = pulls_taggedTemplateLiteral(["ring of conflict"]))),
   // Last chance for -5% combat frequency
-  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject16 || (pulls_templateObject16 = pulls_taggedTemplateLiteral(["unbreakable umbrella"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject17 || (pulls_templateObject17 = pulls_taggedTemplateLiteral(["Space Trip safety headphones"])))) && (0,external_kolmafia_.storageAmount)((0,template_string/* $item */.xr)(pulls_templateObject18 || (pulls_templateObject18 = pulls_taggedTemplateLiteral(["Space Trip safety headphones"])))) === 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject19 || (pulls_templateObject19 = pulls_taggedTemplateLiteral(["protonic accelerator pack"]))))
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject13 || (pulls_templateObject13 = pulls_taggedTemplateLiteral(["unbreakable umbrella"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject14 || (pulls_templateObject14 = pulls_taggedTemplateLiteral(["Space Trip safety headphones"])))) && (0,external_kolmafia_.storageAmount)((0,template_string/* $item */.xr)(pulls_templateObject15 || (pulls_templateObject15 = pulls_taggedTemplateLiteral(["Space Trip safety headphones"])))) === 0 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject16 || (pulls_templateObject16 = pulls_taggedTemplateLiteral(["protonic accelerator pack"]))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject20 || (pulls_templateObject20 = pulls_taggedTemplateLiteral(["white page"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject17 || (pulls_templateObject17 = pulls_taggedTemplateLiteral(["white page"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject21 || (pulls_templateObject21 = pulls_taggedTemplateLiteral(["portable cassette player"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject18 || (pulls_templateObject18 = pulls_taggedTemplateLiteral(["portable cassette player"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject22 || (pulls_templateObject22 = pulls_taggedTemplateLiteral(["antique machete"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject19 || (pulls_templateObject19 = pulls_taggedTemplateLiteral(["antique machete"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject23 || (pulls_templateObject23 = pulls_taggedTemplateLiteral(["book of matches"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject20 || (pulls_templateObject20 = pulls_taggedTemplateLiteral(["book of matches"])))
 }, {
-  pull: (0,template_string/* $items */.vS)(pulls_templateObject24 || (pulls_templateObject24 = pulls_taggedTemplateLiteral(["Space Trip safety headphones, HOA regulation book"]))),
+  pull: (0,template_string/* $items */.vS)(pulls_templateObject21 || (pulls_templateObject21 = pulls_taggedTemplateLiteral(["Space Trip safety headphones, HOA regulation book"]))),
   name: "-ML",
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject25 || (pulls_templateObject25 = pulls_taggedTemplateLiteral(["yule hatchet"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject22 || (pulls_templateObject22 = pulls_taggedTemplateLiteral(["yule hatchet"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject26 || (pulls_templateObject26 = pulls_taggedTemplateLiteral(["grey down vest"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject23 || (pulls_templateObject23 = pulls_taggedTemplateLiteral(["grey down vest"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject27 || (pulls_templateObject27 = pulls_taggedTemplateLiteral(["teacher's pen"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject24 || (pulls_templateObject24 = pulls_taggedTemplateLiteral(["teacher's pen"]))),
   duplicate: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject28 || (pulls_templateObject28 = pulls_taggedTemplateLiteral(["blackberry galoshes"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject25 || (pulls_templateObject25 = pulls_taggedTemplateLiteral(["blackberry galoshes"]))),
   useful: () => step("questL11Black") < 2
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject29 || (pulls_templateObject29 = pulls_taggedTemplateLiteral(["killing jar"]))),
-  useful: () => !(0,lib/* have */.lf)((0,template_string/* $familiar */.HP)(pulls_templateObject30 || (pulls_templateObject30 = pulls_taggedTemplateLiteral(["Melodramedary"]))))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject26 || (pulls_templateObject26 = pulls_taggedTemplateLiteral(["killing jar"]))),
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $familiar */.HP)(pulls_templateObject27 || (pulls_templateObject27 = pulls_taggedTemplateLiteral(["Melodramedary"]))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject31 || (pulls_templateObject31 = pulls_taggedTemplateLiteral(["old patched suit-pants"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject28 || (pulls_templateObject28 = pulls_taggedTemplateLiteral(["old patched suit-pants"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject32 || (pulls_templateObject32 = pulls_taggedTemplateLiteral(["transparent pants"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject29 || (pulls_templateObject29 = pulls_taggedTemplateLiteral(["transparent pants"]))),
   optional: true,
-  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject33 || (pulls_templateObject33 = pulls_taggedTemplateLiteral(["designer sweatpants"]))))
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject30 || (pulls_templateObject30 = pulls_taggedTemplateLiteral(["designer sweatpants"]))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject34 || (pulls_templateObject34 = pulls_taggedTemplateLiteral(["deck of lewd playing cards"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject31 || (pulls_templateObject31 = pulls_taggedTemplateLiteral(["deck of lewd playing cards"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject35 || (pulls_templateObject35 = pulls_taggedTemplateLiteral(["mafia thumb ring"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject32 || (pulls_templateObject32 = pulls_taggedTemplateLiteral(["mafia thumb ring"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject36 || (pulls_templateObject36 = pulls_taggedTemplateLiteral(["giant yellow hat"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject33 || (pulls_templateObject33 = pulls_taggedTemplateLiteral(["giant yellow hat"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject37 || (pulls_templateObject37 = pulls_taggedTemplateLiteral(["gravy boat"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject34 || (pulls_templateObject34 = pulls_taggedTemplateLiteral(["gravy boat"])))
+}, {
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject35 || (pulls_templateObject35 = pulls_taggedTemplateLiteral(["Mohawk wig"]))),
+  useful: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject36 || (pulls_templateObject36 = pulls_taggedTemplateLiteral(["S.O.C.K."])))) ? !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject37 || (pulls_templateObject37 = pulls_taggedTemplateLiteral(["Mohawk wig"])))) : undefined // if one didn't drop naturally
+
 }, {
   pull: (0,template_string/* $item */.xr)(pulls_templateObject38 || (pulls_templateObject38 = pulls_taggedTemplateLiteral(["11-leaf clover"]))),
   duplicate: true
@@ -15818,7 +15856,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "99c918b";
+var lastCommitHash = "98ab482";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
