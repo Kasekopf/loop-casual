@@ -5112,11 +5112,38 @@ var CombatStrategy = /*#__PURE__*/function () {
     value: function clone() {
       var result = new CombatStrategy(this.boss);
       result.default_strategy = this.default_strategy;
-      result.default_macro = this.default_macro;
-      result.default_autoattack = this.default_autoattack;
+      if (this.default_macro) result.default_macro = _toConsumableArray(this.default_macro);
+      if (this.default_autoattack) result.default_macro = _toConsumableArray(this.default_autoattack);
       result.strategy = new Map(this.strategy);
-      result.macros = new Map(this.macros);
-      result.autoattacks = new Map(this.autoattacks);
+
+      var _iterator2 = _createForOfIteratorHelper(this.macros),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var pair = _step2.value;
+          result.macros.set(pair[0], _toConsumableArray(pair[1]));
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var _iterator3 = _createForOfIteratorHelper(this.autoattacks),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _pair = _step3.value;
+          result.autoattacks.set(_pair[0], _toConsumableArray(_pair[1]));
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
       return result;
     }
   }]);
