@@ -1,5 +1,6 @@
-import { itemAmount, visitUrl } from "kolmafia";
+import { itemAmount, use, visitUrl } from "kolmafia";
 import {
+  $effect,
   $item,
   $location,
   $monster,
@@ -12,6 +13,7 @@ import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
+import { summonStrategy } from "./summons";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -36,6 +38,23 @@ export const McLargeHugeQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Clover Ore",
+      after: ["Trapper Request", "Pull/Ore", "Misc/Hermit Clover"],
+      ready: () => have($item`11-leaf clover`),
+      prepare: () => {
+        if (!have($effect`Lucky!`))
+          use($item`11-leaf clover`);
+      },
+      completed: () =>
+        itemAmount($item`asbestos ore`) >= 3 ||
+        itemAmount($item`chrome ore`) >= 3 ||
+        itemAmount($item`linoleum ore`) >= 3 ||
+        step("questL08Trapper") >= 2 ||
+        summonStrategy.getSourceFor($monster`mountain man`) !== undefined,
+      do: $location`Itznotyerzitz Mine`,
+      limit: { tries: 2 },
+    },
+    {
       name: "Goatlet",
       after: ["Trapper Request"],
       completed: () => itemAmount($item`goat cheese`) >= 3 || step("questL08Trapper") >= 2,
@@ -48,7 +67,7 @@ export const McLargeHugeQuest: Quest = {
     },
     {
       name: "Trapper Return",
-      after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man"],
+      after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man", "Clover Ore"],
       completed: () => step("questL08Trapper") >= 2,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
