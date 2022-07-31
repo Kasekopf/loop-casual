@@ -683,6 +683,8 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
     // Escape the hidden heart of the hidden temple
     choices[580] = 3;
   }
+  // Exit NEP intro choice
+  choices[1322] = 3;
 
   return {
     name: "Teleportitis",
