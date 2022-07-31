@@ -1,20 +1,15 @@
-import {
-  Familiar,
-  Item,
-  myBasestat,
-  totalTurnsPlayed,
-} from "kolmafia";
+import { Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
 import { $familiar, $item, $stat, get, have } from "libram";
 import { Task } from "./task";
 import { Resource } from "./resources";
-import { Outfit } from "../grimoire"
+import { Outfit } from "../grimoire";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip)) continue;
-    if (!outfit.equip(resource.equip)) continue;
+    if (!outfit.canEquip(resource.equip ?? [])) continue;
+    if (!outfit.equip(resource.equip ?? [])) continue;
     return resource;
   }
   return undefined;
@@ -25,8 +20,8 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip)) continue;
-    if (!outfit.equip(resource.equip)) continue;
+    if (!outfit.canEquip(resource.equip ?? [])) continue;
+    if (!outfit.equip(resource.equip ?? [])) continue;
     result.push(resource);
     if (resource.chance && resource.chance() === 1) break;
   }
@@ -73,10 +68,7 @@ export function equipDefaults(outfit: Outfit): void {
   if (!outfit.modifier) {
     // Default outfit
     outfit.equip($item`Fourth of May Cosplay Saber`);
-    if (
-      totalTurnsPlayed() >= get("nextParanormalActivity") &&
-      get("questPAGhost") === "unstarted"
-    )
+    if (totalTurnsPlayed() >= get("nextParanormalActivity") && get("questPAGhost") === "unstarted")
       outfit.equip($item`protonic accelerator pack`);
     outfit.equip($item`vampyric cloake`);
     if (myBasestat($stat`mysticality`) >= 25) outfit.equip($item`Mr. Cheeng's spectacles`);

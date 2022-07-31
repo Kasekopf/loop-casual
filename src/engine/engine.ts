@@ -1,24 +1,10 @@
-import { cliExecute, Location, Monster, myAdventures } from "kolmafia";
+import { Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
-import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
-import {
-  CombatActions,
-  MyActionDefaults,
-} from "./combat";
-import {
-  Engine as BaseEngine,
-  CombatResources,
-  CombatStrategy,
-  Outfit
-} from "../grimoire";
+import { $effect, $familiar, $item, $skill, get, have, PropertiesManager, set } from "libram";
+import { CombatActions, MyActionDefaults } from "./combat";
+import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "../grimoire";
 import { applyEffects } from "./moods";
-import {
-  myHp,
-  myMaxhp,
-  myMaxmp,
-  restoreMp,
-  useSkill,
-} from "kolmafia";
+import { myHp, myMaxhp, myMaxmp, restoreMp, useSkill } from "kolmafia";
 import { debug } from "../lib";
 import {
   canChargeVoid,
@@ -28,9 +14,7 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
-import {
-  createOutfit, equipDefaults, equipFirst, equipInitial, equipUntilCapped
-} from "./outfit";
+import { createOutfit, equipDefaults, equipFirst, equipInitial, equipUntilCapped } from "./outfit";
 
 type ActiveTask = Task & {
   wanderer?: WandererSource;
@@ -38,7 +22,7 @@ type ActiveTask = Task & {
 
 export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   constructor(tasks: Task[]) {
-    super(tasks, { combat_defaults: new MyActionDefaults()});
+    super(tasks, { combat_defaults: new MyActionDefaults() });
   }
 
   public available(task: Task): boolean {
@@ -65,10 +49,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     const delay_burning = this.tasks.find(
       (task) =>
-        this.hasDelay(task) && this.available(task) && createOutfit(task).canEquip(wanderer?.equip)
+        this.hasDelay(task) &&
+        this.available(task) &&
+        createOutfit(task).canEquip(wanderer?.equip ?? [])
     );
     if (wanderer !== undefined && delay_burning !== undefined) {
-      return {...delay_burning, wanderer: wanderer};
+      return { ...delay_burning, wanderer: wanderer };
     }
 
     // Otherwise, just advance the next quest on the route
@@ -98,10 +84,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     combat: CombatStrategy<CombatActions>,
     resources: CombatResources<CombatActions>
   ): void {
+    const start = Date.now();
     equipInitial(outfit);
     const wanderers = task.wanderer ? [task.wanderer] : [];
     for (const wanderer of wanderers) {
-      if (!outfit.equip(wanderer?.equip))
+      if (!outfit.equip(wanderer?.equip ?? []))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
@@ -116,7 +103,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
     if (wanderers.length === 0) {
       // Set up a banish if needed
-      const banishSources = unusedBanishes(combat.where("banish").filter((mon) => mon instanceof Monster));
+      const banishSources = unusedBanishes(
+        combat.where("banish").filter((mon) => mon instanceof Monster)
+      );
       resources.provide("banish", equipFirst(outfit, banishSources));
 
       // Set up a runaway if there are combats we do not care about
@@ -129,8 +118,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         if (runaway !== undefined && !runaway.banishes)
           resources.provide("ignoreNoBanish", runaway);
         else
-          resources.provide("ignoreNoBanish",
-            equipFirst(outfit, runawaySources.filter((source) => !source.banishes))
+          resources.provide(
+            "ignoreNoBanish",
+            equipFirst(
+              outfit,
+              runawaySources.filter((source) => !source.banishes)
+            )
           );
       }
 
@@ -149,9 +142,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     if (wanderers.length === 0 && this.hasDelay(task))
       wanderers.push(...equipUntilCapped(outfit, wandererSources));
 
-    // Prepare mood
-    applyEffects(outfit.modifier ?? "", task.effects || []);
-
     // Prepare full outfit
     if (!outfit.skipDefaults) {
       if (task.boss) outfit.equip($familiar`Machine Elf`);
@@ -160,22 +150,28 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       if (
         canChargeVoid() &&
         !freecombat &&
-        ((combat.can("kill") &&
-          !resources.has("killFree")) ||
-          combat.can("killHard") ||
-          task.boss)
+        ((combat.can("kill") && !resources.has("killFree")) || combat.can("killHard") || task.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
       equipDefaults(outfit);
     }
 
+    const end = Date.now();
+    set("_loopcasual_outfittime", get("_loopcasual_outfittime", 0) + (end - start));
+    set("_loopcasual_outfitruns", get("_loopcasual_outfitruns", 0) + 1);
+    // Prepare mood
+    applyEffects(outfit.modifier ?? "", task.effects || []);
+
     // Kill wanderers
     for (const wanderer of wanderers) {
-      combat.action("killHard", wanderer.monsters)
+      combat.action("killHard", wanderer.monsters);
     }
     if (resources.has("killFree") && !task.boss) {
       // Upgrade normal kills to free kills if provided
-      combat.action("killFree", (combat.where("kill") ?? []).filter((mon) => !mon.boss));
+      combat.action(
+        "killFree",
+        (combat.where("kill") ?? []).filter((mon) => !mon.boss)
+      );
       if (combat.getDefaultAction() === "kill") combat.action("killFree");
     }
   }
@@ -191,6 +187,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   initPropertiesManager(manager: PropertiesManager): void {
+    super.initPropertiesManager(manager);
     manager.set({
       louvreGoal: 7,
       louvreDesiredGoal: 7,
@@ -211,6 +208,5 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       1474: 2,
       1475: 1,
     });
-    cliExecute("ccs loopcasual");
   }
 }
