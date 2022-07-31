@@ -52,7 +52,7 @@ const Manor1: Task[] = [
       .ignore()
       .killItem($monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    limit: { soft: 20 },
+    limit: { soft: 20, message: `Consider increasing your permanent pool skill with "A Shark's Chum", if you have not.` },
   },
   {
     name: "Library",

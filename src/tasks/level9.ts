@@ -53,7 +53,7 @@ const ABoo: Task[] = [
       )
       .killItem(),
     choices: { 611: 1, 1430: 1 },
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "ABoo Horror",

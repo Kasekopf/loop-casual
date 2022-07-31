@@ -308,7 +308,7 @@ const Hospital: Task[] = [
       equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
     },
     choices: { 784: 1 },
-    limit: { soft: 15 },
+    limit: { soft: 20 },
   },
   {
     name: "Finish Hospital",
