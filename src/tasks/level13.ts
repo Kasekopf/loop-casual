@@ -1,5 +1,7 @@
 import {
   cliExecute,
+  haveEquipped,
+  myBuffedstat,
   myHp,
   myMaxhp,
   myMeat,
@@ -443,8 +445,31 @@ export const TowerQuest: Quest = {
       name: "Wall of Bones",
       after: ["Wall of Meat", "Giant/Ground Knife"],
       completed: () => step("questL13Final") > 8,
+      prepare: () => {
+        if (have($item`electric boning knife`)) return;
+        if (haveEquipped($item`Great Wolf's rocket launcher`)) {
+          if (myBuffedstat($stat`moxie`) < 1000) ensureEffect($effect`Cock of the Walk`);
+          if (myBuffedstat($stat`moxie`) < 1000) ensureEffect($effect`Superhuman Sarcasm`);
+          if (myBuffedstat($stat`moxie`) < 1000) ensureEffect($effect`Gr8ness`);
+          fillHp();
+        } else if (have($item`Drunkula's bell`)) {
+          if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`On the Shoulders of Giants`);
+          if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`Mystically Oiled`);
+          if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`Gr8ness`);
+        }
+      },
       do: $location`Tower Level 3`,
-      combat: new CombatStrategy(true).macro(new Macro().item($item`electric boning knife`)),
+      outfit: () => {
+        if (have($item`Great Wolf's rocket launcher`)) return { equip: $items`Great Wolf's rocket launcher`, modifier: "moxie" };
+        if (have($item`Drunkula's bell`)) return { modifier: "myst" };
+        return {};
+      },
+      combat: new CombatStrategy(true).macro(() => {
+        if (have($item`electric boning knife`)) return Macro.item($item`electric boning knife`);
+        if (haveEquipped($item`Great Wolf's rocket launcher`)) return Macro.skill($skill`Fire Rocket`);
+        if (have($item`Drunkula's bell`)) return Macro.item($item`Drunkula's bell`);
+        throw `Unable to find way to kill Wall of Bones`;
+      }),
       limit: { tries: 1 },
     },
     ...wand,

@@ -112,7 +112,11 @@ export const GiantQuest: Quest = {
     {
       name: "Ground Knife",
       after: ["Ground", "Tower/Wall of Meat"],
-      completed: () => have($item`electric boning knife`) || step("questL13Final") > 8,
+      completed: () =>
+        have($item`electric boning knife`)
+        || step("questL13Final") > 8
+        || have($item`Great Wolf's rocket launcher`)
+        || have($item`Drunkula's bell`),
       do: $location`The Castle in the Clouds in the Sky (Ground Floor)`,
       choices: { 672: 3, 673: 3, 674: 3, 1026: 2 },
       outfit: { modifier: "-combat" },
