@@ -36,10 +36,6 @@ export const pulls: PullSpec[] = [
     duplicate: true,
   },
   {
-    pull: $item`Mohawk wig`,
-    useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
-  },
-  {
     pull: $item`1,970 carat gold`,
     useful: () => {
       if (myMeat() < 200 && step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`)) return true;
@@ -77,6 +73,10 @@ export const pulls: PullSpec[] = [
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
+  {
+    pull: $item`Mohawk wig`,
+    useful: () => (have($item`S.O.C.K.`) ? !have($item`Mohawk wig`) : undefined), // if one didn't drop naturally
+  },
   { pull: $item`11-leaf clover`, duplicate: true },
   {
     pull: $item`wet stew`,

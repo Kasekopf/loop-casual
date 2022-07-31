@@ -122,7 +122,6 @@ export const GiantQuest: Quest = {
     {
       name: "Top Floor",
       after: ["Ground"],
-      acquire: [{ item: $item`Mohawk wig` }],
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
