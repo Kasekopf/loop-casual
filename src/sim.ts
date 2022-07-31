@@ -165,6 +165,16 @@ function buildIotmList(): Requirement[] {
       why: "+combat, early meat",
       optional: true,
     },
+    {
+      thing: $item`June cleaver`,
+      why: "Cold damage, QoL, sometimes +famexp and +adv",
+      optional: true,
+    },
+    {
+      thing: $item`designer sweatpants`,
+      why: "Sleaze damage",
+      optional: true,
+    }
   ];
 
   return requirements;
