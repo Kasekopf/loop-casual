@@ -13409,7 +13409,7 @@ var Engine = /*#__PURE__*/function () {
 
         var blacklist = new Set((0,template_string/* $locations */.xw)(engine_templateObject4 || (engine_templateObject4 = engine_taggedTemplateLiteral(["The Copperhead Club, The Black Forest, Oil Peak"]))));
 
-        if ((0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(engine_templateObject5 || (engine_templateObject5 = engine_taggedTemplateLiteral(["Moxie"])))) >= 200 && (0,external_kolmafia_.myBuffedstat)((0,template_string/* $stat */.Ri)(engine_templateObject6 || (engine_templateObject6 = engine_taggedTemplateLiteral(["Moxie"])))) >= 200 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject7 || (engine_templateObject7 = engine_taggedTemplateLiteral(["rock band flyers"])))) && !flyersDone() && (!(task.do instanceof external_kolmafia_.Location) || !blacklist.has(task.do))) {
+        if ((0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(engine_templateObject5 || (engine_templateObject5 = engine_taggedTemplateLiteral(["Moxie"])))) >= 200 && (0,external_kolmafia_.myBuffedstat)((0,template_string/* $stat */.Ri)(engine_templateObject6 || (engine_templateObject6 = engine_taggedTemplateLiteral(["Moxie"])))) >= 200 && (0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject7 || (engine_templateObject7 = engine_taggedTemplateLiteral(["rock band flyers"])))) && !flyersDone() && (!(task.do instanceof external_kolmafia_.Location) || !blacklist.has(task.do)) && task.name !== "Misc/Protonic Ghost") {
           task_combat.prependMacro(new dist_combat/* Macro */.LE().if_( // Avoid sausage goblin (2104), ninja snowman assassin (1185), protagonist (160), quantum mechanic (223)
           "!hpbelow 50 && !monsterid 2104 && !monsterid 1185 &&!monsterid 160 && !monsterid 223", new dist_combat/* Macro */.LE().tryItem((0,template_string/* $item */.xr)(engine_templateObject8 || (engine_templateObject8 = engine_taggedTemplateLiteral(["rock band flyers"]))))));
         } // Apply resources
@@ -15947,7 +15947,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "966f8f4";
+var lastCommitHash = "de9d996";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
