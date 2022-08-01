@@ -15947,7 +15947,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "0159ecf";
+var lastCommitHash = "966f8f4";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -16047,7 +16047,13 @@ function main(command) {
   }
 
   debug("Running loopgyou version [".concat(lastCommitHash !== null && lastCommitHash !== void 0 ? lastCommitHash : "custom-built", "] in KoLmafia r").concat((0,external_kolmafia_.getRevision)()));
-  if (lastCommitHash !== undefined && (0,external_kolmafia_.svnExists)(svn_name) && !(0,external_kolmafia_.svnAtHead)(svn_name)) debug('A newer version of this script is available and can be obtained with "svn update".', "red");
+
+  if (lastCommitHash !== undefined) {
+    if ((0,external_kolmafia_.svnExists)(svn_name) && !(0,external_kolmafia_.svnAtHead)(svn_name)) debug('A newer version of this script is available and can be obtained with "svn update".', "red");else if (args.version) {
+      debug("This script is up to date.", "red");
+    }
+  }
+
   if (args.version) return;
   if ((0,external_kolmafia_.myPath)() !== "Grey You") throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
 
