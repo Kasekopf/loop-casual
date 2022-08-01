@@ -684,7 +684,7 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
     choices[580] = 3;
   }
   // Exit NEP intro choice
-  choices[1322] = 3;
+  choices[1322] = 6;
 
   return {
     name: "Teleportitis",
