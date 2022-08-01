@@ -97,11 +97,16 @@ export function main(command?: string): void {
   debug(
     `Running loopgyou version [${lastCommitHash ?? "custom-built"}] in KoLmafia r${getRevision()}`
   );
-  if (lastCommitHash !== undefined && svnExists(svn_name) && !svnAtHead(svn_name))
-    debug(
-      'A newer version of this script is available and can be obtained with "svn update".',
-      "red"
-    );
+  if (lastCommitHash !== undefined) {
+    if (svnExists(svn_name) && !svnAtHead(svn_name))
+      debug(
+        'A newer version of this script is available and can be obtained with "svn update".',
+        "red"
+      );
+    else if (args.version) {
+      debug("This script is up to date.", "red");
+    }
+  }
   if (args.version) return;
 
   if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
