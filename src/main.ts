@@ -70,6 +70,14 @@ export const args = Args.create(
     fax: Args.boolean({
       help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
       default: true,
+    }),
+    ignoretasks: Args.string({
+      help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
+      setting: "",
+    }),
+    completedtasks: Args.string({
+      help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
+      setting: "",
     })
   }
 );
@@ -127,7 +135,7 @@ export function main(command?: string): void {
     runChoice(-1);
 
   const tasks = prioritize(all_tasks());
-  const engine = new Engine(tasks);
+  const engine = new Engine(tasks, args.ignoretasks?.split(",") ?? [], args.completedtasks?.split(",") ?? []);
   try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
     let state = new GameState();

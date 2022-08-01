@@ -105,18 +105,31 @@ export class Engine {
   tasks: Task[];
   tasks_by_name = new Map<string, Task>();
 
-  constructor(tasks: Task[]) {
+  ignoreTasks: Set<string>;
+  completedTasks: Set<string>;
+
+  constructor(tasks: Task[], ignoreTasks: string[], completedTasks: string[]) {
     this.tasks = tasks;
     for (const task of tasks) {
       this.tasks_by_name.set(task.name, task);
     }
+
+    this.ignoreTasks = new Set<string>(ignoreTasks.map((n) => n.trim()));
+    this.completedTasks = new Set<string>(completedTasks.map((n) => n.trim()));
+    for (const task of this.ignoreTasks) {
+      if (!this.tasks_by_name.has(task)) debug(`Warning: Unknown ignoretask ${task}`);
+    }
+    for (const task of this.completedTasks) {
+      if (!this.tasks_by_name.has(task)) debug(`Warning: Unknown completedtask ${task}`);
+    }
   }
 
   public available(task: Task, state: GameState): boolean {
+    if (this.ignoreTasks.has(task.name) || this.completedTasks.has(task.name)) return false;
     for (const after of task.after) {
       const after_task = this.tasks_by_name.get(after);
       if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
-      if (!after_task.completed(state)) return false;
+      if (!this.completedTasks.has(after_task.name) && !after_task.completed(state)) return false;
     }
     if (task.ready && !task.ready(state)) return false;
     if (task.completed(state)) return false;
