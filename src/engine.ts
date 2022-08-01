@@ -226,7 +226,8 @@ export class Engine {
         myBuffedstat($stat`Moxie`) >= 200 &&
         have($item`rock band flyers`) &&
         !flyersDone() &&
-        (!(task.do instanceof Location) || !blacklist.has(task.do))
+        (!(task.do instanceof Location) || !blacklist.has(task.do)) &&
+        task.name !== "Misc/Protonic Ghost"
       ) {
         task_combat.prependMacro(
           new Macro().if_(
