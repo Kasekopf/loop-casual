@@ -355,7 +355,7 @@ export const MiscQuest: Quest = {
       name: "Acquire Cold Medicine Gear",
       after: [],
       priority: () => OverridePriority.Free,
-      completed: () => have($item`ice crown`) && have($item`frozen jeans`),
+      completed: () => have($item`ice crown`),
       ready: () =>
         getWorkshed() === $item`cold medicine cabinet` &&
         get("_coldMedicineConsults") < 5 &&

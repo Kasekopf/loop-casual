@@ -782,6 +782,8 @@ export class AbsorbState {
     // We need a single +cold dmg source for orcs
     if (
       !have($item`frozen jeans`) &&
+      !have($item`June cleaver`) &&
+      !have($item`industrial fire extinguisher`) &&
       !have($skill`Cryocurrency`) &&
       !have($skill`Cooling Tubules`)
     ) {
