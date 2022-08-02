@@ -159,7 +159,8 @@ export class Engine {
     this.check_limits(task);
 
     // Get needed items
-    for (const to_get of task.acquire || []) {
+    const acquire = typeof task.acquire === "function" ? task.acquire() : task.acquire ?? [];
+    for (const to_get of acquire) {
       const num_needed = to_get.num ?? 1;
       const num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
       if (num_needed <= num_have) continue;

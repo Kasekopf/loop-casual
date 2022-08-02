@@ -10,7 +10,10 @@ export function yellowray<T extends Partial<Task>>(task: T, alternativeOutfit: O
   return {
     ...task,
     ready: (state: GameState) => (task.ready?.(state) ?? true) && (have($effect`Everything Looks Yellow`) || myMeat() >= 250 || have($item`yellow rocket`)),
-    acquire: [{ item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) }],
+    acquire: () => {
+      const acquire = typeof task.acquire === "function" ? task.acquire() : task.acquire ?? [];
+      return [...acquire, { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) }]
+    },
     priority: () =>
       have($effect`Everything Looks Yellow`) ? OverridePriority.BadYR : OverridePriority.YR,
     combat: (task.combat ?? new CombatStrategy()).macro(() => have($effect`Everything Looks Yellow`) ? new Macro() : Macro.item($item`yellow rocket`), ...monsters),

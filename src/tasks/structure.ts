@@ -46,7 +46,7 @@ export type Task = {
   combat?: CombatStrategy;
   outfit?: OutfitSpec | ((state: GameState) => OutfitSpec);
   effects?: Effect[];
-  acquire?: AcquireItem[];
+  acquire?: AcquireItem[] | (() => AcquireItem[]);
   delay?: number | (() => number);
   freeaction?: boolean | (() => boolean);
   freecombat?: boolean;
