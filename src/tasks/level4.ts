@@ -1,10 +1,11 @@
-import { itemAmount, use, visitUrl } from "kolmafia";
-import { $item, $items, $location, $monster, $monsters, $skill, get, have, Macro } from "libram";
+import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
+import { $effect, $item, $items, $location, $monster, $monsters, $skill, ensureEffect, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
+import { stenchRes } from "./absorb";
 
 export const BatQuest: Quest = {
   name: "Bat",
@@ -24,7 +25,11 @@ export const BatQuest: Quest = {
       after: [],
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 1,
       do: $location`Guano Junction`,
-      ready: () => have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`),
+      ready: () => (have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`)) && stenchRes(true) >= 1,
+      prepare: () => {
+        if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
+        if (numericModifier("stench resistance") < 1) throw `Unable to ensure cold res for The Icy Peak`;
+      },
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },

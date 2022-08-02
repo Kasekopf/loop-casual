@@ -1,10 +1,11 @@
-import { itemAmount, use, visitUrl } from "kolmafia";
+import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
   $location,
   $monster,
   $monsters,
+  ensureEffect,
   have,
 } from "libram";
 import { Quest, step } from "./structure";
@@ -14,6 +15,7 @@ import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
 import { summonStrategy } from "./summons";
+import { coldRes } from "./absorb";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -95,18 +97,28 @@ export const McLargeHugeQuest: Quest = {
       name: "Climb",
       after: ["Trapper Return", "Ninja"],
       completed: () => step("questL08Trapper") >= 3,
+      ready: () => coldRes(true) >= 5,
+      prepare: () => {
+        if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
+        if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+      },
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
       },
-      outfit: { modifier: "cold res 5min" },
+      outfit: { modifier: "cold res" },
       limit: { tries: 1 },
     },
     {
       name: "Peak",
       after: ["Climb"],
       completed: () => step("questL08Trapper") >= 5,
+      ready: () => coldRes(true) >= 5,
+      prepare: () => {
+        if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
+        if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+      },
       do: $location`Mist-Shrouded Peak`,
-      outfit: { modifier: "cold res 5min" },
+      outfit: { modifier: "cold res" },
       combat: new CombatStrategy(true).kill(),
       limit: { tries: 4 },
     },

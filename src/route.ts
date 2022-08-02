@@ -72,6 +72,7 @@ export const routing: string[] = [
   "Macguffin/Oasis Drum", // Get drum as soon as pages are gathered
   "Macguffin/Desert", // charge camel for protestors
 
+  "McLargeHuge/Trapper Return", // ensure we don't need clovers for ore
   "Palindome/Protesters",
 
   // Finish remaining quests

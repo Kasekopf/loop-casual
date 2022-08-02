@@ -37,6 +37,7 @@ import {
   $monsters,
   $skill,
   $stat,
+  ensureEffect,
   get,
   getSaleValue,
   have,
@@ -284,6 +285,10 @@ export const MiscQuest: Quest = {
               visitUrl("shop.php?whichshop=meatsmith&action=talk");
               runChoice(1);
             }
+            return;
+          case $location`The Icy Peak`:
+            if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
+            if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
             return;
           default:
             return;

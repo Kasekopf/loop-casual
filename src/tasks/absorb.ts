@@ -11,6 +11,7 @@ import {
   Location,
   Monster,
   myAscensions,
+  myMeat,
   numericModifier,
   putCloset,
   runChoice,
@@ -29,6 +30,7 @@ import {
   $skill,
   $skills,
   $slot,
+  ensureEffect,
   get,
   getBanishedMonsters,
   have,
@@ -36,6 +38,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
+import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { GameState } from "../state";
 import { Limit, Quest, step, Task } from "./structure";
@@ -68,12 +71,18 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Guano Junction`,
+    ready: () => stenchRes(true) >= 1,
+    prepare: () => {
+      if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
+      if (numericModifier("stench resistance") < 1) throw `Unable to ensure cold res for The Icy Peak`;
+    },
     after: ["Bat/Get Sonar 3"],
     choices: { 1427: 2 },
   },
   {
     do: $location`The Batrat and Ratbat Burrow`,
     after: ["Bat/Use Sonar 1", "Palindome/Bat Snake"],
+    skill: $skill`Nanofur`,
   },
   {
     do: $location`The Beanbat Chamber`,
@@ -203,6 +212,11 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
+    ready: () => coldRes(true) >= 5,
+    prepare: () => {
+      if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
+      if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+    },
     outfit: { modifier: "10 cold res 5min, +combat", equip: $items`miniature crystal ball` },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
@@ -377,6 +391,7 @@ const absorbTasks: AbsorbTask[] = [
     after: ["Manor/Bathroom"],
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     choices: { 881: 1, 105: 1, 892: 1 },
+    skill: $skill`Clammy Microcilia`,
   },
   {
     do: $location`The Haunted Bedroom`,
@@ -713,6 +728,7 @@ export class AbsorbState {
   absorbed = new Set<Monster>();
   reprocessed = new Set<Monster>();
   ignored = new Set<Monster>();
+  ignoredSkills = new Set<Skill>();
 
   constructor() {
     const charsheet = visitUrl("charsheet.php");
@@ -772,8 +788,14 @@ export class AbsorbState {
     }
 
     // No need for resistance skills if we already have enough
-    const res_skills = $skills`Ire Proof, Nanofur, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Clammy Microcilia, Lubricant Layer`;
-    if (have($item`ice crown`) && have($item`unwrapped knock-off retro superhero cape`)) {
+    // Get at least 3 cold res for icy peak
+    if (coldRes(false) >= 3) ignored_skills.add($skill`Nanofur`);
+    // Get at least 4 stench res for twin peaks
+    if (stenchRes(false) >= 2) ignored_skills.add($skill`Clammy Microcilia`);
+
+    // Other res skills are only needed for the tower hedge maze
+    const res_skills = $skills`Ire Proof, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Lubricant Layer`;
+    if (args.delaytower) {
       for (const skill of res_skills) {
         ignored_skills.add(skill);
       }
@@ -792,6 +814,7 @@ export class AbsorbState {
 
     for (const skill of ignored_skills) {
       const monster = usefulSkills.get(skill);
+      this.ignoredSkills.add(skill);
       if (monster === undefined) continue;
       this.ignored.add(monster);
     }
@@ -851,6 +874,11 @@ export class AbsorbState {
       reprocessTargets.has(monster) && !this.reprocessed.has(monster) && !this.ignored.has(monster)
     );
   }
+
+  public skillCompleted(skill: Skill) {
+    // Return true if the skill is obtained or is safe to ignore
+    return have(skill) || this.ignoredSkills.has(skill);
+  }
 }
 
 export const AbsorbQuest: Quest = {
@@ -874,7 +902,7 @@ export const AbsorbQuest: Quest = {
       .map((task): Task => {
         const result = {
           name: task.skill?.name ?? "",
-          completed: () => have(task.skill ?? $skill`none`),
+          completed: (state: GameState) => state.absorb.skillCompleted(task.skill ?? $skill`none`),
           ...task,
           combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
           limit: { soft: 25 },
@@ -930,3 +958,23 @@ export const ReprocessQuest: Quest = {
     },
   ],
 };
+
+export function coldRes(with_black_paint: boolean): number {
+  let res = 0;
+  if (have($item`ice crown`)) res += 3;
+  if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
+  if (have($skill`Nanofur`)) res += 3;
+  if (have($skill`Microweave`)) res += 2;
+  if (with_black_paint && (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))) res += 2;
+  return res;
+}
+
+export function stenchRes(with_black_paint: boolean): number {
+  let res = 0;
+  if (have($item`ice crown`)) res += 3;
+  if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
+  if (have($skill`Conifer Polymers`)) res += 3;
+  if (have($skill`Clammy Microcilia`)) res += 2;
+  if (with_black_paint && (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))) res += 2;
+  return res;
+}

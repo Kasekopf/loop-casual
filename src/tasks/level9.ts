@@ -30,6 +30,7 @@ import { atLevel } from "../lib";
 import { OverridePriority } from "../priority";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
+import { stenchRes } from "./absorb";
 
 const ABoo: Task[] = [
   {
@@ -142,13 +143,16 @@ const Oil: Task[] = [
 const Twin: Task[] = [
   {
     name: "Twin Stench Search",
-    after: ["Start Peaks", "Macguffin/Forest"], // Wait for black paint,
-    ready: () => !have($item`rusty hedge trimmers`),
+    after: ["Start Peaks"],
+    ready: () => !have($item`rusty hedge trimmers`) && stenchRes(true) >= 4,
     completed: () => !!(get("twinPeakProgress") & 1),
+    prepare: () => {
+      if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
+      if (numericModifier("stench resistance") < 4) throw `Unable to ensure cold res for The Icy Peak`;
+    },
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
-    effects: $effects`Red Door Syndrome`,
-    outfit: { modifier: "100 stench res 4min, -combat, item" },
+    outfit: { modifier: "100 stench res, -combat, item" },
     combat: new CombatStrategy().killItem(
       ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
@@ -157,14 +161,17 @@ const Twin: Task[] = [
   {
     name: "Twin Stench",
     after: ["Start Peaks"],
-    ready: () => have($item`rusty hedge trimmers`),
+    ready: () => have($item`rusty hedge trimmers`) && stenchRes(true) >= 4,
     completed: () => !!(get("twinPeakProgress") & 1),
+    prepare: () => {
+      if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
+      if (numericModifier("stench resistance") < 4) throw `Unable to ensure cold res for The Icy Peak`;
+    },
     do: () => {
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
-    effects: $effects`Red Door Syndrome`,
-    outfit: { modifier: "stench res 4min" },
+    outfit: { modifier: "stench res" },
     limit: { tries: 1 },
   },
   {
