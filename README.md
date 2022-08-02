@@ -52,9 +52,6 @@ Checking your character... Legend: ✓ Have / X Missing & Required / X Missing &
 IoTMs
 ✓ Clan VIP Lounge key - YRs, -combat
 ✓ Cold medicine cabinet - QoL Equipment
-✓ combat lover's locket - Reminiscing
-✓ combat lover's locket (Mountain man) - Reminiscing for Ore
-✓ combat lover's locket (Pygmy witch lawyer locketed) - Reminiscing for Infinite Loop
 ✓ grey gosling - Adventures
 
 IoTMs (Optional)
@@ -62,13 +59,16 @@ IoTMs (Optional)
 ✓ backup camera - Lobsterfrogmen, ML, init
 ✓ bottled Vampire Vintner - Pygmy killing
 ✓ Cargo Cultist Shorts - War outfit
+✓ combat lover's locket - Reminiscing
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
 ✓ cursed magnifying glass - Lobsterfrogmen, delay
 ✓ Deck of Every Card - Get a key for the NS tower
+✓ designer sweatpants - Sleaze damage
 ✓ fresh coat of paint - Minor boosts in moxie sign
 ✓ haunted doghouse - Ghost dog chow
 ✓ hewn moon-rune spoon - Access to an extra monster absorb (see tune arg)
 ✓ industrial fire extinguisher - Harem outfit, Bat hole, stone wool, Crypt, Ultrahydrated
+✓ June cleaver - Cold damage, QoL, sometimes +famexp and +adv
 ✓ MayDay™ contract - +combat, early meat
 ✓ miniature crystal ball - Monster prediction
 ✓ Powerful Glove - Pixels and lobsterfrogmen
@@ -79,6 +79,15 @@ IoTMs (Optional)
 ✓ Summon Clip Art - Amulet coin (via familiar jacks)
 ✓ unbreakable umbrella - -combat modifier, ML
 ✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
+
+Combat Lover's Locket Monsters (Optional)
+✓ cloud of disembodied whiskers - For absorbing adventures
+✓ Little Man in the Canoe - For absorbing adventures
+✓ mountain man - For ore
+✓ One-Eyed Willie - For absorbing adventures
+✓ pygmy witch lawyer - For Infinite Loop
+✓ revolving bugbear - For absorbing adventures
+✓ vicious gnauga - For absorbing adventures
 
 Miscellany (Optional)
 ✓ Cornbeefadon - Amulet coin, with clip art
@@ -91,6 +100,7 @@ Expensive Pulls (Optional)
 ✓ mafia thumb ring - Pull
 ✓ old patched suit-pants - Pull
 ✓ Space Trip safety headphones OR HOA regulation book - Pull
+✓ transparent pants - Pull
 
 You have everything! You are the shiniest star. This script should work great.
 ```

@@ -4,6 +4,7 @@ import {
   getWorkshed,
   Item,
   mallPrice,
+  Monster,
   print,
   printHtml,
   Skill,
@@ -22,7 +23,7 @@ class Hardcoded {
   }
 }
 
-type Thing = Item | Familiar | Skill | Hardcoded;
+type Thing = Item | Familiar | Skill | Monster | Hardcoded;
 interface Requirement {
   thing: Thing | Thing[];
   why: string;
@@ -33,7 +34,7 @@ interface Requirement {
  * Return: a list of all things required to run the script.
  */
 function buildIotmList(): Requirement[] {
-  const requirements: Requirement[] = [
+  return [
     { thing: $familiar`Grey Goose`, why: "Adventures" },
     { thing: $item`Clan VIP Lounge key`, why: "YRs, -combat" },
     {
@@ -102,20 +103,7 @@ function buildIotmList(): Requirement[] {
     {
       thing: $item`combat lover's locket`,
       why: "Reminiscing",
-    },
-    {
-      thing: new Hardcoded(
-        new Set(CombatLoversLocket.unlockedLocketMonsters()).has($monster`pygmy witch lawyer`),
-        "combat lover's locket (Pygmy witch lawyer locketed)"
-      ),
-      why: "Reminiscing for Infinite Loop",
-    },
-    {
-      thing: new Hardcoded(
-        new Set(CombatLoversLocket.unlockedLocketMonsters()).has($monster`mountain man`),
-        "combat lover's locket (Mountain man)"
-      ),
-      why: "Reminiscing for Ore",
+      optional: true,
     },
     {
       thing: $item`miniature crystal ball`,
@@ -176,12 +164,48 @@ function buildIotmList(): Requirement[] {
       optional: true,
     }
   ];
+}
 
-  return requirements;
+function buildLocketList(): Requirement[] {
+  return [{
+    thing: $monster`pygmy witch lawyer`,
+    why: "For Infinite Loop",
+    optional: true,
+  },
+  {
+    thing: $monster`mountain man`,
+    why: "For ore",
+    optional: true,
+  },
+  {
+    thing: $monster`One-Eyed Willie`,
+    why: "For absorbing adventures",
+    optional: true,
+  },
+  {
+    thing: $monster`Little Man in the Canoe`,
+    why: "For absorbing adventures",
+    optional: true,
+  },
+  {
+    thing: $monster`revolving bugbear`,
+    why: "For absorbing adventures",
+    optional: true,
+  },
+  {
+    thing: $monster`cloud of disembodied whiskers`,
+    why: "For absorbing adventures",
+    optional: true,
+  },
+  {
+    thing: $monster`vicious gnauga`,
+    why: "For absorbing adventures",
+    optional: true,
+  }];
 }
 
 function buildMiscList(): Requirement[] {
-  const requirements: Requirement[] = [
+  return [
     {
       thing: $familiar`Oily Woim`,
       why: "Bonus initiative",
@@ -198,7 +222,6 @@ function buildMiscList(): Requirement[] {
       optional: true,
     },
   ];
-  return requirements;
 }
 
 function buildPullList(): Requirement[] {
@@ -221,6 +244,7 @@ function checkThing(thing: Thing): [boolean, string] {
   if (thing instanceof Hardcoded) return [thing.have, thing.name];
   if (thing instanceof Familiar) return [have(thing), thing.hatchling.name];
   if (thing instanceof Skill) return [have(thing), thing.name];
+  if (thing instanceof Monster) return [new Set(CombatLoversLocket.unlockedLocketMonsters()).has(thing), thing.name];
   return [have(thing) || storageAmount(thing) > 0, thing.name];
 }
 
@@ -248,6 +272,7 @@ export function checkRequirements(): void {
     ["Miscellany", buildMiscList().filter((req) => !req.optional)],
     ["Expensive Pulls", buildPullList().filter((req) => !req.optional)],
     ["IoTMs (Optional)", buildIotmList().filter((req) => req.optional)],
+    ["Combat Lover's Locket Monsters (Optional)", buildLocketList()],
     ["Miscellany (Optional)", buildMiscList().filter((req) => req.optional)],
     ["Expensive Pulls (Optional)", buildPullList().filter((req) => req.optional)],
   ];
