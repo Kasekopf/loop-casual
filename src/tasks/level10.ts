@@ -1,10 +1,11 @@
-import { cliExecute, containsText, myMeat, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, have, Macro } from "libram";
+import { cliExecute, containsText, use, visitUrl } from "kolmafia";
+import { $effect, $item, $items, $location, $monster, have } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
 import { Quest, step } from "./structure";
 import { OverridePriority } from "../priority";
 import { councilSafe } from "./level12";
+import { yellowray } from "./yellowray";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -36,29 +37,24 @@ export const GiantQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
-    {
-      name: "Airship YR Healer",
-      after: ["Grow Beanstalk"],
-      completed: () => have($item`amulet of extreme plot significance`),
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () =>
-        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-      acquire: [{ item: $item`yellow rocket` }],
-      do: $location`The Penultimate Fantasy Airship`,
-      choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
-      post: () => {
-        if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
-      },
-      orbtargets: () => undefined,
-      outfit: { modifier: "-combat" },
-      limit: { soft: 50 },
-      delay: () =>
-        have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
-      combat: new CombatStrategy()
-        .macro(new Macro().item($item`yellow rocket`), $monster`Quiet Healer`)
-        .killItem($monster`Burly Sidekick`),
-    },
+    yellowray(
+      {
+        name: "Airship YR Healer",
+        after: ["Grow Beanstalk"],
+        completed: () => have($item`amulet of extreme plot significance`),
+        do: $location`The Penultimate Fantasy Airship`,
+        choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
+        post: () => {
+          if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
+        },
+        orbtargets: () => undefined,
+        outfit: { modifier: "-combat" },
+        limit: { soft: 50 },
+        delay: () =>
+          have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
+        combat: new CombatStrategy()
+          .killItem($monster`Burly Sidekick`),
+      }, $monster`Quiet Healer`),
     {
       name: "Airship",
       after: ["Airship YR Healer"],

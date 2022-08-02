@@ -14,13 +14,11 @@ import {
 } from "kolmafia";
 import {
   $effect,
-  $familiar,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
-  $skill,
   $stat,
   ensureEffect,
   get,
@@ -166,25 +164,16 @@ const Zepplin: Task[] = [
     ready: () =>
       canEquip($item`transparent pants`) &&
       (itemAmount($item`11-leaf clover`) > 1 ||
-        ((have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999) &&
-          (get("camelSpit") < 100 || !have($effect`Everything Looks Yellow`)))),
+        (have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999)),
     prepare: () => {
       if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
       if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`))
         use($item`11-leaf clover`);
     },
-    acquire: [{ item: $item`yellow rocket`, useful: () => get("camelSpit") >= 100 }],
     completed: () => get("zeppelinProtestors") >= 80,
     do: $location`A Mob of Zeppelin Protesters`,
     combat: new CombatStrategy()
       .macro(new Macro().tryItem($item`cigarette lighter`))
-      .macro(
-        () =>
-          get("camelSpit") >= 100
-            ? new Macro().trySkill($skill`%fn, spit on them!`).tryItem($item`yellow rocket`)
-            : new Macro(),
-        $monster`Blue Oyster cultist`
-      )
       .killHard($monster`The Nuge`)
       .killItem($monster`Blue Oyster cultist`)
       .killItem($monster`lynyrd skinner`)
@@ -200,12 +189,6 @@ const Zepplin: Task[] = [
           modifier: "sleaze dmg, sleaze spell dmg",
           equip: sleazeitems,
           skipDefaults: true,
-        };
-      if (have($familiar`Melodramedary`) && get("camelSpit") >= 100)
-        return {
-          modifier: "-combat, item",
-          familiar: $familiar`Melodramedary`,
-          equip: sleazeitems,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",

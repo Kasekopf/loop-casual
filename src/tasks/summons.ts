@@ -10,10 +10,9 @@ import {
   initiativeModifier,
   itemAmount,
   knollAvailable,
-  Monster, myAscensions, myFamiliar, myMeat, runCombat, use, userConfirm, visitUrl, wait
+  Monster, myAscensions, myFamiliar, runCombat, use, userConfirm, visitUrl, wait
 } from "kolmafia";
 import {
-  $effect,
   $familiar,
   $item,
   $items,
@@ -30,6 +29,7 @@ import { debug } from "../lib";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { GameState } from "../state";
+import { yellowray } from "./yellowray";
 import { Quest, step, Task } from "./structure";
 
 type ExtraReprocessTarget = {
@@ -129,25 +129,21 @@ const summonTargets: SummonTarget[] = [
       else return { modifier: "init, -1ML" }; // Just use yellow rocket
     },
   },
-  {
-    target: $monster`mountain man`,
-    after: [],
-    completed: () =>
-      itemAmount($item`asbestos ore`) >= 3 ||
-      itemAmount($item`chrome ore`) >= 3 ||
-      itemAmount($item`linoleum ore`) >= 3 ||
-      step("questL08Trapper") >= 2,
-    ready: () =>
-      !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-    priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-    acquire: [{ item: $item`yellow rocket` }],
-    prepare: () => {
-      if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
-    },
-    outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
-    combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
-  },
+  yellowray(
+    {
+      target: $monster`mountain man`,
+      after: [],
+      completed: () =>
+        itemAmount($item`asbestos ore`) >= 3 ||
+        itemAmount($item`chrome ore`) >= 3 ||
+        itemAmount($item`linoleum ore`) >= 3 ||
+        step("questL08Trapper") >= 2,
+      prepare: () => {
+        if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
+      },
+      outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
+      combat: new CombatStrategy(),
+    }),
   ...extraReprocessTargets.map((target: ExtraReprocessTarget): SummonTarget => {
     return {
       target: target.target,

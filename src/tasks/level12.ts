@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, myMeat, sell, visitUrl } from "kolmafia";
+import { cliExecute, itemAmount, sell, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -20,6 +20,7 @@ import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
 import { atLevel, debug } from "../lib";
+import { yellowray } from "./yellowray";
 
 export function flyersDone(): boolean {
   return get("flyeredML") >= 10000;
@@ -219,7 +220,7 @@ const Junkyard: Task[] = [
 ];
 
 const Orchard: Task[] = [
-  {
+  yellowray({
     name: "Orchard Hatching",
     after: ["Enrage"],
     completed: () =>
@@ -231,48 +232,35 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
-    priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
-    acquire: [
-      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
-    ],
     do: $location`The Hatching Chamber`,
     outfit: () => {
       if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
       else return {};
     },
-    combat: new CombatStrategy()
-      .macro(new Macro().item($item`yellow rocket`), $monster`larval filthworm`)
-      .killItem(),
+    combat: new CombatStrategy().killItem(),
     limit: { soft: 10 },
-  },
-  {
-    name: "Orchard Feeding",
-    after: ["Orchard Hatching"],
-    completed: () =>
-      have($item`filthworm drone scent gland`) ||
-      have($effect`Filthworm Drone Stench`) ||
-      have($item`filthworm royal guard scent gland`) ||
-      have($effect`Filthworm Guard Stench`) ||
-      have($item`heart of the filthworm queen`) ||
-      get("sidequestOrchardCompleted") !== "none",
-    priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
-    acquire: [
-      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
-    ],
-    do: $location`The Feeding Chamber`,
-    effects: $effects`Filthworm Larva Stench`,
-    outfit: () => {
-      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
-      else return {};
-    },
-    combat: new CombatStrategy()
-      .macro(new Macro().item($item`yellow rocket`), $monster`filthworm drone`)
-      .killItem(),
-    limit: { soft: 10 },
-  },
-  {
+  }, $monster`larval filthworm`),
+  yellowray(
+    {
+      name: "Orchard Feeding",
+      after: ["Orchard Hatching"],
+      completed: () =>
+        have($item`filthworm drone scent gland`) ||
+        have($effect`Filthworm Drone Stench`) ||
+        have($item`filthworm royal guard scent gland`) ||
+        have($effect`Filthworm Guard Stench`) ||
+        have($item`heart of the filthworm queen`) ||
+        get("sidequestOrchardCompleted") !== "none",
+      do: $location`The Feeding Chamber`,
+      effects: $effects`Filthworm Larva Stench`,
+      outfit: () => {
+        if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
+        else return {};
+      },
+      combat: new CombatStrategy().killItem(),
+      limit: { soft: 10 },
+    }, $monster`filthworm drone`),
+  yellowray({
     name: "Orchard Guard",
     after: ["Orchard Feeding"],
     completed: () =>
@@ -280,22 +268,15 @@ const Orchard: Task[] = [
       have($effect`Filthworm Guard Stench`) ||
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
-    priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.BadMood : OverridePriority.YR,
-    acquire: [
-      { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) },
-    ],
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
     outfit: () => {
       if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
       else return {};
     },
-    combat: new CombatStrategy()
-      .macro(new Macro().item($item`yellow rocket`), $monster`filthworm royal guard`)
-      .killItem(),
+    combat: new CombatStrategy().killItem(),
     limit: { soft: 10 },
-  },
+  }, $monster`filthworm royal guard`),
   {
     name: "Orchard Queen",
     after: ["Orchard Guard"],
@@ -362,39 +343,30 @@ export const WarQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
-    {
-      name: "Outfit Hippy",
-      after: ["Misc/Unlock Island"],
-      completed: () =>
-        (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)),
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () =>
-        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-      acquire: [{ item: $item`yellow rocket` }],
-      do: $location`Hippy Camp`,
-      limit: { soft: 5 },
-      outfit: { modifier: "+combat" },
-      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
-    },
-    {
+    yellowray(
+      {
+        name: "Outfit Hippy",
+        after: ["Misc/Unlock Island"],
+        completed: () =>
+          (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)),
+        do: $location`Hippy Camp`,
+        limit: { soft: 5 },
+        outfit: { modifier: "+combat" },
+        combat: new CombatStrategy(),
+      }),
+    yellowray({
       name: "Outfit Frat",
       after: ["Start", "Outfit Hippy"],
       completed: () =>
       (have($item`beer helmet`) &&
         have($item`distressed denim pants`) &&
         have($item`bejeweled pledge pin`)),
-      ready: () =>
-        !have($effect`Everything Looks Yellow`) && (myMeat() >= 250 || have($item`yellow rocket`)),
-      priority: () =>
-        have($effect`Everything Looks Yellow`) ? OverridePriority.None : OverridePriority.YR,
-      acquire: [{ item: $item`yellow rocket` }],
       do: $location`Frat House`,
       limit: { soft: 5 },
       outfit: { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "+combat" },
-      combat: new CombatStrategy().macro(new Macro().item($item`yellow rocket`)),
       choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
-    },
+      combat: new CombatStrategy(),
+    }),
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
