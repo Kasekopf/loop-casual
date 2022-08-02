@@ -562,9 +562,8 @@ function absorbConsumables(): void {
 
 function getExtros(): void {
   if (getWorkshed() !== $item`cold medicine cabinet`) return;
-  if (!have($item`ice crown`)) return;
   if (
-    get("_coldMedicineConsults") >= 5 ||
+    get("_coldMedicineConsults") >= 4 ||
     get("_nextColdMedicineConsult") > totalTurnsPlayed()
   ) {
     return;

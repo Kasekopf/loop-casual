@@ -5,7 +5,6 @@ import {
   cliExecute,
   Familiar,
   familiarWeight,
-  getWorkshed,
   gnomadsAvailable,
   hermit,
   itemAmount,
@@ -22,7 +21,6 @@ import {
   numericModifier,
   retrieveItem,
   runChoice,
-  totalTurnsPlayed,
   use,
   visitUrl,
   weightAdjustment,
@@ -355,22 +353,6 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
-    },
-    {
-      name: "Acquire Cold Medicine Gear",
-      after: [],
-      priority: () => OverridePriority.Free,
-      completed: () => have($item`ice crown`),
-      ready: () =>
-        getWorkshed() === $item`cold medicine cabinet` &&
-        get("_coldMedicineConsults") < 5 &&
-        get("_nextColdMedicineConsult") <= totalTurnsPlayed(),
-      do: () => {
-        visitUrl("campground.php?action=workshed");
-        runChoice(1);
-      },
-      freeaction: true,
-      limit: { tries: 2 },
     },
     {
       name: "Goose Exp",
