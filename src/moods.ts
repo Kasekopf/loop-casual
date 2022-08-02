@@ -34,7 +34,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     result["mainstat"].push($effect`Feeling Excited`);
   if (have($item`protonic accelerator pack`) && !get("_streamsCrossed"))
     result["mainstat"].push($effect`Total Protonic Reversal`);
-  if (!get("_olympicSwimmingPool") || have($effect`Silent Running`))
+  if (have($item`Clan VIP Lounge key`) && (!get("_olympicSwimmingPool") || have($effect`Silent Running`)))
     result["-combat"].push($effect`Silent Running`);
 
   // Noncombat/combat buffs
