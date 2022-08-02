@@ -233,13 +233,9 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) ||
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Hatching Chamber`,
-    outfit: () => {
-      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
-      else return {};
-    },
     combat: new CombatStrategy().killItem(),
     limit: { soft: 10 },
-  }, $monster`larval filthworm`),
+  }, { modifier: "item" }, $monster`larval filthworm`),
   yellowray(
     {
       name: "Orchard Feeding",
@@ -253,13 +249,9 @@ const Orchard: Task[] = [
         get("sidequestOrchardCompleted") !== "none",
       do: $location`The Feeding Chamber`,
       effects: $effects`Filthworm Larva Stench`,
-      outfit: () => {
-        if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
-        else return {};
-      },
       combat: new CombatStrategy().killItem(),
       limit: { soft: 10 },
-    }, $monster`filthworm drone`),
+    }, { modifier: "item" }, $monster`filthworm drone`),
   yellowray({
     name: "Orchard Guard",
     after: ["Orchard Feeding"],
@@ -270,13 +262,9 @@ const Orchard: Task[] = [
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
-    outfit: () => {
-      if (have($effect`Everything Looks Yellow`)) return { modifier: "item" };
-      else return {};
-    },
     combat: new CombatStrategy().killItem(),
     limit: { soft: 10 },
-  }, $monster`filthworm royal guard`),
+  }, { modifier: "item" }, $monster`filthworm royal guard`),
   {
     name: "Orchard Queen",
     after: ["Orchard Guard"],
@@ -350,10 +338,11 @@ export const WarQuest: Quest = {
         completed: () =>
           (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)),
         do: $location`Hippy Camp`,
-        limit: { soft: 5 },
+        limit: { soft: 10 },
         outfit: { modifier: "+combat" },
-        combat: new CombatStrategy(),
-      }),
+        choices: { 136: () => have($item`filthy corduroys`) ? 2 : 1, 137: () => have($item`filthy corduroys`) ? 1 : 2 },
+        combat: new CombatStrategy().killItem(),
+      }, { modifier: "item" }),
     yellowray({
       name: "Outfit Frat",
       after: ["Start", "Outfit Hippy"],
@@ -362,11 +351,11 @@ export const WarQuest: Quest = {
         have($item`distressed denim pants`) &&
         have($item`bejeweled pledge pin`)),
       do: $location`Frat House`,
-      limit: { soft: 5 },
+      limit: { soft: 10 },
       outfit: { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "+combat" },
       choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
-      combat: new CombatStrategy(),
-    }),
+      combat: new CombatStrategy().killItem(),
+    }, { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "item" }),
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island", "Outfit Frat"],

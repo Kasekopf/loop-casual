@@ -143,7 +143,7 @@ const summonTargets: SummonTarget[] = [
       },
       outfit: { equip: $items`unwrapped knock-off retro superhero cape` },
       combat: new CombatStrategy(),
-    }),
+    }, { modifier: "item" }),
   ...extraReprocessTargets.map((target: ExtraReprocessTarget): SummonTarget => {
     return {
       target: target.target,

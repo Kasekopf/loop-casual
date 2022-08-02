@@ -53,8 +53,9 @@ export const GiantQuest: Quest = {
         delay: () =>
           have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
         combat: new CombatStrategy()
-          .killItem($monster`Burly Sidekick`),
-      }, $monster`Quiet Healer`),
+          .killItem($monster`Burly Sidekick`)
+          .killItem($monster`Quiet Healer`),
+      }, { modifier: "-combat, item" }, $monster`Quiet Healer`),
     {
       name: "Airship",
       after: ["Airship YR Healer"],
