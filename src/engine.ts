@@ -374,7 +374,15 @@ export class Engine {
     } else {
       // Prepare only as requested by the task
       applyEffects(outfit.modifier ?? "", task.effects || []);
-      outfit.dress();
+      try {
+        outfit.dress();
+      } catch {
+        // If we fail to dress, this is maybe just a mafia desync.
+        // So refresh our inventory and try again (once).
+        debug("Possible mafia desync detected; refreshing...");
+        cliExecute("refresh all");
+        outfit.dress();
+      }
     }
 
     // Prepare choice selections
