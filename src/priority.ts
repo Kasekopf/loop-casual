@@ -21,9 +21,9 @@ export enum OverridePriority {
   GoodGoose = 1,
   GoodBanish = 0.5,
   None = 0,
-  BadYR = 0.5,
   BadOrb = -2,
   BadGoose = -16,
+  BadYR = -30,
   BadMood = -100,
   Last = -10000,
 }
