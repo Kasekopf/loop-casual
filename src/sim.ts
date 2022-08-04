@@ -77,7 +77,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`Cargo Cultist Shorts`,
-      why: "War outfit",
+      why: "Mountain man",
       optional: true,
     },
     {

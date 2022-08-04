@@ -58,7 +58,7 @@ IoTMs (Optional)
 ✓ baby camelCalf - Desert progress
 ✓ backup camera - Lobsterfrogmen, ML, init
 ✓ bottled Vampire Vintner - Pygmy killing
-✓ Cargo Cultist Shorts - War outfit
+✓ Cargo Cultist Shorts - Mountain man
 ✓ combat lover's locket - Reminiscing
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
 ✓ cursed magnifying glass - Lobsterfrogmen, delay
