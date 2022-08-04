@@ -14909,6 +14909,7 @@ var PullStrategy = /*#__PURE__*/function () {
     value: function update() {
       var pulled = new Set((0,property/* get */.U2)("_roninStoragePulls").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_.Item.get(id)));
       var count = args.pulls - pulled.size;
+      if ((0,external_kolmafia_.inHardcore)() || (0,external_kolmafia_.myTurncount)() >= 1000) count = 0; // No pulls in hardcore or out of ronin
 
       for (var i = 0; i < this.pulls.length; i++) {
         if (this.pulls[i].wasPulled(pulled)) {
@@ -15889,7 +15890,7 @@ function buildIotmList() {
     optional: true
   }, {
     thing: (0,template_string/* $item */.xr)(sim_templateObject12 || (sim_templateObject12 = sim_taggedTemplateLiteral(["Cargo Cultist Shorts"]))),
-    why: "War outfit",
+    why: "Mountain man",
     optional: true
   }, {
     thing: (0,template_string/* $item */.xr)(sim_templateObject13 || (sim_templateObject13 = sim_taggedTemplateLiteral(["Powerful Glove"]))),
@@ -16106,7 +16107,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "f20f03f";
+var lastCommitHash = "dddc6e3";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
