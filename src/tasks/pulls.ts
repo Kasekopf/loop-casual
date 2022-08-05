@@ -4,6 +4,7 @@ import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { Quest, step, Task } from "./structure";
 import { Keys, keyStrategy } from "./keys";
+import { towerSkip } from "./level13";
 
 /**
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
@@ -20,8 +21,8 @@ type PullSpec = {
 
 export const pulls: PullSpec[] = [
   // Always pull the key items first
-  { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) && !args.delaytower },
-  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) && !args.delaytower, duplicate: true },
+  { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) && !towerSkip() },
+  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) && !towerSkip(), duplicate: true },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),

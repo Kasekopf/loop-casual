@@ -34,7 +34,6 @@ import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { GameState } from "../state";
 import { towerReady, towerSkip } from "./level13";
-import { args } from "../main";
 
 export enum Keys {
   Deck = "Deck",
@@ -360,7 +359,7 @@ export const KeysQuest: Quest = {
 
 function keyCount(): number {
   let count = itemAmount($item`fat loot token`);
-  if (args.delaytower) count += storageAmount($item`fat loot token`);
+  if (towerSkip()) count += storageAmount($item`fat loot token`);
   if (have($item`Boris's key`) || get("nsTowerDoorKeysUsed").includes("Boris")) count++;
   if (have($item`Jarlsberg's key`) || get("nsTowerDoorKeysUsed").includes("Jarlsberg")) count++;
   if (have($item`Sneaky Pete's key`) || get("nsTowerDoorKeysUsed").includes("Sneaky Pete")) count++;

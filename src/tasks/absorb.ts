@@ -38,9 +38,9 @@ import {
 } from "libram";
 import { CombatStrategy } from "../combat";
 import { atLevel } from "../lib";
-import { args } from "../main";
 import { OverridePriority } from "../priority";
 import { GameState } from "../state";
+import { towerSkip } from "./level13";
 import { Limit, Quest, step, Task } from "./structure";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
@@ -795,7 +795,7 @@ export class AbsorbState {
 
     // Other res skills are only needed for the tower hedge maze
     const res_skills = $skills`Ire Proof, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Lubricant Layer`;
-    if (args.delaytower) {
+    if (towerSkip()) {
       for (const skill of res_skills) {
         ignored_skills.add(skill);
       }

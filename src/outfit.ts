@@ -19,7 +19,7 @@ import { Task } from "./tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 import { Keys, keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
-import { args } from "./main";
+import { towerSkip } from "./tasks/level13";
 
 // Adapted from phccs
 export class Outfit {
@@ -314,7 +314,7 @@ export class Outfit {
         !have($item`ring of Detect Boring Doors`) ||
         !have($item`Pick-O-Matic lockpicks`)) &&
       keyStrategy.useful(Keys.Dungeon) !== false &&
-      !args.delaytower
+      !towerSkip()
     ) {
       this.equip($familiar`Gelatinous Cubeling`);
     } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
