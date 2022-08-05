@@ -8,6 +8,7 @@ import {
   familiarWeight,
   gnomadsAvailable,
   initiativeModifier,
+  Item,
   itemAmount,
   knollAvailable,
   Monster, myAscensions, myFamiliar, runCombat, use, userConfirm, visitUrl, wait
@@ -133,11 +134,20 @@ const summonTargets: SummonTarget[] = [
     {
       target: $monster`mountain man`,
       after: [],
-      completed: () =>
-        itemAmount($item`asbestos ore`) >= 3 ||
-        itemAmount($item`chrome ore`) >= 3 ||
-        itemAmount($item`linoleum ore`) >= 3 ||
-        step("questL08Trapper") >= 2,
+      completed: () => {
+        if (step("questL08Trapper") >= 2) return true;
+        let ore_needed = 3;
+        if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") === 0) ore_needed--;
+        const pulled = new Set<Item>(
+          get("_roninStoragePulls")
+            .split(",")
+            .map((id) => parseInt(id))
+            .filter((id) => id > 0)
+            .map((id) => Item.get(id))
+        );
+        if (!pulled.has($item`asbestos ore`) && !pulled.has($item`chrome ore`) && !pulled.has($item`linoleum ore`)) ore_needed--;
+        return itemAmount($item`asbestos ore`) >= ore_needed || itemAmount($item`chrome ore`) >= ore_needed || itemAmount($item`linoleum ore`) >= ore_needed;
+      },
       prepare: () => {
         if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
       },
