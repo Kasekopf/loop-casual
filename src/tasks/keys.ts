@@ -74,7 +74,7 @@ const heroKeys: KeyTask[] = [
         (have($item`Pick-O-Matic lockpicks`) &&
           have($item`ring of Detect Boring Doors`) &&
           have($item`eleven-foot pole`))) && towerReady(),
-    after: ["Pull/daily dungeon malware"],
+    after: [],
     completed: () => get("dailyDungeonDone") || get("_dailyDungeonMalwareUsed"),
     prepare: () => {
       set("_loop_gyou_malware_amount", itemAmount($item`daily dungeon malware`));
@@ -172,7 +172,7 @@ const heroKeys: KeyTask[] = [
   {
     which: Keys.Zap,
     possible: () => get("lastZapperWandExplosionDay") <= 0,
-    after: ["Pull/Key Zappable", "Wand/Wand"],
+    after: ["Wand/Wand"],
     ready: () => towerReady(),
     completed: () =>
       get("lastZapperWandExplosionDay") >= 1 || (get("_zapCount") >= 1 && !have(keyStrategy.getZapChoice())),

@@ -1,4 +1,4 @@
-import { buyUsingStorage, cliExecute, inHardcore, Item, itemAmount, myMeat, myTurncount, storageAmount } from "kolmafia";
+import { buyUsingStorage, cliExecute, inHardcore, Item, itemAmount, myMeat, myTurncount, pullsRemaining, storageAmount } from "kolmafia";
 import { $familiar, $item, $items, $skill, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../priority";
@@ -188,7 +188,7 @@ class PullStrategy {
         .map((id) => Item.get(id))
     );
 
-    let count = args.pulls - pulled.size;
+    let count = pullsRemaining() - (20 - args.pulls);
     if (inHardcore() || myTurncount() >= 1000) count = 0; // No pulls in hardcore or out of ronin
 
     for (let i = 0; i < this.pulls.length; i++) {
