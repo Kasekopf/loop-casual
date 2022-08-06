@@ -374,6 +374,7 @@ const absorbTasks: AbsorbTask[] = [
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`chalkdust wraith`),
     choices: { 900: 2 },
+    skill: $skill`Subatomic Hardening`,
   },
   {
     do: $location`The Haunted Library`,
@@ -700,6 +701,7 @@ const usefulSkills = new Map<Skill, Monster>([
   [$skill`Cooling Tubules`, $monster`Ninja Snowman Weaponmaster`],
   // [$skill`Lubricant Layer`, $monster`oil slick`],
   [$skill`Conifer Polymers`, $monster`pine bat`],
+  [$skill`Subatomic Hardening`, $monster`pooltergeist`],
   [$skill`Legacy Code`, $monster`possessed wine rack`],
   [$skill`System Sweep`, $monster`pygmy janitor`],
   [$skill`Infinite Loop`, $monster`pygmy witch lawyer`],

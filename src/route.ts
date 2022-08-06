@@ -51,6 +51,7 @@ export const routing: string[] = [
 
   // Line up -combats
   "Manor/Start Floor2",
+  "Absorb/Subatomic Hardening", // Get soon after the Billiards room
   "Manor/Bedroom",
   "Manor/Bathroom Delay",
   "Manor/Gallery Delay",
