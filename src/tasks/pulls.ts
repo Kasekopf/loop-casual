@@ -46,6 +46,14 @@ export const pulls: PullSpec[] = [
     },
   },
   {
+    pull: $item`1952 Mickey Mantle card`,
+    useful: () => {
+      if (have($item`forged identification documents`) || step("questL11Black") >= 4) return false;
+      if (step("questL11Black") >= 2 && myTurncount() >= 200) return true;
+      return undefined;
+    },
+  },
+  {
     pull: $items`Greatest American Pants, navel ring of navel gazing`,
     optional: true,
     name: "Runaway IoTM",
