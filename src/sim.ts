@@ -10,7 +10,7 @@ import {
   Skill,
   storageAmount,
 } from "kolmafia";
-import { $familiar, $item, $monster, $skill, CombatLoversLocket, get, have } from "libram";
+import { $familiar, $item, $items, $monster, $skill, CombatLoversLocket, get, have } from "libram";
 import { pullStrategy } from "./tasks/pulls";
 
 class Hardcoded {
@@ -36,7 +36,7 @@ interface Requirement {
 function buildIotmList(): Requirement[] {
   return [
     { thing: $familiar`Grey Goose`, why: "Adventures" },
-    { thing: $item`Clan VIP Lounge key`, why: "YRs, -combat" },
+    { thing: $item`Clan VIP Lounge key`, why: "YRs, +combat" },
     {
       thing: $item`industrial fire extinguisher`,
       why: "Harem outfit, Bat hole, stone wool, Crypt, Ultrahydrated",
@@ -55,7 +55,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`Deck of Every Card`,
-      why: "Get a key for the NS tower",
+      why: "A key for the NS tower, stone wool, ore",
       optional: true,
     },
     {
@@ -63,7 +63,7 @@ function buildIotmList(): Requirement[] {
         have($item`cold medicine cabinet`) || getWorkshed() === $item`cold medicine cabinet`,
         "Cold medicine cabinet"
       ),
-      why: "Get Extrovermecin for profit",
+      why: "Get Extrovermectin for profit",
       optional: true,
     },
     {
@@ -88,7 +88,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`SpinMaster™ lathe`,
-      why: "Equipment",
+      why: "QoL equipment",
       optional: true,
     },
     {
@@ -131,7 +131,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $skill`Summon Clip Art`,
-      why: "Amulet coin (via familiar jacks)",
+      why: "Amulet coin",
       optional: true,
     },
     {
@@ -141,7 +141,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`SongBoom™ BoomBox`,
-      why: "In-run meat source",
+      why: "Meat and special seasonings",
       optional: true,
     },
     {
@@ -170,37 +170,37 @@ function buildIotmList(): Requirement[] {
 function buildLocketList(): Requirement[] {
   return [{
     thing: $monster`pygmy witch lawyer`,
-    why: "For Infinite Loop",
+    why: "Infinite Loop",
     optional: true,
   },
   {
     thing: $monster`mountain man`,
-    why: "For ore",
+    why: "Ore",
     optional: true,
   },
   {
     thing: $monster`One-Eyed Willie`,
-    why: "For absorbing adventures",
+    why: "Absorbing adventures",
     optional: true,
   },
   {
     thing: $monster`Little Man in the Canoe`,
-    why: "For absorbing adventures",
+    why: "Absorbing adventures",
     optional: true,
   },
   {
     thing: $monster`revolving bugbear`,
-    why: "For absorbing adventures",
+    why: "Absorbing adventures",
     optional: true,
   },
   {
     thing: $monster`cloud of disembodied whiskers`,
-    why: "For absorbing adventures",
+    why: "Absorbing adventures",
     optional: true,
   },
   {
     thing: $monster`vicious gnauga`,
-    why: "For absorbing adventures",
+    why: "Absorbing adventures",
     optional: true,
   }];
 }
@@ -222,6 +222,11 @@ function buildMiscList(): Requirement[] {
       why: "Amulet coin, with clip art",
       optional: true,
     },
+    {
+      thing: $items`Great Wolf's rocket launcher, Drunkula's bell`,
+      why: "Kill the wall of bones (with delaytower)",
+      optional: true,
+    }
   ];
 }
 

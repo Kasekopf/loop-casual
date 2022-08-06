@@ -50,7 +50,7 @@ Run `loopgyou sim` to see "Is the script intended to work unmodified on my chara
 > loopgyou sim
 Checking your character... Legend: ✓ Have / X Missing & Required / X Missing & Optional
 IoTMs
-✓ Clan VIP Lounge key - YRs, -combat
+✓ Clan VIP Lounge key - YRs, +combat
 ✓ grey gosling - Adventures
 
 IoTMs (Optional)
@@ -58,11 +58,11 @@ IoTMs (Optional)
 ✓ backup camera - Lobsterfrogmen, ML, init
 ✓ bottled Vampire Vintner - Pygmy killing
 ✓ Cargo Cultist Shorts - Mountain man
-✓ Cold medicine cabinet - Get Extrovermecin for profit
+✓ Cold medicine cabinet - Get Extrovermectin for profit
 ✓ combat lover's locket - Reminiscing
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
 ✓ cursed magnifying glass - Lobsterfrogmen, delay
-✓ Deck of Every Card - Get a key for the NS tower
+✓ Deck of Every Card - A key for the NS tower, stone wool, ore
 ✓ designer sweatpants - Sleaze damage
 ✓ fresh coat of paint - Minor boosts in moxie sign
 ✓ haunted doghouse - Ghost dog chow
@@ -74,23 +74,24 @@ IoTMs (Optional)
 ✓ Powerful Glove - Pixels and lobsterfrogmen
 ✓ protonic accelerator pack - Wanderers
 ✓ shortest-order cook - Kill the Wall of Skin, initial exp
-✓ SongBoom™ BoomBox - In-run meat source
-✓ SpinMaster™ lathe - Equipment
-✓ Summon Clip Art - Amulet coin (via familiar jacks)
+✓ SongBoom™ BoomBox - Meat and special seasonings
+✓ SpinMaster™ lathe - QoL equipment
+✓ Summon Clip Art - Amulet coin
 ✓ unbreakable umbrella - -combat modifier, ML
 ✓ unwrapped knock-off retro superhero cape - Slay the dead in crypt, pygmy killing
 
 Combat Lover's Locket Monsters (Optional)
-✓ cloud of disembodied whiskers - For absorbing adventures
-✓ Little Man in the Canoe - For absorbing adventures
-✓ mountain man - For ore
-✓ One-Eyed Willie - For absorbing adventures
-✓ pygmy witch lawyer - For Infinite Loop
-✓ revolving bugbear - For absorbing adventures
-✓ vicious gnauga - For absorbing adventures
+✓ cloud of disembodied whiskers - Absorbing adventures
+✓ Little Man in the Canoe - Absorbing adventures
+✓ mountain man - Ore
+✓ One-Eyed Willie - Absorbing adventures
+✓ pygmy witch lawyer - Infinite Loop
+✓ revolving bugbear - Absorbing adventures
+✓ vicious gnauga - Absorbing adventures
 
 Miscellany (Optional)
 ✓ Cornbeefadon - Amulet coin, with clip art
+✓ Great Wolf's rocket launcher OR Drunkula's bell - Kill the wall of bones (with delaytower)
 ✓ hobo monkey - Meat drops
 ✓ woim - Bonus initiative
 
