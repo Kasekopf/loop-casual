@@ -58,6 +58,12 @@ export const pulls: PullSpec[] = [
       storageAmount($item`Space Trip safety headphones`) === 0 &&
       !have($item`protonic accelerator pack`),
   },
+  {
+    pull: $items`warbear long johns, square sponge pants`,
+    useful: () => !have($item`designer sweatpants`),
+    optional: true,
+    name: "MP Regen Pants"
+  },
   { pull: $item`white page` },
   { pull: $item`portable cassette player` },
   { pull: $item`antique machete` },

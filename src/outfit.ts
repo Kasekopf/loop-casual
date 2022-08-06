@@ -352,6 +352,8 @@ export class Outfit {
       this.equip($item`protonic accelerator pack`);
       this.equip($item`unwrapped knock-off retro superhero cape`);
       this.equip($item`designer sweatpants`);
+      if (myBasestat($stat`moxie`) >= 10) this.equip($item`warbear long johns`);
+      if (myBasestat($stat`moxie`) >= 85) this.equip($item`square sponge pants`);
       this.equip($item`Cargo Cultist Shorts`);
       this.equip($item`Powerful Glove`);
       if (
