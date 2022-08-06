@@ -54,7 +54,7 @@ export const args = Args.create(
       ],
     }),
     pulls: Args.number({
-      help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
+      help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
       default: 20,
     }),
     verboseequip: Args.flag({

@@ -28,17 +28,20 @@ Options:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
   actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
-  class NUMBER - If given, break the prism and choose a class at the end of the run. You will be reduced to 40 adventures with full organs after breaking the prism. [default: 0] [setting: loopgyou_class]
-    class 0 - Stay as Grey You
+  class NUMBER - If given, break the prism and choose a class. You will be reduced to 40 adventures with full organs after breaking the prism. [setting: loopgyou_class]
     class 1 - Seal Clubber
     class 2 - Turtle Tamer
     class 3 - Pastamancer
     class 4 - Saurceror
     class 5 - Disco Bandit
     class 6 - Accordion Thief
-  pulls NUMBER - Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming. [default: 20] [setting: loopgyou_pulls]
+  pulls NUMBER - Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script). [default: 20] [setting: loopgyou_pulls]
   verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
   tune TEXT - Use your hewn moon-rune spoon to retune to this sign when optimal. [setting: loopgyou_tune]
+  delaytower - Delay the NS tower until after ronin ends. [default: false] [setting: loopgyou_delaytower]
+  fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
+  ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
+  completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
   help - Show this message and exit.
 ```
 
