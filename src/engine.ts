@@ -350,8 +350,8 @@ export class Engine {
 
       // HP/MP upkeep
       if (myHp() < 50 && myHp() < myMaxhp()) restoreHp(myMaxhp() < 50 ? myMaxhp() : 50);
-      if (myMp() < 40 && myMaxmp() >= 40) restoreMp(40);
-      else if (myMp() < 20) restoreMp(20);
+      if (myMp() < 40 && myMaxmp() >= 40) customRestoreMp(40);
+      else if (myMp() < 20) customRestoreMp(20);
 
       // Prepare combat macro (after effects and outfit)
       const combat = new BuiltCombatStrategy(
@@ -588,4 +588,12 @@ function getExtros(): void {
       return;
     }
   }
+}
+
+export function customRestoreMp(target: number) {
+  if (get("sweat", 0) >= 80) {
+    // Use visit URL to avoid needing to equip the pants
+    visitUrl("runskillz.php?action=Skillz&whichskill=7420&targetplayer=0&pwd&quantity=1");
+  }
+  restoreMp(target);
 }

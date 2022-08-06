@@ -12,6 +12,7 @@ import {
   toSlot,
 } from "kolmafia";
 import { $effect, $item, $skill, $slot, ensureEffect, get, have, uneffect } from "libram";
+import { customRestoreMp } from "./engine";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result: { [name: string]: Effect[] } = {
@@ -99,6 +100,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
     if (mpcost > myMaxmp()) {
       hotswapped.push(...swapEquipmentForMp(mpcost));
     }
+    customRestoreMp(mpcost);
     ensureEffect(effect);
   }
 
