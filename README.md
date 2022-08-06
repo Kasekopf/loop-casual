@@ -17,7 +17,7 @@ svn checkout https://github.com/Kasekopf/loop-casual/branches/release/
 ### Usage
 
 1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements (see below for more details).
-2. Ascend into a Grey You Softcore run. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.
+2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora. No particular workshed is required, but only cold medicine cabinet is used at the moment.
 3. Run `loopgyou` and watch it go! If you are more hesitent, you can run `loopgyou actions 10` to only do 10 things and stop.
 
 Run `loopgyou help` for the full set of script options:
@@ -51,7 +51,6 @@ Run `loopgyou sim` to see "Is the script intended to work unmodified on my chara
 Checking your character... Legend: ✓ Have / X Missing & Required / X Missing & Optional
 IoTMs
 ✓ Clan VIP Lounge key - YRs, -combat
-✓ Cold medicine cabinet - QoL Equipment
 ✓ grey gosling - Adventures
 
 IoTMs (Optional)
@@ -59,6 +58,7 @@ IoTMs (Optional)
 ✓ backup camera - Lobsterfrogmen, ML, init
 ✓ bottled Vampire Vintner - Pygmy killing
 ✓ Cargo Cultist Shorts - Mountain man
+✓ Cold medicine cabinet - Get Extrovermecin for profit
 ✓ combat lover's locket - Reminiscing
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
 ✓ cursed magnifying glass - Lobsterfrogmen, delay

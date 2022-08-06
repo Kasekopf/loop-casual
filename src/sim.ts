@@ -63,7 +63,8 @@ function buildIotmList(): Requirement[] {
         have($item`cold medicine cabinet`) || getWorkshed() === $item`cold medicine cabinet`,
         "Cold medicine cabinet"
       ),
-      why: "QoL Equipment",
+      why: "Get Extrovermecin for profit",
+      optional: true,
     },
     {
       thing: $item`fresh coat of paint`,
