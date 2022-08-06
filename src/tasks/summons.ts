@@ -136,6 +136,7 @@ const summonTargets: SummonTarget[] = [
       after: [],
       completed: () => {
         if (step("questL08Trapper") >= 2) return true;
+        if (!have($item`Clan VIP Lounge key`)) return true; // For now, do not do without yellow rocket
         let ore_needed = 3;
         if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") === 0) ore_needed--;
         const pulled = new Set<Item>(

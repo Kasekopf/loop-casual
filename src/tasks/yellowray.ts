@@ -12,14 +12,14 @@ export function yellowray<T extends Partial<Task>>(task: T, alternativeOutfit: O
     ready: (state: GameState) => (task.ready?.(state) ?? true) && (have($effect`Everything Looks Yellow`) || myMeat() >= 250 || have($item`yellow rocket`)),
     acquire: () => {
       const acquire = typeof task.acquire === "function" ? task.acquire() : task.acquire ?? [];
-      return [...acquire, { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) }]
+      return [...acquire, { item: $item`yellow rocket`, useful: () => !have($effect`Everything Looks Yellow`) && have($item`Clan VIP Lounge key`) }]
     },
     priority: () =>
-      have($effect`Everything Looks Yellow`) ? OverridePriority.BadYR : OverridePriority.YR,
-    combat: (task.combat ?? new CombatStrategy()).macro(() => have($effect`Everything Looks Yellow`) ? new Macro() : Macro.item($item`yellow rocket`), ...monsters),
+      have($effect`Everything Looks Yellow`) ? OverridePriority.BadYR : (have($item`Clan VIP Lounge key`) ? OverridePriority.YR : OverridePriority.None),
+    combat: (task.combat ?? new CombatStrategy()).macro(() => have($effect`Everything Looks Yellow`) ? new Macro() : Macro.tryItem($item`yellow rocket`), ...monsters),
     outfit: (state: GameState) => {
       const spec = typeof task.outfit === "function" ? task.outfit(state) : task.outfit;
-      return have($effect`Everything Looks Yellow`) ? alternativeOutfit : spec;
+      return have($effect`Everything Looks Yellow`) || !have($item`Clan VIP Lounge key`) ? alternativeOutfit : spec;
     },
   };
 }
