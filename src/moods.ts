@@ -7,6 +7,7 @@ import {
   getInventory,
   Item,
   myMaxmp,
+  myMp,
   numericModifier,
   Slot,
   toSlot,
@@ -100,7 +101,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
     if (mpcost > myMaxmp()) {
       hotswapped.push(...swapEquipmentForMp(mpcost));
     }
-    customRestoreMp(mpcost);
+    if (myMp() < mpcost) customRestoreMp(mpcost);
     ensureEffect(effect);
   }
 

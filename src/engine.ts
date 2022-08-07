@@ -591,6 +591,7 @@ function getExtros(): void {
 }
 
 export function customRestoreMp(target: number) {
+  if (myMp() >= target) return;
   if (get("sweat", 0) >= 80) {
     // Use visit URL to avoid needing to equip the pants
     visitUrl("runskillz.php?action=Skillz&whichskill=7420&targetplayer=0&pwd&quantity=1");
