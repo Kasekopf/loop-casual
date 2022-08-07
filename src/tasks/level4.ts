@@ -29,7 +29,7 @@ export const BatQuest: Quest = {
       priority: () => have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`) ? OverridePriority.None : OverridePriority.BadMood,
       prepare: () => {
         if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
-        if (numericModifier("stench resistance") < 1) throw `Unable to ensure cold res for The Icy Peak`;
+        if (numericModifier("stench resistance") < 1) throw `Unable to ensure stench res for guano junction`;
       },
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
@@ -67,6 +67,10 @@ export const BatQuest: Quest = {
       priority: () => step("questL11Shen") === 999 ||
         have($item`The Stankara Stone`) ||
         (myDaycount() === 1 && step("questL11Shen") > 1) ? OverridePriority.None : OverridePriority.BadMood,
+      prepare: () => {
+        if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
+        if (numericModifier("stench resistance") < 1) throw `Unable to ensure stench res for guano junction`;
+      },
       do: $location`Guano Junction`,
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
@@ -87,6 +91,10 @@ export const BatQuest: Quest = {
       name: "Get Sonar 3",
       after: ["Use Sonar 2"],
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 3,
+      prepare: () => {
+        if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
+        if (numericModifier("stench resistance") < 1) throw `Unable to ensure stench res for guano junction`;
+      },
       do: $location`Guano Junction`,
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
