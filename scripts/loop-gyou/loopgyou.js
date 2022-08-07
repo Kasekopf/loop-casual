@@ -16148,7 +16148,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "c35171f";
+var lastCommitHash = "5bcfcd1";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -16205,7 +16205,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     options: [[1, "Seal Clubber"], [2, "Turtle Tamer"], [3, "Pastamancer"], [4, "Saurceror"], [5, "Disco Bandit"], [6, "Accordion Thief"]]
   }),
   pulls: Args.number({
-    help: "Number of pulls to use. Lower this if you would like to save some pulls for in-ronin farming.",
+    help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
     default: 20
   }),
   verboseequip: Args.flag({
@@ -16234,7 +16234,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
 function main(command) {
   var _args$ignoretasks$spl, _args$ignoretasks, _args$completedtasks$, _args$completedtasks;
 
-  sinceKolmafiaRevision(26539);
+  sinceKolmafiaRevision(26624);
   Args.fill(args, command);
 
   if (args.help) {
