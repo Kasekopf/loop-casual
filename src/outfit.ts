@@ -355,6 +355,7 @@ export class Outfit {
       if (myBasestat($stat`moxie`) >= 10) this.equip($item`warbear long johns`);
       if (myBasestat($stat`moxie`) >= 85) this.equip($item`square sponge pants`);
       this.equip($item`Cargo Cultist Shorts`);
+      this.equip($item`lucky gold ring`);
       this.equip($item`Powerful Glove`);
       if (
         this.familiar === $familiar`Grey Goose` &&
