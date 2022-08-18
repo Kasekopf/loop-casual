@@ -436,7 +436,7 @@ const absorbTasks: AbsorbTask[] = [
     },
     do: $location`The Haunted Nursery`,
     after: ["Manor/Finish Floor2"],
-    choices: { 884: 6, 898: 2 },
+    choices: { 884: 6, 885: 4, 898: 2 },
   },
   {
     prepare: () => {
