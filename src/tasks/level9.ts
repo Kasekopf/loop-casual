@@ -135,6 +135,7 @@ const Oil: Task[] = [
         };
       else return { modifier: "ML, 0.1 item" };
     },
+    combat: new CombatStrategy().killItem(),
     limit: { soft: 5 },
     orbtargets: undefined,
   },
