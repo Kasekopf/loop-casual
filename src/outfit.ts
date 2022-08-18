@@ -278,7 +278,7 @@ export class Outfit {
       // Run maximizer
       if (spec.modifier.includes("item")) {
         outfit.equip($familiar`Grey Goose`);
-        if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat"))
+        if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat") && !spec.modifier.includes("res"))
           outfit.equip($item`protonic accelerator pack`);
       }
       // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
