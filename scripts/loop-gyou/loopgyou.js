@@ -7668,7 +7668,7 @@ var Outfit = /*#__PURE__*/function () {
         // Run maximizer
         if (spec.modifier.includes("item")) {
           outfit.equip((0,template_string/* $familiar */.HP)(_templateObject106 || (_templateObject106 = outfit_taggedTemplateLiteral(["Grey Goose"]))));
-          if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat")) outfit.equip((0,template_string/* $item */.xr)(_templateObject107 || (_templateObject107 = outfit_taggedTemplateLiteral(["protonic accelerator pack"]))));
+          if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat") && !spec.modifier.includes("res")) outfit.equip((0,template_string/* $item */.xr)(_templateObject107 || (_templateObject107 = outfit_taggedTemplateLiteral(["protonic accelerator pack"]))));
         } // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
 
 
@@ -8740,6 +8740,7 @@ var absorbTasks = [// Level 2
   after: ["Manor/Finish Floor2"],
   choices: {
     884: 6,
+    885: 4,
     898: 2
   }
 }, {
@@ -9801,7 +9802,7 @@ function autosellJunk() {
 
   if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(engine_templateObject30 || (engine_templateObject30 = engine_taggedTemplateLiteral(["pork elf goodies sack"]))))) (0,external_kolmafia_.use)((0,template_string/* $item */.xr)(engine_templateObject31 || (engine_templateObject31 = engine_taggedTemplateLiteral(["pork elf goodies sack"])))); // Sell junk items
 
-  var junk = (0,template_string/* $items */.vS)(engine_templateObject32 || (engine_templateObject32 = engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card"])));
+  var junk = (0,template_string/* $items */.vS)(engine_templateObject32 || (engine_templateObject32 = engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"])));
 
   var _iterator9 = engine_createForOfIteratorHelper(junk),
       _step9;
@@ -11892,6 +11893,7 @@ var Oil = [{
       modifier: "ML, 0.1 item"
     };
   },
+  combat: new src_combat.CombatStrategy().killItem(),
   limit: {
     soft: 5
   },
@@ -12089,7 +12091,7 @@ var ChasmQuest = {
         }
 
         return {
-          modifier: "item",
+          modifier: "item, -ML",
           equip: equip
         };
       } else return {
@@ -13211,8 +13213,9 @@ var Copperhead = [{
     }
   },
   limit: {
-    tries: 20
-  }
+    tries: 30
+  } // Extra waiter disguise adventures
+
 }, {
   name: "Bat Snake",
   after: ["Copperhead Start", "Bat/Use Sonar 1"],
@@ -16173,7 +16176,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "d65ac6e";
+var lastCommitHash = "c48f34c";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
