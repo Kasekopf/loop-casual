@@ -313,9 +313,9 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     autoSatisfyWithStash: false,
     dontStopForCounters: true,
     maximizerFoldables: true,
-    hpAutoRecovery: "0.0",
+    hpAutoRecovery: "-0.05",
     hpAutoRecoveryTarget: "0.0",
-    mpAutoRecovery: "0.0",
+    mpAutoRecovery: "-0.05",
     mpAutoRecoveryTarget: "0.0",
     afterAdventureScript: "",
     betweenBattleScript: "",
@@ -330,6 +330,7 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     libramSkillsSoftcore: "none",
     louvreGoal: 7,
     louvreDesiredGoal: 7,
+    requireBoxServants: false,
   });
   propertyManager.setChoices({
     1106: 3, // Ghost Dog Chow
