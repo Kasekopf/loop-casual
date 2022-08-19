@@ -111,7 +111,6 @@ const Zepplin: Task[] = [
     prepare: (): void => {
       if (get("zeppelinProtestors") < 80) {
         if (have($skill`Bend Hell`) && !get("_bendHellUsed")) ensureEffect($effect`Bendin' Hell`);
-        ensureEffect($effect`Dirty Pear`);
         use($item`11-leaf clover`);
       }
     },
@@ -120,7 +119,7 @@ const Zepplin: Task[] = [
     choices: { 856: 1, 857: 1, 858: 1, 866: 2, 1432: 1 },
     outfit: { modifier: "sleaze dmg, sleaze spell dmg", familiar: $familiar`Left-Hand Man` },
     freeaction: true, // fully maximize outfit
-    limit: { tries: 3, message: "Maybe your available sleaze damage is too low." },
+    limit: { tries: 5, message: "Maybe your available sleaze damage is too low." },
   },
   {
     name: "Protesters Finish",
