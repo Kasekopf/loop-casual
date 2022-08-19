@@ -174,7 +174,7 @@ const heroKeys: KeyTask[] = [
     after: ["Wand/Wand"],
     ready: () => towerReady(),
     completed: () =>
-      get("lastZapperWandExplosionDay") >= 1 || (get("_zapCount") >= 1 && !have(keyStrategy.getZapChoice())),
+      get("lastZapperWandExplosionDay") >= 1 || get("_zapCount") >= 1,
     do: () => {
       unequipAcc(keyStrategy.getZapChoice());
       if (!have(keyStrategy.getZapChoice()) && myTurncount() >= 1000) buy(keyStrategy.getZapChoice(), 1, 100000);
