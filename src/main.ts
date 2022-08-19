@@ -331,7 +331,8 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     louvreGoal: 7,
     louvreDesiredGoal: 7,
     requireBoxServants: false,
-    mpAutoRecoveryItems: "carbonated soy milk;carbonated water lily;ancient magi-wipes;phonics down;knob goblin superseltzer;psychokinetic energy blob;mountain stream soda;magical mystery juice;black cherry soda;knob goblin seltzer;doc galaktik's invigorating tonic;cherry cloaca cola;"
+    mpAutoRecoveryItems: "carbonated soy milk;carbonated water lily;ancient magi-wipes;phonics down;knob goblin superseltzer;psychokinetic energy blob;mountain stream soda;magical mystery juice;black cherry soda;knob goblin seltzer;doc galaktik's invigorating tonic;cherry cloaca cola;",
+    hpAutoRecoveryItems: "scroll of drastic healing;cannelloni cocoon;relaxing hot tub;tongue of the walrus;lasagna bandages;doc galaktik's homeopathic elixir;",
   });
   propertyManager.setChoices({
     1106: 3, // Ghost Dog Chow
