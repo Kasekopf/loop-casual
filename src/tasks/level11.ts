@@ -26,7 +26,7 @@ import {
 import { OutfitSpec, Quest, step, Task } from "./structure";
 import { OverridePriority } from "../priority";
 import { CombatStrategy } from "../combat";
-import { atLevel } from "../lib";
+import { atLevel, debug } from "../lib";
 import { councilSafe } from "./level12";
 import { GameState } from "../state";
 import { towerSkip } from "./level13";
@@ -106,6 +106,14 @@ const Diary: Task[] = [
     ready: () => myMeat() >= 500,
     completed: () => step("questL11Black") >= 4,
     do: $location`The Shore, Inc. Travel Agency`,
+    post: (): void => {
+      if (step("questL11Black") < 4) {
+        debug("Possible mafia diary desync detected; refreshing...");
+        cliExecute("refresh all");
+        if (have($item`your father's MacGuffin diary`)) use($item`your father's MacGuffin diary`);
+        visitUrl("questlog.php?which=1");
+      }
+    },
     choices: { 793: 1 },
     limit: { tries: 1 },
   },
