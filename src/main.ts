@@ -331,9 +331,9 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     louvreGoal: 7,
     louvreDesiredGoal: 7,
     requireBoxServants: false,
-    mpAutoRecoveryItems: "carbonated soy milk;carbonated water lily;ancient magi-wipes;phonics down;knob goblin superseltzer;psychokinetic energy blob;mountain stream soda;magical mystery juice;black cherry soda;knob goblin seltzer;doc galaktik's invigorating tonic;cherry cloaca cola;",
-    hpAutoRecoveryItems: "scroll of drastic healing;cannelloni cocoon;relaxing hot tub;tongue of the walrus;lasagna bandages;doc galaktik's homeopathic elixir;",
     autoAbortThreshold: "-0.05",
+    mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", ["black cherry soda", "doc galaktik's invigorating tonic"]),
+    hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["scroll of drastic healing", "doc galaktik's homeopathic elixir"])
   });
   propertyManager.setChoices({
     1106: 3, // Ghost Dog Chow
@@ -341,4 +341,14 @@ function setUniversalProperties(propertyManager: PropertiesManager) {
     1340: 3, // Is There A Doctor In The House?
     1341: 1, // Cure her poison
   });
+}
+
+function ensureRecovery(property: string, items: string[]): string {
+  const recovery_property = get(property).split(';');
+  for (const item of items) {
+    if (!recovery_property.includes(item)) {
+      recovery_property.push(item);
+    }
+  }
+  return recovery_property.join(";");
 }
