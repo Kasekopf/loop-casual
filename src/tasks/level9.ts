@@ -1,4 +1,5 @@
 import {
+  council,
   itemAmount,
   myBasestat,
   myMaxmp,
@@ -329,7 +330,10 @@ export const ChasmQuest: Quest = {
       name: "Start Peaks",
       after: ["Bridge"],
       completed: () => step("questL09Topping") >= 2,
-      do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
+      do: () => {
+        visitUrl("place.php?whichplace=highlands&action=highlands_dude");
+        council();
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
@@ -340,7 +344,10 @@ export const ChasmQuest: Quest = {
       name: "Finish",
       after: ["ABoo Peak", "Oil Peak", "Twin Init", "Twin Init Search"],
       completed: () => step("questL09Topping") === 999,
-      do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
+      do: () => {
+        visitUrl("place.php?whichplace=highlands&action=highlands_dude");
+        council();
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
