@@ -65,6 +65,7 @@ const Diary: Task[] = [
           equip: $items`blackberry galoshes`,
           familiar: $familiar`Reassembled Blackbird`,
           modifier: "50 combat 5max, item, -1ML",
+          avoid: $items`broken champagne bottle`
         };
       }
     },
@@ -165,7 +166,7 @@ const Desert: Task[] = [
     },
     do: $location`The Oasis`,
     combat: new CombatStrategy().killItem($monster`blur`),
-    outfit: { modifier: "item" },
+    outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     limit: { soft: 10 },
     post: (): void => {
       if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))

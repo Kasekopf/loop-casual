@@ -359,7 +359,7 @@ const Bowling: Task[] = [
       .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy orderlies`),
     outfit: {
-      modifier: "item",
+      modifier: "item", avoid: $items`broken champagne bottle`,
     },
     choices: { 788: 1 },
     limit: { soft: 15 },
@@ -377,7 +377,7 @@ const Bowling: Task[] = [
       .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy janitor, pygmy orderlies`),
     outfit: {
-      modifier: "item",
+      modifier: "item", avoid: $items`broken champagne bottle`,
     },
     choices: { 788: 1 },
     limit: { soft: 25 },

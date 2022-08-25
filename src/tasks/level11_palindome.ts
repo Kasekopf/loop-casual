@@ -82,7 +82,7 @@ const Copperhead: Task[] = [
       (myDaycount() === 1 && step("questL11Shen") > 1),
     do: $location`The Batrat and Ratbat Burrow`,
     combat: new CombatStrategy().killHard($monster`Batsnake`).killItem(),
-    outfit: { modifier: "item" },
+    outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     limit: { soft: 10 },
     delay: 5,
   },
@@ -304,7 +304,7 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
@@ -324,7 +324,7 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
     combat: new CombatStrategy()
       .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
@@ -344,7 +344,7 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item" };
+      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
     combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
@@ -355,7 +355,7 @@ const Dome: Task[] = [
     do: $location`Inside the Palindome`,
     completed: () =>
       have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "item" },
+    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "item", avoid: $items`broken champagne bottle` },
     combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },

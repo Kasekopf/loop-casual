@@ -182,7 +182,7 @@ const summonTargets: SummonTarget[] = [
     ready: () => have($item`white page`),
     completed: () => have($skill`Piezoelectric Honk`),
     choices: { 940: 2 },
-    outfit: { modifier: "item" },
+    outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     combat: new CombatStrategy().killItem(),
   }
 ];

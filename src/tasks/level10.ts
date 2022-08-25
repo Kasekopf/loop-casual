@@ -25,7 +25,9 @@ export const GiantQuest: Quest = {
       after: ["Bat/Use Sonar 2"],
       completed: () => have($item`enchanted bean`) || step("questL10Garbage") >= 1,
       do: $location`The Beanbat Chamber`,
-      outfit: { modifier: "item" },
+      outfit: {
+        modifier: "item", avoid: $items`broken champagne bottle`,
+      },
       combat: new CombatStrategy().killItem($monster`beanbat`),
       limit: { soft: 5 },
     },
@@ -55,7 +57,7 @@ export const GiantQuest: Quest = {
         combat: new CombatStrategy()
           .killItem($monster`Burly Sidekick`)
           .killItem($monster`Quiet Healer`),
-      }, { modifier: "-combat, item" }, $monster`Quiet Healer`),
+      }, { modifier: "-combat, item", avoid: $items`broken champagne bottle`, }, $monster`Quiet Healer`),
     {
       name: "Airship",
       after: ["Airship YR Healer"],

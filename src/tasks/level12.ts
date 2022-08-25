@@ -271,7 +271,6 @@ const Orchard: Task[] = [
     completed: () =>
       have($item`heart of the filthworm queen`) || get("sidequestOrchardCompleted") !== "none",
     do: $location`The Filthworm Queen's Chamber`,
-    outfit: { modifier: "items" },
     effects: $effects`Filthworm Guard Stench`,
     combat: new CombatStrategy(true).kill(),
     limit: { tries: 2 }, // allow wanderer

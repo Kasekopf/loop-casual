@@ -2,6 +2,7 @@ import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
+  $items,
   $location,
   $monster,
   $monsters,
@@ -61,7 +62,7 @@ export const McLargeHugeQuest: Quest = {
       after: ["Trapper Request"],
       completed: () => itemAmount($item`goat cheese`) >= 3 || step("questL08Trapper") >= 2,
       do: $location`The Goatlet`,
-      outfit: { modifier: "item" },
+      outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
       combat: new CombatStrategy()
         .killItem($monster`dairy goat`)
         .banish(...$monsters`drunk goat, sabre-toothed goat`),

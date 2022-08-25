@@ -314,7 +314,7 @@ export const KeysQuest: Quest = {
           30) ||
         towerSkip(),
       do: $location`8-Bit Realm`,
-      outfit: { equip: $items`continuum transfunctioner`, modifier: "item" },
+      outfit: { equip: $items`continuum transfunctioner`, modifier: "item", avoid: $items`broken champagne bottle` },
       combat: new CombatStrategy().kill(),
       limit: { soft: 40 },
     },
@@ -327,7 +327,7 @@ export const KeysQuest: Quest = {
         get("nsTowerDoorKeysUsed").includes("Richard's star key") ||
         towerSkip(),
       do: $location`The Hole in the Sky`,
-      outfit: { modifier: "item" },
+      outfit: { modifier: "item", avoid: $items`broken champagne bottle`, },
       combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
       limit: { soft: 20 },
       orbtargets: () => (!have($item`star chart`) ? [$monster`Astronomer`] : []),
@@ -347,7 +347,7 @@ export const KeysQuest: Quest = {
         have($item`skeleton key`) ||
         get("nsTowerDoorKeysUsed").includes("skeleton key") ||
         towerSkip(),
-      outfit: { modifier: "item" },
+      outfit: { modifier: "item", avoid: $items`broken champagne bottle`, },
       combat: new CombatStrategy()
         .killItem(...$monsters`factory-irregular skeleton, remaindered skeleton, swarm of skulls`)
         .banish($monster`novelty tropical skeleton`),

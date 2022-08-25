@@ -68,7 +68,7 @@ export const KnobQuest: Quest = {
           };
         else
           return {
-            modifier: "item",
+            modifier: "item", avoid: $items`broken champagne bottle`,
           };
       },
       combat: new CombatStrategy()
