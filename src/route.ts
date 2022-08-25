@@ -38,6 +38,7 @@ export const routing: string[] = [
   "Giant/Airship YR Healer",
   "Misc/Retune Moon",
   "War/Flyers Start", // Start the war and get flyers
+  "War/Flyers End", // End the flyers quest ASAP in case of tracking errors
 
   // For MP regen, ASAP
   "Wand/Wand",
