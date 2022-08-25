@@ -242,10 +242,12 @@ export class Outfit {
         ]);
       }
 
-      if (this.modifier.includes("-combat")) {
-        if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-      } else if (this.modifier.includes("ML")) {
-        if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+      if (have($item`unbreakable umbrella`)) {
+        if (this.modifier.includes("-combat")) {
+          if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
+        } else if (this.modifier.includes("ML")) {
+          if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+        }
       }
 
       if (!requirements.maximize()) {
@@ -254,15 +256,15 @@ export class Outfit {
     }
 
     // Do not use +ML backup camera unless specifically needed
-    if (
-      equippedAmount($item`backup camera`) > 0 &&
-      (!this.modifier || !this.modifier.includes("ML")) &&
-      get("backupCameraMode").toLowerCase() === "ml"
-    ) {
-      cliExecute("backupcamera meat");
-    }
-    if (!get("backupCameraReverserEnabled")) {
-      cliExecute("backupcamera reverser on");
+    if (equippedAmount($item`backup camera`) > 0) {
+      if ((!this.modifier || !this.modifier.includes("ML")) &&
+        get("backupCameraMode").toLowerCase() === "ml"
+      ) {
+        cliExecute("backupcamera meat");
+      }
+      if (!get("backupCameraReverserEnabled")) {
+        cliExecute("backupcamera reverser on");
+      }
     }
   }
 
