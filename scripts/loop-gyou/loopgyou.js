@@ -7798,6 +7798,7 @@ var Flyers = [{
 }, {
   name: "Flyers End",
   after: ["Flyers Start"],
+  priority: () => OverridePriority.Free,
   ready: () => flyersDone(),
   // Buffer for mafia tracking
   completed: () => (0,dist_property/* get */.U2)("sidequestArenaCompleted") !== "none",
@@ -16214,7 +16215,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "749c3f9";
+var lastCommitHash = "cad3ea9";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
