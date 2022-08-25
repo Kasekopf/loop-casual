@@ -41,6 +41,7 @@ const Flyers: Task[] = [
   {
     name: "Flyers End",
     after: ["Flyers Start"],
+    priority: () => OverridePriority.Free,
     ready: () => flyersDone(), // Buffer for mafia tracking
     completed: () => get("sidequestArenaCompleted") !== "none",
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
