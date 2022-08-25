@@ -1,6 +1,8 @@
 import {
   appearanceRates,
   canadiaAvailable,
+  changeMcd,
+  currentMcd,
   equip,
   equippedAmount,
   equippedItem,
@@ -239,6 +241,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Oil Peak`,
     after: ["Orc Chasm/Oil Peak"],
+    ready: () => have($item`backup camera`) || have($item`old patched suit-pants`),
     prepare: () => {
       // Unequip the umbrella if it pushes us over the cap
       if (
@@ -261,9 +264,11 @@ const absorbTasks: AbsorbTask[] = [
         equip(slot, $item`none`);
       }
 
+      if (numericModifier("Monster Level") < 50 && currentMcd() < 10) changeMcd(10);
       if (numericModifier("Monster Level") < 50 || numericModifier("Monster Level") >= 100)
         throw `Unable to get 50-99 ML for oil barons`;
     },
+    post: () => { if (currentMcd() > 0) changeMcd(0); },
     freecombat: true,
     outfit: { modifier: "ML 50min" },
     limit: { tries: 1 },
