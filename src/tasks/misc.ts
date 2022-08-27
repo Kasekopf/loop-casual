@@ -691,6 +691,7 @@ export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState
     post: () => {
       // Some tracking is broken when we encounter it with teleportitis
       if (get("lastEncounter") === "Having a Ball in the Ballroom") set("questM21Dance", "step4");
+      if (get("lastEncounter") === "Too Much Humanity" && step("questL11Ron") < 1) set("questL11Ron", "step1");
     },
     outfit: { equip: $items`antique machete` },
     choices: choices,
