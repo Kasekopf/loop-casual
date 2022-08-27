@@ -234,7 +234,7 @@ function getMonsters(where?: Location): Monster[] {
   if (where === undefined) return [];
   return Object.entries(appearanceRates(where)) // Get the maximum HP in the location
     .filter((i) => i[1] > 0)
-    .map((i) => Monster.get<Monster>(i[0]));
+    .map((i) => Monster.get(i[0]));
 }
 
 function maxHP(target?: Monster | Location): number {

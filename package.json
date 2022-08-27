@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "core-js": "^3.16.4",
-    "kolmafia": ">=1.2.0",
-    "libram": ">=0.3.0"
+    "kolmafia": "^3.4.0",
+    "libram": "^0.6.23"
   },
   "author": "Kasekopf",
   "license": "ISC",

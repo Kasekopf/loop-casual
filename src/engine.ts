@@ -341,7 +341,7 @@ export class Engine {
         // So refresh our inventory and try again (once).
         debug("Possible mafia desync detected; refreshing...");
         cliExecute("refresh all");
-        outfit.dress();
+        outfit.dress(true);
       }
 
       // Prepare resources if needed
