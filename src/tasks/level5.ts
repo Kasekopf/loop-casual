@@ -118,7 +118,7 @@ export const KnobQuest: Quest = {
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),
-      outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants` },
+      outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants`, modifier: "moxie" },
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
     },
