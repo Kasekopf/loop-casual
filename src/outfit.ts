@@ -267,6 +267,12 @@ export class Outfit {
         cliExecute("backupcamera reverser on");
       }
     }
+
+    if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
+      if (this.modifier?.includes("res") && (get("retroCapeSuperhero") !== "vampire") || get("retroCapeWashingInstructions") !== "hold") {
+        cliExecute("retrocape vampire hold");
+      }
+    }
   }
 
   static create(task: Task, state: GameState): Outfit {
