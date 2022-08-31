@@ -970,6 +970,7 @@ export function coldRes(with_black_paint: boolean): number {
   let res = 0;
   if (have($item`ice crown`)) res += 3;
   if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
+  if (have($item`ghost of a necklace`)) res += 1;
   if (have($skill`Nanofur`)) res += 3;
   if (have($skill`Microweave`)) res += 2;
   if (with_black_paint && (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))) res += 2;
@@ -980,6 +981,7 @@ export function stenchRes(with_black_paint: boolean): number {
   let res = 0;
   if (have($item`ice crown`)) res += 3;
   if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
+  if (have($item`ghost of a necklace`)) res += 1;
   if (have($skill`Conifer Polymers`)) res += 3;
   if (have($skill`Clammy Microcilia`)) res += 2;
   if (with_black_paint && (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))) res += 2;
