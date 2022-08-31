@@ -16425,7 +16425,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "706e2f3";
+var lastCommitHash = "a61425d";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -16532,8 +16532,9 @@ function main(command) {
     }
   }
 
-  if (args.version) return;
-  if ((0,external_kolmafia_.myPath)() !== "Grey You") throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
+  if (args.version) return; // eslint-disable-next-line eqeqeq
+
+  if ((0,external_kolmafia_.myPath)() != "Grey You") throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
 
   if (args.class !== undefined) {
     if (step("questL13Final") <= 11) throw "You have not finished your Grey You run. Do not set this argument yet.";
