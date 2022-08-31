@@ -59,11 +59,9 @@ export function moodCompatible(modifier: string | undefined): boolean {
   // while under -combat effects, and vice-versa.
   if (modifier === undefined) return true;
   if (modifier.includes("+combat") || modifier.includes(" combat")) {
-    // eslint-disable-next-line libram/verify-constants
     return !have($effect`Shifted Phase`) && !have($effect`Darkened Photons`);
   }
   if (modifier.includes("-combat")) {
-    // eslint-disable-next-line libram/verify-constants
     return !have($effect`Hooooooooonk!`);
   }
   return true;
