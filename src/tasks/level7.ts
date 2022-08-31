@@ -23,8 +23,9 @@ import {
   have,
   Macro,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest, Task } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 
 function tuneCape(): void {
   if (
@@ -78,7 +79,7 @@ const Alcove: Task[] = [
       };
     },
     choices: { 153: 4 },
-    combat: new CombatStrategy().macro(slay_macro, ...$monsters`modern zmobie, conjoined zmombie`),
+    combat: new CombatStrategy().macro(slay_macro, $monsters`modern zmobie, conjoined zmombie`),
     limit: { turns: 25 },
   },
   {
@@ -86,7 +87,8 @@ const Alcove: Task[] = [
     after: ["Alcove"],
     completed: () => get("cyrptAlcoveEvilness") === 0,
     do: $location`The Defiled Alcove`,
-    combat: new CombatStrategy(true).kill(),
+    boss: true,
+    combat: new CombatStrategy().kill(),
     limit: { tries: 1 },
   },
 ];
@@ -112,7 +114,7 @@ const Cranny: Task[] = [
           .trySkill($skill`Slay the Dead`)
           .skill($skill`Saucegeyser`)
           .repeat(),
-        ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
+        $monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       )
       .macro(slay_macro),
     limit: { turns: 25 },
@@ -122,7 +124,8 @@ const Cranny: Task[] = [
     after: ["Cranny"],
     completed: () => get("cyrptCrannyEvilness") === 0,
     do: $location`The Defiled Cranny`,
-    combat: new CombatStrategy(true).killHard(),
+    boss: true,
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 1 },
   },
 ];
@@ -150,7 +153,7 @@ const Niche: Task[] = [
     },
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
-      .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+      .banish($monsters`basic lihc, senile lihc, slick lihc`),
     limit: { turns: 25 },
   },
   {
@@ -158,7 +161,8 @@ const Niche: Task[] = [
     after: ["Niche"],
     completed: () => get("cyrptNicheEvilness") === 0,
     do: $location`The Defiled Niche`,
-    combat: new CombatStrategy(true).kill(),
+    boss: true,
+    combat: new CombatStrategy().kill(),
     limit: { tries: 1 },
   },
 ];
@@ -249,7 +253,7 @@ const Nook: Task[] = [
     },
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
-      .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
+      .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
     limit: { tries: 9 },
   },
@@ -258,7 +262,8 @@ const Nook: Task[] = [
     after: ["Nook", "Nook Eye", "Nook Simple"],
     completed: () => get("cyrptNookEvilness") === 0,
     do: $location`The Defiled Nook`,
-    combat: new CombatStrategy(true).kill(),
+    boss: true,
+    combat: new CombatStrategy().kill(),
     limit: { tries: 1 },
   },
 ];
@@ -285,7 +290,8 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") >= 1,
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
-      combat: new CombatStrategy(true).kill(),
+      boss: true,
+      combat: new CombatStrategy().kill(),
       limit: { tries: 1 },
     },
     {

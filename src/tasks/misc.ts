@@ -31,8 +31,9 @@ import {
   set,
   uneffect,
 } from "libram";
-import { CombatStrategy } from "../combat";
-import { OutfitSpec, Quest, step } from "./structure";
+import { CombatStrategy } from "../engine/combat";
+import { Quest } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -236,6 +237,8 @@ export const MiscQuest: Quest = {
         if (!have($item`protonic accelerator pack`)) return false;
         if (get("questPAGhost") === "unstarted") return false;
         switch (get("ghostLocation")) {
+          case $location`Cobb's Knob Treasury`:
+            return step("questL05Goblin") >= 1;
           case $location`The Haunted Conservatory`:
             return step("questM20Necklace") >= 0;
           case $location`The Haunted Gallery`:

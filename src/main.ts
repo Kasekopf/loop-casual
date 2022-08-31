@@ -11,11 +11,11 @@ import {
 } from "kolmafia";
 import { all_tasks, level_tasks, organ_tasks, quest_tasks } from "./tasks/all";
 import { prioritize } from "./route";
-import { Engine } from "./engine";
+import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
 import { $skill, get, have, set } from "libram";
-import { step, Task } from "./tasks/structure";
-import { Args } from "./args";
+import { Task } from "./engine/task";
+import { Args, step } from "grimoire-kolmafia";
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
@@ -100,13 +100,8 @@ export function main(command?: string): void {
   }
 
   const engine = new Engine(tasks);
-  try {
-    // Do not bother to set properties if there are no tasks remaining
-    if (tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined) {
-      engine.setUniversalProperties();
-      cliExecute("ccs loopcasual");
-    }
 
+  try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -117,15 +112,14 @@ export function main(command?: string): void {
       // Track the number of actions remaining to execute.
       // If there are no more actions left, just print our plan and exit.
       if (actions_left <= 0) {
-        debug(`Next task: ${next[0].name}`);
+        debug(`Next task: ${next.name}`);
         return;
       } else {
         actions_left -= 1;
       }
 
       // Do the next task.
-      if (next[1] !== undefined) engine.execute(next[0], next[1]);
-      else engine.execute(next[0]);
+      engine.execute(next);
     }
 
     // Script is done; ensure we have finished

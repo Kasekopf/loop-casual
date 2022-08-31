@@ -12,8 +12,9 @@ import {
   Macro,
   SourceTerminal,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest, Task } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 
 const ABoo: Task[] = [
   {

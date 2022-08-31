@@ -1,7 +1,8 @@
 import { myLevel, use, visitUrl } from "kolmafia";
 import { $effects, $item, $location, $monster, have } from "libram";
-import { Quest, step } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
+import { step } from "grimoire-kolmafia";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -42,7 +43,8 @@ export const KnobQuest: Quest = {
       ],
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
-      combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),
+      boss: true,
+      combat: new CombatStrategy().kill($monster`Knob Goblin King`),
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
     },

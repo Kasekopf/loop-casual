@@ -10,8 +10,9 @@ import {
   visitUrl,
 } from "kolmafia";
 import { $item, $items, $location, get } from "libram";
-import { Quest, step } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
+import { step } from "grimoire-kolmafia";
 
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual
@@ -111,7 +112,8 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy(true).killHard(),
+      boss: true,
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
     },
     {
@@ -131,7 +133,8 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy(true).killHard(),
+      boss: true,
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
     },
   ],

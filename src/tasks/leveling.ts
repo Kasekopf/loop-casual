@@ -29,8 +29,8 @@ import {
   set,
   Witchess,
 } from "libram";
-import { Quest } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
 import { args } from "../main";
 
 function primestatId(): number {
@@ -192,7 +192,7 @@ export const LevelingQuest: Quest = {
     {
       name: "God Lobster",
       after: [],
-      acquire: [{ item: $item`makeshift garbage shirt` }],
+      acquire: [{ item: $item`makeshift garbage shirt`, get: () => cliExecute("fold makeshift garbage shirt") }],
       ready: () => have($familiar`God Lobster`),
       completed: () => get("_godLobsterFights") >= 3 || myLevel() >= args.levelto,
       do: (): void => {
@@ -227,7 +227,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Sausage Fights",
       after: [],
-      acquire: [{ item: $item`makeshift garbage shirt` }],
+      acquire: [{ item: $item`makeshift garbage shirt`, get: () => cliExecute("fold makeshift garbage shirt") }],
       ready: () =>
         have($familiar`Pocket Professor`) &&
         have($item`Kramco Sausage-o-Matic™`) &&
@@ -254,7 +254,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Neverending Party",
       after: [],
-      acquire: [{ item: $item`makeshift garbage shirt` }],
+      acquire: [{ item: $item`makeshift garbage shirt`, get: () => cliExecute("fold makeshift garbage shirt") }],
       completed: () => get("_neverendingPartyFreeTurns") >= 10 || myLevel() >= args.levelto,
       do: $location`The Neverending Party`,
       choices: { 1322: 2, 1324: 5 },
@@ -284,7 +284,7 @@ export const LevelingQuest: Quest = {
     {
       name: "Machine Elf",
       after: [],
-      acquire: [{ item: $item`makeshift garbage shirt` }],
+      acquire: [{ item: $item`makeshift garbage shirt`, get: () => cliExecute("fold makeshift garbage shirt") }],
       ready: () => have($familiar`Machine Elf`),
       completed: () => get("_machineTunnelsAdv") >= 5 || myLevel() >= args.levelto,
       do: $location`The Deep Machine Tunnels`,

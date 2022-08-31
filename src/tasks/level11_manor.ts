@@ -14,8 +14,9 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { Quest, Task } from "../engine/task";
+import { CombatStrategy } from "../engine/combat";
+import { step } from "grimoire-kolmafia";
 
 const Manor1: Task[] = [
   {
@@ -128,13 +129,13 @@ const Manor2: Task[] = [
     do: $location`The Haunted Bedroom`,
     choices: { 876: 1, 877: 1, 878: 3, 879: 1, 880: 1, 897: 2 },
     combat: new CombatStrategy()
-      .kill(...$monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
+      .kill($monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
       .macro(
         new Macro().trySkill($skill`Batter Up!`).trySkill($skill`Talk About Politics`),
         $monster`animated ornate nightstand`
       )
       .banish(
-        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
+        $monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
       .ignore($monster`tumbleweed`),
     outfit: () => {
@@ -213,7 +214,7 @@ const ManorBasement: Task[] = [
     choices: { 901: 2 },
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
-      .banish(...$monsters`mad wino, skeletal sommelier`)
+      .banish($monsters`mad wino, skeletal sommelier`)
       .killFree(),
     limit: { soft: 10 },
   },
@@ -242,7 +243,7 @@ const ManorBasement: Task[] = [
         new Macro().trySkill($skill`Otoscope`).trySkill($skill`Chest X-Ray`),
         $monster`cabinet of Dr. Limpieza`
       )
-      .banish(...$monsters`plaid ghost, possessed laundry press`)
+      .banish($monsters`plaid ghost, possessed laundry press`)
       .killFree(),
     limit: { soft: 10 },
   },
@@ -264,7 +265,7 @@ const ManorBasement: Task[] = [
     choices: { 902: 2 },
     combat: new CombatStrategy()
       .kill($monster`monstrous boiler`)
-      .banish(...$monsters`coaltergeist, steam elemental`),
+      .banish($monsters`coaltergeist, steam elemental`),
     limit: { soft: 10 },
   },
   {
@@ -296,7 +297,8 @@ export const ManorQuest: Quest = {
       after: ["Blow Wall"],
       completed: () => step("questL11Manor") >= 999,
       do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberboss"),
-      combat: new CombatStrategy(true).kill(),
+      boss: true,
+      combat: new CombatStrategy().kill(),
       limit: { tries: 1 },
     },
   ],
