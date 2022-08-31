@@ -85,7 +85,3 @@ export class MyActionDefaults implements ActionDefaults<CombatActions> {
       .tryItem($item`Time-Spinner`);
   }
 }
-
-export function main(): void {
-  Macro.load().submit();
-}

@@ -11,5 +11,4 @@ The script is designed to be run as part of a loop. In particular, it expects th
 This script is not currently in a state where it will work for most users out of the box. You may need to make a few custom typescript modifications. Thus it cannot yet be checked out through the mafia GUI.
 
 1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
-2. Copy [loopcasual.ccs](KoLmafia/ccs/loopcasual.ccs) from KoLmafia/ccs to your Mafia css directory.
-3. Copy loopcasual.js and loopcasual-combat.js from KoLmafia/scripts/loop-casual to your Mafia scripts directory.
+2. Copy loopcasual.js from KoLmafia/scripts/loop-casual to your Mafia scripts directory.
