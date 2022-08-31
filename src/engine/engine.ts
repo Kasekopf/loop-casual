@@ -1,6 +1,6 @@
 import { Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
-import { $effect, $familiar, $item, $skill, get, have, PropertiesManager, set } from "libram";
+import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import { CombatActions, MyActionDefaults } from "./combat";
 import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import { applyEffects } from "./moods";
@@ -84,7 +84,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     combat: CombatStrategy<CombatActions>,
     resources: CombatResources<CombatActions>
   ): void {
-    const start = Date.now();
     equipInitial(outfit);
     const wanderers = task.wanderer ? [task.wanderer] : [];
     for (const wanderer of wanderers) {
@@ -156,9 +155,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       equipDefaults(outfit);
     }
 
-    const end = Date.now();
-    set("_loopcasual_outfittime", get("_loopcasual_outfittime", 0) + (end - start));
-    set("_loopcasual_outfitruns", get("_loopcasual_outfitruns", 0) + 1);
     // Prepare mood
     applyEffects(outfit.modifier ?? "", task.effects || []);
 
