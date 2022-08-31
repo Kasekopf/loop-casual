@@ -243,6 +243,7 @@ export class Outfit {
         ]);
       }
 
+      // Libram outfit cache may not autofold umbrella, so we need to
       if (have($item`unbreakable umbrella`)) {
         if (this.modifier.includes("-combat")) {
           if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
@@ -257,6 +258,7 @@ export class Outfit {
     }
 
     // Do not use +ML backup camera unless specifically needed
+    // Libram outfit cache may not autofold camera, so we need to
     if (equippedAmount($item`backup camera`) > 0) {
       if ((!this.modifier || !this.modifier.includes("ML")) &&
         get("backupCameraMode").toLowerCase() === "ml"
@@ -268,6 +270,7 @@ export class Outfit {
       }
     }
 
+    // Libram outfit cache may not autofold cape, so we need to
     if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
       if (this.modifier?.includes("res") && (get("retroCapeSuperhero") !== "vampire") || get("retroCapeWashingInstructions") !== "hold") {
         cliExecute("retrocape vampire hold");
