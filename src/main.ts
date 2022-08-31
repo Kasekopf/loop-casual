@@ -109,7 +109,8 @@ export function main(command?: string): void {
   }
   if (args.version) return;
 
-  if (myPath() !== "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
+  // eslint-disable-next-line eqeqeq
+  if (myPath() != "Grey You") throw `You are not currently in a Grey You run. Please start one.`;
 
   // Break the prism and exit if requested
   if (args.class !== undefined) {
