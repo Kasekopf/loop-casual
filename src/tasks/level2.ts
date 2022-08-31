@@ -1,7 +1,7 @@
 import { myLevel, visitUrl } from "kolmafia";
 import { $location } from "libram";
 import { Quest } from "../engine/task";
-import { step } from "../grimoire";
+import { step } from "grimoire-kolmafia";
 
 export const MosquitoQuest: Quest = {
   name: "Mosquito",

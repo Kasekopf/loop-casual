@@ -2,7 +2,7 @@ import { cliExecute, containsText, myLevel, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { Quest } from "../engine/task";
-import { step } from "../grimoire";
+import { step } from "grimoire-kolmafia";
 
 export const GiantQuest: Quest = {
   name: "Giant",

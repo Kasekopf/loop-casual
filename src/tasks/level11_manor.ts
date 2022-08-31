@@ -16,7 +16,7 @@ import {
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
-import { step } from "../grimoire";
+import { step } from "grimoire-kolmafia";
 
 const Manor1: Task[] = [
   {

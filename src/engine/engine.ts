@@ -2,7 +2,7 @@ import { Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
 import { $effect, $familiar, $item, $skill, get, have, PropertiesManager, set } from "libram";
 import { CombatActions, MyActionDefaults } from "./combat";
-import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "../grimoire";
+import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import { applyEffects } from "./moods";
 import { myHp, myMaxhp, myMaxmp, restoreMp, useSkill } from "kolmafia";
 import { debug } from "../lib";

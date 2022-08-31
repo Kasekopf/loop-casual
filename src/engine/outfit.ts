@@ -2,7 +2,7 @@ import { Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
 import { $familiar, $item, $stat, get, have } from "libram";
 import { Task } from "./task";
 import { Resource } from "./resources";
-import { Outfit } from "../grimoire";
+import { Outfit } from "grimoire-kolmafia";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {

@@ -33,7 +33,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { Quest } from "../engine/task";
-import { OutfitSpec, step } from "../grimoire";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 
 export const MiscQuest: Quest = {
   name: "Misc",

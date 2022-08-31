@@ -1,5 +1,5 @@
 import { Task } from "./engine/task";
-import { orderByRoute } from "./grimoire";
+import { orderByRoute } from "grimoire-kolmafia";
 
 export const routing: string[] = [
   "Diet/Numberology", // Numberology is always ready at the start of the day

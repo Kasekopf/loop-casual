@@ -3,7 +3,7 @@ import { $effects, $item, $items, $location, $monster, $monsters, get, have, Mac
 import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { runawayValue } from "../engine/resources";
-import { step } from "../grimoire";
+import { step } from "grimoire-kolmafia";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);

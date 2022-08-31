@@ -14,7 +14,7 @@ import {
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
-import { OutfitSpec, step } from "../grimoire";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 
 const Diary: Task[] = [
   {

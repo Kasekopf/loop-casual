@@ -12,7 +12,7 @@ import {
 import { $item, $items, $location, get } from "libram";
 import { Quest } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
-import { step } from "../grimoire";
+import { step } from "grimoire-kolmafia";
 
 function ensureFluffers(flufferCount: number): void {
   // From bean-casual
