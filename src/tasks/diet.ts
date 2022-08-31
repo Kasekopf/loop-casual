@@ -194,7 +194,7 @@ function chewSafe(qty: number, item: Item) {
 }
 
 type MenuData = {
-  turns: number // Est. number of turns provided by an item; used for the price cap
+  turns: number; // Est. number of turns provided by an item; used for the price cap
 };
 function consumeSafe(
   qty: number,
@@ -202,7 +202,7 @@ function consumeSafe(
   mpa: number,
   data?: MenuData,
   additionalValue?: number,
-  skipAcquire?: boolean,
+  skipAcquire?: boolean
 ) {
   const spleenCleaned = spleenCleaners.get(item);
   if (spleenCleaned && mySpleenUse() < spleenCleaned) {
@@ -290,8 +290,12 @@ function menu(): MenuItem<MenuData>[] {
     new MenuItem($item`blood-drive sticker`),
 
     // HELPERS
-    new MenuItem($item`Special Seasoning`, { data: { turns: 1 }}),
-    new MenuItem($item`pocket wish`, { maximum: 1, effect: $effect`Refined Palate`, data: { turns: 10 } }),
+    new MenuItem($item`Special Seasoning`, { data: { turns: 1 } }),
+    new MenuItem($item`pocket wish`, {
+      maximum: 1,
+      effect: $effect`Refined Palate`,
+      data: { turns: 10 },
+    }),
     new MenuItem($item`toasted brie`, { maximum: 1, data: { turns: 10 } }),
     new MenuItem($item`potion of the field gar`, { maximum: 1, data: { turns: 5 } }),
   ];
@@ -306,7 +310,7 @@ function consumeDiet(diet: Diet<MenuData>, mpa: number) {
     (a, b) => itemPriority(b.menuItems) - itemPriority(a.menuItems)
   );
 
-  print(`Diet Plan:`)
+  print(`Diet Plan:`);
   for (const dietEntry of plannedDietEntries) {
     print(`${dietEntry.target()} ${dietEntry.helpers().join(",")}`);
   }
@@ -322,7 +326,12 @@ function consumeDiet(diet: Diet<MenuData>, mpa: number) {
         quantity = clamp(Math.floor(getRemainingStomach() / dietEntry.target().size), 0, quantity);
       } else if (organ === "booze") {
         quantity = clamp(Math.floor(getRemainingLiver() / dietEntry.target().size), 0, quantity);
-        if (dietEntry.target().size === 1 && !get("_mimeArmyShotglassUsed") && have($item`mime army shotglass`) && quantity === 0) {
+        if (
+          dietEntry.target().size === 1 &&
+          !get("_mimeArmyShotglassUsed") &&
+          have($item`mime army shotglass`) &&
+          quantity === 0
+        ) {
           quantity = 1;
         }
       } else if (organ === "spleen item") {

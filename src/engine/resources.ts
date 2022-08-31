@@ -246,11 +246,7 @@ export const wandererSources: WandererSource[] = [
       get("_voidFreeFights") < 5 &&
       get("cursedMagnifyingGlassCount") >= 13,
     equip: $item`cursed magnifying glass`,
-    monsters: [
-      $monster`void guy`,
-      $monster`void slab`,
-      $monster`void spider`,
-    ],
+    monsters: [$monster`void guy`, $monster`void slab`, $monster`void spider`],
     chance: () => 1, // when available
   },
   {
