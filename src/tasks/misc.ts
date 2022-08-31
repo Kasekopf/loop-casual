@@ -3,6 +3,7 @@ import {
   adv1,
   canadiaAvailable,
   cliExecute,
+  equippedAmount,
   Familiar,
   familiarWeight,
   gnomadsAvailable,
@@ -50,6 +51,7 @@ import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../main";
 import { GameState } from "../state";
+import { coldRes } from "./absorb";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -301,15 +303,18 @@ export const MiscQuest: Quest = {
       outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
           return { equip: $items`Talisman o' Namsilat, protonic accelerator pack`, modifier: "DA, DR" };
-        if (get("ghostLocation") === $location`The Icy Peak`)
-          return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
+        if (get("ghostLocation") === $location`The Icy Peak`) {
+          if (coldRes(true, false) >= 5) return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
+          else return { modifier: "1000 cold res, DA, DR" }; // not enough cold res without back
+        }
         return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
       },
       combat: new CombatStrategy().macro(() => {
         if (
           myHp() < myMaxhp() ||
           get("ghostLocation") === $location`The Haunted Wine Cellar` ||
-          get("ghostLocation") === $location`The Overgrown Lot`
+          get("ghostLocation") === $location`The Overgrown Lot` ||
+          equippedAmount($item`protonic accelerator pack`) === 0
         )
           return new Macro().attack().repeat();
         else

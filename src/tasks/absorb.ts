@@ -966,10 +966,10 @@ export const ReprocessQuest: Quest = {
   ],
 };
 
-export function coldRes(with_black_paint: boolean): number {
+export function coldRes(with_black_paint: boolean, with_back = true): number {
   let res = 0;
   if (have($item`ice crown`)) res += 3;
-  if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
+  if (with_back && have($item`unwrapped knock-off retro superhero cape`)) res += 3;
   if (have($item`ghost of a necklace`)) res += 1;
   if (have($skill`Nanofur`)) res += 3;
   if (have($skill`Microweave`)) res += 2;
