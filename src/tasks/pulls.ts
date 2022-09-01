@@ -82,7 +82,7 @@ export const pulls: PullSpec[] = [
     },
     name: "Max HP/MP with low path progression"
   },
-  { pull: $item`white page` },
+  { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`) },
   { pull: $item`portable cassette player` },
   { pull: $item`antique machete` },
   { pull: $item`book of matches` },
