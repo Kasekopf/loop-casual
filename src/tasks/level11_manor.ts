@@ -85,7 +85,7 @@ const Manor2: Task[] = [
   {
     name: "Gallery Delay",
     after: ["Start Floor2"],
-    completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || step("questM21Dance") >= 2,
+    completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
     limit: { turns: 5 },
@@ -103,7 +103,7 @@ const Manor2: Task[] = [
   {
     name: "Bathroom Delay",
     after: ["Start Floor2"],
-    completed: () => $location`The Haunted Bathroom`.turnsSpent >= 5 || step("questM21Dance") >= 2,
+    completed: () => $location`The Haunted Bathroom`.turnsSpent >= 5 || have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
