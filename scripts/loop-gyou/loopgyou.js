@@ -10026,7 +10026,8 @@ var Engine = /*#__PURE__*/function () {
 var consumables_blacklist = new Set((0,template_string/* $items */.vS)(engine_templateObject29 || (engine_templateObject29 = engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name]"]))));
 
 function autosellJunk() {
-  if ((0,external_kolmafia_.myPath)() !== "Grey You") return; // final safety
+  // eslint-disable-next-line eqeqeq
+  if ((0,external_kolmafia_.myPath)() != "Grey You") return; // final safety
 
   if ((0,external_kolmafia_.myMeat)() >= 10000) return;
   if ((0,external_kolmafia_.myTurncount)() >= 1000) return; // stop after breaking ronin
@@ -10096,7 +10097,8 @@ function autosellJunk() {
 }
 
 function absorbConsumables() {
-  if ((0,external_kolmafia_.myPath)() !== "Grey You") return; // final safety
+  // eslint-disable-next-line eqeqeq
+  if ((0,external_kolmafia_.myPath)() != "Grey You") return; // final safety
 
   if ((0,external_kolmafia_.myTurncount)() >= 1000) return; // stop after breaking ronin
 
@@ -16454,7 +16456,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "52d1138";
+var lastCommitHash = "ec68e8a";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
@@ -16647,8 +16649,9 @@ function main(command) {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) _state2 = engine.execute(next[0], next[1], _state2, next[2]);else _state2 = engine.execute(next[0], next[1], _state2);
-      if ((0,external_kolmafia_.myPath)() !== "Grey You") break; // Prism broken
+      if (next[2] !== undefined) _state2 = engine.execute(next[0], next[1], _state2, next[2]);else _state2 = engine.execute(next[0], next[1], _state2); // eslint-disable-next-line eqeqeq
+
+      if ((0,external_kolmafia_.myPath)() != "Grey You") break; // Prism broken
     }
 
     var remaining_tasks = tasks.filter(task => !task.completed(_state2));
@@ -16687,9 +16690,9 @@ function main(command) {
   (0,external_kolmafia_.print)("   Adventures used: ".concat((0,external_kolmafia_.turnsPlayed)()), "purple");
   (0,external_kolmafia_.print)("   Adventures remaining: ".concat((0,external_kolmafia_.myAdventures)()), "purple");
   if (set_time_now) (0,external_kolmafia_.print)("   Time: ".concat(convertMilliseconds((0,external_kolmafia_.gametimeToInt)() - (0,dist_property/* get */.U2)(time_property, (0,external_kolmafia_.gametimeToInt)()))), "purple");else (0,external_kolmafia_.print)("   Time: ".concat(convertMilliseconds((0,external_kolmafia_.gametimeToInt)() - (0,dist_property/* get */.U2)(time_property, (0,external_kolmafia_.gametimeToInt)())), " since first run today started"), "purple");
-  (0,external_kolmafia_.print)("   Pulls used: ".concat(pullStrategy.pullsUsed()), "purple");
+  (0,external_kolmafia_.print)("   Pulls used: ".concat(pullStrategy.pullsUsed()), "purple"); // eslint-disable-next-line eqeqeq
 
-  if ((0,external_kolmafia_.myPath)() === "Grey You") {
+  if ((0,external_kolmafia_.myPath)() != "Grey You") {
     (0,external_kolmafia_.print)("   Monsters remaining: ".concat(Array.from(state.absorb.remainingAbsorbs()).join(", ")), "purple");
     (0,external_kolmafia_.print)("   Reprocess remaining: ".concat(Array.from(state.absorb.remainingReprocess()).join(", ")), "purple");
   }
@@ -16741,7 +16744,7 @@ function getNextTask(engine, tasks, state) {
 }
 
 function runComplete() {
-  return step("questL13Final") > 11 || (0,external_kolmafia_.myPath)() !== "Grey You" || args.delaytower && (0,external_kolmafia_.myTurncount)() < 1000 && step("questL13Final") !== -1;
+  return step("questL13Final") > 11 || (0,external_kolmafia_.myPath)() != "Grey You" || args.delaytower && (0,external_kolmafia_.myTurncount)() < 1000 && step("questL13Final") !== -1;
 }
 
 function setUniversalProperties(propertyManager) {
