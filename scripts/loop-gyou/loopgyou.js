@@ -7442,7 +7442,7 @@ function min(a, b) {
   return a < b ? a : b;
 }
 ;// CONCATENATED MODULE: ./src/outfit.ts
-var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28, outfit_templateObject29, outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86, outfit_templateObject87, outfit_templateObject88, outfit_templateObject89, outfit_templateObject90, outfit_templateObject91, outfit_templateObject92, outfit_templateObject93, outfit_templateObject94, outfit_templateObject95, outfit_templateObject96, outfit_templateObject97, outfit_templateObject98, outfit_templateObject99, outfit_templateObject100, outfit_templateObject101, outfit_templateObject102, outfit_templateObject103, outfit_templateObject104, _templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112;
+var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28, outfit_templateObject29, outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86, outfit_templateObject87, outfit_templateObject88, outfit_templateObject89, outfit_templateObject90, outfit_templateObject91, outfit_templateObject92, outfit_templateObject93, outfit_templateObject94, outfit_templateObject95, outfit_templateObject96, outfit_templateObject97, outfit_templateObject98, outfit_templateObject99, outfit_templateObject100, outfit_templateObject101, outfit_templateObject102, outfit_templateObject103, outfit_templateObject104, _templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116;
 
 function outfit_toConsumableArray(arr) { return outfit_arrayWithoutHoles(arr) || outfit_iterableToArray(arr) || outfit_unsupportedIterableToArray(arr) || outfit_nonIterableSpread(); }
 
@@ -7844,17 +7844,25 @@ var Outfit = /*#__PURE__*/function () {
         if ((0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(outfit_templateObject92 || (outfit_templateObject92 = outfit_taggedTemplateLiteral(["moxie"])))) >= 10) this.equip((0,template_string/* $item */.xr)(outfit_templateObject93 || (outfit_templateObject93 = outfit_taggedTemplateLiteral(["warbear long johns"]))));
         if ((0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(outfit_templateObject94 || (outfit_templateObject94 = outfit_taggedTemplateLiteral(["moxie"])))) >= 85) this.equip((0,template_string/* $item */.xr)(outfit_templateObject95 || (outfit_templateObject95 = outfit_taggedTemplateLiteral(["square sponge pants"]))));
         this.equip((0,template_string/* $item */.xr)(outfit_templateObject96 || (outfit_templateObject96 = outfit_taggedTemplateLiteral(["Cargo Cultist Shorts"]))));
-        this.equip((0,template_string/* $item */.xr)(outfit_templateObject97 || (outfit_templateObject97 = outfit_taggedTemplateLiteral(["lucky gold ring"]))));
-        this.equip((0,template_string/* $item */.xr)(outfit_templateObject98 || (outfit_templateObject98 = outfit_taggedTemplateLiteral(["Powerful Glove"]))));
-        if (this.familiar === (0,template_string/* $familiar */.HP)(outfit_templateObject99 || (outfit_templateObject99 = outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(outfit_templateObject100 || (outfit_templateObject100 = outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(outfit_templateObject101 || (outfit_templateObject101 = outfit_taggedTemplateLiteral(["teacher's pen"])))) >= 2) this.equip((0,template_string/* $item */.xr)(outfit_templateObject102 || (outfit_templateObject102 = outfit_taggedTemplateLiteral(["teacher's pen"]))));
-        this.equip((0,template_string/* $item */.xr)(outfit_templateObject103 || (outfit_templateObject103 = outfit_taggedTemplateLiteral(["backup camera"]))));
-        this.equip((0,template_string/* $item */.xr)(outfit_templateObject104 || (outfit_templateObject104 = outfit_taggedTemplateLiteral(["birch battery"]))));
-        this.equip((0,template_string/* $item */.xr)(_templateObject105 || (_templateObject105 = outfit_taggedTemplateLiteral(["combat lover's locket"]))));
+
+        if ((0,external_kolmafia_.myBasestat)((0,template_string/* $stat */.Ri)(outfit_templateObject97 || (outfit_templateObject97 = outfit_taggedTemplateLiteral(["moxie"])))) <= 200) {
+          // Equip some extra equipment for early survivability
+          this.equip((0,template_string/* $item */.xr)(outfit_templateObject98 || (outfit_templateObject98 = outfit_taggedTemplateLiteral(["plastic vampire fangs"]))));
+          this.equip((0,template_string/* $item */.xr)(outfit_templateObject99 || (outfit_templateObject99 = outfit_taggedTemplateLiteral(["warbear goggles"]))));
+          this.equip((0,template_string/* $item */.xr)(outfit_templateObject100 || (outfit_templateObject100 = outfit_taggedTemplateLiteral(["burning paper slippers"]))));
+        }
+
+        this.equip((0,template_string/* $item */.xr)(outfit_templateObject101 || (outfit_templateObject101 = outfit_taggedTemplateLiteral(["lucky gold ring"]))));
+        this.equip((0,template_string/* $item */.xr)(outfit_templateObject102 || (outfit_templateObject102 = outfit_taggedTemplateLiteral(["Powerful Glove"]))));
+        if (this.familiar === (0,template_string/* $familiar */.HP)(outfit_templateObject103 || (outfit_templateObject103 = outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_.familiarWeight)((0,template_string/* $familiar */.HP)(outfit_templateObject104 || (outfit_templateObject104 = outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6 && (0,external_kolmafia_.itemAmount)((0,template_string/* $item */.xr)(_templateObject105 || (_templateObject105 = outfit_taggedTemplateLiteral(["teacher's pen"])))) >= 2) this.equip((0,template_string/* $item */.xr)(_templateObject106 || (_templateObject106 = outfit_taggedTemplateLiteral(["teacher's pen"]))));
+        this.equip((0,template_string/* $item */.xr)(_templateObject107 || (_templateObject107 = outfit_taggedTemplateLiteral(["backup camera"]))));
+        this.equip((0,template_string/* $item */.xr)(_templateObject108 || (_templateObject108 = outfit_taggedTemplateLiteral(["birch battery"]))));
+        this.equip((0,template_string/* $item */.xr)(_templateObject109 || (_templateObject109 = outfit_taggedTemplateLiteral(["combat lover's locket"]))));
       }
 
-      this.equip((0,template_string/* $item */.xr)(_templateObject106 || (_templateObject106 = outfit_taggedTemplateLiteral(["miniature crystal ball"])))); // If we never found a better familiar, just keep charging the goose
+      this.equip((0,template_string/* $item */.xr)(_templateObject110 || (_templateObject110 = outfit_taggedTemplateLiteral(["miniature crystal ball"])))); // If we never found a better familiar, just keep charging the goose
 
-      this.equip((0,template_string/* $familiar */.HP)(_templateObject107 || (_templateObject107 = outfit_taggedTemplateLiteral(["Grey Goose"]))));
+      this.equip((0,template_string/* $familiar */.HP)(_templateObject111 || (_templateObject111 = outfit_taggedTemplateLiteral(["Grey Goose"]))));
     }
   }], [{
     key: "create",
@@ -7884,17 +7892,17 @@ var Outfit = /*#__PURE__*/function () {
       if (spec !== null && spec !== void 0 && spec.modifier) {
         // Run maximizer
         if (spec.modifier.includes("item")) {
-          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject108 || (_templateObject108 = outfit_taggedTemplateLiteral(["Grey Goose"]))));
-          if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat") && !spec.modifier.includes("res")) outfit.equip((0,template_string/* $item */.xr)(_templateObject109 || (_templateObject109 = outfit_taggedTemplateLiteral(["protonic accelerator pack"]))));
+          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject112 || (_templateObject112 = outfit_taggedTemplateLiteral(["Grey Goose"]))));
+          if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat") && !spec.modifier.includes("res")) outfit.equip((0,template_string/* $item */.xr)(_templateObject113 || (_templateObject113 = outfit_taggedTemplateLiteral(["protonic accelerator pack"]))));
         } // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
 
 
         if (spec.modifier.includes("meat")) {
-          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject110 || (_templateObject110 = outfit_taggedTemplateLiteral(["Hobo Monkey"]))));
-          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject111 || (_templateObject111 = outfit_taggedTemplateLiteral(["Leprechaun"])))); // backup
+          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject114 || (_templateObject114 = outfit_taggedTemplateLiteral(["Hobo Monkey"]))));
+          outfit.equip((0,template_string/* $familiar */.HP)(_templateObject115 || (_templateObject115 = outfit_taggedTemplateLiteral(["Leprechaun"])))); // backup
         }
 
-        if (spec.modifier.includes("+combat") && !spec.modifier.includes("res")) outfit.equip((0,template_string/* $item */.xr)(_templateObject112 || (_templateObject112 = outfit_taggedTemplateLiteral(["thermal blanket"]))));
+        if (spec.modifier.includes("+combat") && !spec.modifier.includes("res")) outfit.equip((0,template_string/* $item */.xr)(_templateObject116 || (_templateObject116 = outfit_taggedTemplateLiteral(["thermal blanket"]))));
         outfit.modifier = spec.modifier;
       }
 
@@ -7963,7 +7971,7 @@ function yellowray(task, alternativeOutfit) {
   });
 }
 ;// CONCATENATED MODULE: ./src/tasks/level12.ts
-var level12_templateObject, level12_templateObject2, level12_templateObject3, level12_templateObject4, level12_templateObject5, level12_templateObject6, level12_templateObject7, level12_templateObject8, level12_templateObject9, level12_templateObject10, level12_templateObject11, level12_CombatStrategy, level12_templateObject12, level12_templateObject13, level12_templateObject14, level12_templateObject15, level12_templateObject16, level12_templateObject17, level12_templateObject18, level12_templateObject19, level12_templateObject20, level12_templateObject21, level12_templateObject22, level12_templateObject23, level12_templateObject24, level12_templateObject25, level12_templateObject26, level12_templateObject27, level12_templateObject28, level12_templateObject29, level12_templateObject30, level12_templateObject31, level12_templateObject32, level12_templateObject33, level12_templateObject34, level12_templateObject35, level12_templateObject36, level12_templateObject37, level12_templateObject38, level12_templateObject39, level12_templateObject40, level12_templateObject41, level12_templateObject42, level12_templateObject43, level12_templateObject44, level12_templateObject45, level12_templateObject46, level12_templateObject47, level12_templateObject48, level12_templateObject49, level12_templateObject50, level12_templateObject51, level12_templateObject52, level12_templateObject53, level12_templateObject54, level12_templateObject55, level12_templateObject56, level12_templateObject57, level12_templateObject58, level12_templateObject59, level12_templateObject60, level12_templateObject61, level12_templateObject62, level12_templateObject63, level12_templateObject64, level12_templateObject65, level12_templateObject66, level12_templateObject67, level12_templateObject68, level12_templateObject69, level12_templateObject70, level12_templateObject71, level12_templateObject72, level12_templateObject73, level12_templateObject74, level12_templateObject75, level12_templateObject76, level12_templateObject77, level12_templateObject78, level12_templateObject79, level12_templateObject80, level12_templateObject81, level12_templateObject82, level12_templateObject83, level12_templateObject84, level12_templateObject85, level12_templateObject86, level12_templateObject87, level12_templateObject88, level12_templateObject89, level12_templateObject90, level12_templateObject91, level12_templateObject92, level12_templateObject93, level12_templateObject94, level12_templateObject95, level12_templateObject96, level12_templateObject97, level12_templateObject98, level12_templateObject99, level12_templateObject100, level12_templateObject101, level12_templateObject102, level12_templateObject103, level12_templateObject104, level12_templateObject105, level12_templateObject106, level12_templateObject107, level12_templateObject108, level12_templateObject109, level12_templateObject110, level12_templateObject111, level12_templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128;
+var level12_templateObject, level12_templateObject2, level12_templateObject3, level12_templateObject4, level12_templateObject5, level12_templateObject6, level12_templateObject7, level12_templateObject8, level12_templateObject9, level12_templateObject10, level12_templateObject11, level12_CombatStrategy, level12_templateObject12, level12_templateObject13, level12_templateObject14, level12_templateObject15, level12_templateObject16, level12_templateObject17, level12_templateObject18, level12_templateObject19, level12_templateObject20, level12_templateObject21, level12_templateObject22, level12_templateObject23, level12_templateObject24, level12_templateObject25, level12_templateObject26, level12_templateObject27, level12_templateObject28, level12_templateObject29, level12_templateObject30, level12_templateObject31, level12_templateObject32, level12_templateObject33, level12_templateObject34, level12_templateObject35, level12_templateObject36, level12_templateObject37, level12_templateObject38, level12_templateObject39, level12_templateObject40, level12_templateObject41, level12_templateObject42, level12_templateObject43, level12_templateObject44, level12_templateObject45, level12_templateObject46, level12_templateObject47, level12_templateObject48, level12_templateObject49, level12_templateObject50, level12_templateObject51, level12_templateObject52, level12_templateObject53, level12_templateObject54, level12_templateObject55, level12_templateObject56, level12_templateObject57, level12_templateObject58, level12_templateObject59, level12_templateObject60, level12_templateObject61, level12_templateObject62, level12_templateObject63, level12_templateObject64, level12_templateObject65, level12_templateObject66, level12_templateObject67, level12_templateObject68, level12_templateObject69, level12_templateObject70, level12_templateObject71, level12_templateObject72, level12_templateObject73, level12_templateObject74, level12_templateObject75, level12_templateObject76, level12_templateObject77, level12_templateObject78, level12_templateObject79, level12_templateObject80, level12_templateObject81, level12_templateObject82, level12_templateObject83, level12_templateObject84, level12_templateObject85, level12_templateObject86, level12_templateObject87, level12_templateObject88, level12_templateObject89, level12_templateObject90, level12_templateObject91, level12_templateObject92, level12_templateObject93, level12_templateObject94, level12_templateObject95, level12_templateObject96, level12_templateObject97, level12_templateObject98, level12_templateObject99, level12_templateObject100, level12_templateObject101, level12_templateObject102, level12_templateObject103, level12_templateObject104, level12_templateObject105, level12_templateObject106, level12_templateObject107, level12_templateObject108, level12_templateObject109, level12_templateObject110, level12_templateObject111, level12_templateObject112, level12_templateObject113, level12_templateObject114, level12_templateObject115, level12_templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128;
 
 function level12_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = level12_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -8362,9 +8370,9 @@ var WarQuest = {
     }],
     completed: () => (0,dist_property/* get */.U2)("hippiesDefeated") >= 192,
     outfit: {
-      equip: (0,template_string/* $items */.vS)(_templateObject113 || (_templateObject113 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
+      equip: (0,template_string/* $items */.vS)(level12_templateObject113 || (level12_templateObject113 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
-    do: (0,template_string/* $location */.PG)(_templateObject114 || (_templateObject114 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
+    do: (0,template_string/* $location */.PG)(level12_templateObject114 || (level12_templateObject114 = level12_taggedTemplateLiteral(["The Battlefield (Frat Uniform)"]))),
     combat: new src_combat.CombatStrategy().kill(),
     limit: {
       tries: 9
@@ -8373,9 +8381,9 @@ var WarQuest = {
     name: "Clear",
     after: ["Nuns"],
     acquire: [{
-      item: (0,template_string/* $item */.xr)(_templateObject115 || (_templateObject115 = level12_taggedTemplateLiteral(["beer helmet"])))
+      item: (0,template_string/* $item */.xr)(level12_templateObject115 || (level12_templateObject115 = level12_taggedTemplateLiteral(["beer helmet"])))
     }, {
-      item: (0,template_string/* $item */.xr)(_templateObject116 || (_templateObject116 = level12_taggedTemplateLiteral(["distressed denim pants"])))
+      item: (0,template_string/* $item */.xr)(level12_templateObject116 || (level12_templateObject116 = level12_taggedTemplateLiteral(["distressed denim pants"])))
     }, {
       item: (0,template_string/* $item */.xr)(_templateObject117 || (_templateObject117 = level12_taggedTemplateLiteral(["bejeweled pledge pin"])))
     }],
@@ -14939,7 +14947,7 @@ function arenaFight() {
   }
 }
 ;// CONCATENATED MODULE: ./src/tasks/pulls.ts
-var pulls_templateObject, pulls_templateObject2, pulls_templateObject3, pulls_templateObject4, pulls_templateObject5, pulls_templateObject6, pulls_templateObject7, pulls_templateObject8, pulls_templateObject9, pulls_templateObject10, pulls_templateObject11, pulls_templateObject12, pulls_templateObject13, pulls_templateObject14, pulls_templateObject15, pulls_templateObject16, pulls_templateObject17, pulls_templateObject18, pulls_templateObject19, pulls_templateObject20, pulls_templateObject21, pulls_templateObject22, pulls_templateObject23, pulls_templateObject24, pulls_templateObject25, pulls_templateObject26, pulls_templateObject27, pulls_templateObject28, pulls_templateObject29, pulls_templateObject30, pulls_templateObject31, pulls_templateObject32, pulls_templateObject33, pulls_templateObject34, pulls_templateObject35, pulls_templateObject36, pulls_templateObject37, pulls_templateObject38, pulls_templateObject39, pulls_templateObject40, pulls_templateObject41, pulls_templateObject42, pulls_templateObject43, pulls_templateObject44, pulls_templateObject45, pulls_templateObject46, pulls_templateObject47, pulls_templateObject48, pulls_templateObject49, pulls_templateObject50;
+var pulls_templateObject, pulls_templateObject2, pulls_templateObject3, pulls_templateObject4, pulls_templateObject5, pulls_templateObject6, pulls_templateObject7, pulls_templateObject8, pulls_templateObject9, pulls_templateObject10, pulls_templateObject11, pulls_templateObject12, pulls_templateObject13, pulls_templateObject14, pulls_templateObject15, pulls_templateObject16, pulls_templateObject17, pulls_templateObject18, pulls_templateObject19, pulls_templateObject20, pulls_templateObject21, pulls_templateObject22, pulls_templateObject23, pulls_templateObject24, pulls_templateObject25, pulls_templateObject26, pulls_templateObject27, pulls_templateObject28, pulls_templateObject29, pulls_templateObject30, pulls_templateObject31, pulls_templateObject32, pulls_templateObject33, pulls_templateObject34, pulls_templateObject35, pulls_templateObject36, pulls_templateObject37, pulls_templateObject38, pulls_templateObject39, pulls_templateObject40, pulls_templateObject41, pulls_templateObject42, pulls_templateObject43, pulls_templateObject44, pulls_templateObject45, pulls_templateObject46, pulls_templateObject47, pulls_templateObject48, pulls_templateObject49, pulls_templateObject50, pulls_templateObject51, pulls_templateObject52, pulls_templateObject53, pulls_templateObject54, pulls_templateObject55;
 
 function pulls_toConsumableArray(arr) { return pulls_arrayWithoutHoles(arr) || pulls_iterableToArray(arr) || pulls_unsupportedIterableToArray(arr) || pulls_nonIterableSpread(); }
 
@@ -15029,71 +15037,79 @@ var pulls = [// Always pull the key items first
   optional: true,
   name: "MP Regen Pants"
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject21 || (pulls_templateObject21 = pulls_taggedTemplateLiteral(["white page"])))
+  pull: (0,template_string/* $items */.vS)(pulls_templateObject21 || (pulls_templateObject21 = pulls_taggedTemplateLiteral(["plastic vampire fangs, warbear goggles, burning newspaper"]))),
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject22 || (pulls_templateObject22 = pulls_taggedTemplateLiteral(["designer sweatpants"])))) && (0,dist_property/* get */.U2)("greyYouPoints") < 11 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject23 || (pulls_templateObject23 = pulls_taggedTemplateLiteral(["burning paper slippers"])))),
+  optional: true,
+  post: () => {
+    if ((0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject24 || (pulls_templateObject24 = pulls_taggedTemplateLiteral(["burning newspaper"]))))) (0,external_kolmafia_.retrieveItem)((0,template_string/* $item */.xr)(pulls_templateObject25 || (pulls_templateObject25 = pulls_taggedTemplateLiteral(["burning paper slippers"]))));
+  },
+  name: "Max HP/MP with low path progression"
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject22 || (pulls_templateObject22 = pulls_taggedTemplateLiteral(["portable cassette player"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject26 || (pulls_templateObject26 = pulls_taggedTemplateLiteral(["white page"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject23 || (pulls_templateObject23 = pulls_taggedTemplateLiteral(["antique machete"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject27 || (pulls_templateObject27 = pulls_taggedTemplateLiteral(["portable cassette player"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject24 || (pulls_templateObject24 = pulls_taggedTemplateLiteral(["book of matches"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject28 || (pulls_templateObject28 = pulls_taggedTemplateLiteral(["antique machete"])))
 }, {
-  pull: (0,template_string/* $items */.vS)(pulls_templateObject25 || (pulls_templateObject25 = pulls_taggedTemplateLiteral(["Space Trip safety headphones, HOA regulation book"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject29 || (pulls_templateObject29 = pulls_taggedTemplateLiteral(["book of matches"])))
+}, {
+  pull: (0,template_string/* $items */.vS)(pulls_templateObject30 || (pulls_templateObject30 = pulls_taggedTemplateLiteral(["Space Trip safety headphones, HOA regulation book"]))),
   name: "-ML",
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject26 || (pulls_templateObject26 = pulls_taggedTemplateLiteral(["yule hatchet"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject31 || (pulls_templateObject31 = pulls_taggedTemplateLiteral(["yule hatchet"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject27 || (pulls_templateObject27 = pulls_taggedTemplateLiteral(["grey down vest"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject32 || (pulls_templateObject32 = pulls_taggedTemplateLiteral(["grey down vest"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject28 || (pulls_templateObject28 = pulls_taggedTemplateLiteral(["teacher's pen"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject33 || (pulls_templateObject33 = pulls_taggedTemplateLiteral(["teacher's pen"]))),
   duplicate: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject29 || (pulls_templateObject29 = pulls_taggedTemplateLiteral(["blackberry galoshes"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject34 || (pulls_templateObject34 = pulls_taggedTemplateLiteral(["blackberry galoshes"]))),
   useful: () => step("questL11Black") < 2
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject30 || (pulls_templateObject30 = pulls_taggedTemplateLiteral(["killing jar"]))),
-  useful: () => !(0,lib/* have */.lf)((0,template_string/* $familiar */.HP)(pulls_templateObject31 || (pulls_templateObject31 = pulls_taggedTemplateLiteral(["Melodramedary"]))))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject35 || (pulls_templateObject35 = pulls_taggedTemplateLiteral(["killing jar"]))),
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $familiar */.HP)(pulls_templateObject36 || (pulls_templateObject36 = pulls_taggedTemplateLiteral(["Melodramedary"]))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject32 || (pulls_templateObject32 = pulls_taggedTemplateLiteral(["old patched suit-pants"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject37 || (pulls_templateObject37 = pulls_taggedTemplateLiteral(["old patched suit-pants"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject33 || (pulls_templateObject33 = pulls_taggedTemplateLiteral(["transparent pants"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject38 || (pulls_templateObject38 = pulls_taggedTemplateLiteral(["transparent pants"]))),
   optional: true,
-  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject34 || (pulls_templateObject34 = pulls_taggedTemplateLiteral(["designer sweatpants"]))))
+  useful: () => !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject39 || (pulls_templateObject39 = pulls_taggedTemplateLiteral(["designer sweatpants"]))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject35 || (pulls_templateObject35 = pulls_taggedTemplateLiteral(["deck of lewd playing cards"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject40 || (pulls_templateObject40 = pulls_taggedTemplateLiteral(["deck of lewd playing cards"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject36 || (pulls_templateObject36 = pulls_taggedTemplateLiteral(["mafia thumb ring"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject41 || (pulls_templateObject41 = pulls_taggedTemplateLiteral(["mafia thumb ring"]))),
   optional: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject37 || (pulls_templateObject37 = pulls_taggedTemplateLiteral(["giant yellow hat"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject42 || (pulls_templateObject42 = pulls_taggedTemplateLiteral(["giant yellow hat"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject38 || (pulls_templateObject38 = pulls_taggedTemplateLiteral(["gravy boat"])))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject43 || (pulls_templateObject43 = pulls_taggedTemplateLiteral(["gravy boat"])))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject39 || (pulls_templateObject39 = pulls_taggedTemplateLiteral(["Mohawk wig"]))),
-  useful: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject40 || (pulls_templateObject40 = pulls_taggedTemplateLiteral(["S.O.C.K."])))) ? !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject41 || (pulls_templateObject41 = pulls_taggedTemplateLiteral(["Mohawk wig"])))) : undefined // if one didn't drop naturally
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject44 || (pulls_templateObject44 = pulls_taggedTemplateLiteral(["Mohawk wig"]))),
+  useful: () => (0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject45 || (pulls_templateObject45 = pulls_taggedTemplateLiteral(["S.O.C.K."])))) ? !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject46 || (pulls_templateObject46 = pulls_taggedTemplateLiteral(["Mohawk wig"])))) : undefined // if one didn't drop naturally
 
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject42 || (pulls_templateObject42 = pulls_taggedTemplateLiteral(["11-leaf clover"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject47 || (pulls_templateObject47 = pulls_taggedTemplateLiteral(["11-leaf clover"]))),
   duplicate: true
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject43 || (pulls_templateObject43 = pulls_taggedTemplateLiteral(["wet stew"]))),
-  useful: () => step("questL11Palindome") < 5 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject44 || (pulls_templateObject44 = pulls_taggedTemplateLiteral(["wet stunt nut stew"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject45 || (pulls_templateObject45 = pulls_taggedTemplateLiteral(["wet stew"])))) && (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject46 || (pulls_templateObject46 = pulls_taggedTemplateLiteral(["lion oil"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject47 || (pulls_templateObject47 = pulls_taggedTemplateLiteral(["bird rib"])))))
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject48 || (pulls_templateObject48 = pulls_taggedTemplateLiteral(["wet stew"]))),
+  useful: () => step("questL11Palindome") < 5 && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject49 || (pulls_templateObject49 = pulls_taggedTemplateLiteral(["wet stunt nut stew"])))) && !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject50 || (pulls_templateObject50 = pulls_taggedTemplateLiteral(["wet stew"])))) && (!(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject51 || (pulls_templateObject51 = pulls_taggedTemplateLiteral(["lion oil"])))) || !(0,lib/* have */.lf)((0,template_string/* $item */.xr)(pulls_templateObject52 || (pulls_templateObject52 = pulls_taggedTemplateLiteral(["bird rib"])))))
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject48 || (pulls_templateObject48 = pulls_taggedTemplateLiteral(["ninja rope"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject53 || (pulls_templateObject53 = pulls_taggedTemplateLiteral(["ninja rope"]))),
   useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject49 || (pulls_templateObject49 = pulls_taggedTemplateLiteral(["ninja carabiner"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject54 || (pulls_templateObject54 = pulls_taggedTemplateLiteral(["ninja carabiner"]))),
   useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3
 }, {
-  pull: (0,template_string/* $item */.xr)(pulls_templateObject50 || (pulls_templateObject50 = pulls_taggedTemplateLiteral(["ninja crampons"]))),
+  pull: (0,template_string/* $item */.xr)(pulls_templateObject55 || (pulls_templateObject55 = pulls_taggedTemplateLiteral(["ninja crampons"]))),
   useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3
 }];
 
 var Pull = /*#__PURE__*/function () {
   function Pull(spec) {
-    var _spec$duplicate, _spec$optional, _spec$useful;
+    var _spec$duplicate, _spec$optional, _spec$useful, _spec$post;
 
     pulls_classCallCheck(this, Pull);
 
@@ -15107,6 +15123,8 @@ var Pull = /*#__PURE__*/function () {
 
     pulls_defineProperty(this, "useful", void 0);
 
+    pulls_defineProperty(this, "post", void 0);
+
     if ("name" in spec) {
       this.name = spec.name;
     } else {
@@ -15118,6 +15136,9 @@ var Pull = /*#__PURE__*/function () {
     this.duplicate = (_spec$duplicate = spec.duplicate) !== null && _spec$duplicate !== void 0 ? _spec$duplicate : false;
     this.optional = (_spec$optional = spec.optional) !== null && _spec$optional !== void 0 ? _spec$optional : false;
     this.useful = (_spec$useful = spec.useful) !== null && _spec$useful !== void 0 ? _spec$useful : () => true;
+    this.post = (_spec$post = spec.post) !== null && _spec$post !== void 0 ? _spec$post : () => {
+      null;
+    };
   }
 
   pulls_createClass(Pull, [{
@@ -15268,6 +15289,7 @@ var PullQuest = {
       completed: () => pullStrategy.enabled[index] === PullState.PULLED || pullStrategy.enabled[index] === PullState.UNNEEDED,
       do: () => pull.pull(),
       post: () => {
+        pull.post();
         pullStrategy.update();
       },
       limit: {
@@ -16425,7 +16447,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "a61425d";
+var lastCommitHash = "15affe1";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
