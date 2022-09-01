@@ -80,7 +80,7 @@ export const pulls: PullSpec[] = [
     post: () => {
       if (have($item`burning newspaper`)) retrieveItem($item`burning paper slippers`);
     },
-    name: "Max HP/MP with low path progression"
+    name: "Max HP with low path progression"
   },
   { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`) },
   { pull: $item`portable cassette player` },
@@ -135,10 +135,12 @@ class Pull {
   duplicate: boolean;
   useful: () => boolean | undefined;
   post: () => void;
+  description?: string;
 
   constructor(spec: PullSpec) {
     if ("name" in spec) {
       this.name = spec.name;
+      this.description = spec.name;
     } else {
       this.name = spec.pull.name;
     }

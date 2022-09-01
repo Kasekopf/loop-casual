@@ -239,9 +239,10 @@ function buildPullList(): Requirement[] {
     if (items.length === 0) continue;
 
     // For cheap items, we will just buy it during the run
-    if (items.find((item) => mallPrice(item) !== 0 && mallPrice(item) <= 100000)) continue;
+    const big_items = items.filter((item) => mallPrice(item) === 0 || mallPrice(item) > 100000);
+    if (big_items.length === 0) continue;
 
-    result.push({ thing: items, why: "Pull", optional: pull.optional });
+    result.push({ thing: big_items, why: pull.description ?? "Pull", optional: pull.optional });
   }
   return result;
 }

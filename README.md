@@ -100,11 +100,13 @@ Miscellany (Optional)
 
 Expensive Pulls (Optional)
 ✓ deck of lewd playing cards - Pull
-✓ Greatest American Pants OR navel ring of navel gazing - Pull
+✓ Greatest American Pants OR navel ring of navel gazing - Runaway IoTM
 ✓ mafia thumb ring - Pull
 ✓ old patched suit-pants - Pull
-✓ Space Trip safety headphones OR HOA regulation book - Pull
+✓ plastic vampire fangs OR warbear goggles - Max HP with low path progression
+✓ Space Trip safety headphones OR HOA regulation book - -ML
 ✓ transparent pants - Pull
+✓ warbear long johns - MP Regen Pants
 
 You have everything! You are the shiniest star. This script should work great.
 ```
