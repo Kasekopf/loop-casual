@@ -157,10 +157,11 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
   );
 
   // Record monsters that still need to be banished, and the banishes used
+  const not_yet_banished: Monster[] = [];
   to_banish.forEach((monster) => {
     const banished_with = already_banished.get(monster);
     if (banished_with === undefined) {
-      to_banish.push(monster);
+      not_yet_banished.push(monster);
     } else {
       used_banishes.add(banished_with);
       // Map strange banish tracking to our resources
@@ -170,9 +171,9 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
         used_banishes.add($skill`Reflex Hammer`);
     }
   });
-  if (to_banish.length === 0) return []; // All monsters banished.
+  if (not_yet_banished.length === 0) return []; // All monsters banished.
 
-  debug(`Banish targets: ${to_banish.join(", ")}`);
+  debug(`Banish targets: ${not_yet_banished.join(", ")}`);
   debug(`Banishes used: ${Array.from(used_banishes).join(", ")}`);
   return banishSources.filter((banish) => banish.available() && !used_banishes.has(banish.do));
 }
@@ -456,7 +457,7 @@ export const runawaySources: RunawaySource[] = [
       have($item`glob of Blank-Out`) ||
       (mallPrice($item`bottle of Blank-Out`) < 5 * runawayValue && !get("_blankoutUsed")),
     do: new Macro().tryItem($item`glob of Blank-Out`),
-    chance: () => (get("_navelRunaways") < 3 ? 1 : 0.2),
+    chance: () => 1,
     banishes: false,
   },
   {
