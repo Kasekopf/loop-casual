@@ -264,6 +264,7 @@ const absorbTasks: AbsorbTask[] = [
         equip(slot, $item`none`);
       }
 
+      if (numericModifier("Monster Level") >= 100 && currentMcd() > 0) changeMcd(0);
       if (numericModifier("Monster Level") < 50 && currentMcd() < 10) changeMcd(10);
       if (numericModifier("Monster Level") < 50 || numericModifier("Monster Level") >= 100)
         throw `Unable to get 50-99 ML for oil barons`;
