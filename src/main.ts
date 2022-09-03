@@ -289,6 +289,7 @@ function getNextTask(
 
 function runComplete(): boolean {
   return step("questL13Final") > 11
+    // eslint-disable-next-line eqeqeq
     || myPath() != "Grey You"
     || (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1);
 }

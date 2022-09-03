@@ -1,5 +1,5 @@
 import { myBasestat, print } from "kolmafia";
-import { $stat } from "libram";
+import { $item, $stat, have } from "libram";
 
 export function debug(message: string, color?: string): void {
   if (color) {
@@ -30,4 +30,31 @@ export function atLevel(level: number): boolean {
     myBasestat($stat`mysticality`) >= goal ||
     myBasestat($stat`moxie`) >= goal
   );
+}
+
+const legionForms = [
+  $item`Loathing Legion abacus`,
+  $item`Loathing Legion can opener`,
+  $item`Loathing Legion chainsaw`,
+  $item`Loathing Legion corkscrew`,
+  $item`Loathing Legion defibrillator`,
+  $item`Loathing Legion double prism`,
+  $item`Loathing Legion electric knife`,
+  $item`Loathing Legion flamethrower`,
+  $item`Loathing Legion hammer`,
+  $item`Loathing Legion helicopter`,
+  $item`Loathing Legion jackhammer`,
+  $item`Loathing Legion kitchen sink`,
+  $item`Loathing Legion knife`,
+  $item`Loathing Legion many-purpose hook`,
+  $item`Loathing Legion moondial`,
+  $item`Loathing Legion necktie`,
+  $item`Loathing Legion pizza stone`,
+  $item`Loathing Legion rollerblades`,
+  $item`Loathing Legion tape measure`,
+  $item`Loathing Legion tattoo needle`,
+  $item`Loathing Legion universal screwdriver`,
+];
+export function haveLoathingLegion(): boolean {
+  return legionForms.some((item) => have(item));
 }

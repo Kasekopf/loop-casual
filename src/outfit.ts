@@ -20,6 +20,7 @@ import { canChargeVoid, Resource } from "./resources";
 import { Keys, keyStrategy } from "./tasks/keys";
 import { GameState } from "./state";
 import { towerSkip } from "./tasks/level13";
+import { haveLoathingLegion } from "./lib";
 
 // Adapted from phccs
 export class Outfit {
@@ -217,6 +218,7 @@ export class Outfit {
         }),
       ]);
 
+
       if (fam_equip !== undefined) {
         requirements = Requirement.merge([
           requirements,
@@ -228,6 +230,13 @@ export class Outfit {
         requirements = Requirement.merge([
           requirements,
           new Requirement([], { preventEquip: this.avoid }),
+        ]);
+      }
+
+      if (haveLoathingLegion()) {
+        requirements = Requirement.merge([
+          requirements,
+          new Requirement([], { preventEquip: [$item`Loathing Legion defibrillator`] }),
         ]);
       }
 
