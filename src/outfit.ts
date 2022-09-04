@@ -254,10 +254,22 @@ export class Outfit {
 
       // Libram outfit cache may not autofold umbrella, so we need to
       if (have($item`unbreakable umbrella`)) {
+        const ml_maximizer = this.modifier.match("[\\d \\-]*ML");
         if (this.modifier.includes("-combat")) {
           if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-        } else if (this.modifier.includes("ML")) {
-          if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+        } else if (ml_maximizer) {
+          if (!ml_maximizer[0].includes("-")) {
+            requirements = Requirement.merge([
+              requirements,
+              new Requirement([], { preventEquip: [$item`unbreakable umbrella`] }),
+            ]);
+          } else {
+            if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+          }
+        } else if (this.modifier.includes("item")) {
+          if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
+        } else {
+          if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
         }
       }
 
