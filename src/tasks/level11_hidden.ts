@@ -149,7 +149,7 @@ const Temple: Task[] = [
 const Apartment: Task[] = [
   {
     name: "Open Apartment",
-    after: ["Open City"],
+    after: ["Get Machete"],
     completed: () => get("hiddenApartmentProgress") >= 1,
     do: $location`An Overgrown Shrine (Northwest)`,
     outfit: {
@@ -216,7 +216,7 @@ const Apartment: Task[] = [
 const Office: Task[] = [
   {
     name: "Open Office",
-    after: ["Open City"],
+    after: ["Get Machete"],
     completed: () => get("hiddenOfficeProgress") >= 1,
     do: $location`An Overgrown Shrine (Northeast)`,
     outfit: {
@@ -284,7 +284,7 @@ const Office: Task[] = [
 const Hospital: Task[] = [
   {
     name: "Open Hospital",
-    after: ["Open City"],
+    after: ["Get Machete"],
     completed: () => get("hiddenHospitalProgress") >= 1,
     do: $location`An Overgrown Shrine (Southwest)`,
     outfit: {
@@ -324,7 +324,7 @@ const Hospital: Task[] = [
 const Bowling: Task[] = [
   {
     name: "Open Bowling",
-    after: ["Open City"],
+    after: ["Get Machete"],
     completed: () => get("hiddenBowlingAlleyProgress") >= 1,
     do: $location`An Overgrown Shrine (Southeast)`,
     outfit: {
@@ -340,7 +340,7 @@ const Bowling: Task[] = [
     after: ["Open Bowling"],
     ready: () => myMeat() >= 500,
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
-    completed: () => have($skill`System Sweep`) && have($skill`Double Nanovision`),
+    completed: () => (have($skill`System Sweep`) || get("relocatePygmyJanitor") === myAscensions()) && have($skill`Double Nanovision`),
     prepare: () => {
       // No need for more bowling progress after we beat the boss
       if (get("hiddenBowlingAlleyProgress") >= 7 && have($item`bowling ball`))
@@ -397,6 +397,15 @@ export const HiddenQuest: Quest = {
   name: "Hidden City",
   tasks: [
     ...Temple,
+    {
+      name: "Get Machete",
+      after: ["Open City"],
+      completed: () => have($item`antique machete`),
+      do: $location`The Hidden Park`,
+      outfit: { modifier: "-combat" },
+      choices: { 789: 2 },
+      limit: { soft: 10 },
+    },
     ...Office,
     ...Apartment,
     ...Hospital,

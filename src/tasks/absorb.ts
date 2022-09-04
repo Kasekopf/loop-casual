@@ -337,6 +337,7 @@ const absorbTasks: AbsorbTask[] = [
         return get("relocatePygmyJanitor") === myAscensions() ? 2 : 3;
       },
     },
+    skill: $skill`System Sweep`,
   },
   {
     do: $location`The Hidden Apartment Building`,
