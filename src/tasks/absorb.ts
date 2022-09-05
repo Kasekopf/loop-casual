@@ -41,7 +41,7 @@ import {
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
 import { Limit, Quest, step, Task } from "./structure";
 
@@ -898,7 +898,7 @@ export const AbsorbQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: (state: GameState) => !state.absorb.hasTargets(task.do),
+        completed: () => !globalStateCache.absorb().hasTargets(task.do),
         ...task,
         after: task.skill ? [...task.after, task.skill.name] : task.after,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
@@ -912,7 +912,7 @@ export const AbsorbQuest: Quest = {
       .map((task): Task => {
         const result = {
           name: task.skill?.name ?? "",
-          completed: (state: GameState) => state.absorb.skillCompleted(task.skill ?? $skill`none`),
+          completed: () => globalStateCache.absorb().skillCompleted(task.skill ?? $skill`none`),
           ...task,
           combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
           limit: { soft: 25 },
@@ -942,11 +942,11 @@ export const ReprocessQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: (state: GameState) => !state.absorb.hasReprocessTargets(task.do),
+        completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do),
         ...task,
         after: [...task.after, `Absorb/${task.do.toString()}`],
-        ready: (state: GameState) =>
-          (task.ready === undefined || task.ready(state)) &&
+        ready: () =>
+          (task.ready === undefined || task.ready()) &&
           familiarWeight($familiar`Grey Goose`) >= 6,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 25 },

@@ -26,7 +26,7 @@ import { Args } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
-import { GameState } from "./engine/state";
+import { globalStateCache } from "./engine/state";
 import { lastCommitHash } from "./_git_commit";
 import { summonStrategy } from "./tasks/summons";
 
@@ -115,13 +115,13 @@ export function main(command?: string): void {
   // Break the prism and exit if requested
   if (args.class !== undefined) {
     if (step("questL13Final") <= 11) throw `You have not finished your Grey You run. Do not set this argument yet.`
-    const state = new GameState();
+    const absorb_state = globalStateCache.absorb();
     print(
-      `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
+      `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
       "purple"
     );
     print(
-      `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
+      `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
       "purple"
     );
     if (step("questL13Final") === 999) return;
@@ -144,31 +144,31 @@ export function main(command?: string): void {
   const engine = new Engine(tasks, args.ignoretasks?.split(",") ?? [], args.completedtasks?.split(",") ?? []);
   try {
     let actions_left = args.actions ?? Number.MAX_VALUE;
-    let state = new GameState();
     if (actions_left < 0) {
       // Update the strategy for the printout
-      summonStrategy.update(state);
+      globalStateCache.invalidate();
+      summonStrategy.update();
       keyStrategy.update();
       pullStrategy.update();
       for (const task of tasks) {
-        const priority = Prioritization.from(task, state);
+        const priority = Prioritization.from(task);
         const reason = priority.explain();
         const why = reason === "" ? "Route" : reason;
         debug(
-          `${task.name}: ${task.completed(state)
+          `${task.name}: ${task.completed()
             ? "Done"
-            : engine.available(task, state)
+            : engine.available(task)
               ? `Available [${priority.score()}: ${why}]`
               : "Not Available"
           }`,
-          task.completed(state) ? "blue" : engine.available(task, state) ? undefined : "red"
+          task.completed() ? "blue" : engine.available(task) ? undefined : "red"
         );
       }
     }
 
     // Do not bother to set properties if there are no tasks remaining
     if (
-      tasks.find((task) => !task.completed(state) && (task.ready?.(state) ?? true)) !== undefined
+      tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined
     ) {
       setUniversalProperties(engine.propertyManager);
       cliExecute("ccs loopgyou");
@@ -176,11 +176,11 @@ export function main(command?: string): void {
 
     while (myAdventures() > 0) {
       // Note order matters for these strategy updates
-      summonStrategy.update(state); // Update summon plan with current state
+      summonStrategy.update(); // Update summon plan with current state
       keyStrategy.update(); // Update key plan with current state
       pullStrategy.update(); // Update pull plan with current state
 
-      const next = getNextTask(engine, tasks, state);
+      const next = getNextTask(engine, tasks);
       if (next === undefined) break;
       if (actions_left <= 0) {
         debug(`Next task: ${next[0].name}`);
@@ -189,17 +189,17 @@ export function main(command?: string): void {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) state = engine.execute(next[0], next[1], state, next[2]);
-      else state = engine.execute(next[0], next[1], state);
+      if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
+      else engine.execute(next[0], next[1]);
       // eslint-disable-next-line eqeqeq
       if (myPath() != "Grey You") break; // Prism broken
     }
 
-    const remaining_tasks = tasks.filter((task) => !task.completed(state));
+    const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
       debug("Remaining tasks:", "red");
       for (const task of remaining_tasks) {
-        if (!task.completed(state)) debug(`${task.name}`, "red");
+        if (!task.completed()) debug(`${task.name}`, "red");
       }
       throw `Unable to find available task, but the run is not complete.`;
     }
@@ -207,7 +207,7 @@ export function main(command?: string): void {
     engine.propertyManager.resetAll();
   }
 
-  const state = new GameState();
+  const absorb_state = globalStateCache.absorb();
   if (step("questL13Final") > 11) {
     print("Grey you complete!", "purple");
   } else {
@@ -231,11 +231,11 @@ export function main(command?: string): void {
   // eslint-disable-next-line eqeqeq
   if (myPath() != "Grey You") {
     print(
-      `   Monsters remaining: ${Array.from(state.absorb.remainingAbsorbs()).join(", ")}`,
+      `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
       "purple"
     );
     print(
-      `   Reprocess remaining: ${Array.from(state.absorb.remainingReprocess()).join(", ")}`,
+      `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
       "purple"
     );
   }
@@ -243,15 +243,14 @@ export function main(command?: string): void {
 
 function getNextTask(
   engine: Engine,
-  tasks: Task[],
-  state: GameState
+  tasks: Task[]
 ): [Task, Prioritization, WandererSource?] | undefined {
-  const available_tasks = tasks.filter((task) => engine.available(task, state));
+  const available_tasks = tasks.filter((task) => engine.available(task));
 
   // Teleportitis overrides all
   if (have($effect`Teleportitis`)) {
-    const tele = teleportitisTask(engine, tasks, state);
-    if (tele.completed(state) && removeTeleportitis.ready()) {
+    const tele = teleportitisTask(engine, tasks);
+    if (tele.completed() && removeTeleportitis.ready()) {
       return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always)];
     }
     return [tele, Prioritization.fixed(OverridePriority.Always)];
@@ -268,7 +267,7 @@ function getNextTask(
   // If a wanderer is up try to place it in a useful location
   const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
   const delay_burning = available_tasks.find(
-    (task) => engine.hasDelay(task) && Outfit.create(task, state).canEquip(wanderer?.equip)
+    (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
   );
   if (wanderer !== undefined && delay_burning !== undefined) {
     return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), wanderer];
@@ -276,7 +275,7 @@ function getNextTask(
 
   // Next, choose tasks by priorty, then by route.
   const task_priorities = available_tasks.map(
-    (task) => [task, Prioritization.from(task, state)] as [Task, Prioritization]
+    (task) => [task, Prioritization.from(task)] as [Task, Prioritization]
   );
   const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
   const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);

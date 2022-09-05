@@ -82,7 +82,7 @@ import {
 import { OverridePriority, Prioritization } from "./priority";
 import { args } from "../main";
 import { flyersDone } from "../tasks/level12";
-import { GameState } from "./state";
+import { globalStateCache } from "./state";
 
 export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
@@ -124,15 +124,15 @@ export class Engine {
     }
   }
 
-  public available(task: Task, state: GameState): boolean {
+  public available(task: Task): boolean {
     if (this.ignoreTasks.has(task.name) || this.completedTasks.has(task.name)) return false;
     for (const after of task.after) {
       const after_task = this.tasks_by_name.get(after);
       if (after_task === undefined) throw `Unknown task dependency ${after} on ${task.name}`;
-      if (!this.completedTasks.has(after_task.name) && !after_task.completed(state)) return false;
+      if (!this.completedTasks.has(after_task.name) && !after_task.completed()) return false;
     }
-    if (task.ready && !task.ready(state)) return false;
-    if (task.completed(state)) return false;
+    if (task.ready && !task.ready()) return false;
+    if (task.completed()) return false;
 
     // Wait until we get Infinite Loop before doing most things
     if (task.do instanceof Location && !have($skill`Infinite Loop`)) return false;
@@ -149,9 +149,8 @@ export class Engine {
   public execute(
     task: Task,
     priority: Prioritization,
-    state: GameState,
     ...wanderers: WandererSource[]
-  ): GameState {
+  ): void {
     debug(``);
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
@@ -181,7 +180,7 @@ export class Engine {
     }
 
     // Prepare basic equipment
-    const outfit = Outfit.create(task, state);
+    const outfit = Outfit.create(task);
     for (const wanderer of wanderers) {
       if (!outfit.equip(wanderer?.equip))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
@@ -194,15 +193,16 @@ export class Engine {
 
       // Absorb targeted monsters
       // (if we have teleportitis, everything is a possible target)
+      const absorb_state = globalStateCache.absorb();
       const absorb_targets =
         task.do instanceof Location
           ? new Set<Monster>([
-            ...state.absorb.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
-            ...state.absorb.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
+            ...absorb_state.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
+            ...absorb_state.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
           ])
           : [];
       for (const monster of absorb_targets) {
-        if (state.absorb.isReprocessTarget(monster)) {
+        if (absorb_state.isReprocessTarget(monster)) {
           outfit.equip($familiar`Grey Goose`);
           task_combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
           task_combat.prependMacro(new Macro().trySkill($skill`Re-Process Matter`), monster);
@@ -244,14 +244,15 @@ export class Engine {
       if (wanderers.length === 0) {
         // Set up a banish if needed
 
-        if (task_combat.can(MonsterStrategy.Banish) && !state.banishes.isFullyBanished(task)) {
-          const available_tasks = this.tasks.filter((task) => this.available(task, state));
-          const banishSources = state.banishes.unusedBanishes(available_tasks);
+        const banish_state = globalStateCache.banishes();
+        if (task_combat.can(MonsterStrategy.Banish) && !banish_state.isFullyBanished(task)) {
+          const available_tasks = this.tasks.filter((task) => this.available(task));
+          const banishSources = banish_state.unusedBanishes(available_tasks);
           combat_resources.banishWith(outfit.equipFirst(banishSources));
           debug(
             `Banish targets: ${task_combat
               .where(MonsterStrategy.Banish)
-              .filter((monster) => !state.banishes.already_banished.has(monster))
+              .filter((monster) => !banish_state.already_banished.has(monster))
               .join(", ")}`
           );
           debug(
@@ -265,7 +266,7 @@ export class Engine {
         // (If we have banished all the bad targets, there is no need to force an orb)
         if (
           priority.has(OverridePriority.GoodOrb) &&
-          (!task_combat.can(MonsterStrategy.Banish) || !state.banishes.isFullyBanished(task))
+          (!task_combat.can(MonsterStrategy.Banish) || !banish_state.isFullyBanished(task))
         ) {
           outfit.equip($item`miniature crystal ball`);
         }
@@ -298,7 +299,7 @@ export class Engine {
           task_combat.can(MonsterStrategy.KillFree) ||
           (task_combat.can(MonsterStrategy.Kill) &&
             !task_combat.boss &&
-            this.tasks.every((t) => t.completed(state) || !t.combat?.can(MonsterStrategy.KillFree)))
+            this.tasks.every((t) => t.completed() || !t.combat?.can(MonsterStrategy.KillFree)))
         ) {
           combat_resources.freekillWith(outfit.equipFirst(freekillSources));
         }
@@ -358,7 +359,6 @@ export class Engine {
         task_combat,
         combat_resources,
         wanderers,
-        state,
         task.do instanceof Location ? task.do : undefined
       );
 
@@ -419,7 +419,7 @@ export class Engine {
     );
 
     // Do any task-specific preparation
-    if (task.prepare) task.prepare(state);
+    if (task.prepare) task.prepare();
 
     if (args.verboseequip) {
       const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
@@ -478,13 +478,13 @@ export class Engine {
       this.attempts[task.name]++;
     }
 
-    const new_state = new GameState();
-    if (task.completed(new_state)) {
+    globalStateCache.invalidate();
+    if (task.completed()) {
       debug(`${task.name} completed!`, "blue");
-    } else if (!(task.ready?.(state) ?? true)) {
+    } else if (!(task.ready?.() ?? true)) {
       debug(`${task.name} not completed! [Again? Not ready]`, "blue");
     } else {
-      const priority_explain = Prioritization.from(task, new_state).explain();
+      const priority_explain = Prioritization.from(task).explain();
       if (priority_explain !== "") {
         debug(`${task.name} not completed! [Again? ${priority_explain}]`, "blue");
       } else {
@@ -492,7 +492,6 @@ export class Engine {
       }
       this.check_limits(task); // Error if too many tries occur
     }
-    return new_state;
   }
 
   public check_limits(task: Task): void {

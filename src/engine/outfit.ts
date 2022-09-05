@@ -18,7 +18,6 @@ import { $familiar, $item, $skill, $slot, $slots, $stat, get, getKramcoWandererC
 import { Task } from "../tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
-import { GameState } from "./state";
 import { towerSkip } from "../tasks/level13";
 import { haveLoathingLegion } from "../lib";
 
@@ -299,8 +298,8 @@ export class Outfit {
     }
   }
 
-  static create(task: Task, state: GameState): Outfit {
-    const spec = typeof task.outfit === "function" ? task.outfit(state) : task.outfit;
+  static create(task: Task): Outfit {
+    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
 
     const outfit = new Outfit();
     for (const item of spec?.equip ?? []) outfit.equip(item);

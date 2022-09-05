@@ -50,7 +50,7 @@ import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../main";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 import { coldRes } from "./absorb";
 
 export const MiscQuest: Quest = {
@@ -413,7 +413,7 @@ export const MiscQuest: Quest = {
       name: "Dog Chow",
       after: [],
       ready: () => have($item`Ghost Dog Chow`) && familiarWeight($familiar`Grey Goose`) < 6,
-      completed: (state: GameState) => state.absorb.remainingReprocess().length === 0,
+      completed: () => globalStateCache.absorb().remainingReprocess().length === 0,
       do: () => {
         use($item`Ghost Dog Chow`);
         if (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
@@ -427,7 +427,7 @@ export const MiscQuest: Quest = {
       name: "Cake-Shaped Arena",
       after: [],
       ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
-      completed: (state: GameState) => state.absorb.remainingReprocess().length === 0,
+      completed: () => globalStateCache.absorb().remainingReprocess().length === 0,
       do: arenaFight,
       outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
       freeaction: true,
@@ -659,15 +659,15 @@ export const WandQuest: Quest = {
   ],
 };
 
-export function teleportitisTask(engine: Engine, tasks: Task[], state: GameState): Task {
+export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   // Combine the choice selections from all tasks
   // Where multiple tasks make different choices at the same choice, prefer:
   //  * Earlier tasks to later tasks
   //  * Uncompleted tasks to completed tasks
   const choices: Task["choices"] = { 3: 3 }; // The goal choice
 
-  const done_tasks = tasks.filter((task) => task.completed(state));
-  const left_tasks = tasks.filter((task) => !task.completed(state));
+  const done_tasks = tasks.filter((task) => task.completed());
+  const left_tasks = tasks.filter((task) => !task.completed());
   for (const task of [...left_tasks, ...done_tasks].reverse()) {
     for (const choice_id_str in task.choices) {
       const choice_id = parseInt(choice_id_str);

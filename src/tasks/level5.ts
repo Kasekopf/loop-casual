@@ -17,7 +17,7 @@ import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -79,18 +79,18 @@ export const KnobQuest: Quest = {
         )
         .macro(
           // Don't use the fire extinguisher if we want to absorb the madam
-          (state: GameState) =>
+          () =>
             new Macro().externalIf(
-              !state.absorb.isTarget($monster`Knob Goblin Madam`),
+              !globalStateCache.absorb().isTarget($monster`Knob Goblin Madam`),
               new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
             ),
           $monster`Knob Goblin Madam`
         )
         .macro(
           // Don't use the fire extinguisher if we want to absorb the girl
-          (state: GameState) =>
+          () =>
             new Macro().externalIf(
-              !state.absorb.isTarget($monster`Knob Goblin Harem Girl`),
+              !globalStateCache.absorb().isTarget($monster`Knob Goblin Harem Girl`),
               new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
             ),
           $monster`Knob Goblin Harem Girl`
