@@ -13,11 +13,11 @@ import {
   Macro,
 } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
-import { GameState } from "../state";
+import { GameState } from "../engine/state";
 
 export const KnobQuest: Quest = {
   name: "Knob",

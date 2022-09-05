@@ -1,8 +1,8 @@
 import { Monster, myMeat } from "kolmafia";
 import { $effect, $item, have, Macro } from "libram";
-import { CombatStrategy } from "../combat";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
+import { CombatStrategy } from "../engine/combat";
+import { OverridePriority } from "../engine/priority";
+import { GameState } from "../engine/state";
 import { OutfitSpec, Task } from "./structure";
 
 

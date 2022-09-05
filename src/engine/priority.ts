@@ -7,7 +7,7 @@ import { $effect, $familiar, $item, $skill, get, have } from "libram";
 import { CombatStrategy, MonsterStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { GameState } from "./state";
-import { Task } from "./tasks/structure";
+import { Task } from "../tasks/structure";
 
 export enum OverridePriority {
   Wanderer = 20000,

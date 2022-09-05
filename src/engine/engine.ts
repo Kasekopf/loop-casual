@@ -33,7 +33,7 @@ import {
   use,
   visitUrl,
 } from "kolmafia";
-import { Task } from "./tasks/structure";
+import { Task } from "../tasks/structure";
 import {
   $effect,
   $effects,
@@ -71,7 +71,7 @@ import {
   runCombat,
   setAutoAttack,
 } from "kolmafia";
-import { debug } from "./lib";
+import { debug } from "../lib";
 import {
   canChargeVoid,
   freekillSources,
@@ -80,8 +80,8 @@ import {
   wandererSources,
 } from "./resources";
 import { OverridePriority, Prioritization } from "./priority";
-import { args } from "./main";
-import { flyersDone } from "./tasks/level12";
+import { args } from "../main";
+import { flyersDone } from "../tasks/level12";
 import { GameState } from "./state";
 
 export const wanderingNCs = new Set<string>([

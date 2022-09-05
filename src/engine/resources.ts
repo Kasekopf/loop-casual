@@ -10,8 +10,8 @@ import {
   Macro,
 } from "libram";
 import { MonsterStrategy } from "./combat";
-import { atLevel } from "./lib";
-import { Task } from "./tasks/structure";
+import { atLevel } from "../lib";
+import { Task } from "../tasks/structure";
 
 export interface Resource {
   name: string;

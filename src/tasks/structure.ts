@@ -1,9 +1,9 @@
 import { Effect, Familiar, Item, Location, Monster } from "kolmafia";
 import { get } from "libram";
 import { StringProperty } from "libram/dist/propertyTypes";
-import { CombatStrategy } from "../combat";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
+import { CombatStrategy } from "../engine/combat";
+import { OverridePriority } from "../engine/priority";
+import { GameState } from "../engine/state";
 
 export type Quest = {
   name: string;

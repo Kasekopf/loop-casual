@@ -26,11 +26,11 @@ import {
   Macro,
   set,
 } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { debug } from "../lib";
 import { args } from "../main";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
+import { OverridePriority } from "../engine/priority";
+import { GameState } from "../engine/state";
 import { yellowray } from "./yellowray";
 import { Quest, step, Task } from "./structure";
 

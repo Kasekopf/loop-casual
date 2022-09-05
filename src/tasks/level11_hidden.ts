@@ -25,8 +25,8 @@ import {
   Macro,
 } from "libram";
 import { Quest, step, Task } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);

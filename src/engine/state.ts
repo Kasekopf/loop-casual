@@ -1,7 +1,7 @@
 import { Location, Monster, toLocation, toMonster, visitUrl } from "kolmafia";
 import { get } from "libram";
 import { BanishState } from "./resources";
-import { AbsorbState } from "./tasks/absorb";
+import { AbsorbState } from "../tasks/absorb";
 
 export class GameState {
   banishes: BanishState;

@@ -15,12 +15,12 @@ import {
   weaponHands,
 } from "kolmafia";
 import { $familiar, $item, $skill, $slot, $slots, $stat, get, getKramcoWandererChance, have, Requirement } from "libram";
-import { Task } from "./tasks/structure";
+import { Task } from "../tasks/structure";
 import { canChargeVoid, Resource } from "./resources";
-import { Keys, keyStrategy } from "./tasks/keys";
+import { Keys, keyStrategy } from "../tasks/keys";
 import { GameState } from "./state";
-import { towerSkip } from "./tasks/level13";
-import { haveLoathingLegion } from "./lib";
+import { towerSkip } from "../tasks/level13";
+import { haveLoathingLegion } from "../lib";
 
 // Adapted from phccs
 export class Outfit {

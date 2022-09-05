@@ -27,7 +27,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
 import { Quest, step, Task } from "./structure";

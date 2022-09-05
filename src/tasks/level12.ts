@@ -17,8 +17,8 @@ import {
   set,
 } from "libram";
 import { Quest, step, Task } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { yellowray } from "./yellowray";
 

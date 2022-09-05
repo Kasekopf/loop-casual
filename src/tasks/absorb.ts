@@ -38,10 +38,10 @@ import {
   have,
   Macro,
 } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
+import { OverridePriority } from "../engine/priority";
+import { GameState } from "../engine/state";
 import { towerSkip } from "./level13";
 import { Limit, Quest, step, Task } from "./structure";
 

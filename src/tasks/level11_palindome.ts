@@ -26,7 +26,7 @@ import {
   Macro,
 } from "libram";
 import { Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
 
 function shenItem(item: Item) {
