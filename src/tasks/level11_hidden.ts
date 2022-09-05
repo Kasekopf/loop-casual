@@ -149,7 +149,7 @@ const Temple: Task[] = [
 const Apartment: Task[] = [
   {
     name: "Open Apartment",
-    after: ["Get Machete"],
+    after: ["Get Machete", "Open City"],
     completed: () => get("hiddenApartmentProgress") >= 1,
     do: $location`An Overgrown Shrine (Northwest)`,
     outfit: {
@@ -216,7 +216,7 @@ const Apartment: Task[] = [
 const Office: Task[] = [
   {
     name: "Open Office",
-    after: ["Get Machete"],
+    after: ["Get Machete", "Open City"],
     completed: () => get("hiddenOfficeProgress") >= 1,
     do: $location`An Overgrown Shrine (Northeast)`,
     outfit: {
@@ -284,7 +284,7 @@ const Office: Task[] = [
 const Hospital: Task[] = [
   {
     name: "Open Hospital",
-    after: ["Get Machete"],
+    after: ["Get Machete", "Open City"],
     completed: () => get("hiddenHospitalProgress") >= 1,
     do: $location`An Overgrown Shrine (Southwest)`,
     outfit: {
@@ -324,7 +324,7 @@ const Hospital: Task[] = [
 const Bowling: Task[] = [
   {
     name: "Open Bowling",
-    after: ["Get Machete"],
+    after: ["Get Machete", "Open City"],
     completed: () => get("hiddenBowlingAlleyProgress") >= 1,
     do: $location`An Overgrown Shrine (Southeast)`,
     outfit: {
