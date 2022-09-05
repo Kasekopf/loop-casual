@@ -2053,6 +2053,13 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
+grimoire-kolmafia@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.2.tgz#d0e16197e56478924bac36262cb2b9edbcf1c6db"
+  integrity sha512-sUD0jrDxB8wMFbL3a7VjUPLOav7AehIJ7hN3QmXOoIt0O+tGBxejOMriWePezAY1d9QaweCqStZBxpaYlPoUww==
+  dependencies:
+    core-js "^3.16.4"
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -2245,7 +2252,7 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kolmafia@^3.0.3, kolmafia@^3.4.0:
+kolmafia@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-3.4.0.tgz#133d2863075f7e8fb1b91a5e1fd06a022b385245"
   integrity sha512-FuzhCdFIw/rkeofEWL7j7B28TxGqxxb0OxtgZ+PdmXmqePLOIMs1bSUQlW7zTu+BF/Su1KkPKFqWjBIvAvAlXQ==
@@ -2258,14 +2265,13 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libram@^0.6.23:
-  version "0.6.23"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.6.23.tgz#2f1211e009af9b9fdeb9f32b7040cc1d141702a6"
-  integrity sha512-/s7F3Qh0gHTlODN8EqoYWOnvW56PQ4WJDYyLyABq9PGFTEzmJ4SF67sSRYOA3HGhLfKzLZjVkCqE0s1EJ1urkQ==
+libram@^0.6.24:
+  version "0.6.24"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.6.24.tgz#5db8f91f3a2fe590df2e9772403fe192fa549338"
+  integrity sha512-hS9tSr8sKsaV5mdmv7f8GZDGzlbgG1q86HWddfvARD3hfrQp00+iDJrtAvfJpb5XECwqlRemrswCRsT8TnIayg==
   dependencies:
     "@babel/runtime-corejs3" "^7.17.2"
     core-js "^3.21.0"
-    kolmafia "^3.0.3"
     lodash "^4.17.21"
 
 loader-runner@^4.2.0:

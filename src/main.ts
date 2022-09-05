@@ -22,7 +22,7 @@ import { step, Task } from "./tasks/structure";
 import { OverridePriority, Prioritization } from "./priority";
 import { Outfit } from "./outfit";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
-import { Args } from "./args";
+import { Args } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
