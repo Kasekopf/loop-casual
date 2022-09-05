@@ -43,7 +43,8 @@ import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
 import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
-import { Limit, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { Limit, step } from "grimoire-kolmafia";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -900,7 +901,7 @@ export const AbsorbQuest: Quest = {
         name: task.do.toString(),
         completed: () => !globalStateCache.absorb().hasTargets(task.do),
         ...task,
-        after: task.skill ? [...task.after, task.skill.name] : task.after,
+        after: task.skill ? [...(task.after ?? []), task.skill.name] : task.after,
         combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
         limit: { soft: 25 },
       };
@@ -944,7 +945,7 @@ export const ReprocessQuest: Quest = {
         name: task.do.toString(),
         completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do),
         ...task,
-        after: [...task.after, `Absorb/${task.do.toString()}`],
+        after: [...(task.after ?? []), `Absorb/${task.do.toString()}`],
         ready: () =>
           (task.ready === undefined || task.ready()) &&
           familiarWeight($familiar`Grey Goose`) >= 6,

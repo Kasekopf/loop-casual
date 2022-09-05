@@ -1,413 +1,203 @@
 import {
-  canEquip,
   cliExecute,
-  equip,
   equippedAmount,
-  equippedItem,
-  Familiar,
   familiarWeight,
-  Item,
   itemAmount,
   myBasestat,
-  Slot,
-  toSlot,
-  useFamiliar,
-  weaponHands,
 } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $slots, $stat, get, getKramcoWandererChance, have, Requirement } from "libram";
-import { Task } from "../tasks/structure";
-import { canChargeVoid, Resource } from "./resources";
+import { $familiar, $item, $skill, $stat, get, getKramcoWandererChance, have } from "libram";
+import { Task } from "./task";
+import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
+import { Outfit } from "grimoire-kolmafia";
 import { haveLoathingLegion } from "../lib";
 
-// Adapted from phccs
-export class Outfit {
-  equips: Map<Slot, Item> = new Map<Slot, Item>();
-  accesories: Item[] = [];
-  skipDefaults = false;
-  familiar?: Familiar;
-  modifier?: string;
-  avoid?: Item[];
 
-  equip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
-    if (item === undefined) return true;
-    if (Array.isArray(item)) return item.every((val) => this.equip(val));
-    if (!have(item) && item !== $familiar`none`) return false;
-    if (item instanceof Item && !canEquip(item)) return false;
-    if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
+export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
+  for (const resource of resources) {
+    if (!resource.available()) continue;
+    if (resource.chance && resource.chance() === 0) continue;
+    if (!outfit.canEquip(resource.equip ?? [])) continue;
+    if (!outfit.equip(resource.equip ?? [])) continue;
+    return resource;
+  }
+  return undefined;
+}
 
-    if (item instanceof Item) {
-      const slot = toSlot(item);
-      if (slot === $slot`familiar` && this.familiar === $familiar`none`) {
-        return false;
-      }
-      if (slot === $slot`acc1`) {
-        if (this.accesories.length >= 3) return false;
-        this.accesories.push(item);
-        return true;
-      }
-      if (slot === $slot`off-hand`) {
-        const weapon = this.equips.get($slot`weapon`);
-        if (weapon && weaponHands(weapon) === 2) return false;
-      }
-      if (!this.equips.has(slot)) {
-        this.equips.set(slot, item);
-        return true;
-      }
-      if (
-        slot === $slot`weapon` &&
-        !this.equips.has($slot`off-hand`) &&
-        have($skill`Double-Fisted Skull Smashing`) &&
-        weaponHands(item)
-      ) {
-        this.equips.set($slot`off-hand`, item);
-        return true;
-      }
-      if (
-        slot === $slot`off-hand` &&
-        have($familiar`Left-Hand Man`) &&
-        this.familiar === undefined &&
-        !this.equips.has($slot`familiar`)
-      ) {
-        if (item === $item`cursed magnifying glass` && !canChargeVoid()) {
-          // Cursed magnifying glass cannot trigger in Lefty
-          this.equips.set($slot`familiar`, this.equips.get($slot`off-hand`) ?? $item`none`);
-          this.equips.set($slot`off-hand`, item);
-        } else {
-          this.familiar = $familiar`Left-Hand Man`;
-          this.equips.set($slot`familiar`, item);
-        }
-        return true;
-      }
-      return false;
-    } else {
-      if (this.familiar && this.familiar !== item) return false;
-      this.familiar = item;
-      return true;
+export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: T[]): T[] {
+  const result: T[] = [];
+  for (const resource of resources) {
+    if (!resource.available()) continue;
+    if (resource.chance && resource.chance() === 0) continue;
+    if (!outfit.canEquip(resource.equip ?? [])) continue;
+    if (!outfit.equip(resource.equip ?? [])) continue;
+    result.push(resource);
+    if (resource.chance && resource.chance() === 1) break;
+  }
+  return result;
+}
+
+export function createOutfit(task: Task): Outfit {
+  const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+  const outfit = new Outfit();
+  for (const item of spec?.equip ?? []) outfit.equip(item);
+  if (spec?.familiar) outfit.equip(spec.familiar);
+  outfit.avoid = spec?.avoid;
+  outfit.skipDefaults = spec?.skipDefaults ?? false;
+  return outfit;
+}
+
+
+export function equipInitial(outfit: Outfit): void {
+  if (outfit.modifier?.includes("item")) {
+    outfit.equip($familiar`Grey Goose`);
+    if (!outfit.modifier?.includes("+combat") && !outfit.modifier?.includes(" combat") && !outfit.modifier?.includes("res"))
+      outfit.equip($item`protonic accelerator pack`);
+  }
+  // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
+  if (outfit.modifier?.includes("meat")) {
+    outfit.equip($familiar`Hobo Monkey`);
+    outfit.equip($familiar`Leprechaun`); // backup
+  }
+  if (outfit.modifier?.includes("+combat") && !outfit.modifier?.includes("res"))
+    outfit.equip($item`thermal blanket`);
+}
+
+export function equipCharging(outfit: Outfit): void {
+  if (outfit.skipDefaults) return;
+
+  if (familiarWeight($familiar`Grey Goose`) < 6 ||
+    (familiarWeight($familiar`Grey Goose`) >= 6 && [...outfit.equips.values()].includes($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() === 1)) {
+    if (outfit.equip($familiar`Grey Goose`)) {
+      outfit.equip($item`yule hatchet`);
+      outfit.equip($item`ghostly reins`);
+      outfit.equip($item`teacher's pen`);
+      outfit.equip($item`familiar scrapbook`);
     }
+  } else if (
+    (!have($item`eleven-foot pole`) ||
+      !have($item`ring of Detect Boring Doors`) ||
+      !have($item`Pick-O-Matic lockpicks`)) &&
+    keyStrategy.useful(Keys.Dungeon) !== false &&
+    !towerSkip()
+  ) {
+    outfit.equip($familiar`Gelatinous Cubeling`);
+  } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
+    outfit.equip($familiar`Melodramedary`);
+  }
+}
+
+export function equipDefaults(outfit: Outfit): void {
+  if (outfit.skipDefaults) return;
+
+  if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
+
+  if (have($familiar`Temporal Riftlet`)) {
+    outfit.equip($familiar`Temporal Riftlet`);
+  } else if (have($item`gnomish housemaid's kgnee`)) {
+    outfit.equip($familiar`Reagnimated Gnome`);
+  } else outfit.equip($familiar`Galloping Grill`);
+  outfit.equip($familiar`Melodramedary`);
+
+  if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+    outfit.equip($item`grey down vest`);
+  if (outfit.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
+    outfit.equip($item`dromedary drinking helmet`);
+  if (outfit.familiar === $familiar`Reagnimated Gnome`)
+    outfit.equip($item`gnomish housemaid's kgnee`);
+
+  outfit.equip($item`mafia thumb ring`);
+
+  if (myBasestat($stat`moxie`) <= 200) {
+    // Equip some extra equipment for early survivability
+    outfit.equip($item`plastic vampire fangs`);
+    outfit.equip($item`warbear goggles`);
+    outfit.equip($item`burning paper slippers`);
   }
 
-  equipFirst<T extends Resource>(resources: T[]): T | undefined {
-    for (const resource of resources) {
-      if (!resource.available()) continue;
-      if (resource.chance && resource.chance() === 0) continue;
-      if (!this.canEquip(resource.equip)) continue;
-      if (!this.equip(resource.equip)) continue;
-      return resource;
-    }
-    return undefined;
-  }
-
-  equipUntilCapped<T extends Resource>(resources: T[]): T[] {
-    const result: T[] = [];
-    for (const resource of resources) {
-      if (!resource.available()) continue;
-      if (resource.chance && resource.chance() === 0) continue;
-      if (!this.canEquip(resource.equip)) continue;
-      if (!this.equip(resource.equip)) continue;
-      result.push(resource);
-      if (resource.chance && resource.chance() === 1) break;
-    }
-    return result;
-  }
-
-  canEquip(item?: Item | Familiar | (Item | Familiar)[]): boolean {
-    if (item === undefined) return true;
-    if (Array.isArray(item)) return item.every((val) => this.canEquip(val)); // TODO: smarter
-    if (!have(item) && item !== $familiar`none`) return false;
-    if (item instanceof Item && !canEquip(item)) return false;
-    if (this.avoid && this.avoid.find((i) => i === item) !== undefined) return false;
-
-    if (item instanceof Item) {
-      const slot = toSlot(item);
-      if (slot === $slot`familiar` && this.familiar === $familiar`none`) {
-        return false;
-      }
-      if (slot === $slot`acc1`) {
-        if (this.accesories.length >= 3) return false;
-        return true;
-      }
-      if (slot === $slot`off-hand`) {
-        const weapon = this.equips.get($slot`weapon`);
-        if (weapon && weaponHands(weapon) === 2) return false;
-      }
-      if (!this.equips.has(slot)) {
-        return true;
-      }
-      if (
-        slot === $slot`weapon` &&
-        !this.equips.has($slot`off-hand`) &&
-        have($skill`Double-Fisted Skull Smashing`) &&
-        weaponHands(item)
-      ) {
-        return true;
-      }
-      if (
-        slot === $slot`off-hand` &&
-        have($familiar`Left-Hand Man`) &&
-        this.familiar === undefined &&
-        !this.equips.has($slot`familiar`)
-      ) {
-        return true;
-      }
-      return false;
-    } else {
-      if (this.familiar && this.familiar !== item) return false;
-      return true;
-    }
-  }
-
-  dress(forceUpdate = false): void {
-    if (this.familiar !== undefined) useFamiliar(this.familiar);
-    const targetEquipment = Array.from(this.equips.values());
-    const accessorySlots = $slots`acc1, acc2, acc3`;
-    for (const slot of $slots`weapon, off-hand, hat, shirt, pants, familiar, buddy-bjorn, crown-of-thrones, back`) {
-      if (
-        targetEquipment.includes(equippedItem(slot)) &&
-        this.equips.get(slot) !== equippedItem(slot)
-      )
-        equip(slot, $item`none`);
+  if (!outfit.modifier) {
+    // Default outfit
+    outfit.equip($item`giant yellow hat`);
+    outfit.equip($item`ice crown`);
+    outfit.equip($item`June cleaver`);
+    outfit.equip($item`industrial fire extinguisher`);
+    if (have($skill`Torso Awareness`)) outfit.equip($item`fresh coat of paint`);
+    outfit.equip($item`familiar scrapbook`);
+    outfit.equip($item`protonic accelerator pack`);
+    outfit.equip($item`unwrapped knock-off retro superhero cape`);
+    outfit.equip($item`designer sweatpants`);
+    outfit.equip($item`warbear long johns`);
+    outfit.equip($item`square sponge pants`);
+    outfit.equip($item`Cargo Cultist Shorts`);
+    outfit.equip($item`lucky gold ring`);
+    outfit.equip($item`Powerful Glove`);
+    if (
+      outfit.familiar === $familiar`Grey Goose` &&
+      familiarWeight($familiar`Grey Goose`) < 6 &&
+      itemAmount($item`teacher's pen`) >= 2
+    )
+      outfit.equip($item`teacher's pen`);
+    outfit.equip($item`backup camera`);
+    outfit.equip($item`birch battery`);
+    outfit.equip($item`combat lover's locket`);
+  } else {
+    outfit.modifier += ", 0.01 MP regen, 0.001 HP regen";
+    // Defibrillator breaks the Beaten up tests
+    if (haveLoathingLegion()) {
+      outfit.avoid = [...(outfit.avoid ?? []), $item`Loathing Legion defibrillator`];
     }
 
-    //Order is anchored here to prevent DFSS shenanigans
-    for (const slot of $slots`weapon, off-hand, hat, back, shirt, pants, familiar, buddy-bjorn, crown-of-thrones`) {
-      const equipment = this.equips.get(slot);
-      if (equipment) {
-        if (slot === $slot`off-hand` && !this.equips.has($slot`weapon`) && weaponHands(equippedItem($slot`weapon`)) > 1) {
-          equip($item`none`, $slot`weapon`); // can't equip an off-hand with a two-handed weapon
-        }
-        equip(slot, equipment);
-        if (equippedItem(slot) !== equipment) throw `Failed to equip ${equipment}`;
-      }
+    // Do not use umbrella for -ML
+    if (outfit.modifier.match("-[\\d .]*ML")) {
+      outfit.avoid = [...(outfit.avoid ?? []), $item`unbreakable umbrella`];
     }
 
-    //We don't care what order accessories are equipped in, just that they're equipped
-    const accessoryEquips = this.accesories;
-    for (const slot of accessorySlots) {
-      const toEquip = accessoryEquips.find(
-        (equip) =>
-          equippedAmount(equip) < accessoryEquips.filter((accessory) => accessory === equip).length
-      );
-      if (!toEquip) break;
-      const currentEquip = equippedItem(slot);
-      //We never want an empty accessory slot
-      if (
-        currentEquip === $item`none` ||
-        equippedAmount(currentEquip) >
-        accessoryEquips.filter((accessory) => accessory === currentEquip).length
-      ) {
-        equip(slot, toEquip);
-        if (equippedItem(slot) !== toEquip) throw `Failed to equip ${toEquip}`;
-      }
-    }
-
-    if (this.modifier) {
-      // Handle familiar equipment manually to avoid weird Left-Hand Man behavior
-      const fam_equip = this.equips.get($slot`familiar`);
-      if (fam_equip !== undefined) {
-        const index = targetEquipment.indexOf(fam_equip);
-        if (index > -1) targetEquipment.splice(index, 1);
-      }
-
-      let requirements = Requirement.merge([
-        new Requirement([this.modifier, "0.01 MP regen, 0.001 HP regen"], {
-          forceEquip: targetEquipment.concat(...accessoryEquips),
-          forceUpdate: forceUpdate,
-        }),
-      ]);
-
-
-      if (fam_equip !== undefined) {
-        requirements = Requirement.merge([
-          requirements,
-          new Requirement([], { preventSlot: [$slot`familiar`] }),
-        ]);
-      }
-
-      if (this.avoid !== undefined) {
-        requirements = Requirement.merge([
-          requirements,
-          new Requirement([], { preventEquip: this.avoid }),
-        ]);
-      }
-
-      if (haveLoathingLegion()) {
-        requirements = Requirement.merge([
-          requirements,
-          new Requirement([], { preventEquip: [$item`Loathing Legion defibrillator`] }),
-        ]);
-      }
-
-      if (
-        have($item`cursed magnifying glass`) &&
-        get("cursedMagnifyingGlassCount") >= 13 &&
-        !targetEquipment.includes($item`cursed magnifying glass`)
-      ) {
-        // Avoid burning CMG void fight just for the modifier
-        requirements = Requirement.merge([
-          requirements,
-          new Requirement([], { preventEquip: [$item`cursed magnifying glass`] }),
-        ]);
-      }
-
-      // Libram outfit cache may not autofold umbrella, so we need to
-      if (have($item`unbreakable umbrella`)) {
-        const ml_maximizer = this.modifier.match("[\\d \\-]*ML");
-        if (this.modifier.includes("-combat")) {
-          if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-        } else if (ml_maximizer) {
-          if (!ml_maximizer[0].includes("-")) {
-            requirements = Requirement.merge([
-              requirements,
-              new Requirement([], { preventEquip: [$item`unbreakable umbrella`] }),
-            ]);
-          } else {
-            if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
-          }
-        } else if (this.modifier.includes("item")) {
-          if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
-        } else {
-          if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
-        }
-      }
-
-      if (!requirements.maximize()) {
-        throw `Unable to maximize ${this.modifier}`;
-      }
-    }
-
-    // Do not use +ML backup camera unless specifically needed
-    // Libram outfit cache may not autofold camera, so we need to
-    if (equippedAmount($item`backup camera`) > 0) {
-      if ((!this.modifier || !this.modifier.includes("ML")) &&
-        get("backupCameraMode").toLowerCase() === "ml"
-      ) {
-        cliExecute("backupcamera meat");
-      }
-      if (!get("backupCameraReverserEnabled")) {
-        cliExecute("backupcamera reverser on");
-      }
-    }
-
-    // Libram outfit cache may not autofold cape, so we need to
-    if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
-      if (this.modifier?.includes("res") && (get("retroCapeSuperhero") !== "vampire") || get("retroCapeWashingInstructions") !== "hold") {
-        cliExecute("retrocape vampire hold");
-      }
-    }
-  }
-
-  static create(task: Task): Outfit {
-    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-
-    const outfit = new Outfit();
-    for (const item of spec?.equip ?? []) outfit.equip(item);
-    if (spec?.familiar !== undefined) outfit.equip(spec.familiar);
-    outfit.avoid = spec?.avoid;
-
-    if (spec?.modifier) {
-      // Run maximizer
-      if (spec.modifier.includes("item")) {
-        outfit.equip($familiar`Grey Goose`);
-        if (!spec.modifier.includes("+combat") && !spec.modifier.includes(" combat") && !spec.modifier.includes("res"))
-          outfit.equip($item`protonic accelerator pack`);
-      }
-      // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
-      if (spec.modifier.includes("meat")) {
-        outfit.equip($familiar`Hobo Monkey`);
-        outfit.equip($familiar`Leprechaun`); // backup
-      }
-      if (spec.modifier.includes("+combat") && !spec.modifier.includes("res"))
-        outfit.equip($item`thermal blanket`);
-      outfit.modifier = spec.modifier;
-    }
-    outfit.skipDefaults = spec?.skipDefaults ?? false;
-
-    return outfit;
-  }
-
-  public equipCharging(): void {
-    if (this.modifier?.includes("-combat")) {
-      // Modifier plays strangely with the umbrella
-      this.equip($item`unbreakable umbrella`);
-    }
-
-    if (familiarWeight($familiar`Grey Goose`) < 6 ||
-      (familiarWeight($familiar`Grey Goose`) >= 6 && [...this.equips.values()].includes($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() === 1)) {
-      if (this.equip($familiar`Grey Goose`)) {
-        this.equip($item`yule hatchet`);
-        this.equip($item`ghostly reins`);
-        this.equip($item`teacher's pen`);
-        this.equip($item`familiar scrapbook`);
-      }
-    } else if (
-      (!have($item`eleven-foot pole`) ||
-        !have($item`ring of Detect Boring Doors`) ||
-        !have($item`Pick-O-Matic lockpicks`)) &&
-      keyStrategy.useful(Keys.Dungeon) !== false &&
-      !towerSkip()
+    // Avoid burning CMG void fight just for the modifier
+    if (
+      have($item`cursed magnifying glass`) &&
+      get("cursedMagnifyingGlassCount") >= 13 &&
+      [...outfit.equips.values()].includes($item`cursed magnifying glass`)
     ) {
-      this.equip($familiar`Gelatinous Cubeling`);
-    } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
-      this.equip($familiar`Melodramedary`);
+      outfit.avoid = [...(outfit.avoid ?? []), $item`cursed magnifying glass`];
+    }
+
+  }
+  outfit.equip($item`miniature crystal ball`);
+  // If we never found a better familiar, just keep charging the goose
+  outfit.equip($familiar`Grey Goose`);
+}
+
+export function fixFoldables(outfit: Outfit) {
+  // Libram outfit cache may not autofold umbrella, so we need to
+  if (equippedAmount($item`unbreakable umbrella`) > 0) {
+    if (outfit.modifier?.includes("-combat")) {
+      if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
+    } else if (outfit.modifier?.includes("ML")) {
+      if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+    } else if (outfit.modifier?.includes("item")) {
+      if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
+    } else {
+      if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
     }
   }
 
-  public equipDefaults(): void {
-    if (this.modifier?.includes("-combat")) this.equip($familiar`Disgeist`); // low priority
-
-    if (have($familiar`Temporal Riftlet`)) {
-      this.equip($familiar`Temporal Riftlet`);
-    } else if (have($item`gnomish housemaid's kgnee`)) {
-      this.equip($familiar`Reagnimated Gnome`);
-    } else this.equip($familiar`Galloping Grill`);
-    this.equip($familiar`Melodramedary`);
-
-    if (this.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
-      this.equip($item`grey down vest`);
-    if (this.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
-      this.equip($item`dromedary drinking helmet`);
-    if (this.familiar === $familiar`Reagnimated Gnome`)
-      this.equip($item`gnomish housemaid's kgnee`);
-
-    if (myBasestat($stat`muscle`) >= 40) this.equip($item`mafia thumb ring`);
-
-    if (myBasestat($stat`moxie`) <= 200) {
-      // Equip some extra equipment for early survivability
-      this.equip($item`plastic vampire fangs`);
-      this.equip($item`warbear goggles`);
-      this.equip($item`burning paper slippers`);
+  // Libram outfit cache may not autofold camera, so we need to
+  if (equippedAmount($item`backup camera`) > 0) {
+    if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+      if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
+    } else {
+      if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
     }
-
-    if (!this.modifier) {
-      // Default outfit
-      if (myBasestat($stat`moxie`) >= 47) this.equip($item`giant yellow hat`);
-      this.equip($item`ice crown`);
-      this.equip($item`June cleaver`);
-      this.equip($item`industrial fire extinguisher`);
-      if (have($skill`Torso Awareness`)) this.equip($item`fresh coat of paint`);
-      this.equip($item`familiar scrapbook`);
-      this.equip($item`protonic accelerator pack`);
-      this.equip($item`unwrapped knock-off retro superhero cape`);
-      this.equip($item`designer sweatpants`);
-      if (myBasestat($stat`moxie`) >= 10) this.equip($item`warbear long johns`);
-      if (myBasestat($stat`moxie`) >= 85) this.equip($item`square sponge pants`);
-      this.equip($item`Cargo Cultist Shorts`);
-      this.equip($item`lucky gold ring`);
-      this.equip($item`Powerful Glove`);
-      if (
-        this.familiar === $familiar`Grey Goose` &&
-        familiarWeight($familiar`Grey Goose`) < 6 &&
-        itemAmount($item`teacher's pen`) >= 2
-      )
-        this.equip($item`teacher's pen`);
-      this.equip($item`backup camera`);
-      this.equip($item`birch battery`);
-      this.equip($item`combat lover's locket`);
+    if (!get("backupCameraReverserEnabled")) {
+      cliExecute("backupcamera reverser on");
     }
-    this.equip($item`miniature crystal ball`);
-    // If we never found a better familiar, just keep charging the goose
-    this.equip($familiar`Grey Goose`);
+  }
+
+  // Libram outfit cache may not autofold cape, so we need to
+  if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
+    if (outfit.modifier?.includes("res") && (get("retroCapeSuperhero") !== "vampire") || get("retroCapeWashingInstructions") !== "hold") {
+      cliExecute("retrocape vampire hold");
+    }
   }
 }

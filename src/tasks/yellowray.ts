@@ -2,7 +2,8 @@ import { Monster, myMeat } from "kolmafia";
 import { $effect, $item, have, Macro } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { OverridePriority } from "../engine/priority";
-import { OutfitSpec, Task } from "./structure";
+import { Task } from "../engine/task";
+import { OutfitSpec } from "grimoire-kolmafia";
 
 
 export function yellowray<T extends Partial<Task>>(task: T, alternativeOutfit: OutfitSpec, ...monsters: Monster[]): T & Pick<Task, "ready" | "acquire" | "priority" | "combat"> {

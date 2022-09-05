@@ -11,7 +11,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
@@ -70,7 +71,8 @@ const Alcove: Task[] = [
     after: ["Start", "Alcove"],
     completed: () => get("cyrptAlcoveEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Alcove`,
-    combat: new CombatStrategy(true).kill(),
+    combat: new CombatStrategy().kill(),
+    boss: true,
     limit: { tries: 1 },
   },
 ];
@@ -108,7 +110,8 @@ const Cranny: Task[] = [
     after: ["Start", "Cranny"],
     completed: () => get("cyrptCrannyEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Cranny`,
-    combat: new CombatStrategy(true).killHard(),
+    combat: new CombatStrategy().killHard(),
+    boss: true,
     limit: { tries: 1 },
   },
 ];
@@ -160,7 +163,8 @@ const Niche: Task[] = [
     after: ["Start", "Niche"],
     completed: () => get("cyrptNicheEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Niche`,
-    combat: new CombatStrategy(true).kill(),
+    combat: new CombatStrategy().kill(),
+    boss: true,
     limit: { tries: 1 },
   },
 ];
@@ -206,7 +210,8 @@ const Nook: Task[] = [
     after: ["Start", "Nook", "Nook Eye"],
     completed: () => get("cyrptNookEvilness") === 0 && step("questL07Cyrptic") !== -1,
     do: $location`The Defiled Nook`,
-    combat: new CombatStrategy(true).killItem(),
+    combat: new CombatStrategy().killItem(),
+    boss: true,
     limit: { tries: 1 },
   },
 ];
@@ -234,7 +239,8 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") >= 1,
       do: $location`Haert of the Cyrpt`,
       choices: { 527: 1 },
-      combat: new CombatStrategy(true).kill(),
+      combat: new CombatStrategy().kill(),
+      boss: true,
       limit: { tries: 1 },
     },
     {

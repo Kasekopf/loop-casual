@@ -12,7 +12,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { OutfitSpec, Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
@@ -117,10 +118,11 @@ export const KnobQuest: Quest = {
         have($effect`Knob Goblin Perfume`) ? OverridePriority.Effect : OverridePriority.None,
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
-      combat: new CombatStrategy(true).kill($monster`Knob Goblin King`),
+      combat: new CombatStrategy().kill($monster`Knob Goblin King`),
       outfit: { equip: $items`Knob Goblin harem veil, Knob Goblin harem pants`, modifier: "moxie, -10ML" },
       effects: $effects`Knob Goblin Perfume`,
       limit: { tries: 1 },
+      boss: true,
     },
     {
       name: "Open Menagerie",

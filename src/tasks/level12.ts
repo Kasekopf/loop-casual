@@ -16,7 +16,8 @@ import {
   Macro,
   set,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
@@ -75,7 +76,7 @@ const Lighthouse: Task[] = [
       !have($item`Powerful Glove`) ||
       !have($item`backup camera`),
     do: $location`Sonofa Beach`,
-    outfit: { equip: $items`cursed magnifying glass, Powerful Glove` },
+    outfit: { offhand: $item`cursed magnifying glass`, equip: $items`Powerful Glove` },
     combat: new CombatStrategy()
       .macro(
         new Macro().trySkill($skill`CHEAT CODE: Replace Enemy`),
@@ -273,8 +274,9 @@ const Orchard: Task[] = [
       have($item`heart of the filthworm queen`) || get("sidequestOrchardCompleted") !== "none",
     do: $location`The Filthworm Queen's Chamber`,
     effects: $effects`Filthworm Guard Stench`,
-    combat: new CombatStrategy(true).kill(),
+    combat: new CombatStrategy().kill(),
     limit: { tries: 2 }, // allow wanderer
+    boss: true,
   },
   {
     name: "Orchard Finish",
@@ -314,8 +316,9 @@ const Nuns: Task[] = [
       }
     },
     freecombat: true, // Do not equip cmg or carn plant
-    combat: new CombatStrategy(true).macro(new Macro().trySkill($skill`Bowl Straight Up`).trySkill($skill`Sing Along`)).kill(),
+    combat: new CombatStrategy().macro(new Macro().trySkill($skill`Bowl Straight Up`).trySkill($skill`Sing Along`)).kill(),
     limit: { soft: 25 },
+    boss: true,
   },
 ];
 
@@ -427,8 +430,9 @@ export const WarQuest: Quest = {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy(true).killHard(),
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
+      boss: true,
     },
   ],
 };

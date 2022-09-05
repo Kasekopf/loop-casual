@@ -1,7 +1,8 @@
 import { use, visitUrl } from "kolmafia";
 import { $item, have } from "libram";
 import { OverridePriority } from "../engine/priority";
-import { Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 
 export const TootQuest: Quest = {
   name: "Toot",

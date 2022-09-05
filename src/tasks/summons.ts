@@ -32,7 +32,8 @@ import { args } from "../main";
 import { OverridePriority } from "../engine/priority";
 import { globalStateCache } from "../engine/state";
 import { yellowray } from "./yellowray";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 
 type ExtraReprocessTarget = {
   after: string[];
@@ -172,7 +173,7 @@ const summonTargets: SummonTarget[] = [
         }
       },
       combat: new CombatStrategy()
-        .autoattack(new Macro().trySkill($skill`Re-Process Matter`))
+        // .autoattack(new Macro().trySkill($skill`Re-Process Matter`))
         .macro(new Macro().trySkill($skill`Re-Process Matter`))
         .kill(),
     };

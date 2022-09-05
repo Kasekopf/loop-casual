@@ -24,7 +24,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 
@@ -112,7 +113,7 @@ const Temple: Task[] = [
           .trySkill($skill`Emit Matter Duplicating Drones`),
         $monster`Baa'baa'bu'ran`
       )
-      .killItem($monster`baa-relief sheep`, $monster`Baa'baa'bu'ran`),
+      .killItem([$monster`baa-relief sheep`, $monster`Baa'baa'bu'ran`]),
     choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
     limit: { soft: 20 },
   },
@@ -356,7 +357,7 @@ const Bowling: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
-      .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
+      // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy orderlies`),
     outfit: {
       modifier: "item", avoid: $items`broken champagne bottle`,
@@ -374,7 +375,7 @@ const Bowling: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
-      .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
+      // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish(...$monsters`pygmy janitor, pygmy orderlies`),
     outfit: {
       modifier: "item", avoid: $items`broken champagne bottle`,
@@ -428,11 +429,12 @@ export const HiddenQuest: Quest = {
         equip: $items`antique machete`,
       },
       choices: { 791: 1 },
-      combat: new CombatStrategy(true)
-        .kill(...$monsters`dense liana, Protector Spectre`)
-        .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
+      combat: new CombatStrategy()
+        .kill(...$monsters`dense liana, Protector Spectre`),
+      // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],
+      boss: true,
     },
   ],
 };

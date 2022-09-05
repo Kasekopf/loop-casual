@@ -2,7 +2,8 @@ import { buyUsingStorage, cliExecute, inHardcore, Item, itemAmount, myMeat, myTu
 import { $familiar, $item, $items, $skill, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../engine/priority";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { Keys, keyStrategy } from "./keys";
 import { towerSkip } from "./level13";
 

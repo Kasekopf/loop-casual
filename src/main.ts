@@ -1,5 +1,4 @@
 import {
-  cliExecute,
   gametimeToInt,
   getRevision,
   myAdventures,
@@ -16,13 +15,9 @@ import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
-import { WandererSource, wandererSources } from "./engine/resources";
-import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
-import { step, Task } from "./tasks/structure";
-import { OverridePriority, Prioritization } from "./engine/priority";
-import { Outfit } from "./engine/outfit";
-import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
-import { Args } from "grimoire-kolmafia";
+import { get, set, sinceKolmafiaRevision } from "libram";
+import { Prioritization } from "./engine/priority";
+import { Args, step } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
@@ -167,30 +162,22 @@ export function main(command?: string): void {
     }
 
     // Do not bother to set properties if there are no tasks remaining
-    if (
-      tasks.find((task) => !task.completed() && (task.ready?.() ?? true)) !== undefined
-    ) {
-      setUniversalProperties(engine.propertyManager);
-      cliExecute("ccs loopgyou");
-    }
-
     while (myAdventures() > 0) {
       // Note order matters for these strategy updates
       summonStrategy.update(); // Update summon plan with current state
       keyStrategy.update(); // Update key plan with current state
       pullStrategy.update(); // Update pull plan with current state
 
-      const next = getNextTask(engine, tasks);
+      const next = engine.getNextTask();
       if (next === undefined) break;
       if (actions_left <= 0) {
-        debug(`Next task: ${next[0].name}`);
+        debug(`Next task: ${next.name}`);
         return;
       } else {
         actions_left -= 1;
       }
 
-      if (next[2] !== undefined) engine.execute(next[0], next[1], next[2]);
-      else engine.execute(next[0], next[1]);
+      engine.execute(next);
       // eslint-disable-next-line eqeqeq
       if (myPath() != "Grey You") break; // Prism broken
     }
@@ -229,61 +216,14 @@ export function main(command?: string): void {
     );
   print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
   // eslint-disable-next-line eqeqeq
-  if (myPath() != "Grey You") {
-    print(
-      `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
-      "purple"
-    );
-    print(
-      `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
-      "purple"
-    );
-  }
-}
-
-function getNextTask(
-  engine: Engine,
-  tasks: Task[]
-): [Task, Prioritization, WandererSource?] | undefined {
-  const available_tasks = tasks.filter((task) => engine.available(task));
-
-  // Teleportitis overrides all
-  if (have($effect`Teleportitis`)) {
-    const tele = teleportitisTask(engine, tasks);
-    if (tele.completed() && removeTeleportitis.ready()) {
-      return [removeTeleportitis, Prioritization.fixed(OverridePriority.Always)];
-    }
-    return [tele, Prioritization.fixed(OverridePriority.Always)];
-  }
-
-  // First, check for any heavily prioritized tasks
-  const priority = available_tasks.find(
-    (task) => task.priority?.() === OverridePriority.LastCopyableMonster
+  print(
+    `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
+    "purple"
   );
-  if (priority !== undefined) {
-    return [priority, Prioritization.fixed(OverridePriority.LastCopyableMonster)];
-  }
-
-  // If a wanderer is up try to place it in a useful location
-  const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
-  const delay_burning = available_tasks.find(
-    (task) => engine.hasDelay(task) && Outfit.create(task).canEquip(wanderer?.equip)
+  print(
+    `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
+    "purple"
   );
-  if (wanderer !== undefined && delay_burning !== undefined) {
-    return [delay_burning, Prioritization.fixed(OverridePriority.Wanderer), wanderer];
-  }
-
-  // Next, choose tasks by priorty, then by route.
-  const task_priorities = available_tasks.map(
-    (task) => [task, Prioritization.from(task)] as [Task, Prioritization]
-  );
-  const highest_priority = Math.max(...task_priorities.map((tp) => tp[1].score()));
-  const todo = task_priorities.find((tp) => tp[1].score() === highest_priority);
-  if (todo !== undefined) {
-    return todo;
-  }
-  // No next task
-  return undefined;
 }
 
 function runComplete(): boolean {
@@ -291,67 +231,4 @@ function runComplete(): boolean {
     // eslint-disable-next-line eqeqeq
     || myPath() != "Grey You"
     || (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1);
-}
-
-function setUniversalProperties(propertyManager: PropertiesManager) {
-  // Properties adapted from garbo
-  propertyManager.set({
-    logPreferenceChange: true,
-    logPreferenceChangeFilter: [
-      ...new Set([
-        ...get("logPreferenceChangeFilter").split(","),
-        "libram_savedMacro",
-        "maximizerMRUList",
-        "testudinalTeachings",
-        "_lastCombatStarted",
-      ]),
-    ]
-      .sort()
-      .filter((a) => a)
-      .join(","),
-    battleAction: "custom combat script",
-    autoSatisfyWithMall: true,
-    autoSatisfyWithNPCs: true,
-    autoSatisfyWithCoinmasters: true,
-    autoSatisfyWithStash: false,
-    dontStopForCounters: true,
-    maximizerFoldables: true,
-    hpAutoRecovery: "-0.05",
-    hpAutoRecoveryTarget: "0.0",
-    mpAutoRecovery: "-0.05",
-    mpAutoRecoveryTarget: "0.0",
-    afterAdventureScript: "",
-    betweenBattleScript: "",
-    choiceAdventureScript: "",
-    familiarScript: "",
-    currentMood: "apathetic",
-    autoTuxedo: true,
-    autoPinkyRing: true,
-    autoGarish: true,
-    allowNonMoodBurning: false,
-    allowSummonBurning: true,
-    libramSkillsSoftcore: "none",
-    louvreGoal: 7,
-    louvreDesiredGoal: 7,
-    requireBoxServants: false,
-    autoAbortThreshold: "-0.05",
-    mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", ["black cherry soda", "doc galaktik's invigorating tonic"]),
-    hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["scroll of drastic healing", "doc galaktik's homeopathic elixir"])
-  });
-  propertyManager.setChoices({
-    1106: 3, // Ghost Dog Chow
-    1107: 1, // tennis ball
-    1340: 3, // Is There A Doctor In The House?
-    1341: 1, // Cure her poison
-  });
-}
-
-function ensureRecovery(property: string, items: string[]): string {
-  const recovery_property = get(property).split(';');
-  for (const item of items) {
-    if (!recovery_property.includes(item)) {
-      recovery_property.push(item);
-    }
-  }
-  return recovery_property.join(";");
 }
