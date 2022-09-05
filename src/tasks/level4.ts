@@ -1,8 +1,8 @@
 import { itemAmount, myDaycount, numericModifier, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, $monsters, $skill, ensureEffect, get, have, Macro } from "libram";
 import { OutfitSpec, Quest, step } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { stenchRes } from "./absorb";

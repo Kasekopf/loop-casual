@@ -11,8 +11,8 @@ import {
   have,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
-import { OverridePriority } from "../priority";
+import { CombatStrategy } from "../engine/combat";
+import { OverridePriority } from "../engine/priority";
 
 const Manor1: Task[] = [
   {

@@ -14,19 +14,19 @@ import {
 } from "kolmafia";
 import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
-import { Engine } from "./engine";
+import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
-import { WandererSource, wandererSources } from "./resources";
+import { WandererSource, wandererSources } from "./engine/resources";
 import { $effect, get, have, PropertiesManager, set, sinceKolmafiaRevision } from "libram";
 import { step, Task } from "./tasks/structure";
-import { OverridePriority, Prioritization } from "./priority";
-import { Outfit } from "./outfit";
+import { OverridePriority, Prioritization } from "./engine/priority";
+import { Outfit } from "./engine/outfit";
 import { removeTeleportitis, teleportitisTask } from "./tasks/misc";
 import { Args } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
 import { pullStrategy } from "./tasks/pulls";
 import { keyStrategy } from "./tasks/keys";
-import { GameState } from "./state";
+import { GameState } from "./engine/state";
 import { lastCommitHash } from "./_git_commit";
 import { summonStrategy } from "./tasks/summons";
 

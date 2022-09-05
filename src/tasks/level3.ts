@@ -1,8 +1,8 @@
 import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "kolmafia";
 import { $item, $monster, have } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../priority";
+import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { Quest, step } from "./structure";
 

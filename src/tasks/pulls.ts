@@ -1,7 +1,7 @@
 import { buyUsingStorage, cliExecute, inHardcore, Item, itemAmount, myMeat, myTurncount, pullsRemaining, retrieveItem, storageAmount } from "kolmafia";
 import { $familiar, $item, $items, $skill, get, have } from "libram";
 import { args } from "../main";
-import { OverridePriority } from "../priority";
+import { OverridePriority } from "../engine/priority";
 import { Quest, step, Task } from "./structure";
 import { Keys, keyStrategy } from "./keys";
 import { towerSkip } from "./level13";

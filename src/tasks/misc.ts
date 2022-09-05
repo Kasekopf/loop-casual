@@ -1,4 +1,4 @@
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import {
   adv1,
   canadiaAvailable,
@@ -45,12 +45,12 @@ import {
   uneffect,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { OverridePriority } from "../priority";
-import { Engine, wanderingNCs } from "../engine";
+import { OverridePriority } from "../engine/priority";
+import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../main";
-import { GameState } from "../state";
+import { GameState } from "../engine/state";
 import { coldRes } from "./absorb";
 
 export const MiscQuest: Quest = {

@@ -12,11 +12,11 @@ import {
   Macro,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../priority";
+import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
-import { GameState } from "../state";
+import { GameState } from "../engine/state";
 
 function tuneCape(): void {
   if (

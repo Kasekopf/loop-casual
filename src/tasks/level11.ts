@@ -24,11 +24,11 @@ import {
   uneffect,
 } from "libram";
 import { OutfitSpec, Quest, step, Task } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { councilSafe } from "./level12";
-import { GameState } from "../state";
+import { GameState } from "../engine/state";
 import { towerSkip } from "./level13";
 
 const Diary: Task[] = [

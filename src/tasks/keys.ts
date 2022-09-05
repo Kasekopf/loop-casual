@@ -29,10 +29,10 @@ import {
   set,
   uneffect,
 } from "libram";
-import { CombatStrategy } from "../combat";
+import { CombatStrategy } from "../engine/combat";
 import { Quest, step, Task } from "./structure";
-import { OverridePriority } from "../priority";
-import { GameState } from "../state";
+import { OverridePriority } from "../engine/priority";
+import { GameState } from "../engine/state";
 import { towerReady, towerSkip } from "./level13";
 
 export enum Keys {

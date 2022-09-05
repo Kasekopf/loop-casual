@@ -10,8 +10,8 @@ import {
   have,
 } from "libram";
 import { Quest, step } from "./structure";
-import { OverridePriority } from "../priority";
-import { CombatStrategy } from "../combat";
+import { OverridePriority } from "../engine/priority";
+import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";

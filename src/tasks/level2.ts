@@ -1,7 +1,7 @@
 import { visitUrl } from "kolmafia";
 import { $location } from "libram";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../priority";
+import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { Quest, step } from "./structure";
 
