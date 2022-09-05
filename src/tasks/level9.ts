@@ -27,7 +27,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";

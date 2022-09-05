@@ -25,7 +25,8 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
 
@@ -56,11 +57,11 @@ const Copperhead: Task[] = [
         ensureEffect($effect`Crappily Disguised as a Waiter`);
     },
     do: $location`The Copperhead Club`,
-    combat: new CombatStrategy().killItem(
+    combat: new CombatStrategy().killItem([
       $monster`Copperhead Club bartender`,
       $monster`ninja dressed as a waiter`,
       $monster`waiter dressed as a ninja`
-    ),
+    ]),
     choices: {
       852: 1,
       853: 1,
@@ -99,10 +100,10 @@ const Copperhead: Task[] = [
     },
     do: $location`Lair of the Ninja Snowmen`,
     outfit: { modifier: "50 combat, init" },
-    combat: new CombatStrategy().killHard(
+    combat: new CombatStrategy().killHard([
       $monster`Frozen Solid Snake`,
       $monster`ninja snowman assassin`
-    ),
+    ]),
     orbtargets: () => [], // no assassins in orbs
     limit: { soft: 10 },
     delay: 5,
@@ -421,8 +422,9 @@ export const PalindomeQuest: Quest = {
       },
       outfit: { equip: $items`Talisman o' Namsilat, Mega Gem` },
       choices: { 131: 1 },
-      combat: new CombatStrategy(true).kill(),
+      combat: new CombatStrategy().kill(),
       limit: { tries: 1 },
+      boss: true,
     },
   ],
 };

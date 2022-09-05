@@ -1,6 +1,7 @@
 import { itemAmount, myDaycount, numericModifier, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, $monsters, $skill, ensureEffect, get, have, Macro } from "libram";
-import { OutfitSpec, Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";

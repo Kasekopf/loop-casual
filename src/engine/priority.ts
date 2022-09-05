@@ -4,9 +4,9 @@
 
 import { familiarWeight, Location, Monster } from "kolmafia";
 import { $effect, $familiar, $item, $skill, get, have } from "libram";
-import { CombatStrategy, MonsterStrategy } from "./combat";
+import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
-import { Task } from "../tasks/structure";
+import { Task } from "./task";
 import { globalStateCache } from "./state";
 
 export enum OverridePriority {
@@ -76,7 +76,7 @@ export class Prioritization {
     if (
       (have($effect`Prestidigysfunction`) || have($effect`Turned Into a Skeleton`)) &&
       task.combat &&
-      task.combat.can(MonsterStrategy.KillItem)
+      task.combat.can("killItem")
     ) {
       result.priorities.add(OverridePriority.BadMood);
     }
@@ -157,24 +157,24 @@ function orbPriority(task: Task, monster: Monster): OverridePriority {
     const next_monster_strategy = task_combat.currentStrategy(monster);
 
     const next_useless =
-      (next_monster_strategy === MonsterStrategy.Ignore ||
-        next_monster_strategy === MonsterStrategy.IgnoreNoBanish ||
-        next_monster_strategy === MonsterStrategy.Banish) &&
+      (next_monster_strategy === "ignore" ||
+        next_monster_strategy === "ignoreNoBanish" ||
+        next_monster_strategy === "banish") &&
       !absorb_state.isTarget(monster) &&
       (!absorb_state.isReprocessTarget(monster) || familiarWeight($familiar`Grey Goose`) < 6);
 
     const others_useless =
-      task_combat.can(MonsterStrategy.Ignore) ||
-      task_combat.can(MonsterStrategy.IgnoreNoBanish) ||
-      task_combat.can(MonsterStrategy.Banish);
+      task_combat.can("ignore") ||
+      task_combat.can("ignoreNoBanish") ||
+      task_combat.can("banish");
 
     const others_useful =
       absorb_state.hasTargets(task.do) ||
       absorb_state.hasReprocessTargets(task.do) ||
-      task_combat.can(MonsterStrategy.Kill) ||
-      task_combat.can(MonsterStrategy.KillFree) ||
-      task_combat.can(MonsterStrategy.KillHard) ||
-      task_combat.can(MonsterStrategy.KillItem);
+      task_combat.can("kill") ||
+      task_combat.can("killFree") ||
+      task_combat.can("killHard") ||
+      task_combat.can("killItem");
 
     if (next_useless && others_useful) {
       return OverridePriority.BadOrb;

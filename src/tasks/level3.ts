@@ -4,7 +4,8 @@ import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
-import { Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 
 export const TavernQuest: Quest = {
   name: "Tavern",

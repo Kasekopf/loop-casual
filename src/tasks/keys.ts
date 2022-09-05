@@ -30,7 +30,8 @@ import {
   uneffect,
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
 

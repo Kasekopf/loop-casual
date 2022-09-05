@@ -30,7 +30,8 @@ import {
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { args } from "../main";
-import { Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 
 const Challenges: Task[] = [
   {
@@ -167,16 +168,18 @@ const ChallengeBosses: Task[] = [
     after: ["Speed Challenge"],
     completed: () => get("nsContestants1") === 0,
     do: $location`Fastest Adventurer Contest`,
-    combat: new CombatStrategy(true).killHard(),
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 5 },
+    boss: true,
   },
   {
     name: "Stat Boss",
     after: ["Muscle Challenge", "Moxie Challenge", "Mysticality Challenge"],
     completed: () => get("nsContestants2") === 0,
     do: $location`A Crowd of (Stat) Adventurers`,
-    combat: new CombatStrategy(true).killHard(),
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 1 },
+    boss: true,
   },
   {
     name: "Element Boss",
@@ -189,8 +192,9 @@ const ChallengeBosses: Task[] = [
     ],
     completed: () => get("nsContestants3") === 0,
     do: $location`A Crowd of (Element) Adventurers`,
-    combat: new CombatStrategy(true).killHard(),
+    combat: new CombatStrategy().killHard(),
     limit: { tries: 10 },
+    boss: true,
   },
 ];
 
@@ -421,12 +425,13 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 6,
       do: $location`Tower Level 1`,
       outfit: { familiar: $familiar`Shorter-Order Cook`, equip: $items`hot plate` },
-      combat: new CombatStrategy(true).macro(
+      combat: new CombatStrategy().macro(
         new Macro()
           .tryItem($item`beehive`)
           .skill($skill`Grey Noise`)
           .repeat()
       ),
+      boss: true,
       limit: { tries: 1 },
     },
     {
@@ -438,7 +443,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
       outfit: { modifier: "meat", equip: $items`amulet coin` },
-      combat: new CombatStrategy(true).killHard(),
+      combat: new CombatStrategy().killHard(),
+      boss: true,
       limit: { tries: 2 },
     },
     {
@@ -464,12 +470,13 @@ export const TowerQuest: Quest = {
         if (have($item`Drunkula's bell`)) return { modifier: "myst" };
         return {};
       },
-      combat: new CombatStrategy(true).macro(() => {
+      combat: new CombatStrategy().macro(() => {
         if (have($item`electric boning knife`)) return Macro.item($item`electric boning knife`);
         if (haveEquipped($item`Great Wolf's rocket launcher`)) return Macro.skill($skill`Fire Rocket`);
         if (have($item`Drunkula's bell`)) return Macro.item($item`Drunkula's bell`);
         throw `Unable to find way to kill Wall of Bones`;
       }),
+      boss: true,
       limit: { tries: 1 },
     },
     ...wand,
@@ -508,7 +515,8 @@ export const TowerQuest: Quest = {
           };
         else return { modifier: "HP", avoid: $items`extra-wide head candle` };
       },
-      combat: new CombatStrategy(true).macro(new Macro().item($item`gauze garter`).repeat()),
+      combat: new CombatStrategy().macro(new Macro().item($item`gauze garter`).repeat()),
+      boss: true,
       limit: { tries: 1 },
     },
     {
@@ -517,7 +525,8 @@ export const TowerQuest: Quest = {
       completed: () => step("questL13Final") > 11,
       do: $location`The Naughty Sorceress' Chamber`,
       outfit: { modifier: "muscle" },
-      combat: new CombatStrategy(true).kill(),
+      combat: new CombatStrategy().kill(),
+      boss: true,
       limit: { tries: 1 },
     },
   ],

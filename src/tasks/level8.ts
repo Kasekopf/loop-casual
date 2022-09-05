@@ -9,7 +9,8 @@ import {
   ensureEffect,
   have,
 } from "libram";
-import { Quest, step } from "./structure";
+import { Quest } from "../engine/task";
+import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
@@ -88,10 +89,10 @@ export const McLargeHugeQuest: Quest = {
       do: $location`Lair of the Ninja Snowmen`,
       outfit: { modifier: "50 combat, init" },
       limit: { soft: 20 },
-      combat: new CombatStrategy().killHard(
+      combat: new CombatStrategy().killHard([
         $monster`Frozen Solid Snake`,
         $monster`ninja snowman assassin`
-      ),
+      ]),
       orbtargets: () => [], // no assassins in orbs
     },
     {
@@ -120,7 +121,8 @@ export const McLargeHugeQuest: Quest = {
       },
       do: $location`Mist-Shrouded Peak`,
       outfit: { modifier: "cold res" },
-      combat: new CombatStrategy(true).kill(),
+      combat: new CombatStrategy().kill(),
+      boss: true,
       limit: { tries: 4 },
     },
     {

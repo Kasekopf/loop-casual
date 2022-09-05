@@ -19,7 +19,8 @@ import { PullQuest } from "./pulls";
 import { KeysQuest } from "./keys";
 import { AbsorbQuest, ReprocessQuest } from "./absorb";
 import { SummonQuest } from "./summons";
-import { Task } from "./structure";
+import { Task } from "../engine/task";
+import { getTasks } from "grimoire-kolmafia";
 
 export function all_tasks(): Task[] {
   const quests = [
@@ -48,28 +49,5 @@ export function all_tasks(): Task[] {
     AbsorbQuest,
     ReprocessQuest,
   ];
-
-  const result: Task[] = [];
-  for (const quest of quests) {
-    for (const task of quest.tasks) {
-      // Include quest name in task names and dependencies (unless dependency quest is given)
-      task.name = `${quest.name}/${task.name}`;
-      task.after = task.after.map((after) =>
-        after.includes("/") ? after : `${quest.name}/${after}`
-      );
-      result.push(task);
-    }
-  }
-
-  // Verify the dependency names of all tasks
-  const names = new Set<string>();
-  for (const task of result) names.add(task.name);
-  for (const task of result) {
-    for (const after of task.after) {
-      if (!names.has(after)) {
-        throw `Unknown task dependency ${after} of ${task.name}`;
-      }
-    }
-  }
-  return result;
+  return getTasks(quests);
 }

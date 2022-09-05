@@ -23,7 +23,8 @@ import {
   Macro,
   uneffect,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
@@ -323,8 +324,8 @@ const Pyramid: Task[] = [
     limit: { soft: 25 },
     combat: new CombatStrategy()
       .macro(new Macro().tryItem($item`tangle of rat tails`), $monster`tomb rat`)
-      .killItem($monster`tomb rat`, $monster`tomb rat king`)
-      .banish($monster`tomb asp`, $monster`tomb servant`),
+      .killItem([$monster`tomb rat`, $monster`tomb rat king`])
+      .banish([$monster`tomb asp`, $monster`tomb servant`]),
     outfit: {
       modifier: "item",
     },
@@ -361,7 +362,7 @@ const Pyramid: Task[] = [
       if (!have($item`Pick-O-Matic lockpicks`) && !towerSkip()) return { familiar: $familiar`Gelatinous Cubeling` }; // Ensure we get equipment
       return {};
     },
-    combat: new CombatStrategy(true)
+    combat: new CombatStrategy()
       .macro(
         new Macro()
           .while_("!mpbelow 20", new Macro().trySkill($skill`Infinite Loop`))
@@ -370,6 +371,7 @@ const Pyramid: Task[] = [
       )
       .kill(),
     limit: { tries: 1 },
+    boss: true,
   },
 ];
 

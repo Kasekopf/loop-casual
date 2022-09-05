@@ -44,7 +44,8 @@ import {
   set,
   uneffect,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";

@@ -10,7 +10,8 @@ import {
   get,
   have,
 } from "libram";
-import { OutfitSpec, Quest, step, Task } from "./structure";
+import { Quest, Task } from "../engine/task";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { OverridePriority } from "../engine/priority";
 
@@ -316,8 +317,9 @@ export const ManorQuest: Quest = {
       after: ["Blow Wall"],
       completed: () => step("questL11Manor") >= 999,
       do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberboss"),
-      combat: new CombatStrategy(true).kill(),
+      combat: new CombatStrategy().kill(),
       limit: { tries: 1 },
+      boss: true,
     },
   ],
 };
