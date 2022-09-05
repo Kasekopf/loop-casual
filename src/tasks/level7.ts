@@ -1,4 +1,4 @@
-import { cliExecute, Item, myBasestat, visitUrl } from "kolmafia";
+import { changeMcd, cliExecute, currentMcd, Item, myBasestat, visitUrl } from "kolmafia";
 import {
   $item,
   $items,
@@ -79,9 +79,13 @@ const Cranny: Task[] = [
   {
     name: "Cranny",
     after: ["Start"],
-    prepare: tuneCape,
     ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptCrannyEvilness") <= 25,
+    prepare: () => {
+      tuneCape();
+      changeMcd(10);
+    },
+    post: () => { if (currentMcd() > 0) changeMcd(0); },
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {

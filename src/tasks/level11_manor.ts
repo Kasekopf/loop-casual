@@ -1,4 +1,4 @@
-import { create, myInebriety, use, visitUrl } from "kolmafia";
+import { changeMcd, create, currentMcd, myInebriety, numericModifier, use, visitUrl } from "kolmafia";
 import {
   $effect,
   $item,
@@ -270,6 +270,10 @@ const ManorBasement: Task[] = [
     name: "Boiler Room",
     after: ["Fulminate"],
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
+    prepare: () => {
+      if (numericModifier("Monster Level") < 81) changeMcd(10);
+    },
+    post: () => { if (currentMcd() > 0) changeMcd(0); },
     do: $location`The Haunted Boiler Room`,
     outfit: { modifier: "ML", equip: $items`unstable fulminate, transparent pants` },
     choices: { 902: 2 },

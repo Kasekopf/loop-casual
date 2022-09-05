@@ -1,5 +1,7 @@
 import {
+  changeMcd,
   council,
+  currentMcd,
   itemAmount,
   myBasestat,
   myMaxmp,
@@ -101,7 +103,9 @@ const Oil: Task[] = [
     completed: () => get("oilPeakProgress") === 0,
     prepare: () => {
       if (myMp() < 80 && myMaxmp() >= 80) restoreMp(80 - myMp());
+      if (numericModifier("Monster Level") < 100) changeMcd(10);
     },
+    post: () => { if (currentMcd() > 0) changeMcd(0); },
     do: $location`Oil Peak`,
     outfit: () => {
       if (have($item`unbreakable umbrella`))
