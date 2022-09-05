@@ -82,7 +82,7 @@ export const args = Args.create(
   }
 );
 export function main(command?: string): void {
-  sinceKolmafiaRevision(26624);
+  sinceKolmafiaRevision(26718);
 
   Args.fill(args, command);
   if (args.help) {
