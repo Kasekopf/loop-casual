@@ -12781,7 +12781,7 @@ var Temple = [{
 }];
 var Apartment = [{
   name: "Open Apartment",
-  after: ["Get Machete"],
+  after: ["Get Machete", "Open City"],
   completed: () => (0,dist_property/* get */.U2)("hiddenApartmentProgress") >= 1,
   do: (0,template_string/* $location */.PG)(level11_hidden_templateObject36 || (level11_hidden_templateObject36 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northwest)"]))),
   outfit: {
@@ -12843,7 +12843,7 @@ var Apartment = [{
 }];
 var Office = [{
   name: "Open Office",
-  after: ["Get Machete"],
+  after: ["Get Machete", "Open City"],
   completed: () => (0,dist_property/* get */.U2)("hiddenOfficeProgress") >= 1,
   do: (0,template_string/* $location */.PG)(level11_hidden_templateObject59 || (level11_hidden_templateObject59 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Northeast)"]))),
   outfit: {
@@ -12911,7 +12911,7 @@ var Office = [{
 }];
 var Hospital = [{
   name: "Open Hospital",
-  after: ["Get Machete"],
+  after: ["Get Machete", "Open City"],
   completed: () => (0,dist_property/* get */.U2)("hiddenHospitalProgress") >= 1,
   do: (0,template_string/* $location */.PG)(level11_hidden_templateObject78 || (level11_hidden_templateObject78 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southwest)"]))),
   outfit: {
@@ -12957,7 +12957,7 @@ var Hospital = [{
 }];
 var Bowling = [{
   name: "Open Bowling",
-  after: ["Get Machete"],
+  after: ["Get Machete", "Open City"],
   completed: () => (0,dist_property/* get */.U2)("hiddenBowlingAlleyProgress") >= 1,
   do: (0,template_string/* $location */.PG)(level11_hidden_templateObject87 || (level11_hidden_templateObject87 = level11_hidden_taggedTemplateLiteral(["An Overgrown Shrine (Southeast)"]))),
   outfit: {
@@ -16520,7 +16520,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "cc63b28";
+var lastCommitHash = "c53a20c";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject;
 
