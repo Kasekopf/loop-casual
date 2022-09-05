@@ -19,11 +19,8 @@ import { get, set, sinceKolmafiaRevision } from "libram";
 import { Prioritization } from "./engine/priority";
 import { Args, step } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
-import { pullStrategy } from "./tasks/pulls";
-import { keyStrategy } from "./tasks/keys";
 import { globalStateCache } from "./engine/state";
 import { lastCommitHash } from "./_git_commit";
-import { summonStrategy } from "./tasks/summons";
 
 const time_property = "_loop_gyou_first_start";
 const svn_name = "Kasekopf-loop-casual-branches-release";
@@ -73,6 +70,9 @@ export const args = Args.create(
     completedtasks: Args.string({
       help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
       setting: "",
+    }),
+    list: Args.flag({
+      help: "Show the status of all tasks and exit."
     })
   }
 );
@@ -138,13 +138,8 @@ export function main(command?: string): void {
   const tasks = prioritize(all_tasks());
   const engine = new Engine(tasks, args.ignoretasks?.split(",") ?? [], args.completedtasks?.split(",") ?? []);
   try {
-    let actions_left = args.actions ?? Number.MAX_VALUE;
-    if (actions_left < 0) {
-      // Update the strategy for the printout
-      globalStateCache.invalidate();
-      summonStrategy.update();
-      keyStrategy.update();
-      pullStrategy.update();
+    if (args.list) {
+      engine.updatePlan();
       for (const task of tasks) {
         const priority = Prioritization.from(task);
         const reason = priority.explain();
@@ -161,29 +156,19 @@ export function main(command?: string): void {
       }
     }
 
-    // Do not bother to set properties if there are no tasks remaining
-    while (myAdventures() > 0) {
-      // Note order matters for these strategy updates
-      summonStrategy.update(); // Update summon plan with current state
-      keyStrategy.update(); // Update key plan with current state
-      pullStrategy.update(); // Update pull plan with current state
+    engine.run(args.actions);
 
-      const next = engine.getNextTask();
-      if (next === undefined) break;
-      if (actions_left <= 0) {
-        debug(`Next task: ${next.name}`);
-        return;
-      } else {
-        actions_left -= 1;
-      }
-
-      engine.execute(next);
-      // eslint-disable-next-line eqeqeq
-      if (myPath() != "Grey You") break; // Prism broken
-    }
 
     const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
+      if (args.actions) {
+        const next = engine.getNextTask();
+        if (next) {
+          debug(`Next task: ${next.name}`);
+          return;
+        }
+      }
+
       debug("Remaining tasks:", "red");
       for (const task of remaining_tasks) {
         if (!task.completed()) debug(`${task.name}`, "red");
@@ -214,7 +199,7 @@ export function main(command?: string): void {
       )} since first run today started`,
       "purple"
     );
-  print(`   Pulls used: ${pullStrategy.pullsUsed()}`, "purple");
+  print(`   Pulls used: ${get("_roninStoragePulls").split(",").length}`, "purple");
   // eslint-disable-next-line eqeqeq
   print(
     `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,

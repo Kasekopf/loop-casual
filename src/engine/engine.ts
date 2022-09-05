@@ -78,6 +78,9 @@ import { args } from "../main";
 import { flyersDone } from "../tasks/level12";
 import { globalStateCache } from "./state";
 import { removeTeleportitis, teleportitisTask } from "../tasks/misc";
+import { summonStrategy } from "../tasks/summons";
+import { pullStrategy } from "../tasks/pulls";
+import { keyStrategy } from "../tasks/keys";
 
 export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
@@ -137,6 +140,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
   public getNextTask(): ActiveTask | undefined {
     const available_tasks = this.tasks.filter((task) => this.available(task));
+    this.updatePlan();
+
+    // eslint-disable-next-line eqeqeq
+    if (myPath() != "Grey You") return undefined; // Prism broken
 
     // Teleportitis overrides all
     if (have($effect`Teleportitis`)) {
@@ -488,6 +495,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       1340: 3, // Is There A Doctor In The House?
       1341: 1, // Cure her poison
     });
+  }
+
+  updatePlan(): void {
+    // Note order matters for these strategy updates
+    globalStateCache.invalidate();
+    summonStrategy.update(); // Update summon plan with current state
+    keyStrategy.update(); // Update key plan with current state
+    pullStrategy.update(); // Update pull plan with current state
   }
 }
 
