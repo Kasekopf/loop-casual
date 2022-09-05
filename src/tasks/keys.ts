@@ -32,7 +32,6 @@ import {
 import { CombatStrategy } from "../engine/combat";
 import { Quest, step, Task } from "./structure";
 import { OverridePriority } from "../engine/priority";
-import { GameState } from "../engine/state";
 import { towerReady, towerSkip } from "./level13";
 
 export enum Keys {
@@ -263,13 +262,13 @@ export const KeysQuest: Quest = {
       return {
         ...task,
         name: task.which,
-        completed: (state: GameState) =>
-          task.completed(state) ||
+        completed: () =>
+          task.completed() ||
           keyStrategy.plan.get(task.which) === KeyState.DONE ||
           keyStrategy.plan.get(task.which) === KeyState.UNNEEDED ||
           keyStrategy.plan.get(task.which) === KeyState.IMPOSSIBLE,
-        ready: (state: GameState) =>
-          (task.ready === undefined || task.ready(state)) &&
+        ready: () =>
+          (task.ready === undefined || task.ready()) &&
           keyStrategy.plan.get(task.which) === KeyState.READY,
       };
     }),

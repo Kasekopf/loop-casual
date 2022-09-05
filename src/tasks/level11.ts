@@ -28,7 +28,7 @@ import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { councilSafe } from "./level12";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
 
 const Diary: Task[] = [
@@ -43,16 +43,16 @@ const Diary: Task[] = [
     post: () => {
       if (have($effect`Really Quite Poisoned`)) uneffect($effect`Really Quite Poisoned`);
     },
-    outfit: (state: GameState) => {
+    outfit: () => {
       if (have($item`reassembled blackbird`)) {
         return {
           equip: $items`blackberry galoshes`,
           modifier: "50 combat 5max, -1ML",
         };
       } else if (
-        state.absorb.isReprocessTarget($monster`black magic woman`) &&
+        globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
-        state.orb.prediction($location`The Black Forest`) === $monster`black magic woman`
+        globalStateCache.orb().prediction($location`The Black Forest`) === $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -157,8 +157,8 @@ const Desert: Task[] = [
       get("desertExploration") >= 100 ||
       have($item`drum machine`) ||
       (get("gnasirProgress") & 16) !== 0,
-    prepare: (state: GameState) => {
-      if (state.absorb.hasReprocessTargets($location`The Oasis`)) {
+    prepare: () => {
+      if (globalStateCache.absorb().hasReprocessTargets($location`The Oasis`)) {
         // Use ghost dog chow to prepare to reprocess Blur without needing arena adventures
         while (familiarWeight($familiar`Grey Goose`) < 6 && have($item`Ghost Dog Chow`))
           use($item`Ghost Dog Chow`);
@@ -199,7 +199,7 @@ const Desert: Task[] = [
       have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
-    outfit: (state: GameState): OutfitSpec => {
+    outfit: (): OutfitSpec => {
       if (
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
@@ -211,12 +211,12 @@ const Desert: Task[] = [
           familiar: $familiar`Melodramedary`,
         };
       else if (
-        state.absorb.isReprocessTarget($monster`swarm of fire ants`) &&
+        globalStateCache.absorb().isReprocessTarget($monster`swarm of fire ants`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
         have($item`miniature crystal ball`)
       ) {
         if (
-          state.orb.prediction($location`The Arid, Extra-Dry Desert`) ===
+          globalStateCache.orb().prediction($location`The Arid, Extra-Dry Desert`) ===
           $monster`swarm of fire ants`
         ) {
           // Swoop in for a single adventure to reprocess the fire ants

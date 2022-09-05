@@ -30,7 +30,7 @@ import { CombatStrategy } from "../engine/combat";
 import { debug } from "../lib";
 import { args } from "../main";
 import { OverridePriority } from "../engine/priority";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 import { yellowray } from "./yellowray";
 import { Quest, step, Task } from "./structure";
 
@@ -160,7 +160,7 @@ const summonTargets: SummonTarget[] = [
     return {
       target: target.target,
       after: target.after,
-      completed: (state: GameState) => !state.absorb.isReprocessTarget(target.target) || !target.needed(),
+      completed: () => !globalStateCache.absorb().isReprocessTarget(target.target) || !target.needed(),
       priority: () => OverridePriority.GoodGoose,
       ready: () => familiarWeight($familiar`Grey Goose`) >= 6,
       outfit: () => {
@@ -260,9 +260,9 @@ class SummonStrategy {
     this.sources = sources;
   }
 
-  public update(state: GameState): void {
+  public update(): void {
     this.plan.clear();
-    const targets = this.targets.filter((t) => !t.completed(state)).map((t) => t.target);
+    const targets = this.targets.filter((t) => !t.completed()).map((t) => t.target);
     for (const source of this.sources) {
       let available = source.available();
       for (const target of targets) {
@@ -289,7 +289,7 @@ export const SummonQuest: Quest = {
     return {
       ...task,
       name: task.target.name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()), // capitalize first letter of each word
-      ready: (state: GameState) => (task.ready?.(state) ?? true) && (summonStrategy.getSourceFor(task.target) !== undefined),
+      ready: () => (task.ready?.() ?? true) && (summonStrategy.getSourceFor(task.target) !== undefined),
       do: () => {
         // Some extra safety around the Pygmy Witch Lawyer summon
         if (task.target === $monster`pygmy witch lawyer`) {

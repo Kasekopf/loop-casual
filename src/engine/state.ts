@@ -3,15 +3,36 @@ import { get } from "libram";
 import { BanishState } from "./resources";
 import { AbsorbState } from "../tasks/absorb";
 
-export class GameState {
-  banishes: BanishState;
-  absorb: AbsorbState;
-  orb: OrbState;
+class GameState {
+  private _banishes?: BanishState;
+  private _absorb?: AbsorbState;
+  private _orb?: OrbState;
 
-  constructor() {
-    this.banishes = new BanishState();
-    this.absorb = new AbsorbState();
-    this.orb = new OrbState();
+  banishes(): BanishState {
+    if (this._banishes === undefined) {
+      this._banishes = new BanishState();
+    }
+    return this._banishes;
+  }
+
+  absorb(): AbsorbState {
+    if (this._absorb === undefined) {
+      this._absorb = new AbsorbState();
+    }
+    return this._absorb;
+  }
+
+  orb(): OrbState {
+    if (this._orb === undefined) {
+      this._orb = new OrbState();
+    }
+    return this._orb;
+  }
+
+  invalidate() {
+    this._banishes = undefined;
+    this._absorb = undefined;
+    this._orb = undefined;
   }
 }
 
@@ -35,3 +56,5 @@ class OrbState {
     return this.predictions.get(loc);
   }
 }
+
+export const globalStateCache = new GameState();

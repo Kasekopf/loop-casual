@@ -16,7 +16,7 @@ import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
-import { GameState } from "../engine/state";
+import { globalStateCache } from "../engine/state";
 
 function tuneCape(): void {
   if (
@@ -45,9 +45,9 @@ const Alcove: Task[] = [
     name: "Alcove",
     after: ["Start"],
     prepare: tuneCape,
-    ready: (state: GameState) =>
+    ready: () =>
       // Reprocess the grave rober, then wait for the +init skill
-      (state.absorb.hasReprocessTargets($location`The Defiled Alcove`) ||
+      (globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) ||
         have($skill`Overclocking`) ||
         !!(get("twinPeakProgress") & 8)) &&
       myBasestat($stat`Muscle`) >= 62,
@@ -140,9 +140,9 @@ const Niche: Task[] = [
       .macro(slay_macro, $monster`dirty old lihc`)
       .macro(
         // Don't use the fire extinguisher if we want to absorb the lihc
-        (state: GameState) =>
+        () =>
           new Macro().externalIf(
-            !state.absorb.isTarget($monster`basic lihc`),
+            !globalStateCache.absorb().isTarget($monster`basic lihc`),
             new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`)
           ),
         $monster`basic lihc`
