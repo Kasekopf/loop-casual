@@ -89,19 +89,7 @@ export function main(command?: string): void {
     return;
   }
 
-  debug(
-    `Running loopgyou version [${lastCommitHash ?? "custom-built"}] in KoLmafia r${getRevision()}`
-  );
-  if (lastCommitHash !== undefined) {
-    if (svnExists(svn_name) && !svnAtHead(svn_name))
-      debug(
-        'A newer version of this script is available and can be obtained with "svn update".',
-        "red"
-      );
-    else if (args.version) {
-      debug("This script is up to date.", "red");
-    }
-  }
+  printVersionInfo();
   if (args.version) return;
 
   // eslint-disable-next-line eqeqeq
@@ -109,21 +97,7 @@ export function main(command?: string): void {
 
   // Break the prism and exit if requested
   if (args.class !== undefined) {
-    if (step("questL13Final") <= 11) throw `You have not finished your Grey You run. Do not set this argument yet.`
-    const absorb_state = globalStateCache.absorb();
-    print(
-      `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
-      "purple"
-    );
-    print(
-      `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
-      "purple"
-    );
-    if (step("questL13Final") === 999) return;
-    visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
-    visitUrl("main.php");
-    runChoice(args.class);
-    runChoice(args.class);
+    breakPrism(args.class);
     return;
   }
 
@@ -139,25 +113,11 @@ export function main(command?: string): void {
   const engine = new Engine(tasks, args.ignoretasks?.split(",") ?? [], args.completedtasks?.split(",") ?? []);
   try {
     if (args.list) {
-      engine.updatePlan();
-      for (const task of tasks) {
-        const priority = Prioritization.from(task);
-        const reason = priority.explain();
-        const why = reason === "" ? "Route" : reason;
-        debug(
-          `${task.name}: ${task.completed()
-            ? "Done"
-            : engine.available(task)
-              ? `Available [${priority.score()}: ${why}]`
-              : "Not Available"
-          }`,
-          task.completed() ? "blue" : engine.available(task) ? undefined : "red"
-        );
-      }
+      listTasks(engine);
+      return;
     }
 
     engine.run(args.actions);
-
 
     const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
@@ -216,4 +176,56 @@ function runComplete(): boolean {
     // eslint-disable-next-line eqeqeq
     || myPath() != "Grey You"
     || (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1);
+}
+
+function printVersionInfo(): void {
+  debug(
+    `Running loopgyou version [${lastCommitHash ?? "custom-built"}] in KoLmafia r${getRevision()}`
+  );
+  if (lastCommitHash !== undefined) {
+    if (svnExists(svn_name) && !svnAtHead(svn_name))
+      debug(
+        'A newer version of this script is available and can be obtained with "svn update".',
+        "red"
+      );
+    else if (args.version) {
+      debug("This script is up to date.", "red");
+    }
+  }
+}
+
+function breakPrism(into_class: number): void {
+  if (step("questL13Final") <= 11) throw `You have not finished your Grey You run. Do not set this argument yet.`;
+  const absorb_state = globalStateCache.absorb();
+  print(
+    `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
+    "purple"
+  );
+  print(
+    `   Reprocess remaining: ${Array.from(absorb_state.remainingReprocess()).join(", ")}`,
+    "purple"
+  );
+  if (step("questL13Final") === 999) return;
+  visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+  visitUrl("main.php");
+  runChoice(into_class);
+  runChoice(into_class);
+}
+
+function listTasks(engine: Engine): void {
+  engine.updatePlan();
+  for (const task of engine.tasks) {
+    const priority = Prioritization.from(task);
+    const reason = priority.explain();
+    const why = reason === "" ? "Route" : reason;
+    debug(
+      `${task.name}: ${task.completed()
+        ? "Done"
+        : engine.available(task)
+          ? `Available [${priority.score()}: ${why}]`
+          : "Not Available"
+      }`,
+      task.completed() ? "blue" : engine.available(task) ? undefined : "red"
+    );
+  }
 }
