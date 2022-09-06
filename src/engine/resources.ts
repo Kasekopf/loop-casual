@@ -1,3 +1,4 @@
+import { OutfitSpec } from "grimoire-kolmafia";
 import {
   bjornifyFamiliar,
   buy,
@@ -40,7 +41,7 @@ export interface Resource {
   name: string;
   available: () => boolean;
   prepare?: () => void;
-  equip?: Item | Familiar | (Item | Familiar)[];
+  equip?: Item | Familiar | Item[] | OutfitSpec;
   chance?: () => number;
 }
 
@@ -288,16 +289,18 @@ export const wandererSources: WandererSource[] = [
       familiarWeight($familiar`Grey Goose`) >= 6 &&
       itemAmount($item`teacher's pen`) >= 3 &&
       getKramcoWandererChance() === 1,
-    equip: [
-      $item`Kramco Sausage-o-Matic™`,
-      $familiar`Grey Goose`,
-      // Get 11 famexp at the end of the fight, to maintain goose weight
-      $item`yule hatchet`,
-      $item`grey down vest`,
-      $item`teacher's pen`,
-      $item`teacher's pen`,
-      $item`teacher's pen`,
-    ],
+    equip: {
+      familiar: $familiar`Grey Goose`,
+      equip: [
+        $item`Kramco Sausage-o-Matic™`,
+        // Get 11 famexp at the end of the fight, to maintain goose weight
+        $item`yule hatchet`,
+        $item`grey down vest`,
+        $item`teacher's pen`,
+        $item`teacher's pen`,
+        $item`teacher's pen`,
+      ],
+    },
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
     macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
@@ -406,7 +409,10 @@ export const runawaySources: RunawaySource[] = [
         ensureEffect($effect`Ode to Booze`, 5);
       }
     },
-    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`],
+    equip: {
+      familiar: runawayFamiliar,
+      equip: [...familiarGear, $item`iFlail`],
+    },
     do: new Macro().runaway(),
     chance: () => 1,
     banishes: false,
@@ -428,7 +434,10 @@ export const runawaySources: RunawaySource[] = [
         ensureEffect($effect`Ode to Booze`, 5);
       }
     },
-    equip: [runawayFamiliar, ...familiarGear, $item`iFlail`, $item`familiar scrapbook`],
+    equip: {
+      familiar: runawayFamiliar,
+      equip: [...familiarGear, $item`iFlail`, $item`familiar scrapbook`],
+    },
     do: new Macro().runaway(),
     chance: () => 1,
     banishes: false,

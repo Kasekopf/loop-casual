@@ -1,6 +1,5 @@
 import { Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
 import { $familiar, $item, $stat, get, have } from "libram";
-import { Task } from "./task";
 import { Resource } from "./resources";
 import { Outfit } from "grimoire-kolmafia";
 
@@ -26,16 +25,6 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
     if (resource.chance && resource.chance() === 1) break;
   }
   return result;
-}
-
-export function createOutfit(task: Task): Outfit {
-  const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-  const outfit = new Outfit();
-  for (const item of spec?.equip ?? []) outfit.equip(item);
-  if (spec?.familiar) outfit.equip(spec.familiar);
-  outfit.avoid = spec?.avoid;
-  outfit.skipDefaults = spec?.skipDefaults ?? false;
-  return outfit;
 }
 
 export function equipInitial(outfit: Outfit) {
