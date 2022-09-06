@@ -197,7 +197,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     this.checkLimits(task);
     super.execute(task);
 
-    globalStateCache.invalidate();
     if (task.completed()) {
       debug(`${task.name} completed!`, "blue");
     } else if (!(task.ready?.() ?? true)) {
@@ -487,6 +486,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {
       if (have(poisoned)) uneffect(poisoned);
     }
+    globalStateCache.invalidate();
   }
 
   initPropertiesManager(manager: PropertiesManager): void {
