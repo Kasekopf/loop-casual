@@ -163,7 +163,7 @@ const Apartment: Task[] = [
   },
   {
     name: "Apartment Files", // Get the last McClusky files here if needed, as a backup plan
-    after: ["Office Files", "Banish Janitors"],
+    after: ["Open Apartment", "Office Files", "Banish Janitors"],
     priority: () =>
       have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
         ? OverridePriority.Effect
