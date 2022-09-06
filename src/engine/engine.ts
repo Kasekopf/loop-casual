@@ -456,6 +456,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   do(task: ActiveTask): void {
+    const macro = Macro.load();
+    debug(macro.toString(), "blue");
+
     const beaten_turns = haveEffect($effect`Beaten Up`);
     const start_advs = myAdventures();
     const goose_weight = familiarWeight($familiar`Grey Goose`);
