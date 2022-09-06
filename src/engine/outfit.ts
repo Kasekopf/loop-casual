@@ -6,7 +6,6 @@ import {
   myBasestat,
 } from "kolmafia";
 import { $familiar, $item, $skill, $stat, get, getKramcoWandererChance, have } from "libram";
-import { Task } from "./task";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
@@ -175,6 +174,8 @@ export function fixFoldables(outfit: Outfit) {
   if (equippedAmount($item`backup camera`) > 0) {
     if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
+    } else if (outfit.modifier?.includes("init")) {
+      if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
     } else {
       if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
     }
