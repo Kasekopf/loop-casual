@@ -30,13 +30,8 @@ const myActions = [
 export type CombatActions = typeof myActions[number];
 export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) { }
 export class MyActionDefaults implements ActionDefaults<CombatActions> {
-
-  ignore() {
-    return new Macro()
-      .runaway()
-      .skill($skill`Saucestorm`)
-      .attack()
-      .repeat();
+  ignore(target?: Monster | Location) {
+    return this.kill(target);
   }
 
   kill(target?: Monster | Location) {
