@@ -52,10 +52,9 @@ import {
   set,
   uneffect,
 } from "libram";
-import { Engine as BaseEngine, CombatResources, Outfit } from "grimoire-kolmafia";
+import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import {
   CombatActions,
-  CombatStrategy,
   MyActionDefaults
 } from "./combat";
 import { equipCharging, equipDefaults, equipFirst, equipInitial, equipUntilCapped, fixFoldables } from "./outfit";
@@ -217,7 +216,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   customize(
     task: ActiveTask,
     outfit: Outfit,
-    combat: CombatStrategy,
+    combat: CombatStrategy<CombatActions>,
     resources: CombatResources<CombatActions>
   ): void {
     equipInitial(outfit);
@@ -231,6 +230,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       // Prepare only as requested by the task
       return;
     }
+
+    // Prepare combat macro
+    if (combat.getDefaultAction() === undefined) combat.action("ignore");
 
     // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
     const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest, Oil Peak`);
@@ -278,7 +280,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         strategy === "banish" ||
         strategy === "ignoreNoBanish"
       ) {
-        combat.kill(monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
+        combat.action("kill", monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
       }
     }
 
@@ -390,7 +392,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // Kill holiday wanderers
     const holidayMonsters = getTodaysHolidayWanderers();
     // TODO: better detection of which zones holiday monsters can appear
-    if (holidayMonsters.length > 0 && !task.boss) combat.ignore(...holidayMonsters);
+    if (holidayMonsters.length > 0 && !task.boss) combat.action("ignore", ...holidayMonsters);
 
     // Upgrade normal kills to free kills if provided
     if (resources.has("killFree") && !task.boss) {
