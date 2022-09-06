@@ -81,6 +81,7 @@ import { removeTeleportitis, teleportitisTask } from "../tasks/misc";
 import { summonStrategy } from "../tasks/summons";
 import { pullStrategy } from "../tasks/pulls";
 import { keyStrategy } from "../tasks/keys";
+import { applyEffects } from "./moods";
 
 export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
@@ -401,6 +402,13 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
   }
 
+  createOutfit(task: Task): Outfit {
+    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    const outfit = new Outfit();
+    if (spec !== undefined) outfit.equip(spec); // no error on failure
+    return outfit;
+  }
+
   dress(task: ActiveTask, outfit: Outfit): void {
     try {
       outfit.dress();
@@ -409,10 +417,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       // So refresh our inventory and try again (once).
       debug("Possible mafia desync detected; refreshing...");
       cliExecute("refresh all");
-      outfit.dress();
-      // outfit.dress(true);
+      outfit.dress({ forceUpdate: true });
     }
     fixFoldables(outfit);
+    applyEffects(outfit.modifier ?? "", task.effects || []);
 
     if (args.verboseequip) {
       const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];

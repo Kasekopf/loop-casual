@@ -10,7 +10,7 @@ import {
   Macro,
 } from "libram";
 import {
-  CombatResource as BaseCombatResource
+  CombatResource as BaseCombatResource, OutfitSpec
 } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
 import { Task } from "./task";
@@ -19,7 +19,7 @@ export interface Resource {
   name: string;
   available: () => boolean;
   prepare?: () => void;
-  equip?: Item | Familiar | (Item | Familiar)[];
+  equip?: Item | Familiar | Item[] | OutfitSpec;
   chance?: () => number;
 }
 

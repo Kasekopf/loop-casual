@@ -38,17 +38,6 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
   return result;
 }
 
-export function createOutfit(task: Task): Outfit {
-  const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-  const outfit = new Outfit();
-  for (const item of spec?.equip ?? []) outfit.equip(item);
-  if (spec?.familiar) outfit.equip(spec.familiar);
-  outfit.avoid = spec?.avoid;
-  outfit.skipDefaults = spec?.skipDefaults ?? false;
-  return outfit;
-}
-
-
 export function equipInitial(outfit: Outfit): void {
   if (outfit.modifier?.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
@@ -145,12 +134,12 @@ export function equipDefaults(outfit: Outfit): void {
     outfit.modifier += ", 0.01 MP regen, 0.001 HP regen";
     // Defibrillator breaks the Beaten up tests
     if (haveLoathingLegion()) {
-      outfit.avoid = [...(outfit.avoid ?? []), $item`Loathing Legion defibrillator`];
+      outfit.avoid.push($item`Loathing Legion defibrillator`);
     }
 
     // Do not use umbrella for -ML
     if (outfit.modifier.match("-[\\d .]*ML")) {
-      outfit.avoid = [...(outfit.avoid ?? []), $item`unbreakable umbrella`];
+      outfit.avoid.push($item`unbreakable umbrella`);
     }
 
     // Avoid burning CMG void fight just for the modifier
@@ -159,7 +148,7 @@ export function equipDefaults(outfit: Outfit): void {
       get("cursedMagnifyingGlassCount") >= 13 &&
       [...outfit.equips.values()].includes($item`cursed magnifying glass`)
     ) {
-      outfit.avoid = [...(outfit.avoid ?? []), $item`cursed magnifying glass`];
+      outfit.avoid.push($item`cursed magnifying glass`);
     }
 
   }
