@@ -105,12 +105,18 @@ export const LevelingQuest: Quest = {
       ready: () => ChateauMantegna.have(),
       completed: () => get("timesRested") >= totalFreeRests() || myLevel() >= args.levelto,
       prepare: (): void => {
+        // Set the chateau to give the proper stats
         if (myPrimestat() === $stat`Muscle`) {
           ChateauMantegna.changeNightstand("electric muscle stimulator");
         } else if (myPrimestat() === $stat`Mysticality`) {
           ChateauMantegna.changeNightstand("foreign language tapes");
         } else if (myPrimestat() === $stat`Moxie`) {
           ChateauMantegna.changeNightstand("bowl of potpourri");
+        }
+
+        // Set extra free rests
+        if (ChateauMantegna.getCeiling() !== "ceiling fan") {
+          ChateauMantegna.changeCeiling("ceiling fan");
         }
       },
       do: () => visitUrl("place.php?whichplace=chateau&action=chateau_restbox"),
