@@ -176,7 +176,7 @@ const Apartment: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
       .kill($monster`pygmy witch accountant`)
-      .banish(...$monsters`pygmy janitor, pygmy witch lawyer`)
+      .banish($monsters`pygmy janitor, pygmy witch lawyer`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
     limit: { tries: 9 },
@@ -193,7 +193,7 @@ const Apartment: Task[] = [
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Apartment Building)`)
-      .banish(...$monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
+      .banish($monsters`pygmy janitor, pygmy witch lawyer, pygmy witch accountant`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
     orbtargets: () => {
@@ -243,7 +243,7 @@ const Office: Task[] = [
     do: $location`The Hidden Office Building`,
     combat: new CombatStrategy()
       .kill($monster`pygmy witch accountant`)
-      .banish(...$monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
+      .banish($monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
     choices: { 786: 2 },
     limit: { tries: 10 },
   },
@@ -304,7 +304,7 @@ const Hospital: Task[] = [
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .kill($monster`pygmy witch surgeon`)
-      .banish(...$monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
+      .banish($monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
     outfit: {
       equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
     },
@@ -358,7 +358,7 @@ const Bowling: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
-      .banish(...$monsters`pygmy orderlies`),
+      .banish($monster`pygmy orderlies`),
     outfit: {
       modifier: "item", avoid: $items`broken champagne bottle`,
     },
@@ -376,7 +376,7 @@ const Bowling: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
-      .banish(...$monsters`pygmy janitor, pygmy orderlies`),
+      .banish($monsters`pygmy janitor, pygmy orderlies`),
     outfit: {
       modifier: "item", avoid: $items`broken champagne bottle`,
     },
@@ -430,7 +430,7 @@ export const HiddenQuest: Quest = {
       },
       choices: { 791: 1 },
       combat: new CombatStrategy()
-        .kill(...$monsters`dense liana, Protector Spectre`),
+        .kill($monsters`dense liana, Protector Spectre`),
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],

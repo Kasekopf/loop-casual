@@ -349,7 +349,7 @@ export const KeysQuest: Quest = {
         towerSkip(),
       outfit: { modifier: "item", avoid: $items`broken champagne bottle`, },
       combat: new CombatStrategy()
-        .killItem(...$monsters`factory-irregular skeleton, remaindered skeleton, swarm of skulls`)
+        .killItem($monsters`factory-irregular skeleton, remaindered skeleton, swarm of skulls`)
         .banish($monster`novelty tropical skeleton`),
       do: $location`The Skeleton Store`,
       limit: { soft: 10 },

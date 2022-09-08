@@ -99,7 +99,7 @@ const Cranny: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro)
       .kill(
-        ...$monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
+        $monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       ),
     // Do not search for swarm with orb
     orbtargets: () => [],
@@ -152,9 +152,9 @@ const Niche: Task[] = [
       )
       .macro(
         new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro),
-        ...$monsters`senile lihc, slick lihc`
+        $monsters`senile lihc, slick lihc`
       )
-      .banish(...$monsters`basic lihc, senile lihc, slick lihc`),
+      .banish($monsters`basic lihc, senile lihc, slick lihc`),
     orbtargets: () => [$monster`dirty old lihc`],
     limit: { turns: 25 },
   },
@@ -190,7 +190,7 @@ const Nook: Task[] = [
     },
     choices: { 155: 5, 1429: 1 },
     combat: new CombatStrategy()
-      .macro(slay_macro, ...$monsters`spiny skelelton, toothy sklelton`)
+      .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
     limit: { soft: 30 },
   },

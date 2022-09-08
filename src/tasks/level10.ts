@@ -1,5 +1,5 @@
 import { cliExecute, containsText, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, have } from "libram";
+import { $effect, $item, $items, $location, $monster, $monsters, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { Quest } from "../engine/task";
@@ -72,7 +72,7 @@ export const GiantQuest: Quest = {
       limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
-      combat: new CombatStrategy().killItem([$monster`Quiet Healer`, $monster`Burly Sidekick`]),
+      combat: new CombatStrategy().killItem($monsters`Quiet Healer, Burly Sidekick`),
     },
     {
       name: "Basement Search",
