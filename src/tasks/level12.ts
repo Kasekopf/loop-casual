@@ -80,7 +80,7 @@ const Lighthouse: Task[] = [
     combat: new CombatStrategy()
       .macro(
         new Macro().trySkill($skill`CHEAT CODE: Replace Enemy`),
-        ...$monsters`void guy, void slab, void spider`
+        $monsters`void guy, void slab, void spider`
       )
       .kill($monster`lobsterfrogman`),
     limit: { tries: 1 },

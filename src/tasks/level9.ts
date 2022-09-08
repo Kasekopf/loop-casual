@@ -161,7 +161,7 @@ const Twin: Task[] = [
     choices: { 606: 1, 607: 1 },
     outfit: { modifier: "100 stench res, -combat, item" },
     combat: new CombatStrategy().killItem(
-      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+      $monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
     limit: { soft: 10 },
   },
@@ -190,7 +190,7 @@ const Twin: Task[] = [
     choices: { 606: 2, 608: 1 },
     outfit: { modifier: "item 50min, -combat" },
     combat: new CombatStrategy().killItem(
-      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+      $monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
     limit: { soft: 10 },
   },
@@ -215,7 +215,7 @@ const Twin: Task[] = [
     choices: { 606: 3, 609: 1, 616: 1 },
     outfit: { modifier: "item, -combat" },
     combat: new CombatStrategy().killItem(
-      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+      $monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
     acquire: [{ item: $item`jar of oil` }],
     limit: { soft: 10 },
@@ -248,7 +248,7 @@ const Twin: Task[] = [
     choices: { 606: 4, 610: 1, 1056: 1 },
     outfit: { modifier: "init 40 min, item, -combat" },
     combat: new CombatStrategy().killItem(
-      ...$monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
+      $monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
     limit: { soft: 10 },
   },

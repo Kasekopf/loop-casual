@@ -638,7 +638,7 @@ export const WandQuest: Quest = {
       outfit: { modifier: "-combat, init", familiar: $familiar`Grey Goose` },
       combat: new CombatStrategy()
         .banish($monster`Quantum Mechanic`)
-        .kill(...$monsters`mimic, The Master Of Thieves`), // Avoid getting more teleportitis
+        .kill($monsters`mimic, The Master Of Thieves`), // Avoid getting more teleportitis
       choices: { 25: 2 },
       limit: { soft: 20 },
     },

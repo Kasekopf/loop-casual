@@ -66,7 +66,7 @@ export const McLargeHugeQuest: Quest = {
       outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
       combat: new CombatStrategy()
         .killItem($monster`dairy goat`)
-        .banish(...$monsters`drunk goat, sabre-toothed goat`),
+        .banish($monsters`drunk goat, sabre-toothed goat`),
       limit: { soft: 15 },
     },
     {

@@ -128,7 +128,7 @@ export const BatQuest: Quest = {
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`Back-Up to your Last Enemy`))
-        .kill(...$monsters`Boss Bat, lobsterfrogman`),
+        .kill($monsters`Boss Bat, lobsterfrogman`),
       outfit: { equip: $items`backup camera` },
       limit: { tries: 4 },
     },

@@ -270,8 +270,8 @@ const Zepplin: Task[] = [
       .macro((): Macro => {
         if (get("_glarkCableUses") < 5) return new Macro().tryItem($item`glark cable`);
         else return new Macro();
-      }, ...$monsters`man with the red buttons, red skeleton, red butler`)
-      .banish(...$monsters`Red Herring, Red Snapper`)
+      }, $monsters`man with the red buttons, red skeleton, red butler`)
+      .banish($monsters`Red Herring, Red Snapper`)
       .kill(),
     limit: { soft: 13 },
   },
@@ -308,12 +308,12 @@ const Dome: Task[] = [
       return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
     combat: new CombatStrategy()
-      .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
+      .banish($monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
       .macro(
         new Macro().item($item`disposable instant camera`),
-        ...$monsters`Bob Racecar, Racecar Bob`
+        $monsters`Bob Racecar, Racecar Bob`
       )
-      .killItem(...$monsters`Bob Racecar, Racecar Bob`)
+      .killItem($monsters`Bob Racecar, Racecar Bob`)
       .kill(),
     limit: { soft: 20 },
   },
@@ -328,8 +328,8 @@ const Dome: Task[] = [
       return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
     combat: new CombatStrategy()
-      .banish(...$monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
-      .killItem(...$monsters`Bob Racecar, Racecar Bob`)
+      .banish($monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
+      .killItem($monsters`Bob Racecar, Racecar Bob`)
       .kill(),
     limit: { soft: 20 },
   },
@@ -347,7 +347,7 @@ const Dome: Task[] = [
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
       return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
     },
-    combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
+    combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },
   {
@@ -357,7 +357,7 @@ const Dome: Task[] = [
     completed: () =>
       have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
     outfit: { equip: $items`Talisman o' Namsilat`, modifier: "item", avoid: $items`broken champagne bottle` },
-    combat: new CombatStrategy().killItem(...$monsters`Bob Racecar, Racecar Bob`),
+    combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },
   {

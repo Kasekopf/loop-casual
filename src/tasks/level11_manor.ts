@@ -60,7 +60,7 @@ const Manor1: Task[] = [
     after: ["Billiards"],
     completed: () => step("questM20Necklace") >= 4,
     do: $location`The Haunted Library`,
-    combat: new CombatStrategy().banish(...$monsters`banshee librarian, bookbat`).kill(),
+    combat: new CombatStrategy().banish($monsters`banshee librarian, bookbat`).kill(),
     choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
     limit: { soft: 15 },
   },
@@ -144,9 +144,9 @@ const Manor2: Task[] = [
       897: 2,
     },
     combat: new CombatStrategy()
-      .kill(...$monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
+      .kill($monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
       .banish(
-        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
+        $monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
       .ignore($monster`tumbleweed`),
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
@@ -171,7 +171,7 @@ const Manor2: Task[] = [
     combat: new CombatStrategy()
       .kill($monster`animated ornate nightstand`)
       .banish(
-        ...$monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand, elegant animated nightstand`
+        $monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand, elegant animated nightstand`
       )
       .ignore($monster`tumbleweed`),
     limit: { soft: 10 },
@@ -237,7 +237,7 @@ const ManorBasement: Task[] = [
     choices: { 901: 2 },
     combat: new CombatStrategy()
       .killItem($monster`possessed wine rack`)
-      .banish(...$monsters`mad wino, skeletal sommelier`),
+      .banish($monsters`mad wino, skeletal sommelier`),
     limit: { soft: 10 },
   },
   {
@@ -255,7 +255,7 @@ const ManorBasement: Task[] = [
     choices: { 891: 2 },
     combat: new CombatStrategy()
       .killItem($monster`cabinet of Dr. Limpieza`)
-      .banish(...$monsters`plaid ghost, possessed laundry press`),
+      .banish($monsters`plaid ghost, possessed laundry press`),
     limit: { soft: 10 },
   },
   {
@@ -285,7 +285,7 @@ const ManorBasement: Task[] = [
     choices: { 902: 2 },
     combat: new CombatStrategy()
       .kill($monster`monstrous boiler`)
-      .banish(...$monsters`coaltergeist, steam elemental`),
+      .banish($monsters`coaltergeist, steam elemental`),
     limit: { soft: 10 },
   },
   {
