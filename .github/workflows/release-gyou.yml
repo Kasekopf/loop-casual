@@ -38,7 +38,6 @@ jobs:
           git checkout gyou KoLmafia/ccs
           mv KoLmafia/* ./
           git rm -rf KoLmafia
-          git add ccs/
           git add scripts/
           git commit -m "Build Mafia files for commit $SHA"
           git push origin release
