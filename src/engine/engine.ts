@@ -261,15 +261,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
 
     // Absorb targeted monsters
-    // (if we have teleportitis, everything is a possible target)
     const absorb_state = globalStateCache.absorb();
-    const absorb_targets =
-      task.do instanceof Location
-        ? new Set<Monster>([
-            ...absorb_state.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
-            ...absorb_state.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
-          ])
-        : [];
+    const absorb_targets = new Set<Monster>();
+    if (task.do instanceof Location) {
+      // If we have teleportitis, everything is a possible target
+      const zone = have($effect`Teleportitis`) ? undefined : task.do;
+      for (const monster of absorb_state.remainingAbsorbs(zone)) absorb_targets.add(monster);
+      for (const monster of absorb_state.remainingReprocess(zone)) absorb_targets.add(monster);
+    }
     for (const monster of absorb_targets) {
       if (absorb_state.isReprocessTarget(monster)) {
         outfit.equip($familiar`Grey Goose`);
