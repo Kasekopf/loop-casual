@@ -28,6 +28,7 @@ import {
   putCloset,
   restoreHp,
   restoreMp,
+  setAutoAttack,
   Slot,
   toInt,
   totalTurnsPlayed,
@@ -519,6 +520,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       1340: 3, // Is There A Doctor In The House?
       1341: 1, // Cure her poison
     });
+    setAutoAttack(0);
   }
 
   updatePlan(): void {
