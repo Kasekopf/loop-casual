@@ -28,7 +28,6 @@ import {
   putCloset,
   restoreHp,
   restoreMp,
-  setAutoAttack,
   Slot,
   toInt,
   totalTurnsPlayed,
@@ -272,7 +271,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     for (const monster of absorb_targets) {
       if (absorb_state.isReprocessTarget(monster)) {
         outfit.equip($familiar`Grey Goose`);
-        // combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
+        combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
         combat.macro(new Macro().trySkill($skill`Re-Process Matter`), monster, true);
         debug(`Target x2: ${monster.name}`, "purple");
       } else {
@@ -519,7 +518,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       1340: 3, // Is There A Doctor In The House?
       1341: 1, // Cure her poison
     });
-    setAutoAttack(0);
   }
 
   updatePlan(): void {

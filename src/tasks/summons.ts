@@ -196,7 +196,7 @@ const summonTargets: SummonTarget[] = [
         }
       },
       combat: new CombatStrategy()
-        // .autoattack(new Macro().trySkill($skill`Re-Process Matter`))
+        .autoattack(new Macro().trySkill($skill`Re-Process Matter`))
         .macro(new Macro().trySkill($skill`Re-Process Matter`))
         .kill(),
     };
