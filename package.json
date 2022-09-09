@@ -9,6 +9,7 @@
     "build:types": "tsc",
     "build:js": "webpack",
     "lint": "eslint src && prettier --check .",
+    "lint:fix": "eslint src --fix && prettier --check --write .",
     "watch": "webpack --watch --progress"
   },
   "devDependencies": {

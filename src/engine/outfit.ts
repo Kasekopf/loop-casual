@@ -1,17 +1,10 @@
-import {
-  cliExecute,
-  equippedAmount,
-  familiarWeight,
-  itemAmount,
-  myBasestat,
-} from "kolmafia";
+import { cliExecute, equippedAmount, familiarWeight, itemAmount, myBasestat } from "kolmafia";
 import { $familiar, $item, $skill, $stat, get, getKramcoWandererChance, have } from "libram";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
 import { Outfit } from "grimoire-kolmafia";
 import { haveLoathingLegion } from "../lib";
-
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
@@ -40,7 +33,11 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
 export function equipInitial(outfit: Outfit): void {
   if (outfit.modifier?.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
-    if (!outfit.modifier?.includes("+combat") && !outfit.modifier?.includes(" combat") && !outfit.modifier?.includes("res"))
+    if (
+      !outfit.modifier?.includes("+combat") &&
+      !outfit.modifier?.includes(" combat") &&
+      !outfit.modifier?.includes("res")
+    )
       outfit.equip($item`protonic accelerator pack`);
   }
   // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
@@ -55,8 +52,12 @@ export function equipInitial(outfit: Outfit): void {
 export function equipCharging(outfit: Outfit): void {
   if (outfit.skipDefaults) return;
 
-  if (familiarWeight($familiar`Grey Goose`) < 6 ||
-    (familiarWeight($familiar`Grey Goose`) >= 6 && [...outfit.equips.values()].includes($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() === 1)) {
+  if (
+    familiarWeight($familiar`Grey Goose`) < 6 ||
+    (familiarWeight($familiar`Grey Goose`) >= 6 &&
+      [...outfit.equips.values()].includes($item`Kramco Sausage-o-Matic™`) &&
+      getKramcoWandererChance() === 1)
+  ) {
     if (outfit.equip($familiar`Grey Goose`)) {
       outfit.equip($item`yule hatchet`);
       outfit.equip($item`ghostly reins`);
@@ -149,7 +150,6 @@ export function equipDefaults(outfit: Outfit): void {
     ) {
       outfit.avoid.push($item`cursed magnifying glass`);
     }
-
   }
   outfit.equip($item`miniature crystal ball`);
   // If we never found a better familiar, just keep charging the goose
@@ -186,7 +186,10 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold cape, so we need to
   if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
-    if (outfit.modifier?.includes("res") && (get("retroCapeSuperhero") !== "vampire") || get("retroCapeWashingInstructions") !== "hold") {
+    if (
+      (outfit.modifier?.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
+      get("retroCapeWashingInstructions") !== "hold"
+    ) {
       cliExecute("retrocape vampire hold");
     }
   }

@@ -22,7 +22,10 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     " combat": [], // Maximizer has issues with "50 +combat" and similar
   };
 
-  if (have($item`Clan VIP Lounge key`) && (!get("_olympicSwimmingPool") || have($effect`Silent Running`)))
+  if (
+    have($item`Clan VIP Lounge key`) &&
+    (!get("_olympicSwimmingPool") || have($effect`Silent Running`))
+  )
     result["-combat"].push($effect`Silent Running`);
 
   // Noncombat/combat buffs

@@ -87,7 +87,9 @@ const Cranny: Task[] = [
       tuneCape();
       changeMcd(10);
     },
-    post: () => { if (currentMcd() > 0) changeMcd(0); },
+    post: () => {
+      if (currentMcd() > 0) changeMcd(0);
+    },
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {

@@ -9,9 +9,7 @@ import {
   have,
   Macro,
 } from "libram";
-import {
-  CombatResource as BaseCombatResource, OutfitSpec
-} from "grimoire-kolmafia";
+import { CombatResource as BaseCombatResource, OutfitSpec } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
 import { Task } from "./task";
 
@@ -103,9 +101,8 @@ export class BanishState {
   // Return true if all requested monsters in the task are banished
   isFullyBanished(task: Task): boolean {
     return (
-      task.combat
-        ?.where("banish")
-        ?.find((monster) => !this.already_banished.has(monster)) === undefined
+      task.combat?.where("banish")?.find((monster) => !this.already_banished.has(monster)) ===
+      undefined
     );
   }
 

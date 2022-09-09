@@ -1,14 +1,5 @@
 import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
-import {
-  $effect,
-  $item,
-  $items,
-  $location,
-  $monster,
-  $monsters,
-  ensureEffect,
-  have,
-} from "libram";
+import { $effect, $item, $items, $location, $monster, $monsters, ensureEffect, have } from "libram";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
@@ -46,8 +37,7 @@ export const McLargeHugeQuest: Quest = {
       after: ["Trapper Request", "Pull/Ore", "Misc/Hermit Clover"],
       ready: () => have($item`11-leaf clover`),
       prepare: () => {
-        if (!have($effect`Lucky!`))
-          use($item`11-leaf clover`);
+        if (!have($effect`Lucky!`)) use($item`11-leaf clover`);
       },
       completed: () =>
         itemAmount($item`asbestos ore`) >= 3 ||
@@ -91,7 +81,7 @@ export const McLargeHugeQuest: Quest = {
       limit: { soft: 20 },
       combat: new CombatStrategy().killHard([
         $monster`Frozen Solid Snake`,
-        $monster`ninja snowman assassin`
+        $monster`ninja snowman assassin`,
       ]),
       orbtargets: () => [], // no assassins in orbs
     },
@@ -102,7 +92,8 @@ export const McLargeHugeQuest: Quest = {
       ready: () => coldRes(true) >= 5,
       prepare: () => {
         if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
-        if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+        if (numericModifier("cold resistance") < 5)
+          throw `Unable to ensure cold res for The Icy Peak`;
       },
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
@@ -117,7 +108,8 @@ export const McLargeHugeQuest: Quest = {
       ready: () => coldRes(true) >= 5,
       prepare: () => {
         if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
-        if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+        if (numericModifier("cold resistance") < 5)
+          throw `Unable to ensure cold res for The Icy Peak`;
       },
       do: $location`Mist-Shrouded Peak`,
       outfit: { modifier: "cold res" },

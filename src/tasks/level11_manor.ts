@@ -1,4 +1,12 @@
-import { changeMcd, create, currentMcd, myInebriety, numericModifier, use, visitUrl } from "kolmafia";
+import {
+  changeMcd,
+  create,
+  currentMcd,
+  myInebriety,
+  numericModifier,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $effect,
   $item,
@@ -53,7 +61,10 @@ const Manor1: Task[] = [
       .ignore()
       .killItem($monster`chalkdust wraith`)
       .kill($monster`pooltergeist (ultra-rare)`),
-    limit: { soft: 20, message: `Consider increasing your permanent pool skill with "A Shark's Chum", if you have not.` },
+    limit: {
+      soft: 20,
+      message: `Consider increasing your permanent pool skill with "A Shark's Chum", if you have not.`,
+    },
   },
   {
     name: "Library",
@@ -86,7 +97,10 @@ const Manor2: Task[] = [
   {
     name: "Gallery Delay",
     after: ["Start Floor2"],
-    completed: () => $location`The Haunted Gallery`.turnsSpent >= 5 || have($item`Lady Spookyraven's dancing shoes`) || step("questM21Dance") >= 2,
+    completed: () =>
+      $location`The Haunted Gallery`.turnsSpent >= 5 ||
+      have($item`Lady Spookyraven's dancing shoes`) ||
+      step("questM21Dance") >= 2,
     do: $location`The Haunted Gallery`,
     choices: { 89: 6, 896: 1 }, // TODO: louvre
     limit: { turns: 5 },
@@ -104,7 +118,10 @@ const Manor2: Task[] = [
   {
     name: "Bathroom Delay",
     after: ["Start Floor2"],
-    completed: () => $location`The Haunted Bathroom`.turnsSpent >= 5 || have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
+    completed: () =>
+      $location`The Haunted Bathroom`.turnsSpent >= 5 ||
+      have($item`Lady Spookyraven's powder puff`) ||
+      step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
     combat: new CombatStrategy().kill($monster`cosmetics wraith`),
@@ -274,12 +291,18 @@ const ManorBasement: Task[] = [
     prepare: () => {
       if (numericModifier("Monster Level") < 81) changeMcd(10);
     },
-    post: () => { if (currentMcd() > 0) changeMcd(0); },
+    post: () => {
+      if (currentMcd() > 0) changeMcd(0);
+    },
     do: $location`The Haunted Boiler Room`,
     outfit: (): OutfitSpec => {
       if (have($item`old patched suit-pants`) && have($item`backup camera`))
         // eslint-disable-next-line libram/verify-constants
-        return { modifier: "ML", equip: $items`unstable fulminate, old patched suit-pants`, avoid: $items`Jurassic Parka` };
+        return {
+          modifier: "ML",
+          equip: $items`unstable fulminate, old patched suit-pants`,
+          avoid: $items`Jurassic Parka`,
+        };
       return { modifier: "ML", equip: $items`unstable fulminate, old patched suit-pants` };
     },
     choices: { 902: 2 },

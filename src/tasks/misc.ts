@@ -181,7 +181,7 @@ export const MiscQuest: Quest = {
 
         const monsterVote =
           votingMonsterPriority.indexOf(get("_voteMonster1")) <
-            votingMonsterPriority.indexOf(get("_voteMonster2"))
+          votingMonsterPriority.indexOf(get("_voteMonster2"))
             ? 1
             : 2;
 
@@ -189,22 +189,22 @@ export const MiscQuest: Quest = {
           [
             0,
             initPriority.get(get("_voteLocal1")) ||
-            (get("_voteLocal1").indexOf("-") === -1 ? 1 : -1),
+              (get("_voteLocal1").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             1,
             initPriority.get(get("_voteLocal2")) ||
-            (get("_voteLocal2").indexOf("-") === -1 ? 1 : -1),
+              (get("_voteLocal2").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             2,
             initPriority.get(get("_voteLocal3")) ||
-            (get("_voteLocal3").indexOf("-") === -1 ? 1 : -1),
+              (get("_voteLocal3").indexOf("-") === -1 ? 1 : -1),
           ],
           [
             3,
             initPriority.get(get("_voteLocal4")) ||
-            (get("_voteLocal4").indexOf("-") === -1 ? 1 : -1),
+              (get("_voteLocal4").indexOf("-") === -1 ? 1 : -1),
           ],
         ];
 
@@ -289,7 +289,8 @@ export const MiscQuest: Quest = {
             return;
           case $location`The Icy Peak`:
             if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
-            if (numericModifier("cold resistance") < 5) throw `Unable to ensure cold res for The Icy Peak`;
+            if (numericModifier("cold resistance") < 5)
+              throw `Unable to ensure cold res for The Icy Peak`;
             return;
           default:
             return;
@@ -303,9 +304,13 @@ export const MiscQuest: Quest = {
       },
       outfit: (): OutfitSpec => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
-          return { equip: $items`Talisman o' Namsilat, protonic accelerator pack`, modifier: "DA, DR" };
+          return {
+            equip: $items`Talisman o' Namsilat, protonic accelerator pack`,
+            modifier: "DA, DR",
+          };
         if (get("ghostLocation") === $location`The Icy Peak`) {
-          if (coldRes(true, false) >= 5) return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
+          if (coldRes(true, false) >= 5)
+            return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
           else return { modifier: "1000 cold res, DA, DR" }; // not enough cold res without back
         }
         return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
@@ -351,7 +356,10 @@ export const MiscQuest: Quest = {
       name: "Acquire Firework Hat",
       after: [],
       priority: () => OverridePriority.Free,
-      completed: () => have($item`sombrero-mounted sparkler`) || get("_fireworksShopHatBought") || !have($item`Clan VIP Lounge key`),
+      completed: () =>
+        have($item`sombrero-mounted sparkler`) ||
+        get("_fireworksShopHatBought") ||
+        !have($item`Clan VIP Lounge key`),
       do: () => {
         visitUrl("clan_viplounge.php");
         visitUrl("clan_viplounge.php?action=fwshop&whichfloor=2");
@@ -456,10 +464,10 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => OverridePriority.Free,
       completed: () =>
-        !have($item`SongBoom™ BoomBox`)
-        || get("boomBoxSong") === "Total Eclipse of Your Meat"
-        || (have($skill`System Sweep`) && have($skill`Double Nanovision`))
-        || get("_boomBoxSongsLeft") === 0,
+        !have($item`SongBoom™ BoomBox`) ||
+        get("boomBoxSong") === "Total Eclipse of Your Meat" ||
+        (have($skill`System Sweep`) && have($skill`Double Nanovision`)) ||
+        get("_boomBoxSongsLeft") === 0,
       do: () => cliExecute("boombox meat"),
       freeaction: true,
       limit: { tries: 1 },
@@ -468,13 +476,14 @@ export const MiscQuest: Quest = {
       name: "Boombox Seasoning",
       after: [],
       priority: () => OverridePriority.Free,
-      ready: () => have($skill`System Sweep`)
-        && have($skill`Double Nanovision`)
-        && (get("currentNunneryMeat") === 0 || get("currentNunneryMeat") === 100000),
+      ready: () =>
+        have($skill`System Sweep`) &&
+        have($skill`Double Nanovision`) &&
+        (get("currentNunneryMeat") === 0 || get("currentNunneryMeat") === 100000),
       completed: () =>
-        !have($item`SongBoom™ BoomBox`)
-        || get("boomBoxSong") === "Food Vibrations"
-        || get("_boomBoxSongsLeft") === 0,
+        !have($item`SongBoom™ BoomBox`) ||
+        get("boomBoxSong") === "Food Vibrations" ||
+        get("_boomBoxSongsLeft") === 0,
       do: () => cliExecute("boombox food"),
       freeaction: true,
       limit: { tries: 2 },
@@ -583,7 +592,7 @@ export const MiscQuest: Quest = {
       outfit: { familiar: $familiar`Grey Goose` },
       limit: { tries: 1 },
       freeaction: true,
-    }
+    },
   ],
 };
 
@@ -699,7 +708,8 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
     post: () => {
       // Some tracking is broken when we encounter it with teleportitis
       if (get("lastEncounter") === "Having a Ball in the Ballroom") set("questM21Dance", "step4");
-      if (get("lastEncounter") === "Too Much Humanity" && step("questL11Ron") < 1) set("questL11Ron", "step1");
+      if (get("lastEncounter") === "Too Much Humanity" && step("questL11Ron") < 1)
+        set("questL11Ron", "step1");
     },
     outfit: { equip: $items`antique machete` },
     choices: choices,

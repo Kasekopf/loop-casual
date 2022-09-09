@@ -72,8 +72,8 @@ export const args = Args.create(
       setting: "",
     }),
     list: Args.flag({
-      help: "Show the status of all tasks and exit."
-    })
+      help: "Show the status of all tasks and exit.",
+    }),
   }
 );
 export function main(command?: string): void {
@@ -110,7 +110,11 @@ export function main(command?: string): void {
     runChoice(-1);
 
   const tasks = prioritize(all_tasks());
-  const engine = new Engine(tasks, args.ignoretasks?.split(",") ?? [], args.completedtasks?.split(",") ?? []);
+  const engine = new Engine(
+    tasks,
+    args.ignoretasks?.split(",") ?? [],
+    args.completedtasks?.split(",") ?? []
+  );
   try {
     if (args.list) {
       listTasks(engine);
@@ -172,10 +176,12 @@ export function main(command?: string): void {
 }
 
 function runComplete(): boolean {
-  return step("questL13Final") > 11
+  return (
+    step("questL13Final") > 11 ||
     // eslint-disable-next-line eqeqeq
-    || myPath() != "Grey You"
-    || (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1);
+    myPath() != "Grey You" ||
+    (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1)
+  );
 }
 
 function printVersionInfo(): void {
@@ -195,7 +201,8 @@ function printVersionInfo(): void {
 }
 
 function breakPrism(into_class: number): void {
-  if (step("questL13Final") <= 11) throw `You have not finished your Grey You run. Do not set this argument yet.`;
+  if (step("questL13Final") <= 11)
+    throw `You have not finished your Grey You run. Do not set this argument yet.`;
   const absorb_state = globalStateCache.absorb();
   print(
     `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
@@ -219,9 +226,10 @@ function listTasks(engine: Engine): void {
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
     debug(
-      `${task.name}: ${task.completed()
-        ? "Done"
-        : engine.available(task)
+      `${task.name}: ${
+        task.completed()
+          ? "Done"
+          : engine.available(task)
           ? `Available [${priority.score()}: ${why}]`
           : "Not Available"
       }`,

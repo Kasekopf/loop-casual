@@ -164,9 +164,7 @@ function orbPriority(task: Task, monster: Monster): OverridePriority {
       (!absorb_state.isReprocessTarget(monster) || familiarWeight($familiar`Grey Goose`) < 6);
 
     const others_useless =
-      task_combat.can("ignore") ||
-      task_combat.can("ignoreNoBanish") ||
-      task_combat.can("banish");
+      task_combat.can("ignore") || task_combat.can("ignoreNoBanish") || task_combat.can("banish");
 
     const others_useful =
       absorb_state.hasTargets(task.do) ||

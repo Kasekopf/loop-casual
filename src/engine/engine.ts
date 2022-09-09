@@ -53,17 +53,16 @@ import {
   uneffect,
 } from "libram";
 import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
+import { CombatActions, MyActionDefaults } from "./combat";
 import {
-  CombatActions,
-  MyActionDefaults
-} from "./combat";
-import { equipCharging, equipDefaults, equipFirst, equipInitial, equipUntilCapped, fixFoldables } from "./outfit";
-import {
-  cliExecute,
-  equippedAmount,
-  itemAmount,
-  runChoice,
-} from "kolmafia";
+  equipCharging,
+  equipDefaults,
+  equipFirst,
+  equipInitial,
+  equipUntilCapped,
+  fixFoldables,
+} from "./outfit";
+import { cliExecute, equippedAmount, itemAmount, runChoice } from "kolmafia";
 import { debug } from "../lib";
 import {
   canChargeVoid,
@@ -97,7 +96,6 @@ export const wanderingNCs = new Set<string>([
   "Teacher's Pet",
 ]);
 
-
 type ActiveTask = Task & {
   wanderer?: WandererSource;
   active_priority?: Prioritization;
@@ -108,13 +106,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const ignore_set = new Set<string>(ignoreTasks.map((n) => n.trim()));
     const completed_set = new Set<string>(completedTasks.map((n) => n.trim()));
     // Completed tasks are always completed, ignored tasks are never ready
-    tasks = tasks.map(
-      (task) => {
-        if (completed_set.has(task.name)) return { ...task, completed: () => true };
-        if (ignore_set.has(task.name)) return { ...task, ready: () => false };
-        return task;
-      }
-    )
+    tasks = tasks.map((task) => {
+      if (completed_set.has(task.name)) return { ...task, completed: () => true };
+      if (ignore_set.has(task.name)) return { ...task, ready: () => false };
+      return task;
+    });
     super(tasks, { combat_defaults: new MyActionDefaults() });
 
     for (const task of ignore_set) {
@@ -149,7 +145,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     if (have($effect`Teleportitis`)) {
       const teleportitis = teleportitisTask(this, this.tasks);
       if (teleportitis.completed() && removeTeleportitis.ready()) {
-        return { ...removeTeleportitis, active_priority: Prioritization.fixed(OverridePriority.Always) };
+        return {
+          ...removeTeleportitis,
+          active_priority: Prioritization.fixed(OverridePriority.Always),
+        };
       }
       return { ...teleportitis, active_priority: Prioritization.fixed(OverridePriority.Always) };
     }
@@ -159,7 +158,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       (task) => task.priority?.() === OverridePriority.LastCopyableMonster
     );
     if (priority !== undefined) {
-      return { ...priority, active_priority: Prioritization.fixed(OverridePriority.LastCopyableMonster) };
+      return {
+        ...priority,
+        active_priority: Prioritization.fixed(OverridePriority.LastCopyableMonster),
+      };
     }
 
     // If a wanderer is up try to place it in a useful location
@@ -171,14 +173,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       return {
         ...delay_burning,
         active_priority: Prioritization.fixed(OverridePriority.Wanderer),
-        wanderer: wanderer
+        wanderer: wanderer,
       };
     }
 
     // Next, choose tasks by priorty, then by route.
-    const task_priorities = available_tasks.map(
-      (task) => { return { ...task, active_priority: Prioritization.from(task) }; }
-    );
+    const task_priorities = available_tasks.map((task) => {
+      return { ...task, active_priority: Prioritization.from(task) };
+    });
     const highest_priority = Math.max(...task_priorities.map((tp) => tp.active_priority.score()));
     const todo = task_priorities.find((tp) => tp.active_priority.score() === highest_priority);
     if (todo !== undefined) {
@@ -234,7 +236,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     if (combat.getDefaultAction() === undefined) combat.action("ignore");
 
     // Use rock-band flyers if needed (300 extra as a buffer for mafia tracking)
-    const blacklist = new Set<Location>($locations`The Copperhead Club, The Black Forest, Oil Peak`);
+    const blacklist = new Set<Location>(
+      $locations`The Copperhead Club, The Black Forest, Oil Peak`
+    );
     if (
       myBasestat($stat`Moxie`) >= 200 &&
       myBuffedstat($stat`Moxie`) >= 200 &&
@@ -260,9 +264,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const absorb_targets =
       task.do instanceof Location
         ? new Set<Monster>([
-          ...absorb_state.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
-          ...absorb_state.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
-        ])
+            ...absorb_state.remainingAbsorbs(have($effect`Teleportitis`) ? undefined : task.do),
+            ...absorb_state.remainingReprocess(have($effect`Teleportitis`) ? undefined : task.do),
+          ])
         : [];
     for (const monster of absorb_targets) {
       if (absorb_state.isReprocessTarget(monster)) {
@@ -274,15 +278,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         debug(`Target: ${monster.name}`, "purple");
       }
       const strategy = combat.currentStrategy(monster);
-      if (
-        strategy === "ignore" ||
-        strategy === "banish" ||
-        strategy === "ignoreNoBanish"
-      ) {
+      if (strategy === "ignore" || strategy === "banish" || strategy === "ignoreNoBanish") {
         combat.action("kill", monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
       }
     }
-
 
     if (wanderers.length === 0) {
       // Set up a banish if needed
@@ -316,11 +315,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       // Set up a runaway if there are combats we do not care about
       let runaway = undefined;
-      if (
-        combat.can("ignore") &&
-        familiarWeight($familiar`Grey Goose`) >= 6 &&
-        myLevel() >= 11
-      ) {
+      if (combat.can("ignore") && familiarWeight($familiar`Grey Goose`) >= 6 && myLevel() >= 11) {
         runaway = equipFirst(outfit, runawaySources);
         resources.provide("ignore", runaway);
       }
@@ -334,7 +329,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         else
           resources.provide(
             "ignoreNoBanish",
-            equipFirst(outfit, runawaySources.filter((source) => !source.banishes))
+            equipFirst(
+              outfit,
+              runawaySources.filter((source) => !source.banishes)
+            )
           );
       }
 
@@ -362,10 +360,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         canChargeVoid() &&
         (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
         !freecombat &&
-        ((combat.can("kill") &&
-          !resources.has("killFree")) ||
-          combat.can("killHard") ||
-          task.boss)
+        ((combat.can("kill") && !resources.has("killFree")) || combat.can("killHard") || task.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
 
@@ -385,7 +380,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       wanderers.find((w) => w.equip === $item`Kramco Sausage-o-Matic™`) === undefined
     ) {
       combat.action("killHard", $monster`sausage goblin`);
-      combat.macro(new Macro().trySkill($skill`Emit Matter Duplicating Drones`), $monster`sausage goblin`);
+      combat.macro(
+        new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
+        $monster`sausage goblin`
+      );
     }
 
     // Kill holiday wanderers
@@ -436,7 +434,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
   }
 
-
   setChoices(task: ActiveTask, manager: PropertiesManager): void {
     super.setChoices(task, manager);
     if (equippedAmount($item`June cleaver`) > 0) {
@@ -451,7 +448,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         1473: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
         1474: get("_juneCleaverSkips", 0) < 5 ? 4 : 2,
         1475: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
-      })
+      });
     }
   }
 
@@ -463,7 +460,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     if (myAdventures() !== start_advs) getExtros();
 
     // Crash if we unexpectedly lost the fight
-    if (!task.expectbeatenup && have($effect`Beaten Up`) && haveEffect($effect`Beaten Up`) !== 5) { // Poetic Justice gives 5
+    if (!task.expectbeatenup && have($effect`Beaten Up`) && haveEffect($effect`Beaten Up`) !== 5) {
+      // Poetic Justice gives 5
       if (
         haveEffect($effect`Beaten Up`) > beaten_turns || // Turns of beaten-up increased, so we lost
         (haveEffect($effect`Beaten Up`) === beaten_turns &&
@@ -475,7 +473,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
                 myAdventures() === start_advs + 6 ||
                 myAdventures() === start_advs + 9))))
       )
-        throw `Fight was lost (debug info: ${beaten_turns} => ${haveEffect($effect`Beaten Up`)}, (${start_advs} => ${myAdventures()}); stop.`;
+        throw `Fight was lost (debug info: ${beaten_turns} => ${haveEffect(
+          $effect`Beaten Up`
+        )}, (${start_advs} => ${myAdventures()}); stop.`;
     }
   }
 
@@ -496,8 +496,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       louvreDesiredGoal: 7,
       requireBoxServants: false,
       autoAbortThreshold: "-0.05",
-      mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", ["black cherry soda", "doc galaktik's invigorating tonic"]),
-      hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["scroll of drastic healing", "doc galaktik's homeopathic elixir"])
+      mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", [
+        "black cherry soda",
+        "doc galaktik's invigorating tonic",
+      ]),
+      hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", [
+        "scroll of drastic healing",
+        "doc galaktik's homeopathic elixir",
+      ]),
     });
     manager.setChoices({
       1106: 3, // Ghost Dog Chow
@@ -572,7 +578,8 @@ function absorbConsumables(): void {
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
     if (item.fullness > 0 && !absorbed.has(item_id)) {
-      if (have($item`Special Seasoning`)) putCloset(itemAmount($item`Special Seasoning`), $item`Special Seasoning`)
+      if (have($item`Special Seasoning`))
+        putCloset(itemAmount($item`Special Seasoning`), $item`Special Seasoning`);
       eat(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
@@ -580,13 +587,9 @@ function absorbConsumables(): void {
   set("_loop_gyou_absorbed_consumables", absorbed_list);
 }
 
-
 function getExtros(): void {
   if (getWorkshed() !== $item`cold medicine cabinet`) return;
-  if (
-    get("_coldMedicineConsults") >= 5 ||
-    get("_nextColdMedicineConsult") > totalTurnsPlayed()
-  ) {
+  if (get("_coldMedicineConsults") >= 5 || get("_nextColdMedicineConsult") > totalTurnsPlayed()) {
     return;
   }
   const options = visitUrl("campground.php?action=workshed");
@@ -612,7 +615,7 @@ export function customRestoreMp(target: number) {
 }
 
 function ensureRecovery(property: string, items: string[]): string {
-  const recovery_property = get(property).split(';');
+  const recovery_property = get(property).split(";");
   for (const item of items) {
     if (!recovery_property.includes(item)) {
       recovery_property.push(item);
@@ -620,4 +623,3 @@ function ensureRecovery(property: string, items: string[]): string {
   }
   return recovery_property.join(";");
 }
-

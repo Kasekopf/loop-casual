@@ -60,7 +60,7 @@ const Copperhead: Task[] = [
     combat: new CombatStrategy().killItem([
       $monster`Copperhead Club bartender`,
       $monster`ninja dressed as a waiter`,
-      $monster`waiter dressed as a ninja`
+      $monster`waiter dressed as a ninja`,
     ]),
     choices: {
       852: 1,
@@ -70,12 +70,13 @@ const Copperhead: Task[] = [
         return get("copperheadClubHazard") !== "lantern" ? 3 : 4;
       },
     },
-    limit: { tries: 30 },  // Extra waiter disguise adventures
+    limit: { tries: 30 }, // Extra waiter disguise adventures
   },
   {
     name: "Bat Snake",
     after: ["Copperhead Start", "Bat/Use Sonar 1"],
-    ready: () => shenItem($item`The Stankara Stone`) &&
+    ready: () =>
+      shenItem($item`The Stankara Stone`) &&
       ($location`The Batrat and Ratbat Burrow`.turnsSpent < 5 || myBasestat($stat`Moxie`) >= 200),
     completed: () =>
       step("questL11Shen") === 999 ||
@@ -102,7 +103,7 @@ const Copperhead: Task[] = [
     outfit: { modifier: "50 combat, init" },
     combat: new CombatStrategy().killHard([
       $monster`Frozen Solid Snake`,
-      $monster`ninja snowman assassin`
+      $monster`ninja snowman assassin`,
     ]),
     orbtargets: () => [], // no assassins in orbs
     limit: { soft: 10 },
@@ -149,8 +150,7 @@ const Copperhead: Task[] = [
   {
     name: "Sleaze Star Snake",
     after: ["Copperhead Start", "Giant/Unlock HITS"],
-    ready: () =>
-      shenItem($item`The Eye of the Stars`),
+    ready: () => shenItem($item`The Eye of the Stars`),
     completed: () => step("questL11Shen") === 999 || have($item`The Eye of the Stars`),
     do: $location`The Hole in the Sky`,
     combat: new CombatStrategy().killHard($monster`The Snake With Like Ten Heads`),
@@ -160,8 +160,7 @@ const Copperhead: Task[] = [
   {
     name: "Sleaze Frat Snake",
     after: ["Copperhead Start"],
-    ready: () =>
-      shenItem($item`The Lacrosse Stick of Lacoronado`),
+    ready: () => shenItem($item`The Lacrosse Stick of Lacoronado`),
     completed: () => step("questL11Shen") === 999 || have($item`The Lacrosse Stick of Lacoronado`),
     do: $location`The Smut Orc Logging Camp`,
     combat: new CombatStrategy().killHard($monster`The Frattlesnake`),
@@ -171,8 +170,7 @@ const Copperhead: Task[] = [
   {
     name: "Spooky Snake Precrypt",
     after: ["Copperhead Start"],
-    ready: () =>
-      shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") < 999,
+    ready: () => shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") < 999,
     completed: () => step("questL11Shen") === 999 || have($item`The Shield of Brook`),
     do: $location`The Unquiet Garves`,
     combat: new CombatStrategy().killHard($monster`Snakeleton`),
@@ -182,8 +180,7 @@ const Copperhead: Task[] = [
   {
     name: "Spooky Snake Postcrypt",
     after: ["Copperhead Start"],
-    ready: () =>
-      shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") === 999,
+    ready: () => shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") === 999,
     completed: () => step("questL11Shen") === 999 || have($item`The Shield of Brook`),
     do: $location`The VERY Unquiet Garves`,
     combat: new CombatStrategy().killHard($monster`Snakeleton`),
@@ -209,7 +206,8 @@ const Zepplin: Task[] = [
     ready: () =>
       canEquip($item`transparent pants`) &&
       (itemAmount($item`11-leaf clover`) > 1 ||
-        (have($item`Flamin' Whatshisname`) || step("questL11Shen") === 999)),
+        have($item`Flamin' Whatshisname`) ||
+        step("questL11Shen") === 999),
     prepare: () => {
       if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
       if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`))
@@ -290,7 +288,7 @@ const Dome: Task[] = [
       "Sleaze Star Snake",
       "Sleaze Frat Snake",
       "Spooky Snake Precrypt",
-      "Spooky Snake Postcrypt"
+      "Spooky Snake Postcrypt",
     ],
     completed: () => have($item`Talisman o' Namsilat`),
     do: () => create($item`Talisman o' Namsilat`),
@@ -305,7 +303,11 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
+      return {
+        equip: $items`Talisman o' Namsilat`,
+        modifier: "-combat, item",
+        avoid: $items`broken champagne bottle`,
+      };
     },
     combat: new CombatStrategy()
       .banish($monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
@@ -325,7 +327,11 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
+      return {
+        equip: $items`Talisman o' Namsilat`,
+        modifier: "-combat, item",
+        avoid: $items`broken champagne bottle`,
+      };
     },
     combat: new CombatStrategy()
       .banish($monsters`Evil Olive, Flock of Stab-bats, Taco Cat, Tan Gnat`)
@@ -345,7 +351,11 @@ const Dome: Task[] = [
     outfit: () => {
       if (have($item`stunt nuts`))
         return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
-      return { equip: $items`Talisman o' Namsilat`, modifier: "-combat, item", avoid: $items`broken champagne bottle` };
+      return {
+        equip: $items`Talisman o' Namsilat`,
+        modifier: "-combat, item",
+        avoid: $items`broken champagne bottle`,
+      };
     },
     combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
@@ -356,7 +366,11 @@ const Dome: Task[] = [
     do: $location`Inside the Palindome`,
     completed: () =>
       have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
-    outfit: { equip: $items`Talisman o' Namsilat`, modifier: "item", avoid: $items`broken champagne bottle` },
+    outfit: {
+      equip: $items`Talisman o' Namsilat`,
+      modifier: "item",
+      avoid: $items`broken champagne bottle`,
+    },
     combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
   },

@@ -80,7 +80,8 @@ const Temple: Task[] = [
     do: () => use($item`Spooky Temple map`),
     limit: { tries: 1 },
     freeaction: true,
-  }, {
+  },
+  {
     name: "Temple Wool",
     after: ["Open Temple"],
     completed: () =>
@@ -93,7 +94,11 @@ const Temple: Task[] = [
       return OverridePriority.BadGoose;
     },
     prepare: () => {
-      if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`) && !have($item`industrial fire extinguisher`))
+      if (
+        itemAmount($item`11-leaf clover`) > 1 &&
+        !have($effect`Lucky!`) &&
+        !have($item`industrial fire extinguisher`)
+      )
         use($item`11-leaf clover`);
     },
     do: $location`The Hidden Temple`,
@@ -108,11 +113,8 @@ const Temple: Task[] = [
           .trySkill($skill`Fire Extinguisher: Polar Vortex`)
           .trySkill($skill`Fire Extinguisher: Polar Vortex`),
         $monster`baa-relief sheep`
-      ).macro(
-        new Macro()
-          .trySkill($skill`Emit Matter Duplicating Drones`),
-        $monster`Baa'baa'bu'ran`
       )
+      .macro(new Macro().trySkill($skill`Emit Matter Duplicating Drones`), $monster`Baa'baa'bu'ran`)
       .killItem([$monster`baa-relief sheep`, $monster`Baa'baa'bu'ran`]),
     choices: { 579: 2, 580: 1, 581: 3, 582: 1 },
     limit: { soft: 20 },
@@ -341,7 +343,9 @@ const Bowling: Task[] = [
     after: ["Open Bowling"],
     ready: () => myMeat() >= 500,
     acquire: [{ item: $item`Bowl of Scorpions`, optional: true }],
-    completed: () => (have($skill`System Sweep`) || get("relocatePygmyJanitor") === myAscensions()) && have($skill`Double Nanovision`),
+    completed: () =>
+      (have($skill`System Sweep`) || get("relocatePygmyJanitor") === myAscensions()) &&
+      have($skill`Double Nanovision`),
     prepare: () => {
       // No need for more bowling progress after we beat the boss
       if (get("hiddenBowlingAlleyProgress") >= 7 && have($item`bowling ball`))
@@ -360,7 +364,8 @@ const Bowling: Task[] = [
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish($monster`pygmy orderlies`),
     outfit: {
-      modifier: "item", avoid: $items`broken champagne bottle`,
+      modifier: "item",
+      avoid: $items`broken champagne bottle`,
     },
     choices: { 788: 1 },
     limit: { soft: 15 },
@@ -378,7 +383,8 @@ const Bowling: Task[] = [
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
       .banish($monsters`pygmy janitor, pygmy orderlies`),
     outfit: {
-      modifier: "item", avoid: $items`broken champagne bottle`,
+      modifier: "item",
+      avoid: $items`broken champagne bottle`,
     },
     choices: { 788: 1 },
     limit: { soft: 25 },
@@ -429,8 +435,7 @@ export const HiddenQuest: Quest = {
         equip: $items`antique machete`,
       },
       choices: { 791: 1 },
-      combat: new CombatStrategy()
-        .kill($monsters`dense liana, Protector Spectre`),
+      combat: new CombatStrategy().kill($monsters`dense liana, Protector Spectre`),
       // .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],
