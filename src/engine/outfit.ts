@@ -60,9 +60,12 @@ export function equipCharging(outfit: Outfit): void {
   ) {
     if (outfit.equip($familiar`Grey Goose`)) {
       outfit.equip($item`yule hatchet`);
-      outfit.equip($item`ghostly reins`);
       outfit.equip($item`teacher's pen`);
-      outfit.equip($item`familiar scrapbook`);
+      // Equip an offhand if it is not needed for the -combat umbrella
+      if (!outfit.modifier?.includes("-combat") || have($skill`Phase Shift`) || !have($item`unbreakable umbrella`)) {
+        outfit.equip($item`ghostly reins`);
+        outfit.equip($item`familiar scrapbook`);
+      }
     }
   } else if (
     (!have($item`eleven-foot pole`) ||
