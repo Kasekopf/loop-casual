@@ -572,6 +572,7 @@ export const MiscQuest: Quest = {
       },
       choices: { 1280: 1 },
       limit: { tries: 1 },
+      freeaction: true,
     },
     {
       name: "Mumming Trunk",
@@ -580,7 +581,8 @@ export const MiscQuest: Quest = {
       completed: () => !have($item`mumming trunk`) || get("_mummeryUses").includes("2,"),
       do: () => cliExecute("mummery mp"),
       outfit: { familiar: $familiar`Grey Goose` },
-      limit: { tries: 1 }
+      limit: { tries: 1 },
+      freeaction: true,
     }
   ],
 };
