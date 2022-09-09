@@ -9,12 +9,7 @@ import {
   Skill,
   Stat,
 } from "kolmafia";
-import {
-  $skill,
-  $stat,
-  have,
-  Macro,
-} from "libram";
+import { $skill, $stat, have, Macro } from "libram";
 import { ActionDefaults, CombatStrategy as BaseCombatStrategy } from "grimoire-kolmafia";
 
 const myActions = [
@@ -28,7 +23,7 @@ const myActions = [
   "killItem", // Kill with an item boost
 ] as const;
 export type CombatActions = typeof myActions[number];
-export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) { }
+export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) {}
 export class MyActionDefaults implements ActionDefaults<CombatActions> {
   ignore(target?: Monster | Location) {
     return this.kill(target);
@@ -61,12 +56,19 @@ export class MyActionDefaults implements ActionDefaults<CombatActions> {
   killItem(target?: Monster | Location) {
     if (have($skill`Double Nanovision`))
       return this.killWith(target, $skill`Double Nanovision`, $stat`Mysticality`);
-    else
-      return this.kill(target);
+    else return this.kill(target);
   }
 
-  private killWith(target: Monster | Location | undefined, killing_blow: Skill, killing_stat: Stat): Macro {
-    if ((target instanceof Monster && target.physicalResistance >= 70) || myMp() < 20 || !have(killing_blow))
+  private killWith(
+    target: Monster | Location | undefined,
+    killing_blow: Skill,
+    killing_stat: Stat
+  ): Macro {
+    if (
+      (target instanceof Monster && target.physicalResistance >= 70) ||
+      myMp() < 20 ||
+      !have(killing_blow)
+    )
       return new Macro().attack().repeat();
 
     // Weaken monsters with Pseudopod slap until they are in range of our kill.
@@ -100,4 +102,3 @@ function maxHP(target?: Monster | Location): number {
     target instanceof Location ? Math.max(...getMonsters(target).map(maxHP)) : target.baseHp;
   return Math.floor(1.05 * base) + numericModifier("Monster Level");
 }
-

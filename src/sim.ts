@@ -163,46 +163,48 @@ function buildIotmList(): Requirement[] {
       thing: $item`designer sweatpants`,
       why: "Sleaze damage",
       optional: true,
-    }
+    },
   ];
 }
 
 function buildLocketList(): Requirement[] {
-  return [{
-    thing: $monster`pygmy witch lawyer`,
-    why: "Infinite Loop",
-    optional: true,
-  },
-  {
-    thing: $monster`mountain man`,
-    why: "Ore",
-    optional: true,
-  },
-  {
-    thing: $monster`One-Eyed Willie`,
-    why: "Absorbing adventures",
-    optional: true,
-  },
-  {
-    thing: $monster`Little Man in the Canoe`,
-    why: "Absorbing adventures",
-    optional: true,
-  },
-  {
-    thing: $monster`revolving bugbear`,
-    why: "Absorbing adventures",
-    optional: true,
-  },
-  {
-    thing: $monster`cloud of disembodied whiskers`,
-    why: "Absorbing adventures",
-    optional: true,
-  },
-  {
-    thing: $monster`vicious gnauga`,
-    why: "Absorbing adventures",
-    optional: true,
-  }];
+  return [
+    {
+      thing: $monster`pygmy witch lawyer`,
+      why: "Infinite Loop",
+      optional: true,
+    },
+    {
+      thing: $monster`mountain man`,
+      why: "Ore",
+      optional: true,
+    },
+    {
+      thing: $monster`One-Eyed Willie`,
+      why: "Absorbing adventures",
+      optional: true,
+    },
+    {
+      thing: $monster`Little Man in the Canoe`,
+      why: "Absorbing adventures",
+      optional: true,
+    },
+    {
+      thing: $monster`revolving bugbear`,
+      why: "Absorbing adventures",
+      optional: true,
+    },
+    {
+      thing: $monster`cloud of disembodied whiskers`,
+      why: "Absorbing adventures",
+      optional: true,
+    },
+    {
+      thing: $monster`vicious gnauga`,
+      why: "Absorbing adventures",
+      optional: true,
+    },
+  ];
 }
 
 function buildMiscList(): Requirement[] {
@@ -226,7 +228,7 @@ function buildMiscList(): Requirement[] {
       thing: $items`Great Wolf's rocket launcher, Drunkula's bell`,
       why: "Kill the wall of bones (with delaytower)",
       optional: true,
-    }
+    },
   ];
 }
 
@@ -251,7 +253,8 @@ function checkThing(thing: Thing): [boolean, string] {
   if (thing instanceof Hardcoded) return [thing.have, thing.name];
   if (thing instanceof Familiar) return [have(thing), thing.hatchling.name];
   if (thing instanceof Skill) return [have(thing), thing.name];
-  if (thing instanceof Monster) return [new Set(CombatLoversLocket.unlockedLocketMonsters()).has(thing), thing.name];
+  if (thing instanceof Monster)
+    return [new Set(CombatLoversLocket.unlockedLocketMonsters()).has(thing), thing.name];
   return [have(thing) || storageAmount(thing) > 0, thing.name];
 }
 

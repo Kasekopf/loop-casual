@@ -1,4 +1,15 @@
-import { buyUsingStorage, cliExecute, inHardcore, Item, itemAmount, myMeat, myTurncount, pullsRemaining, retrieveItem, storageAmount } from "kolmafia";
+import {
+  buyUsingStorage,
+  cliExecute,
+  inHardcore,
+  Item,
+  itemAmount,
+  myMeat,
+  myTurncount,
+  pullsRemaining,
+  retrieveItem,
+  storageAmount,
+} from "kolmafia";
 import { $familiar, $item, $items, $skill, get, have } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../engine/priority";
@@ -23,15 +34,26 @@ type PullSpec = {
 
 export const pulls: PullSpec[] = [
   // Always pull the key items first
-  { pull: $item`daily dungeon malware`, useful: () => keyStrategy.useful(Keys.Malware) && !towerSkip() },
-  { name: "Key Zappable", pull: () => keyStrategy.getZapChoice(), useful: () => keyStrategy.useful(Keys.Zap) && !towerSkip(), duplicate: true },
+  {
+    pull: $item`daily dungeon malware`,
+    useful: () => keyStrategy.useful(Keys.Malware) && !towerSkip(),
+  },
+  {
+    name: "Key Zappable",
+    pull: () => keyStrategy.getZapChoice(),
+    useful: () => keyStrategy.useful(Keys.Zap) && !towerSkip(),
+    duplicate: true,
+  },
   {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
     useful: () => {
-      if (itemAmount($item`asbestos ore`) >= 3 &&
+      if (
+        itemAmount($item`asbestos ore`) >= 3 &&
         itemAmount($item`linoleum ore`) >= 3 &&
-        itemAmount($item`chrome ore`) >= 3) return false;
+        itemAmount($item`chrome ore`) >= 3
+      )
+        return false;
       if (have($item`Deck of Every Card`)) return false;
       if (get("trapperOre") === "") return undefined;
       return itemAmount(Item.get(get("trapperOre"))) < 3 && step("questL08Trapper") < 2;
@@ -41,9 +63,15 @@ export const pulls: PullSpec[] = [
   {
     pull: $item`1,970 carat gold`,
     useful: () => {
-      if (myMeat() < 200 && step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`)) return true;
-      if (myMeat() < 4000 && step("questL11Black") === 2 && !have($item`forged identification documents`)) return true;
-      if (have($skill`System Sweep`) && have($skill`Double Nanovision`)) return false;  // early run is over
+      if (myMeat() < 200 && step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`))
+        return true;
+      if (
+        myMeat() < 4000 &&
+        step("questL11Black") === 2 &&
+        !have($item`forged identification documents`)
+      )
+        return true;
+      if (have($skill`System Sweep`) && have($skill`Double Nanovision`)) return false; // early run is over
       return undefined;
     },
   },
@@ -72,16 +100,19 @@ export const pulls: PullSpec[] = [
     pull: $items`warbear long johns, square sponge pants`,
     useful: () => !have($item`designer sweatpants`),
     optional: true,
-    name: "MP Regen Pants"
+    name: "MP Regen Pants",
   },
   {
     pull: $items`plastic vampire fangs, warbear goggles, burning newspaper`,
-    useful: () => !have($item`designer sweatpants`) && get("greyYouPoints") < 11 && !have($item`burning paper slippers`),
+    useful: () =>
+      !have($item`designer sweatpants`) &&
+      get("greyYouPoints") < 11 &&
+      !have($item`burning paper slippers`),
     optional: true,
     post: () => {
       if (have($item`burning newspaper`)) retrieveItem($item`burning paper slippers`);
     },
-    name: "Max HP with low path progression"
+    name: "Max HP with low path progression",
   },
   { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`) },
   { pull: $item`portable cassette player` },
@@ -94,7 +125,11 @@ export const pulls: PullSpec[] = [
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
   { pull: $item`old patched suit-pants`, optional: true },
-  { pull: $item`transparent pants`, optional: true, useful: () => !have($item`designer sweatpants`) },
+  {
+    pull: $item`transparent pants`,
+    optional: true,
+    useful: () => !have($item`designer sweatpants`),
+  },
   { pull: $item`deck of lewd playing cards`, optional: true },
   { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
@@ -114,18 +149,15 @@ export const pulls: PullSpec[] = [
   },
   {
     pull: $item`ninja rope`,
-    useful: () =>
-      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
   {
     pull: $item`ninja carabiner`,
-    useful: () =>
-      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
   {
     pull: $item`ninja crampons`,
-    useful: () =>
-      step("questL08Trapper") < 3 && step("questL11Shen") > 3,
+    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
   },
 ];
 
@@ -151,12 +183,16 @@ class Pull {
       pull instanceof Item
         ? () => [pull]
         : typeof pull === "function"
-          ? () => [pull()]
-          : () => pull;
+        ? () => [pull()]
+        : () => pull;
     this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
-    this.post = spec.post ?? (() => { null; });
+    this.post =
+      spec.post ??
+      (() => {
+        null;
+      });
   }
 
   public wasPulled(pulled: Set<Item>) {

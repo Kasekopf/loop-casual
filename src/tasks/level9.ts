@@ -106,7 +106,9 @@ const Oil: Task[] = [
       if (myMp() < 80 && myMaxmp() >= 80) restoreMp(80 - myMp());
       if (numericModifier("Monster Level") < 100) changeMcd(10);
     },
-    post: () => { if (currentMcd() > 0) changeMcd(0); },
+    post: () => {
+      if (currentMcd() > 0) changeMcd(0);
+    },
     do: $location`Oil Peak`,
     outfit: () => {
       if (have($item`unbreakable umbrella`))
@@ -155,7 +157,8 @@ const Twin: Task[] = [
     completed: () => !!(get("twinPeakProgress") & 1),
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
-      if (numericModifier("stench resistance") < 4) throw `Unable to ensure cold res for The Icy Peak`;
+      if (numericModifier("stench resistance") < 4)
+        throw `Unable to ensure cold res for The Icy Peak`;
     },
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
@@ -172,7 +175,8 @@ const Twin: Task[] = [
     completed: () => !!(get("twinPeakProgress") & 1),
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
-      if (numericModifier("stench resistance") < 4) throw `Unable to ensure cold res for The Icy Peak`;
+      if (numericModifier("stench resistance") < 4)
+        throw `Unable to ensure cold res for The Icy Peak`;
     },
     do: () => {
       use($item`rusty hedge trimmers`);
@@ -312,19 +316,22 @@ export const ChasmQuest: Quest = {
       outfit: () => {
         if (get("smutOrcNoncombatProgress") < 15) {
           const equip = $items`Space Trip safety headphones, HOA regulation book`;
-          if (!have($skill`Cryocurrency`) &&
+          if (
+            !have($skill`Cryocurrency`) &&
             !have($skill`Cooling Tubules`) &&
-            !have($skill`Snow-Cooling System`)) {
+            !have($skill`Snow-Cooling System`)
+          ) {
             if (have($item`frozen jeans`)) equip.push($item`frozen jeans`);
-            else if (have($item`June cleaver`) && get("_juneCleaverCold", 0) >= 5) equip.push($item`June cleaver`);
-            else if (have($item`industrial fire extinguisher`)) equip.push($item`industrial fire extinguisher`);
+            else if (have($item`June cleaver`) && get("_juneCleaverCold", 0) >= 5)
+              equip.push($item`June cleaver`);
+            else if (have($item`industrial fire extinguisher`))
+              equip.push($item`industrial fire extinguisher`);
           }
           return {
             modifier: "item, -ML",
             equip: equip,
           };
-        }
-        else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
+        } else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
       choices: { 1345: 3 },

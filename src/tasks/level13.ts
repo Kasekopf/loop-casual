@@ -275,7 +275,8 @@ const wand: Task[] = [
     name: "Wand W",
     after: ["Wall of Bones"],
     ready: () => !have($item`11-leaf clover`),
-    completed: () => have($item`ruby W`) || have($item`WA`) || have($item`Wand of Nagamar`) || towerSkip(),
+    completed: () =>
+      have($item`ruby W`) || have($item`WA`) || have($item`Wand of Nagamar`) || towerSkip(),
     do: $location`Pandamonium Slums`,
     outfit: { modifier: "item" },
     combat: new CombatStrategy().killItem($monster`W imp`),
@@ -285,7 +286,8 @@ const wand: Task[] = [
     name: "Wand A",
     after: ["Wall of Bones"],
     ready: () => !have($item`11-leaf clover`),
-    completed: () => have($item`metallic A`) || have($item`WA`) || have($item`Wand of Nagamar`) || towerSkip(),
+    completed: () =>
+      have($item`metallic A`) || have($item`WA`) || have($item`Wand of Nagamar`) || towerSkip(),
     do: $location`The Penultimate Fantasy Airship`,
     outfit: { modifier: "item" },
     combat: new CombatStrategy().killItem($monster`MagiMechTech MechaMech`),
@@ -295,7 +297,8 @@ const wand: Task[] = [
     name: "Wand N",
     after: ["Wall of Bones"],
     ready: () => !have($item`11-leaf clover`),
-    completed: () => have($item`lowercase N`) || have($item`ND`) || have($item`Wand of Nagamar`) || towerSkip(),
+    completed: () =>
+      have($item`lowercase N`) || have($item`ND`) || have($item`Wand of Nagamar`) || towerSkip(),
     do: $location`The Valley of Rof L'm Fao`,
     outfit: { modifier: "item" },
     combat: new CombatStrategy().killItem($monster`XXX pr0n`),
@@ -305,7 +308,8 @@ const wand: Task[] = [
     name: "Wand D",
     after: ["Wall of Bones"],
     ready: () => !have($item`11-leaf clover`),
-    completed: () => have($item`heavy D`) || have($item`ND`) || have($item`Wand of Nagamar`) || towerSkip(),
+    completed: () =>
+      have($item`heavy D`) || have($item`ND`) || have($item`Wand of Nagamar`) || towerSkip(),
     do: $location`The Castle in the Clouds in the Sky (Basement)`,
     outfit: { modifier: "item" },
     combat: new CombatStrategy().killItem($monster`Alphabet Giant`),
@@ -318,7 +322,8 @@ const wand: Task[] = [
     completed: () =>
       have($item`Wand of Nagamar`) ||
       ((have($item`WA`) || (have($item`ruby W`) && have($item`metallic A`))) &&
-        (have($item`ND`) || (have($item`lowercase N`) && have($item`heavy D`)))) || towerSkip(),
+        (have($item`ND`) || (have($item`lowercase N`) && have($item`heavy D`)))) ||
+      towerSkip(),
     prepare: () => use($item`11-leaf clover`),
     do: $location`The Castle in the Clouds in the Sky (Basement)`,
     limit: { tries: 1 },
@@ -459,20 +464,23 @@ export const TowerQuest: Quest = {
           if (myBuffedstat($stat`moxie`) < 1000) ensureEffect($effect`Gr8ness`);
           fillHp();
         } else if (have($item`Drunkula's bell`)) {
-          if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`On the Shoulders of Giants`);
+          if (myBuffedstat($stat`mysticality`) < 2700)
+            ensureEffect($effect`On the Shoulders of Giants`);
           if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`Mystically Oiled`);
           if (myBuffedstat($stat`mysticality`) < 2700) ensureEffect($effect`Gr8ness`);
         }
       },
       do: $location`Tower Level 3`,
       outfit: () => {
-        if (have($item`Great Wolf's rocket launcher`)) return { equip: $items`Great Wolf's rocket launcher`, modifier: "moxie" };
+        if (have($item`Great Wolf's rocket launcher`))
+          return { equip: $items`Great Wolf's rocket launcher`, modifier: "moxie" };
         if (have($item`Drunkula's bell`)) return { modifier: "myst" };
         return {};
       },
       combat: new CombatStrategy().macro(() => {
         if (have($item`electric boning knife`)) return Macro.item($item`electric boning knife`);
-        if (haveEquipped($item`Great Wolf's rocket launcher`)) return Macro.skill($skill`Fire Rocket`);
+        if (haveEquipped($item`Great Wolf's rocket launcher`))
+          return Macro.skill($skill`Fire Rocket`);
         if (have($item`Drunkula's bell`)) return Macro.item($item`Drunkula's bell`);
         throw `Unable to find way to kill Wall of Bones`;
       }),

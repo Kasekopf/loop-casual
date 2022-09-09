@@ -72,14 +72,16 @@ const heroKeys: KeyTask[] = [
       (step("questL13Final") !== -1 ||
         (have($item`Pick-O-Matic lockpicks`) &&
           have($item`ring of Detect Boring Doors`) &&
-          have($item`eleven-foot pole`))) && towerReady(),
+          have($item`eleven-foot pole`))) &&
+      towerReady(),
     after: [],
     completed: () => get("dailyDungeonDone") || get("_dailyDungeonMalwareUsed"),
     prepare: () => {
       set("_loop_gyou_malware_amount", itemAmount($item`daily dungeon malware`));
       if (have($item`Pick-O-Matic lockpicks`)) return;
       if (have($item`Platinum Yendorian Express Card`)) return;
-      if (have($item`skeleton bone`) && have($item`loose teeth`) && !have($item`skeleton key`)) cliExecute("make skeleton key");
+      if (have($item`skeleton bone`) && have($item`loose teeth`) && !have($item`skeleton key`))
+        cliExecute("make skeleton key");
     },
     do: $location`The Daily Dungeon`,
     post: () => {
@@ -97,7 +99,9 @@ const heroKeys: KeyTask[] = [
         if (have($item`Pick-O-Matic lockpicks`)) return 3;
         if (have($item`Platinum Yendorian Express Card`)) return 7;
         if (
-          itemAmount($item`skeleton key`) + min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) > 1
+          itemAmount($item`skeleton key`) +
+            min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
+          1
         )
           return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
@@ -120,13 +124,15 @@ const heroKeys: KeyTask[] = [
       (step("questL13Final") !== -1 ||
         (have($item`Pick-O-Matic lockpicks`) &&
           have($item`ring of Detect Boring Doors`) &&
-          have($item`eleven-foot pole`))) && towerReady(),
+          have($item`eleven-foot pole`))) &&
+      towerReady(),
     after: ["Daily Dungeon Malware"],
     completed: () => get("dailyDungeonDone"),
     prepare: () => {
       if (have($item`Pick-O-Matic lockpicks`)) return;
       if (have($item`Platinum Yendorian Express Card`)) return;
-      if (have($item`skeleton bone`) && have($item`loose teeth`) && !have($item`skeleton key`)) cliExecute("make skeleton key");
+      if (have($item`skeleton bone`) && have($item`loose teeth`) && !have($item`skeleton key`))
+        cliExecute("make skeleton key");
     },
     do: $location`The Daily Dungeon`,
     post: () => {
@@ -142,7 +148,9 @@ const heroKeys: KeyTask[] = [
         if (have($item`Pick-O-Matic lockpicks`)) return 3;
         if (have($item`Platinum Yendorian Express Card`)) return 7;
         if (
-          itemAmount($item`skeleton key`) + min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) > 1
+          itemAmount($item`skeleton key`) +
+            min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
+          1
         )
           return 2;
         if (have($item`skeleton key`) && get("nsTowerDoorKeysUsed").includes("skeleton key"))
@@ -173,12 +181,12 @@ const heroKeys: KeyTask[] = [
     possible: () => get("lastZapperWandExplosionDay") <= 0,
     after: ["Wand/Wand"],
     ready: () => towerReady(),
-    completed: () =>
-      get("lastZapperWandExplosionDay") >= 1 || get("_zapCount") >= 1,
+    completed: () => get("lastZapperWandExplosionDay") >= 1 || get("_zapCount") >= 1,
     do: () => {
       unequipAcc(keyStrategy.getZapChoice());
-      if (!have(keyStrategy.getZapChoice()) && myTurncount() >= 1000) buy(keyStrategy.getZapChoice(), 1, 100000);
-      cliExecute(`zap ${keyStrategy.getZapChoice()}`)
+      if (!have(keyStrategy.getZapChoice()) && myTurncount() >= 1000)
+        buy(keyStrategy.getZapChoice(), 1, 100000);
+      cliExecute(`zap ${keyStrategy.getZapChoice()}`);
     },
     limit: { tries: 1 },
     freeaction: true,
@@ -305,16 +313,20 @@ export const KeysQuest: Quest = {
       completed: () =>
         get("nsTowerDoorKeysUsed").includes("digital key") ||
         have($item`digital key`) ||
-        (itemAmount($item`white pixel`) +
+        itemAmount($item`white pixel`) +
           Math.min(
             itemAmount($item`blue pixel`),
             itemAmount($item`red pixel`),
             itemAmount($item`green pixel`)
           ) >=
-          30) ||
+          30 ||
         towerSkip(),
       do: $location`8-Bit Realm`,
-      outfit: { equip: $items`continuum transfunctioner`, modifier: "item", avoid: $items`broken champagne bottle` },
+      outfit: {
+        equip: $items`continuum transfunctioner`,
+        modifier: "item",
+        avoid: $items`broken champagne bottle`,
+      },
       combat: new CombatStrategy().kill(),
       limit: { soft: 40 },
     },
@@ -327,7 +339,7 @@ export const KeysQuest: Quest = {
         get("nsTowerDoorKeysUsed").includes("Richard's star key") ||
         towerSkip(),
       do: $location`The Hole in the Sky`,
-      outfit: { modifier: "item", avoid: $items`broken champagne bottle`, },
+      outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
       combat: new CombatStrategy().kill($monster`Astronomer`).killItem(),
       limit: { soft: 20 },
       orbtargets: () => (!have($item`star chart`) ? [$monster`Astronomer`] : []),
@@ -347,7 +359,7 @@ export const KeysQuest: Quest = {
         have($item`skeleton key`) ||
         get("nsTowerDoorKeysUsed").includes("skeleton key") ||
         towerSkip(),
-      outfit: { modifier: "item", avoid: $items`broken champagne bottle`, },
+      outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
       combat: new CombatStrategy()
         .killItem($monsters`factory-irregular skeleton, remaindered skeleton, swarm of skulls`)
         .banish($monster`novelty tropical skeleton`),

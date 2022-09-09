@@ -53,7 +53,8 @@ const Diary: Task[] = [
       } else if (
         globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
-        globalStateCache.orb().prediction($location`The Black Forest`) === $monster`black magic woman`
+        globalStateCache.orb().prediction($location`The Black Forest`) ===
+          $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -66,7 +67,7 @@ const Diary: Task[] = [
           equip: $items`blackberry galoshes`,
           familiar: $familiar`Reassembled Blackbird`,
           modifier: "50 combat 5max, item, -1ML",
-          avoid: $items`broken champagne bottle`
+          avoid: $items`broken champagne bottle`,
         };
       }
     },
@@ -359,7 +360,8 @@ const Pyramid: Task[] = [
     completed: () => step("questL11Pyramid") === 999,
     do: () => visitUrl("place.php?whichplace=pyramid&action=pyramid_state1a"),
     outfit: () => {
-      if (!have($item`Pick-O-Matic lockpicks`) && !towerSkip()) return { familiar: $familiar`Gelatinous Cubeling` }; // Ensure we get equipment
+      if (!have($item`Pick-O-Matic lockpicks`) && !towerSkip())
+        return { familiar: $familiar`Gelatinous Cubeling` }; // Ensure we get equipment
       return {};
     },
     combat: new CombatStrategy()
