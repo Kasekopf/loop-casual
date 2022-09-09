@@ -35,7 +35,6 @@ jobs:
           git switch release
           rm -rf scripts/
           rm -rf ccs/
-          git checkout gyou KoLmafia/ccs
           mv KoLmafia/* ./
           git rm -rf KoLmafia
           git add scripts/
