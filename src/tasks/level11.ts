@@ -26,7 +26,7 @@ const Diary: Task[] = [
     outfit: {
       equip: $items`blackberry galoshes`,
       familiar: $familiar`Reassembled Blackbird`,
-      modifier: "+combat 5min",
+      modifier: "+combat",
     },
     choices: { 923: 1, 924: 1 },
     combat: new CombatStrategy().ignore($monster`blackberry bush`).kill(),
