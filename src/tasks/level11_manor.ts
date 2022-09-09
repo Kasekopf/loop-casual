@@ -297,10 +297,10 @@ const ManorBasement: Task[] = [
     do: $location`The Haunted Boiler Room`,
     outfit: (): OutfitSpec => {
       if (have($item`old patched suit-pants`) && have($item`backup camera`))
-        // eslint-disable-next-line libram/verify-constants
         return {
           modifier: "ML",
           equip: $items`unstable fulminate, old patched suit-pants`,
+          // eslint-disable-next-line libram/verify-constants
           avoid: $items`Jurassic Parka`,
         };
       return { modifier: "ML", equip: $items`unstable fulminate, old patched suit-pants` };

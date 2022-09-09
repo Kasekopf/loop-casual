@@ -8,6 +8,7 @@ import {
   getInventory,
   getWorkshed,
   haveEffect,
+  haveEquipped,
   Item,
   Location,
   Monster,
@@ -373,19 +374,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       if (wanderer.action) combat.macro(wanderer.action, wanderer.monsters);
     }
 
-    // Always be ready to fight sausage goblins
-    // TODO: only if we equip kramco
-    if (
-      have($item`Kramco Sausage-o-Matic™`) &&
-      wanderers.find((w) => w.equip === $item`Kramco Sausage-o-Matic™`) === undefined
-    ) {
-      combat.action("killHard", $monster`sausage goblin`);
-      combat.macro(
-        new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-        $monster`sausage goblin`
-      );
-    }
-
     // Kill holiday wanderers
     const holidayMonsters = getTodaysHolidayWanderers();
     // TODO: better detection of which zones holiday monsters can appear
@@ -450,6 +438,26 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         1475: get("_juneCleaverSkips", 0) < 5 ? 4 : 1,
       });
     }
+  }
+
+  setCombat(
+    task: ActiveTask,
+    task_combat: CombatStrategy<CombatActions>,
+    task_resources: CombatResources<CombatActions>
+  ): void {
+    // Always be ready to fight sausage goblins if we equip Kramco
+    if (
+      haveEquipped($item`Kramco Sausage-o-Matic™`) &&
+      task_combat.currentStrategy($monster`sausage goblin`) === undefined
+    ) {
+      task_combat.action("killHard", $monster`sausage goblin`);
+      task_combat.macro(
+        new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
+        $monster`sausage goblin`
+      );
+    }
+
+    super.setCombat(task, task_combat, task_resources);
   }
 
   do(task: ActiveTask): void {

@@ -23,7 +23,7 @@ const myActions = [
   "killItem", // Kill with an item boost
 ] as const;
 export type CombatActions = typeof myActions[number];
-export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) { }
+export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) {}
 export class MyActionDefaults implements ActionDefaults<CombatActions> {
   ignore(target?: Monster | Location) {
     return this.kill(target);
