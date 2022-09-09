@@ -12583,9 +12583,9 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
           var monster = _step3.value;
 
           if (absorb_state.isReprocessTarget(monster)) {
-            outfit.equip(template_string_$familiar(engine_templateObject19 || (engine_templateObject19 = engine_engine_taggedTemplateLiteral(["Grey Goose"])))); // combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
+            outfit.equip(template_string_$familiar(engine_templateObject14 || (engine_templateObject14 = engine_engine_taggedTemplateLiteral(["Grey Goose"])))); // combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
 
-            combat.macro(new Macro().trySkill($skill(engine_templateObject20 || (engine_templateObject20 = engine_engine_taggedTemplateLiteral(["Re-Process Matter"])))), monster, true);
+            combat.macro(new Macro().trySkill($skill(engine_templateObject15 || (engine_templateObject15 = engine_engine_taggedTemplateLiteral(["Re-Process Matter"])))), monster, true);
             debug("Target x2: ".concat(monster.name), "purple");
           } else {
             debug("Target: ".concat(monster.name), "purple");
@@ -12660,13 +12660,6 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
         var _wanderer = _wanderers2[_i2];
         combat.action("killHard", _wanderer.monsters);
         if (_wanderer.action) combat.macro(_wanderer.action, _wanderer.monsters);
-      } // Always be ready to fight sausage goblins
-      // TODO: only if we equip kramco
-
-
-      if (have(template_string_$item(engine_templateObject14 || (engine_templateObject14 = engine_engine_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) && wanderers.find(w => w.equip === template_string_$item(engine_templateObject15 || (engine_templateObject15 = engine_engine_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) === undefined) {
-        combat.action("killHard", $monster(engine_templateObject16 || (engine_templateObject16 = engine_engine_taggedTemplateLiteral(["sausage goblin"]))));
-        combat.macro(new Macro().trySkill($skill(engine_templateObject17 || (engine_templateObject17 = engine_engine_taggedTemplateLiteral(["Emit Matter Duplicating Drones"])))), $monster(engine_templateObject18 || (engine_templateObject18 = engine_engine_taggedTemplateLiteral(["sausage goblin"]))));
       } // Kill holiday wanderers
 
 
@@ -12728,7 +12721,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
     value: function setChoices(task, manager) {
       engine_get(engine_getPrototypeOf(Engine.prototype), "setChoices", this).call(this, task, manager);
 
-      if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(engine_templateObject21 || (engine_templateObject21 = engine_engine_taggedTemplateLiteral(["June cleaver"])))) > 0) {
+      if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(engine_templateObject16 || (engine_templateObject16 = engine_engine_taggedTemplateLiteral(["June cleaver"])))) > 0) {
         this.propertyManager.setChoices({
           // June cleaver noncombats
           1467: 3,
@@ -12744,6 +12737,17 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
           1475: property_get("_juneCleaverSkips", 0) < 5 ? 4 : 1
         });
       }
+    }
+  }, {
+    key: "setCombat",
+    value: function setCombat(task, task_combat, task_resources) {
+      // Always be ready to fight sausage goblins if we equip Kramco
+      if ((0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject17 || (engine_templateObject17 = engine_engine_taggedTemplateLiteral(["Kramco Sausage-o-Matic\u2122"])))) && task_combat.currentStrategy($monster(engine_templateObject18 || (engine_templateObject18 = engine_engine_taggedTemplateLiteral(["sausage goblin"])))) === undefined) {
+        task_combat.action("killHard", $monster(engine_templateObject19 || (engine_templateObject19 = engine_engine_taggedTemplateLiteral(["sausage goblin"]))));
+        task_combat.macro(new Macro().trySkill($skill(engine_templateObject20 || (engine_templateObject20 = engine_engine_taggedTemplateLiteral(["Emit Matter Duplicating Drones"])))), $monster(engine_templateObject21 || (engine_templateObject21 = engine_engine_taggedTemplateLiteral(["sausage goblin"]))));
+      }
+
+      engine_get(engine_getPrototypeOf(Engine.prototype), "setCombat", this).call(this, task, task_combat, task_resources);
     }
   }, {
     key: "do",
@@ -12811,6 +12815,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
         1341: 1 // Cure her poison
 
       });
+      (0,external_kolmafia_namespaceObject.setAutoAttack)(0);
     }
   }, {
     key: "updatePlan",
@@ -15725,12 +15730,12 @@ var ManorBasement = [{
   },
   do: $location(level11_manor_templateObject62 || (level11_manor_templateObject62 = level11_manor_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
   outfit: () => {
-    if (have(template_string_$item(level11_manor_templateObject63 || (level11_manor_templateObject63 = level11_manor_taggedTemplateLiteral(["old patched suit-pants"])))) && have(template_string_$item(level11_manor_templateObject64 || (level11_manor_templateObject64 = level11_manor_taggedTemplateLiteral(["backup camera"]))))) // eslint-disable-next-line libram/verify-constants
-      return {
-        modifier: "ML",
-        equip: template_string_$items(level11_manor_templateObject65 || (level11_manor_templateObject65 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"]))),
-        avoid: template_string_$items(level11_manor_templateObject66 || (level11_manor_templateObject66 = level11_manor_taggedTemplateLiteral(["Jurassic Parka"])))
-      };
+    if (have(template_string_$item(level11_manor_templateObject63 || (level11_manor_templateObject63 = level11_manor_taggedTemplateLiteral(["old patched suit-pants"])))) && have(template_string_$item(level11_manor_templateObject64 || (level11_manor_templateObject64 = level11_manor_taggedTemplateLiteral(["backup camera"]))))) return {
+      modifier: "ML",
+      equip: template_string_$items(level11_manor_templateObject65 || (level11_manor_templateObject65 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"]))),
+      // eslint-disable-next-line libram/verify-constants
+      avoid: template_string_$items(level11_manor_templateObject66 || (level11_manor_templateObject66 = level11_manor_taggedTemplateLiteral(["Jurassic Parka"])))
+    };
     return {
       modifier: "ML",
       equip: template_string_$items(level11_manor_templateObject67 || (level11_manor_templateObject67 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"])))
@@ -17093,7 +17098,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "00da79c";
+var lastCommitHash = "b5990c2";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
