@@ -1,4 +1,4 @@
-import { cliExecute, itemAmount, sell, visitUrl } from "kolmafia";
+import { cliExecute, equippedAmount, itemAmount, sell, visitUrl } from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -16,7 +16,7 @@ import {
   set,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { step } from "grimoire-kolmafia";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
@@ -69,19 +69,52 @@ const Flyers: Task[] = [
 ];
 
 const Lighthouse: Task[] = [
-  // Backup into the Boss Bat's lair
+  // Saber into more lobsterfrogmen
+  // Or backup into the Boss Bat's lair
   {
     name: "Lighthouse",
-    after: ["Enrage", "Bat/Use Sonar 3"],
+    after: ["Enrage"],
+    ready: () => step("questL04Bat") >= 3 || have($item`Fourth of May Cosplay Saber`),
     completed: () =>
-      get("lastCopyableMonster") === $monster`lobsterfrogman` ||
       itemAmount($item`barrel of gunpowder`) >= 5 ||
       get("sidequestLighthouseCompleted") !== "none" ||
-      !have($item`backup camera`),
+      !have($item`backup camera`) ||
+      !have($item`Fourth of May Cosplay Saber`),
     do: $location`Sonofa Beach`,
-    outfit: { modifier: "+combat" },
-    combat: new CombatStrategy().kill($monster`lobsterfrogman`),
-    limit: { tries: 1 },
+    outfit: (): OutfitSpec => {
+      if (!have($item`Fourth of May Cosplay Saber`)) return { modifier: "+combat" };
+
+      // Look for the first lobsterfrogman
+      if (
+        get("_saberForceMonster") !== $monster`lobsterfrogman` ||
+        get("_saberForceMonsterCount") === 0
+      ) {
+        return { modifier: "+combat", equip: $items`Fourth of May Cosplay Saber` };
+      }
+
+      // Reuse the force to track more lobsterfrogman
+      if (get("_saberForceMonsterCount") === 1 && itemAmount($item`barrel of gunpowder`) < 4) {
+        return { equip: $items`Fourth of May Cosplay Saber` };
+      }
+
+      return {};
+    },
+    combat: new CombatStrategy()
+      .macro(() => {
+        if (
+          equippedAmount($item`Fourth of May Cosplay Saber`) > 0 &&
+          get("_saberForceUses") < 5 &&
+          (get("_saberForceMonster") !== $monster`lobsterfrogman` ||
+            get("_saberForceMonsterCount") === 0 ||
+            (get("_saberForceMonsterCount") === 1 && itemAmount($item`barrel of gunpowder`) < 4))
+        ) {
+          return new Macro().skill($skill`Use the Force`);
+        }
+        return new Macro();
+      })
+      .kill($monster`lobsterfrogman`),
+    choices: { 1387: 2 },
+    limit: { tries: 10 },
   },
   {
     name: "Lighthouse Basic",
