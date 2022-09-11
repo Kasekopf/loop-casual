@@ -144,16 +144,17 @@ export function equipDefaults(outfit: Outfit): void {
     if (outfit.modifier.match("-[\\d .]*ML")) {
       outfit.avoid.push($item`unbreakable umbrella`);
     }
-
-    // Avoid burning CMG void fight just for the modifier
-    if (
-      have($item`cursed magnifying glass`) &&
-      get("cursedMagnifyingGlassCount") >= 13 &&
-      [...outfit.equips.values()].includes($item`cursed magnifying glass`)
-    ) {
-      outfit.avoid.push($item`cursed magnifying glass`);
-    }
   }
+
+  // Avoid burning CMG void fight just for the modifier
+  if (
+    have($item`cursed magnifying glass`) &&
+    get("cursedMagnifyingGlassCount") >= 13 &&
+    ![...outfit.equips.values()].includes($item`cursed magnifying glass`)
+  ) {
+    outfit.avoid.push($item`cursed magnifying glass`);
+  }
+
   outfit.equip($item`miniature crystal ball`);
   // If we never found a better familiar, just keep charging the goose
   outfit.equip($familiar`Grey Goose`);
