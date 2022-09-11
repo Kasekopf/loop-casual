@@ -1,4 +1,4 @@
-import { cliExecute, Familiar, Item, itemAmount, Monster, Skill, totalTurnsPlayed } from "kolmafia";
+import { cliExecute, Familiar, Item, Monster, Skill, totalTurnsPlayed } from "kolmafia";
 import {
   $item,
   $monster,
@@ -151,9 +151,7 @@ export const wandererSources: WandererSource[] = [
     available: () =>
       have($item`cursed magnifying glass`) &&
       get("_voidFreeFights") < 5 &&
-      get("cursedMagnifyingGlassCount") >= 13 &&
-      (itemAmount($item`barrel of gunpowder`) >= 5 || // Done with cmg + meteor trick
-        get("sidequestLighthouseCompleted") !== "none"),
+      get("cursedMagnifyingGlassCount") >= 13,
     equip: $item`cursed magnifying glass`,
     monsters: [$monster`void guy`, $monster`void slab`, $monster`void spider`],
     chance: () => 1, // when available
