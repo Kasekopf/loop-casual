@@ -445,7 +445,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     task_resources: CombatResources<CombatActions>
   ): void {
     // Always be ready to fight sausage goblins if we equip Kramco
-    if (haveEquipped($item`Kramco Sausage-o-Matic™`)) {
+    if (
+      haveEquipped($item`Kramco Sausage-o-Matic™`) &&
+      task_combat.currentStrategy($monster`sausage goblin`) !== "killHard"
+    ) {
       task_combat.action("killHard", $monster`sausage goblin`);
       task_combat.macro(
         new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
