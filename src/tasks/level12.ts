@@ -8,7 +8,6 @@ import {
   $items,
   $location,
   $monster,
-  $monsters,
   $skill,
   ensureEffect,
   get,
@@ -70,26 +69,18 @@ const Flyers: Task[] = [
 ];
 
 const Lighthouse: Task[] = [
-  // Use CMG to replace a void monster into a Lobsterfrogman, then backup into the Boss Bat's lair
+  // Backup into the Boss Bat's lair
   {
     name: "Lighthouse",
     after: ["Enrage", "Bat/Use Sonar 3"],
-    ready: () => get("cursedMagnifyingGlassCount") >= 13 && get("_voidFreeFights") < 5,
     completed: () =>
       get("lastCopyableMonster") === $monster`lobsterfrogman` ||
       itemAmount($item`barrel of gunpowder`) >= 5 ||
       get("sidequestLighthouseCompleted") !== "none" ||
-      !have($item`cursed magnifying glass`) ||
-      !have($item`Powerful Glove`) ||
       !have($item`backup camera`),
     do: $location`Sonofa Beach`,
-    outfit: { offhand: $item`cursed magnifying glass`, equip: $items`Powerful Glove` },
-    combat: new CombatStrategy()
-      .macro(
-        new Macro().trySkill($skill`CHEAT CODE: Replace Enemy`),
-        $monsters`void guy, void slab, void spider`
-      )
-      .kill($monster`lobsterfrogman`),
+    outfit: { modifier: "+combat" },
+    combat: new CombatStrategy().kill($monster`lobsterfrogman`),
     limit: { tries: 1 },
   },
   {
@@ -98,9 +89,7 @@ const Lighthouse: Task[] = [
     completed: () =>
       itemAmount($item`barrel of gunpowder`) >= 5 || get("sidequestLighthouseCompleted") !== "none",
     do: $location`Sonofa Beach`,
-    outfit: {
-      modifier: "+combat",
-    },
+    outfit: { modifier: "+combat" },
     combat: new CombatStrategy().kill($monster`lobsterfrogman`),
     limit: { soft: 40 },
   },

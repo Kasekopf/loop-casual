@@ -145,7 +145,8 @@ export const BatQuest: Quest = {
         step("questL04Bat") >= 4 ||
         itemAmount($item`barrel of gunpowder`) >= 5 ||
         get("sidequestLighthouseCompleted") !== "none" ||
-        !have($item`backup camera`),
+        !have($item`backup camera`) ||
+        (have($item`Fourth of May Cosplay Saber`) && get("_saberForceUses") < 4),
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`Back-Up to your Last Enemy`))
