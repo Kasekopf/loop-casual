@@ -418,6 +418,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     if (!task.freeaction) {
       if (myHp() < 50 && myHp() < myMaxhp()) restoreHp(myMaxhp() < 50 ? myMaxhp() : 50);
       if (myMp() < 40 && myMaxmp() >= 40) customRestoreMp(40);
+      else if (myMp() < 20) customRestoreMp(20);
     }
   }
 
