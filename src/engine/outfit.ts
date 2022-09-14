@@ -143,11 +143,6 @@ export function equipDefaults(outfit: Outfit): void {
     if (haveLoathingLegion()) {
       outfit.avoid.push($item`Loathing Legion defibrillator`);
     }
-
-    // Do not use umbrella for -ML
-    if (outfit.modifier.match("-[\\d .]*ML")) {
-      outfit.avoid.push($item`unbreakable umbrella`);
-    }
   }
 
   // Avoid burning CMG void fight just for the modifier
@@ -169,7 +164,7 @@ export function fixFoldables(outfit: Outfit) {
   if (equippedAmount($item`unbreakable umbrella`) > 0) {
     if (outfit.modifier?.includes("-combat")) {
       if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-    } else if (outfit.modifier?.includes("ML")) {
+    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
     } else if (outfit.modifier?.includes("item")) {
       if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
