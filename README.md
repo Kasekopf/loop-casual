@@ -18,7 +18,7 @@ svn checkout https://github.com/Kasekopf/loop-casual/branches/release/
 
 1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements (see below for more details).
 2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora. No particular workshed is required, but only cold medicine cabinet is used at the moment.
-3. Run `loopgyou` and watch it go! If you are more hesitent, you can run `loopgyou actions 10` to only do 10 things and stop.
+3. Run `loopgyou` and watch it go! If you are more hesitant, you can run `loopgyou actions 10` to only do 10 things and stop.
 
 Run `loopgyou help` for the full set of script options:
 
@@ -42,6 +42,7 @@ Options:
   fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
   completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
+  list - Show the status of all tasks and exit. [setting: loopgyou_list]
   help - Show this message and exit.
 ```
 
@@ -64,17 +65,19 @@ IoTMs (Optional)
 ✓ Cold medicine cabinet - Get Extrovermectin for profit
 ✓ combat lover's locket - Reminiscing
 ✓ Cosmic bowling ball - Banishes, Pygmy killing
-✓ cursed magnifying glass - Lobsterfrogmen, delay
+✓ cursed magnifying glass - Delay
 ✓ Deck of Every Card - A key for the NS tower, stone wool, ore
 ✓ designer sweatpants - Sleaze damage
+✓ Fourth of May Cosplay Saber - Lobsterfrogmen, res
 ✓ fresh coat of paint - Minor boosts in moxie sign
 ✓ haunted doghouse - Ghost dog chow
 ✓ hewn moon-rune spoon - Access to an extra monster absorb (see tune arg)
 ✓ industrial fire extinguisher - Harem outfit, Bat hole, stone wool, Crypt, Ultrahydrated
 ✓ June cleaver - Cold damage, QoL, sometimes +famexp and +adv
+✓ Jurassic Parka - Meat, ML, QoL (in moxie sign)
 ✓ MayDay™ contract - +combat, early meat
 ✓ miniature crystal ball - Monster prediction
-✓ Powerful Glove - Pixels and lobsterfrogmen
+✓ Powerful Glove - Pixels
 ✓ protonic accelerator pack - Wanderers
 ✓ shortest-order cook - Kill the Wall of Skin, initial exp
 ✓ SongBoom™ BoomBox - Meat and special seasonings
@@ -96,6 +99,7 @@ Miscellany (Optional)
 ✓ Cornbeefadon - Amulet coin, with clip art
 ✓ Great Wolf's rocket launcher OR Drunkula's bell - Kill the wall of bones (with delaytower)
 ✓ hobo monkey - Meat drops
+✓ Permanent pool skill from A Shark's Chum - Haunted billiards room
 ✓ woim - Bonus initiative
 
 Expensive Pulls (Optional)
@@ -116,5 +120,4 @@ You have everything! You are the shiniest star. This script should work great.
 If you would like to make your own modifications to the script, the recommended way is to compile and install the script manually.
 
 1. Compile the script, following instructions in the [kol-ts-starter](https://github.com/docrostov/kol-ts-starter).
-2. Copy [loopgyou.ccs](KoLmafia/ccs/loopgyou.ccs) from KoLmafia/ccs to your Mafia css directory.
-3. Copy loopgyou.js and loopgyou-combat.js from KoLmafia/scripts/loop-gyou to your Mafia scripts directory.
+2. Copy loopgyou.js from KoLmafia/scripts/loop-gyou to your Mafia scripts directory.

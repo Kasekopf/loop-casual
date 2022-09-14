@@ -83,7 +83,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`Powerful Glove`,
-      why: "Pixels and lobsterfrogmen",
+      why: "Pixels",
       optional: true,
     },
     {
@@ -93,7 +93,7 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: $item`cursed magnifying glass`,
-      why: "Lobsterfrogmen, delay",
+      why: "Delay",
       optional: true,
     },
     {
@@ -164,6 +164,17 @@ function buildIotmList(): Requirement[] {
       why: "Sleaze damage",
       optional: true,
     },
+    {
+      // eslint-disable-next-line libram/verify-constants
+      thing: $item`Jurassic Parka`,
+      why: "Meat, ML, QoL (in moxie sign)",
+      optional: true,
+    },
+    {
+      thing: $item`Fourth of May Cosplay Saber`,
+      why: "Lobsterfrogmen, res",
+      optional: true,
+    },
   ];
 }
 
@@ -227,6 +238,11 @@ function buildMiscList(): Requirement[] {
     {
       thing: $items`Great Wolf's rocket launcher, Drunkula's bell`,
       why: "Kill the wall of bones (with delaytower)",
+      optional: true,
+    },
+    {
+      thing: new Hardcoded(get("poolSharkCount") >= 25, "Permanent pool skill from A Shark's Chum"),
+      why: "Haunted billiards room",
       optional: true,
     },
   ];
