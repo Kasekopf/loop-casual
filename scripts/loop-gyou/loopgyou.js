@@ -8815,7 +8815,7 @@ function min(a, b) {
   return a < b ? a : b;
 }
 ;// CONCATENATED MODULE: ./src/engine/outfit.ts
-var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71;
+var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70;
 
 function engine_outfit_toConsumableArray(arr) { return engine_outfit_arrayWithoutHoles(arr) || engine_outfit_iterableToArray(arr) || engine_outfit_unsupportedIterableToArray(arr) || engine_outfit_nonIterableSpread(); }
 
@@ -8976,31 +8976,26 @@ function equipDefaults(outfit) {
 
     if (haveLoathingLegion()) {
       outfit.avoid.push(template_string_$item(outfit_templateObject62 || (outfit_templateObject62 = engine_outfit_taggedTemplateLiteral(["Loathing Legion defibrillator"]))));
-    } // Do not use umbrella for -ML
-
-
-    if (outfit.modifier.match("-[\\d .]*ML")) {
-      outfit.avoid.push(template_string_$item(outfit_templateObject63 || (outfit_templateObject63 = engine_outfit_taggedTemplateLiteral(["unbreakable umbrella"]))));
     }
   } // Avoid burning CMG void fight just for the modifier
 
 
-  if (have(template_string_$item(outfit_templateObject64 || (outfit_templateObject64 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"])))) && property_get("cursedMagnifyingGlassCount") >= 13 && !engine_outfit_toConsumableArray(outfit.equips.values()).includes(template_string_$item(outfit_templateObject65 || (outfit_templateObject65 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"]))))) {
-    outfit.avoid.push(template_string_$item(outfit_templateObject66 || (outfit_templateObject66 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"]))));
+  if (have(template_string_$item(outfit_templateObject63 || (outfit_templateObject63 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"])))) && property_get("cursedMagnifyingGlassCount") >= 13 && !engine_outfit_toConsumableArray(outfit.equips.values()).includes(template_string_$item(outfit_templateObject64 || (outfit_templateObject64 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"]))))) {
+    outfit.avoid.push(template_string_$item(outfit_templateObject65 || (outfit_templateObject65 = engine_outfit_taggedTemplateLiteral(["cursed magnifying glass"]))));
   }
 
-  outfit.equip(template_string_$item(outfit_templateObject67 || (outfit_templateObject67 = engine_outfit_taggedTemplateLiteral(["miniature crystal ball"])))); // If we never found a better familiar, just keep charging the goose
+  outfit.equip(template_string_$item(outfit_templateObject66 || (outfit_templateObject66 = engine_outfit_taggedTemplateLiteral(["miniature crystal ball"])))); // If we never found a better familiar, just keep charging the goose
 
-  outfit.equip(template_string_$familiar(outfit_templateObject68 || (outfit_templateObject68 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))));
+  outfit.equip(template_string_$familiar(outfit_templateObject67 || (outfit_templateObject67 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))));
 }
 function fixFoldables(outfit) {
   // Libram outfit cache may not autofold umbrella, so we need to
-  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject69 || (outfit_templateObject69 = engine_outfit_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0) {
+  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject68 || (outfit_templateObject68 = engine_outfit_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0) {
     var _outfit$modifier10, _outfit$modifier11, _outfit$modifier12;
 
     if ((_outfit$modifier10 = outfit.modifier) !== null && _outfit$modifier10 !== void 0 && _outfit$modifier10.includes("-combat")) {
       if (property_get("umbrellaState") !== "cocoon") (0,external_kolmafia_namespaceObject.cliExecute)("umbrella cocoon");
-    } else if ((_outfit$modifier11 = outfit.modifier) !== null && _outfit$modifier11 !== void 0 && _outfit$modifier11.includes("ML")) {
+    } else if ((_outfit$modifier11 = outfit.modifier) !== null && _outfit$modifier11 !== void 0 && _outfit$modifier11.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (property_get("umbrellaState") !== "broken") (0,external_kolmafia_namespaceObject.cliExecute)("umbrella broken");
     } else if ((_outfit$modifier12 = outfit.modifier) !== null && _outfit$modifier12 !== void 0 && _outfit$modifier12.includes("item")) {
       if (property_get("umbrellaState") !== "bucket style") (0,external_kolmafia_namespaceObject.cliExecute)("umbrella bucket");
@@ -9010,7 +9005,7 @@ function fixFoldables(outfit) {
   } // Libram outfit cache may not autofold camera, so we need to
 
 
-  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject70 || (outfit_templateObject70 = engine_outfit_taggedTemplateLiteral(["backup camera"])))) > 0) {
+  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject69 || (outfit_templateObject69 = engine_outfit_taggedTemplateLiteral(["backup camera"])))) > 0) {
     var _outfit$modifier13, _outfit$modifier14;
 
     if ((_outfit$modifier13 = outfit.modifier) !== null && _outfit$modifier13 !== void 0 && _outfit$modifier13.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
@@ -9027,7 +9022,7 @@ function fixFoldables(outfit) {
   } // Libram outfit cache may not autofold cape, so we need to
 
 
-  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject71 || (outfit_templateObject71 = engine_outfit_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"])))) > 0) {
+  if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(outfit_templateObject70 || (outfit_templateObject70 = engine_outfit_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"])))) > 0) {
     var _outfit$modifier15;
 
     if ((_outfit$modifier15 = outfit.modifier) !== null && _outfit$modifier15 !== void 0 && _outfit$modifier15.includes("res") && property_get("retroCapeSuperhero") !== "vampire" || property_get("retroCapeWashingInstructions") !== "hold") {
@@ -16942,7 +16937,7 @@ function sinceKolmafiaVersion(majorVersion, minorVersion) {
   }
 }
 ;// CONCATENATED MODULE: ./src/sim.ts
-var sim_templateObject, sim_templateObject2, sim_templateObject3, sim_templateObject4, sim_templateObject5, sim_templateObject6, sim_templateObject7, sim_templateObject8, sim_templateObject9, sim_templateObject10, sim_templateObject11, sim_templateObject12, sim_templateObject13, sim_templateObject14, sim_templateObject15, sim_templateObject16, sim_templateObject17, sim_templateObject18, sim_templateObject19, sim_templateObject20, sim_templateObject21, sim_templateObject22, sim_templateObject23, sim_templateObject24, sim_templateObject25, sim_templateObject26, sim_templateObject27, sim_templateObject28, sim_templateObject29, sim_templateObject30, sim_templateObject31, sim_templateObject32, sim_templateObject33, sim_templateObject34, sim_templateObject35, sim_templateObject36, sim_templateObject37;
+var sim_templateObject, sim_templateObject2, sim_templateObject3, sim_templateObject4, sim_templateObject5, sim_templateObject6, sim_templateObject7, sim_templateObject8, sim_templateObject9, sim_templateObject10, sim_templateObject11, sim_templateObject12, sim_templateObject13, sim_templateObject14, sim_templateObject15, sim_templateObject16, sim_templateObject17, sim_templateObject18, sim_templateObject19, sim_templateObject20, sim_templateObject21, sim_templateObject22, sim_templateObject23, sim_templateObject24, sim_templateObject25, sim_templateObject26, sim_templateObject27, sim_templateObject28, sim_templateObject29, sim_templateObject30, sim_templateObject31, sim_templateObject32, sim_templateObject33, sim_templateObject34, sim_templateObject35, sim_templateObject36, sim_templateObject37, sim_templateObject38, sim_templateObject39;
 
 function sim_slicedToArray(arr, i) { return sim_arrayWithHoles(arr) || sim_iterableToArrayLimit(arr, i) || sim_unsupportedIterableToArray(arr, i) || sim_nonIterableRest(); }
 
@@ -17031,7 +17026,7 @@ function buildIotmList() {
     optional: true
   }, {
     thing: template_string_$item(sim_templateObject13 || (sim_templateObject13 = sim_taggedTemplateLiteral(["Powerful Glove"]))),
-    why: "Pixels and lobsterfrogmen",
+    why: "Pixels",
     optional: true
   }, {
     thing: template_string_$item(sim_templateObject14 || (sim_templateObject14 = sim_taggedTemplateLiteral(["SpinMaster\u2122 lathe"]))),
@@ -17039,7 +17034,7 @@ function buildIotmList() {
     optional: true
   }, {
     thing: template_string_$item(sim_templateObject15 || (sim_templateObject15 = sim_taggedTemplateLiteral(["cursed magnifying glass"]))),
-    why: "Lobsterfrogmen, delay",
+    why: "Delay",
     optional: true
   }, {
     thing: template_string_$item(sim_templateObject16 || (sim_templateObject16 = sim_taggedTemplateLiteral(["backup camera"]))),
@@ -17093,36 +17088,45 @@ function buildIotmList() {
     thing: template_string_$item(sim_templateObject26 || (sim_templateObject26 = sim_taggedTemplateLiteral(["designer sweatpants"]))),
     why: "Sleaze damage",
     optional: true
+  }, {
+    // eslint-disable-next-line libram/verify-constants
+    thing: template_string_$item(sim_templateObject27 || (sim_templateObject27 = sim_taggedTemplateLiteral(["Jurassic Parka"]))),
+    why: "Meat, ML, QoL (in moxie sign)",
+    optional: true
+  }, {
+    thing: template_string_$item(sim_templateObject28 || (sim_templateObject28 = sim_taggedTemplateLiteral(["Fourth of May Cosplay Saber"]))),
+    why: "Lobsterfrogmen, res",
+    optional: true
   }];
 }
 
 function buildLocketList() {
   return [{
-    thing: $monster(sim_templateObject27 || (sim_templateObject27 = sim_taggedTemplateLiteral(["pygmy witch lawyer"]))),
+    thing: $monster(sim_templateObject29 || (sim_templateObject29 = sim_taggedTemplateLiteral(["pygmy witch lawyer"]))),
     why: "Infinite Loop",
     optional: true
   }, {
-    thing: $monster(sim_templateObject28 || (sim_templateObject28 = sim_taggedTemplateLiteral(["mountain man"]))),
+    thing: $monster(sim_templateObject30 || (sim_templateObject30 = sim_taggedTemplateLiteral(["mountain man"]))),
     why: "Ore",
     optional: true
   }, {
-    thing: $monster(sim_templateObject29 || (sim_templateObject29 = sim_taggedTemplateLiteral(["One-Eyed Willie"]))),
+    thing: $monster(sim_templateObject31 || (sim_templateObject31 = sim_taggedTemplateLiteral(["One-Eyed Willie"]))),
     why: "Absorbing adventures",
     optional: true
   }, {
-    thing: $monster(sim_templateObject30 || (sim_templateObject30 = sim_taggedTemplateLiteral(["Little Man in the Canoe"]))),
+    thing: $monster(sim_templateObject32 || (sim_templateObject32 = sim_taggedTemplateLiteral(["Little Man in the Canoe"]))),
     why: "Absorbing adventures",
     optional: true
   }, {
-    thing: $monster(sim_templateObject31 || (sim_templateObject31 = sim_taggedTemplateLiteral(["revolving bugbear"]))),
+    thing: $monster(sim_templateObject33 || (sim_templateObject33 = sim_taggedTemplateLiteral(["revolving bugbear"]))),
     why: "Absorbing adventures",
     optional: true
   }, {
-    thing: $monster(sim_templateObject32 || (sim_templateObject32 = sim_taggedTemplateLiteral(["cloud of disembodied whiskers"]))),
+    thing: $monster(sim_templateObject34 || (sim_templateObject34 = sim_taggedTemplateLiteral(["cloud of disembodied whiskers"]))),
     why: "Absorbing adventures",
     optional: true
   }, {
-    thing: $monster(sim_templateObject33 || (sim_templateObject33 = sim_taggedTemplateLiteral(["vicious gnauga"]))),
+    thing: $monster(sim_templateObject35 || (sim_templateObject35 = sim_taggedTemplateLiteral(["vicious gnauga"]))),
     why: "Absorbing adventures",
     optional: true
   }];
@@ -17130,20 +17134,24 @@ function buildLocketList() {
 
 function buildMiscList() {
   return [{
-    thing: template_string_$familiar(sim_templateObject34 || (sim_templateObject34 = sim_taggedTemplateLiteral(["Oily Woim"]))),
+    thing: template_string_$familiar(sim_templateObject36 || (sim_templateObject36 = sim_taggedTemplateLiteral(["Oily Woim"]))),
     why: "Bonus initiative",
     optional: true
   }, {
-    thing: template_string_$familiar(sim_templateObject35 || (sim_templateObject35 = sim_taggedTemplateLiteral(["Hobo Monkey"]))),
+    thing: template_string_$familiar(sim_templateObject37 || (sim_templateObject37 = sim_taggedTemplateLiteral(["Hobo Monkey"]))),
     why: "Meat drops",
     optional: true
   }, {
-    thing: template_string_$familiar(sim_templateObject36 || (sim_templateObject36 = sim_taggedTemplateLiteral(["Cornbeefadon"]))),
+    thing: template_string_$familiar(sim_templateObject38 || (sim_templateObject38 = sim_taggedTemplateLiteral(["Cornbeefadon"]))),
     why: "Amulet coin, with clip art",
     optional: true
   }, {
-    thing: template_string_$items(sim_templateObject37 || (sim_templateObject37 = sim_taggedTemplateLiteral(["Great Wolf's rocket launcher, Drunkula's bell"]))),
+    thing: template_string_$items(sim_templateObject39 || (sim_templateObject39 = sim_taggedTemplateLiteral(["Great Wolf's rocket launcher, Drunkula's bell"]))),
     why: "Kill the wall of bones (with delaytower)",
+    optional: true
+  }, {
+    thing: new Hardcoded(property_get("poolSharkCount") >= 25, "Permanent pool skill from A Shark's Chum"),
+    why: "Haunted billiards room",
     optional: true
   }];
 }
@@ -17251,7 +17259,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "825832e";
+var lastCommitHash = "4977e41";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
