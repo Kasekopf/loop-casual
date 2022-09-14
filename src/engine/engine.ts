@@ -1,4 +1,4 @@
-import { Location, Monster, myAdventures } from "kolmafia";
+import { cliExecute, Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
 import { $effect, $familiar, $item, $skill, have, PropertiesManager } from "libram";
 import { CombatActions, MyActionDefaults } from "./combat";
@@ -14,7 +14,7 @@ import {
   WandererSource,
   wandererSources,
 } from "./resources";
-import { equipDefaults, equipFirst, equipInitial, equipUntilCapped } from "./outfit";
+import { equipDefaults, equipFirst, equipInitial, equipUntilCapped, fixFoldables } from "./outfit";
 
 type ActiveTask = Task & {
   wanderer?: WandererSource;
@@ -176,7 +176,16 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   dress(task: Task, outfit: Outfit): void {
-    super.dress(task, outfit);
+    try {
+      outfit.dress();
+    } catch {
+      // If we fail to dress, this is maybe just a mafia desync.
+      // So refresh our inventory and try again (once).
+      debug("Possible mafia desync detected; refreshing...");
+      cliExecute("refresh all");
+      outfit.dress({ forceUpdate: true });
+    }
+    fixFoldables(outfit);
     applyEffects(outfit.modifier ?? "", task.effects || []);
 
     // HP/MP upkeep

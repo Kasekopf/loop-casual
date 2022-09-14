@@ -1,4 +1,4 @@
-import { Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
+import { cliExecute, equippedAmount, Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
 import { $familiar, $item, $stat, get, have } from "libram";
 import { Resource } from "./resources";
 import { Outfit } from "grimoire-kolmafia";
@@ -77,4 +77,47 @@ export function equipDefaults(outfit: Outfit): void {
   ]);
   const familiarEquip = commonFamiliarEquips.get(outfit.familiar ?? $familiar`none`);
   if (familiarEquip && outfit.canEquip(familiarEquip)) outfit.equip(familiarEquip);
+}
+
+export function fixFoldables(outfit: Outfit) {
+  // Libram outfit cache may not autofold umbrella, so we need to
+  if (equippedAmount($item`unbreakable umbrella`) > 0) {
+    if (outfit.modifier?.includes("-combat")) {
+      if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
+    } else if (
+      (outfit.modifier?.includes("ML") ||
+        outfit.modifier?.toLowerCase().includes("monster level percent")) &&
+      !outfit.modifier.match("-[\\d .]*ML")
+    ) {
+      if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
+    } else if (outfit.modifier?.includes("item")) {
+      if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
+    } else {
+      if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
+    }
+  }
+
+  // Libram outfit cache may not autofold camera, so we need to
+  if (equippedAmount($item`backup camera`) > 0) {
+    if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+      if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
+    } else if (outfit.modifier?.includes("init")) {
+      if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
+    } else {
+      if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
+    }
+    if (!get("backupCameraReverserEnabled")) {
+      cliExecute("backupcamera reverser on");
+    }
+  }
+
+  // Libram outfit cache may not autofold cape, so we need to
+  if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
+    if (
+      (outfit.modifier?.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
+      get("retroCapeWashingInstructions") !== "hold"
+    ) {
+      cliExecute("retrocape vampire hold");
+    }
+  }
 }
