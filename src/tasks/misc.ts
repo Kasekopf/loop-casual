@@ -37,6 +37,7 @@ import {
   $monsters,
   $skill,
   $stat,
+  AsdonMartin,
   ensureEffect,
   get,
   getSaleValue,
@@ -515,7 +516,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Tune from Muscle",
-      after: ["Unlock Beach", "Reprocess/The Bugbear Pen"],
+      after: ["Unlock Beach", "Reprocess/The Bugbear Pen", "Bugbear Outfit"],
       ready: () =>
         knollAvailable() &&
         (mySign() !== "Vole" ||
@@ -597,11 +598,28 @@ export const MiscQuest: Quest = {
     {
       name: "Swap Workshed",
       after: [],
+      priority: () => OverridePriority.Free,
       ready: () =>
         get("_coldMedicineConsults") >= 5 && getWorkshed() === $item`cold medicine cabinet`,
       completed: () =>
         !have($item`Asdon Martin keyfob`) || get("_workshedItemUsed") || myTurncount() >= 1000,
       do: () => use($item`Asdon Martin keyfob`),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Bugbear Outfit",
+      after: [],
+      priority: () => OverridePriority.Free,
+      ready: () => myMeat() >= 140,
+      completed: () =>
+        (!have($item`Asdon Martin keyfob`) && !AsdonMartin.installed()) ||
+        !knollAvailable() ||
+        (have($item`bugbear beanie`) && have($item`bugbear bungguard`)),
+      do: () => {
+        retrieveItem($item`bugbear beanie`);
+        retrieveItem($item`bugbear bungguard`);
+      },
       limit: { tries: 1 },
       freeaction: true,
     },
