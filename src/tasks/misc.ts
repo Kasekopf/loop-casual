@@ -6,6 +6,7 @@ import {
   equippedAmount,
   Familiar,
   familiarWeight,
+  getWorkshed,
   gnomadsAvailable,
   hermit,
   itemAmount,
@@ -590,6 +591,17 @@ export const MiscQuest: Quest = {
       completed: () => !have($item`mumming trunk`) || get("_mummeryUses").includes("2,"),
       do: () => cliExecute("mummery mp"),
       outfit: { familiar: $familiar`Grey Goose` },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Swap Workshed",
+      after: [],
+      ready: () =>
+        get("_coldMedicineConsults") >= 5 && getWorkshed() === $item`cold medicine cabinet`,
+      completed: () =>
+        !have($item`Asdon Martin keyfob`) || get("_workshedItemUsed") || myTurncount() >= 1000,
+      do: () => use($item`Asdon Martin keyfob`),
       limit: { tries: 1 },
       freeaction: true,
     },

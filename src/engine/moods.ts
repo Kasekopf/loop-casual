@@ -5,6 +5,7 @@ import {
   equippedAmount,
   equippedItem,
   getInventory,
+  getWorkshed,
   Item,
   myMaxmp,
   myMp,
@@ -12,7 +13,17 @@ import {
   Slot,
   toSlot,
 } from "kolmafia";
-import { $effect, $item, $skill, $slot, ensureEffect, get, have, uneffect } from "libram";
+import {
+  $effect,
+  $item,
+  $skill,
+  $slot,
+  AsdonMartin,
+  ensureEffect,
+  get,
+  have,
+  uneffect,
+} from "libram";
 import { customRestoreMp } from "./engine";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
@@ -95,6 +106,14 @@ export function applyEffects(modifier: string, required: Effect[]): void {
   // If we hotswapped equipment, restore our old equipment (in-reverse, to work well if we moved equipment around)
   hotswapped.reverse();
   for (const [slot, item] of hotswapped) equip(item, slot);
+
+  // Use asdon martin
+  if (getWorkshed() === $item`Asdon Martin keyfob`) {
+    // if (modifier.includes("-combat")) AsdonMartin.drive(AsdonMartin.Driving.Stealthily);
+    // else if (modifier.includes("+combat")) AsdonMartin.drive(AsdonMartin.Driving.Obnoxiously);
+    // else if (modifier.includes("init")) AsdonMartin.drive(AsdonMartin.Driving.Quickly);
+    if (modifier.includes("meat")) AsdonMartin.drive(AsdonMartin.Driving.Observantly);
+  }
 }
 
 export function swapEquipmentForMp(mpgoal: number): [Slot, Item][] {

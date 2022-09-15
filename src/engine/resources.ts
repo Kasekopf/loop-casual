@@ -1,8 +1,17 @@
-import { cliExecute, Familiar, Item, Monster, Skill, totalTurnsPlayed } from "kolmafia";
+import {
+  cliExecute,
+  Familiar,
+  Item,
+  Monster,
+  myTurncount,
+  Skill,
+  totalTurnsPlayed,
+} from "kolmafia";
 import {
   $item,
   $monster,
   $skill,
+  AsdonMartin,
   get,
   getBanishedMonsters,
   getKramcoWandererChance,
@@ -32,6 +41,21 @@ const banishSources: BanishSource[] = [
     name: "Bowl Curveball",
     available: () => have($item`cosmic bowling ball`),
     do: $skill`Bowl a Curveball`,
+  },
+  {
+    name: "Asdon Martin",
+    available: (): boolean => {
+      // From libram
+      if (!AsdonMartin.installed()) return false;
+      const banishes = get("banishedMonsters").split(":");
+      const bumperIndex = banishes
+        .map((string) => string.toLowerCase())
+        .indexOf("spring-loaded front bumper");
+      if (bumperIndex === -1) return true;
+      return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
+    },
+    prepare: () => AsdonMartin.fillTo(50),
+    do: $skill`Asdon Martin: Spring-Loaded Front Bumper`,
   },
   {
     name: "System Sweep",
@@ -190,6 +214,23 @@ export const runawaySources: RunawaySource[] = [
     banishes: true,
   },
   {
+    name: "Asdon Martin",
+    available: (): boolean => {
+      // From libram
+      if (!AsdonMartin.installed()) return false;
+      const banishes = get("banishedMonsters").split(":");
+      const bumperIndex = banishes
+        .map((string) => string.toLowerCase())
+        .indexOf("spring-loaded front bumper");
+      if (bumperIndex === -1) return true;
+      return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
+    },
+    prepare: () => AsdonMartin.fillTo(50),
+    do: new Macro().skill($skill`Asdon Martin: Spring-Loaded Front Bumper`),
+    chance: () => 1,
+    banishes: true,
+  },
+  {
     name: "GAP",
     available: () => have($item`Greatest American Pants`),
     equip: $item`Greatest American Pants`,
@@ -218,4 +259,11 @@ export interface FreekillSource extends CombatResource {
   do: Item | Skill;
 }
 
-export const freekillSources: FreekillSource[] = [];
+export const freekillSources: FreekillSource[] = [
+  {
+    name: "Asdon Martin: Missile Launcher",
+    available: () => AsdonMartin.installed() && !get("_missileLauncherUsed"),
+    prepare: () => AsdonMartin.fillTo(100),
+    do: $skill`Asdon Martin: Missile Launcher`,
+  },
+];
