@@ -261,6 +261,23 @@ export interface FreekillSource extends CombatResource {
 
 export const freekillSources: FreekillSource[] = [
   {
+    name: "Lil' Doctor™ bag",
+    available: () => have($item`Lil' Doctor™ bag`) && get("_chestXRayUsed") < 3,
+    do: $skill`Chest X-Ray`,
+    equip: $item`Lil' Doctor™ bag`,
+  },
+  {
+    name: "Replica bat-oomerang",
+    available: () => have($item`replica bat-oomerang`) && get("_usedReplicaBatoomerang") < 3,
+    do: $item`replica bat-oomerang`,
+  },
+  {
+    name: "The Jokester's gun",
+    available: () => have($item`The Jokester's gun`) && !get("_firedJokestersGun"),
+    do: $skill`Fire the Jokester's Gun`,
+    equip: $item`The Jokester's gun`,
+  },
+  {
     name: "Asdon Martin: Missile Launcher",
     available: () => AsdonMartin.installed() && !get("_missileLauncherUsed"),
     prepare: () => AsdonMartin.fillTo(100),
