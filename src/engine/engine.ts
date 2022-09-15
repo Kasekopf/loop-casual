@@ -64,7 +64,7 @@ import {
   fixFoldables,
 } from "./outfit";
 import { cliExecute, equippedAmount, itemAmount, runChoice } from "kolmafia";
-import { debug } from "../lib";
+import { atLevel, debug } from "../lib";
 import {
   canChargeVoid,
   freekillSources,
@@ -337,11 +337,13 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
 
       // Set up a free kill if needed, or if no free kills will ever be needed again
+      // (after L11, when Infinite Loop is less important)
       if (
         combat.can("killFree") ||
         (combat.can("kill") &&
           !task.boss &&
-          this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")))
+          this.tasks.every((t) => t.completed() || !t.combat?.can("killFree"))
+          && atLevel(11))
       ) {
         resources.provide("killFree", equipFirst(outfit, freekillSources));
       }

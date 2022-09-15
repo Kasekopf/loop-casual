@@ -330,6 +330,7 @@ export const ChasmQuest: Quest = {
           return {
             modifier: "item, -ML",
             equip: equip,
+            avoid: $items`broken champagne bottle`,
           };
         } else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
