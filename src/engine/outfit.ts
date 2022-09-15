@@ -64,7 +64,7 @@ export function equipCharging(outfit: Outfit): void {
       // Equip an offhand if it is not needed for the -combat umbrella
       if (
         !outfit.modifier?.includes("-combat") ||
-        have($skill`Phase Shift`) ||
+        have($skill`Photonic Shroud`) ||
         !have($item`unbreakable umbrella`)
       ) {
         outfit.equip($item`ghostly reins`);
