@@ -3,6 +3,7 @@ import {
   Familiar,
   Item,
   Monster,
+  myMeat,
   myTurncount,
   Skill,
   totalTurnsPlayed,
@@ -18,7 +19,7 @@ import {
   have,
   Macro,
 } from "libram";
-import { CombatResource as BaseCombatResource, OutfitSpec } from "grimoire-kolmafia";
+import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
 import { Task } from "./task";
 
@@ -46,7 +47,7 @@ const banishSources: BanishSource[] = [
     name: "Asdon Martin",
     available: (): boolean => {
       // From libram
-      if (!AsdonMartin.installed()) return false;
+      if (!asdonFualable(50)) return false;
       const banishes = get("banishedMonsters").split(":");
       const bumperIndex = banishes
         .map((string) => string.toLowerCase())
@@ -217,7 +218,7 @@ export const runawaySources: RunawaySource[] = [
     name: "Asdon Martin",
     available: (): boolean => {
       // From libram
-      if (!AsdonMartin.installed()) return false;
+      if (!asdonFualable(50)) return false;
       const banishes = get("banishedMonsters").split(":");
       const bumperIndex = banishes
         .map((string) => string.toLowerCase())
@@ -279,8 +280,16 @@ export const freekillSources: FreekillSource[] = [
   },
   {
     name: "Asdon Martin: Missile Launcher",
-    available: () => AsdonMartin.installed() && !get("_missileLauncherUsed"),
+    available: () => asdonFualable(100) && !get("_missileLauncherUsed"),
     prepare: () => AsdonMartin.fillTo(100),
     do: $skill`Asdon Martin: Missile Launcher`,
   },
 ];
+
+function asdonFualable(amount: number): boolean {
+  if (!AsdonMartin.installed()) return false;
+  if (!have($item`bugbear bungguard`) || !have($item`bugbear beanie`)) return false;
+  if (!have($item`forged identification documents`) && step("questL11Black") < 4) return false; // Save early
+  if (myMeat() < amount * 24 + 1000) return false; // save 1k meat as buffer
+  return true;
+}
