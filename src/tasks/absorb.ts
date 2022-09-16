@@ -37,6 +37,7 @@ import {
   getBanishedMonsters,
   have,
   Macro,
+  set,
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
@@ -843,6 +844,10 @@ export class AbsorbState {
     }
 
     // Don't bother to chase the ice house banished monster
+    if (!get("_loopgyou_museum", false)) {
+      visitUrl("museum.php?action=icehouse");
+      set("_loopgyou_museum", true);
+    }
     const icehouse = getBanishedMonsters().get($item`ice house`);
     if (icehouse !== undefined) this.ignored.add(icehouse);
   }
