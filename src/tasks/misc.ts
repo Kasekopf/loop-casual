@@ -217,6 +217,10 @@ export const MiscQuest: Quest = {
         visitUrl(
           `choice.php?option=1&whichchoice=1331&g=${monsterVote}&local[]=${firstInit}&local[]=${secondInit}`
         );
+
+        if (!have($item`"I Voted!" sticker`)) {
+          cliExecute("refresh all");
+        }
       },
       limit: { tries: 1 },
       freeaction: true,

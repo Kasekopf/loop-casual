@@ -342,8 +342,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         combat.can("killFree") ||
         (combat.can("kill") &&
           !task.boss &&
-          this.tasks.every((t) => t.completed() || !t.combat?.can("killFree"))
-          && atLevel(11))
+          this.tasks.every((t) => t.completed() || !t.combat?.can("killFree")) &&
+          atLevel(11))
       ) {
         resources.provide("killFree", equipFirst(outfit, freekillSources));
       }
