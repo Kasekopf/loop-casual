@@ -60,7 +60,7 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") >= 4,
     do: $location`The Haunted Library`,
     combat: new CombatStrategy()
-      .banish(...$monsters`banshee librarian, bookbat`)
+      .banish($monsters`banshee librarian, bookbat`)
       .kill($monster`writing desk`),
     choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
     limit: { soft: 10 },
