@@ -11244,7 +11244,7 @@ var MiscQuest = {
   }, {
     name: "Island Scrip",
     after: ["Unlock Beach"],
-    ready: () => (0,external_kolmafia_namespaceObject.myMeat)() >= 6000 || step("questL11Black") >= 4 && (0,external_kolmafia_namespaceObject.myMeat)() >= 500,
+    ready: () => ((0,external_kolmafia_namespaceObject.myMeat)() >= 6000 || step("questL11Black") >= 4 && (0,external_kolmafia_namespaceObject.myMeat)() >= 500) && (0,external_kolmafia_namespaceObject.myAdventures)() >= 20,
     completed: () => (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(misc_templateObject3 || (misc_templateObject3 = misc_taggedTemplateLiteral(["Shore Inc. Ship Trip Scrip"])))) >= 3 || have(template_string_$item(misc_templateObject4 || (misc_templateObject4 = misc_taggedTemplateLiteral(["dinghy plans"])))) || have(template_string_$item(misc_templateObject5 || (misc_templateObject5 = misc_taggedTemplateLiteral(["dingy dinghy"])))) || have(template_string_$item(misc_templateObject6 || (misc_templateObject6 = misc_taggedTemplateLiteral(["junk junk"])))) || have(template_string_$item(misc_templateObject7 || (misc_templateObject7 = misc_taggedTemplateLiteral(["skeletal skiff"])))) || have(template_string_$item(misc_templateObject8 || (misc_templateObject8 = misc_taggedTemplateLiteral(["yellow submarine"])))),
     do: $location(misc_templateObject9 || (misc_templateObject9 = misc_taggedTemplateLiteral(["The Shore, Inc. Travel Agency"]))),
     choices: {
@@ -11318,10 +11318,10 @@ var MiscQuest = {
         value: 20 * 0.4 + 50 * 0.2 + 250 * 0.01
       }];
       (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=town_right&action=townright_vote");
-      var votingMonsterPriority = voterValueTable.sort((a, b) => b.value - a.value).map(element => element.monster.name);
+      var monPriority = voterValueTable.sort((a, b) => b.value - a.value).map(element => element.monster.name);
       var initPriority = new Map([["Meat Drop: +30", 10], ["Item Drop: +15", 9], ["Familiar Experience: +2", 8], ["Adventures: +1", 7], ["Monster Level: +10", 5], ["".concat((0,external_kolmafia_namespaceObject.myPrimestat)(), " Percent: +25"), 3], ["Experience (".concat((0,external_kolmafia_namespaceObject.myPrimestat)(), "): +4"), 2], ["Meat Drop: -30", -2], ["Item Drop: -15", -2], ["Familiar Experience: -2", -2]]);
-      var monsterVote = votingMonsterPriority.indexOf(property_get("_voteMonster1")) < votingMonsterPriority.indexOf(property_get("_voteMonster2")) ? 1 : 2;
-      var voteLocalPriorityArr = [[0, initPriority.get(property_get("_voteLocal1")) || (property_get("_voteLocal1").indexOf("-") === -1 ? 1 : -1)], [1, initPriority.get(property_get("_voteLocal2")) || (property_get("_voteLocal2").indexOf("-") === -1 ? 1 : -1)], [2, initPriority.get(property_get("_voteLocal3")) || (property_get("_voteLocal3").indexOf("-") === -1 ? 1 : -1)], [3, initPriority.get(property_get("_voteLocal4")) || (property_get("_voteLocal4").indexOf("-") === -1 ? 1 : -1)]];
+      var monsterVote = monPriority.indexOf(property_get("_voteMonster1")) < monPriority.indexOf(property_get("_voteMonster2")) ? 1 : 2;
+      var voteLocalPriorityArr = ["_voteLocal1", "_voteLocal2", "_voteLocal3", "_voteLocal4"].map((v, i) => [i, initPriority.get(property_get(v)) || (property_get(v).indexOf("-") === -1 ? 1 : -1)]);
       var bestVotes = voteLocalPriorityArr.sort((a, b) => b[1] - a[1]);
       var firstInit = bestVotes[0][0];
       var secondInit = bestVotes[1][0];
@@ -13299,8 +13299,8 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
         louvreDesiredGoal: 7,
         requireBoxServants: false,
         autoAbortThreshold: "-0.05",
-        mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", ["black cherry soda", "doc galaktik's invigorating tonic"]),
-        hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["scroll of drastic healing", "doc galaktik's homeopathic elixir"])
+        mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", ["black cherry soda", "doc galaktik's invigorating tonic"], ["rest in your campaway tent", "rest at the chateau", "rest at your campground", "sleep on your clan sofa"]),
+        hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["scroll of drastic healing", "doc galaktik's homeopathic elixir"], ["rest in your campaway tent", "rest at the chateau", "rest at your campground", "sleep on your clan sofa"])
       });
       manager.setChoices({
         1106: 3,
@@ -13463,7 +13463,7 @@ function customRestoreMp(target) {
   (0,external_kolmafia_namespaceObject.restoreMp)(target);
 }
 
-function ensureRecovery(property, items) {
+function ensureRecovery(property, items, avoid) {
   var recovery_property = property_get(property).split(";");
 
   var _iterator10 = engine_engine_createForOfIteratorHelper(items),
@@ -13483,7 +13483,7 @@ function ensureRecovery(property, items) {
     _iterator10.f();
   }
 
-  return recovery_property.join(";");
+  return recovery_property.filter(v => !avoid.includes(v)).join(";");
 }
 ;// CONCATENATED MODULE: ./src/engine/moods.ts
 var moods_templateObject, moods_templateObject2, moods_templateObject3, moods_templateObject4, moods_templateObject5, moods_templateObject6, moods_templateObject7, moods_templateObject8, moods_templateObject9, moods_templateObject10, moods_templateObject11, moods_templateObject12, moods_templateObject13, moods_templateObject14, moods_templateObject15, moods_templateObject16, moods_templateObject17, moods_templateObject18, moods_templateObject19, moods_templateObject20, moods_templateObject21, moods_templateObject22, moods_templateObject23;
@@ -17614,7 +17614,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "9ccc998";
+var lastCommitHash = "1a25db9";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
