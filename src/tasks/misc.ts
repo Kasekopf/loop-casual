@@ -167,7 +167,7 @@ export const MiscQuest: Quest = {
 
         visitUrl("place.php?whichplace=town_right&action=townright_vote");
 
-        const votingMonsterPriority = voterValueTable
+        const monPriority = voterValueTable
           .sort((a, b) => b.value - a.value)
           .map((element) => element.monster.name);
 
@@ -185,33 +185,16 @@ export const MiscQuest: Quest = {
         ]);
 
         const monsterVote =
-          votingMonsterPriority.indexOf(get("_voteMonster1")) <
-          votingMonsterPriority.indexOf(get("_voteMonster2"))
+          monPriority.indexOf(get("_voteMonster1")) < monPriority.indexOf(get("_voteMonster2"))
             ? 1
             : 2;
 
         const voteLocalPriorityArr = [
-          [
-            0,
-            initPriority.get(get("_voteLocal1")) ||
-              (get("_voteLocal1").indexOf("-") === -1 ? 1 : -1),
-          ],
-          [
-            1,
-            initPriority.get(get("_voteLocal2")) ||
-              (get("_voteLocal2").indexOf("-") === -1 ? 1 : -1),
-          ],
-          [
-            2,
-            initPriority.get(get("_voteLocal3")) ||
-              (get("_voteLocal3").indexOf("-") === -1 ? 1 : -1),
-          ],
-          [
-            3,
-            initPriority.get(get("_voteLocal4")) ||
-              (get("_voteLocal4").indexOf("-") === -1 ? 1 : -1),
-          ],
-        ];
+          "_voteLocal1",
+          "_voteLocal2",
+          "_voteLocal3",
+          "_voteLocal4",
+        ].map((v, i) => [i, initPriority.get(get(v)) || (get(v).indexOf("-") === -1 ? 1 : -1)]);
 
         const bestVotes = voteLocalPriorityArr.sort((a, b) => b[1] - a[1]);
         const firstInit = bestVotes[0][0];
