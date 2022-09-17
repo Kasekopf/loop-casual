@@ -357,7 +357,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // Prepare full outfit
     if (!outfit.skipDefaults) {
       const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-      // if (!task_combat.boss && !freecombat) outfit.equip($item`carnivorous potted plant`);
       if (
         canChargeVoid() &&
         (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
@@ -366,6 +365,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       )
         outfit.equip($item`cursed magnifying glass`);
 
+      if (!task.boss && !freecombat && !outfit.modifier) outfit.equip($item`carnivorous potted plant`);
       equipDefaults(outfit);
     }
 
