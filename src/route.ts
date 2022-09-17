@@ -24,7 +24,9 @@ export const routing: string[] = [
   "Absorb/Fluid Dynamics Simulation",
 
   // ASAP once level 11 is hit, grab -combat
+  // Also grab +adv to ensure we have adventures
   "Absorb/Photonic Shroud",
+  "Reprocess/The Black Forest",
 
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
@@ -32,6 +34,7 @@ export const routing: string[] = [
 
   // Get +item
   "Absorb/Gravitational Compression",
+  "Hidden City/Open City",
   "Misc/Fortune",
 
   // Aim for remaining pygmies

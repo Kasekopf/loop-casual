@@ -365,7 +365,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       )
         outfit.equip($item`cursed magnifying glass`);
 
-      if (!task.boss && !freecombat && !outfit.modifier) outfit.equip($item`carnivorous potted plant`);
+      if (!task.boss && !freecombat && !outfit.modifier)
+        outfit.equip($item`carnivorous potted plant`);
       equipDefaults(outfit);
     }
 

@@ -8,9 +8,12 @@ import {
   familiarWeight,
   getWorkshed,
   gnomadsAvailable,
+  haveEquipped,
   hermit,
+  inHardcore,
   itemAmount,
   knollAvailable,
+  myAdventures,
   myAscensions,
   myBasestat,
   myHp,
@@ -322,6 +325,24 @@ export const MiscQuest: Quest = {
         return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
       },
       combat: new CombatStrategy().macro(() => {
+        if (get("lovebugsUnlocked")) {
+          return new Macro()
+            .skill($skill`Summon Love Gnats`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Trap Ghost`);
+        }
+
+        if (haveEquipped($item`designer sweatpants`) && get("sweat") >= 5) {
+          return new Macro()
+            .skill($skill`Sweat Flood`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Shoot Ghost`)
+            .skill($skill`Trap Ghost`);
+        }
+
         if (
           myHp() < myMaxhp() ||
           get("ghostLocation") === $location`The Haunted Wine Cellar` ||
@@ -403,7 +424,11 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Fortune",
-      after: ["Hidden City/Open City"],
+      after: [],
+      ready: () =>
+        ((inHardcore() && myAdventures() < 20 && myTurncount() >= 50) ||
+          step("questL11Worship") >= 3) &&
+        familiarWeight($familiar`Grey Goose`) < 6,
       completed: () => get("_clanFortuneBuffUsed") || !have($item`Clan VIP Lounge key`),
       priority: () => OverridePriority.Free,
       do: () => {
