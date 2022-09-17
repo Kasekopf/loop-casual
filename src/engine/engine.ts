@@ -499,7 +499,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
     globalStateCache.invalidate();
   }
-
   initPropertiesManager(manager: PropertiesManager): void {
     super.initPropertiesManager(manager);
     manager.set({
@@ -507,14 +506,26 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       louvreDesiredGoal: 7,
       requireBoxServants: false,
       autoAbortThreshold: "-0.05",
-      mpAutoRecoveryItems: ensureRecovery("mpAutoRecoveryItems", [
-        "black cherry soda",
-        "doc galaktik's invigorating tonic",
-      ]),
-      hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", [
-        "scroll of drastic healing",
-        "doc galaktik's homeopathic elixir",
-      ]),
+      mpAutoRecoveryItems: ensureRecovery(
+        "mpAutoRecoveryItems",
+        ["black cherry soda", "doc galaktik's invigorating tonic"],
+        [
+          "rest in your campaway tent",
+          "rest at the chateau",
+          "rest at your campground",
+          "sleep on your clan sofa",
+        ]
+      ),
+      hpAutoRecoveryItems: ensureRecovery(
+        "hpAutoRecoveryItems",
+        ["scroll of drastic healing", "doc galaktik's homeopathic elixir"],
+        [
+          "rest in your campaway tent",
+          "rest at the chateau",
+          "rest at your campground",
+          "sleep on your clan sofa",
+        ]
+      ),
     });
     manager.setChoices({
       1106: 3, // Ghost Dog Chow
@@ -625,12 +636,12 @@ export function customRestoreMp(target: number) {
   restoreMp(target);
 }
 
-function ensureRecovery(property: string, items: string[]): string {
+function ensureRecovery(property: string, items: string[], avoid: string[]): string {
   const recovery_property = get(property).split(";");
   for (const item of items) {
     if (!recovery_property.includes(item)) {
       recovery_property.push(item);
     }
   }
-  return recovery_property.join(";");
+  return recovery_property.filter((v) => !avoid.includes(v)).join(";");
 }
