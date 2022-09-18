@@ -30,8 +30,10 @@ export const GiantQuest: Quest = {
         modifier: "item",
         avoid: $items`broken champagne bottle`,
       },
-      combat: new CombatStrategy().killItem($monster`beanbat`),
-      limit: { soft: 5 },
+      combat: new CombatStrategy()
+        .banish($monsters`magical fruit bat, musical fruit bat`)
+        .killItem($monster`beanbat`),
+      limit: { soft: 10 },
     },
     {
       name: "Grow Beanstalk",
