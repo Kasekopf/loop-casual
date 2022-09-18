@@ -61,6 +61,16 @@ export function equipCharging(outfit: Outfit): void {
     if (outfit.equip($familiar`Grey Goose`)) {
       outfit.equip($item`yule hatchet`);
       outfit.equip($item`teacher's pen`);
+
+      // Use latte mug for familiar exp
+      if (
+        !outfit.modifier?.includes("-combat") &&
+        have($item`latte lovers member's mug`) &&
+        get("latteModifier").includes("Familiar Experience")
+      ) {
+        outfit.equip($item`latte lovers member's mug`);
+      }
+
       // Equip an offhand if it is not needed for the -combat umbrella
       if (
         !outfit.modifier?.includes("-combat") ||

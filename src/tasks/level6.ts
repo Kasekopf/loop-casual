@@ -47,7 +47,12 @@ export const FriarQuest: Quest = {
       after: ["Start"],
       completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
-      outfit: { modifier: "-combat" },
+      outfit: () => {
+        if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("vitamins")) {
+          return { modifier: "-combat", equip: $items`latte lovers member's mug` };
+        }
+        return { modifier: "-combat" };
+      },
       limit: { tries: 20 },
     },
     {
