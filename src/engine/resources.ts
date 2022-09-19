@@ -330,10 +330,32 @@ export function refillLatte(): void {
 export type YellowRaySource = CombatResource;
 export const yellowRaySources: YellowRaySource[] = [
   {
+    name: "Jurassic Parka",
+    // eslint-disable-next-line libram/verify-constants
+    available: () => have($skill`Torso Awareness`) && have($item`Jurassic Parka`),
+    prepare: () => {
+      if (get("parkaMode") !== "dilophosaur") cliExecute("parka dilophosaur");
+    },
+    // eslint-disable-next-line libram/verify-constants
+    equip: $item`Jurassic Parka`,
+    // eslint-disable-next-line libram/verify-constants
+    do: $skill`Spit jurassic acid`,
+  },
+  {
     name: "Yellow Rocket",
     available: () => myMeat() >= 250 && have($item`Clan VIP Lounge key`),
     prepare: () => retrieveItem($item`yellow rocket`),
     do: $item`yellow rocket`,
+  },
+  {
+    name: "Retro Superhero Cape",
+    available: () => have($item`unwrapped knock-off retro superhero cape`),
+    prepare: () => {
+      if (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "kiss")
+        cliExecute("retrocape heck kiss");
+    },
+    equip: $item`unwrapped knock-off retro superhero cape`,
+    do: $skill`Unleash the Devil's Kiss`,
   },
 ];
 
