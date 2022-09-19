@@ -103,8 +103,7 @@ export function equipDefaults(outfit: Outfit): void {
     outfit.equip($familiar`Temporal Riftlet`);
   } else if (have($item`gnomish housemaid's kgnee`)) {
     outfit.equip($familiar`Reagnimated Gnome`);
-  } else outfit.equip($familiar`Galloping Grill`);
-  outfit.equip($familiar`Melodramedary`);
+  }
 
   if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
     outfit.equip($item`grey down vest`);
