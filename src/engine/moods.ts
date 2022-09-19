@@ -108,7 +108,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
   for (const [slot, item] of hotswapped) equip(item, slot);
 
   // Use asdon martin
-  if (getWorkshed() === $item`Asdon Martin keyfob`) {
+  if (getWorkshed() === $item`Asdon Martin keyfob` && asdonFualable(37)) {
     // if (modifier.includes("-combat")) AsdonMartin.drive(AsdonMartin.Driving.Stealthily);
     // else if (modifier.includes("+combat")) AsdonMartin.drive(AsdonMartin.Driving.Obnoxiously);
     // else if (modifier.includes("init")) AsdonMartin.drive(AsdonMartin.Driving.Quickly);

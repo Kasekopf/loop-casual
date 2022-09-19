@@ -287,7 +287,7 @@ export const freekillSources: FreekillSource[] = [
   },
 ];
 
-function asdonFualable(amount: number): boolean {
+export function asdonFualable(amount: number): boolean {
   if (!AsdonMartin.installed()) return false;
   if (!have($item`bugbear bungguard`) || !have($item`bugbear beanie`)) return false;
   if (!have($item`forged identification documents`) && step("questL11Black") < 4) return false; // Save early
