@@ -6,7 +6,7 @@ import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
-import { yellowray } from "./yellowray";
+import { yellowRayPossible } from "../engine/resources";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -43,28 +43,31 @@ export const GiantQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
-    yellowray(
-      {
-        name: "Airship YR Healer",
-        after: ["Grow Beanstalk"],
-        completed: () => have($item`amulet of extreme plot significance`),
-        do: $location`The Penultimate Fantasy Airship`,
-        choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
-        post: () => {
-          if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
-        },
-        orbtargets: () => undefined,
-        outfit: { modifier: "-combat" },
-        limit: { soft: 50 },
-        delay: () =>
-          have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
-        combat: new CombatStrategy()
-          .killItem($monster`Burly Sidekick`)
-          .killItem($monster`Quiet Healer`),
+    {
+      name: "Airship YR Healer",
+      after: ["Grow Beanstalk"],
+      completed: () => have($item`amulet of extreme plot significance`),
+      do: $location`The Penultimate Fantasy Airship`,
+      choices: { 178: 2, 182: () => (have($item`model airship`) ? 1 : 4) },
+      post: () => {
+        if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
-      { modifier: "-combat, item", avoid: $items`broken champagne bottle` },
-      $monster`Quiet Healer`
-    ),
+      orbtargets: () => undefined,
+      limit: { soft: 50 },
+      delay: () =>
+        have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
+      outfit: () => {
+        if (yellowRayPossible()) return { modifier: "-combat" };
+        else
+          return {
+            modifier: "-combat, item",
+            avoid: $items`broken champagne bottle`,
+          };
+      },
+      combat: new CombatStrategy()
+        .killItem($monster`Burly Sidekick`)
+        .yellowRay($monster`Quiet Healer`),
+    },
     {
       name: "Airship",
       after: ["Airship YR Healer"],

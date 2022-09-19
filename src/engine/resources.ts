@@ -5,10 +5,12 @@ import {
   Monster,
   myMeat,
   myTurncount,
+  retrieveItem,
   Skill,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
+  $effect,
   $item,
   $monster,
   $skill,
@@ -323,4 +325,19 @@ export function refillLatte(): void {
   if (get("latteUnlocks").includes("vitamins")) modifiers.push("vitamins");
   modifiers.push("cinnamon", "pumpkin", "vanilla"); // Always unlocked
   cliExecute(`latte refill ${modifiers.slice(0, 3).join(" ")}`);
+}
+
+export type YellowRaySource = CombatResource;
+export const yellowRaySources: YellowRaySource[] = [
+  {
+    name: "Yellow Rocket",
+    available: () => myMeat() >= 250 && have($item`Clan VIP Lounge key`),
+    prepare: () => retrieveItem($item`yellow rocket`),
+    do: $item`yellow rocket`,
+  },
+];
+
+export function yellowRayPossible(): boolean {
+  if (have($effect`Everything Looks Yellow`)) return false;
+  return yellowRaySources.find((s) => s.available()) !== undefined;
 }

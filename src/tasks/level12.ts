@@ -20,7 +20,7 @@ import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
-import { yellowray } from "./yellowray";
+import { yellowRayPossible } from "../engine/resources";
 
 export function flyersDone(): boolean {
   return get("flyeredML") >= 10000;
@@ -251,62 +251,62 @@ const Junkyard: Task[] = [
 ];
 
 const Orchard: Task[] = [
-  yellowray(
-    {
-      name: "Orchard Hatching",
-      after: ["Enrage"],
-      completed: () =>
-        have($item`filthworm hatchling scent gland`) ||
-        have($effect`Filthworm Larva Stench`) ||
-        have($item`filthworm drone scent gland`) ||
-        have($effect`Filthworm Drone Stench`) ||
-        have($item`filthworm royal guard scent gland`) ||
-        have($effect`Filthworm Guard Stench`) ||
-        have($item`heart of the filthworm queen`) ||
-        get("sidequestOrchardCompleted") !== "none",
-      do: $location`The Hatching Chamber`,
-      combat: new CombatStrategy().killItem(),
-      limit: { soft: 10 },
+  {
+    name: "Orchard Hatching",
+    after: ["Enrage"],
+    completed: () =>
+      have($item`filthworm hatchling scent gland`) ||
+      have($effect`Filthworm Larva Stench`) ||
+      have($item`filthworm drone scent gland`) ||
+      have($effect`Filthworm Drone Stench`) ||
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Hatching Chamber`,
+    outfit: () => {
+      if (yellowRayPossible()) return {};
+      else return { modifier: "item" };
     },
-    { modifier: "item" },
-    $monster`larval filthworm`
-  ),
-  yellowray(
-    {
-      name: "Orchard Feeding",
-      after: ["Orchard Hatching"],
-      completed: () =>
-        have($item`filthworm drone scent gland`) ||
-        have($effect`Filthworm Drone Stench`) ||
-        have($item`filthworm royal guard scent gland`) ||
-        have($effect`Filthworm Guard Stench`) ||
-        have($item`heart of the filthworm queen`) ||
-        get("sidequestOrchardCompleted") !== "none",
-      do: $location`The Feeding Chamber`,
-      effects: $effects`Filthworm Larva Stench`,
-      combat: new CombatStrategy().killItem(),
-      limit: { soft: 10 },
+    combat: new CombatStrategy().yellowRay($monster`larval filthworm`),
+    limit: { soft: 10 },
+  },
+  {
+    name: "Orchard Feeding",
+    after: ["Orchard Hatching"],
+    completed: () =>
+      have($item`filthworm drone scent gland`) ||
+      have($effect`Filthworm Drone Stench`) ||
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Feeding Chamber`,
+    outfit: () => {
+      if (yellowRayPossible()) return {};
+      else return { modifier: "item" };
     },
-    { modifier: "item" },
-    $monster`filthworm drone`
-  ),
-  yellowray(
-    {
-      name: "Orchard Guard",
-      after: ["Orchard Feeding"],
-      completed: () =>
-        have($item`filthworm royal guard scent gland`) ||
-        have($effect`Filthworm Guard Stench`) ||
-        have($item`heart of the filthworm queen`) ||
-        get("sidequestOrchardCompleted") !== "none",
-      do: $location`The Royal Guard Chamber`,
-      effects: $effects`Filthworm Drone Stench`,
-      combat: new CombatStrategy().killItem(),
-      limit: { soft: 10 },
+    combat: new CombatStrategy().yellowRay($monster`filthworm drone`),
+    effects: $effects`Filthworm Larva Stench`,
+    limit: { soft: 10 },
+  },
+  {
+    name: "Orchard Guard",
+    after: ["Orchard Feeding"],
+    completed: () =>
+      have($item`filthworm royal guard scent gland`) ||
+      have($effect`Filthworm Guard Stench`) ||
+      have($item`heart of the filthworm queen`) ||
+      get("sidequestOrchardCompleted") !== "none",
+    do: $location`The Royal Guard Chamber`,
+    effects: $effects`Filthworm Drone Stench`,
+    outfit: () => {
+      if (yellowRayPossible()) return {};
+      else return { modifier: "item" };
     },
-    { modifier: "item" },
-    $monster`filthworm royal guard`
-  ),
+    combat: new CombatStrategy().yellowRay($monster`filthworm royal guard`),
+    limit: { soft: 10 },
+  },
   {
     name: "Orchard Queen",
     after: ["Orchard Guard"],
@@ -377,38 +377,43 @@ export const WarQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
-    yellowray(
-      {
-        name: "Outfit Hippy",
-        after: ["Misc/Unlock Island"],
-        completed: () => have($item`filthy corduroys`) && have($item`filthy knitted dread sack`),
-        do: $location`Hippy Camp`,
-        limit: { soft: 10 },
-        outfit: { modifier: "+combat" },
-        choices: {
-          136: () => (have($item`filthy corduroys`) ? 2 : 1),
-          137: () => (have($item`filthy corduroys`) ? 1 : 2),
-        },
-        combat: new CombatStrategy().killItem(),
+    {
+      name: "Outfit Hippy",
+      after: ["Misc/Unlock Island"],
+      completed: () => have($item`filthy corduroys`) && have($item`filthy knitted dread sack`),
+      do: $location`Hippy Camp`,
+      limit: { soft: 10 },
+      choices: {
+        136: () => (have($item`filthy corduroys`) ? 2 : 1),
+        137: () => (have($item`filthy corduroys`) ? 1 : 2),
       },
-      { modifier: "item" }
-    ),
-    yellowray(
-      {
-        name: "Outfit Frat",
-        after: ["Start", "Outfit Hippy"],
-        completed: () =>
-          have($item`beer helmet`) &&
-          have($item`distressed denim pants`) &&
-          have($item`bejeweled pledge pin`),
-        do: $location`Frat House`,
-        limit: { soft: 10 },
-        outfit: { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "+combat" },
-        choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
-        combat: new CombatStrategy().killItem(),
+      outfit: () => {
+        if (yellowRayPossible()) return { modifier: "+combat" };
+        else return { modifier: "item" };
       },
-      { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "item" }
-    ),
+      combat: new CombatStrategy().yellowRay(),
+    },
+    {
+      name: "Outfit Frat",
+      after: ["Start", "Outfit Hippy"],
+      completed: () =>
+        have($item`beer helmet`) &&
+        have($item`distressed denim pants`) &&
+        have($item`bejeweled pledge pin`),
+      do: $location`Frat House`,
+      limit: { soft: 10 },
+      choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
+      outfit: () => {
+        if (yellowRayPossible())
+          return {
+            equip: $items`filthy corduroys, filthy knitted dread sack`,
+            modifier: "+combat",
+          };
+        else
+          return { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "item" };
+      },
+      combat: new CombatStrategy().yellowRay(),
+    },
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island", "Outfit Frat"],

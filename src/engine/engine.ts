@@ -73,6 +73,7 @@ import {
   shouldFinishLatte,
   WandererSource,
   wandererSources,
+  yellowRaySources,
 } from "./resources";
 import { OverridePriority, Prioritization } from "./priority";
 import { args } from "../main";
@@ -287,6 +288,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
     if (wanderers.length === 0) {
       // Set up a banish if needed
+
+      if (combat.can("yellowRay") && !have($effect`Everything Looks Yellow`)) {
+        resources.provide("yellowRay", equipFirst(outfit, yellowRaySources));
+      }
 
       const banish_state = globalStateCache.banishes();
       if (combat.can("banish") && !banish_state.isFullyBanished(task)) {

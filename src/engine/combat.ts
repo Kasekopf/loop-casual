@@ -20,7 +20,8 @@ const myActions = [
   "killHard", // Task needs to kill it without using a free kill (i.e., boss, or already free)
   "banish", // Task doesn't care what happens, but banishing is useful
   "abort", // Abort the macro and the script; an error has occured
-  "killItem", // Kill with an item boost
+  "killItem", // Kill with an item boost,
+  "yellowRay", // Kill with a drop-everything action
 ] as const;
 export type CombatActions = typeof myActions[number];
 export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) {}
@@ -57,6 +58,10 @@ export class MyActionDefaults implements ActionDefaults<CombatActions> {
     if (have($skill`Double Nanovision`))
       return this.killWith(target, $skill`Double Nanovision`, $stat`Mysticality`);
     else return this.kill(target);
+  }
+
+  yellowRay(target?: Monster | Location) {
+    return this.killItem(target);
   }
 
   private killWith(
