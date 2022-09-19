@@ -231,13 +231,13 @@ const Zepplin: Task[] = [
         return {
           modifier: "sleaze dmg, sleaze spell dmg",
           equip: sleazeitems,
-          skipDefaults: true,
         };
       return {
         modifier: "-combat, sleaze dmg, sleaze spell dmg",
         equip: sleazeitems,
       };
     },
+    freeaction: () => itemAmount($item`11-leaf clover`) > 1 || have($effect`Lucky!`),
     limit: { soft: 30 },
   },
   {

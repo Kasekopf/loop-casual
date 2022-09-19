@@ -81,7 +81,6 @@ const ABoo: Task[] = [
     outfit: {
       modifier: "20 spooky res, 20 cold res, HP",
       familiar: $familiar`Exotic Parrot`,
-      skipDefaults: true,
     },
     choices: { 611: 1 },
     limit: { tries: 5 },
