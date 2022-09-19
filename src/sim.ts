@@ -165,7 +165,6 @@ function buildIotmList(): Requirement[] {
       optional: true,
     },
     {
-      // eslint-disable-next-line libram/verify-constants
       thing: $item`Jurassic Parka`,
       why: "Meat, ML, QoL (in moxie sign)",
       optional: true,

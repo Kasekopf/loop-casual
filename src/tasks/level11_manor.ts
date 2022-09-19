@@ -300,7 +300,6 @@ const ManorBasement: Task[] = [
         return {
           modifier: "ML",
           equip: $items`unstable fulminate, old patched suit-pants`,
-          // eslint-disable-next-line libram/verify-constants
           avoid: $items`Jurassic Parka`,
         };
       return { modifier: "ML", equip: $items`unstable fulminate, old patched suit-pants` };

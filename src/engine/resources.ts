@@ -331,14 +331,11 @@ export type YellowRaySource = CombatResource;
 export const yellowRaySources: YellowRaySource[] = [
   {
     name: "Jurassic Parka",
-    // eslint-disable-next-line libram/verify-constants
     available: () => have($skill`Torso Awareness`) && have($item`Jurassic Parka`),
     prepare: () => {
       if (get("parkaMode") !== "dilophosaur") cliExecute("parka dilophosaur");
     },
-    // eslint-disable-next-line libram/verify-constants
     equip: $item`Jurassic Parka`,
-    // eslint-disable-next-line libram/verify-constants
     do: $skill`Spit jurassic acid`,
   },
   {
