@@ -8,6 +8,7 @@ import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Task } from "./task";
 import { globalStateCache } from "./state";
+import { yellowRaySources } from "./resources";
 
 export enum OverridePriority {
   Wanderer = 20000,
@@ -17,7 +18,7 @@ export enum OverridePriority {
   LastCopyableMonster = 100,
   Effect = 20,
   GoodOrb = 15,
-  YR = 10,
+  GoodYR = 10,
   GoodGoose = 1,
   GoodBanish = 0.5,
   None = 0,
@@ -48,7 +49,7 @@ export class Prioritization {
       if (familiarWeight($familiar`Grey Goose`) < 6) {
         // Do not trigger BadGoose if a YR is up, to make the airship flow better.
         // This way we can get the YR off and use the goose separately
-        if (!result.priorities.has(OverridePriority.YR)) {
+        if (!result.priorities.has(OverridePriority.GoodYR)) {
           result.priorities.add(OverridePriority.BadGoose);
         }
       } else {
@@ -104,6 +105,10 @@ export class Prioritization {
       result.priorities.add(OverridePriority.GoodBanish);
     }
 
+    if (task.combat?.can("yellowRay") && yellowRaySources.find((yr) => yr.available())) {
+      if (have($effect`Everything Looks Yellow`)) result.priorities.add(OverridePriority.BadYR);
+      else result.priorities.add(OverridePriority.GoodYR);
+    }
     return result;
   }
 
@@ -116,7 +121,7 @@ export class Prioritization {
       [OverridePriority.LastCopyableMonster, "Copy last monster"],
       [OverridePriority.Effect, "Useful effect"],
       [OverridePriority.GoodOrb, this.orb_monster ? `Target ${this.orb_monster}` : `Target ?`],
-      [OverridePriority.YR, "Yellow ray"],
+      [OverridePriority.GoodYR, "Yellow ray"],
       [OverridePriority.GoodGoose, "Goose charged"],
       [OverridePriority.GoodBanish, "Banishes committed"],
       [OverridePriority.BadYR, "Too early for yellow ray"],
