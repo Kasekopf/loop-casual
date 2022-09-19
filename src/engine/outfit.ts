@@ -127,7 +127,11 @@ export function equipDefaults(outfit: Outfit): void {
     outfit.equip($item`ice crown`);
     outfit.equip($item`June cleaver`);
     outfit.equip($item`industrial fire extinguisher`);
-    if (have($skill`Torso Awareness`)) outfit.equip($item`fresh coat of paint`);
+    if (have($skill`Torso Awareness`)) {
+      // eslint-disable-next-line libram/verify-constants
+      outfit.equip($item`Jurassic Parka`);
+      outfit.equip($item`fresh coat of paint`);
+    }
     outfit.equip($item`familiar scrapbook`);
     outfit.equip($item`protonic accelerator pack`);
     outfit.equip($item`unwrapped knock-off retro superhero cape`);

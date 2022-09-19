@@ -986,6 +986,8 @@ export function coldRes(with_black_paint: boolean, with_back = true): number {
   if (have($item`ghost of a necklace`)) res += 1;
   if (have($skill`Nanofur`)) res += 3;
   if (have($skill`Microweave`)) res += 2;
+  // eslint-disable-next-line libram/verify-constants
+  if (have($item`Jurassic Parka`) && have($skill`Torso Awareness`)) res += 3;
   if (
     with_black_paint &&
     (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))
@@ -1001,6 +1003,8 @@ export function stenchRes(with_black_paint: boolean): number {
   if (have($item`ghost of a necklace`)) res += 1;
   if (have($skill`Conifer Polymers`)) res += 3;
   if (have($skill`Clammy Microcilia`)) res += 2;
+  // eslint-disable-next-line libram/verify-constants
+  if (have($item`Jurassic Parka`) && have($skill`Torso Awareness`)) res += 3;
   if (
     with_black_paint &&
     (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))
