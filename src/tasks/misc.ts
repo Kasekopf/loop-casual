@@ -629,7 +629,8 @@ export const MiscQuest: Quest = {
       completed: () =>
         (!have($item`Asdon Martin keyfob`) && !AsdonMartin.installed()) ||
         !knollAvailable() ||
-        (have($item`bugbear beanie`) && have($item`bugbear bungguard`)),
+        (have($item`bugbear beanie`) && have($item`bugbear bungguard`)) ||
+        myAscensions() >= 10,
       do: () => {
         retrieveItem($item`bugbear beanie`);
         retrieveItem($item`bugbear bungguard`);

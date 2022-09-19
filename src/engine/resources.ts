@@ -1,13 +1,18 @@
 import {
+  buy,
   cliExecute,
   Familiar,
+  getFuel,
   Item,
+  itemAmount,
   Monster,
+  myAscensions,
   myMeat,
   myTurncount,
   retrieveItem,
   Skill,
   totalTurnsPlayed,
+  use,
 } from "kolmafia";
 import {
   $effect,
@@ -57,7 +62,7 @@ const banishSources: BanishSource[] = [
       if (bumperIndex === -1) return true;
       return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
     },
-    prepare: () => AsdonMartin.fillTo(50),
+    prepare: () => asdonFillTo(50),
     do: $skill`Asdon Martin: Spring-Loaded Front Bumper`,
   },
   {
@@ -232,7 +237,7 @@ export const runawaySources: RunawaySource[] = [
       if (bumperIndex === -1) return true;
       return myTurncount() - parseInt(banishes[bumperIndex + 1]) > 30;
     },
-    prepare: () => AsdonMartin.fillTo(50),
+    prepare: () => asdonFillTo(50),
     do: new Macro().skill($skill`Asdon Martin: Spring-Loaded Front Bumper`),
     chance: () => 1,
     banishes: true,
@@ -287,17 +292,48 @@ export const freekillSources: FreekillSource[] = [
   {
     name: "Asdon Martin: Missile Launcher",
     available: () => asdonFualable(100) && !get("_missileLauncherUsed"),
-    prepare: () => AsdonMartin.fillTo(100),
+    prepare: () => asdonFillTo(100),
     do: $skill`Asdon Martin: Missile Launcher`,
   },
 ];
 
+/**
+ * Actually fuel the asdon to the required amount.
+ */
+export function asdonFillTo(amount: number): boolean {
+  if (!have($item`bugbear bungguard`) || !have($item`bugbear beanie`)) {
+    // Prepare enough wad of dough from all-purpose flower
+    // We must do this ourselves since retrieveItem($item`loaf of soda bread`)
+    // in libram will not consider all-purpose flower
+    const remaining = amount - getFuel();
+    const count = Math.ceil(remaining / 5); // 5 is minimum adv gain from loaf of soda bread
+    if (count < itemAmount($item`wad of dough`)) {
+      buy($item`all-purpose flower`);
+      use($item`all-purpose flower`);
+    }
+  }
+  return AsdonMartin.fillTo(amount);
+}
+
+/**
+ * Return true if we can possibly fuel the asdon to the required amount.
+ */
 export function asdonFualable(amount: number): boolean {
   if (!AsdonMartin.installed()) return false;
-  if (!have($item`bugbear bungguard`) || !have($item`bugbear beanie`)) return false;
   if (!have($item`forged identification documents`) && step("questL11Black") < 4) return false; // Save early
-  if (myMeat() < amount * 24 + 1000) return false; // save 1k meat as buffer
-  return true;
+  if (amount <= getFuel()) return true;
+
+  // Use wad of dough with the bugbear outfit
+  if (have($item`bugbear bungguard`) && have($item`bugbear beanie`)) {
+    return myMeat() >= (amount - getFuel()) * 24 + 1000; // Save 1k meat as buffer
+  }
+
+  // Use all-purpose flower if we have enough ascensions
+  if (myAscensions() >= 10 && (have($item`bitchin' meatcar`) || have($item`Desert Bus pass`))) {
+    return myMeat() >= 3000 + (amount - getFuel()) * 14; // 2k for all-purpose flower + save 1k meat as buffer + soda water
+  }
+
+  return false;
 }
 
 /**
