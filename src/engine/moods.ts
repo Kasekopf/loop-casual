@@ -25,6 +25,7 @@ import {
   uneffect,
 } from "libram";
 import { customRestoreMp } from "./engine";
+import { asdonFualable } from "./resources";
 
 function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result: { [name: string]: Effect[] } = {

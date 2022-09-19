@@ -45,9 +45,14 @@ const Diary: Task[] = [
       if (have($effect`Really Quite Poisoned`)) uneffect($effect`Really Quite Poisoned`);
     },
     outfit: () => {
+      const equip = [$item`blackberry galoshes`];
+      if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("cajun")) {
+        equip.push($item`latte lovers member's mug`);
+      }
+
       if (have($item`reassembled blackbird`)) {
         return {
-          equip: $items`blackberry galoshes`,
+          equip: equip,
           modifier: "50 combat 5max, -1ML",
         };
       } else if (
@@ -58,13 +63,13 @@ const Diary: Task[] = [
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
-          equip: $items`blackberry galoshes, miniature crystal ball`,
+          equip: [...equip, $item`miniature crystal ball`],
           familiar: $familiar`Grey Goose`,
           modifier: "50 combat 5max, -1ML",
         };
       } else {
         return {
-          equip: $items`blackberry galoshes`,
+          equip: equip,
           familiar: $familiar`Reassembled Blackbird`,
           modifier: "50 combat 5max, item, -1ML",
           avoid: $items`broken champagne bottle`,

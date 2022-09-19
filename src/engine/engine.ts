@@ -68,7 +68,9 @@ import { atLevel, debug } from "../lib";
 import {
   canChargeVoid,
   freekillSources,
+  refillLatte,
   runawaySources,
+  shouldFinishLatte,
   WandererSource,
   wandererSources,
 } from "./resources";
@@ -492,6 +494,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
   post(task: ActiveTask): void {
     super.post(task);
+    if (get("_latteBanishUsed") && shouldFinishLatte()) refillLatte();
     absorbConsumables();
     autosellJunk();
     for (const poisoned of $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole`) {

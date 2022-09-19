@@ -66,7 +66,7 @@ export function equipCharging(outfit: Outfit): void {
       if (
         !outfit.modifier?.includes("-combat") &&
         have($item`latte lovers member's mug`) &&
-        get("latteModifier").includes("Familiar Experience")
+        get("latteModifier").includes("Experience (familiar): 3")
       ) {
         outfit.equip($item`latte lovers member's mug`);
       }

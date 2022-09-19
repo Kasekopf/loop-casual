@@ -66,18 +66,9 @@ const banishSources: BanishSource[] = [
   {
     name: "Latte",
     available: () =>
-      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refil for aftercore
+      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refill for aftercore
       have($item`latte lovers member's mug`),
-    prepare: (): void => {
-      if (get("_latteBanishUsed")) {
-        const modifiers = [];
-        if (get("latteUnlocks").includes("wing")) modifiers.push("wing");
-        if (get("latteUnlocks").includes("cajun")) modifiers.push("cajun");
-        if (get("latteUnlocks").includes("vitamins")) modifiers.push("vitamins");
-        modifiers.push("cinnamon", "pumpkin", "vanilla");
-        cliExecute(`latte refill ${modifiers.slice(0, 3).join(" ")}`); // Always unlocked
-      }
-    },
+    prepare: refillLatte,
     do: $skill`Throw Latte on Opponent`,
     equip: $item`latte lovers member's mug`,
   },
@@ -209,6 +200,18 @@ export const runawayValue =
 
 export const runawaySources: RunawaySource[] = [
   {
+    name: "Latte (Refill)",
+    available: () =>
+      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refill for aftercore
+      have($item`latte lovers member's mug`) &&
+      shouldFinishLatte(),
+    prepare: refillLatte,
+    do: new Macro().skill($skill`Throw Latte on Opponent`),
+    chance: () => 1,
+    equip: $item`latte lovers member's mug`,
+    banishes: true,
+  },
+  {
     name: "Bowl Curveball",
     available: () => false,
     do: new Macro().skill($skill`Bowl a Curveball`),
@@ -293,4 +296,31 @@ export function asdonFualable(amount: number): boolean {
   if (!have($item`forged identification documents`) && step("questL11Black") < 4) return false; // Save early
   if (myMeat() < amount * 24 + 1000) return false; // save 1k meat as buffer
   return true;
+}
+
+/**
+ * Return true if we have all of our final latte ingredients, but they are not in the latte.
+ */
+export function shouldFinishLatte(): boolean {
+  if (!have($item`latte lovers member's mug`)) return false;
+  // Check that we have all the proper ingredients
+  for (const ingredient of ["wing", "cajun", "vitamins"])
+    if (!get("latteUnlocks").includes(ingredient)) return false;
+  // Check that the latte is not already finished
+  return !["Meat Drop: 40", "Combat Rate: 10", "Experience (familiar): 3"].every((modifier) =>
+    get("latteModifier").includes(modifier)
+  );
+}
+
+/**
+ * Refill the latte, using as many final ingredients as possible.
+ */
+export function refillLatte(): void {
+  if (get("_latteBanishUsed")) return;
+  const modifiers = [];
+  if (get("latteUnlocks").includes("wing")) modifiers.push("wing");
+  if (get("latteUnlocks").includes("cajun")) modifiers.push("cajun");
+  if (get("latteUnlocks").includes("vitamins")) modifiers.push("vitamins");
+  modifiers.push("cinnamon", "pumpkin", "vanilla"); // Always unlocked
+  cliExecute(`latte refill ${modifiers.slice(0, 3).join(" ")}`);
 }
