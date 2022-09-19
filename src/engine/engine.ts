@@ -564,7 +564,7 @@ function autosellJunk(): void {
   }
 
   // Sell all but one of a few items
-  const partial_junk = $items`porquoise, ruby W, metallic A, lowercase N, heavy D`;
+  const partial_junk = $items`ruby W, metallic A, lowercase N, heavy D`;
   for (const item of partial_junk) {
     if (itemAmount(item) > 1) autosell(item, itemAmount(item) - 1);
   }
