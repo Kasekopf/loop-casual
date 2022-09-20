@@ -74,6 +74,11 @@ export const args = Args.create(
     list: Args.flag({
       help: "Show the status of all tasks and exit.",
     }),
+    boombox: Args.string({
+      help: "What to get from the SongBoom boombox after the beginning of the run.",
+      options: [["meat"], ["seasoning"]],
+      default: "seasoning",
+    }),
   }
 );
 export function main(command?: string): void {
@@ -226,10 +231,9 @@ function listTasks(engine: Engine): void {
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
     debug(
-      `${task.name}: ${
-        task.completed()
-          ? "Done"
-          : engine.available(task)
+      `${task.name}: ${task.completed()
+        ? "Done"
+        : engine.available(task)
           ? `Available [${priority.score()}: ${why}]`
           : "Not Available"
       }`,
