@@ -379,8 +379,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
     // Kill wanderers
     for (const wanderer of wanderers) {
-      combat.action("killHard", wanderer.monsters);
-      if (wanderer.action) combat.macro(wanderer.action, wanderer.monsters);
+      for (const monster of wanderer.monsters) {
+        if (combat.currentStrategy(monster) !== "killHard") {
+          combat.action("killHard", monster);
+          if (wanderer.action) combat.macro(wanderer.action, monster);
+        }
+      }
     }
 
     // Kill holiday wanderers
