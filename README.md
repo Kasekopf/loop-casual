@@ -27,7 +27,6 @@ The arguments accepted by the script are listed below. Note that you can combine
 Options:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
-  actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
   class NUMBER - If given, break the prism and choose a class. You will be reduced to 40 adventures with full organs after breaking the prism. [setting: loopgyou_class]
     class 1 - Seal Clubber
     class 2 - Turtle Tamer
@@ -36,9 +35,11 @@ Options:
     class 5 - Disco Bandit
     class 6 - Accordion Thief
   pulls NUMBER - Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script). [default: 20] [setting: loopgyou_pulls]
-  verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
   tune TEXT - Use your hewn moon-rune spoon to retune to this sign when optimal. [setting: loopgyou_tune]
   delaytower - Delay the NS tower until after ronin ends. [default: false] [setting: loopgyou_delaytower]
+  seasoning BOOLEAN - If true, get special seasoning from SongBoom boombox after the beginning of the run. [default: true] [setting: loopgyou_seasoning]
+  actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
+  verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
   fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
   completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.

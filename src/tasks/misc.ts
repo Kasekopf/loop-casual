@@ -484,7 +484,7 @@ export const MiscQuest: Quest = {
         get("boomBoxSong") === "Total Eclipse of Your Meat" ||
         (have($skill`System Sweep`) &&
           have($skill`Double Nanovision`) &&
-          args.boombox !== "meat") ||
+          args.seasoning) ||
         get("_boomBoxSongsLeft") === 0,
       do: () => cliExecute("boombox meat"),
       freeaction: true,
@@ -502,7 +502,7 @@ export const MiscQuest: Quest = {
         !have($item`SongBoom™ BoomBox`) ||
         get("boomBoxSong") === "Food Vibrations" ||
         get("_boomBoxSongsLeft") === 0 ||
-        args.boombox === "meat",
+        !args.seasoning,
       do: () => cliExecute("boombox food"),
       freeaction: true,
       limit: { tries: 2 },

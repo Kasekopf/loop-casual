@@ -53,10 +53,9 @@ export const args = Args.create(
       help: "Delay the NS tower until after ronin ends.",
       default: false,
     }),
-    boombox: Args.string({
-      help: "What to get from the SongBoom boombox after the beginning of the run.",
-      options: [["meat"], ["seasoning"]],
-      default: "seasoning",
+    seasoning: Args.boolean({
+      help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
+      default: true,
     }),
     actions: Args.number({
       help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
