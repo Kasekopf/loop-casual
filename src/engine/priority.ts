@@ -2,8 +2,8 @@
  * Temporary priorities that override the routing.
  */
 
-import { familiarWeight, Location, Monster } from "kolmafia";
-import { $effect, $familiar, $item, $skill, get, have } from "libram";
+import { familiarWeight, getCounter, Location, Monster } from "kolmafia";
+import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have } from "libram";
 import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Task } from "./task";
@@ -23,6 +23,7 @@ export enum OverridePriority {
   GoodBanish = 0.5,
   None = 0,
   BadOrb = -2,
+  BadHoliday = 3,
   BadGoose = -16,
   BadYR = -30,
   BadMood = -100,
@@ -43,6 +44,12 @@ export class Prioritization {
     const result = new Prioritization();
     const base = task.priority?.() ?? OverridePriority.None;
     if (base !== OverridePriority.None) result.priorities.add(base);
+
+    // Prioritize getting a YR
+    if (task.combat?.can("yellowRay") && yellowRaySources.find((yr) => yr.available())) {
+      if (have($effect`Everything Looks Yellow`)) result.priorities.add(OverridePriority.BadYR);
+      else result.priorities.add(OverridePriority.GoodYR);
+    }
 
     // Check if Grey Goose is charged
     if (needsChargedGoose(task)) {
@@ -105,10 +112,13 @@ export class Prioritization {
       result.priorities.add(OverridePriority.GoodBanish);
     }
 
-    if (task.combat?.can("yellowRay") && yellowRaySources.find((yr) => yr.available())) {
-      if (have($effect`Everything Looks Yellow`)) result.priorities.add(OverridePriority.BadYR);
-      else result.priorities.add(OverridePriority.GoodYR);
+    // Avoid ML boosting zones when a scaling holiday wanderer is due
+    if (outfit_spec?.modifier?.includes("ML") && !outfit_spec?.modifier.match("-[\\d .]*ML")) {
+      if (getTodaysHolidayWanderers().length > 0 && getCounter("holiday") <= 0) {
+        result.priorities.add(OverridePriority.BadHoliday);
+      }
     }
+
     return result;
   }
 
