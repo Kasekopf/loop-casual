@@ -29,6 +29,7 @@ import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
+import { args } from "../main";
 
 function shenItem(item: Item) {
   return (
@@ -205,12 +206,12 @@ const Zepplin: Task[] = [
     after: ["Protesters Start", "Misc/Hermit Clover", "McLargeHuge/Clover Ore"],
     ready: () =>
       canEquip($item`transparent pants`) &&
-      (itemAmount($item`11-leaf clover`) > 1 ||
+      (itemAmount($item`11-leaf clover`) > cloversToSave() ||
         have($item`Flamin' Whatshisname`) ||
         step("questL11Shen") === 999),
     prepare: () => {
       if (have($item`lynyrd musk`)) ensureEffect($effect`Musky`);
-      if (itemAmount($item`11-leaf clover`) > 1 && !have($effect`Lucky!`))
+      if (itemAmount($item`11-leaf clover`) > cloversToSave() && !have($effect`Lucky!`))
         use($item`11-leaf clover`);
     },
     completed: () => get("zeppelinProtestors") >= 80,
@@ -227,7 +228,7 @@ const Zepplin: Task[] = [
       if (have($item`designer sweatpants`)) sleazeitems.push($item`designer sweatpants`);
       else if (have($item`transparent pants`)) sleazeitems.push($item`transparent pants`);
 
-      if (itemAmount($item`11-leaf clover`) > 1 || have($effect`Lucky!`))
+      if (itemAmount($item`11-leaf clover`) > cloversToSave() || have($effect`Lucky!`))
         return {
           modifier: "sleaze dmg, sleaze spell dmg",
           equip: sleazeitems,
@@ -237,7 +238,7 @@ const Zepplin: Task[] = [
         equip: sleazeitems,
       };
     },
-    freeaction: () => itemAmount($item`11-leaf clover`) > 1 || have($effect`Lucky!`),
+    freeaction: () => itemAmount($item`11-leaf clover`) > cloversToSave() || have($effect`Lucky!`),
     limit: { soft: 30 },
   },
   {
@@ -442,3 +443,8 @@ export const PalindomeQuest: Quest = {
     },
   ],
 };
+
+function cloversToSave(): number {
+  if (args.delaytower) return 0;
+  return 1;
+}
