@@ -354,7 +354,7 @@ export function shouldFinishLatte(): boolean {
  * Refill the latte, using as many final ingredients as possible.
  */
 export function refillLatte(): void {
-  if (get("_latteBanishUsed")) return;
+  if (!get("_latteBanishUsed")) return;
   const modifiers = [];
   if (get("latteUnlocks").includes("wing")) modifiers.push("wing");
   if (get("latteUnlocks").includes("cajun")) modifiers.push("cajun");
