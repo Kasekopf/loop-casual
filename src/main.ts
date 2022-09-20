@@ -31,9 +31,6 @@ export const args = Args.create(
   {
     sim: Args.flag({ help: "Check if you have the requirements to run this script.", setting: "" }),
     version: Args.flag({ help: "Show script version and exit.", setting: "" }),
-    actions: Args.number({
-      help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
-    }),
     class: Args.number({
       help: "If given, break the prism and choose a class. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
       options: [
@@ -49,15 +46,23 @@ export const args = Args.create(
       help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
       default: 20,
     }),
-    verboseequip: Args.flag({
-      help: "Print out equipment usage before each task.",
-    }),
     tune: Args.string({
       help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
     }),
     delaytower: Args.flag({
       help: "Delay the NS tower until after ronin ends.",
       default: false,
+    }),
+    boombox: Args.string({
+      help: "What to get from the SongBoom boombox after the beginning of the run.",
+      options: [["meat"], ["seasoning"]],
+      default: "seasoning",
+    }),
+    actions: Args.number({
+      help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
+    }),
+    verboseequip: Args.flag({
+      help: "Print out equipment usage before each task.",
     }),
     fax: Args.boolean({
       help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
@@ -73,11 +78,6 @@ export const args = Args.create(
     }),
     list: Args.flag({
       help: "Show the status of all tasks and exit.",
-    }),
-    boombox: Args.string({
-      help: "What to get from the SongBoom boombox after the beginning of the run.",
-      options: [["meat"], ["seasoning"]],
-      default: "seasoning",
     }),
   }
 );
