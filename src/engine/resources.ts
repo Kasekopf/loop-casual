@@ -17,6 +17,7 @@ import {
 import {
   $effect,
   $item,
+  $items,
   $monster,
   $skill,
   AsdonMartin,
@@ -179,6 +180,14 @@ export const wandererSources: WandererSource[] = [
     equip: $item`cursed magnifying glass`,
     monsters: [$monster`void guy`, $monster`void slab`, $monster`void spider`],
     chance: () => 1, // when available
+  },
+  {
+    name: "Kramco Easy",
+    available: () => have($item`Kramco Sausage-o-Matic™`) && atLevel(5),
+    equip: { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
+    monsters: [$monster`sausage goblin`],
+    chance: () => getKramcoWandererChance(),
+    action: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
   },
   {
     name: "Kramco",
