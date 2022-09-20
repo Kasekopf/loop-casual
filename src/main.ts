@@ -230,9 +230,10 @@ function listTasks(engine: Engine): void {
     const reason = priority.explain();
     const why = reason === "" ? "Route" : reason;
     debug(
-      `${task.name}: ${task.completed()
-        ? "Done"
-        : engine.available(task)
+      `${task.name}: ${
+        task.completed()
+          ? "Done"
+          : engine.available(task)
           ? `Available [${priority.score()}: ${why}]`
           : "Not Available"
       }`,
