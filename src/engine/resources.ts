@@ -316,7 +316,7 @@ export function asdonFillTo(amount: number): boolean {
     // We must do this ourselves since retrieveItem($item`loaf of soda bread`)
     // in libram will not consider all-purpose flower
     const remaining = amount - getFuel();
-    const count = Math.ceil(remaining / 5); // 5 is minimum adv gain from loaf of soda bread
+    const count = Math.ceil(remaining / 5) + 1; // 5 is minimum adv gain from loaf of soda bread, +1 buffer
     if (itemAmount($item`wad of dough`) < count) {
       buy($item`all-purpose flower`);
       use($item`all-purpose flower`);
