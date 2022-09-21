@@ -181,6 +181,10 @@ const Apartment: Task[] = [
       .banish($monsters`pygmy janitor, pygmy witch lawyer`)
       .ignoreNoBanish($monster`pygmy shaman`)
       .ignore(),
+    orbtargets: () => {
+      if (have($effect`Thrice-Cursed`)) return [$monster`pygmy witch accountant`];
+      else return [$monster`pygmy shaman`, $monster`pygmy witch accountant`];
+    },
     limit: { tries: 9 },
     choices: { 780: 1 },
   },
@@ -189,7 +193,7 @@ const Apartment: Task[] = [
     after: ["Open Apartment", "Apartment Files"], // Wait until after all needed pygmy witch lawyers are done
     priority: () =>
       have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
-        ? OverridePriority.Effect
+        ? OverridePriority.MinorEffect
         : OverridePriority.None,
     completed: () => get("hiddenApartmentProgress") >= 7,
     do: $location`The Hidden Apartment Building`,
