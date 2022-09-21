@@ -342,7 +342,7 @@ const Dome: Task[] = [
   },
   {
     name: "Palindome Photos",
-    after: ["Palindome Dudes"],
+    after: ["Palindome Dog", "Palindome Dudes"],
     completed: () =>
       (have($item`photograph of a red nugget`) &&
         have($item`photograph of God`) &&
@@ -363,7 +363,7 @@ const Dome: Task[] = [
   },
   {
     name: "Palindome Nuts",
-    after: ["Palindome Photos"],
+    after: ["Palindome Dog", "Palindome Dudes", "Palindome Photos"],
     do: $location`Inside the Palindome`,
     completed: () =>
       have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
