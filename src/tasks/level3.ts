@@ -1,5 +1,5 @@
 import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "kolmafia";
-import { $item, $monster, have } from "libram";
+import { $item, $items, $monster, get, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
@@ -33,7 +33,12 @@ export const TavernQuest: Quest = {
       after: ["Tavernkeep"],
       completed: () => step("questL03Rat") >= 2,
       priority: () =>
-        atLevel(17) || !have($item`backup camera`)
+        (atLevel(17) || !have($item`backup camera`)) &&
+          (!have($item`June cleaver`) ||
+            (get("_juneCleaverStench") >= 20 &&
+              get("_juneCleaverSpooky") >= 20 &&
+              get("_juneCleaverHot") >= 20 &&
+              get("_juneCleaverCold") >= 20))
           ? OverridePriority.None
           : OverridePriority.BadGoose, // Wait for backup camera to max out
       do: (): void => {
@@ -49,7 +54,11 @@ export const TavernQuest: Quest = {
           }
         }
       },
-      outfit: { modifier: "ML, +combat" },
+      outfit: () => {
+        if (have($item`June cleaver`))
+          return { modifier: "ML, -combat", equip: $items`June cleaver` };
+        return { modifier: "ML, +combat" };
+      },
       combat: new CombatStrategy().kill($monster`drunken rat king`).ignoreNoBanish(),
       choices: {
         509: 1,
