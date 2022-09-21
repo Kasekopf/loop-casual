@@ -796,7 +796,7 @@ export class AbsorbState {
       sleaze: $skills`Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry`,
     };
     for (const elem in needed_elem_skills) {
-      if (get("nsChallenge2") !== elem) {
+      if (get("nsChallenge2") !== elem || towerSkip()) {
         for (const unneeded_skill of needed_elem_skills[elem]) {
           ignored_skills.add(unneeded_skill);
         }
