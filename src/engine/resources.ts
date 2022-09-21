@@ -26,6 +26,7 @@ import {
   getKramcoWandererChance,
   have,
   Macro,
+  set,
 } from "libram";
 import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
@@ -404,4 +405,19 @@ export const yellowRaySources: YellowRaySource[] = [
 export function yellowRayPossible(): boolean {
   if (have($effect`Everything Looks Yellow`)) return false;
   return yellowRaySources.find((s) => s.available()) !== undefined;
+}
+
+export type ForceItemSource = CombatResource;
+export const forceItemSources: ForceItemSource[] = [
+  {
+    name: "Saber",
+    available: () => have($item`Fourth of May Cosplay Saber`) && get("_saberForceUses") < 5,
+    prepare: () => set("choiceAdventure1387", 3),
+    equip: $item`Fourth of May Cosplay Saber`,
+    do: $skill`Use the Force`,
+  },
+];
+
+export function forceItemPossible(): boolean {
+  return yellowRayPossible() || forceItemSources.find((s) => s.available()) !== undefined;
 }

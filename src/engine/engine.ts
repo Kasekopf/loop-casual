@@ -67,6 +67,7 @@ import { cliExecute, equippedAmount, itemAmount, runChoice } from "kolmafia";
 import { atLevel, debug } from "../lib";
 import {
   canChargeVoid,
+  forceItemSources,
   freekillSources,
   refillLatte,
   runawaySources,
@@ -291,6 +292,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       if (combat.can("yellowRay") && !have($effect`Everything Looks Yellow`)) {
         resources.provide("yellowRay", equipFirst(outfit, yellowRaySources));
+      }
+      if (combat.can("forceItems")) {
+        let source = undefined;
+        if (!have($effect`Everything Looks Yellow`)) source = equipFirst(outfit, yellowRaySources);
+        if (source === undefined) source = equipFirst(outfit, forceItemSources);
+        resources.provide("forceItems", source);
       }
 
       const banish_state = globalStateCache.banishes();

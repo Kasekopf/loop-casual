@@ -6,7 +6,7 @@ import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
-import { yellowRayPossible } from "../engine/resources";
+import { forceItemPossible } from "../engine/resources";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -57,7 +57,7 @@ export const GiantQuest: Quest = {
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
       outfit: () => {
-        if (yellowRayPossible()) return { modifier: "-combat" };
+        if (forceItemPossible()) return { modifier: "-combat" };
         else
           return {
             modifier: "-combat, item",
@@ -66,7 +66,7 @@ export const GiantQuest: Quest = {
       },
       combat: new CombatStrategy()
         .killItem($monster`Burly Sidekick`)
-        .yellowRay($monster`Quiet Healer`),
+        .forceItems($monster`Quiet Healer`),
     },
     {
       name: "Airship",

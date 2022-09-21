@@ -20,7 +20,7 @@ import { OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
-import { yellowRayPossible } from "../engine/resources";
+import { forceItemPossible, yellowRayPossible } from "../engine/resources";
 
 export function flyersDone(): boolean {
   return get("flyeredML") >= 10000;
@@ -283,10 +283,10 @@ const Orchard: Task[] = [
       get("sidequestOrchardCompleted") !== "none",
     do: $location`The Feeding Chamber`,
     outfit: () => {
-      if (yellowRayPossible()) return {};
+      if (forceItemPossible()) return {};
       else return { modifier: "item" };
     },
-    combat: new CombatStrategy().yellowRay($monster`filthworm drone`),
+    combat: new CombatStrategy().forceItems($monster`filthworm drone`),
     effects: $effects`Filthworm Larva Stench`,
     limit: { soft: 10 },
   },
@@ -301,10 +301,10 @@ const Orchard: Task[] = [
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
     outfit: () => {
-      if (yellowRayPossible()) return {};
+      if (forceItemPossible()) return {};
       else return { modifier: "item" };
     },
-    combat: new CombatStrategy().yellowRay($monster`filthworm royal guard`),
+    combat: new CombatStrategy().forceItems($monster`filthworm royal guard`),
     limit: { soft: 10 },
   },
   {

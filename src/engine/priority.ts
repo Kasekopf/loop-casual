@@ -8,7 +8,7 @@ import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Task } from "./task";
 import { globalStateCache } from "./state";
-import { yellowRaySources } from "./resources";
+import { forceItemSources, yellowRaySources } from "./resources";
 
 export enum OverridePriority {
   Wanderer = 20000,
@@ -46,7 +46,10 @@ export class Prioritization {
     if (base !== OverridePriority.None) result.priorities.add(base);
 
     // Prioritize getting a YR
-    if (task.combat?.can("yellowRay") && yellowRaySources.find((yr) => yr.available())) {
+    const yr_needed =
+      task.combat?.can("yellowRay") ||
+      (task.combat?.can("forceItems") && !forceItemSources.find((s) => s.available()));
+    if (yr_needed && yellowRaySources.find((yr) => yr.available())) {
       if (have($effect`Everything Looks Yellow`)) result.priorities.add(OverridePriority.BadYR);
       else result.priorities.add(OverridePriority.GoodYR);
     }

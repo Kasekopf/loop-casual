@@ -21,7 +21,8 @@ const myActions = [
   "banish", // Task doesn't care what happens, but banishing is useful
   "abort", // Abort the macro and the script; an error has occured
   "killItem", // Kill with an item boost,
-  "yellowRay", // Kill with a drop-everything action
+  "yellowRay", // Kill with a drop-everything YR action
+  "forceItems", // Force items to drop with a YR or saber
 ] as const;
 export type CombatActions = typeof myActions[number];
 export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) {}
@@ -61,6 +62,10 @@ export class MyActionDefaults implements ActionDefaults<CombatActions> {
   }
 
   yellowRay(target?: Monster | Location) {
+    return this.killItem(target);
+  }
+
+  forceItems(target?: Monster | Location) {
     return this.killItem(target);
   }
 
