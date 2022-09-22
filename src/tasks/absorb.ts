@@ -803,6 +803,11 @@ export class AbsorbState {
       }
     }
 
+    // Ignore the +init skill after the crypt if we are delaying the tower
+    if (towerSkip() && get("cyrptAlcoveEvilness") <= 25 && step("questL07Cyrptic") !== -1) {
+      ignored_skills.add($skill`Overclocking`);
+    }
+
     // No need for resistance skills if we already have enough
     // Get at least 3 cold res for icy peak
     if (coldRes(false) >= 3) ignored_skills.add($skill`Nanofur`);
