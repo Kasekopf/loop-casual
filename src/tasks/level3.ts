@@ -34,11 +34,11 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 2,
       priority: () =>
         (atLevel(17) || !have($item`backup camera`)) &&
-          (!have($item`June cleaver`) ||
-            (get("_juneCleaverStench") >= 20 &&
-              get("_juneCleaverSpooky") >= 20 &&
-              get("_juneCleaverHot") >= 20 &&
-              get("_juneCleaverCold") >= 20))
+        (!have($item`June cleaver`) ||
+          (get("_juneCleaverStench") >= 20 &&
+            get("_juneCleaverSpooky") >= 20 &&
+            get("_juneCleaverHot") >= 20 &&
+            get("_juneCleaverCold") >= 20))
           ? OverridePriority.None
           : OverridePriority.BadGoose, // Wait for backup camera to max out
       do: (): void => {
