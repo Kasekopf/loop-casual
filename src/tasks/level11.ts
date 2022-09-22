@@ -319,11 +319,6 @@ const Pyramid: Task[] = [
   {
     name: "Middle Chamber",
     after: ["Upper Chamber"],
-    priority: () => {
-      if (have($item`tangle of rat tails`)) return OverridePriority.None;
-      if (familiarWeight($familiar`Grey Goose`) >= 6) return OverridePriority.GoodGoose;
-      return OverridePriority.BadGoose;
-    },
     completed: () => {
       if (!get("controlRoomUnlock")) return false;
       if (get("pyramidBombUsed")) return true;
@@ -334,13 +329,7 @@ const Pyramid: Task[] = [
     do: $location`The Middle Chamber`,
     limit: { soft: 25 },
     combat: new CombatStrategy()
-      .macro(
-        () =>
-          have($item`tangle of rat tails`)
-            ? Macro.tryItem($item`tangle of rat tails`)
-            : Macro.trySkill($skill`Emit Matter Duplicating Drones`),
-        $monster`tomb rat`
-      )
+      .macro(Macro.tryItem($item`tangle of rat tails`), $monster`tomb rat`)
       .killItem([$monster`tomb rat`, $monster`tomb rat king`])
       .banish([$monster`tomb asp`, $monster`tomb servant`]),
     outfit: {
