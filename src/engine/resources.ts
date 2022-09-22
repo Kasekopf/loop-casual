@@ -49,7 +49,8 @@ export interface BanishSource extends CombatResource {
 const banishSources: BanishSource[] = [
   {
     name: "Bowl Curveball",
-    available: () => have($item`cosmic bowling ball`),
+    available: () =>
+      have($item`cosmic bowling ball`) || get("cosmicBowlingBallReturnCombats") === 0,
     do: $skill`Bowl a Curveball`,
   },
   {
