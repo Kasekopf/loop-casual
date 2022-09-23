@@ -83,8 +83,8 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 2,
       priority: () =>
         step("questL11Shen") === 999 ||
-        have($item`The Stankara Stone`) ||
-        (myDaycount() === 1 && step("questL11Shen") > 1)
+          have($item`The Stankara Stone`) ||
+          (myDaycount() === 1 && step("questL11Shen") > 1)
           ? OverridePriority.None
           : OverridePriority.BadMood,
       prepare: () => {
@@ -146,7 +146,8 @@ export const BatQuest: Quest = {
         itemAmount($item`barrel of gunpowder`) >= 5 ||
         get("sidequestLighthouseCompleted") !== "none" ||
         !have($item`backup camera`) ||
-        (have($item`Fourth of May Cosplay Saber`) && get("_saberForceUses") < 5),
+        (have($item`Fourth of May Cosplay Saber`) &&
+          (get("_saberForceUses") < 5 || get("_saberForceMonsterCount") > 0)),
       do: $location`The Boss Bat's Lair`,
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`Back-Up to your Last Enemy`))
