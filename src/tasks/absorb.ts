@@ -916,7 +916,7 @@ export const AbsorbQuest: Quest = {
         completed: () => !globalStateCache.absorb().hasTargets(task.do),
         ...task,
         after: task.skill ? [...(task.after ?? []), task.skill.name] : task.after,
-        combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
         limit: { soft: 25 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
@@ -929,7 +929,7 @@ export const AbsorbQuest: Quest = {
           name: task.skill?.name ?? "",
           completed: () => globalStateCache.absorb().skillCompleted(task.skill ?? $skill`none`),
           ...task,
-          combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
+          combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
           limit: { soft: 25 },
         };
         if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
@@ -962,7 +962,7 @@ export const ReprocessQuest: Quest = {
         after: [...(task.after ?? []), `Absorb/${task.do.toString()}`],
         ready: () =>
           (task.ready === undefined || task.ready()) && familiarWeight($familiar`Grey Goose`) >= 6,
-        combat: (task.combat ?? new CombatStrategy()).ignore(), // killing targetting monsters is set in the engine
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
         limit: { soft: 25 },
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };

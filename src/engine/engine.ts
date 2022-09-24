@@ -285,7 +285,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         debug(`Target: ${monster.name}`, "purple");
       }
       const strategy = combat.currentStrategy(monster);
-      if (strategy === "ignore" || strategy === "banish" || strategy === "ignoreNoBanish") {
+      if (
+        strategy === "ignore" ||
+        strategy === "banish" ||
+        strategy === "ignoreNoBanish" ||
+        strategy === "ignoreSoftBanish"
+      ) {
         combat.action("kill", monster); // TODO: KillBanish for Banish, KillNoBanish for IgnoreNoBanish
       }
     }
