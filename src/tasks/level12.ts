@@ -8,6 +8,7 @@ import {
   $items,
   $location,
   $monster,
+  $monsters,
   $skill,
   ensureEffect,
   get,
@@ -169,7 +170,8 @@ const Junkyard: Task[] = [
         $monster`batwinged gremlin (tool)`
       )
       .banish($monster`A.M.C. gremlin`)
-      .kill($monster`batwinged gremlin (tool)`),
+      .kill($monster`batwinged gremlin (tool)`)
+      .ignoreSoftBanish($monsters`batwinged gremlin, vegetable gremlin`),
     limit: { soft: 15 },
   },
   {
@@ -191,7 +193,8 @@ const Junkyard: Task[] = [
         $monster`erudite gremlin (tool)`
       )
       .banish($monster`A.M.C. gremlin`)
-      .kill($monster`erudite gremlin (tool)`),
+      .kill($monster`erudite gremlin (tool)`)
+      .ignoreSoftBanish($monsters`erudite gremlin, spider gremlin`),
     limit: { soft: 15 },
   },
   {
@@ -212,7 +215,8 @@ const Junkyard: Task[] = [
         $monster`spider gremlin (tool)`
       )
       .banish($monster`A.M.C. gremlin`)
-      .kill($monster`spider gremlin (tool)`),
+      .kill($monster`spider gremlin (tool)`)
+      .ignoreSoftBanish($monsters`batwinged gremlin, spider gremlin`),
     limit: { soft: 15 },
   },
   {
@@ -234,7 +238,8 @@ const Junkyard: Task[] = [
         $monster`vegetable gremlin (tool)`
       )
       .banish($monster`A.M.C. gremlin`)
-      .kill($monster`vegetable gremlin (tool)`),
+      .kill($monster`vegetable gremlin (tool)`)
+      .ignoreSoftBanish($monsters`erudite gremlin, vegetable gremlin`),
     limit: { soft: 15 },
   },
   {
