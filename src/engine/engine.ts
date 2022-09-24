@@ -329,9 +329,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       // Set up a runaway if there are combats we do not care about
       let runaway = undefined;
-      if (combat.can("ignore") && familiarWeight($familiar`Grey Goose`) >= 6 && myLevel() >= 11) {
+      if (
+        (combat.can("ignore") || combat.can("ignoreSoftBanish")) &&
+        familiarWeight($familiar`Grey Goose`) >= 6 &&
+        myLevel() >= 11
+      ) {
         runaway = equipFirst(outfit, runawaySources);
         resources.provide("ignore", runaway);
+        resources.provide("ignoreSoftBanish", runaway);
       }
       if (
         combat.can("ignoreNoBanish") &&

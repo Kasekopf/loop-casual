@@ -121,6 +121,13 @@ export class BanishState {
           (monster) =>
             this.already_banished.has(monster) &&
             this.already_banished.get(monster) !== $item`ice house`
+        ) !== undefined ||
+      task.combat
+        ?.where("ignoreSoftBanish")
+        ?.find(
+          (monster) =>
+            this.already_banished.has(monster) &&
+            this.already_banished.get(monster) !== $item`ice house`
         ) !== undefined
     );
   }
@@ -231,7 +238,7 @@ export const runawaySources: RunawaySource[] = [
   },
   {
     name: "Bowl Curveball",
-    available: () => false,
+    available: () => true,
     do: new Macro().skill($skill`Bowl a Curveball`),
     chance: () => 1,
     banishes: true,

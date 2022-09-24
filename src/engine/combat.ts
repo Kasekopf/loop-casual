@@ -14,6 +14,7 @@ import { ActionDefaults, CombatStrategy as BaseCombatStrategy } from "grimoire-k
 
 const myActions = [
   "ignore", // Task doesn't care what happens
+  "ignoreSoftBanish", // Do not seek out a banish, but it is advantageous to have it
   "ignoreNoBanish", // Task doesn't care what happens, as long as it is not banished
   "kill", // Task needs to kill it, with or without a free kill
   "killFree", // Task needs to kill it with a free kill
@@ -28,6 +29,10 @@ export type CombatActions = typeof myActions[number];
 export class CombatStrategy extends BaseCombatStrategy.withActions(myActions) {}
 export class MyActionDefaults implements ActionDefaults<CombatActions> {
   ignore(target?: Monster | Location) {
+    return this.kill(target);
+  }
+
+  ignoreSoftBanish(target?: Monster | Location) {
     return this.kill(target);
   }
 
