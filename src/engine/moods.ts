@@ -114,7 +114,7 @@ export function applyEffects(modifier: string, required: Effect[]): void {
     // else if (modifier.includes("+combat")) AsdonMartin.drive(AsdonMartin.Driving.Obnoxiously);
     // else if (modifier.includes("init")) AsdonMartin.drive(AsdonMartin.Driving.Quickly);
     if (modifier.includes("meat")) {
-      if (!have($effect`Driving Observantly`)) asdonFillTo(37); // done manually to use all-purpose flower
+      if (!have($effect`Driving Observantly`)) asdonFillTo(50); // done manually to use all-purpose flower
       AsdonMartin.drive(AsdonMartin.Driving.Observantly);
     }
   }
