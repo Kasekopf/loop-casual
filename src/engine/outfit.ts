@@ -208,4 +208,20 @@ export function fixFoldables(outfit: Outfit) {
       cliExecute("retrocape vampire hold");
     }
   }
+
+  // Libram outfit cache may not autofold parka, so we need to
+  if (equippedAmount($item`Jurassic Parka`) > 0) {
+    if (outfit.modifier?.includes("cold res")) {
+      if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
+    } else if (outfit.modifier?.includes("stench res")) {
+      if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
+    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+      if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
+    } else if (outfit.modifier?.includes("init") || outfit.modifier?.includes("-combat")) {
+      if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
+    } else {
+      // +meat
+      if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
+    }
+  }
 }
