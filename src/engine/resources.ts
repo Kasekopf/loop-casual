@@ -238,7 +238,8 @@ export const runawaySources: RunawaySource[] = [
   },
   {
     name: "Bowl Curveball",
-    available: () => true,
+    available: () =>
+      have($item`cosmic bowling ball`) || get("cosmicBowlingBallReturnCombats") === 0,
     do: new Macro().skill($skill`Bowl a Curveball`),
     chance: () => 1,
     banishes: true,
