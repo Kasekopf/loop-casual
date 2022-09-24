@@ -83,8 +83,8 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 2,
       priority: () =>
         step("questL11Shen") === 999 ||
-          have($item`The Stankara Stone`) ||
-          (myDaycount() === 1 && step("questL11Shen") > 1)
+        have($item`The Stankara Stone`) ||
+        (myDaycount() === 1 && step("questL11Shen") > 1)
           ? OverridePriority.None
           : OverridePriority.BadMood,
       prepare: () => {

@@ -255,7 +255,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       combat.macro(
         new Macro().if_(
           // Avoid sausage goblin (2104), ninja snowman assassin (1185), protagonist (160), quantum mechanic (223)
-          "!hpbelow 50 && !monsterid 2104 && !monsterid 1185 &&!monsterid 160 && !monsterid 223",
+          "!hpbelow 50 && !monsterid 2104 && !monsterid 1185 &&!monsterid 160 && !monsterid 223 && !monsterid 2094 && !monsterid 2095 && !monsterid 2096 && !monsterid 2097 && !monsterid 2098",
           new Macro().tryItem($item`rock band flyers`)
         ),
         undefined,
