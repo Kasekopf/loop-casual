@@ -733,7 +733,7 @@ const usefulSkills = new Map<Skill, Monster>([
 ]);
 const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.values()]);
 
-function monstersAt(location: Location): Monster[] {
+export function monstersAt(location: Location): Monster[] {
   const result = Object.entries(appearanceRates(location))
     .filter((i) => i[1] !== -2) // Avoid impossible monsters
     .map((i) => Monster.get(i[0]));

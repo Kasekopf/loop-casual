@@ -5,6 +5,7 @@ import {
   getFuel,
   Item,
   itemAmount,
+  Location,
   Monster,
   myAscensions,
   myMeat,
@@ -31,6 +32,7 @@ import {
 import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
 import { Task } from "./task";
+import { monstersAt } from "../tasks/absorb";
 
 export interface Resource {
   name: string;
@@ -114,21 +116,27 @@ export class BanishState {
 
   // Return true if some of the monsters in the task are banished
   isPartiallyBanished(task: Task): boolean {
+    const targets: Monster[] = [];
+    targets.push(...(task.combat?.where("banish") ?? []));
+    targets.push(...(task.combat?.where("ignoreSoftBanish") ?? []));
+    if (
+      (task.combat?.getDefaultAction() === "banish" ||
+        task.combat?.getDefaultAction() === "ignoreSoftBanish") &&
+      task.do instanceof Location
+    ) {
+      for (const monster of monstersAt(task.do)) {
+        const strat = task.combat?.currentStrategy(monster);
+        if (strat === "banish" || strat === "ignoreSoftBanish") {
+          targets.push(monster);
+        }
+      }
+    }
     return (
-      task.combat
-        ?.where("banish")
-        ?.find(
-          (monster) =>
-            this.already_banished.has(monster) &&
-            this.already_banished.get(monster) !== $item`ice house`
-        ) !== undefined ||
-      task.combat
-        ?.where("ignoreSoftBanish")
-        ?.find(
-          (monster) =>
-            this.already_banished.has(monster) &&
-            this.already_banished.get(monster) !== $item`ice house`
-        ) !== undefined
+      targets.find(
+        (monster) =>
+          this.already_banished.has(monster) &&
+          this.already_banished.get(monster) !== $item`ice house`
+      ) !== undefined
     );
   }
 
