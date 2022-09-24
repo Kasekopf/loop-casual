@@ -91,23 +91,26 @@ const summonTargets: SummonTarget[] = [
         useful: () =>
           have($familiar`Vampire Vintner`) &&
           have($item`cosmic bowling ball`) &&
-          have($item`unwrapped knock-off retro superhero cape`),
+          have($item`unwrapped knock-off retro superhero cape`) &&
+          (!have($item`Lil' Doctor™ bag`) || get("_chestXRayUsed") >= 3),
       },
       {
         // Backup plan if missing Vintner/bowling ball
         item: $item`yellow rocket`,
         num: 1,
         useful: () =>
-          !have($familiar`Vampire Vintner`) ||
-          !have($item`cosmic bowling ball`) ||
-          !have($item`unwrapped knock-off retro superhero cape`),
+          (!have($familiar`Vampire Vintner`) ||
+            !have($item`cosmic bowling ball`) ||
+            !have($item`unwrapped knock-off retro superhero cape`)) &&
+          (!have($item`Lil' Doctor™ bag`) || get("_chestXRayUsed") >= 3),
       },
     ],
     prepare: () => {
       if (
         (equippedAmount($item`unwrapped knock-off retro superhero cape`) === 0 ||
           myFamiliar() !== $familiar`Vampire Vintner`) &&
-        !have($item`yellow rocket`)
+        !have($item`yellow rocket`) &&
+        (equippedAmount($item`Lil' Doctor™ bag`) === 0 || get("_chestXRayUsed") >= 3)
       )
         abort("Not ready for pygmy locket");
       if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
@@ -118,6 +121,7 @@ const summonTargets: SummonTarget[] = [
     },
     combat: new CombatStrategy().macro(
       new Macro()
+        .trySkill($skill`Chest X-Ray`)
         .tryItem($item`yellow rocket`)
         .tryItem($item`cosmic bowling ball`)
         .step("if hascombatitem 10769;use Arr;endif;") // Arr, M80; "use Arr, M80" trys and fails to funksling
@@ -126,6 +130,13 @@ const summonTargets: SummonTarget[] = [
         .repeat()
     ),
     outfit: () => {
+      if (have($item`Lil' Doctor™ bag`) && get("_chestXRayUsed") < 3) {
+        return {
+          modifier: "init",
+          equip: $items`Lil' Doctor™ bag, unwrapped knock-off retro superhero cape`,
+        };
+      }
+
       if (
         have($familiar`Vampire Vintner`) &&
         have($item`cosmic bowling ball`) &&
