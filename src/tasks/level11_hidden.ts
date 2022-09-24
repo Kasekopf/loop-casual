@@ -311,8 +311,11 @@ const Hospital: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .kill($monster`pygmy witch surgeon`)
       .banish($monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
-    outfit: {
-      equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
+    outfit: () => {
+      return {
+        shirt: have($skill`Torso Awareness`) ? $item`surgical apron` : undefined,
+        equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
+      };
     },
     choices: { 784: 1 },
     limit: { soft: 20 },
