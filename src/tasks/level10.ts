@@ -52,7 +52,14 @@ export const GiantQuest: Quest = {
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
-      orbtargets: () => undefined,
+      orbtargets: () => {
+        if (have($item`Fourth of May Cosplay Saber`)) {
+          if (have($item`Mohawk wig`)) return $monsters`Quiet Healer`;
+          else return $monsters`Quiet Healer, Burly Sidekick`;
+        } else {
+          return undefined; // Avoid orb dancing if we are using a real YR
+        }
+      },
       limit: { soft: 50 },
       delay: () =>
         have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
