@@ -371,19 +371,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // Prepare full outfit
     if (!outfit.skipDefaults) {
       const freecombat = task.freecombat || wanderers.find((wanderer) => wanderer.chance() === 1);
-      // Do not use the CMG when we are probably running away
       if (
         canChargeVoid() &&
         (!outfit.modifier || !outfit.modifier.includes("-combat")) &&
         !freecombat &&
-        !resources.has("ignore") &&
-        !resources.has("ignoreNoBanish") &&
         ((combat.can("kill") && !resources.has("killFree")) || combat.can("killHard") || task.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
 
-      if (!task.boss && !freecombat && !outfit.modifier)
-        outfit.equip($item`carnivorous potted plant`);
       equipDefaults(outfit);
     }
 
