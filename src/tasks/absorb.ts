@@ -833,6 +833,9 @@ export class AbsorbState {
       ignored_skills.delete($skill`Snow-Cooling System`);
     }
 
+    // Sweatpants are enough MP regen
+    if (have($item`designer sweatpants`)) ignored_skills.add($skill`Hivemindedness`);
+
     for (const skill of ignored_skills) {
       const monster = usefulSkills.get(skill);
       this.ignoredSkills.add(skill);
