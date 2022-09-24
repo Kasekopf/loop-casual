@@ -159,6 +159,7 @@ const Junkyard: Task[] = [
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Next to that Barrel with Something Burning in it`,
+    orbtargets: () => $monsters`batwinged gremlin, batwinged gremlin (tool)`,
     combat: new CombatStrategy()
       .macro(
         new Macro()
@@ -182,6 +183,7 @@ const Junkyard: Task[] = [
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Over Where the Old Tires Are`,
+    orbtargets: () => $monsters`erudite gremlin, erudite gremlin (tool)`,
     combat: new CombatStrategy()
       .macro(
         new Macro()
@@ -204,6 +206,7 @@ const Junkyard: Task[] = [
     completed: () => have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none",
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Near an Abandoned Refrigerator`,
+    orbtargets: () => $monsters`spider gremlin, spider gremlin (tool)`,
     combat: new CombatStrategy()
       .macro(
         new Macro()
@@ -227,6 +230,7 @@ const Junkyard: Task[] = [
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Out by that Rusted-Out Car`,
+    orbtargets: () => $monsters`vegetable gremlin, vegetable gremlin (tool)`,
     combat: new CombatStrategy()
       .macro(
         new Macro()
