@@ -189,7 +189,7 @@ export function fixFoldables(outfit: Outfit) {
   if (equippedAmount($item`backup camera`) > 0) {
     if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
-    } else if (outfit.modifier?.includes("init")) {
+    } else if (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) {
       if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
     } else {
       if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
@@ -217,7 +217,10 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
     } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
-    } else if (outfit.modifier?.includes("init") || outfit.modifier?.includes("-combat")) {
+    } else if (
+      (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) ||
+      outfit.modifier?.includes("-combat")
+    ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {
       // +meat

@@ -55,6 +55,19 @@ const Alcove: Task[] = [
     completed: () => get("cyrptAlcoveEvilness") <= 25,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
+      if (
+        globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
+        globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
+          $monster`grave rober zmobie`
+      ) {
+        // Try not to fight modern zmobie
+        return {
+          equip: tryCape($item`antique machete`, $item`gravy boat`),
+          famequip: $item`miniature crystal ball`,
+          modifier: "-init",
+          avoid: $items`carnivorous potted plant`,
+        };
+      }
       return {
         equip: tryCape($item`antique machete`, $item`gravy boat`),
         modifier: "init 850max",
@@ -179,11 +192,6 @@ const Nook: Task[] = [
     ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
-    post: (): void => {
-      // Use evil eyes via chat until mafia tracking is fixed
-      if (get("cyrptNookEvilness") > 25) cliExecute("/use * evil eye");
-      // while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
-    },
     outfit: (): OutfitSpec => {
       return {
         equip: tryCape($item`antique machete`, $item`gravy boat`),
@@ -191,6 +199,11 @@ const Nook: Task[] = [
       };
     },
     choices: { 155: 5, 1429: 1 },
+    orbtargets: () => {
+      if (globalStateCache.absorb().isReprocessTarget($monster`party skelteon`))
+        return $monsters`party skelteon`;
+      else return $monsters`spiny skelelton, toothy sklelton`;
+    },
     combat: new CombatStrategy()
       .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
@@ -199,7 +212,9 @@ const Nook: Task[] = [
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
     after: ["Start"],
-    ready: () => have($item`evil eye`),
+    ready: () =>
+      have($item`evil eye`) &&
+      !globalStateCache.absorb().isReprocessTarget($monster`party skelteon`),
     completed: () => get("cyrptNookEvilness") <= 25,
     do: (): void => {
       cliExecute("use * evil eye");
