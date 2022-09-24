@@ -180,7 +180,8 @@ function orbPriority(task: Task, monster: Monster): OverridePriority {
       (next_monster_strategy === "ignore" ||
         next_monster_strategy === "ignoreNoBanish" ||
         next_monster_strategy === "ignoreSoftBanish" ||
-        next_monster_strategy === "banish") &&
+        next_monster_strategy === "banish" ||
+        next_monster_strategy === undefined) &&
       !absorb_state.isTarget(monster) &&
       (!absorb_state.isReprocessTarget(monster) || familiarWeight($familiar`Grey Goose`) < 6);
 
@@ -188,7 +189,8 @@ function orbPriority(task: Task, monster: Monster): OverridePriority {
       task_combat.can("ignore") ||
       task_combat.can("ignoreNoBanish") ||
       task_combat.can("banish") ||
-      task_combat.can("ignoreSoftBanish");
+      task_combat.can("ignoreSoftBanish") ||
+      task_combat.getDefaultAction() === undefined;
 
     const others_useful =
       absorb_state.hasTargets(task.do) ||
