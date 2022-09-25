@@ -305,7 +305,7 @@ export const ChasmQuest: Quest = {
           have($skill`Cooling Tubules`) ||
           have($skill`Snow-Cooling System`)) &&
           get("smutOrcNoncombatProgress") < 15) ||
-        ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 400),
+        ((have($effect`Red Door Syndrome`) || myMeat() >= 1000) && myBasestat($stat`Moxie`) >= 350),
       completed: () => step("questL09Topping") >= 1,
       prepare: () => {
         if (get("smutOrcNoncombatProgress") >= 15 && step("questL11Black") >= 2) {
