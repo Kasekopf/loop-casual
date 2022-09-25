@@ -276,6 +276,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 4, 610: 1, 1056: 1 },
+    outfit: { modifier: "init 40 min" },
     limit: { tries: 1 },
   },
 ];
