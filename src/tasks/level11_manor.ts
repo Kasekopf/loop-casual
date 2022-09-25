@@ -199,6 +199,7 @@ const Manor2: Task[] = [
     completed: () => step("questM21Dance") >= 3,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
     limit: { tries: 1 },
+    freeaction: true,
   },
   {
     name: "Finish Floor2",
