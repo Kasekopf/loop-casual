@@ -57,6 +57,10 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
     help: "Use pocket professor as one of the free leveling resources. This uses up some copiers, but may help to level.",
     default: false,
   }),
+  fluffers: Args.flag({
+    help: "If true, use stuffing fluffers to finish the war.",
+    default: true,
+  }),
 });
 export function main(command?: string): void {
   Args.fill(args, command);

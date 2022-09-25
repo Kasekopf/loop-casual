@@ -38,10 +38,11 @@ export const routing: string[] = [
 
   // Line up noncombats
   "Manor/Billiards",
+  "War/Enrage",
+  "War/Flyers End", // Turn in flyers ASAP in-case of tracking issues
   "Giant/Airship",
   "Friar/Finish",
   "Crypt/Cranny",
-  "War/Enrage",
   "Mosquito/Mosquito",
   "Hidden City/Open Temple",
   "Tavern/Finish",
