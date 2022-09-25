@@ -10,7 +10,7 @@ import {
   retrieveItem,
   storageAmount,
 } from "kolmafia";
-import { $familiar, $item, $items, $skill, get, have } from "libram";
+import { $familiar, $item, $items, $skill, get, have, set } from "libram";
 import { args } from "../main";
 import { OverridePriority } from "../engine/priority";
 import { Quest, Task } from "../engine/task";
@@ -223,6 +223,7 @@ class Pull {
       if (item === undefined) throw `Unable to pull ${this.name}; the desired item is undefined`;
       if (storageAmount(item) > 0 || buyUsingStorage(1, item, 100000)) {
         cliExecute(`pull ${item.name}`);
+        set("_loopgyou_pulls_used", get("_loopgyou_pulls_used", 0) + 1);
         return;
       }
     }

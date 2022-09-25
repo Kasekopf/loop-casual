@@ -1,10 +1,12 @@
 import {
   gametimeToInt,
   getRevision,
+  inHardcore,
   myAdventures,
   myPath,
   myTurncount,
   print,
+  pullsRemaining,
   runChoice,
   svnAtHead,
   svnExists,
@@ -167,8 +169,14 @@ export function main(command?: string): void {
       )} since first run today started`,
       "purple"
     );
-  print(`   Pulls used: ${get("_roninStoragePulls").split(",").length}`, "purple");
-  // eslint-disable-next-line eqeqeq
+  if (inHardcore()) {
+    print(`   Pulls used: 0 (Hardcore)`);
+  } else {
+    print(
+      `   Pulls used: ${get("_loopgyou_pulls_used")} (${pullsRemaining()} remaining)`,
+      "purple"
+    );
+  }
   print(
     `   Monsters remaining: ${Array.from(absorb_state.remainingAbsorbs()).join(", ")}`,
     "purple"
