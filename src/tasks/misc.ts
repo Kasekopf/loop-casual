@@ -369,6 +369,7 @@ export const MiscQuest: Quest = {
       name: "Acquire Firework Hat",
       after: [],
       priority: () => OverridePriority.Free,
+      ready: () => myMeat() >= 500,
       completed: () =>
         have($item`sombrero-mounted sparkler`) ||
         get("_fireworksShopHatBought") ||
