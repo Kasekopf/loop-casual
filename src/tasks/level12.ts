@@ -102,7 +102,7 @@ const Flyers: Task[] = [
         debug("Mafia tracking was incorrect for rock band flyers; continuing to flyer...");
         set(
           "_loopcasual_flyeredML_buffer",
-          get("_loopgyou_flyeredML_buffer", 0) + (get("flyeredML") - 9900)
+          get("_loopcasual_flyeredML_buffer", 0) + (get("flyeredML") - 9900)
         );
         set("flyeredML", 9900);
       } else if (get("_loopcasual_flyeredML_buffer", 0) > 0) {
@@ -120,7 +120,6 @@ const Flyers: Task[] = [
 
 const Lighthouse: Task[] = [
   // Saber into more lobsterfrogmen
-  // Or backup into the Boss Bat's lair
   {
     name: "Lighthouse",
     after: ["Enrage"],
