@@ -135,6 +135,7 @@ export const MiscQuest: Quest = {
         set("_loopcasual_checkedGnome", true);
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
+      freeaction: true,
       limit: { tries: 1 },
     },
     {
