@@ -99,7 +99,10 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold camera, so we need to
   if (equippedAmount($item`backup camera`) > 0) {
-    if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    if (
+      (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) ||
+      outfit.modifier?.includes("exp")
+    ) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
     } else if (outfit.modifier?.includes("init")) {
       if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
