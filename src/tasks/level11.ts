@@ -1,4 +1,13 @@
-import { buy, cliExecute, itemAmount, myLevel, runChoice, use, visitUrl } from "kolmafia";
+import {
+  buy,
+  cliExecute,
+  haveEquipped,
+  itemAmount,
+  myLevel,
+  runChoice,
+  use,
+  visitUrl,
+} from "kolmafia";
 import {
   $coinmaster,
   $effect,
@@ -101,7 +110,7 @@ const Desert: Task[] = [
     },
     combat: new CombatStrategy()
       .macro((): Macro => {
-        if (have($effect`Ultrahydrated`))
+        if (have($effect`Ultrahydrated`) && !haveEquipped($item`"I Voted!" sticker`))
           return new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`);
         else return new Macro();
       })
