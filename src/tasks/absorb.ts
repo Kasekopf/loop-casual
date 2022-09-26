@@ -29,6 +29,7 @@ import {
   $items,
   $location,
   $monster,
+  $monsters,
   $skill,
   $skills,
   $slot,
@@ -734,6 +735,10 @@ const usefulSkills = new Map<Skill, Monster>([
 const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.values()]);
 
 export function monstersAt(location: Location): Monster[] {
+  if (location === $location`The VERY Unquiet Garves`) {
+    // Workaround
+    return $monsters`basic lihc, party skelteon, corpulent zobmie, grave rober zmobie, senile lihc, slick lihc, gluttonous ghuol, gaunt ghuol`
+  }
   const result = Object.entries(appearanceRates(location))
     .filter((i) => i[1] !== -2) // Avoid impossible monsters
     .map((i) => Monster.get(i[0]));
