@@ -186,6 +186,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // Kill wanderers
     for (const wanderer of wanderers) {
       combat.action("killHard", wanderer.monsters);
+      if (wanderer.macro) combat.macro(wanderer.macro, wanderer.monsters);
     }
     if (resources.has("killFree") && !task.boss) {
       // Upgrade normal kills to free kills if provided
