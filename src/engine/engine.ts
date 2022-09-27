@@ -645,10 +645,16 @@ function absorbConsumables(): void {
 }
 
 function getExtros(): void {
-  if (getWorkshed() !== $item`cold medicine cabinet`) return;
-  if (get("_coldMedicineConsults") >= 5 || get("_nextColdMedicineConsult") > totalTurnsPlayed()) {
-    return;
+  // Mafia doesn't always notice the workshed
+  if (!get("_loopgyou_checkworkshed", false)) {
+    visitUrl("campground.php?action=workshed");
+    set("_loopgyou_checkworkshed", true);
   }
+
+  if (get("_coldMedicineConsults") >= 5) return;
+  if (get("_nextColdMedicineConsult") > totalTurnsPlayed()) return;
+  if (getWorkshed() !== $item`cold medicine cabinet`) return;
+
   const options = visitUrl("campground.php?action=workshed");
   let match;
   const regexp = /descitem\((\d+)\)/g;
