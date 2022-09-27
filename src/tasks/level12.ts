@@ -1,6 +1,7 @@
 import {
   availableAmount,
   cliExecute,
+  council,
   create,
   equippedAmount,
   Item,
@@ -566,6 +567,7 @@ export const WarQuest: Quest = {
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
+        council();
       },
       boss: true,
       combat: new CombatStrategy().killHard(),
@@ -587,6 +589,7 @@ export const WarQuest: Quest = {
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
+        council();
       },
       boss: true,
       combat: new CombatStrategy().killHard(),
