@@ -15,6 +15,7 @@ import {
   Monster,
   myAscensions,
   myFamiliar,
+  myTurncount,
   runCombat,
   use,
   userConfirm,
@@ -179,6 +180,9 @@ const summonTargets: SummonTarget[] = [
     },
     prepare: () => {
       if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
+      if (myTurncount() < 5 && !have($item`yellow rocket`) || equippedAmount($item`Jurassic Parka`) < 0) {
+        throw "Unable to actually YR the mountain man"
+      }
     },
     outfit: () => {
       if (yellowRayPossible()) return { equip: $items`unwrapped knock-off retro superhero cape` };
