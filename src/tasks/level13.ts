@@ -564,7 +564,7 @@ export function towerReady() {
   return !args.delaytower || myTurncount() >= 1000;
 }
 
-/* Skip this entirely, either in-ronin or when delaying until ronin. */
+/* Skip this entirely, either post-ronin or when delaying until ronin. */
 export function towerSkip() {
   return args.delaytower || myTurncount() >= 1000;
 }
