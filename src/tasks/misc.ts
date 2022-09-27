@@ -746,6 +746,8 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   }
   // Exit NEP intro choice
   choices[1322] = 6;
+  // Leave the gingerbread city clock alone
+  choices[1215] = 2;
 
   return {
     name: "Teleportitis",
