@@ -55,6 +55,11 @@ export const args = Args.create(
       help: "Delay the NS tower until after ronin ends.",
       default: false,
     }),
+    delaywar: Args.flag({
+      help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
+      default: false,
+      hidden: true, // until delaywar=true is tested
+    }),
     seasoning: Args.boolean({
       help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
       default: true,
