@@ -10762,16 +10762,13 @@ function asdonFillTo(amount) {
   }
 
   (0,external_kolmafia_namespaceObject.retrieveItem)(count, template_string_$item(resources_templateObject68 || (resources_templateObject68 = resources_taggedTemplateLiteral(["loaf of soda bread"]))));
-
-  if (!insertFuel(template_string_$item(resources_templateObject69 || (resources_templateObject69 = resources_taggedTemplateLiteral(["loaf of soda bread"]))), count)) {
-    throw new Error("Failed to fuel Asdon Martin.");
-  }
+  (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=fuelconvertor&pwd&qty=".concat(count, "&iid=").concat((0,external_kolmafia_namespaceObject.toInt)(template_string_$item(resources_templateObject69 || (resources_templateObject69 = resources_taggedTemplateLiteral(["loaf of soda bread"])))), "&go=Convert%21"));
 
   if ((0,external_kolmafia_namespaceObject.getFuel)() < amount) {
     throw new Error("Soda bread did not generate enough fuel");
   }
 
-  return fillTo(amount);
+  return true;
 }
 /**
  * Return true if we can possibly fuel the asdon to the required amount.
@@ -12141,7 +12138,9 @@ function teleportitisTask(engine, tasks) {
   } // Exit NEP intro choice
 
 
-  choices[1322] = 6;
+  choices[1322] = 6; // Leave the gingerbread city clock alone
+
+  choices[1215] = 2;
   return {
     name: "Teleportitis",
     after: ["Wand/Get Teleportitis"],
@@ -18005,7 +18004,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "aeaf612";
+var lastCommitHash = "b3f9333";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
