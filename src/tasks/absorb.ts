@@ -737,7 +737,7 @@ const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.va
 export function monstersAt(location: Location): Monster[] {
   if (location === $location`The VERY Unquiet Garves`) {
     // Workaround
-    return $monsters`basic lihc, party skelteon, corpulent zobmie, grave rober zmobie, senile lihc, slick lihc, gluttonous ghuol, gaunt ghuol`
+    return $monsters`basic lihc, party skelteon, corpulent zobmie, grave rober zmobie, senile lihc, slick lihc, gluttonous ghuol, gaunt ghuol`;
   }
   const result = Object.entries(appearanceRates(location))
     .filter((i) => i[1] !== -2) // Avoid impossible monsters
