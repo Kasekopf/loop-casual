@@ -15,6 +15,7 @@ import {
   Monster,
   myAscensions,
   myFamiliar,
+  myMeat,
   myTurncount,
   runCombat,
   use,
@@ -154,6 +155,7 @@ const summonTargets: SummonTarget[] = [
   {
     target: $monster`mountain man`,
     after: [],
+    ready: () => myMeat() >= 1000,
     completed: () => {
       if (step("questL08Trapper") >= 2) return true;
       if (!have($item`Clan VIP Lounge key`)) return true; // For now, do not do without yellow rocket
@@ -180,8 +182,11 @@ const summonTargets: SummonTarget[] = [
     },
     prepare: () => {
       if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
-      if (myTurncount() < 5 && !have($item`yellow rocket`) || equippedAmount($item`Jurassic Parka`) < 0) {
-        throw "Unable to actually YR the mountain man"
+      if (
+        (myTurncount() < 5 && !have($item`yellow rocket`)) ||
+        equippedAmount($item`Jurassic Parka`) < 0
+      ) {
+        throw "Unable to actually YR the mountain man";
       }
     },
     outfit: () => {
