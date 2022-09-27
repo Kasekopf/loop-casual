@@ -13,8 +13,10 @@ import {
   myTurncount,
   retrieveItem,
   Skill,
+  toInt,
   totalTurnsPlayed,
   use,
+  visitUrl,
 } from "kolmafia";
 import {
   $effect,
@@ -344,13 +346,15 @@ export function asdonFillTo(amount: number): boolean {
   }
 
   retrieveItem(count, $item`loaf of soda bread`);
-  if (!AsdonMartin.insertFuel($item`loaf of soda bread`, count)) {
-    throw new Error("Failed to fuel Asdon Martin.");
-  }
+  visitUrl(
+    `campground.php?action=fuelconvertor&pwd&qty=${count}&iid=${toInt(
+      $item`loaf of soda bread`
+    )}&go=Convert%21`
+  );
   if (getFuel() < amount) {
     throw new Error("Soda bread did not generate enough fuel");
   }
-  return AsdonMartin.fillTo(amount);
+  return true;
 }
 
 /**
