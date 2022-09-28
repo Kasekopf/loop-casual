@@ -556,12 +556,12 @@ export function councilSafe(): boolean {
   // Check if it is safe to visit the council without making the war outfit worse
   // (It is harder to get the hippy outfit after the war starts)
   return (
-    args.delaywar,
+    args.delaywar ||
     !atLevel(12) ||
-      (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
-      (have($item`beer helmet`) &&
-        have($item`distressed denim pants`) &&
-        have($item`bejeweled pledge pin`))
+    (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
+    (have($item`beer helmet`) &&
+      have($item`distressed denim pants`) &&
+      have($item`bejeweled pledge pin`))
   );
 }
 
