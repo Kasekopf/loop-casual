@@ -9239,7 +9239,7 @@ function equipDefaults(outfit) {
     outfit.equip(template_string_$item(outfit_templateObject53 || (outfit_templateObject53 = engine_outfit_taggedTemplateLiteral(["Cargo Cultist Shorts"]))));
     outfit.equip(template_string_$item(outfit_templateObject54 || (outfit_templateObject54 = engine_outfit_taggedTemplateLiteral(["lucky gold ring"]))));
     outfit.equip(template_string_$item(outfit_templateObject55 || (outfit_templateObject55 = engine_outfit_taggedTemplateLiteral(["Powerful Glove"]))));
-    if (outfit.familiar === template_string_$familiar(outfit_templateObject56 || (outfit_templateObject56 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(outfit_templateObject57 || (outfit_templateObject57 = engine_outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6 && (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(outfit_templateObject58 || (outfit_templateObject58 = engine_outfit_taggedTemplateLiteral(["teacher's pen"])))) >= 2) outfit.equip(template_string_$item(outfit_templateObject59 || (outfit_templateObject59 = engine_outfit_taggedTemplateLiteral(["teacher's pen"]))));
+    if (outfit.familiar === template_string_$familiar(outfit_templateObject56 || (outfit_templateObject56 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(outfit_templateObject57 || (outfit_templateObject57 = engine_outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6) outfit.equip(template_string_$item(outfit_templateObject58 || (outfit_templateObject58 = engine_outfit_taggedTemplateLiteral(["teacher's pen"]))), $slot(outfit_templateObject59 || (outfit_templateObject59 = engine_outfit_taggedTemplateLiteral(["acc3"]))));
     outfit.equip(template_string_$item(outfit_templateObject60 || (outfit_templateObject60 = engine_outfit_taggedTemplateLiteral(["backup camera"]))));
     outfit.equip(template_string_$item(outfit_templateObject61 || (outfit_templateObject61 = engine_outfit_taggedTemplateLiteral(["birch battery"]))));
     outfit.equip(template_string_$item(outfit_templateObject62 || (outfit_templateObject62 = engine_outfit_taggedTemplateLiteral(["combat lover's locket"]))));
@@ -11373,7 +11373,7 @@ var WarQuest = {
 function councilSafe() {
   // Check if it is safe to visit the council without making the war outfit worse
   // (It is harder to get the hippy outfit after the war starts)
-  return args.delaywar, !atLevel(12) || have(template_string_$item(level12_templateObject136 || (level12_templateObject136 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && have(template_string_$item(level12_templateObject137 || (level12_templateObject137 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || have(template_string_$item(level12_templateObject138 || (level12_templateObject138 = level12_taggedTemplateLiteral(["beer helmet"])))) && have(template_string_$item(level12_templateObject139 || (level12_templateObject139 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && have(template_string_$item(level12_templateObject140 || (level12_templateObject140 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
+  return args.delaywar || !atLevel(12) || have(template_string_$item(level12_templateObject136 || (level12_templateObject136 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && have(template_string_$item(level12_templateObject137 || (level12_templateObject137 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || have(template_string_$item(level12_templateObject138 || (level12_templateObject138 = level12_taggedTemplateLiteral(["beer helmet"])))) && have(template_string_$item(level12_templateObject139 || (level12_templateObject139 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && have(template_string_$item(level12_templateObject140 || (level12_templateObject140 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
 }
 
 function dimesForGarters() {
@@ -15045,6 +15045,7 @@ var Nook = [{
   name: "Nook Eye",
   // In case we get eyes from outside sources (Nostalgia)
   after: ["Start"],
+  priority: () => OverridePriority.Free,
   ready: () => have(template_string_$item(level7_templateObject50 || (level7_templateObject50 = level7_taggedTemplateLiteral(["evil eye"])))) && !globalStateCache.absorb().isReprocessTarget($monster(level7_templateObject51 || (level7_templateObject51 = level7_taggedTemplateLiteral(["party skelteon"])))),
   completed: () => property_get("cyrptNookEvilness") <= 25,
   do: () => {
@@ -18004,7 +18005,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "b3f9333";
+var lastCommitHash = "bc8226d";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -18051,9 +18052,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
   }),
   delaywar: Args.flag({
     help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
-    default: false,
-    hidden: true // until delaywar=true is tested
-
+    default: false
   }),
   seasoning: Args.boolean({
     help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
@@ -18180,7 +18179,7 @@ function main(command) {
 
 function runComplete() {
   return step("questL13Final") > 11 || // eslint-disable-next-line eqeqeq
-  (0,external_kolmafia_namespaceObject.myPath)() != "Grey You" || args.delaytower && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL13Final") !== -1;
+  (0,external_kolmafia_namespaceObject.myPath)() != "Grey You" || args.delaytower && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL13Final") !== -1 || args.delaywar && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL02Larva") === 999 && step("questL03Rat") === 999 && step("questL04Bat") === 999 && step("questL05Goblin") === 999 && step("questL06Friar") === 999 && step("questL07Cyrptic") === 999 && step("questL08Trapper") === 999 && step("questL09Topping") === 999 && step("questL10Garbage") === 999 && step("questL11MacGuffin") === 999;
 }
 
 function printVersionInfo() {
