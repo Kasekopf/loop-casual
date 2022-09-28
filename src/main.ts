@@ -197,7 +197,19 @@ function runComplete(): boolean {
     step("questL13Final") > 11 ||
     // eslint-disable-next-line eqeqeq
     myPath() != "Grey You" ||
-    (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1)
+    (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1) ||
+    (args.delaywar &&
+      myTurncount() < 1000 &&
+      step("questL02Larva") === 999 &&
+      step("questL03Rat") === 999 &&
+      step("questL04Bat") === 999 &&
+      step("questL05Goblin") === 999 &&
+      step("questL06Friar") === 999 &&
+      step("questL07Cyrptic") === 999 &&
+      step("questL08Trapper") === 999 &&
+      step("questL09Topping") === 999 &&
+      step("questL10Garbage") === 999 &&
+      step("questL11MacGuffin") === 999)
   );
 }
 
