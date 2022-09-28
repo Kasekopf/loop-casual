@@ -288,19 +288,16 @@ export const wandererSources: WandererSource[] = [
       myLevel() >= 10 &&
       have($familiar`Grey Goose`) &&
       familiarWeight($familiar`Grey Goose`) >= 6 &&
-      itemAmount($item`teacher's pen`) >= 3 &&
       getKramcoWandererChance() === 1,
     equip: {
+      offhand: $item`Kramco Sausage-o-Matic™`,
       familiar: $familiar`Grey Goose`,
-      equip: [
-        $item`Kramco Sausage-o-Matic™`,
-        // Get 11 famexp at the end of the fight, to maintain goose weight
-        $item`yule hatchet`,
-        $item`grey down vest`,
-        $item`teacher's pen`,
-        $item`teacher's pen`,
-        $item`teacher's pen`,
-      ],
+      // Get 11 famexp at the end of the fight, to maintain goose weight
+      weapon: $item`yule hatchet`,
+      famequip: $item`grey down vest`,
+      acc1: $item`teacher's pen`,
+      acc2: $item`teacher's pen`,
+      acc3: $item`teacher's pen`,
     },
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
