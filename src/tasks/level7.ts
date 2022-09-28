@@ -212,6 +212,7 @@ const Nook: Task[] = [
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
     after: ["Start"],
+    priority: () => OverridePriority.Free,
     ready: () =>
       have($item`evil eye`) &&
       !globalStateCache.absorb().isReprocessTarget($monster`party skelteon`),
