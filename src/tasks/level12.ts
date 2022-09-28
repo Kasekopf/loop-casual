@@ -589,8 +589,8 @@ export const WarQuest: Quest = {
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=2&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
-        council();
       },
+      post: council,
       boss: true,
       combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
