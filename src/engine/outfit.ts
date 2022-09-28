@@ -1,5 +1,5 @@
-import { cliExecute, equippedAmount, familiarWeight, itemAmount, myBasestat } from "kolmafia";
-import { $familiar, $item, $skill, $stat, get, getKramcoWandererChance, have } from "libram";
+import { cliExecute, equippedAmount, familiarWeight, myBasestat } from "kolmafia";
+import { $familiar, $item, $skill, $slot, $stat, get, getKramcoWandererChance, have } from "libram";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
@@ -140,12 +140,8 @@ export function equipDefaults(outfit: Outfit): void {
     outfit.equip($item`Cargo Cultist Shorts`);
     outfit.equip($item`lucky gold ring`);
     outfit.equip($item`Powerful Glove`);
-    if (
-      outfit.familiar === $familiar`Grey Goose` &&
-      familiarWeight($familiar`Grey Goose`) < 6 &&
-      itemAmount($item`teacher's pen`) >= 2
-    )
-      outfit.equip($item`teacher's pen`);
+    if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+      outfit.equip($item`teacher's pen`, $slot`acc3`);
     outfit.equip($item`backup camera`);
     outfit.equip($item`birch battery`);
     outfit.equip($item`combat lover's locket`);
