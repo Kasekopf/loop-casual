@@ -113,7 +113,10 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
     outfit.equip($item`gnomish housemaid's kgnee`);
 
-  outfit.equip($item`mafia thumb ring`);
+  if (!outfit.modifier?.includes("meat") || !have($item`backup camera`)) {
+    // Leave room for backup camera for nuns
+    outfit.equip($item`mafia thumb ring`);
+  }
   if (atLevel(11)) outfit.equip($item`lucky gold ring`);
 
   if (myBasestat($stat`moxie`) <= 200) {
