@@ -657,7 +657,13 @@ function absorbConsumables(): void {
 function getExtros(): void {
   // Mafia doesn't always notice the workshed
   if (!get("_loopgyou_checkworkshed", false)) {
-    visitUrl("campground.php?action=workshed");
+    const workshed = visitUrl("campground.php?action=workshed");
+    if (
+      workshed.includes("Cold Medicine Cabinet") &&
+      getWorkshed() !== $item`cold medicine cabinet`
+    ) {
+      throw `Mafia is not detecting your cold medicine cabinet; consider visiting manually`;
+    }
     set("_loopgyou_checkworkshed", true);
   }
 
