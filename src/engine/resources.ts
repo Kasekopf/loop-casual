@@ -81,7 +81,7 @@ const banishSources: BanishSource[] = [
   {
     name: "Latte",
     available: () =>
-      (!get("_latteBanishUsed") || get("_latteRefillsUsed") < 2) && // Save one refill for aftercore
+      (!get("_latteBanishUsed") || (get("_latteRefillsUsed") < 2 && myTurncount() <= 1000)) && // Save one refill for aftercore
       have($item`latte lovers member's mug`),
     prepare: refillLatte,
     do: $skill`Throw Latte on Opponent`,
@@ -383,6 +383,8 @@ export function asdonFualable(amount: number): boolean {
  */
 export function shouldFinishLatte(): boolean {
   if (!have($item`latte lovers member's mug`)) return false;
+  if (myTurncount() >= 1000) return false;
+
   // Check that we have all the proper ingredients
   for (const ingredient of ["wing", "cajun", "vitamins"])
     if (!get("latteUnlocks").includes(ingredient)) return false;
