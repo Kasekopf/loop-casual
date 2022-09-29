@@ -185,6 +185,7 @@ const Apartment: Task[] = [
       if (have($effect`Thrice-Cursed`)) return [$monster`pygmy witch accountant`];
       else return [$monster`pygmy shaman`, $monster`pygmy witch accountant`];
     },
+    outfit: { equip: $items`miniature crystal ball` },
     limit: { tries: 9 },
     choices: { 780: 1 },
   },
@@ -206,6 +207,7 @@ const Apartment: Task[] = [
       if (have($effect`Thrice-Cursed`)) return [];
       else return [$monster`pygmy shaman`];
     },
+    outfit: { equip: $items`miniature crystal ball` },
     choices: { 780: 1 },
     limit: { tries: 9 },
   },
