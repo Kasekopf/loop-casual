@@ -104,11 +104,12 @@ const Copperhead: Task[] = [
     outfit: () => {
       if (
         have($item`latte lovers member's mug`) &&
-        get("latteModifier").includes("Combat Rate: 10")) {
+        get("latteModifier").includes("Combat Rate: 10")
+      ) {
         // Ensure kramco does not override +combat
-        return { modifier: "50 combat, init", offhand: $item`latte lovers member's mug` }
+        return { modifier: "50 combat, init", offhand: $item`latte lovers member's mug` };
       }
-      return { modifier: "50 combat, init" }
+      return { modifier: "50 combat, init" };
     },
     combat: new CombatStrategy().killHard([
       $monster`Frozen Solid Snake`,

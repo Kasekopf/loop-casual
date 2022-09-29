@@ -218,7 +218,12 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
     } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
-    } else if (outfit.modifier?.includes("-combat") || (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init") && !outfit.modifier.match("combat"))) {
+    } else if (
+      outfit.modifier?.includes("-combat") ||
+      (outfit.modifier?.includes("init") &&
+        !outfit.modifier.match("-[\\d .]*init") &&
+        !outfit.modifier.match("combat"))
+    ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {
       // +meat
