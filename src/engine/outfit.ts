@@ -141,12 +141,12 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`square sponge pants`);
     outfit.equip($item`Cargo Cultist Shorts`);
     outfit.equip($item`lucky gold ring`);
-    outfit.equip($item`Powerful Glove`);
     if (
       outfit.familiar === $familiar`Grey Goose` &&
       (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
     )
       outfit.equip($item`teacher's pen`, $slot`acc3`);
+    outfit.equip($item`Powerful Glove`);
     outfit.equip($item`backup camera`);
     outfit.equip($item`birch battery`);
     outfit.equip($item`combat lover's locket`);
