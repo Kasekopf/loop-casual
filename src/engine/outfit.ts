@@ -4,7 +4,7 @@ import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
 import { Outfit } from "grimoire-kolmafia";
-import { haveLoathingLegion } from "../lib";
+import { atLevel, haveLoathingLegion } from "../lib";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
@@ -61,7 +61,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
   ) {
     if (outfit.equip($familiar`Grey Goose`)) {
       outfit.equip($item`yule hatchet`);
-      outfit.equip($item`teacher's pen`);
+      if (!atLevel(11)) outfit.equip($item`teacher's pen`);
 
       // Use latte mug for familiar exp
       if (
@@ -114,6 +114,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`gnomish housemaid's kgnee`);
 
   outfit.equip($item`mafia thumb ring`);
+  if (atLevel(11)) outfit.equip($item`lucky gold ring`);
 
   if (myBasestat($stat`moxie`) <= 200) {
     // Equip some extra equipment for early survivability
@@ -217,10 +218,7 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
     } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
-    } else if (
-      (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) ||
-      outfit.modifier?.includes("-combat")
-    ) {
+    } else if (outfit.modifier?.includes("-combat") || (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init") && !outfit.modifier.match("combat"))) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {
       // +meat
