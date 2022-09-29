@@ -295,6 +295,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
+    let force_charge_goose = false;
     if (wanderers.length === 0) {
       // Set up a banish if needed
 
@@ -333,6 +334,15 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         (!combat.can("banish") || !banish_state.isFullyBanished(task))
       ) {
         outfit.equip($item`miniature crystal ball`);
+        // If we are going to reprocess, it is useful to charge the goose
+        if (
+          task.do instanceof Location &&
+          absorb_state.isReprocessTarget(
+            globalStateCache.orb().prediction(task.do) ?? $monster`none`
+          )
+        ) {
+          force_charge_goose = true;
+        }
       }
 
       // Set up a runaway if there are combats we do not care about
@@ -376,7 +386,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    equipCharging(outfit);
+    equipCharging(outfit, force_charge_goose);
 
     if (wanderers.length === 0 && this.hasDelay(task))
       wanderers.push(...equipUntilCapped(outfit, wandererSources));
@@ -392,7 +402,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       )
         outfit.equip($item`cursed magnifying glass`);
 
-      equipDefaults(outfit);
+      equipDefaults(outfit, force_charge_goose);
     }
 
     // Kill wanderers

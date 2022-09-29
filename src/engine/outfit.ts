@@ -49,14 +49,15 @@ export function equipInitial(outfit: Outfit): void {
     outfit.equip($item`thermal blanket`);
 }
 
-export function equipCharging(outfit: Outfit): void {
+export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
 
   if (
     familiarWeight($familiar`Grey Goose`) < 6 ||
     (familiarWeight($familiar`Grey Goose`) >= 6 &&
       [...outfit.equips.values()].includes($item`Kramco Sausage-o-Matic™`) &&
-      getKramcoWandererChance() === 1)
+      getKramcoWandererChance() === 1) ||
+    force_charge_goose
   ) {
     if (outfit.equip($familiar`Grey Goose`)) {
       outfit.equip($item`yule hatchet`);
@@ -94,7 +95,7 @@ export function equipCharging(outfit: Outfit): void {
   }
 }
 
-export function equipDefaults(outfit: Outfit): void {
+export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
 
   if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
@@ -140,7 +141,10 @@ export function equipDefaults(outfit: Outfit): void {
     outfit.equip($item`Cargo Cultist Shorts`);
     outfit.equip($item`lucky gold ring`);
     outfit.equip($item`Powerful Glove`);
-    if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+    if (
+      outfit.familiar === $familiar`Grey Goose` &&
+      (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
+    )
       outfit.equip($item`teacher's pen`, $slot`acc3`);
     outfit.equip($item`backup camera`);
     outfit.equip($item`birch battery`);
