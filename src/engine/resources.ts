@@ -81,7 +81,7 @@ const banishSources: BanishSource[] = [
   {
     name: "Latte",
     available: () =>
-      (!get("_latteBanishUsed") || (get("_latteRefillsUsed") < 2 && myTurncount() <= 1000)) && // Save one refill for aftercore
+      (!get("_latteBanishUsed") || (get("_latteRefillsUsed") < 2 && myTurncount() < 1000)) && // Save one refill for aftercore
       have($item`latte lovers member's mug`),
     prepare: refillLatte,
     do: $skill`Throw Latte on Opponent`,
