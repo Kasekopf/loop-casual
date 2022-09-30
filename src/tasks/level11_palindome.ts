@@ -18,7 +18,7 @@ import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { step } from "grimoire-kolmafia";
 
-function shenItem(item: Item) {
+export function shenItem(item: Item) {
   return (
     get("shenQuestItem") === item.name &&
     (step("questL11Shen") === 1 || step("questL11Shen") === 3 || step("questL11Shen") === 5)
@@ -87,6 +87,46 @@ const Copperhead: Task[] = [
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     outfit: { modifier: "+combat" },
     combat: new CombatStrategy().killHard($monster`Burning Snake of Fire`),
+    limit: { soft: 10 },
+    delay: 5,
+  },
+  {
+    name: "Sleaze Star Snake",
+    after: ["Copperhead Start", "Giant/Unlock HITS"],
+    ready: () => shenItem($item`The Eye of the Stars`),
+    completed: () => step("questL11Shen") === 999 || have($item`The Eye of the Stars`),
+    do: $location`The Hole in the Sky`,
+    combat: new CombatStrategy().killHard($monster`The Snake With Like Ten Heads`),
+    limit: { soft: 10 },
+    delay: 5,
+  },
+  {
+    name: "Sleaze Frat Snake",
+    after: ["Copperhead Start"],
+    ready: () => shenItem($item`The Lacrosse Stick of Lacoronado`),
+    completed: () => step("questL11Shen") === 999 || have($item`The Lacrosse Stick of Lacoronado`),
+    do: $location`The Smut Orc Logging Camp`,
+    combat: new CombatStrategy().killHard($monster`The Frattlesnake`),
+    limit: { soft: 10 },
+    delay: 5,
+  },
+  {
+    name: "Spooky Snake Precrypt",
+    after: ["Copperhead Start"],
+    ready: () => shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") < 999,
+    completed: () => step("questL11Shen") === 999 || have($item`The Shield of Brook`),
+    do: $location`The Unquiet Garves`,
+    combat: new CombatStrategy().killHard($monster`Snakeleton`),
+    limit: { soft: 10 },
+    delay: 5,
+  },
+  {
+    name: "Spooky Snake Postcrypt",
+    after: ["Copperhead Start"],
+    ready: () => shenItem($item`The Shield of Brook`) && step("questL07Cyrptic") === 999,
+    completed: () => step("questL11Shen") === 999 || have($item`The Shield of Brook`),
+    do: $location`The VERY Unquiet Garves`,
+    combat: new CombatStrategy().killHard($monster`Snakeleton`),
     limit: { soft: 10 },
     delay: 5,
   },
