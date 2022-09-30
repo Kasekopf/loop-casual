@@ -377,7 +377,7 @@ const Pyramid: Task[] = [
           .attack()
           .repeat()
       )
-      .kill(),
+      .killHard(),
     limit: { tries: 1 },
     boss: true,
   },

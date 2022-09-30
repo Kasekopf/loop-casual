@@ -124,7 +124,7 @@ const Manor2: Task[] = [
       step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
-    combat: new CombatStrategy().kill($monster`cosmetics wraith`),
+    combat: new CombatStrategy().killHard($monster`cosmetics wraith`),
     limit: { turns: 5 },
     delay: 5,
     // No need to search for cosmetics wraith
@@ -137,7 +137,7 @@ const Manor2: Task[] = [
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
     outfit: { modifier: "-combat" },
-    combat: new CombatStrategy().kill($monster`cosmetics wraith`),
+    combat: new CombatStrategy().killHard($monster`cosmetics wraith`),
     limit: { soft: 15 },
     // No need to search for cosmetics wraith
     orbtargets: () => [],
@@ -161,7 +161,8 @@ const Manor2: Task[] = [
       897: 2,
     },
     combat: new CombatStrategy()
-      .kill($monsters`elegant animated nightstand, animated ornate nightstand`) // kill ornate nightstand if banish fails
+      .killHard($monster`animated ornate nightstand`)
+      .kill($monster`elegant animated nightstand`) // kill ornate nightstand if banish fails
       .banish(
         $monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand`
       )
@@ -186,7 +187,7 @@ const Manor2: Task[] = [
       897: 2,
     },
     combat: new CombatStrategy()
-      .kill($monster`animated ornate nightstand`)
+      .killHard($monster`animated ornate nightstand`)
       .banish(
         $monsters`animated mahogany nightstand, animated rustic nightstand, Wardröb nightstand, elegant animated nightstand`
       )
@@ -340,7 +341,7 @@ export const ManorQuest: Quest = {
       after: ["Blow Wall"],
       completed: () => step("questL11Manor") >= 999,
       do: () => visitUrl("place.php?whichplace=manor4&action=manor4_chamberboss"),
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
       boss: true,
     },

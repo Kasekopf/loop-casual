@@ -113,7 +113,7 @@ export const McLargeHugeQuest: Quest = {
       },
       do: $location`Mist-Shrouded Peak`,
       outfit: { modifier: "cold res" },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       boss: true,
       limit: { tries: 4 },
     },

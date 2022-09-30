@@ -274,7 +274,7 @@ const Zepplin: Task[] = [
     },
     do: $location`The Red Zeppelin`,
     combat: new CombatStrategy()
-      .kill($monster`Ron "The Weasel" Copperhead`)
+      .killHard($monster`Ron "The Weasel" Copperhead`)
       .macro((): Macro => {
         if (get("_glarkCableUses") < 5) return new Macro().tryItem($item`glark cable`);
         else return new Macro();
@@ -446,7 +446,7 @@ export const PalindomeQuest: Quest = {
       },
       outfit: { equip: $items`Talisman o' Namsilat, Mega Gem` },
       choices: { 131: 1 },
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },
       boss: true,
     },

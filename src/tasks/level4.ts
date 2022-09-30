@@ -160,7 +160,7 @@ export const BatQuest: Quest = {
       after: ["Bat/Use Sonar 3", "Lobsterfrogman Drop"],
       completed: () => step("questL04Bat") >= 4,
       do: $location`The Boss Bat's Lair`,
-      combat: new CombatStrategy().kill($monster`Boss Bat`).ignoreNoBanish(),
+      combat: new CombatStrategy().killHard($monster`Boss Bat`).ignoreNoBanish(),
       limit: { soft: 10 },
       delay: 6,
     },

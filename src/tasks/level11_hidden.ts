@@ -445,7 +445,8 @@ export const HiddenQuest: Quest = {
       },
       choices: { 791: 1 },
       combat: new CombatStrategy()
-        .kill($monsters`dense liana, Protector Spectre`)
+        .kill($monster`dense liana`)
+        .killHard($monster`Protector Spectre`)
         .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`dense liana`),
       limit: { tries: 4 },
       acquire: [{ item: $item`antique machete` }],

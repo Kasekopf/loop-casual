@@ -119,7 +119,7 @@ export const KnobQuest: Quest = {
         have($effect`Knob Goblin Perfume`) ? OverridePriority.Effect : OverridePriority.None,
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
-      combat: new CombatStrategy().kill($monster`Knob Goblin King`),
+      combat: new CombatStrategy().killHard($monster`Knob Goblin King`),
       outfit: {
         equip: $items`Knob Goblin harem veil, Knob Goblin harem pants`,
         modifier: "moxie, -10ML",
