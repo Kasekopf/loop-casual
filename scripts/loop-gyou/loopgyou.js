@@ -10530,7 +10530,7 @@ var banishSources = [{
   do: $skill(resources_templateObject5 || (resources_templateObject5 = resources_taggedTemplateLiteral(["System Sweep"])))
 }, {
   name: "Latte",
-  available: () => (!property_get("_latteBanishUsed") || property_get("_latteRefillsUsed") < 2 && (0,external_kolmafia_namespaceObject.myTurncount)() <= 1000) && // Save one refill for aftercore
+  available: () => (!property_get("_latteBanishUsed") || property_get("_latteRefillsUsed") < 2 && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000) && // Save one refill for aftercore
   have(template_string_$item(resources_templateObject6 || (resources_templateObject6 = resources_taggedTemplateLiteral(["latte lovers member's mug"])))),
   prepare: refillLatte,
   do: $skill(resources_templateObject7 || (resources_templateObject7 = resources_taggedTemplateLiteral(["Throw Latte on Opponent"]))),
@@ -14550,7 +14550,7 @@ var BatQuest = {
     after: ["Bat/Use Sonar 3", "Lobsterfrogman Drop"],
     completed: () => step("questL04Bat") >= 4,
     do: $location(level4_templateObject37 || (level4_templateObject37 = level4_taggedTemplateLiteral(["The Boss Bat's Lair"]))),
-    combat: new combat_CombatStrategy().kill($monster(level4_templateObject38 || (level4_templateObject38 = level4_taggedTemplateLiteral(["Boss Bat"])))).ignoreNoBanish(),
+    combat: new combat_CombatStrategy().killHard($monster(level4_templateObject38 || (level4_templateObject38 = level4_taggedTemplateLiteral(["Boss Bat"])))).ignoreNoBanish(),
     limit: {
       soft: 10
     },
@@ -14658,7 +14658,7 @@ var KnobQuest = {
     priority: () => have($effect(level5_templateObject25 || (level5_templateObject25 = level5_taggedTemplateLiteral(["Knob Goblin Perfume"])))) ? OverridePriority.Effect : OverridePriority.None,
     completed: () => step("questL05Goblin") === 999,
     do: $location(level5_templateObject26 || (level5_templateObject26 = level5_taggedTemplateLiteral(["Throne Room"]))),
-    combat: new combat_CombatStrategy().kill($monster(level5_templateObject27 || (level5_templateObject27 = level5_taggedTemplateLiteral(["Knob Goblin King"])))),
+    combat: new combat_CombatStrategy().killHard($monster(level5_templateObject27 || (level5_templateObject27 = level5_taggedTemplateLiteral(["Knob Goblin King"])))),
     outfit: {
       equip: template_string_$items(level5_templateObject28 || (level5_templateObject28 = level5_taggedTemplateLiteral(["Knob Goblin harem veil, Knob Goblin harem pants"]))),
       modifier: "moxie, -10ML"
@@ -14958,7 +14958,7 @@ var Alcove = [{
   after: ["Start", "Alcove"],
   completed: () => property_get("cyrptAlcoveEvilness") === 0 && step("questL07Cyrptic") !== -1,
   do: $location(level7_templateObject18 || (level7_templateObject18 = level7_taggedTemplateLiteral(["The Defiled Alcove"]))),
-  combat: new combat_CombatStrategy().kill(),
+  combat: new combat_CombatStrategy().killHard(),
   boss: true,
   limit: {
     tries: 1
@@ -15031,7 +15031,7 @@ var Niche = [{
   after: ["Start", "Niche"],
   completed: () => property_get("cyrptNicheEvilness") === 0 && step("questL07Cyrptic") !== -1,
   do: $location(level7_templateObject40 || (level7_templateObject40 = level7_taggedTemplateLiteral(["The Defiled Niche"]))),
-  combat: new combat_CombatStrategy().kill(),
+  combat: new combat_CombatStrategy().killHard(),
   boss: true,
   limit: {
     tries: 1
@@ -15080,7 +15080,7 @@ var Nook = [{
   after: ["Start", "Nook", "Nook Eye"],
   completed: () => property_get("cyrptNookEvilness") === 0 && step("questL07Cyrptic") !== -1,
   do: $location(level7_templateObject52 || (level7_templateObject52 = level7_taggedTemplateLiteral(["The Defiled Nook"]))),
-  combat: new combat_CombatStrategy().killItem(),
+  combat: new combat_CombatStrategy().killHard(),
   boss: true,
   limit: {
     tries: 1
@@ -15107,7 +15107,7 @@ var CryptQuest = {
     choices: {
       527: 1
     },
-    combat: new combat_CombatStrategy().kill(),
+    combat: new combat_CombatStrategy().killHard(),
     boss: true,
     limit: {
       tries: 1
@@ -15244,7 +15244,7 @@ var McLargeHugeQuest = {
     outfit: {
       modifier: "cold res"
     },
-    combat: new combat_CombatStrategy().kill(),
+    combat: new combat_CombatStrategy().killHard(),
     boss: true,
     limit: {
       tries: 4
@@ -15807,7 +15807,7 @@ var GiantQuest = {
       equip: template_string_$items(level10_templateObject38 || (level10_templateObject38 = level10_taggedTemplateLiteral(["Mohawk wig"]))),
       modifier: "-combat"
     },
-    combat: new combat_CombatStrategy().kill($monster(level10_templateObject39 || (level10_templateObject39 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
+    combat: new combat_CombatStrategy().killHard($monster(level10_templateObject39 || (level10_templateObject39 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
     choices: {
       675: 4,
       676: 4,
@@ -15837,7 +15837,7 @@ var GiantQuest = {
     outfit: {
       modifier: "-combat"
     },
-    combat: new combat_CombatStrategy().kill($monster(level10_templateObject42 || (level10_templateObject42 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
+    combat: new combat_CombatStrategy().killHard($monster(level10_templateObject42 || (level10_templateObject42 = level10_taggedTemplateLiteral(["Burning Snake of Fire"])))),
     choices: {
       675: 4,
       676: 4,
@@ -15852,7 +15852,7 @@ var GiantQuest = {
   }]
 };
 ;// CONCATENATED MODULE: ./src/tasks/level11_hidden.ts
-var level11_hidden_templateObject, level11_hidden_templateObject2, level11_hidden_templateObject3, level11_hidden_templateObject4, level11_hidden_templateObject5, level11_hidden_templateObject6, level11_hidden_templateObject7, level11_hidden_templateObject8, level11_hidden_templateObject9, level11_hidden_templateObject10, level11_hidden_templateObject11, level11_hidden_templateObject12, level11_hidden_templateObject13, level11_hidden_templateObject14, level11_hidden_templateObject15, level11_hidden_templateObject16, level11_hidden_templateObject17, level11_hidden_templateObject18, level11_hidden_templateObject19, level11_hidden_templateObject20, level11_hidden_templateObject21, level11_hidden_templateObject22, level11_hidden_templateObject23, level11_hidden_templateObject24, level11_hidden_templateObject25, level11_hidden_templateObject26, level11_hidden_templateObject27, level11_hidden_templateObject28, level11_hidden_templateObject29, level11_hidden_templateObject30, level11_hidden_templateObject31, level11_hidden_templateObject32, level11_hidden_templateObject33, level11_hidden_templateObject34, level11_hidden_templateObject35, level11_hidden_templateObject36, level11_hidden_templateObject37, level11_hidden_templateObject38, level11_hidden_templateObject39, level11_hidden_templateObject40, level11_hidden_templateObject41, level11_hidden_templateObject42, level11_hidden_templateObject43, level11_hidden_templateObject44, level11_hidden_templateObject45, level11_hidden_templateObject46, level11_hidden_templateObject47, level11_hidden_templateObject48, level11_hidden_templateObject49, level11_hidden_templateObject50, level11_hidden_templateObject51, level11_hidden_templateObject52, level11_hidden_templateObject53, level11_hidden_templateObject54, level11_hidden_templateObject55, level11_hidden_templateObject56, level11_hidden_templateObject57, level11_hidden_templateObject58, level11_hidden_templateObject59, level11_hidden_templateObject60, level11_hidden_templateObject61, level11_hidden_templateObject62, level11_hidden_templateObject63, level11_hidden_templateObject64, level11_hidden_templateObject65, level11_hidden_templateObject66, level11_hidden_templateObject67, level11_hidden_templateObject68, level11_hidden_templateObject69, level11_hidden_templateObject70, level11_hidden_templateObject71, level11_hidden_templateObject72, level11_hidden_templateObject73, level11_hidden_templateObject74, level11_hidden_templateObject75, level11_hidden_templateObject76, level11_hidden_templateObject77, level11_hidden_templateObject78, level11_hidden_templateObject79, level11_hidden_templateObject80, level11_hidden_templateObject81, level11_hidden_templateObject82, level11_hidden_templateObject83, level11_hidden_templateObject84, level11_hidden_templateObject85, level11_hidden_templateObject86, level11_hidden_templateObject87, level11_hidden_templateObject88, level11_hidden_templateObject89, level11_hidden_templateObject90, level11_hidden_templateObject91, level11_hidden_templateObject92, level11_hidden_templateObject93, level11_hidden_templateObject94, level11_hidden_templateObject95, level11_hidden_templateObject96, level11_hidden_templateObject97, level11_hidden_templateObject98, level11_hidden_templateObject99, level11_hidden_templateObject100, level11_hidden_templateObject101, level11_hidden_templateObject102, level11_hidden_templateObject103, level11_hidden_templateObject104, level11_hidden_templateObject105, level11_hidden_templateObject106, level11_hidden_templateObject107, level11_hidden_templateObject108, level11_hidden_templateObject109, level11_hidden_templateObject110, level11_hidden_templateObject111, level11_hidden_templateObject112, level11_hidden_templateObject113, level11_hidden_templateObject114, level11_hidden_templateObject115, level11_hidden_templateObject116, level11_hidden_templateObject117, level11_hidden_templateObject118, level11_hidden_templateObject119, level11_hidden_templateObject120, level11_hidden_templateObject121, level11_hidden_templateObject122, level11_hidden_templateObject123, level11_hidden_templateObject124, level11_hidden_templateObject125, level11_hidden_templateObject126, level11_hidden_templateObject127, level11_hidden_templateObject128, level11_hidden_templateObject129, level11_hidden_templateObject130, level11_hidden_templateObject131;
+var level11_hidden_templateObject, level11_hidden_templateObject2, level11_hidden_templateObject3, level11_hidden_templateObject4, level11_hidden_templateObject5, level11_hidden_templateObject6, level11_hidden_templateObject7, level11_hidden_templateObject8, level11_hidden_templateObject9, level11_hidden_templateObject10, level11_hidden_templateObject11, level11_hidden_templateObject12, level11_hidden_templateObject13, level11_hidden_templateObject14, level11_hidden_templateObject15, level11_hidden_templateObject16, level11_hidden_templateObject17, level11_hidden_templateObject18, level11_hidden_templateObject19, level11_hidden_templateObject20, level11_hidden_templateObject21, level11_hidden_templateObject22, level11_hidden_templateObject23, level11_hidden_templateObject24, level11_hidden_templateObject25, level11_hidden_templateObject26, level11_hidden_templateObject27, level11_hidden_templateObject28, level11_hidden_templateObject29, level11_hidden_templateObject30, level11_hidden_templateObject31, level11_hidden_templateObject32, level11_hidden_templateObject33, level11_hidden_templateObject34, level11_hidden_templateObject35, level11_hidden_templateObject36, level11_hidden_templateObject37, level11_hidden_templateObject38, level11_hidden_templateObject39, level11_hidden_templateObject40, level11_hidden_templateObject41, level11_hidden_templateObject42, level11_hidden_templateObject43, level11_hidden_templateObject44, level11_hidden_templateObject45, level11_hidden_templateObject46, level11_hidden_templateObject47, level11_hidden_templateObject48, level11_hidden_templateObject49, level11_hidden_templateObject50, level11_hidden_templateObject51, level11_hidden_templateObject52, level11_hidden_templateObject53, level11_hidden_templateObject54, level11_hidden_templateObject55, level11_hidden_templateObject56, level11_hidden_templateObject57, level11_hidden_templateObject58, level11_hidden_templateObject59, level11_hidden_templateObject60, level11_hidden_templateObject61, level11_hidden_templateObject62, level11_hidden_templateObject63, level11_hidden_templateObject64, level11_hidden_templateObject65, level11_hidden_templateObject66, level11_hidden_templateObject67, level11_hidden_templateObject68, level11_hidden_templateObject69, level11_hidden_templateObject70, level11_hidden_templateObject71, level11_hidden_templateObject72, level11_hidden_templateObject73, level11_hidden_templateObject74, level11_hidden_templateObject75, level11_hidden_templateObject76, level11_hidden_templateObject77, level11_hidden_templateObject78, level11_hidden_templateObject79, level11_hidden_templateObject80, level11_hidden_templateObject81, level11_hidden_templateObject82, level11_hidden_templateObject83, level11_hidden_templateObject84, level11_hidden_templateObject85, level11_hidden_templateObject86, level11_hidden_templateObject87, level11_hidden_templateObject88, level11_hidden_templateObject89, level11_hidden_templateObject90, level11_hidden_templateObject91, level11_hidden_templateObject92, level11_hidden_templateObject93, level11_hidden_templateObject94, level11_hidden_templateObject95, level11_hidden_templateObject96, level11_hidden_templateObject97, level11_hidden_templateObject98, level11_hidden_templateObject99, level11_hidden_templateObject100, level11_hidden_templateObject101, level11_hidden_templateObject102, level11_hidden_templateObject103, level11_hidden_templateObject104, level11_hidden_templateObject105, level11_hidden_templateObject106, level11_hidden_templateObject107, level11_hidden_templateObject108, level11_hidden_templateObject109, level11_hidden_templateObject110, level11_hidden_templateObject111, level11_hidden_templateObject112, level11_hidden_templateObject113, level11_hidden_templateObject114, level11_hidden_templateObject115, level11_hidden_templateObject116, level11_hidden_templateObject117, level11_hidden_templateObject118, level11_hidden_templateObject119, level11_hidden_templateObject120, level11_hidden_templateObject121, level11_hidden_templateObject122, level11_hidden_templateObject123, level11_hidden_templateObject124, level11_hidden_templateObject125, level11_hidden_templateObject126, level11_hidden_templateObject127, level11_hidden_templateObject128, level11_hidden_templateObject129, level11_hidden_templateObject130, level11_hidden_templateObject131, level11_hidden_templateObject132;
 
 function level11_hidden_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -16321,18 +16321,18 @@ var HiddenQuest = {
     choices: {
       791: 1
     },
-    combat: new combat_CombatStrategy().kill($monsters(level11_hidden_templateObject128 || (level11_hidden_templateObject128 = level11_hidden_taggedTemplateLiteral(["dense liana, Protector Spectre"])))).autoattack(new Macro().trySkill($skill(level11_hidden_templateObject129 || (level11_hidden_templateObject129 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), $monster(level11_hidden_templateObject130 || (level11_hidden_templateObject130 = level11_hidden_taggedTemplateLiteral(["dense liana"])))),
+    combat: new combat_CombatStrategy().kill($monster(level11_hidden_templateObject128 || (level11_hidden_templateObject128 = level11_hidden_taggedTemplateLiteral(["dense liana"])))).killHard($monster(level11_hidden_templateObject129 || (level11_hidden_templateObject129 = level11_hidden_taggedTemplateLiteral(["Protector Spectre"])))).autoattack(new Macro().trySkill($skill(level11_hidden_templateObject130 || (level11_hidden_templateObject130 = level11_hidden_taggedTemplateLiteral(["Infinite Loop"])))), $monster(level11_hidden_templateObject131 || (level11_hidden_templateObject131 = level11_hidden_taggedTemplateLiteral(["dense liana"])))),
     limit: {
       tries: 4
     },
     acquire: [{
-      item: template_string_$item(level11_hidden_templateObject131 || (level11_hidden_templateObject131 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
+      item: template_string_$item(level11_hidden_templateObject132 || (level11_hidden_templateObject132 = level11_hidden_taggedTemplateLiteral(["antique machete"])))
     }],
     boss: true
   }])
 };
 ;// CONCATENATED MODULE: ./src/tasks/level11_manor.ts
-var level11_manor_templateObject, level11_manor_templateObject2, level11_manor_templateObject3, level11_manor_templateObject4, level11_manor_templateObject5, level11_manor_templateObject6, level11_manor_templateObject7, level11_manor_templateObject8, level11_manor_templateObject9, level11_manor_templateObject10, level11_manor_templateObject11, level11_manor_templateObject12, level11_manor_templateObject13, level11_manor_templateObject14, level11_manor_templateObject15, level11_manor_templateObject16, level11_manor_templateObject17, level11_manor_templateObject18, level11_manor_templateObject19, level11_manor_templateObject20, level11_manor_templateObject21, level11_manor_templateObject22, level11_manor_templateObject23, level11_manor_templateObject24, level11_manor_templateObject25, level11_manor_templateObject26, level11_manor_templateObject27, level11_manor_templateObject28, level11_manor_templateObject29, level11_manor_templateObject30, level11_manor_templateObject31, level11_manor_templateObject32, level11_manor_templateObject33, level11_manor_templateObject34, level11_manor_templateObject35, level11_manor_templateObject36, level11_manor_templateObject37, level11_manor_templateObject38, level11_manor_templateObject39, level11_manor_templateObject40, level11_manor_templateObject41, level11_manor_templateObject42, level11_manor_templateObject43, level11_manor_templateObject44, level11_manor_templateObject45, level11_manor_templateObject46, level11_manor_templateObject47, level11_manor_templateObject48, level11_manor_templateObject49, level11_manor_templateObject50, level11_manor_templateObject51, level11_manor_templateObject52, level11_manor_templateObject53, level11_manor_templateObject54, level11_manor_templateObject55, level11_manor_templateObject56, level11_manor_templateObject57, level11_manor_templateObject58, level11_manor_templateObject59, level11_manor_templateObject60, level11_manor_templateObject61, level11_manor_templateObject62, level11_manor_templateObject63, level11_manor_templateObject64, level11_manor_templateObject65, level11_manor_templateObject66, level11_manor_templateObject67, level11_manor_templateObject68, level11_manor_templateObject69, level11_manor_templateObject70;
+var level11_manor_templateObject, level11_manor_templateObject2, level11_manor_templateObject3, level11_manor_templateObject4, level11_manor_templateObject5, level11_manor_templateObject6, level11_manor_templateObject7, level11_manor_templateObject8, level11_manor_templateObject9, level11_manor_templateObject10, level11_manor_templateObject11, level11_manor_templateObject12, level11_manor_templateObject13, level11_manor_templateObject14, level11_manor_templateObject15, level11_manor_templateObject16, level11_manor_templateObject17, level11_manor_templateObject18, level11_manor_templateObject19, level11_manor_templateObject20, level11_manor_templateObject21, level11_manor_templateObject22, level11_manor_templateObject23, level11_manor_templateObject24, level11_manor_templateObject25, level11_manor_templateObject26, level11_manor_templateObject27, level11_manor_templateObject28, level11_manor_templateObject29, level11_manor_templateObject30, level11_manor_templateObject31, level11_manor_templateObject32, level11_manor_templateObject33, level11_manor_templateObject34, level11_manor_templateObject35, level11_manor_templateObject36, level11_manor_templateObject37, level11_manor_templateObject38, level11_manor_templateObject39, level11_manor_templateObject40, level11_manor_templateObject41, level11_manor_templateObject42, level11_manor_templateObject43, level11_manor_templateObject44, level11_manor_templateObject45, level11_manor_templateObject46, level11_manor_templateObject47, level11_manor_templateObject48, level11_manor_templateObject49, level11_manor_templateObject50, level11_manor_templateObject51, level11_manor_templateObject52, level11_manor_templateObject53, level11_manor_templateObject54, level11_manor_templateObject55, level11_manor_templateObject56, level11_manor_templateObject57, level11_manor_templateObject58, level11_manor_templateObject59, level11_manor_templateObject60, level11_manor_templateObject61, level11_manor_templateObject62, level11_manor_templateObject63, level11_manor_templateObject64, level11_manor_templateObject65, level11_manor_templateObject66, level11_manor_templateObject67, level11_manor_templateObject68, level11_manor_templateObject69, level11_manor_templateObject70, level11_manor_templateObject71;
 
 function level11_manor_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -16460,7 +16460,7 @@ var Manor2 = [{
     105: 1,
     892: 1
   },
-  combat: new combat_CombatStrategy().kill($monster(level11_manor_templateObject22 || (level11_manor_templateObject22 = level11_manor_taggedTemplateLiteral(["cosmetics wraith"])))),
+  combat: new combat_CombatStrategy().killHard($monster(level11_manor_templateObject22 || (level11_manor_templateObject22 = level11_manor_taggedTemplateLiteral(["cosmetics wraith"])))),
   limit: {
     turns: 5
   },
@@ -16480,7 +16480,7 @@ var Manor2 = [{
   outfit: {
     modifier: "-combat"
   },
-  combat: new combat_CombatStrategy().kill($monster(level11_manor_templateObject25 || (level11_manor_templateObject25 = level11_manor_taggedTemplateLiteral(["cosmetics wraith"])))),
+  combat: new combat_CombatStrategy().killHard($monster(level11_manor_templateObject25 || (level11_manor_templateObject25 = level11_manor_taggedTemplateLiteral(["cosmetics wraith"])))),
   limit: {
     soft: 15
   },
@@ -16501,17 +16501,17 @@ var Manor2 = [{
     880: 1,
     897: 2
   },
-  combat: new combat_CombatStrategy().kill($monsters(level11_manor_templateObject30 || (level11_manor_templateObject30 = level11_manor_taggedTemplateLiteral(["elegant animated nightstand, animated ornate nightstand"])))) // kill ornate nightstand if banish fails
-  .banish($monsters(level11_manor_templateObject31 || (level11_manor_templateObject31 = level11_manor_taggedTemplateLiteral(["animated mahogany nightstand, animated rustic nightstand, Wardr\xF6b nightstand"])))).ignore($monster(level11_manor_templateObject32 || (level11_manor_templateObject32 = level11_manor_taggedTemplateLiteral(["tumbleweed"])))),
-  delay: () => have(template_string_$item(level11_manor_templateObject33 || (level11_manor_templateObject33 = level11_manor_taggedTemplateLiteral(["Lord Spookyraven's spectacles"])))) ? 5 : 0,
+  combat: new combat_CombatStrategy().killHard($monster(level11_manor_templateObject30 || (level11_manor_templateObject30 = level11_manor_taggedTemplateLiteral(["animated ornate nightstand"])))).kill($monster(level11_manor_templateObject31 || (level11_manor_templateObject31 = level11_manor_taggedTemplateLiteral(["elegant animated nightstand"])))) // kill ornate nightstand if banish fails
+  .banish($monsters(level11_manor_templateObject32 || (level11_manor_templateObject32 = level11_manor_taggedTemplateLiteral(["animated mahogany nightstand, animated rustic nightstand, Wardr\xF6b nightstand"])))).ignore($monster(level11_manor_templateObject33 || (level11_manor_templateObject33 = level11_manor_taggedTemplateLiteral(["tumbleweed"])))),
+  delay: () => have(template_string_$item(level11_manor_templateObject34 || (level11_manor_templateObject34 = level11_manor_taggedTemplateLiteral(["Lord Spookyraven's spectacles"])))) ? 5 : 0,
   limit: {
     soft: 15
   }
 }, {
   name: "Bedroom Camera",
   after: ["Bedroom"],
-  completed: () => have(template_string_$item(level11_manor_templateObject34 || (level11_manor_templateObject34 = level11_manor_taggedTemplateLiteral(["disposable instant camera"])))) || have(template_string_$item(level11_manor_templateObject35 || (level11_manor_templateObject35 = level11_manor_taggedTemplateLiteral(["photograph of a dog"])))) || step("questL11Palindome") >= 3,
-  do: $location(level11_manor_templateObject36 || (level11_manor_templateObject36 = level11_manor_taggedTemplateLiteral(["The Haunted Bedroom"]))),
+  completed: () => have(template_string_$item(level11_manor_templateObject35 || (level11_manor_templateObject35 = level11_manor_taggedTemplateLiteral(["disposable instant camera"])))) || have(template_string_$item(level11_manor_templateObject36 || (level11_manor_templateObject36 = level11_manor_taggedTemplateLiteral(["photograph of a dog"])))) || step("questL11Palindome") >= 3,
+  do: $location(level11_manor_templateObject37 || (level11_manor_templateObject37 = level11_manor_taggedTemplateLiteral(["The Haunted Bedroom"]))),
   choices: {
     876: 1,
     877: 1,
@@ -16520,7 +16520,7 @@ var Manor2 = [{
     880: 1,
     897: 2
   },
-  combat: new combat_CombatStrategy().kill($monster(level11_manor_templateObject37 || (level11_manor_templateObject37 = level11_manor_taggedTemplateLiteral(["animated ornate nightstand"])))).banish($monsters(level11_manor_templateObject38 || (level11_manor_templateObject38 = level11_manor_taggedTemplateLiteral(["animated mahogany nightstand, animated rustic nightstand, Wardr\xF6b nightstand, elegant animated nightstand"])))).ignore($monster(level11_manor_templateObject39 || (level11_manor_templateObject39 = level11_manor_taggedTemplateLiteral(["tumbleweed"])))),
+  combat: new combat_CombatStrategy().killHard($monster(level11_manor_templateObject38 || (level11_manor_templateObject38 = level11_manor_taggedTemplateLiteral(["animated ornate nightstand"])))).banish($monsters(level11_manor_templateObject39 || (level11_manor_templateObject39 = level11_manor_taggedTemplateLiteral(["animated mahogany nightstand, animated rustic nightstand, Wardr\xF6b nightstand, elegant animated nightstand"])))).ignore($monster(level11_manor_templateObject40 || (level11_manor_templateObject40 = level11_manor_taggedTemplateLiteral(["tumbleweed"])))),
   limit: {
     soft: 10
   }
@@ -16537,7 +16537,7 @@ var Manor2 = [{
   name: "Finish Floor2",
   after: ["Open Ballroom"],
   completed: () => step("questM21Dance") >= 4,
-  do: $location(level11_manor_templateObject40 || (level11_manor_templateObject40 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
+  do: $location(level11_manor_templateObject41 || (level11_manor_templateObject41 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
   limit: {
     turns: 1
   }
@@ -16545,8 +16545,8 @@ var Manor2 = [{
 var ManorBasement = [{
   name: "Ballroom Delay",
   after: ["Macguffin/Diary", "Finish Floor2"],
-  completed: () => $location(level11_manor_templateObject41 || (level11_manor_templateObject41 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))).turnsSpent >= 5 || step("questL11Manor") >= 1,
-  do: $location(level11_manor_templateObject42 || (level11_manor_templateObject42 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
+  completed: () => $location(level11_manor_templateObject42 || (level11_manor_templateObject42 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))).turnsSpent >= 5 || step("questL11Manor") >= 1,
+  do: $location(level11_manor_templateObject43 || (level11_manor_templateObject43 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
   choices: {
     90: 3,
     106: 4,
@@ -16560,7 +16560,7 @@ var ManorBasement = [{
   name: "Ballroom",
   after: ["Ballroom Delay"],
   completed: () => step("questL11Manor") >= 1,
-  do: $location(level11_manor_templateObject43 || (level11_manor_templateObject43 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
+  do: $location(level11_manor_templateObject44 || (level11_manor_templateObject44 = level11_manor_taggedTemplateLiteral(["The Haunted Ballroom"]))),
   outfit: {
     modifier: "-combat"
   },
@@ -16578,10 +16578,10 @@ var ManorBasement = [{
   completed: () => property_get("spookyravenRecipeUsed") === "with_glasses",
   do: () => {
     (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=manor4&action=manor4_chamberwall");
-    (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_manor_templateObject44 || (level11_manor_templateObject44 = level11_manor_taggedTemplateLiteral(["recipe: mortar-dissolving solution"]))));
+    (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_manor_templateObject45 || (level11_manor_templateObject45 = level11_manor_taggedTemplateLiteral(["recipe: mortar-dissolving solution"]))));
   },
   outfit: {
-    equip: template_string_$items(level11_manor_templateObject45 || (level11_manor_templateObject45 = level11_manor_taggedTemplateLiteral(["Lord Spookyraven's spectacles"])))
+    equip: template_string_$items(level11_manor_templateObject46 || (level11_manor_templateObject46 = level11_manor_taggedTemplateLiteral(["Lord Spookyraven's spectacles"])))
   },
   limit: {
     tries: 1
@@ -16589,38 +16589,38 @@ var ManorBasement = [{
 }, {
   name: "Wine Cellar",
   after: ["Learn Recipe"],
-  completed: () => have(template_string_$item(level11_manor_templateObject46 || (level11_manor_templateObject46 = level11_manor_taggedTemplateLiteral(["bottle of Chateau de Vinegar"])))) || have(template_string_$item(level11_manor_templateObject47 || (level11_manor_templateObject47 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject48 || (level11_manor_templateObject48 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
-  do: $location(level11_manor_templateObject49 || (level11_manor_templateObject49 = level11_manor_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
+  completed: () => have(template_string_$item(level11_manor_templateObject47 || (level11_manor_templateObject47 = level11_manor_taggedTemplateLiteral(["bottle of Chateau de Vinegar"])))) || have(template_string_$item(level11_manor_templateObject48 || (level11_manor_templateObject48 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject49 || (level11_manor_templateObject49 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
+  do: $location(level11_manor_templateObject50 || (level11_manor_templateObject50 = level11_manor_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
   outfit: {
     modifier: "item, booze drop"
   },
   choices: {
     901: 2
   },
-  combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject50 || (level11_manor_templateObject50 = level11_manor_taggedTemplateLiteral(["possessed wine rack"])))).banish($monsters(level11_manor_templateObject51 || (level11_manor_templateObject51 = level11_manor_taggedTemplateLiteral(["mad wino, skeletal sommelier"])))),
+  combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject51 || (level11_manor_templateObject51 = level11_manor_taggedTemplateLiteral(["possessed wine rack"])))).banish($monsters(level11_manor_templateObject52 || (level11_manor_templateObject52 = level11_manor_taggedTemplateLiteral(["mad wino, skeletal sommelier"])))),
   limit: {
     soft: 10
   }
 }, {
   name: "Laundry Room",
   after: ["Learn Recipe"],
-  completed: () => have(template_string_$item(level11_manor_templateObject52 || (level11_manor_templateObject52 = level11_manor_taggedTemplateLiteral(["blasting soda"])))) || have(template_string_$item(level11_manor_templateObject53 || (level11_manor_templateObject53 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject54 || (level11_manor_templateObject54 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
-  do: $location(level11_manor_templateObject55 || (level11_manor_templateObject55 = level11_manor_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
+  completed: () => have(template_string_$item(level11_manor_templateObject53 || (level11_manor_templateObject53 = level11_manor_taggedTemplateLiteral(["blasting soda"])))) || have(template_string_$item(level11_manor_templateObject54 || (level11_manor_templateObject54 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject55 || (level11_manor_templateObject55 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
+  do: $location(level11_manor_templateObject56 || (level11_manor_templateObject56 = level11_manor_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
   outfit: {
     modifier: "item, food drop"
   },
   choices: {
     891: 2
   },
-  combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject56 || (level11_manor_templateObject56 = level11_manor_taggedTemplateLiteral(["cabinet of Dr. Limpieza"])))).banish($monsters(level11_manor_templateObject57 || (level11_manor_templateObject57 = level11_manor_taggedTemplateLiteral(["plaid ghost, possessed laundry press"])))),
+  combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject57 || (level11_manor_templateObject57 = level11_manor_taggedTemplateLiteral(["cabinet of Dr. Limpieza"])))).banish($monsters(level11_manor_templateObject58 || (level11_manor_templateObject58 = level11_manor_taggedTemplateLiteral(["plaid ghost, possessed laundry press"])))),
   limit: {
     soft: 10
   }
 }, {
   name: "Fulminate",
   after: ["Wine Cellar", "Laundry Room"],
-  completed: () => have(template_string_$item(level11_manor_templateObject58 || (level11_manor_templateObject58 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject59 || (level11_manor_templateObject59 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
-  do: () => (0,external_kolmafia_namespaceObject.create)(template_string_$item(level11_manor_templateObject60 || (level11_manor_templateObject60 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))),
+  completed: () => have(template_string_$item(level11_manor_templateObject59 || (level11_manor_templateObject59 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))) || have(template_string_$item(level11_manor_templateObject60 || (level11_manor_templateObject60 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
+  do: () => (0,external_kolmafia_namespaceObject.create)(template_string_$item(level11_manor_templateObject61 || (level11_manor_templateObject61 = level11_manor_taggedTemplateLiteral(["unstable fulminate"])))),
   limit: {
     tries: 1
   },
@@ -16628,29 +16628,29 @@ var ManorBasement = [{
 }, {
   name: "Boiler Room",
   after: ["Fulminate"],
-  completed: () => have(template_string_$item(level11_manor_templateObject61 || (level11_manor_templateObject61 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
+  completed: () => have(template_string_$item(level11_manor_templateObject62 || (level11_manor_templateObject62 = level11_manor_taggedTemplateLiteral(["wine bomb"])))) || step("questL11Manor") >= 3,
   prepare: () => {
     if ((0,external_kolmafia_namespaceObject.numericModifier)("Monster Level") < 81) (0,external_kolmafia_namespaceObject.changeMcd)(10);
   },
   post: () => {
     if ((0,external_kolmafia_namespaceObject.currentMcd)() > 0) (0,external_kolmafia_namespaceObject.changeMcd)(0);
   },
-  do: $location(level11_manor_templateObject62 || (level11_manor_templateObject62 = level11_manor_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
+  do: $location(level11_manor_templateObject63 || (level11_manor_templateObject63 = level11_manor_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
   outfit: () => {
-    if (have(template_string_$item(level11_manor_templateObject63 || (level11_manor_templateObject63 = level11_manor_taggedTemplateLiteral(["old patched suit-pants"])))) && have(template_string_$item(level11_manor_templateObject64 || (level11_manor_templateObject64 = level11_manor_taggedTemplateLiteral(["backup camera"]))))) return {
+    if (have(template_string_$item(level11_manor_templateObject64 || (level11_manor_templateObject64 = level11_manor_taggedTemplateLiteral(["old patched suit-pants"])))) && have(template_string_$item(level11_manor_templateObject65 || (level11_manor_templateObject65 = level11_manor_taggedTemplateLiteral(["backup camera"]))))) return {
       modifier: "ML",
-      equip: template_string_$items(level11_manor_templateObject65 || (level11_manor_templateObject65 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"]))),
-      avoid: template_string_$items(level11_manor_templateObject66 || (level11_manor_templateObject66 = level11_manor_taggedTemplateLiteral(["Jurassic Parka"])))
+      equip: template_string_$items(level11_manor_templateObject66 || (level11_manor_templateObject66 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"]))),
+      avoid: template_string_$items(level11_manor_templateObject67 || (level11_manor_templateObject67 = level11_manor_taggedTemplateLiteral(["Jurassic Parka"])))
     };
     return {
       modifier: "ML",
-      equip: template_string_$items(level11_manor_templateObject67 || (level11_manor_templateObject67 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"])))
+      equip: template_string_$items(level11_manor_templateObject68 || (level11_manor_templateObject68 = level11_manor_taggedTemplateLiteral(["unstable fulminate, old patched suit-pants"])))
     };
   },
   choices: {
     902: 2
   },
-  combat: new combat_CombatStrategy().kill($monster(level11_manor_templateObject68 || (level11_manor_templateObject68 = level11_manor_taggedTemplateLiteral(["monstrous boiler"])))).banish($monsters(level11_manor_templateObject69 || (level11_manor_templateObject69 = level11_manor_taggedTemplateLiteral(["coaltergeist, steam elemental"])))),
+  combat: new combat_CombatStrategy().kill($monster(level11_manor_templateObject69 || (level11_manor_templateObject69 = level11_manor_taggedTemplateLiteral(["monstrous boiler"])))).banish($monsters(level11_manor_templateObject70 || (level11_manor_templateObject70 = level11_manor_taggedTemplateLiteral(["coaltergeist, steam elemental"])))),
   limit: {
     soft: 10
   }
@@ -16670,7 +16670,7 @@ var ManorQuest = {
     name: "Start",
     after: [],
     completed: () => step("questM20Necklace") >= 0,
-    do: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_manor_templateObject70 || (level11_manor_templateObject70 = level11_manor_taggedTemplateLiteral(["telegram from Lady Spookyraven"])))),
+    do: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_manor_templateObject71 || (level11_manor_templateObject71 = level11_manor_taggedTemplateLiteral(["telegram from Lady Spookyraven"])))),
     limit: {
       tries: 1
     },
@@ -16680,7 +16680,7 @@ var ManorQuest = {
     after: ["Blow Wall"],
     completed: () => step("questL11Manor") >= 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=manor4&action=manor4_chamberboss"),
-    combat: new combat_CombatStrategy().kill(),
+    combat: new combat_CombatStrategy().killHard(),
     limit: {
       tries: 1
     },
@@ -16958,7 +16958,7 @@ var Zepplin = [{
     if (!have(template_string_$item(level11_palindome_templateObject77 || (level11_palindome_templateObject77 = level11_palindome_taggedTemplateLiteral(["Red Zeppelin ticket"]))))) throw "Unable to buy Red Zeppelin ticket; please buy manually";
   },
   do: $location(level11_palindome_templateObject78 || (level11_palindome_templateObject78 = level11_palindome_taggedTemplateLiteral(["The Red Zeppelin"]))),
-  combat: new combat_CombatStrategy().kill($monster(level11_palindome_templateObject79 || (level11_palindome_templateObject79 = level11_palindome_taggedTemplateLiteral(["Ron \"The Weasel\" Copperhead"])))).macro(() => {
+  combat: new combat_CombatStrategy().killHard($monster(level11_palindome_templateObject79 || (level11_palindome_templateObject79 = level11_palindome_taggedTemplateLiteral(["Ron \"The Weasel\" Copperhead"])))).macro(() => {
     if (property_get("_glarkCableUses") < 5) return new Macro().tryItem(template_string_$item(level11_palindome_templateObject80 || (level11_palindome_templateObject80 = level11_palindome_taggedTemplateLiteral(["glark cable"]))));else return new Macro();
   }, $monsters(level11_palindome_templateObject81 || (level11_palindome_templateObject81 = level11_palindome_taggedTemplateLiteral(["man with the red buttons, red skeleton, red butler"])))).banish($monsters(level11_palindome_templateObject82 || (level11_palindome_templateObject82 = level11_palindome_taggedTemplateLiteral(["Red Herring, Red Snapper"])))).kill(),
   limit: {
@@ -17112,7 +17112,7 @@ var PalindomeQuest = {
     choices: {
       131: 1
     },
-    combat: new combat_CombatStrategy().kill(),
+    combat: new combat_CombatStrategy().killHard(),
     limit: {
       tries: 1
     },
@@ -17462,7 +17462,7 @@ var Pyramid = [{
 
     return {};
   },
-  combat: new combat_CombatStrategy().macro(new Macro().while_("!mpbelow 20", new Macro().trySkill($skill(level11_templateObject110 || (level11_templateObject110 = level11_taggedTemplateLiteral(["Infinite Loop"]))))).attack().repeat()).kill(),
+  combat: new combat_CombatStrategy().macro(new Macro().while_("!mpbelow 20", new Macro().trySkill($skill(level11_templateObject110 || (level11_templateObject110 = level11_taggedTemplateLiteral(["Infinite Loop"]))))).attack().repeat()).killHard(),
   limit: {
     tries: 1
   },
@@ -18041,7 +18041,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "b586be6";
+var lastCommitHash = "38ba9cb";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
