@@ -93,7 +93,7 @@ export const DietQuest: Quest = {
       do: (): void => {
         cliExecute("numberology 69");
       },
-      limit: { tries: 4 },
+      limit: { tries: 5 },
       freeaction: true,
       noadventures: true,
     },
