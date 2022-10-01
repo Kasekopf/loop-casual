@@ -478,6 +478,20 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
     },
     {
+      name: "Grey Down Vest",
+      after: [],
+      completed: () =>
+        have($item`grey down vest`) || !have($skill`Summon Clip Art`) || get("tomeSummons") >= 3,
+      priority: () => OverridePriority.Free,
+      do: () => {
+        retrieveItem($item`box of Familiar Jacks`);
+        use($item`box of Familiar Jacks`);
+      },
+      outfit: { familiar: $familiar`Grey Goose` },
+      freeaction: true,
+      limit: { tries: 1 },
+    },
+    {
       name: "Boombox",
       after: [],
       priority: () => OverridePriority.Free,

@@ -120,7 +120,10 @@ export const pulls: PullSpec[] = [
   { pull: $item`book of matches` },
   { pull: $items`Space Trip safety headphones, HOA regulation book`, name: "-ML", optional: true },
   { pull: $item`yule hatchet` },
-  { pull: $item`grey down vest` },
+  {
+    pull: $item`grey down vest`,
+    useful: () => !have($skill`Summon Clip Art`) || get("tomeSummons") >= 3,
+  },
   { pull: $item`teacher's pen`, duplicate: true },
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
   { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
