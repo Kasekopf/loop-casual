@@ -59,7 +59,7 @@ const Diary: Task[] = [
         globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
         globalStateCache.orb().prediction($location`The Black Forest`) ===
-          $monster`black magic woman`
+        $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -174,7 +174,7 @@ const Desert: Task[] = [
     do: $location`The Oasis`,
     combat: new CombatStrategy().killItem($monster`blur`),
     outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
-    limit: { soft: 10 },
+    limit: { soft: 15 },
     post: (): void => {
       if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
         return;
