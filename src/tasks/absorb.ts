@@ -309,7 +309,7 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
     after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
     outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
-    choices: { 675: 4, 676: 4, 677: 4, 678: 1, 679: 1, 1431: 4 },
+    choices: { 675: 4, 676: 4, 677: 2, 678: 3, 679: 1, 1431: 4 },
   },
   {
     do: $location`The Hole in the Sky`,
