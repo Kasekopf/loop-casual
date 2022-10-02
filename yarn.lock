@@ -2053,10 +2053,10 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-grimoire-kolmafia@0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.5.tgz#0d2236007c0eb2b38cb9ad4103c46608a59e7bbc"
-  integrity sha512-qcc+wUivFVfFUlefLJMqJzNCnnK5krcf1P/tL20Ni168g9mdvX8aRKXjLIkupaNsLrd0zeCdba/d9lnAc7ITMQ==
+grimoire-kolmafia@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.6.tgz#27edf8c3d58d64c032db5fe8276e695c10e586e1"
+  integrity sha512-RKzPmMGWB3WCM5FIA6xS1CZCRhkfsg65Kqd6m+F3XxETLif0EPWMmqT222wIEr+xQ+MfcHqEZg8oGNIZeBfulQ==
   dependencies:
     core-js "^3.16.4"
 
