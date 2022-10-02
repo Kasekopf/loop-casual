@@ -59,7 +59,7 @@ const Diary: Task[] = [
         globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
         globalStateCache.orb().prediction($location`The Black Forest`) ===
-        $monster`black magic woman`
+          $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -176,11 +176,12 @@ const Desert: Task[] = [
     outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     limit: { soft: 15 },
     post: (): void => {
-      if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
-        return;
+      if (!visitUrl("place.php?whichplace=desertbeach").includes("action=db_gnasir")) return;
       if (
         itemAmount($item`worm-riding manual page`) >= 15 ||
-        ((get("gnasirProgress") & 1) === 0 && have($item`stone rose`))
+        ((get("gnasirProgress") & 1) === 0 && have($item`stone rose`)) ||
+        ((get("gnasirProgress") & 2) === 0 && have($item`can of black paint`)) ||
+        ((get("gnasirProgress") & 4) === 0 && have($item`killing jar`))
       ) {
         let res = visitUrl("place.php?whichplace=desertbeach&action=db_gnasir");
         while (res.includes("value=2")) {
@@ -257,8 +258,7 @@ const Desert: Task[] = [
       })
       .kill(),
     post: (): void => {
-      if (!$location`The Arid, Extra-Dry Desert`.noncombatQueue.includes("A Sietch in Time"))
-        return;
+      if (!visitUrl("place.php?whichplace=desertbeach").includes("action=db_gnasir")) return;
       if ((get("gnasirProgress") & 16) > 0) return;
       if (
         itemAmount($item`worm-riding manual page`) >= 15 ||
