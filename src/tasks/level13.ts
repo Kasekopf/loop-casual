@@ -561,10 +561,10 @@ export function fillHp() {
 
 /* Skip this until ronin if the tower is delayed. */
 export function towerReady() {
-  return !args.delaytower || myTurncount() >= 1000;
+  return !args.major.delaytower || myTurncount() >= 1000;
 }
 
 /* Skip this entirely, either post-ronin or when delaying until ronin. */
 export function towerSkip() {
-  return args.delaytower || myTurncount() >= 1000;
+  return args.major.delaytower || myTurncount() >= 1000;
 }

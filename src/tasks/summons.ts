@@ -252,7 +252,7 @@ const summonSources: SummonSource[] = [
   },
   {
     name: "Fax",
-    available: () => (args.fax && !get("_photocopyUsed") ? 1 : 0),
+    available: () => (args.minor.fax && !get("_photocopyUsed") ? 1 : 0),
     canFight: (mon: Monster) => canFaxbot(mon),
     summon: (mon: Monster) => {
       chatPrivate("cheesefax", mon.name);

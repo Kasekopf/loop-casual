@@ -450,7 +450,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     fixFoldables(outfit);
     applyEffects(outfit.modifier ?? "", task.effects || []);
 
-    if (args.verboseequip) {
+    if (args.debug.verboseequip) {
       const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
       print(`Equipped: ${equipped.join(", ")}`);
     }

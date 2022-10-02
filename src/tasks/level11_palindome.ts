@@ -454,6 +454,6 @@ export const PalindomeQuest: Quest = {
 };
 
 function cloversToSave(): number {
-  if (args.delaytower) return 0;
+  if (args.major.delaytower) return 0;
   return 1;
 }

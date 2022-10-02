@@ -521,7 +521,7 @@ export const WarQuest: Quest = {
       name: "Fluffers",
       after: ["Enrage"],
       completed: () =>
-        get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000 || !args.delaywar,
+        get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000 || !args.major.delaywar,
       outfit: {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       },
@@ -556,7 +556,7 @@ export function councilSafe(): boolean {
   // Check if it is safe to visit the council without making the war outfit worse
   // (It is harder to get the hippy outfit after the war starts)
   return (
-    args.delaywar ||
+    args.major.delaywar ||
     !atLevel(12) ||
     (have($item`filthy corduroys`) && have($item`filthy knitted dread sack`)) ||
     (have($item`beer helmet`) &&
@@ -577,12 +577,12 @@ function dimesForGarters(): void {
 
 /* Skip this until ronin if the war is delayed. */
 function warReady() {
-  return !args.delaywar || myTurncount() >= 1000;
+  return !args.major.delaywar || myTurncount() >= 1000;
 }
 
 /* Skip this entirely, either post-ronin or when delaying until ronin. */
 function warSkip() {
-  return args.delaywar || myTurncount() >= 1000;
+  return args.major.delaywar || myTurncount() >= 1000;
 }
 
 function ensureFluffers(flufferCount: number): void {

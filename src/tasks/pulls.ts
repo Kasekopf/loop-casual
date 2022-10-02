@@ -258,7 +258,7 @@ class PullStrategy {
         .map((id) => Item.get(id))
     );
 
-    let count = pullsRemaining() - (20 - args.pulls);
+    let count = pullsRemaining() - (20 - args.major.pulls);
     if (inHardcore() || myTurncount() >= 1000) count = 0; // No pulls in hardcore or out of ronin
 
     for (let i = 0; i < this.pulls.length; i++) {

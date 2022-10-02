@@ -44,47 +44,54 @@ export const args = Args.create(
         [6, "Accordion Thief"],
       ],
     }),
-    pulls: Args.number({
-      help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
-      default: 20,
+    major: Args.group("Major Options", {
+      pulls: Args.number({
+        help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
+        default: 20,
+      }),
+      tune: Args.string({
+        help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
+      }),
+      delaytower: Args.flag({
+        help: "Delay the NS tower until after ronin ends.",
+        default: false,
+      }),
+      delaywar: Args.flag({
+        help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
+        default: false,
+      }),
     }),
-    tune: Args.string({
-      help: "Use your hewn moon-rune spoon to retune to this sign when optimal.",
+    minor: Args.group("Minor Options", {
+      fax: Args.boolean({
+        help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
+        default: true,
+      }),
+      seasoning: Args.boolean({
+        help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
+        default: true,
+      }),
     }),
-    delaytower: Args.flag({
-      help: "Delay the NS tower until after ronin ends.",
-      default: false,
+    debug: Args.group("Debug Options", {
+      actions: Args.number({
+        help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
+      }),
+      verboseequip: Args.flag({
+        help: "Print out equipment usage before each task.",
+      }),
+      ignoretasks: Args.string({
+        help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
+        setting: "",
+      }),
+      completedtasks: Args.string({
+        help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
+        setting: "",
+      }),
+      list: Args.flag({
+        help: "Show the status of all tasks and exit.",
+      }),
     }),
-    delaywar: Args.flag({
-      help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
-      default: false,
-    }),
-    seasoning: Args.boolean({
-      help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
-      default: true,
-    }),
-    actions: Args.number({
-      help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
-    }),
-    verboseequip: Args.flag({
-      help: "Print out equipment usage before each task.",
-    }),
-    fax: Args.boolean({
-      help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
-      default: true,
-    }),
-    ignoretasks: Args.string({
-      help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
-      setting: "",
-    }),
-    completedtasks: Args.string({
-      help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
-      setting: "",
-    }),
-    list: Args.flag({
-      help: "Show the status of all tasks and exit.",
-    }),
-  }
+  },
+  "Commands"
 );
 export function main(command?: string): void {
   sinceKolmafiaRevision(26718);
@@ -122,20 +129,20 @@ export function main(command?: string): void {
   const tasks = prioritize(all_tasks());
   const engine = new Engine(
     tasks,
-    args.ignoretasks?.split(",") ?? [],
-    args.completedtasks?.split(",") ?? []
+    args.debug.ignoretasks?.split(",") ?? [],
+    args.debug.completedtasks?.split(",") ?? []
   );
   try {
-    if (args.list) {
+    if (args.debug.list) {
       listTasks(engine);
       return;
     }
 
-    engine.run(args.actions);
+    engine.run(args.debug.actions);
 
     const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
-      if (args.actions) {
+      if (args.debug.actions) {
         const next = engine.getNextTask();
         if (next) {
           debug(`Next task: ${next.name}`);
@@ -196,8 +203,8 @@ function runComplete(): boolean {
     step("questL13Final") > 11 ||
     // eslint-disable-next-line eqeqeq
     myPath() != "Grey You" ||
-    (args.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1) ||
-    (args.delaywar &&
+    (args.major.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1) ||
+    (args.major.delaywar &&
       myTurncount() < 1000 &&
       step("questL02Larva") === 999 &&
       step("questL03Rat") === 999 &&

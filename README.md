@@ -24,7 +24,8 @@ Run `loopgyou help` for the full set of script options:
 
 ```
 The arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).
-Options:
+
+Commands:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
   class NUMBER - If given, break the prism and choose a class. You will be reduced to 40 adventures with full organs after breaking the prism. [setting: loopgyou_class]
@@ -34,17 +35,24 @@ Options:
     class 4 - Saurceror
     class 5 - Disco Bandit
     class 6 - Accordion Thief
+  help - Show this message and exit.
+
+Major Options:
   pulls NUMBER - Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script). [default: 20] [setting: loopgyou_pulls]
   tune TEXT - Use your hewn moon-rune spoon to retune to this sign when optimal. [setting: loopgyou_tune]
   delaytower - Delay the NS tower until after ronin ends. [default: false] [setting: loopgyou_delaytower]
+  delaywar - Delay the war until after ronin ends, then finish with stuffing fluffers. [default: false] [setting: loopgyou_delaywar]
+
+Minor Options:
+  fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   seasoning BOOLEAN - If true, get special seasoning from SongBoom boombox after the beginning of the run. [default: true] [setting: loopgyou_seasoning]
+
+Debug Options:
   actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
   verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
-  fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
   completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
   list - Show the status of all tasks and exit. [setting: loopgyou_list]
-  help - Show this message and exit.
 ```
 
 ### Will this script work for me?
