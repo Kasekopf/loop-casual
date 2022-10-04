@@ -4863,6 +4863,7 @@ function args_defineProperties(target, props) { for (var i = 0; i < props.length
 
 function args_createClass(Constructor, protoProps, staticProps) { if (protoProps) args_defineProperties(Constructor.prototype, protoProps); if (staticProps) args_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 var Args = /*#__PURE__*/function () {
@@ -4913,11 +4914,32 @@ var Args = /*#__PURE__*/function () {
       }, "FLAG");
     }
     /**
+     * Create a group of arguments that will be printed separately in the help.
+     *
+     * Note that keys in the group must still be globally distinct.
+     *
+     * @param groupName The display name for the group in help.
+     * @param args A JS object specifying the script arguments. Its values should
+     *    be {@link Arg} objects (created by Args.string, Args.number, or others)
+     *    or groups of arguments (created by Args.group).
+     */
+
+  }, {
+    key: "group",
+    value: function group(groupName, args) {
+      return {
+        name: groupName,
+        args: args
+      };
+    }
+    /**
      * Create a set of input arguments for a script.
      * @param scriptName Prefix for property names; often the name of the script.
      * @param scriptHelp Brief description of this script, for the help message.
      * @param args A JS object specifying the script arguments. Its values should
-     *    be {@link Arg} objects (created by Args.string, Args.number, or others).
+     *    be {@link Arg} objects (created by Args.string, Args.number, or others)
+     *    or groups of arguments (created by Args.group).
+     * @param defaultGroupName Header to use for the argument list in the help.
      * @returns An object which can hold parsed argument values. The keys of this
      *    object are identical to the keys in 'args'.
      */
@@ -4925,38 +4947,36 @@ var Args = /*#__PURE__*/function () {
   }, {
     key: "create",
     value: function create(scriptName, scriptHelp, args) {
-      var _res;
+      var _objectSpread2;
 
-      var _a, _b;
-
-      for (var k in args) {
-        if (k === "help" || args[k].key === "help") throw "help is a reserved argument name";
-      }
+      var defaultGroupName = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "Options";
+      traverse(args, (keySpec, key) => {
+        if (key === "help" || keySpec.key === "help") throw "help is a reserved argument name";
+      });
 
       var argsWithHelp = args_objectSpread(args_objectSpread({}, args), {}, {
         help: this.flag({
           help: "Show this message and exit.",
           setting: ""
         })
-      });
-
-      var res = (_res = {}, args_defineProperty(_res, specSymbol, argsWithHelp), args_defineProperty(_res, scriptSymbol, scriptName), args_defineProperty(_res, scriptHelpSymbol, scriptHelp), _res); // Fill the default values for each argument.
-
-      for (var _k in argsWithHelp) {
-        var v = argsWithHelp[_k];
-        if ("default" in v) res[_k] = v["default"];else res[_k] = undefined;
-      } // Parse values from settings.
+      }); // Create an object to hold argument results, with a default value for
+      // each argument.
 
 
-      for (var _k2 in argsWithHelp) {
-        var setting = (_a = argsWithHelp[_k2].setting) !== null && _a !== void 0 ? _a : "".concat(scriptName, "_").concat((_b = argsWithHelp[_k2].key) !== null && _b !== void 0 ? _b : _k2);
-        if (setting === "") continue; // no setting
+      var res = args_objectSpread(args_objectSpread({}, loadDefaultValues(argsWithHelp)), {}, (_objectSpread2 = {}, args_defineProperty(_objectSpread2, specSymbol, argsWithHelp), args_defineProperty(_objectSpread2, scriptSymbol, scriptName), args_defineProperty(_objectSpread2, scriptHelpSymbol, scriptHelp), args_defineProperty(_objectSpread2, defaultGroupNameSymbol, defaultGroupName), _objectSpread2)); // Parse values from settings.
+
+
+      traverseAndMaybeSet(argsWithHelp, res, (keySpec, key) => {
+        var _a, _b;
+
+        var setting = (_a = keySpec.setting) !== null && _a !== void 0 ? _a : "".concat(scriptName, "_").concat((_b = keySpec.key) !== null && _b !== void 0 ? _b : key);
+        if (setting === "") return undefined; // no setting
 
         var value_str = property_get(setting, "");
-        if (value_str === "") continue;
-        res[_k2] = parseAndValidate(argsWithHelp[_k2], "Setting ".concat(setting), value_str);
-      }
+        if (value_str === "") return undefined; // no setting
 
+        return parseAndValidate(keySpec, "Setting ".concat(setting), value_str);
+      });
       return res;
     }
     /**
@@ -4968,27 +4988,29 @@ var Args = /*#__PURE__*/function () {
   }, {
     key: "fill",
     value: function fill(args, command) {
-      var _a, _b, _c;
-
       if (command === undefined || command === "") return;
-      var spec = args[specSymbol];
+      var spec = args[specSymbol]; // Load the list of keys and flags from the arg spec
+
       var keys = new Set();
       var flags = new Set();
+      traverse(spec, (keySpec, key) => {
+        var _a;
 
-      for (var k in spec) {
-        if (spec[k].valueHelpName === "FLAG") flags.add((_a = spec[k].key) !== null && _a !== void 0 ? _a : k);else keys.add((_b = spec[k].key) !== null && _b !== void 0 ? _b : k);
-      } // Parse new argments from the command line
-
+        var name = (_a = keySpec.key) !== null && _a !== void 0 ? _a : key;
+        if (flags.has(name) || keys.has(name)) throw "Duplicate arg key ".concat(name, " is not allowed");
+        if (keySpec.valueHelpName === "FLAG") flags.add(name);else keys.add(name);
+      }); // Parse new argments from the command line
 
       var parsed = new CommandParser(command, keys, flags).parse();
+      traverseAndMaybeSet(spec, args, (keySpec, key) => {
+        var _a;
 
-      for (var _k3 in spec) {
-        var key = (_c = spec[_k3].key) !== null && _c !== void 0 ? _c : _k3;
-        var value_str = parsed.get(key);
-        if (value_str === undefined) continue; // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var argKey = (_a = keySpec.key) !== null && _a !== void 0 ? _a : key;
+        var value_str = parsed.get(argKey);
+        if (value_str === undefined) return undefined; // no setting
 
-        args[_k3] = parseAndValidate(spec[_k3], "Argument ".concat(key), value_str);
-      }
+        return parseAndValidate(keySpec, "Argument ".concat(argKey), value_str);
+      });
     }
     /**
      * Parse command line input into a new set of script arguments.
@@ -5007,6 +5029,11 @@ var Args = /*#__PURE__*/function () {
     }
     /**
      * Print a description of the script arguments to the CLI.
+     *
+     * First, all top-level argument descriptions are printed in the order they
+     * were defined. Afterwards, descriptions for groups of arguments are printed
+     * in the order they were defined.
+     *
      * @param args An object of parsed arguments, from Args.create(*).
      * @param maxOptionsToDisplay If given, do not list more than this many options for each arg.
      */
@@ -5014,22 +5041,21 @@ var Args = /*#__PURE__*/function () {
   }, {
     key: "showHelp",
     value: function showHelp(args, maxOptionsToDisplay) {
-      var _a, _b, _c, _d, _e;
-
       var spec = args[specSymbol];
       var scriptName = args[scriptSymbol];
       var scriptHelp = args[scriptHelpSymbol];
       (0,external_kolmafia_namespaceObject.printHtml)("".concat(scriptHelp));
-      (0,external_kolmafia_namespaceObject.printHtml)("<font color='blue'><b>Options:</b></font>");
+      (0,external_kolmafia_namespaceObject.printHtml)("");
+      (0,external_kolmafia_namespaceObject.printHtml)("<b>".concat(args[defaultGroupNameSymbol], ":</b>"));
+      traverse(spec, (arg, key) => {
+        var _a, _b, _c, _d, _e;
 
-      for (var k in spec) {
-        var arg = spec[k];
-        if (arg.hidden) continue;
-        var nameText = "<font color='blue'>".concat((_a = arg.key) !== null && _a !== void 0 ? _a : k, "</font>");
+        if (arg.hidden) return;
+        var nameText = "<font color='blue'>".concat((_a = arg.key) !== null && _a !== void 0 ? _a : key, "</font>");
         var valueText = arg.valueHelpName === "FLAG" ? "" : "<font color='purple'>".concat(arg.valueHelpName, "</font>");
         var helpText = (_b = arg.help) !== null && _b !== void 0 ? _b : "";
         var defaultText = "default" in arg ? "<font color='#888888'>[default: ".concat(arg.default, "]</font>") : "";
-        var settingText = arg.setting === "" ? "" : "<font color='#888888'>[setting: ".concat((_c = arg.setting) !== null && _c !== void 0 ? _c : "".concat(scriptName, "_").concat((_d = arg.key) !== null && _d !== void 0 ? _d : k), "]</font>");
+        var settingText = arg.setting === "" ? "" : "<font color='#888888'>[setting: ".concat((_c = arg.setting) !== null && _c !== void 0 ? _c : "".concat(scriptName, "_").concat((_d = arg.key) !== null && _d !== void 0 ? _d : key), "]</font>");
         (0,external_kolmafia_namespaceObject.printHtml)("&nbsp;&nbsp;".concat([nameText, valueText, "-", helpText, defaultText, settingText].join(" ")));
         var valueOptions = (_e = arg.options) !== null && _e !== void 0 ? _e : [];
 
@@ -5053,7 +5079,10 @@ var Args = /*#__PURE__*/function () {
             _iterator.f();
           }
         }
-      }
+      }, group => {
+        (0,external_kolmafia_namespaceObject.printHtml)("");
+        (0,external_kolmafia_namespaceObject.printHtml)("<b>".concat(group.name, ":</b>"));
+      });
     }
   }]);
 
@@ -5069,6 +5098,7 @@ var Args = /*#__PURE__*/function () {
 var specSymbol = Symbol("spec");
 var scriptSymbol = Symbol("script");
 var scriptHelpSymbol = Symbol("scriptHelp");
+var defaultGroupNameSymbol = Symbol("defaultGroupName");
 /**
  * Parse a string into a value for a given argument, throwing if the parsing fails.
  * @param arg An argument that takes values in T.
@@ -5089,6 +5119,85 @@ function parseAndValidate(arg, source, value) {
   }
 
   return parsed_value;
+}
+/**
+ * Create a parsed args object from a spec using all default values.
+ *
+ * @param spec The spec for all arguments.
+ */
+
+
+function loadDefaultValues(spec) {
+  var result = {};
+
+  for (var k in spec) {
+    var argSpec = spec[k];
+
+    if ("args" in argSpec) {
+      result[k] = loadDefaultValues(argSpec.args);
+    } else {
+      if ("default" in argSpec) result[k] = argSpec.default;else result[k] = undefined;
+    }
+  }
+
+  return result;
+}
+/**
+ * Traverse the spec and possibly generate a value for each argument.
+ *
+ * @param spec The spec for all arguments.
+ * @param result The object to hold the resulting argument values.
+ * @param setTo A function to generate an argument value from each arg spec.
+ *    If this function returns undefined, then the argument value is unchanged.
+ */
+
+
+function traverseAndMaybeSet(spec, result, setTo) {
+  var groups = [];
+
+  for (var k in spec) {
+    var argSpec = spec[k];
+
+    if ("args" in argSpec) {
+      groups.push([argSpec, k]);
+    } else {
+      var value = setTo(argSpec, k);
+      if (value === undefined) continue;
+      result[k] = value;
+    }
+  }
+
+  for (var _i = 0, _groups = groups; _i < _groups.length; _i++) {
+    var group_and_key = _groups[_i];
+    traverseAndMaybeSet(group_and_key[0].args, result[group_and_key[1]], setTo);
+  }
+}
+/**
+ * Traverse the spec and possibly generate a value for each argument.
+ *
+ * @param spec The spec for all arguments.
+ * @param process A function to call at each arg spec.
+ */
+
+
+function traverse(spec, process, onGroup) {
+  var groups = [];
+
+  for (var k in spec) {
+    var argSpec = spec[k];
+
+    if ("args" in argSpec) {
+      groups.push([argSpec, k]);
+    } else {
+      process(argSpec, k);
+    }
+  }
+
+  for (var _i2 = 0, _groups2 = groups; _i2 < _groups2.length; _i2++) {
+    var group_and_key = _groups2[_i2];
+    onGroup === null || onGroup === void 0 ? void 0 : onGroup(group_and_key[0], group_and_key[1]);
+    traverse(group_and_key[0].args, process);
+  }
 }
 /**
  * A parser to extract key/value pairs from a command line input.
@@ -6563,7 +6672,7 @@ function step(questName) {
   }
 }
 ;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/outfit.js
-var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28, outfit_templateObject29, outfit_templateObject30;
+var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28;
 
 function outfit_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = outfit_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -6598,7 +6707,6 @@ var Outfit = /*#__PURE__*/function () {
     outfit_classCallCheck(this, Outfit);
 
     this.equips = new Map();
-    this.accessories = [];
     this.skipDefaults = false;
     this.modifier = "";
     this.avoid = [];
@@ -6607,7 +6715,7 @@ var Outfit = /*#__PURE__*/function () {
   outfit_createClass(Outfit, [{
     key: "countEquipped",
     value: function countEquipped(item) {
-      return [].concat(outfit_toConsumableArray(this.equips.values()), outfit_toConsumableArray(this.accessories)).filter(i => i === item).length;
+      return outfit_toConsumableArray(this.equips.values()).filter(i => i === item).length;
     }
   }, {
     key: "isAvailable",
@@ -6623,8 +6731,6 @@ var Outfit = /*#__PURE__*/function () {
     key: "haveEquipped",
     value: function haveEquipped(item, slot) {
       if (slot === undefined) return this.countEquipped(item) > 0;
-      if ($slots(outfit_templateObject || (outfit_templateObject = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).includes(slot)) return this.accessories.includes(item); // TODO handle equipping multiple of an accessory
-
       return this.equips.get(slot) === item;
     }
   }, {
@@ -6639,34 +6745,43 @@ var Outfit = /*#__PURE__*/function () {
   }, {
     key: "equipNonAccessory",
     value: function equipNonAccessory(item, slot) {
-      if ($slots(outfit_templateObject2 || (outfit_templateObject2 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).includes((0,external_kolmafia_namespaceObject.toSlot)(item))) return false;
+      if ($slots(outfit_templateObject || (outfit_templateObject = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).includes((0,external_kolmafia_namespaceObject.toSlot)(item))) return false;
       if (slot !== undefined && slot !== (0,external_kolmafia_namespaceObject.toSlot)(item)) return false;
       if (this.equips.has((0,external_kolmafia_namespaceObject.toSlot)(item))) return false;
 
       switch ((0,external_kolmafia_namespaceObject.toSlot)(item)) {
-        case $slot(outfit_templateObject3 || (outfit_templateObject3 = outfit_taggedTemplateLiteral(["off-hand"]))):
-          if (this.equips.has($slot(outfit_templateObject4 || (outfit_templateObject4 = outfit_taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(outfit_templateObject5 || (outfit_templateObject5 = outfit_taggedTemplateLiteral(["weapon"]))))) !== 1) {
+        case $slot(outfit_templateObject2 || (outfit_templateObject2 = outfit_taggedTemplateLiteral(["off-hand"]))):
+          if (this.equips.has($slot(outfit_templateObject3 || (outfit_templateObject3 = outfit_taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(outfit_templateObject4 || (outfit_templateObject4 = outfit_taggedTemplateLiteral(["weapon"]))))) !== 1) {
             return false;
           }
 
           break;
 
-        case $slot(outfit_templateObject6 || (outfit_templateObject6 = outfit_taggedTemplateLiteral(["familiar"]))):
+        case $slot(outfit_templateObject5 || (outfit_templateObject5 = outfit_taggedTemplateLiteral(["familiar"]))):
           if (this.familiar !== undefined && !(0,external_kolmafia_namespaceObject.canEquip)(this.familiar, item)) return false;
       }
 
-      if ((0,external_kolmafia_namespaceObject.toSlot)(item) !== $slot(outfit_templateObject7 || (outfit_templateObject7 = outfit_taggedTemplateLiteral(["familiar"]))) && !(0,external_kolmafia_namespaceObject.canEquip)(item)) return false;
+      if ((0,external_kolmafia_namespaceObject.toSlot)(item) !== $slot(outfit_templateObject6 || (outfit_templateObject6 = outfit_taggedTemplateLiteral(["familiar"]))) && !(0,external_kolmafia_namespaceObject.canEquip)(item)) return false;
       this.equips.set((0,external_kolmafia_namespaceObject.toSlot)(item), item);
       return true;
     }
   }, {
     key: "equipAccessory",
     value: function equipAccessory(item, slot) {
-      if (![undefined].concat(outfit_toConsumableArray($slots(outfit_templateObject8 || (outfit_templateObject8 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))))).includes(slot)) return false;
-      if ((0,external_kolmafia_namespaceObject.toSlot)(item) !== $slot(outfit_templateObject9 || (outfit_templateObject9 = outfit_taggedTemplateLiteral(["acc1"])))) return false;
-      if (this.accessories.length >= 3) return false;
+      if (![undefined].concat(outfit_toConsumableArray($slots(outfit_templateObject7 || (outfit_templateObject7 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))))).includes(slot)) return false;
+      if ((0,external_kolmafia_namespaceObject.toSlot)(item) !== $slot(outfit_templateObject8 || (outfit_templateObject8 = outfit_taggedTemplateLiteral(["acc1"])))) return false;
       if (!(0,external_kolmafia_namespaceObject.canEquip)(item)) return false;
-      this.accessories.push(item);
+
+      if (slot === undefined) {
+        // We don't care which of the accessory slots we equip in
+        var empty = $slots(outfit_templateObject9 || (outfit_templateObject9 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).find(s => !this.equips.has(s));
+        if (empty === undefined) return false;
+        this.equips.set(empty, item);
+      } else {
+        if (this.equips.has(slot)) return false;
+        this.equips.set(slot, item);
+      }
+
       return true;
     }
   }, {
@@ -6780,6 +6895,26 @@ var Outfit = /*#__PURE__*/function () {
 
       return succeeded;
     }
+    /**
+     * Equip a thing to the outfit.
+     *
+     * If no slot is given, then the thing will be equipped wherever possible
+     * (possibly using dual-wielding, any of the accessory slots, or as
+     * familiar equipment). If it is impossible to add this thing anywhere to
+     * the outfit, this function will return false.
+     *
+     * If a slot is given, the item will be equipped only in that slot. If the
+     * slot is filled with a different item, this function will return false.
+     *
+     * If the thing is already equipped in the provided slot, or if no slot is
+     * given and the thing is already equipped in any slot, this function will
+     * return true and not change the outfit.
+     *
+     * @param thing The thing or things to equip.
+     * @param slot The slot to equip them.
+     * @returns True if the thing was sucessfully equipped, and false otherwise.
+     */
+
   }, {
     key: "equip",
     value: function equip(thing, slot) {
@@ -6792,11 +6927,21 @@ var Outfit = /*#__PURE__*/function () {
       if (thing instanceof external_kolmafia_namespaceObject.Familiar) return this.equipFamiliar(thing);
       return this.equipSpec(thing);
     }
+    /**
+     * Check if it is possible to equip a thing to this outfit using .equip().
+     *
+     * This does not change the current outfit.
+     *
+     * @param thing The thing to equip.
+     * @param slot The slot to equip them.
+     * @returns True if this thing can be equipped.
+     */
+
   }, {
     key: "canEquip",
-    value: function canEquip(thing) {
+    value: function canEquip(thing, slot) {
       var outfit = this.clone();
-      return outfit.equip(thing);
+      return outfit.equip(thing, slot);
     }
     /**
      * Equip this outfit.
@@ -6808,16 +6953,20 @@ var Outfit = /*#__PURE__*/function () {
     value: function dress(extraOptions) {
       if (this.familiar) (0,external_kolmafia_namespaceObject.useFamiliar)(this.familiar);
       var targetEquipment = Array.from(this.equips.values());
-      var accessorySlots = $slots(outfit_templateObject27 || (outfit_templateObject27 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
+      var usedSlots = new Set(); // First, we equip non-accessory equipment.
 
-      var _iterator3 = outfit_createForOfIteratorHelper($slots(outfit_templateObject28 || (outfit_templateObject28 = outfit_taggedTemplateLiteral(["weapon, off-hand, hat, shirt, pants, familiar, buddy-bjorn, crown-of-thrones, back"])))),
+      var nonaccessorySlots = $slots(outfit_templateObject27 || (outfit_templateObject27 = outfit_taggedTemplateLiteral(["weapon, off-hand, hat, back, shirt, pants, familiar, buddy-bjorn, crown-of-thrones"]))); // We must manually remove equipment that we want to use in a different
+      // slot than where it is currently equipped, to avoid a mafia issue.
+      // Order is anchored here to prevent DFSS shenanigans
+
+      var _iterator3 = outfit_createForOfIteratorHelper(nonaccessorySlots),
           _step3;
 
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var slot = _step3.value;
-          if (targetEquipment.includes((0,external_kolmafia_namespaceObject.equippedItem)(slot)) && this.equips.get(slot) !== (0,external_kolmafia_namespaceObject.equippedItem)(slot)) (0,external_kolmafia_namespaceObject.equip)(slot, template_string_$item.none);
-        } //Order is anchored here to prevent DFSS shenanigans
+          if (targetEquipment.includes((0,external_kolmafia_namespaceObject.equippedItem)(slot)) && this.equips.get(slot) !== (0,external_kolmafia_namespaceObject.equippedItem)(slot) || this.avoid.includes((0,external_kolmafia_namespaceObject.equippedItem)(slot))) (0,external_kolmafia_namespaceObject.equip)(slot, template_string_$item.none);
+        } // Then we equip all the non-accessory equipment.
 
       } catch (err) {
         _iterator3.e(err);
@@ -6825,15 +6974,19 @@ var Outfit = /*#__PURE__*/function () {
         _iterator3.f();
       }
 
-      var _iterator4 = outfit_createForOfIteratorHelper($slots(outfit_templateObject29 || (outfit_templateObject29 = outfit_taggedTemplateLiteral(["weapon, off-hand, hat, back, shirt, pants, familiar, buddy-bjorn, crown-of-thrones"])))),
+      var _iterator4 = outfit_createForOfIteratorHelper(nonaccessorySlots),
           _step4;
 
       try {
         for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
           var _slot = _step4.value;
           var equipment = this.equips.get(_slot);
-          if (equipment) (0,external_kolmafia_namespaceObject.equip)(_slot, equipment);
-        } //We don't care what order accessories are equipped in, just that they're equipped
+
+          if (equipment) {
+            (0,external_kolmafia_namespaceObject.equip)(_slot, equipment);
+            usedSlots.add(_slot);
+          }
+        } // Next, we equip accessories
 
       } catch (err) {
         _iterator4.e(err);
@@ -6841,38 +6994,56 @@ var Outfit = /*#__PURE__*/function () {
         _iterator4.f();
       }
 
-      var accessoryEquips = this.accessories;
+      var accessorySlots = $slots(outfit_templateObject28 || (outfit_templateObject28 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
+      var accessoryEquips = accessorySlots.map(slot => this.equips.get(slot)).filter(item => item !== undefined); // To plan how to equip accessories, first check which accessories are
+      // already equipped in some accessory slot. There is no need to move them,
+      // since KoL doesn't care what order accessories are equipped in.
 
-      var _iterator5 = outfit_createForOfIteratorHelper(accessorySlots),
+      var missingAccessories = []; // accessories that are not already equipped
+
+      var _iterator5 = outfit_createForOfIteratorHelper(accessoryEquips),
           _step5;
 
       try {
         var _loop = function _loop() {
-          var slot = _step5.value;
-          var toEquip = accessoryEquips.find(equip => (0,external_kolmafia_namespaceObject.equippedAmount)(equip) < accessoryEquips.filter(accessory => accessory === equip).length);
-          if (!toEquip) return "break";
-          var currentEquip = (0,external_kolmafia_namespaceObject.equippedItem)(slot); //We never want an empty accessory slot
+          var accessory = _step5.value;
+          var alreadyEquipped = accessorySlots.find(slot => !usedSlots.has(slot) && (0,external_kolmafia_namespaceObject.equippedItem)(slot) === accessory);
 
-          if (currentEquip === template_string_$item.none || (0,external_kolmafia_namespaceObject.equippedAmount)(currentEquip) > accessoryEquips.filter(accessory => accessory === currentEquip).length) {
-            (0,external_kolmafia_namespaceObject.equip)(slot, toEquip);
+          if (alreadyEquipped) {
+            usedSlots.add(alreadyEquipped);
+          } else {
+            missingAccessories.push(accessory);
           }
         };
 
         for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _ret = _loop();
+          _loop();
+        } // Then, for all accessories that are not currently equipped, use the first
+        // open slot to place them.
 
-          if (_ret === "break") break;
-        }
       } catch (err) {
         _iterator5.e(err);
       } finally {
         _iterator5.f();
       }
 
+      for (var _i = 0, _missingAccessories = missingAccessories; _i < _missingAccessories.length; _i++) {
+        var accessory = _missingAccessories[_i];
+        var unusedSlot = accessorySlots.find(slot => !usedSlots.has(slot));
+
+        if (unusedSlot === undefined) {
+          // This should only occur if there is a bug in .dress()
+          throw "No accessory slots remaining";
+        }
+
+        (0,external_kolmafia_namespaceObject.equip)(unusedSlot, accessory);
+        usedSlots.add(unusedSlot);
+      } // Remaining slots are filled by the maximizer
+
+
       if (this.modifier) {
         var allRequirements = [new Requirement([this.modifier], {
-          preventSlot: outfit_toConsumableArray(this.equips.keys()),
-          forceEquip: accessoryEquips,
+          preventSlot: outfit_toConsumableArray(usedSlots),
           preventEquip: this.avoid
         })];
         if (extraOptions) allRequirements.push(new Requirement([], extraOptions));
@@ -6887,15 +7058,15 @@ var Outfit = /*#__PURE__*/function () {
 
       if (this.familiar !== undefined && (0,external_kolmafia_namespaceObject.myFamiliar)() !== this.familiar) throw "Failed to fully dress (expected: familiar ".concat(this.familiar, ")");
 
-      var _iterator6 = outfit_createForOfIteratorHelper(this.equips),
+      var _iterator6 = outfit_createForOfIteratorHelper(nonaccessorySlots),
           _step6;
 
       try {
         for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          var slotted_item = _step6.value;
+          var _slot2 = _step6.value;
 
-          if ((0,external_kolmafia_namespaceObject.equippedItem)(slotted_item[0]) !== slotted_item[1]) {
-            throw "Failed to fully dress (expected: ".concat(slotted_item[0], " ").concat(slotted_item[1], ")");
+          if (this.equips.has(_slot2) && (0,external_kolmafia_namespaceObject.equippedItem)(_slot2) !== this.equips.get(_slot2)) {
+            throw "Failed to fully dress (expected: ".concat(_slot2, " ").concat(this.equips.get(_slot2), ")");
           }
         }
       } catch (err) {
@@ -6904,14 +7075,14 @@ var Outfit = /*#__PURE__*/function () {
         _iterator6.f();
       }
 
-      var _iterator7 = outfit_createForOfIteratorHelper(this.accessories),
+      var _iterator7 = outfit_createForOfIteratorHelper(accessoryEquips),
           _step7;
 
       try {
         var _loop2 = function _loop2() {
           var accessory = _step7.value;
 
-          if (!$slots(outfit_templateObject30 || (outfit_templateObject30 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).some(slot => (0,external_kolmafia_namespaceObject.equippedItem)(slot) === accessory)) {
+          if ((0,external_kolmafia_namespaceObject.equippedAmount)(accessory) < accessoryEquips.filter(acc => acc === accessory).length) {
             throw "Failed to fully dress (expected: acc ".concat(accessory, ")");
           }
         };
@@ -6930,7 +7101,6 @@ var Outfit = /*#__PURE__*/function () {
     value: function clone() {
       var result = new Outfit();
       result.equips = new Map(this.equips);
-      result.accessories = outfit_toConsumableArray(this.accessories);
       result.skipDefaults = this.skipDefaults;
       result.familiar = this.familiar;
       result.modifier = this.modifier;
@@ -7467,12 +7637,34 @@ function lastEncounterWasWanderingNC() {
   return wanderingNCs.has(property_get("lastEncounter"));
 }
 ;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/route.js
+function route_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function route_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? route_ownKeys(Object(source), !0).forEach(function (key) { route_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : route_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function route_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function route_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = route_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function route_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return route_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return route_arrayLikeToArray(o, minLen); }
 
 function route_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+/**
+ * Extract a list of tasks from the provided quests.
+ *
+ * Each task name is prepended with the quest name ("Quest Name/Task Name").
+ * The quest-local names referred to in task.after are updated appropriately.
+ * The task completion condition is updated to include the quest completion.
+ *
+ * Tasks are returned in-order: all tasks from the first quest, then all tasks
+ * from the second quest, etc.
+ *
+ * @param quests The list of quests. This method does not modify the quest
+ *    objects or their tasks.
+ * @param implicitAfter If true, each task with task.after = undefined will
+ *    have a dependency added on the previous task in the list.
+ * @returns A list of tasks from the input quests (with updated properties).
+ */
 function getTasks(quests) {
   var implicitAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
@@ -7494,21 +7686,24 @@ function getTasks(quests) {
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var _task2 = _step3.value;
-          // Include quest name in task names and dependencies (unless dependency quest is given)
-          _task2.name = "".concat(quest.name, "/").concat(_task2.name);
-          _task2.after = (_a = _task2.after) === null || _a === void 0 ? void 0 : _a.map(after => after.includes("/") ? after : "".concat(quest.name, "/").concat(after)); // Include previous task as a dependency
 
-          if (implicitAfter && _task2.after === undefined && result.length > 0) _task2.after = [result[result.length - 1].name]; // Include quest completion in task completion
+          // Include quest name in task names and dependencies (unless dependency quest is given)
+          var renamedTask = route_objectSpread({}, _task2);
+
+          renamedTask.name = "".concat(quest.name, "/").concat(_task2.name);
+          renamedTask.after = (_a = _task2.after) === null || _a === void 0 ? void 0 : _a.map(after => after.includes("/") ? after : "".concat(quest.name, "/").concat(after)); // Include previous task as a dependency
+
+          if (implicitAfter && _task2.after === undefined && result.length > 0) renamedTask.after = [result[result.length - 1].name]; // Include quest completion in task completion
 
           if (questCompleted !== undefined) {
             (function () {
               var taskCompleted = _task2.completed;
 
-              _task2.completed = () => questCompleted() || taskCompleted();
+              renamedTask.completed = () => questCompleted() || taskCompleted();
             })();
           }
 
-          result.push(_task2);
+          result.push(renamedTask);
         }
       } catch (err) {
         _iterator3.e(err);
@@ -8628,12 +8823,12 @@ function fillHp() {
 /* Skip this until ronin if the tower is delayed. */
 
 function towerReady() {
-  return !args.delaytower || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
+  return !args.major.delaytower || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
 }
 /* Skip this entirely, either post-ronin or when delaying until ronin. */
 
 function towerSkip() {
-  return args.delaytower || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
+  return args.major.delaytower || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
 }
 ;// CONCATENATED MODULE: ./src/tasks/keys.ts
 var keys_templateObject, keys_templateObject2, keys_templateObject3, keys_templateObject4, keys_templateObject5, keys_templateObject6, keys_templateObject7, keys_templateObject8, keys_templateObject9, keys_templateObject10, keys_templateObject11, keys_templateObject12, keys_templateObject13, keys_templateObject14, keys_templateObject15, keys_templateObject16, keys_templateObject17, keys_templateObject18, keys_templateObject19, keys_templateObject20, keys_templateObject21, keys_templateObject22, keys_templateObject23, keys_templateObject24, keys_templateObject25, keys_templateObject26, keys_templateObject27, keys_templateObject28, keys_templateObject29, keys_templateObject30, keys_templateObject31, keys_templateObject32, keys_templateObject33, keys_templateObject34, keys_templateObject35, keys_templateObject36, keys_templateObject37, keys_templateObject38, keys_templateObject39, keys_templateObject40, keys_templateObject41, keys_templateObject42, keys_templateObject43, keys_templateObject44, keys_templateObject45, keys_templateObject46, keys_templateObject47, keys_templateObject48, keys_templateObject49, keys_templateObject50, keys_templateObject51, keys_templateObject52, keys_templateObject53, keys_templateObject54, keys_templateObject55, keys_templateObject56, keys_templateObject57, keys_templateObject58, keys_templateObject59, keys_templateObject60, keys_templateObject61, keys_templateObject62, keys_templateObject63, keys_templateObject64, keys_templateObject65, keys_templateObject66, keys_templateObject67, keys_templateObject68, keys_templateObject69, keys_templateObject70, keys_templateObject71, keys_templateObject72, keys_templateObject73, keys_templateObject74, keys_templateObject75, keys_templateObject76, keys_templateObject77, keys_templateObject78, keys_templateObject79, keys_templateObject80, keys_templateObject81, keys_templateObject82, keys_templateObject83, keys_templateObject84, keys_templateObject85, keys_templateObject86, keys_templateObject87, keys_templateObject88, keys_templateObject89, keys_templateObject90, keys_templateObject91;
@@ -9078,7 +9273,7 @@ function min(a, b) {
   return a < b ? a : b;
 }
 ;// CONCATENATED MODULE: ./src/engine/outfit.ts
-var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74;
+var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, outfit_templateObject29, outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74;
 
 function engine_outfit_toConsumableArray(arr) { return engine_outfit_arrayWithoutHoles(arr) || engine_outfit_iterableToArray(arr) || engine_outfit_unsupportedIterableToArray(arr) || engine_outfit_nonIterableSpread(); }
 
@@ -9206,7 +9401,7 @@ function equipDefaults(outfit, force_charge_goose) {
     outfit.equip(template_string_$familiar(engine_outfit_templateObject27 || (engine_outfit_templateObject27 = engine_outfit_taggedTemplateLiteral(["Reagnimated Gnome"]))));
   }
 
-  if (outfit.familiar === template_string_$familiar(engine_outfit_templateObject28 || (engine_outfit_templateObject28 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(engine_outfit_templateObject29 || (engine_outfit_templateObject29 = engine_outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6) outfit.equip(template_string_$item(engine_outfit_templateObject30 || (engine_outfit_templateObject30 = engine_outfit_taggedTemplateLiteral(["grey down vest"]))));
+  if (outfit.familiar === template_string_$familiar(engine_outfit_templateObject28 || (engine_outfit_templateObject28 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(outfit_templateObject29 || (outfit_templateObject29 = engine_outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6) outfit.equip(template_string_$item(outfit_templateObject30 || (outfit_templateObject30 = engine_outfit_taggedTemplateLiteral(["grey down vest"]))));
   if (outfit.familiar === template_string_$familiar(outfit_templateObject31 || (outfit_templateObject31 = engine_outfit_taggedTemplateLiteral(["Melodramedary"]))) && property_get("camelSpit") < 100) outfit.equip(template_string_$item(outfit_templateObject32 || (outfit_templateObject32 = engine_outfit_taggedTemplateLiteral(["dromedary drinking helmet"]))));
   if (outfit.familiar === template_string_$familiar(outfit_templateObject33 || (outfit_templateObject33 = engine_outfit_taggedTemplateLiteral(["Reagnimated Gnome"])))) outfit.equip(template_string_$item(outfit_templateObject34 || (outfit_templateObject34 = engine_outfit_taggedTemplateLiteral(["gnomish housemaid's kgnee"]))));
 
@@ -9761,8 +9956,8 @@ var absorbTasks = [// Level 2
   choices: {
     675: 4,
     676: 4,
-    677: 4,
-    678: 1,
+    677: 2,
+    678: 3,
     679: 1,
     1431: 4
   }
@@ -11343,7 +11538,7 @@ var WarQuest = {
     // Use stuffing fluffers to finish the war (iff delaywar was passed)
     name: "Fluffers",
     after: ["Enrage"],
-    completed: () => property_get("hippiesDefeated") >= 1000 || property_get("fratboysDefeated") >= 1000 || !args.delaywar,
+    completed: () => property_get("hippiesDefeated") >= 1000 || property_get("fratboysDefeated") >= 1000 || !args.major.delaywar,
     outfit: {
       equip: template_string_$items(level12_templateObject133 || (level12_templateObject133 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
     },
@@ -11380,7 +11575,7 @@ var WarQuest = {
 function councilSafe() {
   // Check if it is safe to visit the council without making the war outfit worse
   // (It is harder to get the hippy outfit after the war starts)
-  return args.delaywar || !atLevel(12) || have(template_string_$item(level12_templateObject136 || (level12_templateObject136 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && have(template_string_$item(level12_templateObject137 || (level12_templateObject137 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || have(template_string_$item(level12_templateObject138 || (level12_templateObject138 = level12_taggedTemplateLiteral(["beer helmet"])))) && have(template_string_$item(level12_templateObject139 || (level12_templateObject139 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && have(template_string_$item(level12_templateObject140 || (level12_templateObject140 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
+  return args.major.delaywar || !atLevel(12) || have(template_string_$item(level12_templateObject136 || (level12_templateObject136 = level12_taggedTemplateLiteral(["filthy corduroys"])))) && have(template_string_$item(level12_templateObject137 || (level12_templateObject137 = level12_taggedTemplateLiteral(["filthy knitted dread sack"])))) || have(template_string_$item(level12_templateObject138 || (level12_templateObject138 = level12_taggedTemplateLiteral(["beer helmet"])))) && have(template_string_$item(level12_templateObject139 || (level12_templateObject139 = level12_taggedTemplateLiteral(["distressed denim pants"])))) && have(template_string_$item(level12_templateObject140 || (level12_templateObject140 = level12_taggedTemplateLiteral(["bejeweled pledge pin"]))));
 }
 
 function dimesForGarters() {
@@ -11407,13 +11602,13 @@ function dimesForGarters() {
 
 
 function warReady() {
-  return !args.delaywar || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
+  return !args.major.delaywar || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
 }
 /* Skip this entirely, either post-ronin or when delaying until ronin. */
 
 
 function warSkip() {
-  return args.delaywar || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
+  return args.major.delaywar || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000;
 }
 
 function ensureFluffers(flufferCount) {
@@ -11899,7 +12094,7 @@ var MiscQuest = {
     name: "Boombox",
     after: [],
     priority: () => OverridePriority.Free,
-    completed: () => !have(template_string_$item(misc_templateObject112 || (misc_templateObject112 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Total Eclipse of Your Meat" || have($skill(misc_templateObject113 || (misc_templateObject113 = misc_taggedTemplateLiteral(["System Sweep"])))) && have($skill(misc_templateObject114 || (misc_templateObject114 = misc_taggedTemplateLiteral(["Double Nanovision"])))) && args.seasoning || property_get("_boomBoxSongsLeft") === 0,
+    completed: () => !have(template_string_$item(misc_templateObject112 || (misc_templateObject112 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Total Eclipse of Your Meat" || have($skill(misc_templateObject113 || (misc_templateObject113 = misc_taggedTemplateLiteral(["System Sweep"])))) && have($skill(misc_templateObject114 || (misc_templateObject114 = misc_taggedTemplateLiteral(["Double Nanovision"])))) && args.minor.seasoning || property_get("_boomBoxSongsLeft") === 0,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("boombox meat"),
     freeaction: true,
     limit: {
@@ -11910,7 +12105,7 @@ var MiscQuest = {
     after: [],
     priority: () => OverridePriority.Free,
     ready: () => have($skill(misc_templateObject115 || (misc_templateObject115 = misc_taggedTemplateLiteral(["System Sweep"])))) && have($skill(misc_templateObject116 || (misc_templateObject116 = misc_taggedTemplateLiteral(["Double Nanovision"])))) && (property_get("currentNunneryMeat") === 0 || property_get("currentNunneryMeat") === 100000),
-    completed: () => !have(template_string_$item(misc_templateObject117 || (misc_templateObject117 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Food Vibrations" || property_get("_boomBoxSongsLeft") === 0 || !args.seasoning,
+    completed: () => !have(template_string_$item(misc_templateObject117 || (misc_templateObject117 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Food Vibrations" || property_get("_boomBoxSongsLeft") === 0 || !args.minor.seasoning,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("boombox food"),
     freeaction: true,
     limit: {
@@ -11946,10 +12141,10 @@ var MiscQuest = {
     name: "Tune from Muscle",
     after: ["Unlock Beach", "Reprocess/The Bugbear Pen", "Bugbear Outfit"],
     ready: () => (0,external_kolmafia_namespaceObject.knollAvailable)() && ((0,external_kolmafia_namespaceObject.mySign)() !== "Vole" || (0,external_kolmafia_namespaceObject.myMaxmp)() - (0,external_kolmafia_namespaceObject.numericModifier)("Maximum MP") >= 50 && (0,external_kolmafia_namespaceObject.myMaxhp)() - (0,external_kolmafia_namespaceObject.numericModifier)("Maximum HP") >= 50 && (0,external_kolmafia_namespaceObject.myMeat)() >= 11000),
-    completed: () => !have(template_string_$item(misc_templateObject120 || (misc_templateObject120 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.tune === undefined || property_get("moonTuned", false),
+    completed: () => !have(template_string_$item(misc_templateObject120 || (misc_templateObject120 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
     priority: () => OverridePriority.Free,
     freeaction: true,
-    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.tune)),
+    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
       tries: 1
     }
@@ -11957,10 +12152,10 @@ var MiscQuest = {
     name: "Tune from Myst",
     after: ["Reprocess/Outskirts of Camp Logging Camp"],
     ready: () => (0,external_kolmafia_namespaceObject.canadiaAvailable)(),
-    completed: () => !have(template_string_$item(misc_templateObject121 || (misc_templateObject121 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.tune === undefined || property_get("moonTuned", false),
+    completed: () => !have(template_string_$item(misc_templateObject121 || (misc_templateObject121 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
     priority: () => OverridePriority.Free,
     freeaction: true,
-    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.tune)),
+    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
       tries: 1
     }
@@ -11968,10 +12163,10 @@ var MiscQuest = {
     name: "Tune from Moxie",
     after: ["Reprocess/Thugnderdome", "Gnome Shirt", "Gnome Items"],
     ready: () => (0,external_kolmafia_namespaceObject.gnomadsAvailable)(),
-    completed: () => !have(template_string_$item(misc_templateObject122 || (misc_templateObject122 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.tune === undefined || property_get("moonTuned", false),
+    completed: () => !have(template_string_$item(misc_templateObject122 || (misc_templateObject122 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
     priority: () => OverridePriority.Free,
     freeaction: true,
-    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.tune)),
+    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
       tries: 1
     }
@@ -11979,7 +12174,7 @@ var MiscQuest = {
     name: "Retune Moon",
     after: ["Tune from Muscle", "Tune from Myst", "Tune from Moxie"],
     ready: () => false,
-    completed: () => !have(template_string_$item(misc_templateObject123 || (misc_templateObject123 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.tune === undefined || property_get("moonTuned", false),
+    completed: () => !have(template_string_$item(misc_templateObject123 || (misc_templateObject123 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
     do: () => false,
     limit: {
       tries: 1
@@ -12564,7 +12759,7 @@ var summonSources = [{
   summon: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(summons_templateObject62 || (summons_templateObject62 = summons_taggedTemplateLiteral(["white page"]))))
 }, {
   name: "Fax",
-  available: () => args.fax && !property_get("_photocopyUsed") ? 1 : 0,
+  available: () => args.minor.fax && !property_get("_photocopyUsed") ? 1 : 0,
   canFight: mon => (0,external_kolmafia_namespaceObject.canFaxbot)(mon),
   summon: mon => {
     (0,external_kolmafia_namespaceObject.chatPrivate)("cheesefax", mon.name);
@@ -13004,7 +13199,7 @@ var PullStrategy = /*#__PURE__*/function () {
     key: "update",
     value: function update() {
       var pulled = new Set(property_get("_roninStoragePulls").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_namespaceObject.Item.get(id)));
-      var count = (0,external_kolmafia_namespaceObject.pullsRemaining)() - (20 - args.pulls);
+      var count = (0,external_kolmafia_namespaceObject.pullsRemaining)() - (20 - args.major.pulls);
       if ((0,external_kolmafia_namespaceObject.inHardcore)() || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000) count = 0; // No pulls in hardcore or out of ronin
 
       for (var i = 0; i < this.pulls.length; i++) {
@@ -13538,7 +13733,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       fixFoldables(outfit);
       applyEffects((_outfit$modifier = outfit.modifier) !== null && _outfit$modifier !== void 0 ? _outfit$modifier : "", task.effects || []);
 
-      if (args.verboseequip) {
+      if (args.debug.verboseequip) {
         var equipped = engine_engine_toConsumableArray(new Set(external_kolmafia_namespaceObject.Slot.all().map(slot => (0,external_kolmafia_namespaceObject.equippedItem)(slot))));
 
         (0,external_kolmafia_namespaceObject.print)("Equipped: ".concat(equipped.join(", ")));
@@ -17138,7 +17333,7 @@ var PalindomeQuest = {
 };
 
 function cloversToSave() {
-  if (args.delaytower) return 0;
+  if (args.major.delaytower) return 0;
   return 1;
 }
 ;// CONCATENATED MODULE: ./src/tasks/level11.ts
@@ -17304,9 +17499,9 @@ var Desert = [{
     soft: 15
   },
   post: () => {
-    if (!$location(level11_templateObject48 || (level11_templateObject48 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))).noncombatQueue.includes("A Sietch in Time")) return;
+    if (!(0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=desertbeach").includes("action=db_gnasir")) return;
 
-    if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject49 || (level11_templateObject49 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) >= 15 || (property_get("gnasirProgress") & 1) === 0 && have(template_string_$item(level11_templateObject50 || (level11_templateObject50 = level11_taggedTemplateLiteral(["stone rose"]))))) {
+    if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject48 || (level11_templateObject48 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) >= 15 || (property_get("gnasirProgress") & 1) === 0 && have(template_string_$item(level11_templateObject49 || (level11_templateObject49 = level11_taggedTemplateLiteral(["stone rose"])))) || (property_get("gnasirProgress") & 2) === 0 && have(template_string_$item(level11_templateObject50 || (level11_templateObject50 = level11_taggedTemplateLiteral(["can of black paint"])))) || (property_get("gnasirProgress") & 4) === 0 && have(template_string_$item(level11_templateObject51 || (level11_templateObject51 = level11_taggedTemplateLiteral(["killing jar"]))))) {
       var res = (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=desertbeach&action=db_gnasir");
 
       while (res.includes("value=2")) {
@@ -17317,47 +17512,47 @@ var Desert = [{
     }
 
     (0,external_kolmafia_namespaceObject.cliExecute)("use * desert sightseeing pamphlet");
-    if (have(template_string_$item(level11_templateObject51 || (level11_templateObject51 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) && have(template_string_$item(level11_templateObject52 || (level11_templateObject52 = level11_taggedTemplateLiteral(["drum machine"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_templateObject53 || (level11_templateObject53 = level11_taggedTemplateLiteral(["drum machine"]))));
+    if (have(template_string_$item(level11_templateObject52 || (level11_templateObject52 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) && have(template_string_$item(level11_templateObject53 || (level11_templateObject53 = level11_taggedTemplateLiteral(["drum machine"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_templateObject54 || (level11_templateObject54 = level11_taggedTemplateLiteral(["drum machine"]))));
   }
 }, {
   name: "Desert",
   after: ["Diary", "Compass"],
   acquire: [{
-    item: template_string_$item(level11_templateObject54 || (level11_templateObject54 = level11_taggedTemplateLiteral(["can of black paint"]))),
+    item: template_string_$item(level11_templateObject55 || (level11_templateObject55 = level11_taggedTemplateLiteral(["can of black paint"]))),
     useful: () => (property_get("gnasirProgress") & 2) === 0
   }],
-  ready: () => (have(template_string_$item(level11_templateObject55 || (level11_templateObject55 = level11_taggedTemplateLiteral(["can of black paint"])))) || (0,external_kolmafia_namespaceObject.myMeat)() >= 1000 || (property_get("gnasirProgress") & 2) !== 0) && (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject56 || (level11_templateObject56 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) < 15 && !have(template_string_$item(level11_templateObject57 || (level11_templateObject57 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) && (property_get("desertExploration") === 0 && !have($effect(level11_templateObject58 || (level11_templateObject58 = level11_taggedTemplateLiteral(["A Girl Named Sue"])))) || have($effect(level11_templateObject59 || (level11_templateObject59 = level11_taggedTemplateLiteral(["Ultrahydrated"]))))),
-  priority: () => have($effect(level11_templateObject60 || (level11_templateObject60 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? OverridePriority.Effect : OverridePriority.None,
+  ready: () => (have(template_string_$item(level11_templateObject56 || (level11_templateObject56 = level11_taggedTemplateLiteral(["can of black paint"])))) || (0,external_kolmafia_namespaceObject.myMeat)() >= 1000 || (property_get("gnasirProgress") & 2) !== 0) && (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject57 || (level11_templateObject57 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) < 15 && !have(template_string_$item(level11_templateObject58 || (level11_templateObject58 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) && (property_get("desertExploration") === 0 && !have($effect(level11_templateObject59 || (level11_templateObject59 = level11_taggedTemplateLiteral(["A Girl Named Sue"])))) || have($effect(level11_templateObject60 || (level11_templateObject60 = level11_taggedTemplateLiteral(["Ultrahydrated"]))))),
+  priority: () => have($effect(level11_templateObject61 || (level11_templateObject61 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? OverridePriority.Effect : OverridePriority.None,
   completed: () => property_get("desertExploration") >= 100,
-  do: $location(level11_templateObject61 || (level11_templateObject61 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
+  do: $location(level11_templateObject62 || (level11_templateObject62 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
   outfit: () => {
-    if (have(template_string_$item(level11_templateObject62 || (level11_templateObject62 = level11_taggedTemplateLiteral(["industrial fire extinguisher"])))) && property_get("_fireExtinguisherCharge") >= 20 && !property_get("fireExtinguisherDesertUsed") && have($effect(level11_templateObject63 || (level11_templateObject63 = level11_taggedTemplateLiteral(["Ultrahydrated"]))))) return {
-      equip: template_string_$items(level11_templateObject64 || (level11_templateObject64 = level11_taggedTemplateLiteral(["industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet"]))),
-      familiar: template_string_$familiar(level11_templateObject65 || (level11_templateObject65 = level11_taggedTemplateLiteral(["Melodramedary"])))
-    };else if (globalStateCache.absorb().isReprocessTarget($monster(level11_templateObject66 || (level11_templateObject66 = level11_taggedTemplateLiteral(["swarm of fire ants"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_templateObject67 || (level11_templateObject67 = level11_taggedTemplateLiteral(["Grey Goose"])))) >= 6 && have(template_string_$item(level11_templateObject68 || (level11_templateObject68 = level11_taggedTemplateLiteral(["miniature crystal ball"]))))) {
-      if (globalStateCache.orb().prediction($location(level11_templateObject69 || (level11_templateObject69 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"])))) === $monster(level11_templateObject70 || (level11_templateObject70 = level11_taggedTemplateLiteral(["swarm of fire ants"])))) {
+    if (have(template_string_$item(level11_templateObject63 || (level11_templateObject63 = level11_taggedTemplateLiteral(["industrial fire extinguisher"])))) && property_get("_fireExtinguisherCharge") >= 20 && !property_get("fireExtinguisherDesertUsed") && have($effect(level11_templateObject64 || (level11_templateObject64 = level11_taggedTemplateLiteral(["Ultrahydrated"]))))) return {
+      equip: template_string_$items(level11_templateObject65 || (level11_templateObject65 = level11_taggedTemplateLiteral(["industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet"]))),
+      familiar: template_string_$familiar(level11_templateObject66 || (level11_templateObject66 = level11_taggedTemplateLiteral(["Melodramedary"])))
+    };else if (globalStateCache.absorb().isReprocessTarget($monster(level11_templateObject67 || (level11_templateObject67 = level11_taggedTemplateLiteral(["swarm of fire ants"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_templateObject68 || (level11_templateObject68 = level11_taggedTemplateLiteral(["Grey Goose"])))) >= 6 && have(template_string_$item(level11_templateObject69 || (level11_templateObject69 = level11_taggedTemplateLiteral(["miniature crystal ball"]))))) {
+      if (globalStateCache.orb().prediction($location(level11_templateObject70 || (level11_templateObject70 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"])))) === $monster(level11_templateObject71 || (level11_templateObject71 = level11_taggedTemplateLiteral(["swarm of fire ants"])))) {
         // Swoop in for a single adventure to reprocess the fire ants
         return {
-          equip: template_string_$items(level11_templateObject71 || (level11_templateObject71 = level11_taggedTemplateLiteral(["UV-resistant compass, miniature crystal ball"]))),
-          familiar: template_string_$familiar(level11_templateObject72 || (level11_templateObject72 = level11_taggedTemplateLiteral(["Grey Goose"])))
+          equip: template_string_$items(level11_templateObject72 || (level11_templateObject72 = level11_taggedTemplateLiteral(["UV-resistant compass, miniature crystal ball"]))),
+          familiar: template_string_$familiar(level11_templateObject73 || (level11_templateObject73 = level11_taggedTemplateLiteral(["Grey Goose"])))
         };
       } else {
         // Wait for the orb to predict swarm of fire ants
         return {
-          equip: template_string_$items(level11_templateObject73 || (level11_templateObject73 = level11_taggedTemplateLiteral(["UV-resistant compass, miniature crystal ball"]))),
-          familiar: template_string_$familiar(level11_templateObject74 || (level11_templateObject74 = level11_taggedTemplateLiteral(["Melodramedary"])))
+          equip: template_string_$items(level11_templateObject74 || (level11_templateObject74 = level11_taggedTemplateLiteral(["UV-resistant compass, miniature crystal ball"]))),
+          familiar: template_string_$familiar(level11_templateObject75 || (level11_templateObject75 = level11_taggedTemplateLiteral(["Melodramedary"])))
         };
       }
     } else return {
-      equip: template_string_$items(level11_templateObject75 || (level11_templateObject75 = level11_taggedTemplateLiteral(["UV-resistant compass, dromedary drinking helmet"]))),
-      familiar: template_string_$familiar(level11_templateObject76 || (level11_templateObject76 = level11_taggedTemplateLiteral(["Melodramedary"])))
+      equip: template_string_$items(level11_templateObject76 || (level11_templateObject76 = level11_taggedTemplateLiteral(["UV-resistant compass, dromedary drinking helmet"]))),
+      familiar: template_string_$familiar(level11_templateObject77 || (level11_templateObject77 = level11_taggedTemplateLiteral(["Melodramedary"])))
     };
   },
   combat: new combat_CombatStrategy().macro(() => {
-    if (have($effect(level11_templateObject77 || (level11_templateObject77 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) && have(template_string_$item(level11_templateObject78 || (level11_templateObject78 = level11_taggedTemplateLiteral(["industrial fire extinguisher"])))) && property_get("_fireExtinguisherCharge") >= 20 && !property_get("fireExtinguisherDesertUsed")) return new Macro().trySkill($skill(level11_templateObject79 || (level11_templateObject79 = level11_taggedTemplateLiteral(["Fire Extinguisher: Zone Specific"]))));else return new Macro();
+    if (have($effect(level11_templateObject78 || (level11_templateObject78 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) && have(template_string_$item(level11_templateObject79 || (level11_templateObject79 = level11_taggedTemplateLiteral(["industrial fire extinguisher"])))) && property_get("_fireExtinguisherCharge") >= 20 && !property_get("fireExtinguisherDesertUsed")) return new Macro().trySkill($skill(level11_templateObject80 || (level11_templateObject80 = level11_taggedTemplateLiteral(["Fire Extinguisher: Zone Specific"]))));else return new Macro();
   }).kill(),
   post: () => {
-    if (!$location(level11_templateObject80 || (level11_templateObject80 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))).noncombatQueue.includes("A Sietch in Time")) return;
+    if (!(0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=desertbeach").includes("action=db_gnasir")) return;
     if ((property_get("gnasirProgress") & 16) > 0) return;
 
     if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject81 || (level11_templateObject81 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) >= 15 || (property_get("gnasirProgress") & 1) === 0 && have(template_string_$item(level11_templateObject82 || (level11_templateObject82 = level11_taggedTemplateLiteral(["stone rose"])))) || (property_get("gnasirProgress") & 2) === 0 && have(template_string_$item(level11_templateObject83 || (level11_templateObject83 = level11_taggedTemplateLiteral(["can of black paint"])))) || (property_get("gnasirProgress") & 4) === 0 && have(template_string_$item(level11_templateObject84 || (level11_templateObject84 = level11_taggedTemplateLiteral(["killing jar"]))))) {
@@ -18058,7 +18253,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "8fcabf6";
+var lastCommitHash = "a714fab";
 ;// CONCATENATED MODULE: ./src/main.ts
 function main_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = main_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -18092,49 +18287,55 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     help: "If given, break the prism and choose a class. <font color='red'>You will be reduced to 40 adventures with full organs after breaking the prism.</font>",
     options: [[1, "Seal Clubber"], [2, "Turtle Tamer"], [3, "Pastamancer"], [4, "Saurceror"], [5, "Disco Bandit"], [6, "Accordion Thief"]]
   }),
-  pulls: Args.number({
-    help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
-    default: 20
+  major: Args.group("Major Options", {
+    pulls: Args.number({
+      help: "Number of pulls to use. Lower this if you would like to save some pulls to use for in-ronin farming. (Note that this argument is not needed if you pull all your farming items before running the script).",
+      default: 20
+    }),
+    tune: Args.string({
+      help: "Use your hewn moon-rune spoon to retune to this sign when optimal."
+    }),
+    delaytower: Args.flag({
+      help: "Delay the NS tower until after ronin ends.",
+      default: false
+    }),
+    delaywar: Args.flag({
+      help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
+      default: false
+    })
   }),
-  tune: Args.string({
-    help: "Use your hewn moon-rune spoon to retune to this sign when optimal."
+  minor: Args.group("Minor Options", {
+    fax: Args.boolean({
+      help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
+      default: true
+    }),
+    seasoning: Args.boolean({
+      help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
+      default: true
+    })
   }),
-  delaytower: Args.flag({
-    help: "Delay the NS tower until after ronin ends.",
-    default: false
-  }),
-  delaywar: Args.flag({
-    help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
-    default: false
-  }),
-  seasoning: Args.boolean({
-    help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
-    default: true
-  }),
-  actions: Args.number({
-    help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time."
-  }),
-  verboseequip: Args.flag({
-    help: "Print out equipment usage before each task."
-  }),
-  fax: Args.boolean({
-    help: "Use a fax to summon a monster. Set to false if the faxbots are offline.",
-    default: true
-  }),
-  ignoretasks: Args.string({
-    help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
-    setting: ""
-  }),
-  completedtasks: Args.string({
-    help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
-    setting: ""
-  }),
-  list: Args.flag({
-    help: "Show the status of all tasks and exit."
+  debug: Args.group("Debug Options", {
+    actions: Args.number({
+      help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time."
+    }),
+    verboseequip: Args.flag({
+      help: "Print out equipment usage before each task."
+    }),
+    ignoretasks: Args.string({
+      help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
+      setting: ""
+    }),
+    completedtasks: Args.string({
+      help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
+      setting: ""
+    }),
+    list: Args.flag({
+      help: "Show the status of all tasks and exit."
+    })
   })
-});
+}, "Commands");
 function main(command) {
-  var _args$ignoretasks$spl, _args$ignoretasks, _args$completedtasks$, _args$completedtasks;
+  var _args$debug$ignoretas, _args$debug$ignoretas2, _args$debug$completed, _args$debug$completed2;
 
   sinceKolmafiaRevision(26718);
   Args.fill(args, command);
@@ -18165,19 +18366,19 @@ function main(command) {
   _set("choiceAdventure1464", 1);
   if ((0,external_kolmafia_namespaceObject.visitUrl)("main.php").includes("somewhat-human-shaped mass of grey goo nanites")) (0,external_kolmafia_namespaceObject.runChoice)(-1);
   var tasks = prioritize(all_tasks());
-  var engine = new engine_Engine(tasks, (_args$ignoretasks$spl = (_args$ignoretasks = args.ignoretasks) === null || _args$ignoretasks === void 0 ? void 0 : _args$ignoretasks.split(",")) !== null && _args$ignoretasks$spl !== void 0 ? _args$ignoretasks$spl : [], (_args$completedtasks$ = (_args$completedtasks = args.completedtasks) === null || _args$completedtasks === void 0 ? void 0 : _args$completedtasks.split(",")) !== null && _args$completedtasks$ !== void 0 ? _args$completedtasks$ : []);
+  var engine = new engine_Engine(tasks, (_args$debug$ignoretas = (_args$debug$ignoretas2 = args.debug.ignoretasks) === null || _args$debug$ignoretas2 === void 0 ? void 0 : _args$debug$ignoretas2.split(",")) !== null && _args$debug$ignoretas !== void 0 ? _args$debug$ignoretas : [], (_args$debug$completed = (_args$debug$completed2 = args.debug.completedtasks) === null || _args$debug$completed2 === void 0 ? void 0 : _args$debug$completed2.split(",")) !== null && _args$debug$completed !== void 0 ? _args$debug$completed : []);
 
   try {
-    if (args.list) {
+    if (args.debug.list) {
       listTasks(engine);
       return;
     }
 
-    engine.run(args.actions);
+    engine.run(args.debug.actions);
     var remaining_tasks = tasks.filter(task => !task.completed());
 
     if (!runComplete()) {
-      if (args.actions) {
+      if (args.debug.actions) {
         var next = engine.getNextTask();
 
         if (next) {
@@ -18232,7 +18433,7 @@ function main(command) {
 
 function runComplete() {
   return step("questL13Final") > 11 || // eslint-disable-next-line eqeqeq
-  (0,external_kolmafia_namespaceObject.myPath)() != "Grey You" || args.delaytower && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL13Final") !== -1 || args.delaywar && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL02Larva") === 999 && step("questL03Rat") === 999 && step("questL04Bat") === 999 && step("questL05Goblin") === 999 && step("questL06Friar") === 999 && step("questL07Cyrptic") === 999 && step("questL08Trapper") === 999 && step("questL09Topping") === 999 && step("questL10Garbage") === 999 && step("questL11MacGuffin") === 999;
+  (0,external_kolmafia_namespaceObject.myPath)() != "Grey You" || args.major.delaytower && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL13Final") !== -1 || args.major.delaywar && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000 && step("questL02Larva") === 999 && step("questL03Rat") === 999 && step("questL04Bat") === 999 && step("questL05Goblin") === 999 && step("questL06Friar") === 999 && step("questL07Cyrptic") === 999 && step("questL08Trapper") === 999 && step("questL09Topping") === 999 && step("questL10Garbage") === 999 && step("questL11MacGuffin") === 999;
 }
 
 function printVersionInfo() {
