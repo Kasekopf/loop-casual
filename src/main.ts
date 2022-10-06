@@ -43,6 +43,7 @@ export const args = Args.create(
         [5, "Disco Bandit"],
         [6, "Accordion Thief"],
       ],
+      setting: "",
     }),
     major: Args.group("Major Options", {
       pulls: Args.number({
@@ -104,9 +105,11 @@ export const args = Args.create(
       }),
       list: Args.flag({
         help: "Show the status of all tasks and exit.",
+        setting: "",
       }),
       settings: Args.flag({
         help: "Show the parsed value for all arguments and exit.",
+        setting: "",
       }),
     }),
   },
