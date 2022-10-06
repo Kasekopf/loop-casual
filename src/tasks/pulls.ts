@@ -50,13 +50,13 @@ export const pulls: PullSpec[] = [
     pull: $item`lucky gold ring`,
     useful: () => args.minor.lgr,
     optional: true,
-    description: "See the lgr argument.",
+    description: 'Farming currency; see the argument "lgr"',
   },
   {
     pull: $item`Asdon Martin keyfob`,
     useful: () => args.minor.asdon,
     optional: true,
-    description: "See the asdon argument.",
+    description: 'Runaways, banishes, and an insta-kill; see the argument "asdon"',
   },
   {
     name: "Ore",

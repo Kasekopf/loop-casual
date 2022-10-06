@@ -24,7 +24,6 @@ Run `loopgyou help` for the full set of script options:
 
 ```
 The arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).
-
 Commands:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
@@ -46,6 +45,10 @@ Major Options:
 Minor Options:
   fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   seasoning BOOLEAN - If true, get special seasoning from SongBoom boombox after the beginning of the run. [default: true] [setting: loopgyou_seasoning]
+  lgr - Pull a lucky gold ring. If pulled, it will be equipped during many combats. [default: false] [setting: loopgyou_lgr]
+  asdon - Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained. [default: false] [setting: loopgyou_asdon]
+  jellies - Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp). [default: false] [setting: loopgyou_jellies]
+  pvp - Break your hippy stone at the start of the run. [default: false] [setting: loopgyou_pvp]
 
 Debug Options:
   actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
@@ -53,6 +56,7 @@ Debug Options:
   ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
   completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
   list - Show the status of all tasks and exit. [setting: loopgyou_list]
+  settings - Show the parsed value for all arguments and exit. [setting: loopgyou_settings]
 ```
 
 ### Will this script work for me?
@@ -90,6 +94,7 @@ IoTMs (Optional)
 ✓ protonic accelerator pack - Wanderers
 ✓ shortest-order cook - Kill the Wall of Skin, initial exp
 ✓ SongBoom™ BoomBox - Meat and special seasonings
+✓ space planula - Stench jellies for profit; see the argument "jellies"
 ✓ SpinMaster™ lathe - QoL equipment
 ✓ Summon Clip Art - Amulet coin
 ✓ unbreakable umbrella - -combat modifier, ML
@@ -112,8 +117,10 @@ Miscellany (Optional)
 ✓ woim - Bonus initiative
 
 Expensive Pulls (Optional)
+✓ Asdon Martin keyfob - Runaways, banishes, and an insta-kill; see the argument "asdon"
 ✓ deck of lewd playing cards - Pull
 ✓ Greatest American Pants OR navel ring of navel gazing - Runaway IoTM
+✓ lucky gold ring - Farming currency; see the argument "lgr"
 ✓ mafia thumb ring - Pull
 ✓ old patched suit-pants - Pull
 ✓ plastic vampire fangs OR warbear goggles - Max HP with low path progression

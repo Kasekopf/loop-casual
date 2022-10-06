@@ -174,6 +174,11 @@ function buildIotmList(): Requirement[] {
       why: "Lobsterfrogmen, res",
       optional: true,
     },
+    {
+      thing: $familiar`Space Jellyfish`,
+      why: 'Stench jellies for profit; see the argument "jellies"',
+      optional: true,
+    },
   ];
 }
 

@@ -106,7 +106,7 @@ export const args = Args.create(
         help: "Show the status of all tasks and exit.",
       }),
       settings: Args.flag({
-        help: "Show the parsed value for all settings and arguments.",
+        help: "Show the parsed value for all arguments and exit.",
       }),
     }),
   },
