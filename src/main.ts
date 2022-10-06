@@ -276,18 +276,17 @@ function breakPrism(into_class: number): void {
 function listTasks(engine: Engine): void {
   engine.updatePlan();
   for (const task of engine.tasks) {
-    const priority = Prioritization.from(task);
-    const reason = priority.explain();
-    const why = reason === "" ? "Route" : reason;
-    debug(
-      `${task.name}: ${
-        task.completed()
-          ? "Done"
-          : engine.available(task)
-          ? `Available [${priority.score()}: ${why}]`
-          : "Not Available"
-      }`,
-      task.completed() ? "blue" : engine.available(task) ? undefined : "red"
-    );
+    if (task.completed()) {
+      debug(`${task.name}: Done`, "blue");
+    } else {
+      if (engine.available(task)) {
+        const priority = Prioritization.from(task);
+        const reason = priority.explain();
+        const why = reason === "" ? "Route" : reason;
+        debug(`${task.name}: Available [${priority.score()}: ${why}`);
+      } else {
+        debug(`${task.name}: Not Available`, "red");
+      }
+    }
   }
 }
