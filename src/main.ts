@@ -97,6 +97,9 @@ export const args = Args.create(
       list: Args.flag({
         help: "Show the status of all tasks and exit.",
       }),
+      settings: Args.flag({
+        help: "Show the parsed value for all settings and arguments.",
+      }),
     }),
   },
   "Commands"
@@ -105,6 +108,10 @@ export function main(command?: string): void {
   sinceKolmafiaRevision(26718);
 
   Args.fill(args, command);
+  if (args.debug.settings) {
+    debug(JSON.stringify(args));
+    return;
+  }
   if (args.help) {
     Args.showHelp(args);
     return;
