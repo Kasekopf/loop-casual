@@ -24,12 +24,14 @@ import { towerSkip } from "./level13";
  * duplicate: True if we should pull it even if we have it.
  * pull: The item to pull, or a list of options to pull.
  * name: If a list of options is given, what to use for the task (& sim) name.
+ * description: Extra text to include in the sim message.
  */
 type PullSpec = {
   optional?: boolean;
   useful?: () => boolean | undefined;
   duplicate?: boolean;
   post?: () => void;
+  description?: string;
 } & ({ pull: Item } | { pull: Item[] | (() => Item | undefined); name: string });
 
 export const pulls: PullSpec[] = [
@@ -43,6 +45,18 @@ export const pulls: PullSpec[] = [
     pull: () => keyStrategy.getZapChoice(),
     useful: () => keyStrategy.useful(Keys.Zap) && !towerSkip(),
     duplicate: true,
+  },
+  {
+    pull: $item`lucky gold ring`,
+    useful: () => args.minor.lgr,
+    optional: true,
+    description: "See the lgr argument.",
+  },
+  {
+    pull: $item`Asdon Martin keyfob`,
+    useful: () => args.minor.asdon,
+    optional: true,
+    description: "See the asdon argument.",
   },
   {
     name: "Ore",
@@ -176,9 +190,10 @@ class Pull {
   constructor(spec: PullSpec) {
     if ("name" in spec) {
       this.name = spec.name;
-      this.description = spec.name;
+      this.description = spec.description ?? spec.name;
     } else {
       this.name = spec.pull.name;
+      this.description = spec.description;
     }
 
     const pull = spec.pull;

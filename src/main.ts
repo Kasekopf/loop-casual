@@ -70,6 +70,14 @@ export const args = Args.create(
         help: "If true, get special seasoning from SongBoom boombox after the beginning of the run.",
         default: true,
       }),
+      lgr: Args.flag({
+        help: "Pull a lucky gold ring. If pulled, it will be equipped during many combats.",
+        default: false,
+      }),
+      asdon: Args.flag({
+        help: "Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained.",
+        default: false,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({
