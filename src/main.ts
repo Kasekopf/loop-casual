@@ -82,6 +82,10 @@ export const args = Args.create(
         help: "Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp).",
         default: false,
       }),
+      pvp: Args.flag({
+        help: "Break your hippy stone at the start of the run.",
+        default: false,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({

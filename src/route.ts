@@ -2,6 +2,9 @@ import { orderByRoute } from "grimoire-kolmafia";
 import { Task } from "./engine/task";
 
 export const routing: string[] = [
+  // Break pvp stone ASAP
+  "Misc/Break Stone",
+
   // Start with the basic leveling tasks
   "Toot/Finish",
   // Get basic gear

@@ -10,6 +10,7 @@ import {
   gnomadsAvailable,
   haveEquipped,
   hermit,
+  hippyStoneBroken,
   inHardcore,
   itemAmount,
   knollAvailable,
@@ -659,6 +660,19 @@ export const MiscQuest: Quest = {
       do: () => {
         retrieveItem($item`bugbear beanie`);
         retrieveItem($item`bugbear bungguard`);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Break Stone",
+      after: [],
+      priority: () => OverridePriority.Free,
+      completed: () => hippyStoneBroken(),
+      ready: () => args.minor.pvp,
+      do: (): void => {
+        visitUrl("peevpee.php?action=smashstone&pwd&confirm=on", true);
+        visitUrl("peevpee.php?place=fight");
       },
       limit: { tries: 1 },
       freeaction: true,
