@@ -299,10 +299,15 @@ const Orchard: Task[] = [
       warSkip(),
     do: $location`The Hatching Chamber`,
     outfit: () => {
-      if (yellowRayPossible()) return {};
+      if (yellowRayPossible())
+        return {
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        };
       else return { modifier: "item" };
     },
-    combat: new CombatStrategy().yellowRay($monster`larval filthworm`),
+    combat: new CombatStrategy()
+      .yellowRay($monster`larval filthworm`)
+      .macro(Macro.trySkill($skill`Extract Jelly`)),
     limit: { soft: 10 },
   },
   {
@@ -318,10 +323,15 @@ const Orchard: Task[] = [
       warSkip(),
     do: $location`The Feeding Chamber`,
     outfit: () => {
-      if (yellowRayPossible()) return {};
+      if (yellowRayPossible())
+        return {
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        };
       else return { modifier: "item" };
     },
-    combat: new CombatStrategy().yellowRay($monster`filthworm drone`),
+    combat: new CombatStrategy()
+      .yellowRay($monster`filthworm drone`)
+      .macro(Macro.trySkill($skill`Extract Jelly`)),
     effects: $effects`Filthworm Larva Stench`,
     limit: { soft: 10 },
   },
@@ -337,10 +347,15 @@ const Orchard: Task[] = [
     do: $location`The Royal Guard Chamber`,
     effects: $effects`Filthworm Drone Stench`,
     outfit: () => {
-      if (yellowRayPossible()) return {};
+      if (yellowRayPossible())
+        return {
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        };
       else return { modifier: "item" };
     },
-    combat: new CombatStrategy().yellowRay($monster`filthworm royal guard`),
+    combat: new CombatStrategy()
+      .yellowRay($monster`filthworm royal guard`)
+      .macro(Macro.trySkill($skill`Extract Jelly`)),
     limit: { soft: 10 },
   },
   {
@@ -352,7 +367,11 @@ const Orchard: Task[] = [
       warSkip(),
     do: $location`The Filthworm Queen's Chamber`,
     effects: $effects`Filthworm Guard Stench`,
-    combat: new CombatStrategy().kill(),
+    outfit: () =>
+      <OutfitSpec>{
+        familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+      },
+    combat: new CombatStrategy().kill().macro(Macro.trySkill($skill`Extract Jelly`)),
     limit: { tries: 2 }, // allow wanderer
     boss: true,
   },
@@ -427,10 +446,18 @@ export const WarQuest: Quest = {
         137: () => (have($item`filthy corduroys`) ? 1 : 2),
       },
       outfit: () => {
-        if (forceItemPossible()) return { modifier: "+combat" };
-        else return { modifier: "item" };
+        if (forceItemPossible())
+          return {
+            modifier: "+combat",
+            familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+          };
+        else
+          return {
+            modifier: "item",
+            // use goose for item instead of jellyfish
+          };
       },
-      combat: new CombatStrategy().forceItems(),
+      combat: new CombatStrategy().forceItems().macro(Macro.trySkill($skill`Extract Jelly`)),
     },
     {
       name: "Outfit Frat",
@@ -450,7 +477,10 @@ export const WarQuest: Quest = {
             modifier: "+combat",
           };
         else
-          return { equip: $items`filthy corduroys, filthy knitted dread sack`, modifier: "item" };
+          return {
+            equip: $items`filthy corduroys, filthy knitted dread sack`,
+            modifier: "item",
+          };
       },
       combat: new CombatStrategy().forceItems(),
     },
@@ -459,10 +489,13 @@ export const WarQuest: Quest = {
       after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
       ready: warReady,
       completed: () => step("questL12War") >= 1,
-      outfit: {
-        equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
-        modifier: "-combat",
-      },
+      outfit: () =>
+        <OutfitSpec>{
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+          modifier: "-combat",
+        },
+      combat: new CombatStrategy().macro(Macro.trySkill($skill`Extract Jelly`)),
       do: $location`Wartime Hippy Camp (Frat Disguise)`,
       choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
@@ -479,10 +512,14 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 64 || warSkip(),
-      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+      outfit: () =>
+        <OutfitSpec>{
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        },
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().kill().macro(Macro.trySkill($skill`Extract Jelly`)),
       limit: { tries: 10 },
     },
     ...Orchard,
@@ -495,9 +532,13 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 192 || warSkip(),
-      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+      outfit: () =>
+        <OutfitSpec>{
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        },
       do: $location`The Battlefield (Frat Uniform)`,
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().kill().macro(Macro.trySkill($skill`Extract Jelly`)),
       limit: { tries: 9 },
     },
     ...Nuns,
@@ -510,10 +551,14 @@ export const WarQuest: Quest = {
         { item: $item`bejeweled pledge pin` },
       ],
       completed: () => get("hippiesDefeated") >= 1000 || warSkip(),
-      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+      outfit: () =>
+        <OutfitSpec>{
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        },
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
-      combat: new CombatStrategy().kill(),
+      combat: new CombatStrategy().kill().macro(Macro.trySkill($skill`Extract Jelly`)),
       limit: { tries: 30 },
     },
     {
@@ -539,13 +584,17 @@ export const WarQuest: Quest = {
       after: ["Clear", "Fluffers"],
       completed: () => step("questL12War") === 999,
       ready: warReady,
-      outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+      outfit: () =>
+        <OutfitSpec>{
+          equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+        },
       prepare: dimesForGarters,
       do: (): void => {
         visitUrl("bigisland.php?place=camp&whichcamp=1&confirm7=1");
         visitUrl("bigisland.php?action=bossfight&pwd");
       },
-      combat: new CombatStrategy().killHard(),
+      combat: new CombatStrategy().killHard().macro(Macro.trySkill($skill`Extract Jelly`)),
       limit: { tries: 1 },
       boss: true,
     },

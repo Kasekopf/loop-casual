@@ -78,6 +78,10 @@ export const args = Args.create(
         help: "Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained.",
         default: false,
       }),
+      jellies: Args.flag({
+        help: "Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp).",
+        default: false,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({
