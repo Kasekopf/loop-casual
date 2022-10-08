@@ -230,7 +230,7 @@ const Nook: Task[] = [
     do: $location`The Defiled Nook`,
     combat: new CombatStrategy().killHard(),
     boss: true,
-    limit: { tries: 1 },
+    limit: { tries: 2 }, // Possible dog adventure
   },
 ];
 
