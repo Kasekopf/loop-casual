@@ -80,8 +80,9 @@ const absorbTasks: AbsorbTask[] = [
     prepare: () => {
       if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
       if (numericModifier("stench resistance") < 1)
-        throw `Unable to ensure cold res for The Icy Peak`;
+        throw `Unable to ensure stench res for Guano Junction`;
     },
+    outfit: { modifier: "stench res" },
     after: ["Bat/Get Sonar 3"],
     choices: { 1427: 2 },
   },
@@ -224,7 +225,7 @@ const absorbTasks: AbsorbTask[] = [
       if (numericModifier("cold resistance") < 5)
         throw `Unable to ensure cold res for The Icy Peak`;
     },
-    outfit: { modifier: "10 cold res 5min, +combat", equip: $items`miniature crystal ball` },
+    outfit: { modifier: "10 cold res, +combat", equip: $items`miniature crystal ball` },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
   // Level 9
