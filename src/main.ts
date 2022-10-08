@@ -87,6 +87,10 @@ export const args = Args.create(
         help: "Break your hippy stone at the start of the run.",
         default: false,
       }),
+      wand: Args.flag({
+        help: "Always get the zap wand.",
+        default: false,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({

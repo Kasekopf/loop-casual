@@ -725,7 +725,7 @@ export const WandQuest: Quest = {
         have($item`hexagonal wand`) ||
         have($item`marble wand`) ||
         have($item`pine wand`) ||
-        keyStrategy.useful(Keys.Zap) === false,
+        (keyStrategy.useful(Keys.Zap) === false && !args.minor.wand),
       prepare: () => {
         if (have($item`plus sign`)) use($item`plus sign`);
       },
