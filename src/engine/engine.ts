@@ -43,6 +43,7 @@ import {
   $items,
   $locations,
   $monster,
+  $path,
   $skill,
   $stat,
   get,
@@ -144,7 +145,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     this.updatePlan();
 
     // eslint-disable-next-line eqeqeq
-    if (myPath() != "Grey You") return undefined; // Prism broken
+    if (myPath() !== $path`Grey You`) return undefined; // Prism broken
 
     // Teleportitis overrides all
     if (have($effect`Teleportitis`)) {
@@ -594,7 +595,7 @@ const consumables_blacklist = new Set<Item>(
 );
 function autosellJunk(): void {
   // eslint-disable-next-line eqeqeq
-  if (myPath() != "Grey You") return; // final safety
+  if (myPath() !== $path`Grey You`) return; // final safety
   if (myMeat() >= 10000) return;
   if (myTurncount() >= 1000) return; // stop after breaking ronin
   if (have($item`pork elf goodies sack`)) use($item`pork elf goodies sack`);
@@ -630,7 +631,7 @@ function autosellJunk(): void {
 
 function absorbConsumables(): void {
   // eslint-disable-next-line eqeqeq
-  if (myPath() != "Grey You") return; // final safety
+  if (myPath() !== $path`Grey You`) return; // final safety
   if (myTurncount() >= 1000) return; // stop after breaking ronin
 
   let absorbed_list = get("_loop_gyou_absorbed_consumables", "");
