@@ -348,10 +348,17 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         outfit.equip($item`miniature crystal ball`);
         // If we are going to reprocess, it is useful to charge the goose
         if (
-          task.do instanceof Location &&
-          absorb_state.isReprocessTarget(
-            globalStateCache.orb().prediction(task.do) ?? $monster`none`
-          )
+          (task.do instanceof Location &&
+            absorb_state.isReprocessTarget(
+              globalStateCache.orb().prediction(task.do) ?? $monster`none`
+            )) ||
+          [
+            "Summon/Little Man In The Canoe",
+            "Summon/One-Eyed Willie",
+            "Summon/Revolving Bugbear",
+            "Summon/Cloud Of Disembodied Whiskers",
+            "Summon/Vicious Gnauga",
+          ].includes(task.name)
         ) {
           force_charge_goose = true;
         }
