@@ -61,6 +61,10 @@ export const args = Args.create(
         help: "Delay the war until after ronin ends, then finish with stuffing fluffers.",
         default: false,
       }),
+      chargegoose: Args.boolean({
+        help: "If true, use extra familiar turns to charge your Grey Goose at the end of the run (for aftercore leveling).",
+        default: true,
+      }),
     }),
     minor: Args.group("Minor Options", {
       fax: Args.boolean({

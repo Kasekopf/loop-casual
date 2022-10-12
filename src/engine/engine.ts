@@ -82,7 +82,7 @@ import { args } from "../main";
 import { flyersDone } from "../tasks/level12";
 import { globalStateCache } from "./state";
 import { removeTeleportitis, teleportitisTask } from "../tasks/misc";
-import { summonStrategy } from "../tasks/summons";
+import { extraReprocessTargets, summonStrategy } from "../tasks/summons";
 import { pullStrategy } from "../tasks/pulls";
 import { keyStrategy } from "../tasks/keys";
 import { applyEffects } from "./moods";
@@ -398,6 +398,21 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
+    if (args.major.chargegoose) {
+      // If all the remaining monsters are summonable, then either we are about
+      // to summon one (and so we want to charge the goose during that fight)
+      // or all remaining summons are inaccesible (and so it is time to
+      // overcharge the goose)
+      const summonedMonsters = new Set<Monster>(
+        extraReprocessTargets.filter((t) => t.needed()).map((t) => t.target)
+      );
+      if (
+        familiarWeight($familiar`Grey Goose`) < 20 &&
+        absorb_state.remainingReprocess().find((m) => !summonedMonsters.has(m)) === undefined
+      ) {
+        force_charge_goose = true;
+      }
+    }
     equipCharging(outfit, force_charge_goose);
 
     if (wanderers.length === 0 && this.hasDelay(task))

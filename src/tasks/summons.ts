@@ -49,7 +49,7 @@ type ExtraReprocessTarget = {
   target: Monster;
   needed: () => boolean;
 };
-const extraReprocessTargets: ExtraReprocessTarget[] = [
+export const extraReprocessTargets: ExtraReprocessTarget[] = [
   {
     after: ["Absorb/The Hole in the Sky"],
     target: $monster`One-Eyed Willie`,
