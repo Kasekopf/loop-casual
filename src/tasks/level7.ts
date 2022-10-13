@@ -1,4 +1,12 @@
-import { changeMcd, cliExecute, currentMcd, Item, myBasestat, visitUrl } from "kolmafia";
+import {
+  changeMcd,
+  cliExecute,
+  currentMcd,
+  Item,
+  myBasestat,
+  myTurncount,
+  visitUrl,
+} from "kolmafia";
 import {
   $item,
   $items,
@@ -211,6 +219,7 @@ const Nook: Task[] = [
     orbtargets: () => {
       if (globalStateCache.absorb().isReprocessTarget($monster`party skelteon`))
         return $monsters`party skelteon`;
+      if (AutumnAton.have() && myTurncount() < 400) return []; // ignore orb early on
       else return $monsters`spiny skelelton, toothy sklelton`;
     },
     combat: new CombatStrategy()
