@@ -41,7 +41,7 @@ Major Options:
   tune TEXT - Use your hewn moon-rune spoon to retune to this sign when optimal. [setting: loopgyou_tune]
   delaytower - Delay the NS tower until after ronin ends. [default: false] [setting: loopgyou_delaytower]
   delaywar - Delay the war until after ronin ends, then finish with stuffing fluffers. [default: false] [setting: loopgyou_delaywar]
-  chargegoose BOOLEAN - If true, use extra familiar turns to charge your Grey Goose at the end of the run (for aftercore leveling). [default: true] [setting: loopgyou_chargegoose]
+  chargegoose NUMBER - If true, use extra familiar turns to charge your Grey Goose to this weight at the end of the run (for aftercore leveling). If you do not have enough extra familiar turns, the goose may be lower level. [default: 20] [setting: loopgyou_chargegoose]
 
 Minor Options:
   fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]

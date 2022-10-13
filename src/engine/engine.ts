@@ -404,7 +404,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    if (args.major.chargegoose) {
+    if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`)) {
       // If all the remaining monsters are summonable, then either we are about
       // to summon one (and so we want to charge the goose during that fight)
       // or all remaining summons are inaccesible (and so it is time to
@@ -412,10 +412,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       const summonedMonsters = new Set<Monster>(
         extraReprocessTargets.filter((t) => t.needed()).map((t) => t.target)
       );
-      if (
-        familiarWeight($familiar`Grey Goose`) < 20 &&
-        absorb_state.remainingReprocess().find((m) => !summonedMonsters.has(m)) === undefined
-      ) {
+      if (absorb_state.remainingReprocess().find((m) => !summonedMonsters.has(m)) === undefined) {
         force_charge_goose = true;
       }
     }
