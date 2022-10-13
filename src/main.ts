@@ -124,7 +124,7 @@ export const args = Args.create(
   "Commands"
 );
 export function main(command?: string): void {
-  sinceKolmafiaRevision(26821);
+  sinceKolmafiaRevision(26834);
 
   Args.fill(args, command);
   if (args.debug.settings) {

@@ -42,6 +42,7 @@ import {
   $skill,
   $stat,
   AsdonMartin,
+  AutumnAton,
   ensureEffect,
   get,
   getSaleValue,
@@ -676,6 +677,48 @@ export const MiscQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
+    },
+    {
+      name: "Autumnaton",
+      after: [],
+      priority: () => OverridePriority.Free,
+      ready: () => AutumnAton.available(),
+      completed: () => !AutumnAton.have(),
+      do: () => {
+        const upgrades = AutumnAton.currentUpgrades();
+        const zones = [];
+        if (!upgrades.includes("leftarm1")) {
+          // Low indoor locations
+          zones.push($location`The Haunted Pantry`);
+        }
+        if (!upgrades.includes("rightarm1")) {
+          // Mid outdoor locations
+          zones.push($location`The Smut Orc Logging Camp`, $location`The Goatlet`);
+        }
+
+        // Valuble quest locations
+        if (
+          itemAmount($item`barrel of gunpowder`) < 5 &&
+          get("sidequestLighthouseCompleted") === "none"
+        )
+          zones.push($location`Sonofa Beach`);
+
+        // Mid underground locations for autumn dollar
+        zones.push($location`The Defiled Nook`, $location`Cobb's Knob Menagerie, Level 3`);
+
+        if (!upgrades.includes("leftleg1")) {
+          // Low underground locations
+          zones.push($location`Cobb's Knob Harem`, $location`Noob Cave`);
+        }
+        if (!upgrades.includes("rightleg1")) {
+          // Mid indoor locations
+          zones.push($location`The Haunted Kitchen`);
+        }
+
+        zones.push($location`The Sleazy Back Alley`); // always send it somewhere
+        AutumnAton.sendTo(zones);
+      },
+      limit: { tries: 15, unready: true },
     },
   ],
 };
