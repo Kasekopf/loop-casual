@@ -25,6 +25,7 @@ import {
   mySign,
   myTurncount,
   numericModifier,
+  print,
   retrieveItem,
   runChoice,
   use,
@@ -687,6 +688,15 @@ export const MiscQuest: Quest = {
       do: () => {
         const upgrades = AutumnAton.currentUpgrades();
         const zones = [];
+        if (!upgrades.includes("leftleg1")) {
+          // Low underground locations
+          zones.push($location`Cobb's Knob Harem`, $location`Noob Cave`);
+        }
+        if (!upgrades.includes("rightleg1")) {
+          // Mid indoor locations
+          zones.push($location`The Haunted Kitchen`);
+        }
+
         if (!upgrades.includes("leftarm1")) {
           // Low indoor locations
           zones.push($location`The Haunted Pantry`);
@@ -706,19 +716,12 @@ export const MiscQuest: Quest = {
         // Mid underground locations for autumn dollar
         zones.push($location`The Defiled Nook`, $location`Cobb's Knob Menagerie, Level 3`);
 
-        if (!upgrades.includes("leftleg1")) {
-          // Low underground locations
-          zones.push($location`Cobb's Knob Harem`, $location`Noob Cave`);
-        }
-        if (!upgrades.includes("rightleg1")) {
-          // Mid indoor locations
-          zones.push($location`The Haunted Kitchen`);
-        }
-
         zones.push($location`The Sleazy Back Alley`); // always send it somewhere
-        AutumnAton.sendTo(zones);
+        const result = AutumnAton.sendTo(zones);
+        if (result) print(`Autumnaton sent to ${result}`);
       },
       limit: { tries: 15, unready: true },
+      freeaction: true,
     },
   ],
 };
