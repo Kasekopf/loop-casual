@@ -686,6 +686,9 @@ export const MiscQuest: Quest = {
       ready: () => AutumnAton.available(),
       completed: () => !AutumnAton.have(),
       do: () => {
+        // Refresh upgrades
+        AutumnAton.upgrade();
+
         const upgrades = AutumnAton.currentUpgrades();
         const zones = [];
         if (!upgrades.includes("leftleg1")) {

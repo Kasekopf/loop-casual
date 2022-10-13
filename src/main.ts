@@ -299,7 +299,7 @@ function listTasks(engine: Engine): void {
         const priority = Prioritization.from(task);
         const reason = priority.explain();
         const why = reason === "" ? "Route" : reason;
-        debug(`${task.name}: Available [${priority.score()}: ${why}`);
+        debug(`${task.name}: Available [${priority.score()}: ${why}]`);
       } else {
         debug(`${task.name}: Not Available`, "red");
       }
