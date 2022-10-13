@@ -22,6 +22,7 @@ import {
   $monsters,
   $skill,
   $stat,
+  AutumnAton,
   ensureEffect,
   get,
   have,
@@ -297,6 +298,13 @@ export const ChasmQuest: Quest = {
     {
       name: "Bridge",
       after: ["Start", "Macguffin/Forest"], // Wait for black paint
+      priority: (): OverridePriority => {
+        if (AutumnAton.have()) {
+          if ($location`The Smut Orc Logging Camp`.turnsSpent === 0)
+            return OverridePriority.GoodAutumnaton;
+        }
+        return OverridePriority.None;
+      },
       ready: () =>
         ((have($item`frozen jeans`) ||
           have($item`industrial fire extinguisher`) ||

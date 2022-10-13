@@ -22,6 +22,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  AutumnAton,
   ensureEffect,
   get,
   have,
@@ -96,9 +97,17 @@ const Lighthouse: Task[] = [
       !have($item`backup camera`) ||
       !have($item`Fourth of May Cosplay Saber`) ||
       warSkip(),
+    priority: (): OverridePriority => {
+      if (AutumnAton.have()) {
+        if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+        else return OverridePriority.BadAutumnaton;
+      }
+      return OverridePriority.None;
+    },
     do: $location`Sonofa Beach`,
     outfit: (): OutfitSpec => {
-      if (!have($item`Fourth of May Cosplay Saber`)) return { modifier: "+combat" };
+      if (AutumnAton.have() && !have($item`Fourth of May Cosplay Saber`))
+        return { modifier: "+combat" };
 
       // Look for the first lobsterfrogman
       if (
@@ -119,6 +128,7 @@ const Lighthouse: Task[] = [
       .macro(() => {
         if (
           equippedAmount($item`Fourth of May Cosplay Saber`) > 0 &&
+          !AutumnAton.have() &&
           get("_saberForceUses") < 5 &&
           (get("_saberForceMonster") !== $monster`lobsterfrogman` ||
             get("_saberForceMonsterCount") === 0 ||
@@ -135,6 +145,13 @@ const Lighthouse: Task[] = [
   {
     name: "Lighthouse Basic",
     after: ["Enrage", "Lighthouse"],
+    priority: (): OverridePriority => {
+      if (AutumnAton.have()) {
+        if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+        else return OverridePriority.BadAutumnaton;
+      }
+      return OverridePriority.None;
+    },
     completed: () =>
       itemAmount($item`barrel of gunpowder`) >= 5 ||
       get("sidequestLighthouseCompleted") !== "none" ||

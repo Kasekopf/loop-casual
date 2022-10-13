@@ -7,6 +7,7 @@ import {
   $monsters,
   $skill,
   $stat,
+  AutumnAton,
   get,
   have,
   Macro,
@@ -189,6 +190,14 @@ const Nook: Task[] = [
     name: "Nook",
     after: ["Start"],
     prepare: tuneCape,
+    priority: (): OverridePriority => {
+      if (AutumnAton.have()) {
+        if ($location`The Defiled Nook`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+        if (!globalStateCache.absorb().isReprocessTarget($monster`party skelteon`))
+          return OverridePriority.BadAutumnaton;
+      }
+      return OverridePriority.None;
+    },
     ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNookEvilness") <= 25,
     do: $location`The Defiled Nook`,
