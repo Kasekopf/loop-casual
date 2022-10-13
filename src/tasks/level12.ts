@@ -73,7 +73,8 @@ const Flyers: Task[] = [
         set("flyeredML", 9900);
       } else if (get("_loopgyou_flyeredML_buffer", 0) > 0) {
         debug(
-          `Mafia tracking was incorrect for rock band flyers; quest completed at ${get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)
+          `Mafia tracking was incorrect for rock band flyers; quest completed at ${
+            get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)
           }`
         );
       }

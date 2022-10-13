@@ -693,11 +693,15 @@ export const MiscQuest: Quest = {
         const zones = [];
         if (!upgrades.includes("leftleg1")) {
           // Low underground locations
-          zones.push($location`Cobb's Knob Harem`, $location`Noob Cave`);
+          zones.push($location`Guano Junction`, $location`Cobb's Knob Harem`, $location`Noob Cave`);
         }
         if (!upgrades.includes("rightleg1")) {
           // Mid indoor locations
-          zones.push($location`The Haunted Kitchen`);
+          zones.push(
+            $location`The Laugh Floor`,
+            $location`The Haunted Library`,
+            $location`The Haunted Kitchen`
+          );
         }
 
         if (!upgrades.includes("leftarm1")) {
