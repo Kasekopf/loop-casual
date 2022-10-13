@@ -13,7 +13,7 @@ import {
   Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { OutfitSpec, step } from "grimoire-kolmafia";
+import { Guards, OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
@@ -216,7 +216,15 @@ const Nook: Task[] = [
     combat: new CombatStrategy()
       .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
-    limit: { soft: 30 },
+    limit: {
+      soft: 30,
+      guard: Guards.after(
+        () =>
+          !AutumnAton.have() ||
+          $location`The Defiled Nook`.turnsSpent > 1 ||
+          AutumnAton.availableLocations().includes($location`The Defiled Nook`)
+      ),
+    },
   },
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)

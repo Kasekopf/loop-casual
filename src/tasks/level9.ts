@@ -29,7 +29,7 @@ import {
   Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { step } from "grimoire-kolmafia";
+import { Guards, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
@@ -350,7 +350,15 @@ export const ChasmQuest: Quest = {
       combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
       choices: { 1345: 3 },
       freeaction: () => get("smutOrcNoncombatProgress") >= 15,
-      limit: { soft: 45 },
+      limit: {
+        soft: 45,
+        guard: Guards.after(
+          () =>
+            !AutumnAton.have() ||
+            $location`The Smut Orc Logging Camp`.turnsSpent > 1 ||
+            AutumnAton.availableLocations().includes($location`The Smut Orc Logging Camp`)
+        ),
+      },
     },
     {
       name: "Start Peaks",

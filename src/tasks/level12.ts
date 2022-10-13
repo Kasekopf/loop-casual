@@ -30,7 +30,7 @@ import {
   set,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { OutfitSpec, step } from "grimoire-kolmafia";
+import { Guards, OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
@@ -140,7 +140,13 @@ const Lighthouse: Task[] = [
       })
       .kill($monster`lobsterfrogman`),
     choices: { 1387: 2 },
-    limit: { tries: 20 },
+    limit: {
+      tries: 20,
+      guard: Guards.after(
+        () =>
+          !AutumnAton.have() || AutumnAton.availableLocations().includes($location`Sonofa Beach`)
+      ),
+    },
   },
   {
     name: "Lighthouse Basic",
