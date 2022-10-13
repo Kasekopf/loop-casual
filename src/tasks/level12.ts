@@ -142,10 +142,7 @@ const Lighthouse: Task[] = [
     choices: { 1387: 2 },
     limit: {
       tries: 20,
-      guard: Guards.after(
-        () =>
-          !AutumnAton.have() || AutumnAton.availableLocations().includes($location`Sonofa Beach`)
-      ),
+      guard: Guards.after(() => !AutumnAton.have() || $location`Sonofa Beach`.turnsSpent > 0),
     },
   },
   {

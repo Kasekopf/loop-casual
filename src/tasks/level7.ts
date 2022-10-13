@@ -218,12 +218,7 @@ const Nook: Task[] = [
       .banish($monster`party skelteon`),
     limit: {
       soft: 30,
-      guard: Guards.after(
-        () =>
-          !AutumnAton.have() ||
-          $location`The Defiled Nook`.turnsSpent > 1 ||
-          AutumnAton.availableLocations().includes($location`The Defiled Nook`)
-      ),
+      guard: Guards.after(() => !AutumnAton.have() || $location`The Defiled Nook`.turnsSpent > 0),
     },
   },
   {

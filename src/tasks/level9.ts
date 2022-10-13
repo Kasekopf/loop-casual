@@ -353,10 +353,7 @@ export const ChasmQuest: Quest = {
       limit: {
         soft: 45,
         guard: Guards.after(
-          () =>
-            !AutumnAton.have() ||
-            $location`The Smut Orc Logging Camp`.turnsSpent > 1 ||
-            AutumnAton.availableLocations().includes($location`The Smut Orc Logging Camp`)
+          () => !AutumnAton.have() || $location`The Smut Orc Logging Camp`.turnsSpent > 0
         ),
       },
     },
