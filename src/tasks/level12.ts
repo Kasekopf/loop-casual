@@ -106,7 +106,7 @@ const Lighthouse: Task[] = [
     },
     do: $location`Sonofa Beach`,
     outfit: (): OutfitSpec => {
-      if (AutumnAton.have() && !have($item`Fourth of May Cosplay Saber`))
+      if (AutumnAton.have() || !have($item`Fourth of May Cosplay Saber`))
         return { modifier: "+combat" };
 
       // Look for the first lobsterfrogman
