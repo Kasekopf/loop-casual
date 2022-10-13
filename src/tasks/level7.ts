@@ -221,7 +221,7 @@ const Nook: Task[] = [
       cliExecute("use * evil eye");
     },
     freeaction: true,
-    limit: { tries: 9 },
+    limit: { tries: 9, unready: true },
   },
   {
     name: "Nook Boss",

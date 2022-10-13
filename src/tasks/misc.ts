@@ -349,7 +349,7 @@ export const MiscQuest: Quest = {
           throw `Failed to kill ghost from protonic accelerator pack`;
         }
       },
-      limit: { tries: 20 },
+      limit: { tries: 20, unready: true },
     },
     {
       name: "Acquire Birch Battery",
@@ -520,7 +520,7 @@ export const MiscQuest: Quest = {
         !args.minor.seasoning,
       do: () => cliExecute("boombox food"),
       freeaction: true,
-      limit: { tries: 2 },
+      limit: { tries: 2, unready: true },
     },
     {
       name: "Gnome Shirt",
