@@ -88,7 +88,9 @@ export const routing: string[] = [
   // Finish remaining quests
   "McLargeHuge/Finish",
   "Manor/Boss",
-  "Crypt/Finish",
+  "Crypt/Niche",
+  "Crypt/Niche",
+  "Crypt/Alcove",
   "Giant/Finish",
   "Tavern/Finish",
   "Macguffin/Finish",
@@ -98,8 +100,8 @@ export const routing: string[] = [
   "Reprocess/Twin Peak", // Work on absorbing Twin Peak during war
   "War/Boss Hippie",
 
-  // Finish up with last delay
-  "Bat/Finish",
+  "Crypt/Finish", // Finish nook late for autumnaton
+  "Bat/Finish", // Finish up with last delay
   "Tower/Naughty Sorceress",
   "Absorb/South of the Border", // If we are doing this, do it early to give room for orb
   "Absorb/All",

@@ -73,8 +73,7 @@ const Flyers: Task[] = [
         set("flyeredML", 9900);
       } else if (get("_loopgyou_flyeredML_buffer", 0) > 0) {
         debug(
-          `Mafia tracking was incorrect for rock band flyers; quest completed at ${
-            get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)
+          `Mafia tracking was incorrect for rock band flyers; quest completed at ${get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)
           }`
         );
       }
@@ -100,7 +99,7 @@ const Lighthouse: Task[] = [
     priority: (): OverridePriority => {
       if (AutumnAton.have()) {
         if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
-        else return OverridePriority.BadAutumnaton;
+        else if (myTurncount() < 400) return OverridePriority.BadAutumnaton;
       }
       return OverridePriority.None;
     },
