@@ -128,7 +128,7 @@ export const pulls: PullSpec[] = [
     },
     name: "Max HP with low path progression",
   },
-  { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`) },
+  { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`), optional: true },
   { pull: $item`portable cassette player` },
   { pull: $item`antique machete` },
   { pull: $item`book of matches` },
@@ -201,8 +201,8 @@ class Pull {
       pull instanceof Item
         ? () => [pull]
         : typeof pull === "function"
-        ? () => [pull()]
-        : () => pull;
+          ? () => [pull()]
+          : () => pull;
     this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);

@@ -224,7 +224,7 @@ const summonTargets: SummonTarget[] = [
     target: $monster`white lion`,
     after: ["Hidden City/Bowling Skills"],
     ready: () => have($item`white page`),
-    completed: () => have($skill`Piezoelectric Honk`) || inHardcore(),
+    completed: () => have($skill`Piezoelectric Honk`) || inHardcore() || !have($item`white page`),
     choices: { 940: 2 },
     outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     combat: new CombatStrategy().killItem(),
