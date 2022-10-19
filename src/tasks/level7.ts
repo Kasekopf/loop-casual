@@ -67,7 +67,7 @@ const Alcove: Task[] = [
       if (
         globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
         globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-          $monster`grave rober zmobie`
+        $monster`grave rober zmobie`
       ) {
         // Try not to fight modern zmobie
         return {
@@ -225,7 +225,6 @@ const Nook: Task[] = [
       .banish($monster`party skelteon`),
     limit: {
       soft: 30,
-      guard: Guards.after(() => !AutumnAton.have() || $location`The Defiled Nook`.turnsSpent > 0),
     },
   },
   {
