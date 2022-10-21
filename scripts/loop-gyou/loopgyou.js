@@ -11756,7 +11756,7 @@ var Nuns = [{
   // Do not equip cmg or carn plant
   combat: new combat_CombatStrategy().macro(new Macro().trySkill($skill(level12_templateObject114 || (level12_templateObject114 = level12_taggedTemplateLiteral(["Bowl Straight Up"])))).trySkill($skill(level12_templateObject115 || (level12_templateObject115 = level12_taggedTemplateLiteral(["Sing Along"]))))).kill(),
   limit: {
-    soft: 25
+    soft: 30
   },
   boss: true
 }];
@@ -17294,7 +17294,7 @@ var ManorBasement = [{
   },
   combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject51 || (level11_manor_templateObject51 = level11_manor_taggedTemplateLiteral(["possessed wine rack"])))).banish($monsters(level11_manor_templateObject52 || (level11_manor_templateObject52 = level11_manor_taggedTemplateLiteral(["mad wino, skeletal sommelier"])))),
   limit: {
-    soft: 10
+    soft: 15
   }
 }, {
   name: "Laundry Room",
@@ -17309,7 +17309,7 @@ var ManorBasement = [{
   },
   combat: new combat_CombatStrategy().killItem($monster(level11_manor_templateObject57 || (level11_manor_templateObject57 = level11_manor_taggedTemplateLiteral(["cabinet of Dr. Limpieza"])))).banish($monsters(level11_manor_templateObject58 || (level11_manor_templateObject58 = level11_manor_taggedTemplateLiteral(["plaid ghost, possessed laundry press"])))),
   limit: {
-    soft: 10
+    soft: 15
   }
 }, {
   name: "Fulminate",
@@ -18742,7 +18742,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "5da6d66";
+var lastCommitHash = "5ab73db";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
