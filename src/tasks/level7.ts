@@ -21,7 +21,7 @@ import {
   Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { Guards, OutfitSpec, step } from "grimoire-kolmafia";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
@@ -67,7 +67,7 @@ const Alcove: Task[] = [
       if (
         globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
         globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-        $monster`grave rober zmobie`
+          $monster`grave rober zmobie`
       ) {
         // Try not to fight modern zmobie
         return {
