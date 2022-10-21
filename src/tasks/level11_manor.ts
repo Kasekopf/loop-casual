@@ -257,7 +257,7 @@ const ManorBasement: Task[] = [
     combat: new CombatStrategy()
       .killItem($monster`possessed wine rack`)
       .banish($monsters`mad wino, skeletal sommelier`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Laundry Room",
@@ -275,7 +275,7 @@ const ManorBasement: Task[] = [
     combat: new CombatStrategy()
       .killItem($monster`cabinet of Dr. Limpieza`)
       .banish($monsters`plaid ghost, possessed laundry press`),
-    limit: { soft: 10 },
+    limit: { soft: 15 },
   },
   {
     name: "Fulminate",

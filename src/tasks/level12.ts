@@ -437,7 +437,7 @@ const Nuns: Task[] = [
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Bowl Straight Up`).trySkill($skill`Sing Along`))
       .kill(),
-    limit: { soft: 25 },
+    limit: { soft: 30 },
     boss: true,
   },
 ];
