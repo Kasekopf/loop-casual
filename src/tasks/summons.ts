@@ -118,8 +118,8 @@ const summonTargets: SummonTarget[] = [
       if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
         cliExecute("retrocape heck hold");
 
-      if (initiativeModifier() < 50) cliExecute("pool stylish");
-      if (initiativeModifier() < 50) abort("Not ready for pygmy locket");
+      if (initiativeModifier() < 50 && have($item`Clan VIP Lounge key`)) cliExecute("pool stylish");
+      if (initiativeModifier() < 50) abort("Not enough init for pygmy locket");
     },
     combat: new CombatStrategy().macro(
       new Macro()
@@ -252,7 +252,8 @@ const summonSources: SummonSource[] = [
   },
   {
     name: "Fax",
-    available: () => (args.minor.fax && !get("_photocopyUsed") ? 1 : 0),
+    available: () =>
+      args.minor.fax && !get("_photocopyUsed") && have($item`Clan VIP Lounge key`) ? 1 : 0,
     canFight: (mon: Monster) => canFaxbot(mon),
     summon: (mon: Monster) => {
       chatPrivate("cheesefax", mon.name);
