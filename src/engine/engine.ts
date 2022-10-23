@@ -412,6 +412,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       const summonedMonsters = new Set<Monster>(
         extraReprocessTargets.filter((t) => t.needed()).map((t) => t.target)
       );
+      if (!have($item`miniature crystal ball`)) summonedMonsters.add($monster`irate mariachi`); // will be skipped
       if (absorb_state.remainingReprocess().find((m) => !summonedMonsters.has(m)) === undefined) {
         force_charge_goose = true;
       }
