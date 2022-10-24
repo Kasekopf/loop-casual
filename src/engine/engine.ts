@@ -31,6 +31,7 @@ import {
   Slot,
   toInt,
   totalTurnsPlayed,
+  toUrl,
   use,
   visitUrl,
 } from "kolmafia";
@@ -41,6 +42,7 @@ import {
   $familiar,
   $item,
   $items,
+  $location,
   $locations,
   $monster,
   $path,
@@ -338,6 +340,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         );
       }
 
+      // Don't equip the orb if we have a bad target
+      if (task.active_priority?.has(OverridePriority.BadOrb)) {
+        outfit.equip({ avoid: $items`miniature crystal ball` });
+      }
+
       // Equip an orb if we have a good target.
       // (If we have banished all the bad targets, there is no need to force an orb)
       if (
@@ -567,6 +574,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
   post(task: ActiveTask): void {
     super.post(task);
+
+    if (task.active_priority?.has(OverridePriority.BadOrb)) resetBadOrb();
     if (get("_latteBanishUsed") && shouldFinishLatte()) refillLatte();
     absorbConsumables();
     autosellJunk();
@@ -575,6 +584,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
     globalStateCache.invalidate();
   }
+
   initPropertiesManager(manager: PropertiesManager): void {
     super.initPropertiesManager(manager);
     manager.set({
@@ -713,6 +723,19 @@ function getExtros(): void {
       return;
     }
   }
+}
+
+function resetBadOrb(): boolean {
+  if (!have($item`bitchin' meatcar`) && !have($item`Desert Bus pass`)) return false;
+
+  // If we just adventured without the orb, visiting the shore will reset the prediction
+  const store = visitUrl(toUrl($location`The Shore, Inc. Travel Agency`));
+  if (!store.includes("Check out the gift shop")) {
+    print("Unable to stare longingly at toast");
+    return false;
+  }
+  runChoice(4);
+  return true;
 }
 
 export function customRestoreMp(target: number) {
