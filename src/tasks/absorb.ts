@@ -47,6 +47,7 @@ import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
 import { Quest, Task } from "../engine/task";
 import { Limit, step } from "grimoire-kolmafia";
+import { args } from "../main";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -701,13 +702,16 @@ const usefulSkills = new Map<Skill, Monster>([
   [$skill`Fluid Dynamics Simulation`, $monster`Carnivorous Moxie Weed`],
   [$skill`Ectogenesis`, $monster`Claybender Sorcerer Ghost`],
   [$skill`Microburner`, $monster`Cobb's Knob oven`],
+  [$skill`Telekinetic Murder`, $monster`crêep`],
   [$skill`Localized Vacuum`, $monster`cubist bull`],
   [$skill`Infernal Automata`, $monster`demonic icebox`],
   [$skill`Secondary Fermentation`, $monster`drunk goat`],
   [$skill`Double Nanovision`, $monster`drunk pygmy`],
   [$skill`Microweave`, $monster`eXtreme cross-country hippy`],
   [$skill`AUTOEXEC.BAT`, $monster`Flock of Stab-bats`],
+  [$skill`Nanoshock`, $monster`Jacob's adder`],
   [$skill`Propagation Drive`, $monster`junksprite bender`],
+  [$skill`Advanced Exo-Alloy`, $monster`Knob Goblin Elite Guard`],
   [$skill`Camp Subroutines`, $monster`Knob Goblin Harem Girl`],
   [$skill`Cryocurrency`, $monster`Knob Goblin MBA`],
   [$skill`Curses Library`, $monster`lihc`],
@@ -723,11 +727,15 @@ const usefulSkills = new Map<Skill, Monster>([
   [$skill`Infinite Loop`, $monster`pygmy witch lawyer`],
   [$skill`Ire Proof`, $monster`raging bull`],
   [$skill`Nanofur`, $monster`ratbat`],
+  [$skill`Hardslab`, $monster`remaindered skeleton`],
+  [$skill`Snakesmack`, $monster`sewer snake with a sewer snake in it`],
   [$skill`Procgen Ribaldry`, $monster`smut orc screwer`],
   [$skill`Snow-Cooling System`, $monster`Snow Queen`],
   [$skill`Phase Shift`, $monster`Spectral Jellyfish`],
+  [$skill`Audioclasm`, $monster`spooky music box`],
   [$skill`Autovampirism Routines`, $monster`spooky vampire`],
   [$skill`Steam Mycelia`, $monster`steam elemental`],
+  [$skill`Nantlers`, $monster`stuffed moose head`],
   [$skill`Gravitational Compression`, $monster`suckubus`],
   [$skill`Grey Noise`, $monster`Boss Bat`],
   [$skill`Anti-Sleaze Recursion`, $monster`werecougar`],
@@ -792,8 +800,18 @@ export class AbsorbState {
       .map((id) => Monster.get(id))
       .map((monster) => this.reprocessed.add(monster));
 
+    // Ignore unneeded basic combat skills
+    const ignored_skills = new Set<Skill>([
+      $skill`Telekinetic Murder`,
+      $skill`Nanoshock`,
+      $skill`Advanced Exo-Alloy`,
+      $skill`Hardslab`,
+      $skill`Snakesmack`,
+      $skill`Audioclasm`,
+      $skill`Nantlers`,
+    ]);
+
     // Ignore the elemental skills that are not useful for the tower
-    const ignored_skills = new Set<Skill>();
     const needed_elem_skills: { [elem: string]: Skill[] } = {
       hot: $skills`Microburner, Infernal Automata, Steam Mycelia`,
       cold: $skills`Cryocurrency, Cooling Tubules, Snow-Cooling System`,
@@ -842,7 +860,19 @@ export class AbsorbState {
     // Sweatpants are enough MP regen
     if (have($item`designer sweatpants`)) ignored_skills.add($skill`Hivemindedness`);
 
+    // Do not ignore skills that were given in the args
+    const forced_skills = new Set<Skill>();
+    for (const skill_name of args.minor.skills.split(",")) {
+      const skill = Skill.get(skill_name.trim());
+      if (!skill || skill === Skill.none || !usefulSkills.has(skill)) {
+        throw `Unable to determine how to get skill ${skill_name}`;
+      }
+      forced_skills.add(skill);
+    }
+
     for (const skill of ignored_skills) {
+      if (forced_skills.has(skill)) continue;
+
       const monster = usefulSkills.get(skill);
       this.ignoredSkills.add(skill);
       if (monster === undefined) continue;

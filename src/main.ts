@@ -95,6 +95,10 @@ export const args = Args.create(
         help: "Always get the zap wand.",
         default: false,
       }),
+      skills: Args.string({
+        help: "A comma-separated list of skills to get, in addition to skills that will directly help the run.",
+        default: "Financial Spreadsheets",
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({
