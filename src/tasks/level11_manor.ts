@@ -14,9 +14,11 @@ import {
   $location,
   $monster,
   $monsters,
+  $skill,
   ensureEffect,
   get,
   have,
+  Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
@@ -250,11 +252,16 @@ const ManorBasement: Task[] = [
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
     do: $location`The Haunted Wine Cellar`,
-    outfit: {
-      modifier: "item, booze drop",
+    outfit: () => {
+      return {
+        modifier: "item, booze drop",
+        equip:
+          have($item`Lil' Doctor™ bag`) && get("_otoscopeUsed") < 3 ? $items`Lil' Doctor™ bag` : [],
+      };
     },
     choices: { 901: 2 },
     combat: new CombatStrategy()
+      .macro(Macro.trySkill($skill`Otoscope`), $monster`possessed wine rack`)
       .killItem($monster`possessed wine rack`)
       .banish($monsters`mad wino, skeletal sommelier`),
     limit: { soft: 15 },
@@ -268,11 +275,16 @@ const ManorBasement: Task[] = [
       have($item`wine bomb`) ||
       step("questL11Manor") >= 3,
     do: $location`The Haunted Laundry Room`,
-    outfit: {
-      modifier: "item, food drop",
+    outfit: () => {
+      return {
+        modifier: "item, food drop",
+        equip:
+          have($item`Lil' Doctor™ bag`) && get("_otoscopeUsed") < 3 ? $items`Lil' Doctor™ bag` : [],
+      };
     },
     choices: { 891: 2 },
     combat: new CombatStrategy()
+      .macro(Macro.trySkill($skill`Otoscope`), $monster`cabinet of Dr. Limpieza`)
       .killItem($monster`cabinet of Dr. Limpieza`)
       .banish($monsters`plaid ghost, possessed laundry press`),
     limit: { soft: 15 },

@@ -329,12 +329,19 @@ const Pyramid: Task[] = [
     do: $location`The Middle Chamber`,
     limit: { soft: 25 },
     combat: new CombatStrategy()
-      .macro(Macro.tryItem($item`tangle of rat tails`), $monster`tomb rat`)
+      .macro(
+        Macro.tryItem($item`tangle of rat tails`).trySkill($skill`Otoscope`),
+        $monster`tomb rat`
+      )
       .killItem([$monster`tomb rat`, $monster`tomb rat king`])
       .banish([$monster`tomb asp`, $monster`tomb servant`]),
-    outfit: {
-      modifier: "item",
-      familiar: $familiar`Grey Goose`,
+    outfit: () => {
+      return {
+        modifier: "item",
+        familiar: $familiar`Grey Goose`,
+        equip:
+          have($item`Lil' Doctor™ bag`) && get("_otoscopeUsed") < 3 ? $items`Lil' Doctor™ bag` : [],
+      };
     },
     delay: 9,
   },

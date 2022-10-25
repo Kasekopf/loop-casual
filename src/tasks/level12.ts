@@ -593,8 +593,7 @@ export const WarQuest: Quest = {
       name: "Fluffers",
       after: ["Enrage"],
       ready: () => myTurncount() >= 1000,
-      completed: () =>
-        get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000,
+      completed: () => get("hippiesDefeated") >= 1000 || get("fratboysDefeated") >= 1000,
       outfit: {
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
       },
