@@ -6,6 +6,7 @@ import {
   Item,
   itemAmount,
   mallPrice,
+  myBasestat,
   myTurncount,
   sell,
   use,
@@ -22,6 +23,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  $stat,
   AutumnAton,
   ensureEffect,
   get,
@@ -72,11 +74,8 @@ const Flyers: Task[] = [
         );
         set("flyeredML", 9900);
       } else if (get("_loopgyou_flyeredML_buffer", 0) > 0) {
-        debug(
-          `Mafia tracking was incorrect for rock band flyers; quest completed at ${
-            get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0)
-          }`
-        );
+        const real = get("flyeredML") + get("_loopgyou_flyeredML_buffer", 0);
+        debug(`Mafia tracking was incorrect for rock band flyers; quest completed at ${real}`);
       }
     },
     freeaction: true,
@@ -195,6 +194,8 @@ const Junkyard: Task[] = [
     after: ["Junkyard Start"],
     completed: () =>
       have($item`molybdenum hammer`) || get("sidequestJunkyardCompleted") !== "none" || warSkip(),
+    priority: () =>
+      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Next to that Barrel with Something Burning in it`,
@@ -221,6 +222,8 @@ const Junkyard: Task[] = [
       have($item`molybdenum crescent wrench`) ||
       get("sidequestJunkyardCompleted") !== "none" ||
       warSkip(),
+    priority: () =>
+      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Over Where the Old Tires Are`,
@@ -246,6 +249,8 @@ const Junkyard: Task[] = [
     acquire: [{ item: $item`seal tooth` }],
     completed: () =>
       have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none" || warSkip(),
+    priority: () =>
+      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Near an Abandoned Refrigerator`,
     orbtargets: () => $monsters`spider gremlin, spider gremlin (tool)`,
@@ -271,6 +276,8 @@ const Junkyard: Task[] = [
       have($item`molybdenum screwdriver`) ||
       get("sidequestJunkyardCompleted") !== "none" ||
       warSkip(),
+    priority: () =>
+      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Out by that Rusted-Out Car`,
