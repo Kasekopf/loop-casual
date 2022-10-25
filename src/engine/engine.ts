@@ -592,6 +592,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       louvreDesiredGoal: 7,
       requireBoxServants: false,
       autoAbortThreshold: "-0.05",
+      recoveryScript: "",
       mpAutoRecoveryItems: ensureRecovery(
         "mpAutoRecoveryItems",
         ["black cherry soda", "doc galaktik's invigorating tonic"],
