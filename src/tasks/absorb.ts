@@ -800,7 +800,8 @@ export class AbsorbState {
       .map((id) => Monster.get(id))
       .map((monster) => this.reprocessed.add(monster));
 
-    // Ignore unneeded basic combat skills
+    // Ignore unneeded skills for the run
+    // Some of them might be re-added by forced_skills
     const ignored_skills = new Set<Skill>([
       $skill`Telekinetic Murder`,
       $skill`Nanoshock`,
@@ -809,6 +810,7 @@ export class AbsorbState {
       $skill`Snakesmack`,
       $skill`Audioclasm`,
       $skill`Nantlers`,
+      $skill`Financial Spreadsheets`,
     ]);
 
     // Ignore the elemental skills that are not useful for the tower
