@@ -19,6 +19,7 @@ import {
   $item,
   $items,
   $location,
+  $monster,
   $monsters,
   $skill,
   $stat,
@@ -347,7 +348,14 @@ export const ChasmQuest: Quest = {
           };
         } else return { modifier: "sleaze res", equip: $items`combat lover's locket` };
       },
-      combat: new CombatStrategy().macro(new Macro().attack().repeat()).ignore(),
+      combat: new CombatStrategy()
+        .macro(new Macro().attack().repeat(), [
+          $monster`smut orc jacker`,
+          $monster`smut orc nailer`,
+          $monster`smut orc pipelayer`,
+          $monster`smut orc screwer`,
+        ])
+        .kill(),
       choices: { 1345: 3 },
       freeaction: () => get("smutOrcNoncombatProgress") >= 15,
       limit: {
