@@ -12711,17 +12711,6 @@ var MiscQuest = {
       unready: true
     },
     freeaction: true
-  }, {
-    name: "Horsery",
-    after: [],
-    priority: () => OverridePriority.Free,
-    completed: () => property_get("_horsery") !== "",
-    ready: () => property_get("horseryAvailable"),
-    do: () => (0,external_kolmafia_namespaceObject.cliExecute)("horsery pale"),
-    limit: {
-      tries: 1
-    },
-    freeaction: true
   }]
 };
 var WandQuest = {
@@ -18821,7 +18810,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "3e652b7";
+var lastCommitHash = "b9647b7";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
