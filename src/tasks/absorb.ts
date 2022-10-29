@@ -149,6 +149,12 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Dark Heart of the Woods`,
     after: ["Friar/Heart"],
     ready: () => step("questL06Friar") < 999,
+    outfit: () => {
+      if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("wing")) {
+        return { equip: $items`latte lovers member's mug, miniature crystal ball` };
+      }
+      return { equip: $items`miniature crystal ball` };
+    },
   },
   {
     do: $location`The Dark Neck of the Woods`,
@@ -159,6 +165,12 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Dark Elbow of the Woods`,
     after: ["Friar/Elbow"],
     ready: () => step("questL06Friar") < 999,
+    outfit: () => {
+      if (have($item`latte lovers member's mug`) && !get("latteUnlocks").includes("vitamins")) {
+        return { equip: $items`latte lovers member's mug, miniature crystal ball` };
+      }
+      return { equip: $items`miniature crystal ball` };
+    },
   },
   {
     do: $location`Pandamonium Slums`,
