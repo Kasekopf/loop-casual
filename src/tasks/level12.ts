@@ -98,6 +98,7 @@ const Lighthouse: Task[] = [
       warSkip(),
     priority: (): OverridePriority => {
       if (AutumnAton.have()) {
+        if (myBasestat($stat`Moxie`) < 200) return OverridePriority.BadMood;
         if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
         else if (myTurncount() < 400) return OverridePriority.BadAutumnaton;
       }
