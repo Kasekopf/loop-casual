@@ -11564,6 +11564,7 @@ var Lighthouse = [// Saber into more lobsterfrogmen
 
     return new Macro();
   }).kill($monster(level12_templateObject21 || (level12_templateObject21 = level12_taggedTemplateLiteral(["lobsterfrogman"])))),
+  orbtargets: undefined,
   choices: {
     1387: 2
   },
@@ -11587,6 +11588,7 @@ var Lighthouse = [// Saber into more lobsterfrogmen
     modifier: "+combat"
   },
   combat: new combat_CombatStrategy().kill($monster(level12_templateObject26 || (level12_templateObject26 = level12_taggedTemplateLiteral(["lobsterfrogman"])))),
+  orbtargets: undefined,
   limit: {
     soft: 40
   }
@@ -18833,7 +18835,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "c12e63b";
+var lastCommitHash = "21020f6";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
