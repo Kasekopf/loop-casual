@@ -18781,7 +18781,7 @@ function buildPullList() {
       if (items.length === 0) continue; // For cheap items, we will just buy it during the run
 
       var big_items = items.filter(item => (0,external_kolmafia_namespaceObject.mallPrice)(item) === 0 || (0,external_kolmafia_namespaceObject.mallPrice)(item) > 100000);
-      if (big_items.length === 0) continue;
+      if (big_items.length < items.length) continue;
       result.push({
         thing: big_items,
         why: (_pull$description = pull.description) !== null && _pull$description !== void 0 ? _pull$description : "Pull",
@@ -18868,7 +18868,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "ee386c9";
+var lastCommitHash = "2ecf561";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
