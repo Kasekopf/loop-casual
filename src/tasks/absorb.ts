@@ -299,6 +299,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Valley of Rof L'm Fao`,
     after: ["Orc Chasm/Finish"],
+    combat: new CombatStrategy().ccs("attack", $monster`rampaging adding machine`),
   },
   // Level 10
   {
