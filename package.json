@@ -34,7 +34,7 @@
     "core-js": "^3.16.4",
     "grimoire-kolmafia": "^0.3.8",
     "kolmafia": "5.26781.0",
-    "libram": "^0.7.3"
+    "libram": "^0.7.4"
   },
   "author": "Kasekopf",
   "license": "ISC",
