@@ -502,6 +502,18 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
 
     // HP/MP upkeep
+    if (
+      (have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)) &&
+      get("hiddenApartmentProgress") < 7
+    ) {
+      this.propertyManager.set({
+        hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", [], ["relaxing hot tub"]),
+      });
+    } else {
+      this.propertyManager.set({
+        hpAutoRecoveryItems: ensureRecovery("hpAutoRecoveryItems", ["relaxing hot tub"], []),
+      });
+    }
     if (myHp() < 50 && myHp() < myMaxhp()) restoreHp(myMaxhp() < 50 ? myMaxhp() : 50);
     if (myMp() < 40 && myMaxmp() >= 40) customRestoreMp(40);
     else if (myMp() < 20) customRestoreMp(20);
