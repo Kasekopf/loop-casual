@@ -11,6 +11,7 @@ import {
   storageAmount,
 } from "kolmafia";
 import { $familiar, $item, $items, $monster, $skill, CombatLoversLocket, get, have } from "libram";
+import { ForceItemSource } from "./engine/resources";
 import { pullStrategy } from "./tasks/pulls";
 
 class Hardcoded {
@@ -262,7 +263,7 @@ function buildPullList(): Requirement[] {
 
     // For cheap items, we will just buy it during the run
     const big_items = items.filter((item) => mallPrice(item) === 0 || mallPrice(item) > 100000);
-    if (big_items.length === 0) continue;
+    if (big_items.length < items.length) continue;
 
     result.push({ thing: big_items, why: pull.description ?? "Pull", optional: pull.optional });
   }
