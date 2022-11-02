@@ -11,7 +11,6 @@ import {
   storageAmount,
 } from "kolmafia";
 import { $familiar, $item, $items, $monster, $skill, CombatLoversLocket, get, have } from "libram";
-import { ForceItemSource } from "./engine/resources";
 import { pullStrategy } from "./tasks/pulls";
 
 class Hardcoded {
