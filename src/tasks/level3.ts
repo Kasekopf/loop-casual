@@ -59,7 +59,7 @@ export const TavernQuest: Quest = {
           return { modifier: "ML, -combat", equip: $items`June cleaver` };
         return { modifier: "ML, +combat" };
       },
-      combat: new CombatStrategy().kill($monster`drunken rat king`).ignoreNoBanish(),
+      combat: new CombatStrategy().killHard($monster`drunken rat king`).ignoreNoBanish(),
       choices: {
         509: 1,
         510: 1,
