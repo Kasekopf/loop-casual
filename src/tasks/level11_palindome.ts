@@ -122,7 +122,6 @@ const Copperhead: Task[] = [
   {
     name: "Hot Snake Precastle",
     after: ["Copperhead Start", "Giant/Ground"],
-    acquire: [{ item: $item`Mohawk wig` }],
     ready: () =>
       shenItem($item`Murphy's Rancid Black Flag`) && !have($item`steam-powered model rocketship`),
     completed: () => step("questL11Shen") === 999 || have($item`Murphy's Rancid Black Flag`),
