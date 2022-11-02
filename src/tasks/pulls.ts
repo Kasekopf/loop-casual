@@ -113,7 +113,6 @@ export const pulls: PullSpec[] = [
   {
     pull: $items`warbear long johns, square sponge pants`,
     useful: () => !have($item`designer sweatpants`),
-    optional: true,
     name: "MP Regen Pants",
   },
   {
@@ -122,12 +121,12 @@ export const pulls: PullSpec[] = [
       !have($item`designer sweatpants`) &&
       get("greyYouPoints") < 11 &&
       !have($item`burning paper slippers`),
-    optional: true,
     post: () => {
       if (have($item`burning newspaper`)) retrieveItem($item`burning paper slippers`);
     },
     name: "Max HP with low path progression",
   },
+  { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`white page`, useful: () => !have($skill`Piezoelectric Honk`), optional: true },
   { pull: $item`portable cassette player` },
   { pull: $item`antique machete` },
@@ -148,7 +147,6 @@ export const pulls: PullSpec[] = [
     useful: () => !have($item`designer sweatpants`),
   },
   { pull: $item`deck of lewd playing cards`, optional: true },
-  { pull: $item`mafia thumb ring`, optional: true },
   { pull: $item`giant yellow hat` },
   { pull: $item`gravy boat` },
   {
@@ -201,8 +199,8 @@ class Pull {
       pull instanceof Item
         ? () => [pull]
         : typeof pull === "function"
-        ? () => [pull()]
-        : () => pull;
+          ? () => [pull()]
+          : () => pull;
     this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
