@@ -27,7 +27,7 @@ The arguments accepted by the script are listed below. Note that you can combine
 Commands:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
-  class NUMBER - If given, break the prism and choose a class. You will be reduced to 40 adventures with full organs after breaking the prism. [setting: loopgyou_class]
+  class NUMBER - If given, break the prism and choose a class. You will be reduced to 40 adventures with full organs after breaking the prism.
     class 1 - Seal Clubber
     class 2 - Turtle Tamer
     class 3 - Pastamancer
@@ -50,14 +50,16 @@ Minor Options:
   asdon - Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained. [default: false] [setting: loopgyou_asdon]
   jellies - Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp). [default: false] [setting: loopgyou_jellies]
   pvp - Break your hippy stone at the start of the run. [default: false] [setting: loopgyou_pvp]
+  wand - Always get the zap wand. [default: false] [setting: loopgyou_wand]
+  skills TEXT - A comma-separated list of skills to get, in addition to skills that will directly help the run. [default: Financial Spreadsheets] [setting: loopgyou_skills]
 
 Debug Options:
   actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
   verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
   ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
   completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
-  list - Show the status of all tasks and exit. [setting: loopgyou_list]
-  settings - Show the parsed value for all arguments and exit. [setting: loopgyou_settings]
+  list - Show the status of all tasks and exit.
+  settings - Show the parsed value for all arguments and exit.
 ```
 
 ### Will this script work for me?
