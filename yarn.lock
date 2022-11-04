@@ -2001,10 +2001,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
-grimoire-kolmafia@^0.3.8:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.8.tgz#7711c23ff1b1906d33b4ec3a544f699562a65c59"
-  integrity sha512-zApbZGEYl49ePQu3kViprAV6qZaqUk3e8+gvY8yF4ZaH26I6iXmRIQEEKE7hVxwjg5hI2Q4oXGKMfXKlnoU8xA==
+grimoire-kolmafia@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.9.tgz#f46ac204e74fb451889964841f3338162087b3da"
+  integrity sha512-LyGc4nn8X53YzPoaNEf7O216oPRRssSS96vuh3RF1cwJg7NparbH9xSPZlySQIbNy/BvOjiy4lbujkYPxE2/kA==
   dependencies:
     core-js "^3.16.4"
 
@@ -2213,10 +2213,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libram@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.7.3.tgz#0e5f032db3279fec8cc0f62abbe9406c0052173d"
-  integrity sha512-dMOWci2TwEkGGk17v+gqKCve04OPdC7U+Sjpd+lRYkPKtL64Bua++CS0fI2wXk2eclDh22V5fPLlXcDboLxKpQ==
+libram@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.7.4.tgz#ce3cfb5c52133e161bbf738b490ca576a38e743c"
+  integrity sha512-dLTwHVy9DR8nosCrWNijja7B1RTNIJCktAGscMRGPCvz/1ZSXaLjYrSbO72m4TesjzckBAXlVaEfUFgVyZiLug==
   dependencies:
     "@babel/runtime-corejs3" "^7.17.2"
     core-js "^3.21.0"
