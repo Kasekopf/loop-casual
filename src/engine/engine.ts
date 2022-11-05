@@ -59,6 +59,7 @@ import {
 import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import { CombatActions, MyActionDefaults } from "./combat";
 import {
+  cacheDress,
   equipCharging,
   equipDefaults,
   equipFirst,
@@ -477,12 +478,13 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
   dress(task: ActiveTask, outfit: Outfit): void {
     try {
-      outfit.dress();
+      cacheDress(outfit);
     } catch {
       // If we fail to dress, this is maybe just a mafia desync.
       // So refresh our inventory and try again (once).
       debug("Possible mafia desync detected; refreshing...");
       cliExecute("refresh all");
+      // Do not try and cache-dress
       outfit.dress({ forceUpdate: true });
     }
     fixFoldables(outfit);

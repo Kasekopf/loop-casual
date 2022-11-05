@@ -1,5 +1,28 @@
-import { cliExecute, equippedAmount, familiarWeight, myBasestat } from "kolmafia";
-import { $familiar, $item, $skill, $slot, $stat, get, getKramcoWandererChance, have } from "libram";
+import {
+  cliExecute,
+  outfit as equipOutfit,
+  equippedAmount,
+  equippedItem,
+  familiarWeight,
+  Item,
+  myBasestat,
+  outfitPieces,
+  print,
+  Slot,
+  toSlot,
+} from "kolmafia";
+import {
+  $familiar,
+  $item,
+  $skill,
+  $slot,
+  $slots,
+  $stat,
+  get,
+  getKramcoWandererChance,
+  have,
+  MaximizeOptions,
+} from "libram";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
@@ -233,4 +256,79 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
     }
   }
+}
+
+export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOptions>) {
+  const currentEquipScore = cacheScore(outfit.equips);
+
+  const outfits: { name: string; score: number }[] = [0, 1, 2, 3, 4, 5]
+    .map((i) => `Script Outfit ${i}`)
+    .map((name) => ({ name: name, score: cacheScore(outfit.equips, name) }));
+  outfits.sort((a, b) => (a.score < b.score ? -1 : a.score > b.score ? 1 : 0)).reverse();
+  if (outfits[0].score > currentEquipScore + 1) {
+    print(
+      `Equipping ${outfits[0].score - currentEquipScore} items with ${
+        outfits[0].name
+      } (${outfitPieces(outfits[0].name).join(", ")})`
+    );
+    equipOutfit(outfits[0].name);
+  }
+
+  outfit.dress(extraOptions);
+}
+
+const nonAccSlots = $slots`hat, weapon, off-hand, back, shirt, pants`;
+const accSlots = $slots`acc1, acc2, acc3`;
+const outfitSlots = $slots`hat, weapon, off-hand, back, shirt, pants, acc1, acc2, acc3`;
+
+export function loadItems(outfit?: string): Map<Slot, Item> {
+  if (!outfit) {
+    return new Map<Slot, Item>(outfitSlots.map((slot) => [slot, equippedItem(slot)]));
+  }
+
+  const result = new Map<Slot, Item>();
+  const freeAccSlots = $slots`acc3, acc2, acc1`;
+  const items = outfitPieces(outfit);
+  for (const item of items) {
+    const slot = toSlot(item);
+    switch (slot) {
+      case $slot`weapon`:
+        // The second weapon in the item list is the dual-equipped one
+        if (result.has($slot`weapon`)) result.set($slot`off-hand`, item);
+        else result.set($slot`weapon`, item);
+        break;
+      case $slot`acc1`:
+        result.set(freeAccSlots.pop() ?? $slot`none`, item);
+        break;
+      default:
+        result.set(slot, item);
+        break;
+    }
+  }
+  return result;
+}
+
+export function cacheScore(desired: Map<Slot, Item>, name?: string): number {
+  const items = loadItems(name);
+
+  let overlap = 0;
+  for (const slot of nonAccSlots) {
+    if (desired.has(slot) && desired.get(slot) === items.get(slot)) overlap++;
+  }
+
+  const desiredAccesoriesMet = new Set<Slot>();
+  for (const slot of accSlots) {
+    const acc = items.get(slot);
+    if (acc === undefined) continue;
+    const matchedSlot = accSlots.find(
+      (slot) => !desiredAccesoriesMet.has(slot) && desired.get(slot) === acc
+    );
+    if (matchedSlot !== undefined) {
+      desiredAccesoriesMet.add(matchedSlot);
+      overlap++;
+    }
+  }
+
+  // print(`${name} (${[...items.values()].join(", ")}): ${overlap}`);
+  return overlap;
 }
