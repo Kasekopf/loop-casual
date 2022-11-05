@@ -51,7 +51,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
 
 function shrug(effects: Effect[]) {
   for (const effect of effects) {
-    if (have(effect)) uneffect(effect);
+    if (have(effect) && have($item`soft green echo eyedrop antidote`)) uneffect(effect);
   }
 }
 
