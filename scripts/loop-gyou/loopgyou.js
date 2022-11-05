@@ -9606,7 +9606,7 @@ function min(a, b) {
   return a < b ? a : b;
 }
 ;// CONCATENATED MODULE: ./src/engine/outfit.ts
-var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74;
+var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84;
 
 function engine_outfit_toConsumableArray(arr) { return engine_outfit_arrayWithoutHoles(arr) || engine_outfit_iterableToArray(arr) || engine_outfit_unsupportedIterableToArray(arr) || engine_outfit_nonIterableSpread(); }
 
@@ -9853,6 +9853,116 @@ function fixFoldables(outfit) {
       if (property_get("parkaMode").toLowerCase() !== "kachungasaur") (0,external_kolmafia_namespaceObject.cliExecute)("parka kachungasaur");
     }
   }
+}
+function cacheDress(outfit, extraOptions) {
+  var currentEquipScore = cacheScore(outfit.equips);
+  var outfits = [0, 1, 2, 3, 4, 5].map(i => "Script Outfit ".concat(i)).map(name => ({
+    name: name,
+    score: cacheScore(outfit.equips, name)
+  }));
+  outfits.sort((a, b) => a.score < b.score ? -1 : a.score > b.score ? 1 : 0).reverse();
+
+  if (outfits[0].score > currentEquipScore + 1) {
+    (0,external_kolmafia_namespaceObject.print)("Equipping ".concat(outfits[0].score - currentEquipScore, " items with ").concat(outfits[0].name, " (").concat((0,external_kolmafia_namespaceObject.outfitPieces)(outfits[0].name).join(", "), ")"));
+    (0,external_kolmafia_namespaceObject.outfit)(outfits[0].name);
+  }
+
+  outfit.dress(extraOptions);
+}
+var nonAccSlots = $slots(outfit_templateObject75 || (outfit_templateObject75 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants"])));
+var accSlots = $slots(outfit_templateObject76 || (outfit_templateObject76 = engine_outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
+var outfit_outfitSlots = $slots(outfit_templateObject77 || (outfit_templateObject77 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants, acc1, acc2, acc3"])));
+function loadItems(outfit) {
+  var _freeAccSlots$pop;
+
+  if (!outfit) {
+    return new Map(outfit_outfitSlots.map(slot => [slot, (0,external_kolmafia_namespaceObject.equippedItem)(slot)]));
+  }
+
+  var result = new Map();
+  var freeAccSlots = $slots(outfit_templateObject78 || (outfit_templateObject78 = engine_outfit_taggedTemplateLiteral(["acc3, acc2, acc1"])));
+  var items = (0,external_kolmafia_namespaceObject.outfitPieces)(outfit);
+
+  var _iterator3 = engine_outfit_createForOfIteratorHelper(items),
+      _step3;
+
+  try {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var item = _step3.value;
+      var slot = (0,external_kolmafia_namespaceObject.toSlot)(item);
+
+      switch (slot) {
+        case $slot(outfit_templateObject79 || (outfit_templateObject79 = engine_outfit_taggedTemplateLiteral(["weapon"]))):
+          // The second weapon in the item list is the dual-equipped one
+          if (result.has($slot(outfit_templateObject80 || (outfit_templateObject80 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) result.set($slot(outfit_templateObject81 || (outfit_templateObject81 = engine_outfit_taggedTemplateLiteral(["off-hand"]))), item);else result.set($slot(outfit_templateObject82 || (outfit_templateObject82 = engine_outfit_taggedTemplateLiteral(["weapon"]))), item);
+          break;
+
+        case $slot(outfit_templateObject83 || (outfit_templateObject83 = engine_outfit_taggedTemplateLiteral(["acc1"]))):
+          result.set((_freeAccSlots$pop = freeAccSlots.pop()) !== null && _freeAccSlots$pop !== void 0 ? _freeAccSlots$pop : $slot(outfit_templateObject84 || (outfit_templateObject84 = engine_outfit_taggedTemplateLiteral(["none"]))), item);
+          break;
+
+        default:
+          result.set(slot, item);
+          break;
+      }
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
+  }
+
+  return result;
+}
+function cacheScore(desired, name) {
+  var items = loadItems(name);
+  var overlap = 0;
+
+  var _iterator4 = engine_outfit_createForOfIteratorHelper(nonAccSlots),
+      _step4;
+
+  try {
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+      var slot = _step4.value;
+      if (desired.has(slot) && desired.get(slot) === items.get(slot)) overlap++;
+    }
+  } catch (err) {
+    _iterator4.e(err);
+  } finally {
+    _iterator4.f();
+  }
+
+  var desiredAccesoriesMet = new Set();
+
+  var _iterator5 = engine_outfit_createForOfIteratorHelper(accSlots),
+      _step5;
+
+  try {
+    var _loop = function _loop() {
+      var slot = _step5.value;
+      var acc = items.get(slot);
+      if (acc === undefined) return "continue";
+      var matchedSlot = accSlots.find(slot => !desiredAccesoriesMet.has(slot) && desired.get(slot) === acc);
+
+      if (matchedSlot !== undefined) {
+        desiredAccesoriesMet.add(matchedSlot);
+        overlap++;
+      }
+    };
+
+    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+      var _ret = _loop();
+
+      if (_ret === "continue") continue;
+    } // print(`${name} (${[...items.values()].join(", ")}): ${overlap}`);
+
+  } catch (err) {
+    _iterator5.e(err);
+  } finally {
+    _iterator5.f();
+  }
+
+  return overlap;
 }
 ;// CONCATENATED MODULE: ./src/engine/state.ts
 function state_slicedToArray(arr, i) { return state_arrayWithHoles(arr) || state_iterableToArrayLimit(arr, i) || state_unsupportedIterableToArray(arr, i) || state_nonIterableRest(); }
@@ -14365,12 +14475,13 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       var _outfit$modifier;
 
       try {
-        outfit.dress();
+        cacheDress(outfit);
       } catch (_unused) {
         // If we fail to dress, this is maybe just a mafia desync.
         // So refresh our inventory and try again (once).
         debug("Possible mafia desync detected; refreshing...");
-        (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
+        (0,external_kolmafia_namespaceObject.cliExecute)("refresh all"); // Do not try and cache-dress
+
         outfit.dress({
           forceUpdate: true
         });
@@ -14524,7 +14635,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
   return Engine;
 }(Engine);
-var consumables_blacklist = new Set(template_string_$items(engine_templateObject51 || (engine_templateObject51 = engine_engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name]"]))));
+var consumables_blacklist = new Set(template_string_$items(engine_templateObject51 || (engine_templateObject51 = engine_engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name], Affirmation Cookie"]))));
 
 function autosellJunk() {
   // eslint-disable-next-line eqeqeq
@@ -14704,7 +14815,7 @@ function ensureRecovery(property, items, avoid) {
   return recovery_property.filter(v => !avoid.includes(v)).join(";");
 }
 ;// CONCATENATED MODULE: ./src/engine/moods.ts
-var moods_templateObject, moods_templateObject2, moods_templateObject3, moods_templateObject4, moods_templateObject5, moods_templateObject6, moods_templateObject7, moods_templateObject8, moods_templateObject9, moods_templateObject10, moods_templateObject11, moods_templateObject12, moods_templateObject13, moods_templateObject14, moods_templateObject15, moods_templateObject16, moods_templateObject17, moods_templateObject18, moods_templateObject19, moods_templateObject20, moods_templateObject21, moods_templateObject22, moods_templateObject23, moods_templateObject24;
+var moods_templateObject, moods_templateObject2, moods_templateObject3, moods_templateObject4, moods_templateObject5, moods_templateObject6, moods_templateObject7, moods_templateObject8, moods_templateObject9, moods_templateObject10, moods_templateObject11, moods_templateObject12, moods_templateObject13, moods_templateObject14, moods_templateObject15, moods_templateObject16, moods_templateObject17, moods_templateObject18, moods_templateObject19, moods_templateObject20, moods_templateObject21, moods_templateObject22, moods_templateObject23, moods_templateObject24, moods_templateObject25;
 
 function moods_slicedToArray(arr, i) { return moods_arrayWithHoles(arr) || moods_iterableToArrayLimit(arr, i) || moods_unsupportedIterableToArray(arr, i) || moods_nonIterableRest(); }
 
@@ -14758,7 +14869,7 @@ function shrug(effects) {
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var effect = _step.value;
-      if (have(effect)) uneffect(effect);
+      if (have(effect) && have(template_string_$item(moods_templateObject10 || (moods_templateObject10 = moods_taggedTemplateLiteral(["soft green echo eyedrop antidote"]))))) uneffect(effect);
     }
   } catch (err) {
     _iterator.e(err);
@@ -14773,11 +14884,11 @@ function moodCompatible(modifier) {
   if (modifier === undefined) return true;
 
   if (modifier.includes("+combat") || modifier.includes(" combat")) {
-    return !have($effect(moods_templateObject10 || (moods_templateObject10 = moods_taggedTemplateLiteral(["Shifted Phase"])))) && !have($effect(moods_templateObject11 || (moods_templateObject11 = moods_taggedTemplateLiteral(["Darkened Photons"]))));
+    return !have($effect(moods_templateObject11 || (moods_templateObject11 = moods_taggedTemplateLiteral(["Shifted Phase"])))) && !have($effect(moods_templateObject12 || (moods_templateObject12 = moods_taggedTemplateLiteral(["Darkened Photons"]))));
   }
 
   if (modifier.includes("-combat")) {
-    return !have($effect(moods_templateObject12 || (moods_templateObject12 = moods_taggedTemplateLiteral(["Hooooooooonk!"]))));
+    return !have($effect(moods_templateObject13 || (moods_templateObject13 = moods_taggedTemplateLiteral(["Hooooooooonk!"]))));
   }
 
   return true;
@@ -14795,7 +14906,7 @@ function applyEffects(modifier) {
 
   if (modifier.includes("+combat") || modifier.includes(" combat")) shrug(relevantEffects["-combat"]);
   if (modifier.includes("-combat")) shrug(relevantEffects["+combat"]);
-  var mpcosts = new Map([[$effect(moods_templateObject13 || (moods_templateObject13 = moods_taggedTemplateLiteral(["Shifted Phase"]))), 50], [$effect(moods_templateObject14 || (moods_templateObject14 = moods_taggedTemplateLiteral(["Hooooooooonk!"]))), 50], [$effect(moods_templateObject15 || (moods_templateObject15 = moods_taggedTemplateLiteral(["Darkened Photons"]))), 40]]); // Apply all relevant effects
+  var mpcosts = new Map([[$effect(moods_templateObject14 || (moods_templateObject14 = moods_taggedTemplateLiteral(["Shifted Phase"]))), 50], [$effect(moods_templateObject15 || (moods_templateObject15 = moods_taggedTemplateLiteral(["Hooooooooonk!"]))), 50], [$effect(moods_templateObject16 || (moods_templateObject16 = moods_taggedTemplateLiteral(["Darkened Photons"]))), 40]]); // Apply all relevant effects
 
   var hotswapped = []; //
 
@@ -14827,12 +14938,12 @@ function applyEffects(modifier) {
   } // Use asdon martin
 
 
-  if ((0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(moods_templateObject16 || (moods_templateObject16 = moods_taggedTemplateLiteral(["Asdon Martin keyfob"]))) && asdonFualable(37)) {
+  if ((0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(moods_templateObject17 || (moods_templateObject17 = moods_taggedTemplateLiteral(["Asdon Martin keyfob"]))) && asdonFualable(37)) {
     // if (modifier.includes("-combat")) AsdonMartin.drive(AsdonMartin.Driving.Stealthily);
     // else if (modifier.includes("+combat")) AsdonMartin.drive(AsdonMartin.Driving.Obnoxiously);
     // else if (modifier.includes("init")) AsdonMartin.drive(AsdonMartin.Driving.Quickly);
     if (modifier.includes("meat") || modifier.includes("item")) {
-      if (!have($effect(moods_templateObject17 || (moods_templateObject17 = moods_taggedTemplateLiteral(["Driving Observantly"]))))) asdonFillTo(50); // done manually to use all-purpose flower
+      if (!have($effect(moods_templateObject18 || (moods_templateObject18 = moods_taggedTemplateLiteral(["Driving Observantly"]))))) asdonFillTo(50); // done manually to use all-purpose flower
 
       drive(Driving.Observantly);
     }
@@ -14849,12 +14960,12 @@ function swapEquipmentForMp(mpgoal) {
     var _loop = function _loop() {
       var slot = _step2.value;
       if (mpgoal <= (0,external_kolmafia_namespaceObject.myMaxmp)()) return "break";
-      if (slot === $slot(moods_templateObject18 || (moods_templateObject18 = moods_taggedTemplateLiteral(["weapon"]))) || slot === $slot(moods_templateObject19 || (moods_templateObject19 = moods_taggedTemplateLiteral(["off-hand"])))) return "continue"; // skip weapon handedness (for now)
+      if (slot === $slot(moods_templateObject19 || (moods_templateObject19 = moods_taggedTemplateLiteral(["weapon"]))) || slot === $slot(moods_templateObject20 || (moods_templateObject20 = moods_taggedTemplateLiteral(["off-hand"])))) return "continue"; // skip weapon handedness (for now)
 
       var item = (0,external_kolmafia_namespaceObject.equippedItem)(slot);
-      if (item === template_string_$item(moods_templateObject20 || (moods_templateObject20 = moods_taggedTemplateLiteral(["none"])))) return "continue"; // Find an item in the same slot that gives more max MP
+      if (item === template_string_$item(moods_templateObject21 || (moods_templateObject21 = moods_taggedTemplateLiteral(["none"])))) return "continue"; // Find an item in the same slot that gives more max MP
 
-      var canonical_slot = slot === $slot(moods_templateObject21 || (moods_templateObject21 = moods_taggedTemplateLiteral(["acc3"]))) ? $slot(moods_templateObject22 || (moods_templateObject22 = moods_taggedTemplateLiteral(["acc1"]))) : slot === $slot(moods_templateObject23 || (moods_templateObject23 = moods_taggedTemplateLiteral(["acc2"]))) ? $slot(moods_templateObject24 || (moods_templateObject24 = moods_taggedTemplateLiteral(["acc1"]))) : slot;
+      var canonical_slot = slot === $slot(moods_templateObject22 || (moods_templateObject22 = moods_taggedTemplateLiteral(["acc3"]))) ? $slot(moods_templateObject23 || (moods_templateObject23 = moods_taggedTemplateLiteral(["acc1"]))) : slot === $slot(moods_templateObject24 || (moods_templateObject24 = moods_taggedTemplateLiteral(["acc2"]))) ? $slot(moods_templateObject25 || (moods_templateObject25 = moods_taggedTemplateLiteral(["acc1"]))) : slot;
       var slot_options = inventory_options.filter(it => (0,external_kolmafia_namespaceObject.equippedAmount)(it) === 0 && (0,external_kolmafia_namespaceObject.toSlot)(it) === canonical_slot && (0,external_kolmafia_namespaceObject.numericModifier)(it, "Maximum HP") >= (0,external_kolmafia_namespaceObject.numericModifier)(item, "Maximum HP") && (0,external_kolmafia_namespaceObject.numericModifier)(it, "Maximum MP") > (0,external_kolmafia_namespaceObject.numericModifier)(item, "Maximum MP")).sort((a, b) => (0,external_kolmafia_namespaceObject.numericModifier)(b, "Maximum MP") - (0,external_kolmafia_namespaceObject.numericModifier)(a, "Maximum MP")); // If there is such an item, equip it
 
       if (slot_options.length === 0) return "continue";
@@ -18959,7 +19070,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "b89e3d7";
+var lastCommitHash = "f784490";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
