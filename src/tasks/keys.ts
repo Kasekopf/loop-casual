@@ -4,11 +4,13 @@ import {
   equip,
   equippedItem,
   haveEquipped,
+  inHardcore,
   Item,
   itemAmount,
   mallPrice,
   myBasestat,
   myTurncount,
+  pullsRemaining,
   runChoice,
   storageAmount,
   visitUrl,
@@ -61,7 +63,10 @@ const heroKeys: KeyTask[] = [
   },
   {
     which: Keys.Malware,
-    possible: () => !get("dailyDungeonDone") && !get("_dailyDungeonMalwareUsed"),
+    possible: () =>
+      !get("dailyDungeonDone") &&
+      !get("_dailyDungeonMalwareUsed") &&
+      ((!inHardcore() && pullsRemaining() > 0) || have($item`daily dungeon malware`)),
     acquire: [
       { item: $item`daily dungeon malware` },
       { item: $item`Pick-O-Matic lockpicks`, optional: true },
