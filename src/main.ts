@@ -127,6 +127,10 @@ export const args = Args.create(
         help: "Show the parsed value for all arguments and exit.",
         setting: "",
       }),
+      lastasdonbumperturn: Args.number({
+        help: "Set the last usage of Asdon Martin: Spring-Loaded Front Bumper, in case of a tracking issue",
+        hidden: true,
+      }),
     }),
   },
   "Commands"

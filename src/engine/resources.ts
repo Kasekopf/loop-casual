@@ -36,6 +36,7 @@ import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire
 import { atLevel } from "../lib";
 import { Task } from "./task";
 import { monstersAt } from "../tasks/absorb";
+import { args } from "../main";
 
 export interface Resource {
   name: string;
@@ -61,6 +62,9 @@ const banishSources: BanishSource[] = [
   {
     name: "Asdon Martin",
     available: (): boolean => {
+      if (args.debug.lastasdonbumperturn && myTurncount() - args.debug.lastasdonbumperturn > 30)
+        return false;
+
       // From libram
       if (!asdonFualable(50)) return false;
       const banishes = get("banishedMonsters").split(":");
