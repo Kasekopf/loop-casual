@@ -9200,6 +9200,7 @@ function keys_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.sl
 
 
 
+
 var Keys;
 
 (function (Keys) {
@@ -9227,7 +9228,7 @@ var heroKeys = [{
   freeaction: true
 }, {
   which: Keys.Malware,
-  possible: () => !property_get("dailyDungeonDone") && !property_get("_dailyDungeonMalwareUsed") && (!(0,external_kolmafia_namespaceObject.inHardcore)() && (0,external_kolmafia_namespaceObject.pullsRemaining)() > 0 || have(template_string_$item(keys_templateObject3 || (keys_templateObject3 = keys_taggedTemplateLiteral(["daily dungeon malware"]))))),
+  possible: () => !property_get("dailyDungeonDone") && !property_get("_dailyDungeonMalwareUsed") && (!(0,external_kolmafia_namespaceObject.inHardcore)() && ((0,external_kolmafia_namespaceObject.pullsRemaining)() > 0 || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000 || args.major.delaytower) || have(template_string_$item(keys_templateObject3 || (keys_templateObject3 = keys_taggedTemplateLiteral(["daily dungeon malware"]))))),
   acquire: [{
     item: template_string_$item(keys_templateObject4 || (keys_templateObject4 = keys_taggedTemplateLiteral(["daily dungeon malware"])))
   }, {
@@ -9426,7 +9427,7 @@ var KeyStrategy = /*#__PURE__*/function () {
         _iterator.f();
       }
 
-      if (sureKeys < keysNeeded) {
+      if (sureKeys < keysNeeded && !args.debug.ignorekeys) {
         var info = Array.from(this.plan.entries()).map(keyinfo => keyinfo.join("=")).join("; ");
         throw "Can only guarantee ".concat(sureKeys, " of ").concat(keysNeeded, " keys. (").concat(info, ")");
       }
@@ -19103,7 +19104,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "4a7e255";
+var lastCommitHash = "d6bd10e";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
@@ -19227,6 +19228,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     lastasdonbumperturn: Args.number({
       help: "Set the last usage of Asdon Martin: Spring-Loaded Front Bumper, in case of a tracking issue",
       hidden: true
+    }),
+    ignorekeys: Args.boolean({
+      help: "Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys",
+      default: false
     })
   })
 }, "Commands");
