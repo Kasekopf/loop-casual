@@ -99,6 +99,10 @@ export const args = Args.create(
         help: "A comma-separated list of skills to get, in addition to skills that will directly help the run.",
         default: "Financial Spreadsheets",
       }),
+      forcelocket: Args.flag({
+        help: "Always equip the combat lover's locket, in order to get monsters inside quickly.",
+        default: false,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({

@@ -28,6 +28,7 @@ import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
 import { Outfit } from "grimoire-kolmafia";
 import { atLevel, haveLoathingLegion } from "../lib";
+import { args } from "../main";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
@@ -70,6 +71,10 @@ export function equipInitial(outfit: Outfit): void {
   }
   if (outfit.modifier?.includes("+combat") && !outfit.modifier?.includes("res"))
     outfit.equip($item`thermal blanket`);
+
+  if (args.minor.forcelocket) {
+    outfit.equip($item`combat lover's locket`);
+  }
 }
 
 export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
