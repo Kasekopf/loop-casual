@@ -47,6 +47,7 @@ import {
   $monster,
   $path,
   $skill,
+  $slot,
   $stat,
   get,
   getTodaysHolidayWanderers,
@@ -344,6 +345,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       // Don't equip the orb if we have a bad target
       if (task.active_priority?.has(OverridePriority.BadOrb)) {
         outfit.equip({ avoid: $items`miniature crystal ball` });
+        if (outfit.equips.get($slot`familiar`) === $item`miniature crystal ball`) {
+          outfit.equips.delete($slot`familiar`);
+        }
       }
 
       // Equip an orb if we have a good target.
