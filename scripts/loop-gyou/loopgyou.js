@@ -19104,7 +19104,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "d6bd10e";
+var lastCommitHash = "f46d8a9";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
@@ -19229,7 +19229,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
       help: "Set the last usage of Asdon Martin: Spring-Loaded Front Bumper, in case of a tracking issue",
       hidden: true
     }),
-    ignorekeys: Args.boolean({
+    ignorekeys: Args.flag({
       help: "Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys",
       default: false
     })
