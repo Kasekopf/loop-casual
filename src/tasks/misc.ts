@@ -842,6 +842,16 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   // Leave the gingerbread city clock alone
   choices[1215] = 2;
 
+  const combat = new CombatStrategy();
+  const haiku_monsters = [
+    $monster`amateur ninja`,
+    $monster`ancient insane monk`,
+    $monster`ferocious bugbear`,
+    $monster`gelatinous cube`,
+    $monster`Knob Goblin poseur`,
+  ];
+  combat.macro(new Macro().attack().repeat(), haiku_monsters);
+
   return {
     name: "Teleportitis",
     after: ["Wand/Get Teleportitis"],
@@ -855,6 +865,7 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
         set("questL11Ron", "step1");
     },
     outfit: { equip: $items`antique machete` },
+    combat: combat,
     choices: choices,
     limit: { soft: 20 },
   };
