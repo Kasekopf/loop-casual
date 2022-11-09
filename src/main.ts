@@ -131,7 +131,7 @@ export const args = Args.create(
         help: "Set the last usage of Asdon Martin: Spring-Loaded Front Bumper, in case of a tracking issue",
         hidden: true,
       }),
-      ignorekeys: Args.boolean({
+      ignorekeys: Args.flag({
         help: "Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys",
         default: false,
       }),
