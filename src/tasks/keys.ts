@@ -36,6 +36,7 @@ import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
+import { args } from "../main";
 
 export enum Keys {
   Deck = "Deck",
@@ -66,7 +67,9 @@ const heroKeys: KeyTask[] = [
     possible: () =>
       !get("dailyDungeonDone") &&
       !get("_dailyDungeonMalwareUsed") &&
-      ((!inHardcore() && pullsRemaining() > 0) || have($item`daily dungeon malware`)),
+      ((!inHardcore() &&
+        (pullsRemaining() > 0 || myTurncount() >= 1000 || args.major.delaytower)) ||
+        have($item`daily dungeon malware`)),
     acquire: [
       { item: $item`daily dungeon malware` },
       { item: $item`Pick-O-Matic lockpicks`, optional: true },
@@ -246,7 +249,7 @@ class KeyStrategy {
       }
     }
 
-    if (sureKeys < keysNeeded) {
+    if (sureKeys < keysNeeded && !args.debug.ignorekeys) {
       const info = Array.from(this.plan.entries())
         .map((keyinfo) => keyinfo.join("="))
         .join("; ");
