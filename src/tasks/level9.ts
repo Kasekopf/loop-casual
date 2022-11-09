@@ -366,8 +366,23 @@ export const ChasmQuest: Quest = {
       },
     },
     {
+      name: "Bridge Parts",
+      after: ["Start"],
+      ready: () =>
+        (have($item`morningwood plank`) ||
+          have($item`raging hardwood plank`) ||
+          have($item`weirdwood plank`)) &&
+        (have($item`long hard screw`) || have($item`messy butt joint`) || have($item`thick caulk`)),
+      completed: () => step("questL09Topping") >= 1,
+      do: () => {
+        visitUrl(`place.php?whichplace=orc_chasm&action=bridge${get("chasmBridgeProgress")}`); // use existing materials
+      },
+      freeaction: true,
+      limit: { tries: 30, unready: true },
+    },
+    {
       name: "Start Peaks",
-      after: ["Bridge"],
+      after: ["Bridge", "Bridge Parts"],
       completed: () => step("questL09Topping") >= 2,
       do: () => {
         visitUrl("place.php?whichplace=highlands&action=highlands_dude");

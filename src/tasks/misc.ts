@@ -720,6 +720,10 @@ export const MiscQuest: Quest = {
         )
           zones.push($location`Sonofa Beach`);
 
+        if (step("questL09Topping") >= 1) {
+          zones.push($location`The Smut Orc Logging Camp`);
+        }
+
         // Mid underground locations for autumn dollar
         zones.push($location`The Defiled Nook`, $location`Cobb's Knob Menagerie, Level 3`);
 
