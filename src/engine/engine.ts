@@ -593,7 +593,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   post(task: ActiveTask): void {
     super.post(task);
 
-    if (task.active_priority?.has(OverridePriority.BadOrb)) resetBadOrb();
+    if (
+      task.active_priority?.has(OverridePriority.BadOrb) &&
+      !haveEquipped($item`miniature crystal ball`)
+    )
+      resetBadOrb();
     if (get("_latteBanishUsed") && shouldFinishLatte()) refillLatte();
     absorbConsumables();
     autosellJunk();
@@ -746,7 +750,8 @@ function getExtros(): void {
 
 function resetBadOrb(): boolean {
   if (!have($item`bitchin' meatcar`) && !have($item`Desert Bus pass`)) return false;
-
+  if (get("_juneCleaverFightsLeft") === 0 && haveEquipped($item`June cleaver`))
+    cliExecute("unequip june cleaver");
   // If we just adventured without the orb, visiting the shore will reset the prediction
   const store = visitUrl(toUrl($location`The Shore, Inc. Travel Agency`));
   if (!store.includes("Check out the gift shop")) {
