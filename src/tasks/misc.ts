@@ -841,6 +841,12 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   choices[1322] = 6;
   // Leave the gingerbread city clock alone
   choices[1215] = 2;
+  // Leave the daily dungeon alone
+  choices[689] = 1;
+  choices[690] = 3;
+  choices[691] = 3;
+  choices[692] = 8;
+  choices[693] = 3;
 
   const combat = new CombatStrategy();
   const haiku_monsters = [
