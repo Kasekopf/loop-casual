@@ -19,6 +19,7 @@ import {
   myLevel,
   mySpleenUse,
   print,
+  restoreMp,
   reverseNumberology,
   setProperty,
   turnsPerCast,
@@ -91,6 +92,7 @@ export const DietQuest: Quest = {
       completed: () => get("_universeCalculated") >= get("skillLevel144"),
       ready: () => myAdventures() > 0 && Object.keys(reverseNumberology()).includes("69"),
       do: (): void => {
+        restoreMp(1);
         cliExecute("numberology 69");
       },
       limit: { tries: 5 },
