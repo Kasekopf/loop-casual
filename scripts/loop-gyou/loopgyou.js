@@ -11801,7 +11801,7 @@ var Lighthouse = [// Saber into more lobsterfrogmen
 
     return new Macro();
   }).kill($monster(level12_templateObject21 || (level12_templateObject21 = level12_taggedTemplateLiteral(["lobsterfrogman"])))),
-  orbtargets: undefined,
+  orbtargets: () => undefined,
   choices: {
     1387: 2
   },
@@ -11825,7 +11825,7 @@ var Lighthouse = [// Saber into more lobsterfrogmen
     modifier: "+combat"
   },
   combat: new combat_CombatStrategy().kill($monster(level12_templateObject26 || (level12_templateObject26 = level12_taggedTemplateLiteral(["lobsterfrogman"])))),
-  orbtargets: undefined,
+  orbtargets: () => undefined,
   limit: {
     soft: 40
   }
@@ -16397,7 +16397,7 @@ var Oil = [{
   limit: {
     tries: 18
   },
-  orbtargets: undefined
+  orbtargets: () => undefined
 }, {
   name: "Oil Peak",
   after: ["Oil Kill"],
@@ -16406,7 +16406,7 @@ var Oil = [{
   limit: {
     tries: 1
   },
-  orbtargets: undefined
+  orbtargets: () => undefined
 }, {
   name: "Oil Jar",
   // get oil for jar of oil
@@ -16425,7 +16425,7 @@ var Oil = [{
   limit: {
     soft: 5
   },
-  orbtargets: undefined
+  orbtargets: () => undefined
 }];
 var Twin = [{
   name: "Twin Stench Search",
@@ -19111,7 +19111,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "d5b821a";
+var lastCommitHash = "82e9f30";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
