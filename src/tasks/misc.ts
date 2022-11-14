@@ -847,6 +847,8 @@ export function teleportitisTask(engine: Engine, tasks: Task[]): Task {
   choices[691] = 3;
   choices[692] = 8;
   choices[693] = 3;
+  // Leave the shore alone
+  choices[793] = 4;
 
   const combat = new CombatStrategy();
   const haiku_monsters = [
