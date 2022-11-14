@@ -139,7 +139,7 @@ const Lighthouse: Task[] = [
         return new Macro();
       })
       .kill($monster`lobsterfrogman`),
-    orbtargets: undefined,
+    orbtargets: () => undefined,
     choices: { 1387: 2 },
     limit: {
       tries: 20,
@@ -163,7 +163,7 @@ const Lighthouse: Task[] = [
     do: $location`Sonofa Beach`,
     outfit: { modifier: "+combat" },
     combat: new CombatStrategy().kill($monster`lobsterfrogman`),
-    orbtargets: undefined,
+    orbtargets: () => undefined,
     limit: { soft: 40 },
   },
   {
