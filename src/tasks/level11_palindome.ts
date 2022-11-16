@@ -87,7 +87,7 @@ const Copperhead: Task[] = [
     combat: new CombatStrategy().killHard($monster`Batsnake`).killItem(),
     outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     limit: { soft: 10 },
-    delay: 5,
+    delay: () => step("questL04Bat") >= 3 ? 5 : 0,
   },
   {
     name: "Cold Snake",
