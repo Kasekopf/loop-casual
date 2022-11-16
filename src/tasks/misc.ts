@@ -402,7 +402,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Hermit Clover",
-      after: ["Palindome/Protesters Start"],
+      after: ["Hidden City/Open Temple"],
       ready: () => myMeat() >= 1000,
       completed: () => get("_loop_gyou_clovers") === "true",
       do: () => {

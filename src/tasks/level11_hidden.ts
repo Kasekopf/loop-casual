@@ -83,7 +83,7 @@ const Temple: Task[] = [
   },
   {
     name: "Temple Wool",
-    after: ["Open Temple"],
+    after: ["Open Temple", "Misc/Hermit Clover"],
     completed: () =>
       itemAmount($item`stone wool`) >= 2 ||
       (itemAmount($item`stone wool`) === 1 && have($item`the Nostril of the Serpent`)) ||
