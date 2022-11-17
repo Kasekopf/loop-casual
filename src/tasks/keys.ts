@@ -301,7 +301,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Open 8-Bit",
-      after: [],
+      after: ["Mosquito/Start"],
       completed: () => have($item`continuum transfunctioner`),
       do: () => {
         if (!have($item`continuum transfunctioner`)) {
