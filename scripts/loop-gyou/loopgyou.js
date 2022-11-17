@@ -9475,7 +9475,7 @@ var KeysQuest = {
     freeaction: true
   }, {
     name: "Open 8-Bit",
-    after: [],
+    after: ["Mosquito/Start"],
     completed: () => have(template_string_$item(keys_templateObject58 || (keys_templateObject58 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))),
     do: () => {
       if (!have(template_string_$item(keys_templateObject59 || (keys_templateObject59 = keys_taggedTemplateLiteral(["continuum transfunctioner"]))))) {
@@ -19131,7 +19131,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "bf3dc00";
+var lastCommitHash = "bc3a69e";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
