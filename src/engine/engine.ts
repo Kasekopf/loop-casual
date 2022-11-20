@@ -11,6 +11,7 @@ import {
   haveEquipped,
   Item,
   Location,
+  logprint,
   Monster,
   myAdventures,
   myBasestat,
@@ -177,25 +178,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // If a wanderer is up try to place it in a useful location
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     if (wanderer) {
-      const absorb_state = globalStateCache.absorb();
-      // Prefer delay burning where there are no more absorbs to find
-      const delay_burning_no_absorbs = available_tasks.find(
-        (task) =>
-          this.hasDelay(task) &&
-          this.createOutfit(task).canEquip(wanderer?.equip ?? []) &&
-          !(
-            task.do instanceof Location &&
-            (absorb_state.hasTargets(task.do) || absorb_state.hasReprocessTargets(task.do))
-          )
-      );
-      if (delay_burning_no_absorbs) {
-        return {
-          ...delay_burning_no_absorbs,
-          active_priority: Prioritization.fixed(OverridePriority.Wanderer),
-          wanderer: wanderer,
-        };
-      }
-
       const delay_burning = available_tasks.find(
         (task) => this.hasDelay(task) && this.createOutfit(task).canEquip(wanderer?.equip ?? [])
       );
@@ -206,6 +188,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
           wanderer: wanderer,
         };
       }
+
+      logprint(`Wanderer ${wanderer.name} is ready but no tasks have delay`);
     }
 
     // Next, choose tasks by priorty, then by route.
