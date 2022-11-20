@@ -14207,25 +14207,10 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       var wanderer = wandererSources.find(source => source.available() && source.chance() === 1);
 
       if (wanderer) {
-        var absorb_state = globalStateCache.absorb(); // Prefer delay burning where there are no more absorbs to find
-
-        var delay_burning_no_absorbs = available_tasks.find(task => {
+        var delay_burning = available_tasks.find(task => {
           var _wanderer$equip;
 
-          return this.hasDelay(task) && this.createOutfit(task).canEquip((_wanderer$equip = wanderer === null || wanderer === void 0 ? void 0 : wanderer.equip) !== null && _wanderer$equip !== void 0 ? _wanderer$equip : []) && !(task.do instanceof external_kolmafia_namespaceObject.Location && (absorb_state.hasTargets(task.do) || absorb_state.hasReprocessTargets(task.do)));
-        });
-
-        if (delay_burning_no_absorbs) {
-          return engine_objectSpread(engine_objectSpread({}, delay_burning_no_absorbs), {}, {
-            active_priority: Prioritization.fixed(OverridePriority.Wanderer),
-            wanderer: wanderer
-          });
-        }
-
-        var delay_burning = available_tasks.find(task => {
-          var _wanderer$equip2;
-
-          return this.hasDelay(task) && this.createOutfit(task).canEquip((_wanderer$equip2 = wanderer === null || wanderer === void 0 ? void 0 : wanderer.equip) !== null && _wanderer$equip2 !== void 0 ? _wanderer$equip2 : []);
+          return this.hasDelay(task) && this.createOutfit(task).canEquip((_wanderer$equip = wanderer === null || wanderer === void 0 ? void 0 : wanderer.equip) !== null && _wanderer$equip !== void 0 ? _wanderer$equip : []);
         });
 
         if (delay_burning) {
@@ -14234,6 +14219,8 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
             wanderer: wanderer
           });
         }
+
+        (0,external_kolmafia_namespaceObject.logprint)("Wanderer ".concat(wanderer.name, " is ready but no tasks have delay"));
       } // Next, choose tasks by priorty, then by route.
 
 
@@ -14290,10 +14277,10 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       var wanderers = task.wanderer ? [task.wanderer] : [];
 
       for (var _i = 0, _wanderers = wanderers; _i < _wanderers.length; _i++) {
-        var _wanderer$equip3;
+        var _wanderer$equip2;
 
         var wanderer = _wanderers[_i];
-        if (!outfit.equip((_wanderer$equip3 = wanderer === null || wanderer === void 0 ? void 0 : wanderer.equip) !== null && _wanderer$equip3 !== void 0 ? _wanderer$equip3 : [])) throw "Wanderer equipment ".concat(wanderer.equip, " conflicts with ").concat(task.name);
+        if (!outfit.equip((_wanderer$equip2 = wanderer === null || wanderer === void 0 ? void 0 : wanderer.equip) !== null && _wanderer$equip2 !== void 0 ? _wanderer$equip2 : [])) throw "Wanderer equipment ".concat(wanderer.equip, " conflicts with ").concat(task.name);
       }
 
       if (typeof task.freeaction === "boolean" && task.freeaction || typeof task.freeaction === "function" && task.freeaction()) {
@@ -19131,7 +19118,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "bc3a69e";
+var lastCommitHash = "299cac7";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
