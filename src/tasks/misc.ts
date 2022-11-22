@@ -763,7 +763,7 @@ export const MiscQuest: Quest = {
         have($item`drive-by shooting`) ||
         get("_roboDrinks").toLowerCase().includes("drive-by shooting"),
       do: () => retrieveItem($item`grapefruit`),
-      limit: { tries: 2 }, // 1 might be absorbed for HP
+      limit: { tries: 1 },
       freeaction: true,
     },
     {
