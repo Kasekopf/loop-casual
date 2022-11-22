@@ -14,6 +14,7 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
@@ -26,10 +27,11 @@ import {
   Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { step } from "grimoire-kolmafia";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
 import { args } from "../main";
+import { globalStateCache } from "../engine/state";
 
 function shenItem(item: Item) {
   return (
@@ -63,6 +65,24 @@ const Copperhead: Task[] = [
       $monster`ninja dressed as a waiter`,
       $monster`waiter dressed as a ninja`,
     ]),
+    orbtargets: () => {
+      const targets = [
+        $monster`Copperhead Club bartender`,
+        $monster`ninja dressed as a waiter`,
+        $monster`waiter dressed as a ninja`,
+      ];
+      if (have($familiar`Robortender`)) targets.push($monster`Mob Penguin Capo`);
+      return targets;
+    },
+    outfit: (): OutfitSpec => {
+      if (have($familiar`Robortender`)) {
+        const target = globalStateCache.orb().prediction($location`The Copperhead Club`);
+        if (target === $monster`Mob Penguin Capo`)
+          return { equip: $items`miniature crystal ball`, familiar: $familiar`Robortender` };
+        else return { equip: $items`miniature crystal ball` };
+      }
+      return {};
+    },
     choices: {
       852: 1,
       853: 1,
@@ -87,7 +107,7 @@ const Copperhead: Task[] = [
     combat: new CombatStrategy().killHard($monster`Batsnake`).killItem(),
     outfit: { modifier: "item", avoid: $items`broken champagne bottle` },
     limit: { soft: 10 },
-    delay: () => step("questL04Bat") >= 3 ? 5 : 0,
+    delay: () => (step("questL04Bat") >= 3 ? 5 : 0),
   },
   {
     name: "Cold Snake",
