@@ -49,6 +49,7 @@ import {
   getSaleValue,
   have,
   Macro,
+  Robortender,
   set,
   uneffect,
 } from "libram";
@@ -744,6 +745,43 @@ export const MiscQuest: Quest = {
         visitUrl("main.php?action=may4");
         // Familiar weight
         runChoice(4);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Grapefruit",
+      after: [],
+      priority: () => OverridePriority.Free,
+      ready: () =>
+        have($item`filthy corduroys`) &&
+        have($item`filthy knitted dread sack`) &&
+        step("questL12War") < 1,
+      completed: () =>
+        !have($familiar`Robortender`) ||
+        have($item`grapefruit`) ||
+        have($item`drive-by shooting`) ||
+        get("_roboDrinks").toLowerCase().includes("drive-by shooting"),
+      do: () => retrieveItem($item`grapefruit`),
+      limit: { tries: 2 }, // 1 might be absorbed for HP
+      freeaction: true,
+    },
+    {
+      name: "Prepare Robortender",
+      after: ["Grapefruit"],
+      priority: () => OverridePriority.Free,
+      ready: () =>
+        (((have($item`fish head`) && have($item`boxed wine`)) || have($item`piscatini`)) &&
+          have($item`grapefruit`)) ||
+        have($item`drive-by shooting`),
+      completed: () =>
+        myTurncount() >= 1000 ||
+        get("sidequestNunsCompleted") !== "none" ||
+        !have($familiar`Robortender`) ||
+        get("_roboDrinks").toLowerCase().includes("drive-by shooting"),
+      do: () => {
+        retrieveItem($item`drive-by shooting`);
+        Robortender.feed($item`drive-by shooting`);
       },
       limit: { tries: 1 },
       freeaction: true,

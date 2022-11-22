@@ -66,6 +66,8 @@ export function equipInitial(outfit: Outfit): void {
   }
   // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
   if (outfit.modifier?.includes("meat")) {
+    if (get("_roboDrinks").toLowerCase().includes("drive-by shooting"))
+      outfit.equip($familiar`Robortender`);
     outfit.equip($familiar`Hobo Monkey`);
     outfit.equip($familiar`Leprechaun`); // backup
   }
