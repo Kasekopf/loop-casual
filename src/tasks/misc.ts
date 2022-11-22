@@ -734,6 +734,20 @@ export const MiscQuest: Quest = {
       limit: { tries: 15, unready: true },
       freeaction: true,
     },
+    {
+      name: "Saber",
+      after: [],
+      priority: () => OverridePriority.Free,
+      ready: () => have($item`Fourth of May Cosplay Saber`),
+      completed: () => get("_saberMod") !== 0,
+      do: (): void => {
+        visitUrl("main.php?action=may4");
+        // Familiar weight
+        runChoice(4);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
   ],
 };
 
