@@ -783,6 +783,7 @@ export const MiscQuest: Quest = {
         retrieveItem($item`drive-by shooting`);
         Robortender.feed($item`drive-by shooting`);
       },
+      outfit: { familiar: $familiar`Robortender` },
       limit: { tries: 1 },
       freeaction: true,
     },
