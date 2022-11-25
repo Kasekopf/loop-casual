@@ -185,6 +185,7 @@ const Apartment: Task[] = [
       if (have($effect`Thrice-Cursed`)) return [$monster`pygmy witch accountant`];
       else return [$monster`pygmy shaman`, $monster`pygmy witch accountant`];
     },
+    post: makeCompleteFile,
     outfit: { equip: $items`miniature crystal ball` },
     limit: { tries: 9 },
     choices: { 780: 1 },
@@ -207,6 +208,7 @@ const Apartment: Task[] = [
       if (have($effect`Thrice-Cursed`)) return [];
       else return [$monster`pygmy shaman`];
     },
+    post: makeCompleteFile,
     outfit: { equip: $items`miniature crystal ball` },
     choices: { 780: 1 },
     limit: { tries: 9 },
@@ -249,6 +251,7 @@ const Office: Task[] = [
       get("hiddenOfficeProgress") >= 7 ||
       $location`The Hidden Office Building`.turnsSpent >= 10,
     do: $location`The Hidden Office Building`,
+    post: makeCompleteFile,
     combat: new CombatStrategy()
       .kill($monster`pygmy witch accountant`)
       .banish($monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
@@ -263,6 +266,7 @@ const Office: Task[] = [
       have($item`McClusky file (complete)`) ||
       get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
+    post: makeCompleteFile,
     choices: { 786: 2 },
     combat: new CombatStrategy().ignore(),
     limit: { tries: 6 },
@@ -272,6 +276,7 @@ const Office: Task[] = [
     after: ["Office Clip"],
     completed: () => get("hiddenOfficeProgress") >= 7,
     do: $location`The Hidden Office Building`,
+    post: makeCompleteFile,
     choices: { 786: 1 },
     combat: new CombatStrategy()
       .killHard($monster`ancient protector spirit (The Hidden Office Building)`)
@@ -454,3 +459,16 @@ export const HiddenQuest: Quest = {
     },
   ],
 };
+
+function makeCompleteFile(): void {
+  if (
+    have($item`McClusky file (page 1)`) &&
+    have($item`McClusky file (page 2)`) &&
+    have($item`McClusky file (page 3)`) &&
+    have($item`McClusky file (page 4)`) &&
+    have($item`McClusky file (page 5)`) &&
+    have($item`boring binder clip`)
+  ) {
+    cliExecute("make McClusky file (complete)");
+  }
+}
