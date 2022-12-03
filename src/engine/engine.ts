@@ -2,7 +2,6 @@ import {
   autosell,
   autosellPrice,
   descToItem,
-  eat,
   equippedItem,
   familiarWeight,
   getInventory,
@@ -716,7 +715,8 @@ function absorbConsumables(): void {
     if (item.fullness > 0 && !absorbed.has(item_id)) {
       if (have($item`Special Seasoning`))
         putCloset(itemAmount($item`Special Seasoning`), $item`Special Seasoning`);
-      eat(item);
+      // eat(item);
+      visitUrl(`inv_eat.php?pwd&which=1&whichitem=${item_id}`); // hotfix for food issue
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
     }
   }
