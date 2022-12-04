@@ -137,7 +137,9 @@ export const args = Args.create(
       }),
     }),
   },
-  "Commands"
+  {
+    defaultGroupName: "Commands",
+  }
 );
 export function main(command?: string): void {
   sinceKolmafiaRevision(26834);
