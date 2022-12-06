@@ -38,7 +38,7 @@ import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire
 import { atLevel } from "../lib";
 import { Task } from "./task";
 import { monstersAt } from "../tasks/absorb";
-import { args } from "../main";
+import { args } from "../args";
 
 export interface Resource {
   name: string;

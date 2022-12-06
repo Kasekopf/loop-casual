@@ -46,7 +46,7 @@ import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
 import { Quest, Task } from "../engine/task";
 import { Limit, step } from "grimoire-kolmafia";
-import { args } from "../main";
+import { args } from "../args";
 import { coldPlanner, stenchPlanner } from "../engine/outfit";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.

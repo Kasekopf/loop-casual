@@ -11,7 +11,7 @@ import {
   storageAmount,
 } from "kolmafia";
 import { $familiar, $item, $items, $skill, get, have, set } from "libram";
-import { args } from "../main";
+import { args } from "../args";
 import { OverridePriority } from "../engine/priority";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";

@@ -36,7 +36,7 @@ import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
-import { args } from "../main";
+import { args } from "../args";
 
 export enum Keys {
   Deck = "Deck",

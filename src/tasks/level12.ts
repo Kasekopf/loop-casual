@@ -37,7 +37,7 @@ import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { forceItemPossible, yellowRayPossible } from "../engine/resources";
-import { args } from "../main";
+import { args } from "../args";
 
 export function flyersDone(): boolean {
   return get("flyeredML") >= 10000;

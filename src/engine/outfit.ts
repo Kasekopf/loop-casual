@@ -33,7 +33,7 @@ import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
 import { Modes, Outfit, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel, haveLoathingLegion } from "../lib";
-import { args } from "../main";
+import { args } from "../args";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {

@@ -60,7 +60,7 @@ import { OverridePriority } from "../engine/priority";
 import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
-import { args } from "../main";
+import { args } from "../args";
 import { globalStateCache } from "../engine/state";
 import { coldPlanner } from "../engine/outfit";
 

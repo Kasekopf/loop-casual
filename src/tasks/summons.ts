@@ -37,7 +37,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { debug } from "../lib";
-import { args } from "../main";
+import { args } from "../args";
 import { OverridePriority } from "../engine/priority";
 import { globalStateCache } from "../engine/state";
 import { Quest, Task } from "../engine/task";

@@ -82,7 +82,7 @@ import {
   yellowRaySources,
 } from "./resources";
 import { OverridePriority, Prioritization } from "./priority";
-import { args } from "../main";
+import { args } from "../args";
 import { flyersDone } from "../tasks/level12";
 import { globalStateCache } from "./state";
 import { removeTeleportitis, teleportitisTask } from "../tasks/misc";

@@ -30,7 +30,7 @@ import { Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
-import { args } from "../main";
+import { args } from "../args";
 import { globalStateCache } from "../engine/state";
 
 function shenItem(item: Item) {

@@ -29,7 +29,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { args } from "../main";
+import { args } from "../args";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 
