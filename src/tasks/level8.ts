@@ -98,7 +98,7 @@ export const McLargeHugeQuest: Quest = {
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
       },
-      outfit: { modifier: "cold res" },
+      outfit: () => coldPlanner.outfitFor(5),
       limit: { tries: 1 },
     },
     {
@@ -112,7 +112,7 @@ export const McLargeHugeQuest: Quest = {
           throw `Unable to ensure cold res for The Icy Peak`;
       },
       do: $location`Mist-Shrouded Peak`,
-      outfit: { modifier: "cold res" },
+      outfit: () => coldPlanner.outfitFor(5),
       combat: new CombatStrategy().killHard(),
       boss: true,
       limit: { tries: 4 },

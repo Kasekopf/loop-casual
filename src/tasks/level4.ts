@@ -13,7 +13,7 @@ import {
   Macro,
 } from "libram";
 import { Quest } from "../engine/task";
-import { OutfitSpec, step } from "grimoire-kolmafia";
+import { Outfit, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
@@ -51,17 +51,16 @@ export const BatQuest: Quest = {
       post: () => {
         if (have($item`sonar-in-a-biscuit`)) use($item`sonar-in-a-biscuit`);
       },
-      outfit: (): OutfitSpec => {
+      outfit: (): Outfit => {
         if (
           have($item`industrial fire extinguisher`) &&
           get("_fireExtinguisherCharge") >= 20 &&
           !get("fireExtinguisherBatHoleUsed")
         )
-          return {
+          return stenchPlanner.outfitFor(1, {
             equip: $items`industrial fire extinguisher`,
-            modifier: "stench res",
-          };
-        else return { modifier: "item, 10 stench res" };
+          });
+        else return stenchPlanner.outfitFor(1, { modifier: "item" });
       },
       combat: new CombatStrategy()
         .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`))

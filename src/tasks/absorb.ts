@@ -83,7 +83,7 @@ const absorbTasks: AbsorbTask[] = [
       if (numericModifier("stench resistance") < 1)
         throw `Unable to ensure stench res for Guano Junction`;
     },
-    outfit: { modifier: "stench res" },
+    outfit: () => stenchPlanner.outfitFor(1),
     after: ["Bat/Get Sonar 3"],
     choices: { 1427: 2 },
   },

@@ -55,7 +55,7 @@ import {
   uneffect,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { OutfitSpec, step } from "grimoire-kolmafia";
+import { Outfit, OutfitSpec, step } from "grimoire-kolmafia";
 import { OverridePriority } from "../engine/priority";
 import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";
@@ -302,7 +302,7 @@ export const MiscQuest: Quest = {
           adv1(get("ghostLocation") ?? $location`none`, 0, "");
         }
       },
-      outfit: (): OutfitSpec => {
+      outfit: (): OutfitSpec | Outfit => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
           return {
             equip: $items`Talisman o' Namsilat, protonic accelerator pack`,
@@ -310,8 +310,11 @@ export const MiscQuest: Quest = {
           };
         if (get("ghostLocation") === $location`The Icy Peak`) {
           if (coldPlanner.maximumPossible(true, $slots`back`) >= 5)
-            return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
-          else return { modifier: "1000 cold res, DA, DR" }; // not enough cold res without back
+            return coldPlanner.outfitFor(5, {
+              equip: $items`protonic accelerator pack`,
+              modifier: "DA, DR",
+            });
+          else return coldPlanner.outfitFor(5, { modifier: "DA, DR" }); // not enough cold res without back
         }
         return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
       },

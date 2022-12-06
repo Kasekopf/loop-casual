@@ -168,7 +168,7 @@ const Twin: Task[] = [
     },
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
-    outfit: { modifier: "100 stench res, -combat, item" },
+    outfit: () => stenchPlanner.outfitFor(4, { modifier: "-combat, item" }),
     combat: new CombatStrategy().killItem(
       $monsters`bearpig topiary animal, elephant (meatcar?) topiary animal, spider (duck?) topiary animal`
     ),
@@ -188,7 +188,7 @@ const Twin: Task[] = [
       use($item`rusty hedge trimmers`);
     },
     choices: { 606: 1, 607: 1 },
-    outfit: { modifier: "stench res" },
+    outfit: () => stenchPlanner.outfitFor(4),
     limit: { tries: 1 },
   },
   {
