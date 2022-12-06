@@ -115,8 +115,6 @@ const summonTargets: SummonTarget[] = [
         (equippedAmount($item`Lil' Doctor™ bag`) === 0 || get("_chestXRayUsed") >= 3)
       )
         abort("Not ready for pygmy locket");
-      if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0)
-        cliExecute("retrocape heck hold");
 
       if (initiativeModifier() < 50 && have($item`Clan VIP Lounge key`)) cliExecute("pool stylish");
       if (initiativeModifier() < 50) abort("Not enough init for pygmy locket");
@@ -136,6 +134,7 @@ const summonTargets: SummonTarget[] = [
         return {
           modifier: "init",
           equip: $items`Lil' Doctor™ bag, unwrapped knock-off retro superhero cape`,
+          modes: { retrocape: ["heck", "hold"] },
         };
       }
 
@@ -147,6 +146,7 @@ const summonTargets: SummonTarget[] = [
         return {
           modifier: "init",
           equip: $items`unwrapped knock-off retro superhero cape`,
+          modes: { retrocape: ["heck", "hold"] },
           familiar: $familiar`Vampire Vintner`,
         };
       else return { modifier: "init, -1ML" }; // Just use yellow rocket
@@ -181,7 +181,6 @@ const summonTargets: SummonTarget[] = [
       );
     },
     prepare: () => {
-      if (have($item`unwrapped knock-off retro superhero cape`)) cliExecute("retrocape heck hold");
       if (
         (myTurncount() < 5 && !have($item`yellow rocket`)) ||
         equippedAmount($item`Jurassic Parka`) < 0
@@ -190,8 +189,17 @@ const summonTargets: SummonTarget[] = [
       }
     },
     outfit: () => {
-      if (yellowRayPossible()) return { equip: $items`unwrapped knock-off retro superhero cape` };
-      else return { equip: $items`unwrapped knock-off retro superhero cape`, modifier: "item" };
+      if (yellowRayPossible())
+        return {
+          equip: $items`unwrapped knock-off retro superhero cape`,
+          modes: { retrocape: ["heck", "hold"] },
+        };
+      else
+        return {
+          equip: $items`unwrapped knock-off retro superhero cape`,
+          modes: { retrocape: ["heck", "hold"] },
+          modifier: "item",
+        };
     },
     combat: new CombatStrategy().yellowRay(),
   },

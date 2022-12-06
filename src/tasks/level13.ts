@@ -502,19 +502,16 @@ export const TowerQuest: Quest = {
       name: "Shadow",
       after: ["Mirror", "Absorb/Twin Peak"],
       prepare: () => {
-        if (
-          have($item`unwrapped knock-off retro superhero cape`) &&
-          (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "hold")
-        ) {
-          cliExecute("retrocape heck hold");
-        }
         fillHp();
       },
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
       outfit: () => {
         if (have($item`unwrapped knock-off retro superhero cape`))
-          return { equip: $items`unwrapped knock-off retro superhero cape` };
+          return {
+            equip: $items`unwrapped knock-off retro superhero cape`,
+            modes: { retrocape: ["heck", "hold"] },
+          };
         else if (have($item`attorney's badge`))
           return {
             modifier: "HP",

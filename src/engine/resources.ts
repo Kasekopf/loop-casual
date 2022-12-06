@@ -419,10 +419,7 @@ export const yellowRaySources: YellowRaySource[] = [
   {
     name: "Jurassic Parka",
     available: () => have($skill`Torso Awareness`) && have($item`Jurassic Parka`),
-    prepare: () => {
-      if (get("parkaMode") !== "dilophosaur") cliExecute("parka dilophosaur");
-    },
-    equip: $item`Jurassic Parka`,
+    equip: { equip: $items`Jurassic Parka`, modes: { parka: "dilophosaur" } },
     do: $skill`Spit jurassic acid`,
   },
   {
@@ -434,11 +431,10 @@ export const yellowRaySources: YellowRaySource[] = [
   {
     name: "Retro Superhero Cape",
     available: () => have($item`unwrapped knock-off retro superhero cape`),
-    prepare: () => {
-      if (get("retroCapeSuperhero") !== "heck" || get("retroCapeWashingInstructions") !== "kiss")
-        cliExecute("retrocape heck kiss");
+    equip: {
+      equip: $items`unwrapped knock-off retro superhero cape`,
+      modes: { retrocape: ["heck", "kiss"] },
     },
-    equip: $item`unwrapped knock-off retro superhero cape`,
     do: $skill`Unleash the Devil's Kiss`,
   },
 ];
