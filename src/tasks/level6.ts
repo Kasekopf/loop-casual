@@ -31,7 +31,7 @@ export const FriarQuest: Quest = {
         }
         return { modifier: "-combat" };
       },
-      limit: { tries: 20 },
+      limit: { tries: 24 },
     },
     {
       name: "Neck",
@@ -40,7 +40,7 @@ export const FriarQuest: Quest = {
       do: $location`The Dark Neck of the Woods`,
       outfit: { modifier: "-combat" },
       choices: { 1428: 2 },
-      limit: { tries: 20 },
+      limit: { tries: 24 },
     },
     {
       name: "Elbow",
@@ -53,7 +53,7 @@ export const FriarQuest: Quest = {
         }
         return { modifier: "-combat" };
       },
-      limit: { tries: 20 },
+      limit: { tries: 24 },
     },
     {
       name: "Finish",
