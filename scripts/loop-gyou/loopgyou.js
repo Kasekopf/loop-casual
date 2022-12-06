@@ -10084,7 +10084,7 @@ function min(a, b) {
   return a < b ? a : b;
 }
 ;// CONCATENATED MODULE: ./src/engine/outfit.ts
-var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86;
+var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86, outfit_templateObject87, outfit_templateObject88, outfit_templateObject89, outfit_templateObject90, outfit_templateObject91;
 
 function engine_outfit_toConsumableArray(arr) { return engine_outfit_arrayWithoutHoles(arr) || engine_outfit_iterableToArray(arr) || engine_outfit_unsupportedIterableToArray(arr) || engine_outfit_nonIterableSpread(); }
 
@@ -10338,8 +10338,16 @@ function fixFoldables(outfit) {
     }
   }
 }
+
+var outfit_weaponHands = i => i ? (0,external_kolmafia_namespaceObject.weaponHands)(i) : 0;
+
 function cacheDress(outfit, extraOptions) {
   var currentEquipScore = cacheScore(outfit.equips);
+
+  if (outfit.equips.has($slot(outfit_templateObject77 || (outfit_templateObject77 = engine_outfit_taggedTemplateLiteral(["off-hand"])))) && !outfit.equips.has($slot(outfit_templateObject78 || (outfit_templateObject78 = engine_outfit_taggedTemplateLiteral(["weapon"])))) && outfit_weaponHands((0,external_kolmafia_namespaceObject.equippedItem)($slot(outfit_templateObject79 || (outfit_templateObject79 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) > 1) {
+    (0,external_kolmafia_namespaceObject.equip)(template_string_$item(outfit_templateObject80 || (outfit_templateObject80 = engine_outfit_taggedTemplateLiteral(["none"]))), $slot(outfit_templateObject81 || (outfit_templateObject81 = engine_outfit_taggedTemplateLiteral(["weapon"]))));
+  }
+
   var outfits = [0, 1, 2, 3, 4, 5].map(i => "Script Outfit ".concat(i)).map(name => ({
     name: name,
     score: cacheScore(outfit.equips, name)
@@ -10353,9 +10361,9 @@ function cacheDress(outfit, extraOptions) {
 
   outfit.dress(extraOptions);
 }
-var nonAccSlots = $slots(outfit_templateObject77 || (outfit_templateObject77 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants"])));
-var accSlots = $slots(outfit_templateObject78 || (outfit_templateObject78 = engine_outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
-var outfit_outfitSlots = $slots(outfit_templateObject79 || (outfit_templateObject79 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants, acc1, acc2, acc3"])));
+var nonAccSlots = $slots(outfit_templateObject82 || (outfit_templateObject82 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants"])));
+var accSlots = $slots(outfit_templateObject83 || (outfit_templateObject83 = engine_outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
+var outfit_outfitSlots = $slots(outfit_templateObject84 || (outfit_templateObject84 = engine_outfit_taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants, acc1, acc2, acc3"])));
 function loadItems(outfit) {
   var _freeAccSlots$pop;
 
@@ -10364,7 +10372,7 @@ function loadItems(outfit) {
   }
 
   var result = new Map();
-  var freeAccSlots = $slots(outfit_templateObject80 || (outfit_templateObject80 = engine_outfit_taggedTemplateLiteral(["acc3, acc2, acc1"])));
+  var freeAccSlots = $slots(outfit_templateObject85 || (outfit_templateObject85 = engine_outfit_taggedTemplateLiteral(["acc3, acc2, acc1"])));
   var items = (0,external_kolmafia_namespaceObject.outfitPieces)(outfit);
 
   var _iterator3 = engine_outfit_createForOfIteratorHelper(items),
@@ -10376,13 +10384,13 @@ function loadItems(outfit) {
       var slot = (0,external_kolmafia_namespaceObject.toSlot)(item);
 
       switch (slot) {
-        case $slot(outfit_templateObject81 || (outfit_templateObject81 = engine_outfit_taggedTemplateLiteral(["weapon"]))):
+        case $slot(outfit_templateObject86 || (outfit_templateObject86 = engine_outfit_taggedTemplateLiteral(["weapon"]))):
           // The second weapon in the item list is the dual-equipped one
-          if (result.has($slot(outfit_templateObject82 || (outfit_templateObject82 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) result.set($slot(outfit_templateObject83 || (outfit_templateObject83 = engine_outfit_taggedTemplateLiteral(["off-hand"]))), item);else result.set($slot(outfit_templateObject84 || (outfit_templateObject84 = engine_outfit_taggedTemplateLiteral(["weapon"]))), item);
+          if (result.has($slot(outfit_templateObject87 || (outfit_templateObject87 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) result.set($slot(outfit_templateObject88 || (outfit_templateObject88 = engine_outfit_taggedTemplateLiteral(["off-hand"]))), item);else result.set($slot(outfit_templateObject89 || (outfit_templateObject89 = engine_outfit_taggedTemplateLiteral(["weapon"]))), item);
           break;
 
-        case $slot(outfit_templateObject85 || (outfit_templateObject85 = engine_outfit_taggedTemplateLiteral(["acc1"]))):
-          result.set((_freeAccSlots$pop = freeAccSlots.pop()) !== null && _freeAccSlots$pop !== void 0 ? _freeAccSlots$pop : $slot(outfit_templateObject86 || (outfit_templateObject86 = engine_outfit_taggedTemplateLiteral(["none"]))), item);
+        case $slot(outfit_templateObject90 || (outfit_templateObject90 = engine_outfit_taggedTemplateLiteral(["acc1"]))):
+          result.set((_freeAccSlots$pop = freeAccSlots.pop()) !== null && _freeAccSlots$pop !== void 0 ? _freeAccSlots$pop : $slot(outfit_templateObject91 || (outfit_templateObject91 = engine_outfit_taggedTemplateLiteral(["none"]))), item);
           break;
 
         default:
@@ -19760,7 +19768,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "0ef77c1";
+var lastCommitHash = "2913e6d";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
