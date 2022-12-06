@@ -41,6 +41,7 @@ import {
   $monster,
   $monsters,
   $skill,
+  $slots,
   $stat,
   AsdonMartin,
   AutumnAton,
@@ -61,7 +62,7 @@ import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../main";
 import { globalStateCache } from "../engine/state";
-import { coldRes } from "./absorb";
+import { coldPlanner } from "../engine/outfit";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -308,7 +309,7 @@ export const MiscQuest: Quest = {
             modifier: "DA, DR",
           };
         if (get("ghostLocation") === $location`The Icy Peak`) {
-          if (coldRes(true, false) >= 5)
+          if (coldPlanner.maximumPossible(true, $slots`back`) >= 5)
             return { equip: $items`protonic accelerator pack`, modifier: "1000 cold res, DA, DR" };
           else return { modifier: "1000 cold res, DA, DR" }; // not enough cold res without back
         }

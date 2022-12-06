@@ -8,12 +8,15 @@ import {
   Item,
   weaponHands as mafiaWeaponHands,
   myBasestat,
+  myMeat,
   outfitPieces,
   print,
+  Skill,
   Slot,
   toSlot,
 } from "kolmafia";
 import {
+  $effect,
   $familiar,
   $item,
   $skill,
@@ -28,7 +31,7 @@ import {
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
 import { towerSkip } from "../tasks/level13";
-import { Outfit } from "grimoire-kolmafia";
+import { Modes, Outfit, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel, haveLoathingLegion } from "../lib";
 import { args } from "../main";
 
@@ -351,3 +354,87 @@ export function cacheScore(desired: Map<Slot, Item>, name?: string): number {
   // print(`${name} (${[...items.values()].join(", ")}): ${overlap}`);
   return overlap;
 }
+
+type ResOption = {
+  thing: Item | Skill;
+  ready?: () => boolean;
+  modes?: Partial<Modes>;
+  value: number;
+};
+
+export class ElementalPlanner {
+  options: ResOption[];
+  constructor(options: ResOption[]) {
+    this.options = options;
+  }
+
+  public maximumPossible(with_black_paint: boolean, avoid_slots: Slot[] = []) {
+    let res = 0;
+    if (
+      with_black_paint &&
+      (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))
+    )
+      res += 2;
+    for (const option of this.options) {
+      if (option.thing instanceof Item && avoid_slots.includes(toSlot(option.thing))) continue;
+      if (option.ready && !option.ready()) continue;
+      if (have(option.thing)) res += option.value;
+    }
+    return res;
+  }
+
+  public outfitFor(goal: number, addTo?: OutfitSpec): Outfit {
+    const result = new Outfit();
+    if (addTo) result.equip(addTo);
+    for (const option of this.options) {
+      if (goal <= 0) break; // we equipped enough
+
+      if (option.ready && !option.ready()) continue;
+      if (option.thing instanceof Skill) {
+        if (have(option.thing)) goal -= option.value;
+      } else {
+        if (result.equip(option.thing)) {
+          if (option.modes) result.setModes(option.modes);
+          goal -= option.value;
+        }
+      }
+    }
+    return result;
+  }
+}
+
+export const coldPlanner = new ElementalPlanner([
+  { thing: $skill`Nanofur`, value: 3 },
+  { thing: $skill`Microweave`, value: 2 },
+  { thing: $item`ice crown`, value: 3 },
+  { thing: $item`ghost of a necklace`, value: 1 },
+  {
+    thing: $item`unwrapped knock-off retro superhero cape`,
+    value: 3,
+    modes: { retrocape: ["vampire", "hold"] },
+  },
+  {
+    thing: $item`Jurassic Parka`,
+    value: 3,
+    ready: () => have($skill`Torso Awareness`),
+    modes: { parka: "kachungasaur" },
+  },
+]);
+
+export const stenchPlanner = new ElementalPlanner([
+  { thing: $skill`Conifer Polymers`, value: 3 },
+  { thing: $skill`Clammy Microcilia`, value: 2 },
+  { thing: $item`ice crown`, value: 3 },
+  { thing: $item`ghost of a necklace`, value: 1 },
+  {
+    thing: $item`unwrapped knock-off retro superhero cape`,
+    value: 3,
+    modes: { retrocape: ["vampire", "hold"] },
+  },
+  {
+    thing: $item`Jurassic Parka`,
+    value: 3,
+    ready: () => have($skill`Torso Awareness`),
+    modes: { parka: "dilophosaur" },
+  },
+]);

@@ -13,7 +13,6 @@ import {
   Location,
   Monster,
   myAscensions,
-  myMeat,
   numericModifier,
   putCloset,
   runChoice,
@@ -48,6 +47,7 @@ import { towerSkip } from "./level13";
 import { Quest, Task } from "../engine/task";
 import { Limit, step } from "grimoire-kolmafia";
 import { args } from "../main";
+import { coldPlanner, stenchPlanner } from "../engine/outfit";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -77,7 +77,7 @@ const absorbTasks: AbsorbTask[] = [
   },
   {
     do: $location`Guano Junction`,
-    ready: () => stenchRes(true) >= 1,
+    ready: () => stenchPlanner.maximumPossible(true) >= 1,
     prepare: () => {
       if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
       if (numericModifier("stench resistance") < 1)
@@ -232,13 +232,18 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`The Icy Peak`,
     after: ["McLargeHuge/Peak"],
-    ready: () => coldRes(true) >= 5,
+    ready: () => coldPlanner.maximumPossible(true) >= 5,
     prepare: () => {
       if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
       if (numericModifier("cold resistance") < 5)
         throw `Unable to ensure cold res for The Icy Peak`;
     },
-    outfit: { modifier: "10 cold res, +combat", equip: $items`miniature crystal ball` },
+    outfit: () => {
+      return coldPlanner.outfitFor(5, {
+        modifier: "+combat",
+        equip: $items`miniature crystal ball`,
+      });
+    },
     combat: new CombatStrategy().macro(new Macro().attack().repeat(), $monster`Snow Queen`),
   },
   // Level 9
@@ -849,9 +854,9 @@ export class AbsorbState {
 
     // No need for resistance skills if we already have enough
     // Get at least 3 cold res for icy peak
-    if (coldRes(false) >= 3) ignored_skills.add($skill`Nanofur`);
+    if (coldPlanner.maximumPossible(false) >= 3) ignored_skills.add($skill`Nanofur`);
     // Get at least 4 stench res for twin peaks
-    if (stenchRes(false) >= 2) ignored_skills.add($skill`Clammy Microcilia`);
+    if (stenchPlanner.maximumPossible(false) >= 2) ignored_skills.add($skill`Clammy Microcilia`);
 
     // Other res skills are only needed for the tower hedge maze
     const res_skills = $skills`Ire Proof, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Lubricant Layer`;
@@ -1036,35 +1041,3 @@ export const ReprocessQuest: Quest = {
     },
   ],
 };
-
-export function coldRes(with_black_paint: boolean, with_back = true): number {
-  let res = 0;
-  if (have($item`ice crown`)) res += 3;
-  if (with_back && have($item`unwrapped knock-off retro superhero cape`)) res += 3;
-  if (have($item`ghost of a necklace`)) res += 1;
-  if (have($skill`Nanofur`)) res += 3;
-  if (have($skill`Microweave`)) res += 2;
-  if (have($item`Jurassic Parka`) && have($skill`Torso Awareness`)) res += 3;
-  if (
-    with_black_paint &&
-    (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))
-  )
-    res += 2;
-  return res;
-}
-
-export function stenchRes(with_black_paint: boolean): number {
-  let res = 0;
-  if (have($item`ice crown`)) res += 3;
-  if (have($item`unwrapped knock-off retro superhero cape`)) res += 3;
-  if (have($item`ghost of a necklace`)) res += 1;
-  if (have($skill`Conifer Polymers`)) res += 3;
-  if (have($skill`Clammy Microcilia`)) res += 2;
-  if (have($item`Jurassic Parka`) && have($skill`Torso Awareness`)) res += 3;
-  if (
-    with_black_paint &&
-    (have($effect`Red Door Syndrome`) || (myMeat() >= 1000 && step("questL11Black") >= 2))
-  )
-    res += 2;
-  return res;
-}

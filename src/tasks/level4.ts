@@ -18,7 +18,7 @@ import { OverridePriority } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
-import { stenchRes } from "./absorb";
+import { stenchPlanner } from "../engine/outfit";
 
 export const BatQuest: Quest = {
   name: "Bat",
@@ -38,7 +38,7 @@ export const BatQuest: Quest = {
       after: [],
       completed: () => step("questL04Bat") + itemAmount($item`sonar-in-a-biscuit`) >= 1,
       do: $location`Guano Junction`,
-      ready: () => stenchRes(true) >= 1,
+      ready: () => stenchPlanner.maximumPossible(true) >= 1,
       priority: () =>
         have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`)
           ? OverridePriority.None

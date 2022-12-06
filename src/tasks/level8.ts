@@ -8,7 +8,7 @@ import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
 import { summonStrategy } from "./summons";
-import { coldRes } from "./absorb";
+import { coldPlanner } from "../engine/outfit";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -89,7 +89,7 @@ export const McLargeHugeQuest: Quest = {
       name: "Climb",
       after: ["Trapper Return", "Ninja"],
       completed: () => step("questL08Trapper") >= 3,
-      ready: () => coldRes(true) >= 5,
+      ready: () => coldPlanner.maximumPossible(true) >= 5,
       prepare: () => {
         if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
         if (numericModifier("cold resistance") < 5)
@@ -105,7 +105,7 @@ export const McLargeHugeQuest: Quest = {
       name: "Peak",
       after: ["Climb"],
       completed: () => step("questL08Trapper") >= 5,
-      ready: () => coldRes(true) >= 5,
+      ready: () => coldPlanner.maximumPossible(true) >= 5,
       prepare: () => {
         if (numericModifier("cold resistance") < 5) ensureEffect($effect`Red Door Syndrome`);
         if (numericModifier("cold resistance") < 5)

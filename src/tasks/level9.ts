@@ -36,7 +36,7 @@ import { atLevel } from "../lib";
 import { OverridePriority } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
-import { stenchRes } from "./absorb";
+import { stenchPlanner } from "../engine/outfit";
 
 const ABoo: Task[] = [
   {
@@ -159,7 +159,7 @@ const Twin: Task[] = [
   {
     name: "Twin Stench Search",
     after: ["Start Peaks"],
-    ready: () => !have($item`rusty hedge trimmers`) && stenchRes(true) >= 4,
+    ready: () => !have($item`rusty hedge trimmers`) && stenchPlanner.maximumPossible(true) >= 4,
     completed: () => !!(get("twinPeakProgress") & 1),
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
@@ -177,7 +177,7 @@ const Twin: Task[] = [
   {
     name: "Twin Stench",
     after: ["Start Peaks"],
-    ready: () => have($item`rusty hedge trimmers`) && stenchRes(true) >= 4,
+    ready: () => have($item`rusty hedge trimmers`) && stenchPlanner.maximumPossible(true) >= 4,
     completed: () => !!(get("twinPeakProgress") & 1),
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
