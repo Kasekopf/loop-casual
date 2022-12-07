@@ -212,7 +212,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
 
 export function fixFoldables(outfit: Outfit) {
   // Libram outfit cache may not autofold umbrella, so we need to
-  if (equippedAmount($item`unbreakable umbrella`) > 0) {
+  if (equippedAmount($item`unbreakable umbrella`) > 0 && !outfit.modes["umbrella"]) {
     if (outfit.modifier?.includes("-combat")) {
       if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
     } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
@@ -225,7 +225,7 @@ export function fixFoldables(outfit: Outfit) {
   }
 
   // Libram outfit cache may not autofold camera, so we need to
-  if (equippedAmount($item`backup camera`) > 0) {
+  if (equippedAmount($item`backup camera`) > 0 && !outfit.modes["backupcamera"]) {
     if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
     } else if (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) {
@@ -239,7 +239,10 @@ export function fixFoldables(outfit: Outfit) {
   }
 
   // Libram outfit cache may not autofold cape, so we need to
-  if (equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0) {
+  if (
+    equippedAmount($item`unwrapped knock-off retro superhero cape`) > 0 &&
+    !outfit.modes["retrocape"]
+  ) {
     if (
       (outfit.modifier?.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
       get("retroCapeWashingInstructions") !== "hold"
@@ -249,7 +252,7 @@ export function fixFoldables(outfit: Outfit) {
   }
 
   // Libram outfit cache may not autofold parka, so we need to
-  if (equippedAmount($item`Jurassic Parka`) > 0) {
+  if (equippedAmount($item`Jurassic Parka`) > 0 && !outfit.modes["parka"]) {
     if (outfit.modifier?.includes("cold res")) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
     } else if (outfit.modifier?.includes("stench res")) {
@@ -288,11 +291,10 @@ export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOption
     .map((name) => ({ name: name, score: cacheScore(outfit.equips, name) }));
   outfits.sort((a, b) => (a.score < b.score ? -1 : a.score > b.score ? 1 : 0)).reverse();
   if (outfits[0].score > currentEquipScore + 1) {
-    print(
-      `Equipping ${outfits[0].score - currentEquipScore} items with ${
-        outfits[0].name
-      } (${outfitPieces(outfits[0].name).join(", ")})`
-    );
+    const improvement = outfits[0].score - currentEquipScore;
+    const name = outfits[0].name;
+    const parts = outfitPieces(outfits[0].name).join(", ");
+    print(`Equipping ${improvement} items with ${name} (${parts})`);
     equipOutfit(outfits[0].name);
   }
 
