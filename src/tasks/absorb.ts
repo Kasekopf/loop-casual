@@ -848,7 +848,13 @@ export class AbsorbState {
     }
 
     // Ignore the +init skill after the crypt if we are delaying the tower
-    if (towerSkip() && get("cyrptAlcoveEvilness") <= 25 && step("questL07Cyrptic") !== -1) {
+    // Or if we already found the bubblemint twins and can use Slay the Dead
+    if (
+      towerSkip() &&
+      ((get("cyrptAlcoveEvilness") <= 25 && step("questL07Cyrptic") !== -1) ||
+        (have($item`unwrapped knock-off retro superhero cape`) &&
+          !this.isTarget($monster`Bubblemint Twins`)))
+    ) {
       ignored_skills.add($skill`Overclocking`);
     }
 
