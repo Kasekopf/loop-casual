@@ -24,7 +24,6 @@ import {
   ensureEffect,
   get,
   have,
-  AutumnAton,
   Macro,
   set,
 } from "libram";
@@ -122,7 +121,7 @@ const Flyers: Task[] = [
 
 const Lighthouse: Task[] = [
   // Saber into more lobsterfrogmen
-  /*{
+  {
     name: "Lighthouse",
     after: ["Enrage"],
     completed: () =>
@@ -177,11 +176,10 @@ const Lighthouse: Task[] = [
     outfit: { modifier: "+combat" },
     combat: new CombatStrategy().kill($monster`lobsterfrogman`),
     limit: { soft: 40 },
-  },*/
+  },
   {
     name: "Lighthouse End",
-    after: ["Enrage"],
-    ready: () => itemAmount($item`barrel of gunpowder`) >= 5,
+    after: ["Lighthouse Basic"],
     completed: () => get("sidequestLighthouseCompleted") !== "none" || args.fluffers,
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: (): void => {
@@ -319,7 +317,7 @@ const Junkyard: Task[] = [
 const Orchard: Task[] = [
   {
     name: "Orchard Hatching",
-    after: ["Open Orchard"],
+    after: ["Enrage"],
     completed: () =>
       have($item`filthworm hatchling scent gland`) ||
       have($effect`Filthworm Larva Stench`) ||
@@ -478,7 +476,6 @@ export const WarQuest: Quest = {
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island"],
-      priority: () => true,
       acquire: [
         { item: $item`beer helmet` },
         { item: $item`distressed denim pants` },

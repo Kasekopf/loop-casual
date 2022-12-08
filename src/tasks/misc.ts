@@ -6,7 +6,6 @@ import {
   itemAmount,
   myBasestat,
   myPrimestat,
-  myTurncount, totalTurnsPlayed,
   retrieveItem,
   retrievePrice,
   runChoice,
@@ -24,7 +23,6 @@ import {
   $location,
   $monster,
   $skill,
-  AutumnAton,
   Clan,
   get,
   getSaleValue,
@@ -96,7 +94,6 @@ export const MiscQuest: Quest = {
       name: "Short Cook",
       after: [],
       ready: () => have($familiar`Shorter-Order Cook`),
-      priority: () => true,
       completed: () =>
         familiarEquippedEquipment($familiar`Shorter-Order Cook`) === $item`blue plate`,
       acquire: [{ item: $item`blue plate` }],
@@ -106,18 +103,6 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
     },
     {
-      name: "Stillsuit",
-      after: [],
-      ready: () => have($item`tiny stillsuit`),
-      priority: () => true,
-      completed: () =>
-        familiarEquippedEquipment($familiar`star starfish`) === $item`tiny stillsuit`,
-      do: () => useFamiliar($familiar`Mosquito`), // Switch away to keep blue plate equipped
-      outfit: { familiar: $familiar`star starfish`, equip: $items`tiny stillsuit` },
-      freeaction: true,
-      limit: { tries: 1 },
-    },
-    /*{
       name: "Acquire Kgnee",
       after: [],
       ready: () =>
@@ -135,7 +120,7 @@ export const MiscQuest: Quest = {
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
       limit: { tries: 1 },
-    },*/
+    },
     {
       name: "Acquire FamEquip",
       after: [],
@@ -244,7 +229,7 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
-    /*{
+    {
       name: "Protonic Ghost",
       after: [],
       completed: () => step("questL13Final") >= 0, // Stop after tower starts
@@ -331,67 +316,10 @@ export const MiscQuest: Quest = {
           .skill($skill`Trap Ghost`)
       ),
       limit: { tries: 10 },
-    },*/
-    {
-      name: "Autumn-aton",
-      after: [],
-      ready: () => have($item`Autumn-aton`),
-      completed: () => step("questL13Final") >= 0,
-      priority: () => true,
-      combat: new CombatStrategy().macro(
-        new Macro()
-        ).kill(),
-      do: () => {
-        //make sure all available upgrades are installed
-        AutumnAton.upgrade();
-        //get upgrades
-        if (!AutumnAton.currentUpgrades().includes("leftleg1")){
-          AutumnAton.sendTo($location`Noob Cave`);
-        } else if (!AutumnAton.currentUpgrades().includes("rightleg1") && 
-            AutumnAton.availableLocations().includes($location`The Haunted Kitchen`)){
-          AutumnAton.sendTo($location`The Haunted Kitchen`);
-        } else if (!AutumnAton.currentUpgrades().includes("leftarm1")){
-          AutumnAton.sendTo($location`The Haunted Pantry`);
-        } else if (!AutumnAton.currentUpgrades().includes("rightarm1")){
-          adv1($location`The Smut Orc Logging Camp`);
-          AutumnAton.sendTo($location`The Smut Orc Logging Camp`);
-        } 
-        //lighthouse
-        else if (AutumnAton.currentUpgrades().length >= 4 &&
-          step("questL12War") >= 1 &&
-          itemAmount($item`barrel of gunpowder`) === 0 &&
-          get("sidequestLighthouseCompleted") === "none"){
-          adv1($location`Sonofa Beach`);
-          AutumnAton.sendTo($location`Sonofa Beach`);
-        } 
-        //farming
-        else if (AutumnAton.availableLocations().includes($location`The Oasis`)){
-          AutumnAton.sendTo($location`The Oasis`);
-        } else {
-          adv1($location`The Oasis`);
-        }
-      },
-      limit: { tries: 3 },
-      freeaction: true,
-    },
-    {
-      name: "CMC",
-      after: [],
-      priority: () => true,
-      ready: () => get("_nextColdMedicineConsult") < totalTurnsPlayed() && 
-                    get("_coldMedicineConsults") < 5 && myTurncount() > 20 &&
-                    get("lastCombatEnvironments").split("i").length > 11,
-      completed: () => get("_coldMedicineConsults") >= 5,
-      do: () => {
-        visitUrl("campground.php?action=workshed");
-        runChoice(5);
-      },
-      limit: { tries: 1 },
-      freeaction: true,
     },
     {
       name: "Goose Exp",
-      after: ["Short Cook"],
+      after: [],
       priority: () => true,
       completed: () =>
         familiarWeight($familiar`Grey Goose`) >= 9 ||
@@ -401,11 +329,7 @@ export const MiscQuest: Quest = {
       do: () => {
         set("_loop_casual_chef_goose", "true");
       },
-      outfit: { 
-        familiar: $familiar`Grey Goose`,
-        equip: $items`grey down vest`,
-        modifier: "mp",
-       },
+      outfit: { familiar: $familiar`Grey Goose` },
       limit: { tries: 1 },
       freeaction: true,
     },
@@ -422,17 +346,17 @@ function keyCount(): number {
 export const KeysQuest: Quest = {
   name: "Keys",
   tasks: [
-    /*{
+    {
       name: "Deck",
       after: [],
       completed: () => get("_deckCardsDrawn") > 0,
       do: () => cliExecute("cheat tower"),
       limit: { tries: 1 },
       freeaction: true,
-    },*/
+    },
     {
       name: "Lockpicking",
-      //after: ["Deck"],
+      after: ["Deck"],
       completed: () => !have($skill`Lock Picking`) || get("lockPicked"),
       do: (): void => {
         useSkill($skill`Lock Picking`);
@@ -487,7 +411,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Daily Dungeon",
-      after: [/*"Deck",*/ "Lockpicking", "Malware"],
+      after: ["Deck", "Lockpicking", "Malware"],
       acquire: [{ item: $item`Pick-O-Matic lockpicks` }, { item: $item`eleven-foot pole` }],
       completed: () => get("dailyDungeonDone") || keyCount() >= 3,
       do: $location`The Daily Dungeon`,
@@ -501,7 +425,7 @@ export const KeysQuest: Quest = {
     },
     {
       name: "Finish",
-      after: [/*"Deck",*/ "Lockpicking", "Malware", "Daily Dungeon"],
+      after: ["Deck", "Lockpicking", "Malware", "Daily Dungeon"],
       completed: () => keyCount() >= 3,
       do: (): void => {
         throw "Unable to obtain enough fat loot tokens";

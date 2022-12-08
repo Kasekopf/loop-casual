@@ -8,23 +8,30 @@ export const routing: string[] = [
 
   // Pickup items
   "Misc/Short Cook",
-  "Misc/Goose Exp",
   "Misc/Floundry",
   "Misc/Voting",
+  "Misc/Acquire Kgnee",
   "Misc/Acquire FamEquip",
 
   // Start with the basic leveling tasks
   "Toot/Finish",
-  "Leveling/Buffs",
+  "Leveling/Cloud Talk",
+  "Leveling/Daycare",
   "Leveling/Bastille",
   "Leveling/Leaflet",
+  "Leveling/Snojo",
+  "Leveling/Chateau",
 
   // Then do the scaling leveling
-  "Leveling/Oliver's Fights",
+  "Leveling/LOV Tunnel",
+  "Leveling/Witchess",
+  "Leveling/God Lobster",
+  "Leveling/Machine Elf",
   "Leveling/Neverending Party",
-  "Leveling/Pop Gooso",
   "Leveling/Sausage Fights",
   "Diet/Consume",
+  "Misc/Protonic Ghost", // whenever ghosts are ready
+
   // Open up MacGuffin zones
   "Macguffin/Diary",
   "Macguffin/Desert", // charge camel, use voters
@@ -95,6 +102,7 @@ export const routing: string[] = [
   "Bat/Finish",
 
   // Obtain available keys before attempting the daily dungeon
+  "Keys/Deck",
   "Keys/Lockpicking",
 
   "Tower/Finish",
