@@ -345,7 +345,7 @@ export const MiscQuest: Quest = {
         //lighthouse
         else if (AutumnAton.currentUpgrades().length >= 4 &&
           step("questL12War") >= 1 &&
-          itemAmount($item`barrel of gunpowder`) === 0 &&
+          itemAmount($item`barrel of gunpowder`) < 5 &&
           get("sidequestLighthouseCompleted") === "none"){
           adv1($location`Sonofa Beach`);
           AutumnAton.sendTo($location`Sonofa Beach`);
