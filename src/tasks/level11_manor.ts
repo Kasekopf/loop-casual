@@ -213,7 +213,7 @@ const ManorBasement: Task[] = [
     effects: $effects`Merry Smithsness`,
     choices: { 901: 2 },
     combat: new CombatStrategy()
-      .macro(new Macro().trySkill($skill`Otoscope`), $monster`possessed wine rack`)
+      .macro(new Macro()/*.trySkill($skill`Otoscope`)*/, $monster`possessed wine rack`)
       .banish($monsters`mad wino, skeletal sommelier`)
       .killFree(),
     limit: { soft: 10 },

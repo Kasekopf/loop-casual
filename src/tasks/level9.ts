@@ -35,8 +35,8 @@ const ABoo: Task[] = [
     priority: () => get("lastCopyableMonster") === $monster`toothy sklelton`, // After Defiled Nook
     completed: () => itemAmount($item`A-Boo clue`) * 30 >= get("booPeakProgress"),
     prepare: () => {
-      if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
-        SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
+      // if (!SourceTerminal.isCurrentSkill($skill`Duplicate`))
+      //   SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
     },
     do: $location`A-Boo Peak`,
     outfit: (): OutfitSpec => {
@@ -62,7 +62,7 @@ const ABoo: Task[] = [
         if (get("lastCopyableMonster") === $monster`toothy sklelton`) {
           return new Macro()
             .trySkill($skill`Feel Nostalgic`)
-            .trySkill(`Duplicate`)
+            //.trySkill(`Duplicate`)
             .tryItem(`yellow rocket`);
         } else {
           return new Macro()

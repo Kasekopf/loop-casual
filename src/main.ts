@@ -27,11 +27,11 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
       ["organ", "Get your steel organ only."],
       ["!organ", "Level up and complete all quests only."],
     ],
-    default: "all",
+    default: "!organ",
   }),
   stomach: Args.number({
     help: "Amount of stomach to fill.",
-    default: 5,
+    default: 10,
   }),
   liver: Args.number({
     help: "Amount of liver to fill.",
@@ -39,7 +39,7 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
   }),
   spleen: Args.number({
     help: "Amount of spleen to fill.",
-    default: 5,
+    default: 10,
   }),
   voa: Args.number({
     help: "Value of an adventure, in meat, for determining diet.",
@@ -55,11 +55,11 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
   }),
   professor: Args.flag({
     help: "Use pocket professor as one of the free leveling resources. This uses up some copiers, but may help to level.",
-    default: false,
+    default: true,
   }),
   fluffers: Args.boolean({
     help: "If true, use stuffing fluffers to finish the war.",
-    default: true,
+    default: false,
   }),
 });
 export function main(command?: string): void {

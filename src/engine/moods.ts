@@ -26,13 +26,13 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   const result = {
     "-combat": $effects`Smooth Movements, The Sonata of Sneakiness`,
     "+combat": $effects`Carlweather's Cantata of Confrontation, Musk of the Moose`,
-    "": $effects`Empathy, Leash of Linguini, Astral Shell, Elemental Saucesphere`,
+    "": $effects`Empathy, Leash of Linguini, Elemental Saucesphere`, //astral shell
     "fam weight": $effects`Chorale of Companionship`,
-    init: $effects`Walberg's Dim Bulb, Springy Fusilli`,
+    init: $effects`Springy Fusilli`, //Walberg's Dim Bulb
     ML: $effects`Ur-Kel's Aria of Annoyance, Pride of the Puffin, Drescher's Annoying Noise`,
-    item: $effects`Fat Leon's Phat Loot Lyric, Singer's Faithful Ocelot`,
+    item: $effects`Fat Leon's Phat Loot Lyric`, // Singer's Faithful Ocelot
     meat: $effects`Polka of Plenty`,
-    mainstat: $effects`Big, Tomato Power, Trivia Master, Gr8ness, Carol of the Hells, Carol of the Thrills`,
+    mainstat: $effects`Big, Tomato Power, Trivia Master, Gr8ness, Carol of the Hells`, //  Carol of the Thrills
     muscle: $effects`Go Get 'Em\, Tiger!, Phorcefullness, Incredibly Hulking`,
     mysticality: $effects`Glittering Eyelashes, Mystically Oiled, On the Shoulders of Giants`,
     moxie: $effects`Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
@@ -48,7 +48,7 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
   // One-per-day
   if (!get("_ballpit")) result["mainstat"].push($effect`Having a Ball!`);
   if (!get("_lyleFavored")) result["mainstat"].push($effect`Favored by Lyle`);
-  if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
+  //if (!get("telescopeLookedHigh")) result["mainstat"].push($effect`Starry-Eyed`);
   if (get("spacegateAlways") && get("spacegateVaccine2") && !get("_spacegateVaccine"))
     result["mainstat"].push($effect`Broad-Spectrum Vaccine`);
   if (have($skill`Emotionally Chipped`) && get("_feelExcitementUsed") < 3)

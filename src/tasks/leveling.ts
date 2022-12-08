@@ -1,5 +1,14 @@
 import {
+  adv1,
+  buy,
   cliExecute,
+  create,
+  eat,
+  effectModifier,
+  familiarWeight,
+  mallPrice,
+  myClass,
+  myFullness, fullnessLimit,
   myHp,
   myLevel,
   myMaxhp,
@@ -7,10 +16,12 @@ import {
   runChoice,
   runCombat,
   totalFreeRests,
+  use,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
+  $class,
   $effect,
   $effects,
   $familiar,
@@ -32,6 +43,7 @@ import {
 import { Quest } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { args } from "../main";
+import { acquire, eatSafe } from "./diet";
 
 function primestatId(): number {
   switch (myPrimestat()) {
@@ -49,18 +61,34 @@ export const LevelingQuest: Quest = {
   name: "Leveling",
   tasks: [
     {
-      name: "Cloud Talk",
+      name: "Buffs",
       after: [],
       ready: () => get("getawayCampsiteUnlocked"),
       completed: () =>
         have($effect`That's Just Cloud-Talk, Man`) ||
         get("_campAwayCloudBuffs", 0) > 0 ||
         myLevel() >= args.levelto,
-      do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
+      do: () => {
+        visitUrl("place.php?whichplace=campaway&action=campaway_sky");
+        if (mallPrice($item`honey stick`) <= 5000){
+          ensureEffect($effect`Stuck That Way`);
+        }
+        if (!get("_aprilShower")) {
+          cliExecute("shower warm");
+        }
+        if (myFullness() + 2 <= args.stomach && !have($effect`Feeling Fancy`)){
+          acquire(1, $item`roasted vegetable focaccia`, 20000)
+          eatSafe(1, $item`roasted vegetable focaccia`, args.voa);
+        }
+        /*if (mallPrice($item`pulled blue taffy`) <= 5000){
+          buy($item`pulled blue taffy`, 5)
+          use($item`pulled blue taffy`, 5);
+        }*/
+      },
       freeaction: true,
       limit: { tries: 1 },
     },
-    {
+    /*{
       name: "Daycare",
       after: [],
       ready: () => get("daycareOpen"),
@@ -85,7 +113,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
       freeaction: true,
-    },
+    },*/
     {
       name: "Bastille",
       after: [],
@@ -99,7 +127,7 @@ export const LevelingQuest: Quest = {
         modifier: "exp",
       },
     },
-    {
+    /*{
       name: "Chateau",
       after: [],
       ready: () => ChateauMantegna.have(),
@@ -125,8 +153,8 @@ export const LevelingQuest: Quest = {
         modifier: "exp",
       },
       limit: { soft: 40 },
-    },
-    {
+    },*/
+    /*{
       name: "LOV Tunnel",
       after: [],
       ready: () => get("loveTunnelAvailable"),
@@ -148,8 +176,8 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 1 },
       freecombat: true,
-    },
-    {
+    },*/
+    /*{
       name: "Snojo",
       after: [],
       ready: () => get("snojoAvailable"),
@@ -194,8 +222,8 @@ export const LevelingQuest: Quest = {
       effects: $effects`Spirit of Peppermint`,
       limit: { tries: 10 },
       freecombat: true,
-    },
-    {
+    },*/
+    /*{
       name: "God Lobster",
       after: [],
       acquire: [
@@ -219,8 +247,8 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 3 },
       freecombat: true,
-    },
-    {
+    },*/
+    /*{
       name: "Witchess",
       after: [],
       ready: () => Witchess.have(),
@@ -234,14 +262,18 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 5 },
       freecombat: true,
-    },
+    },*/
     {
       name: "Sausage Fights",
-      after: [],
+      after: ["Pop Gooso"],
       acquire: [
         {
           item: $item`makeshift garbage shirt`,
           get: () => cliExecute("fold makeshift garbage shirt"),
+        },
+        {
+          item: $item`Unwrapped knock-off retro superhero cape`,
+          get: () => cliExecute("retrocape heck kill"),
         },
       ],
       ready: () =>
@@ -261,10 +293,44 @@ export const LevelingQuest: Quest = {
         .abort(), // error on everything except sausage goblin
       outfit: {
         modifier: "mainstat, 4exp",
-        equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Pocket Professor memory chip`,
+        equip: $items`Kramco Sausage-o-Matic™, makeshift garbage shirt, Unwrapped knock-off retro superhero cape, Pocket Professor memory chip`,
         familiar: $familiar`Pocket Professor`,
       },
       limit: { tries: 1 },
+      freecombat: true,
+    },
+    {
+      name: "Oliver's Fights",
+      after: [],
+      acquire: [],
+      completed: () => get("_speakeasyFreeFights") >= 3 || myLevel() >= args.levelto,
+      do: $location`An Unusually Quiet Barroom Brawl`,
+      combat: new CombatStrategy().killHard(),
+      outfit: {
+        modifier: "mainstat, 4exp, monster level percent",
+        equip: $items`teacher's pen, teacher's pen`,
+        familiar: $familiar`Grey Goose`,
+      },
+      limit: { tries: 3 },
+      freecombat: true,
+    },
+    {
+      name: "Seals",
+      after: [],
+      acquire: [],
+      ready: () => myClass() === $class`Seal Clubber`,
+      completed: () => get("_sealsSummoned") >= 10 || myLevel() >= args.levelto,
+      do: () => {
+        use($item`figurine of a wretched-looking seal`);
+        runChoice(1);
+      },
+      combat: new CombatStrategy().macro(new Macro().attack().repeat()),
+      outfit: {
+        modifier: "mainstat, 4exp, monster level percent, club",
+        equip: $items`teacher's pen, teacher's pen`,
+        familiar: $familiar`Grey Goose`,
+      },
+      limit: { tries: 10 },
       freecombat: true,
     },
     {
@@ -295,14 +361,41 @@ export const LevelingQuest: Quest = {
         })
         .killHard(),
       outfit: {
-        modifier: "mainstat, 4exp, monster level percent",
-        equip: $items`makeshift garbage shirt, unbreakable umbrella`,
-        familiar: $familiar`Left-Hand Man`,
+        modifier: "mainstat, 4exp, monster level percent, familiar experience ",
+        equip: $items`makeshift garbage shirt, unbreakable umbrella, teacher's pen, teacher's pen`,
+        familiar: $familiar`Grey Goose`,
       },
       limit: { tries: 11 },
       freecombat: true,
     },
     {
+      name: "Pop Gooso",
+      combat: new CombatStrategy().macro(() =>
+              Macro.trySkill($skill`Convert Matter to Protein`)
+          ).killHard(),
+      after: [],
+      acquire: [
+        {
+          item: $item`makeshift garbage shirt`,
+          get: () => cliExecute("fold makeshift garbage shirt"),
+        },
+      ],
+      ready: () => have($familiar`Grey Goose`) && familiarWeight($familiar`Grey Goose`) === 20 ,
+      priority: () => true,
+      completed: () => get("_eldritchTentacleFought") || myLevel() >= args.levelto,
+      do: () => {
+        visitUrl("place.php?whichplace=forestvillage&action=fv_scientist");
+        runChoice(1);
+      },
+      outfit: {
+        modifier: "exp percent",
+        equip: $items`makeshift garbage shirt`,
+        familiar: $familiar`Grey Goose`,
+      },
+      limit: { tries: 1 },
+      freecombat: true,
+    },
+    /*{
       name: "Machine Elf",
       after: [],
       acquire: [
@@ -322,7 +415,7 @@ export const LevelingQuest: Quest = {
       },
       limit: { tries: 5 },
       freecombat: true,
-    },
+    },*/
     {
       name: "Leaflet",
       after: [],
