@@ -322,7 +322,7 @@ export const MiscQuest: Quest = {
       name: "Autumn-aton",
       after: [],
       ready: () => have($item`Autumn-aton`),
-      completed: () => step("questL13Final") >= 0 || !get("hasAutumnaton"),
+      completed: () => step("questL13Final") >= 0,
       priority: () => true,
       combat: new CombatStrategy().macro(
         new Macro()
@@ -338,9 +338,9 @@ export const MiscQuest: Quest = {
           AutumnAton.sendTo($location`The Haunted Kitchen`);
         } else if (!AutumnAton.currentUpgrades().includes("leftarm1")){
           AutumnAton.sendTo($location`The Haunted Pantry`);
-        } else if (!AutumnAton.currentUpgrades().includes("rightarm1")){
-          adv1($location`The Smut Orc Logging Camp`);
-          AutumnAton.sendTo($location`The Smut Orc Logging Camp`);
+        } else if (!AutumnAton.currentUpgrades().includes("rightarm1") && 
+            AutumnAton.availableLocations().includes($location`Twin Peak`)){
+          AutumnAton.sendTo($location`Twin Peak`);
         } 
         //lighthouse
         else if (AutumnAton.currentUpgrades().length >= 4 &&
@@ -351,10 +351,8 @@ export const MiscQuest: Quest = {
           AutumnAton.sendTo($location`Sonofa Beach`);
         } 
         //farming
-        else if (AutumnAton.availableLocations().includes($location`The Oasis`)){
-          AutumnAton.sendTo($location`The Oasis`);
-        } else {
-          adv1($location`The Oasis`);
+        else if (AutumnAton.availableLocations().includes($location`The Defiled Nook`)){
+          AutumnAton.sendTo($location`The Defiled Nook`);
         }
       },
       limit: { tries: 15 },
