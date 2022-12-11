@@ -22,6 +22,7 @@ const Manor1: Task[] = [
   {
     name: "Kitchen",
     after: ["Start"],
+    priority: () => get("hasAutumnaton") && $location`The Haunted Kitchen`.turnsSpent === 0,
     completed: () => step("questM20Necklace") >= 1,
     do: $location`The Haunted Kitchen`,
     outfit: { modifier: "stench res, hot res" },

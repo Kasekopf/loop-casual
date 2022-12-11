@@ -120,6 +120,7 @@ const Twin: Task[] = [
   {
     name: "Twin Stench",
     after: ["Start Peaks"],
+    priority: () => get("hasAutumnaton"),
     completed: () => !!(get("twinPeakProgress") & 1),
     do: () => {
       use($item`rusty hedge trimmers`);
@@ -171,6 +172,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Start",
       after: [],
+      priority: () => get("hasAutumnaton"),
       ready: () => myLevel() >= 9,
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
@@ -180,6 +182,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Bridge",
       after: ["Start"],
+      priority: () => get("hasAutumnaton"),
       completed: () => step("questL09Topping") >= 1,
       do: (): void => {
         if (have($item`fish hatchet`)) use($item`fish hatchet`);
@@ -196,6 +199,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Start Peaks",
       after: ["Bridge"],
+      priority: () => get("hasAutumnaton"),
       completed: () => step("questL09Topping") >= 2,
       do: () => visitUrl("place.php?whichplace=highlands&action=highlands_dude"),
       limit: { tries: 1 },
