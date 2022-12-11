@@ -10460,11 +10460,6 @@ var outfit_weaponHands = i => i ? (0,external_kolmafia_namespaceObject.weaponHan
 
 function cacheDress(outfit, extraOptions) {
   var currentEquipScore = cacheScore(outfit.equips);
-
-  if (outfit.equips.has($slot(outfit_templateObject77 || (outfit_templateObject77 = engine_outfit_taggedTemplateLiteral(["off-hand"])))) && !outfit.equips.has($slot(outfit_templateObject78 || (outfit_templateObject78 = engine_outfit_taggedTemplateLiteral(["weapon"])))) && outfit_weaponHands((0,external_kolmafia_namespaceObject.equippedItem)($slot(outfit_templateObject79 || (outfit_templateObject79 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) > 1) {
-    (0,external_kolmafia_namespaceObject.equip)(template_string_$item(outfit_templateObject80 || (outfit_templateObject80 = engine_outfit_taggedTemplateLiteral(["none"]))), $slot(outfit_templateObject81 || (outfit_templateObject81 = engine_outfit_taggedTemplateLiteral(["weapon"]))));
-  }
-
   var outfits = [0, 1, 2, 3, 4, 5].map(i => "Script Outfit ".concat(i)).map(name => ({
     name: name,
     score: cacheScore(outfit.equips, name)
@@ -10477,6 +10472,10 @@ function cacheDress(outfit, extraOptions) {
     var parts = (0,external_kolmafia_namespaceObject.outfitPieces)(outfits[0].name).join(", ");
     (0,external_kolmafia_namespaceObject.print)("Equipping ".concat(improvement, " items with ").concat(name, " (").concat(parts, ")"));
     (0,external_kolmafia_namespaceObject.outfit)(outfits[0].name);
+  }
+
+  if (outfit.equips.has($slot(outfit_templateObject77 || (outfit_templateObject77 = engine_outfit_taggedTemplateLiteral(["off-hand"])))) && !outfit.equips.has($slot(outfit_templateObject78 || (outfit_templateObject78 = engine_outfit_taggedTemplateLiteral(["weapon"])))) && outfit_weaponHands((0,external_kolmafia_namespaceObject.equippedItem)($slot(outfit_templateObject79 || (outfit_templateObject79 = engine_outfit_taggedTemplateLiteral(["weapon"]))))) > 1) {
+    (0,external_kolmafia_namespaceObject.equip)(template_string_$item(outfit_templateObject80 || (outfit_templateObject80 = engine_outfit_taggedTemplateLiteral(["none"]))), $slot(outfit_templateObject81 || (outfit_templateObject81 = engine_outfit_taggedTemplateLiteral(["weapon"]))));
   }
 
   outfit.dress(extraOptions);
@@ -12831,6 +12830,10 @@ var WarQuest = {
     after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
     ready: warReady,
     completed: () => step("questL12War") >= 1,
+    prepare: () => {
+      // Restore a bit more HP than usual
+      if ((0,external_kolmafia_namespaceObject.myHp)() < 80 && (0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)()) (0,external_kolmafia_namespaceObject.restoreHp)((0,external_kolmafia_namespaceObject.myMaxhp)() < 80 ? (0,external_kolmafia_namespaceObject.myMaxhp)() : 80);
+    },
     outfit: () => ({
       equip: template_string_$items(level12_templateObject134 || (level12_templateObject134 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"]))),
       familiar: args.minor.jellies ? template_string_$familiar(level12_templateObject135 || (level12_templateObject135 = level12_taggedTemplateLiteral(["Space Jellyfish"]))) : undefined,
@@ -17291,7 +17294,7 @@ var Twin = [{
   completed: () => !!(property_get("twinPeakProgress") & 1),
   prepare: () => {
     if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) ensureEffect($effect(level9_templateObject26 || (level9_templateObject26 = level9_taggedTemplateLiteral(["Red Door Syndrome"]))));
-    if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) throw "Unable to ensure cold res for The Icy Peak";
+    if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) throw "Unable to ensure stench res for Twin Peak";
   },
   do: $location(level9_templateObject27 || (level9_templateObject27 = level9_taggedTemplateLiteral(["Twin Peak"]))),
   choices: {
@@ -17312,7 +17315,7 @@ var Twin = [{
   completed: () => !!(property_get("twinPeakProgress") & 1),
   prepare: () => {
     if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) ensureEffect($effect(level9_templateObject30 || (level9_templateObject30 = level9_taggedTemplateLiteral(["Red Door Syndrome"]))));
-    if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) throw "Unable to ensure cold res for The Icy Peak";
+    if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 4) throw "Unable to ensure stench res for Twin Peak";
   },
   do: () => {
     (0,external_kolmafia_namespaceObject.use)(template_string_$item(level9_templateObject31 || (level9_templateObject31 = level9_taggedTemplateLiteral(["rusty hedge trimmers"]))));
@@ -19996,7 +19999,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "aa7c6f3";
+var lastCommitHash = "6dce5aa";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
