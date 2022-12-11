@@ -817,6 +817,12 @@ export class AbsorbState {
       .filter((id) => id > 0)
       .map((id) => Monster.get(id))
       .map((monster) => this.reprocessed.add(monster));
+    get("_loopgyou_untracked_gooseReprocessed")
+      .split(",")
+      .map((id) => parseInt(id))
+      .filter((id) => id > 0)
+      .map((id) => Monster.get(id))
+      .map((monster) => this.reprocessed.add(monster));
 
     // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills

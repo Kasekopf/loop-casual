@@ -30,6 +30,7 @@ import {
   restoreMp,
   Slot,
   toInt,
+  toMonster,
   totalTurnsPlayed,
   toUrl,
   use,
@@ -571,8 +572,25 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const beaten_turns = haveEffect($effect`Beaten Up`);
     const start_advs = myAdventures();
     const goose_weight = familiarWeight($familiar`Grey Goose`);
+    const reprocess_targets = get("gooseReprocessed");
     super.do(task);
     if (myAdventures() !== start_advs) getExtros();
+
+    // If adventures went up and the goose weight went down, we probably reprocessed
+    const reprocessed =
+      familiarWeight($familiar`Grey Goose`) < goose_weight && myAdventures() >= start_advs + 4;
+    const monster = toMonster(get("lastEncounter", ""));
+    if (reprocessed && get("gooseReprocessed") === reprocess_targets) {
+      print(`WARNING: Probably reprocessed ${monster} but mafia did not notice.`, "red");
+      if (monster === $monster`none`) {
+        print("WARNING: But we were unable to tell with lastEncounter what was fought.");
+      } else {
+        const untracked = get("_loopgyou_untracked_gooseReprocessed");
+        const new_untracked = untracked.length > 0 ? `,${monster.id}` : `${monster.id}`;
+        set("_loopgyou_untracked_gooseReprocessed", new_untracked);
+        globalStateCache.invalidate();
+      }
+    }
 
     // Crash if we unexpectedly lost the fight
     if (!task.expectbeatenup && have($effect`Beaten Up`) && haveEffect($effect`Beaten Up`) !== 5) {
@@ -581,12 +599,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         haveEffect($effect`Beaten Up`) > beaten_turns || // Turns of beaten-up increased, so we lost
         (haveEffect($effect`Beaten Up`) === beaten_turns &&
           // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
-          (myAdventures() < start_advs ||
-            // Check if adventures went down but also we reprocessed a monster
-            (familiarWeight($familiar`Grey Goose`) < goose_weight &&
-              (myAdventures() === start_advs + 4 ||
-                myAdventures() === start_advs + 6 ||
-                myAdventures() === start_advs + 9))))
+          (myAdventures() < start_advs || reprocessed))
       )
         throw `Fight was lost (debug info: ${beaten_turns} => ${haveEffect(
           $effect`Beaten Up`
