@@ -38,9 +38,6 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     moxie: $effects`Butt-Rock Hair, Superhuman Sarcasm, Cock of the Walk`,
   };
 
-  // Glitches if given above
-  result["mainstat"].push($effect`That's Just Cloud-Talk, Man`);
-
   // Class-specific
   if (myClass() === $class`Seal Clubber`) result["init"].push($effect`Silent Hunting`);
   else result["init"].push($effect`Nearly Silent Hunting`);
