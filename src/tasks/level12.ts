@@ -7,7 +7,10 @@ import {
   itemAmount,
   mallPrice,
   myBasestat,
+  myHp,
+  myMaxhp,
   myTurncount,
+  restoreHp,
   sell,
   use,
   visitUrl,
@@ -519,6 +522,10 @@ export const WarQuest: Quest = {
       after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
       ready: warReady,
       completed: () => step("questL12War") >= 1,
+      prepare: () => {
+        // Restore a bit more HP than usual
+        if (myHp() < 80 && myHp() < myMaxhp()) restoreHp(myMaxhp() < 80 ? myMaxhp() : 80);
+      },
       outfit: () =>
         <OutfitSpec>{
           equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
