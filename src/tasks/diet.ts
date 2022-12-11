@@ -7,6 +7,7 @@ import {
   eat,
   equip,
   familiarEquippedEquipment,
+  getIngredients,
   haveEffect,
   Item,
   itemAmount,
@@ -20,6 +21,7 @@ import {
   mySpleenUse,
   print,
   restoreMp,
+  retrieveItem,
   reverseNumberology,
   setProperty,
   turnsPerCast,
@@ -139,17 +141,36 @@ const spleenCleaners = new Map([
   [$item`mojo filter`, 1],
 ]);
 
-function acquire(qty: number, item: Item, maxPrice?: number, throwOnFail = true): number {
-  if (!item.tradeable || (maxPrice !== undefined && maxPrice <= 0)) return 0;
+function priceToCraft(item: Item) { 
+  if (item.tradeable) {
+    return mallPrice(item);
+  }
+  var total = 0;
+  const ingredients = getIngredients(item);
+  for (var i in ingredients) {
+    total += priceToCraft($item`${i}`) * ingredients[i];
+  }
+  return total;
+}
+
+export function acquire(qty: number, item: Item, maxPrice?: number, throwOnFail = true): number {
+  const startAmount = itemAmount(item);
+  const remaining = qty - startAmount;
   if (maxPrice === undefined) throw `No price cap for ${item.name}.`;
+  if ($items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta, roasted vegetable focaccia,
+    baked veggie ricotta casserole, plain calzone, Deep Dish of Legend, Calzone of Legend, Pizza of Legend`.includes(item)){
+    print(`Trying to acquire ${qty} ${item.plural}; max price ${maxPrice.toFixed(0)}.`, "green");
+    if (priceToCraft(item) <= maxPrice){
+      retrieveItem(remaining, item);
+    }
+    return itemAmount(item) - startAmount;
+  }
+  if (!item.tradeable || (maxPrice !== undefined && maxPrice <= 0)) return 0;
 
   print(`Trying to acquire ${qty} ${item.plural}; max price ${maxPrice.toFixed(0)}.`, "green");
 
   if (qty * mallPrice(item) > 1000000) throw "Aggregate cost too high! Probably a bug.";
 
-  const startAmount = itemAmount(item);
-
-  const remaining = qty - startAmount;
   if (remaining <= 0) return qty;
   if (maxPrice <= 0) throw `buying disabled for ${item.name}.`;
 
@@ -260,6 +281,17 @@ function menu(): MenuItem<MenuData>[] {
 
   return [
     // FOOD
+    new MenuItem($item`Boris's bread`, { priceOverride: mallPrice($item`Yeast of Boris`) * 2 }),
+    new MenuItem($item`roasted vegetable of Jarlsberg`, { priceOverride: mallPrice($item`Vegetable of Jarlsberg`) * 2 }),
+    new MenuItem($item`Pete's rich ricotta`, { priceOverride: mallPrice($item`St. Sneaky Pete's Whey`) * 2 }),
+    new MenuItem($item`roasted vegetable focaccia`, { priceOverride: mallPrice($item`Yeast of Boris`) * 2 +  mallPrice($item`Vegetable of Jarlsberg`) * 2 }),
+    new MenuItem($item`baked veggie ricotta casserole`, { priceOverride: mallPrice($item`St. Sneaky Pete's Whey`) * 2 +  mallPrice($item`Vegetable of Jarlsberg`) * 2 }),
+    //Plain calzone gives a +ML buff, which can potentially cause problems. Excluding it to be safe
+    //new MenuItem($item`pain calzone`, { priceOverride: mallPrice($item`St. Sneaky Pete's Whey`) * 2 +  mallPrice($item`Yeast of Boris`) * 2 }),
+    //Save Deep Dish of Legend for garbo to get that sweet, sweet familiar weight buff
+    //new MenuItem($item`Deep Dish of Legend`, { priceOverride: mallPrice($item`Yeast of Boris`) * 2 +  mallPrice($item`Vegetable of Jarlsberg`) * 2 + mallPrice($item`St. Sneaky Pete's Whey`) * 2, maximum: 1 }),
+    new MenuItem($item`Calzone of Legend`, { priceOverride: mallPrice($item`Yeast of Boris`) * 2 +  mallPrice($item`Vegetable of Jarlsberg`) * 2 + mallPrice($item`St. Sneaky Pete's Whey`) * 2, maximum: 1 }),
+    new MenuItem($item`Pizza of Legend`, { priceOverride: mallPrice($item`Yeast of Boris`) * 2 +  mallPrice($item`Vegetable of Jarlsberg`) * 2 + mallPrice($item`St. Sneaky Pete's Whey`) * 2, maximum: 1 }),
     new MenuItem($item`Dreadsylvanian spooky pocket`),
     new MenuItem($item`tin cup of mulligan stew`),
     new MenuItem($item`frozen banquet`),
