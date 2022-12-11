@@ -278,14 +278,6 @@ const weaponHands = (i?: Item) => (i ? mafiaWeaponHands(i) : 0);
 export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOptions>) {
   const currentEquipScore = cacheScore(outfit.equips);
 
-  if (
-    outfit.equips.has($slot`off-hand`) &&
-    !outfit.equips.has($slot`weapon`) &&
-    weaponHands(equippedItem($slot`weapon`)) > 1
-  ) {
-    equip($item`none`, $slot`weapon`);
-  }
-
   const outfits: { name: string; score: number }[] = [0, 1, 2, 3, 4, 5]
     .map((i) => `Script Outfit ${i}`)
     .map((name) => ({ name: name, score: cacheScore(outfit.equips, name) }));
@@ -296,6 +288,14 @@ export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOption
     const parts = outfitPieces(outfits[0].name).join(", ");
     print(`Equipping ${improvement} items with ${name} (${parts})`);
     equipOutfit(outfits[0].name);
+  }
+
+  if (
+    outfit.equips.has($slot`off-hand`) &&
+    !outfit.equips.has($slot`weapon`) &&
+    weaponHands(equippedItem($slot`weapon`)) > 1
+  ) {
+    equip($item`none`, $slot`weapon`);
   }
 
   outfit.dress(extraOptions);
