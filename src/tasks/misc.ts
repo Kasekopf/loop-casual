@@ -353,6 +353,10 @@ export const MiscQuest: Quest = {
         //farming
         else if (AutumnAton.availableLocations().includes($location`The Defiled Nook`)){
           AutumnAton.sendTo($location`The Defiled Nook`);
+        } 
+        //If all else fails, grab an autumn leaf. This shouldn't ever happen
+        else {
+          AutumnAton.sendTo($location`The Sleazy Back Alley`);
         }
       },
       limit: { tries: 15 },
