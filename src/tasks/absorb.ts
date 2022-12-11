@@ -41,7 +41,7 @@ import {
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { globalStateCache } from "../engine/state";
 import { towerSkip } from "./level13";
 import { Quest, Task } from "../engine/task";
@@ -516,8 +516,8 @@ const absorbTasks: AbsorbTask[] = [
   {
     priority: () =>
       have($effect`Ultrahydrated`) && familiarWeight($familiar`Grey Goose`) >= 6
-        ? OverridePriority.Effect
-        : OverridePriority.None,
+        ? Priorities.Effect
+        : Priorities.None,
     do: $location`The Oasis`,
     after: ["Macguffin/Desert"],
   },

@@ -1,7 +1,7 @@
 import { visitUrl } from "kolmafia";
 import { $location } from "libram";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
@@ -16,7 +16,7 @@ export const MosquitoQuest: Quest = {
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -40,7 +40,7 @@ export const MosquitoQuest: Quest = {
     {
       name: "Finish",
       after: ["Mosquito"],
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       completed: () => step("questL02Larva") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

@@ -34,9 +34,9 @@ import {
   Macro,
   set,
 } from "libram";
-import { Quest, Task } from "../engine/task";
+import { Priority, Quest, Task } from "../engine/task";
 import { Guards, OutfitSpec, step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { forceItemPossible, yellowRayPossible } from "../engine/resources";
@@ -62,7 +62,7 @@ const Flyers: Task[] = [
   {
     name: "Flyers End",
     after: ["Flyers Start"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => flyersDone(), // Buffer for mafia tracking
     completed: () => get("sidequestArenaCompleted") !== "none" || warSkip(),
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
@@ -99,13 +99,13 @@ const Lighthouse: Task[] = [
       !have($item`backup camera`) ||
       !have($item`Fourth of May Cosplay Saber`) ||
       warSkip(),
-    priority: (): OverridePriority => {
+    priority: (): Priority => {
       if (AutumnAton.have()) {
-        if (myBasestat($stat`Moxie`) < 200) return OverridePriority.BadMood;
-        if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
-        else if (myTurncount() < 400) return OverridePriority.BadAutumnaton;
+        if (myBasestat($stat`Moxie`) < 200) return Priorities.BadMood;
+        if ($location`Sonofa Beach`.turnsSpent === 0) return Priorities.GoodAutumnaton;
+        else if (myTurncount() < 400) return Priorities.BadAutumnaton;
       }
-      return OverridePriority.None;
+      return Priorities.None;
     },
     do: $location`Sonofa Beach`,
     outfit: (): OutfitSpec => {
@@ -152,12 +152,12 @@ const Lighthouse: Task[] = [
   {
     name: "Lighthouse Basic",
     after: ["Enrage", "Lighthouse"],
-    priority: (): OverridePriority => {
+    priority: (): Priority => {
       if (AutumnAton.have()) {
-        if ($location`Sonofa Beach`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
-        else return OverridePriority.BadAutumnaton;
+        if ($location`Sonofa Beach`.turnsSpent === 0) return Priorities.GoodAutumnaton;
+        else return Priorities.BadAutumnaton;
       }
-      return OverridePriority.None;
+      return Priorities.None;
     },
     completed: () =>
       itemAmount($item`barrel of gunpowder`) >= 5 ||
@@ -200,8 +200,7 @@ const Junkyard: Task[] = [
     after: ["Junkyard Start"],
     completed: () =>
       have($item`molybdenum hammer`) || get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-    priority: () =>
-      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+    priority: () => (myBasestat($stat`Moxie`) < 300 ? Priorities.BadMood : Priorities.None),
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Next to that Barrel with Something Burning in it`,
@@ -228,8 +227,7 @@ const Junkyard: Task[] = [
       have($item`molybdenum crescent wrench`) ||
       get("sidequestJunkyardCompleted") !== "none" ||
       warSkip(),
-    priority: () =>
-      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+    priority: () => (myBasestat($stat`Moxie`) < 300 ? Priorities.BadMood : Priorities.None),
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Over Where the Old Tires Are`,
@@ -255,8 +253,7 @@ const Junkyard: Task[] = [
     acquire: [{ item: $item`seal tooth` }],
     completed: () =>
       have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-    priority: () =>
-      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+    priority: () => (myBasestat($stat`Moxie`) < 300 ? Priorities.BadMood : Priorities.None),
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Near an Abandoned Refrigerator`,
     orbtargets: () => $monsters`spider gremlin, spider gremlin (tool)`,
@@ -282,8 +279,7 @@ const Junkyard: Task[] = [
       have($item`molybdenum screwdriver`) ||
       get("sidequestJunkyardCompleted") !== "none" ||
       warSkip(),
-    priority: () =>
-      myBasestat($stat`Moxie`) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+    priority: () => (myBasestat($stat`Moxie`) < 300 ? Priorities.BadMood : Priorities.None),
     acquire: [{ item: $item`seal tooth` }],
     outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
     do: $location`Out by that Rusted-Out Car`,
@@ -426,7 +422,7 @@ const Nuns: Task[] = [
     name: "Nuns",
     after: ["Open Nuns"],
     completed: () => get("sidequestNunsCompleted") !== "none" || warSkip(),
-    priority: () => (have($effect`Winklered`) ? OverridePriority.Effect : OverridePriority.None),
+    priority: () => (have($effect`Winklered`) ? Priorities.Effect : Priorities.None),
     prepare: () => {
       if (have($item`SongBoom™ BoomBox`) && get("boomBoxSong") !== "Total Eclipse of Your Meat")
         cliExecute("boombox meat");

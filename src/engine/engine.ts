@@ -81,7 +81,7 @@ import {
   wandererSources,
   yellowRaySources,
 } from "./resources";
-import { OverridePriority, Prioritization } from "./priority";
+import { Priorities, Prioritization } from "./priority";
 import { args } from "../args";
 import { flyersDone } from "../tasks/level12";
 import { globalStateCache } from "./state";
@@ -157,20 +157,20 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       if (teleportitis.completed() && removeTeleportitis.ready()) {
         return {
           ...removeTeleportitis,
-          active_priority: Prioritization.fixed(OverridePriority.Always),
+          active_priority: Prioritization.fixed(Priorities.Always),
         };
       }
-      return { ...teleportitis, active_priority: Prioritization.fixed(OverridePriority.Always) };
+      return { ...teleportitis, active_priority: Prioritization.fixed(Priorities.Always) };
     }
 
     // First, check for any heavily prioritized tasks
     const priority = available_tasks.find(
-      (task) => task.priority?.() === OverridePriority.LastCopyableMonster
+      (task) => task.priority?.() === Priorities.LastCopyableMonster
     );
     if (priority !== undefined) {
       return {
         ...priority,
-        active_priority: Prioritization.fixed(OverridePriority.LastCopyableMonster),
+        active_priority: Prioritization.fixed(Priorities.LastCopyableMonster),
       };
     }
 
@@ -183,7 +183,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       if (delay_burning) {
         return {
           ...delay_burning,
-          active_priority: Prioritization.fixed(OverridePriority.Wanderer),
+          active_priority: Prioritization.fixed(Priorities.Wanderer),
           wanderer: wanderer,
         };
       }
@@ -347,7 +347,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
 
       // Don't equip the orb if we have a bad target
-      if (task.active_priority?.has(OverridePriority.BadOrb)) {
+      if (task.active_priority?.has(Priorities.BadOrb)) {
         outfit.equip({ avoid: $items`miniature crystal ball` });
         if (outfit.equips.get($slot`familiar`) === $item`miniature crystal ball`) {
           outfit.equips.delete($slot`familiar`);
@@ -357,7 +357,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       // Equip an orb if we have a good target.
       // (If we have banished all the bad targets, there is no need to force an orb)
       if (
-        task.active_priority?.has(OverridePriority.GoodOrb) &&
+        task.active_priority?.has(Priorities.GoodOrb) &&
         (!combat.can("banish") || !banish_state.isFullyBanished(task))
       ) {
         outfit.equip($item`miniature crystal ball`);
@@ -598,7 +598,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     super.post(task);
 
     if (
-      task.active_priority?.has(OverridePriority.BadOrb) &&
+      task.active_priority?.has(Priorities.BadOrb) &&
       !haveEquipped($item`miniature crystal ball`)
     )
       resetBadOrb();

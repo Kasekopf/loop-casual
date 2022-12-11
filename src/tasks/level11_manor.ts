@@ -23,7 +23,7 @@ import {
 import { Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 
 const Manor1: Task[] = [
   {
@@ -45,8 +45,8 @@ const Manor1: Task[] = [
     completed: () => step("questM20Necklace") >= 3,
     priority: () =>
       have($effect`Chalky Hand`) && !have($item`handful of hand chalk`)
-        ? OverridePriority.Effect
-        : OverridePriority.None,
+        ? Priorities.Effect
+        : Priorities.None,
     prepare: () => {
       if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
     },

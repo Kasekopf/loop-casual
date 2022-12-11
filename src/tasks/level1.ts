@@ -1,6 +1,6 @@
 import { use, visitUrl } from "kolmafia";
 import { $item, have } from "libram";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 
@@ -10,7 +10,7 @@ export const TootQuest: Quest = {
     {
       name: "Start",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => step("questM05Toot") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -19,7 +19,7 @@ export const TootQuest: Quest = {
     {
       name: "Toot",
       after: ["Start"],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => step("questM05Toot") > 0,
       do: () => visitUrl("tutorial.php?action=toot"),
       limit: { tries: 1 },
@@ -28,7 +28,7 @@ export const TootQuest: Quest = {
     {
       name: "Finish",
       after: ["Toot"],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => step("questM05Toot") > 0 && !have($item`letter from King Ralph XI`),
       do: () => use($item`letter from King Ralph XI`),
       limit: { tries: 1 },

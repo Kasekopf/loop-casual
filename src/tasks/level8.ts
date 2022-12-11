@@ -2,7 +2,7 @@ import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, $monsters, ensureEffect, have } from "libram";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
@@ -20,7 +20,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -29,7 +29,7 @@ export const McLargeHugeQuest: Quest = {
       completed: () => step("questL08Trapper") >= 1,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
     },
     {

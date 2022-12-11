@@ -4,7 +4,7 @@ import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { forceItemPossible } from "../engine/resources";
 
@@ -18,7 +18,7 @@ export const GiantQuest: Quest = {
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -152,7 +152,7 @@ export const GiantQuest: Quest = {
     {
       name: "Finish",
       after: ["Top Floor"],
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       completed: () => step("questL10Garbage") === 999,
       do: () => visitUrl("council.php"),
       limit: { soft: 10 },

@@ -29,11 +29,11 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, Task } from "../engine/task";
+import { Priority, Quest, Task } from "../engine/task";
 import { Guards, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
 import { stenchPlanner } from "../engine/outfit";
@@ -293,18 +293,18 @@ export const ChasmQuest: Quest = {
       completed: () => step("questL09Topping") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
       name: "Bridge",
       after: ["Start", "Macguffin/Forest"], // Wait for black paint
-      priority: (): OverridePriority => {
+      priority: (): Priority => {
         if (AutumnAton.have()) {
           if ($location`The Smut Orc Logging Camp`.turnsSpent === 0)
-            return OverridePriority.GoodAutumnaton;
+            return Priorities.GoodAutumnaton;
         }
-        return OverridePriority.None;
+        return Priorities.None;
       },
       ready: () =>
         ((have($item`frozen jeans`) ||

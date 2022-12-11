@@ -2,7 +2,7 @@ import { drink, Item, itemAmount, toInt, visitUrl } from "kolmafia";
 import { $item, $items, $location, $monsters, $skill, get, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
@@ -17,7 +17,7 @@ export const FriarQuest: Quest = {
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {

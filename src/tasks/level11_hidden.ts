@@ -26,7 +26,7 @@ import {
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 
 function manualChoice(whichchoice: number, option: number) {
@@ -89,9 +89,9 @@ const Temple: Task[] = [
       (itemAmount($item`stone wool`) === 1 && have($item`the Nostril of the Serpent`)) ||
       step("questL11Worship") >= 3,
     priority: () => {
-      if (have($item`industrial fire extinguisher`)) return OverridePriority.None;
-      if (familiarWeight($familiar`Grey Goose`) >= 6) return OverridePriority.GoodGoose;
-      return OverridePriority.BadGoose;
+      if (have($item`industrial fire extinguisher`)) return Priorities.None;
+      if (familiarWeight($familiar`Grey Goose`) >= 6) return Priorities.GoodGoose;
+      return Priorities.BadGoose;
     },
     prepare: () => {
       if (
@@ -168,8 +168,8 @@ const Apartment: Task[] = [
     after: ["Open Apartment", "Office Files", "Banish Janitors"],
     priority: () =>
       have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
-        ? OverridePriority.Effect
-        : OverridePriority.None,
+        ? Priorities.Effect
+        : Priorities.None,
     completed: () =>
       have($item`McClusky file (page 5)`) ||
       have($item`McClusky file (complete)`) ||
@@ -195,8 +195,8 @@ const Apartment: Task[] = [
     after: ["Open Apartment", "Apartment Files"], // Wait until after all needed pygmy witch lawyers are done
     priority: () =>
       have($effect`Once-Cursed`) || have($effect`Twice-Cursed`) || have($effect`Thrice-Cursed`)
-        ? OverridePriority.MinorEffect
-        : OverridePriority.None,
+        ? Priorities.MinorEffect
+        : Priorities.None,
     completed: () => get("hiddenApartmentProgress") >= 7,
     do: $location`The Hidden Apartment Building`,
     combat: new CombatStrategy()

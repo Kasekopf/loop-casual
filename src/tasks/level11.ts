@@ -25,7 +25,7 @@ import {
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel, debug } from "../lib";
 import { councilSafe } from "./level12";
@@ -158,8 +158,7 @@ const Desert: Task[] = [
     name: "Oasis Drum",
     after: ["Compass"],
     ready: () => have($item`worm-riding hooks`) || itemAmount($item`worm-riding manual page`) >= 15,
-    priority: () =>
-      have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
+    priority: () => (have($effect`Ultrahydrated`) ? Priorities.Effect : Priorities.None),
     completed: () =>
       get("desertExploration") >= 100 ||
       have($item`drum machine`) ||
@@ -203,8 +202,7 @@ const Desert: Task[] = [
       !have($item`worm-riding hooks`) &&
       ((get("desertExploration") === 0 && !have($effect`A Girl Named Sue`)) ||
         have($effect`Ultrahydrated`)),
-    priority: () =>
-      have($effect`Ultrahydrated`) ? OverridePriority.Effect : OverridePriority.None,
+    priority: () => (have($effect`Ultrahydrated`) ? Priorities.Effect : Priorities.None),
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
     outfit: (): OutfitSpec => {
@@ -397,7 +395,7 @@ export const MacguffinQuest: Quest = {
       name: "Start",
       after: [],
       ready: () => atLevel(11),
-      priority: () => OverridePriority.Free, // Always start this quest ASAP, it is key for routing
+      priority: () => Priorities.Free, // Always start this quest ASAP, it is key for routing
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
@@ -409,7 +407,7 @@ export const MacguffinQuest: Quest = {
     {
       name: "Finish",
       after: ["Boss"],
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       completed: () => step("questL11MacGuffin") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

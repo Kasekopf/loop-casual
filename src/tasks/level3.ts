@@ -2,7 +2,7 @@ import { getProperty, numericModifier, runChoice, runCombat, visitUrl } from "ko
 import { $item, $items, $monster, get, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
@@ -17,7 +17,7 @@ export const TavernQuest: Quest = {
       completed: () => step("questL03Rat") >= 0,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -39,8 +39,8 @@ export const TavernQuest: Quest = {
             get("_juneCleaverSpooky") >= 20 &&
             get("_juneCleaverHot") >= 20 &&
             get("_juneCleaverCold") >= 20))
-          ? OverridePriority.None
-          : OverridePriority.BadGoose, // Wait for backup camera to max out
+          ? Priorities.None
+          : Priorities.BadGoose, // Wait for backup camera to max out
       do: (): void => {
         visitUrl("cellar.php");
         const layout = getProperty("tavernLayout");

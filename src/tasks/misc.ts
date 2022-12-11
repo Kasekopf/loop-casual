@@ -56,7 +56,7 @@ import {
 } from "libram";
 import { Quest, Task } from "../engine/task";
 import { Outfit, OutfitSpec, step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { Engine, wanderingNCs } from "../engine/engine";
 import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
@@ -125,7 +125,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Kgnee",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         have($familiar`Reagnimated Gnome`) &&
         !have($item`gnomish housemaid's kgnee`) &&
@@ -146,7 +146,7 @@ export const MiscQuest: Quest = {
     {
       name: "Voting",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
@@ -223,7 +223,7 @@ export const MiscQuest: Quest = {
       name: "Protonic Ghost",
       after: [],
       completed: () => false,
-      priority: () => OverridePriority.Always,
+      priority: () => Priorities.Always,
       ready: () => {
         if (!have($item`protonic accelerator pack`)) return false;
         if (get("questPAGhost") === "unstarted") return false;
@@ -361,7 +361,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Birch Battery",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         have($item`SpinMaster™ lathe`) &&
         (!get("_spinmasterLatheVisited") || have($item`flimsy hardwood scraps`)),
@@ -376,7 +376,7 @@ export const MiscQuest: Quest = {
     {
       name: "Acquire Firework Hat",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () => myMeat() >= 500,
       completed: () =>
         have($item`sombrero-mounted sparkler`) ||
@@ -393,7 +393,7 @@ export const MiscQuest: Quest = {
     {
       name: "Goose Exp",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () =>
         familiarWeight($familiar`Grey Goose`) >= 9 ||
         get("_loop_gyou_chef_goose") === "true" ||
@@ -425,7 +425,7 @@ export const MiscQuest: Quest = {
           step("questL11Worship") >= 3) &&
         familiarWeight($familiar`Grey Goose`) < 6,
       completed: () => get("_clanFortuneBuffUsed") || !have($item`Clan VIP Lounge key`),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       do: () => {
         cliExecute("fortune buff susie");
       },
@@ -437,7 +437,7 @@ export const MiscQuest: Quest = {
       after: ["Friar/Finish", "Macguffin/Desert"], // After the desert to avoid wasting it on the camel
       completed: () => get("friarsBlessingReceived"),
       ready: () => familiarWeight($familiar`Grey Goose`) < 6,
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       do: () => {
         cliExecute("friars familiar");
       },
@@ -476,7 +476,7 @@ export const MiscQuest: Quest = {
         !have($skill`Summon Clip Art`) ||
         get("tomeSummons") >= 3 ||
         !have($familiar`Cornbeefadon`),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       do: () => {
         retrieveItem($item`box of Familiar Jacks`);
         use($item`box of Familiar Jacks`);
@@ -490,7 +490,7 @@ export const MiscQuest: Quest = {
       after: [],
       completed: () =>
         have($item`grey down vest`) || !have($skill`Summon Clip Art`) || get("tomeSummons") >= 3,
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       do: () => {
         retrieveItem($item`box of Familiar Jacks`);
         use($item`box of Familiar Jacks`);
@@ -502,7 +502,7 @@ export const MiscQuest: Quest = {
     {
       name: "Boombox",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () =>
         !have($item`SongBoom™ BoomBox`) ||
         get("boomBoxSong") === "Total Eclipse of Your Meat" ||
@@ -515,7 +515,7 @@ export const MiscQuest: Quest = {
     {
       name: "Boombox Seasoning",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         have($skill`System Sweep`) &&
         have($skill`Double Nanovision`) &&
@@ -534,7 +534,7 @@ export const MiscQuest: Quest = {
       after: [],
       ready: () => myMeat() >= 11000 && gnomadsAvailable(),
       completed: () => have($skill`Torso Awareness`),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
       do: () => {
         visitUrl("gnomes.php?action=trainskill&whichskill=12");
@@ -546,7 +546,7 @@ export const MiscQuest: Quest = {
       after: ["Gnome Shirt"],
       ready: () => myMeat() >= 11000 && gnomadsAvailable(),
       completed: () => have($skill`Powers of Observatiogn`),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
       do: () => {
         visitUrl("gnomes.php?action=trainskill&whichskill=10");
@@ -566,7 +566,7 @@ export const MiscQuest: Quest = {
         !have($item`hewn moon-rune spoon`) ||
         args.major.tune === undefined ||
         get("moonTuned", false),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
       do: () => cliExecute(`spoon ${args.major.tune}`),
       limit: { tries: 1 },
@@ -579,7 +579,7 @@ export const MiscQuest: Quest = {
         !have($item`hewn moon-rune spoon`) ||
         args.major.tune === undefined ||
         get("moonTuned", false),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
       do: () => cliExecute(`spoon ${args.major.tune}`),
       limit: { tries: 1 },
@@ -592,7 +592,7 @@ export const MiscQuest: Quest = {
         !have($item`hewn moon-rune spoon`) ||
         args.major.tune === undefined ||
         get("moonTuned", false),
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       freeaction: true,
       do: () => cliExecute(`spoon ${args.major.tune}`),
       limit: { tries: 1 },
@@ -611,7 +611,7 @@ export const MiscQuest: Quest = {
     {
       name: "Mayday",
       after: ["Macguffin/Start"],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () =>
         !get("hasMaydayContract") || (!have($item`MayDay™ supply package`) && atLevel(11)),
       ready: () => have($item`MayDay™ supply package`) && myTurncount() < 1000,
@@ -635,7 +635,7 @@ export const MiscQuest: Quest = {
     {
       name: "Mumming Trunk",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => !have($item`mumming trunk`) || get("_mummeryUses").includes("2,"),
       do: () => cliExecute("mummery mp"),
       outfit: { familiar: $familiar`Grey Goose` },
@@ -645,7 +645,7 @@ export const MiscQuest: Quest = {
     {
       name: "Swap Workshed",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         get("_coldMedicineConsults") >= 5 && getWorkshed() === $item`cold medicine cabinet`,
       completed: () =>
@@ -657,7 +657,7 @@ export const MiscQuest: Quest = {
     {
       name: "Bugbear Outfit",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () => myMeat() >= 140,
       completed: () =>
         (!have($item`Asdon Martin keyfob`) && !AsdonMartin.installed()) ||
@@ -674,7 +674,7 @@ export const MiscQuest: Quest = {
     {
       name: "Break Stone",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       completed: () => hippyStoneBroken(),
       ready: () => args.minor.pvp,
       do: (): void => {
@@ -687,7 +687,7 @@ export const MiscQuest: Quest = {
     {
       name: "Autumnaton",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () => AutumnAton.available(),
       completed: () => !AutumnAton.have(),
       do: () => {
@@ -742,7 +742,7 @@ export const MiscQuest: Quest = {
     {
       name: "Saber",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () => have($item`Fourth of May Cosplay Saber`),
       completed: () => get("_saberMod") !== 0,
       do: (): void => {
@@ -756,7 +756,7 @@ export const MiscQuest: Quest = {
     {
       name: "Grapefruit",
       after: [],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         have($item`filthy corduroys`) &&
         have($item`filthy knitted dread sack`) &&
@@ -773,7 +773,7 @@ export const MiscQuest: Quest = {
     {
       name: "Prepare Robortender",
       after: ["Grapefruit"],
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       ready: () =>
         (((have($item`fish head`) && have($item`boxed wine`)) || have($item`piscatini`)) &&
           have($item`grapefruit`)) ||
@@ -818,9 +818,7 @@ export const WandQuest: Quest = {
         familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
         have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
       priority: () =>
-        familiarWeight($familiar`Grey Goose`) >= 6
-          ? OverridePriority.GoodGoose
-          : OverridePriority.None,
+        familiarWeight($familiar`Grey Goose`) >= 6 ? Priorities.GoodGoose : Priorities.None,
       completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },

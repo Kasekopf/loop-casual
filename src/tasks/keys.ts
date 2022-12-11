@@ -34,7 +34,7 @@ import {
 import { CombatStrategy } from "../engine/combat";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
 import { args } from "../args";
 
@@ -52,7 +52,7 @@ const heroKeys: KeyTask[] = [
     which: Keys.Deck,
     possible: () => have($item`Deck of Every Card`) && get("_deckCardsDrawn") === 0,
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => get("_deckCardsDrawn") > 0 || !have($item`Deck of Every Card`),
     do: () => {
       cliExecute("cheat tower");

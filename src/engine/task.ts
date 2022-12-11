@@ -1,7 +1,6 @@
 import { Item, Monster } from "kolmafia";
 import { Quest as BaseQuest, Task as BaseTask, Limit } from "grimoire-kolmafia";
 import { CombatActions, CombatStrategy } from "./combat";
-import { OverridePriority } from "./priority";
 
 export type AcquireItem = {
   item: Item;
@@ -14,7 +13,7 @@ export type AcquireItem = {
 export type Quest = BaseQuest<Task>;
 
 export type Task = {
-  priority?: () => OverridePriority;
+  priority?: () => Priority | Priority[];
   combat?: CombatStrategy;
   delay?: number | (() => number);
   freeaction?: boolean | (() => boolean);
@@ -29,3 +28,8 @@ export type Task = {
   orbtargets?: () => Monster[] | undefined;
   boss?: boolean;
 } & BaseTask<CombatActions>;
+
+export type Priority = {
+  score: number;
+  reason?: string;
+};

@@ -38,7 +38,7 @@ import {
 import { CombatStrategy } from "../engine/combat";
 import { debug } from "../lib";
 import { args } from "../args";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { globalStateCache } from "../engine/state";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
@@ -83,7 +83,7 @@ type SummonTarget = Omit<Task, "do" | "name" | "limit"> & {
 const summonTargets: SummonTarget[] = [
   {
     target: $monster`pygmy witch lawyer`,
-    priority: () => OverridePriority.Start,
+    priority: () => Priorities.Start,
     after: [],
     completed: () => have($skill`Infinite Loop`),
     acquire: [
@@ -209,7 +209,7 @@ const summonTargets: SummonTarget[] = [
       after: target.after,
       completed: () =>
         !globalStateCache.absorb().isReprocessTarget(target.target) || !target.needed(),
-      priority: () => OverridePriority.GoodGoose,
+      priority: () => Priorities.GoodGoose,
       ready: () => familiarWeight($familiar`Grey Goose`) >= 6,
       outfit: () => {
         if (

@@ -12,7 +12,7 @@ import {
 } from "kolmafia";
 import { $familiar, $item, $items, $skill, get, have, set } from "libram";
 import { args } from "../args";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { Keys, keyStrategy } from "./keys";
@@ -308,7 +308,7 @@ export const PullQuest: Quest = {
     ...pullStrategy.pulls.map((pull, index): Task => {
       return {
         name: pull.name,
-        priority: () => OverridePriority.Free,
+        priority: () => Priorities.Free,
         after: [],
         ready: () => pullStrategy.enabled[index] === PullState.READY,
         completed: () =>

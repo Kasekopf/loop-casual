@@ -20,11 +20,11 @@ import {
   have,
   Macro,
 } from "libram";
-import { Quest, Task } from "../engine/task";
+import { Priority, Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { globalStateCache } from "../engine/state";
 
@@ -198,11 +198,11 @@ const Nook: Task[] = [
     name: "Nook",
     after: ["Start"],
     prepare: tuneCape,
-    priority: (): OverridePriority => {
+    priority: (): Priority => {
       if (AutumnAton.have()) {
-        if ($location`The Defiled Nook`.turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+        if ($location`The Defiled Nook`.turnsSpent === 0) return Priorities.GoodAutumnaton;
       }
-      return OverridePriority.None;
+      return Priorities.None;
     },
     ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNookEvilness") <= 25,
@@ -230,7 +230,7 @@ const Nook: Task[] = [
   {
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
     after: ["Start"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () =>
       have($item`evil eye`) &&
       !globalStateCache.absorb().isReprocessTarget($monster`party skelteon`),
@@ -262,7 +262,7 @@ export const CryptQuest: Quest = {
       completed: () => step("questL07Cyrptic") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     ...Alcove,
@@ -282,7 +282,7 @@ export const CryptQuest: Quest = {
     {
       name: "Finish",
       after: ["Start", "Bonerdagon"],
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       completed: () => step("questL07Cyrptic") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

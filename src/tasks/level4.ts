@@ -14,7 +14,7 @@ import {
 } from "libram";
 import { Quest } from "../engine/task";
 import { Outfit, step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
@@ -30,7 +30,7 @@ export const BatQuest: Quest = {
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -41,8 +41,8 @@ export const BatQuest: Quest = {
       ready: () => stenchPlanner.maximumPossible(true) >= 1,
       priority: () =>
         have($item`industrial fire extinguisher`) || have($skill`Double Nanovision`)
-          ? OverridePriority.None
-          : OverridePriority.BadMood,
+          ? Priorities.None
+          : Priorities.BadMood,
       prepare: () => {
         if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
         if (numericModifier("stench resistance") < 1)
@@ -84,8 +84,8 @@ export const BatQuest: Quest = {
         step("questL11Shen") === 999 ||
         have($item`The Stankara Stone`) ||
         (myDaycount() === 1 && step("questL11Shen") > 1)
-          ? OverridePriority.None
-          : OverridePriority.BadMood,
+          ? Priorities.None
+          : Priorities.BadMood,
       prepare: () => {
         if (numericModifier("stench resistance") < 1) ensureEffect($effect`Red Door Syndrome`);
         if (numericModifier("stench resistance") < 1)
@@ -138,8 +138,8 @@ export const BatQuest: Quest = {
       ready: () => get("lastCopyableMonster") === $monster`lobsterfrogman`,
       priority: () =>
         get("lastCopyableMonster") === $monster`lobsterfrogman`
-          ? OverridePriority.LastCopyableMonster
-          : OverridePriority.None,
+          ? Priorities.LastCopyableMonster
+          : Priorities.None,
       completed: () =>
         step("questL04Bat") >= 4 ||
         itemAmount($item`barrel of gunpowder`) >= 5 ||
@@ -166,7 +166,7 @@ export const BatQuest: Quest = {
     {
       name: "Finish",
       after: ["Boss Bat"],
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       completed: () => step("questL04Bat") === 999,
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },

@@ -14,7 +14,7 @@ import {
 } from "libram";
 import { Quest } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
-import { OverridePriority } from "../engine/priority";
+import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
@@ -33,7 +33,7 @@ export const KnobQuest: Quest = {
       },
       do: () => visitUrl("council.php"),
       limit: { tries: 1 },
-      priority: () => (councilSafe() ? OverridePriority.Free : OverridePriority.BadMood),
+      priority: () => (councilSafe() ? Priorities.Free : Priorities.BadMood),
       freeaction: true,
     },
     {
@@ -115,8 +115,7 @@ export const KnobQuest: Quest = {
     {
       name: "King",
       after: ["Harem", "Perfume"],
-      priority: () =>
-        have($effect`Knob Goblin Perfume`) ? OverridePriority.Effect : OverridePriority.None,
+      priority: () => (have($effect`Knob Goblin Perfume`) ? Priorities.Effect : Priorities.None),
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy().killHard($monster`Knob Goblin King`),

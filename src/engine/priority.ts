@@ -6,38 +6,38 @@ import { familiarWeight, getCounter, Location, Monster } from "kolmafia";
 import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have } from "libram";
 import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
-import { Task } from "./task";
+import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
 import { forceItemSources, yellowRaySources } from "./resources";
 
-export enum OverridePriority {
-  Wanderer = 20000,
-  Always = 10000,
-  Free = 1000,
-  Start = 900,
-  LastCopyableMonster = 100,
-  Effect = 20,
-  GoodOrb = 15,
-  GoodYR = 10,
-  MinorEffect = 2,
-  GoodAutumnaton = 2,
-  GoodGoose = 1,
-  GoodBanish = 0.5,
-  None = 0,
-  BadAutumnaton = -2,
-  BadOrb = -4,
-  BadHoliday = -10,
-  BadYR = -16,
-  BadGoose = -30,
-  BadMood = -100,
-  Last = -10000,
+export class Priorities {
+  static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
+  static Always: Priority = { score: 10000, reason: "Forced" };
+  static Free: Priority = { score: 1000, reason: "Free action" };
+  static Start: Priority = { score: 900, reason: "Initial tasks" };
+  static LastCopyableMonster: Priority = { score: 100, reason: "Copy last monster" };
+  static Effect: Priority = { score: 20, reason: "Useful effect" };
+  static GoodOrb: Priority = { score: 15, reason: "Target orb monster" };
+  static GoodYR: Priority = { score: 10, reason: "Yellow ray" };
+  static MinorEffect: Priority = { score: 2, reason: "Useful minor effect" };
+  static GoodAutumnaton: Priority = { score: 2, reason: "Setup Autumnaton" };
+  static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
+  static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
+  static None: Priority = { score: 0 };
+  static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };
+  static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
+  static BadHoliday: Priority = { score: -10 };
+  static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
+  static BadGoose: Priority = { score: -30, reason: "Goose not charged" };
+  static BadMood: Priority = { score: -100, reason: "Wrong effects" };
+  static Last: Priority = { score: -10000 };
 }
 
 export class Prioritization {
-  private priorities = new Set<OverridePriority>();
+  private priorities = new Set<Priority>();
   private orb_monster?: Monster = undefined;
 
-  static fixed(priority: OverridePriority) {
+  static fixed(priority: Priority) {
     const result = new Prioritization();
     result.priorities.add(priority);
     return result;
@@ -45,16 +45,20 @@ export class Prioritization {
 
   static from(task: Task): Prioritization {
     const result = new Prioritization();
-    const base = task.priority?.() ?? OverridePriority.None;
-    if (base !== OverridePriority.None) result.priorities.add(base);
+    const base = task.priority?.() ?? Priorities.None;
+    if (Array.isArray(base)) {
+      for (const priority of base) result.priorities.add(priority);
+    } else {
+      if (base !== Priorities.None) result.priorities.add(base);
+    }
 
     // Prioritize getting a YR
     const yr_needed =
       task.combat?.can("yellowRay") ||
       (task.combat?.can("forceItems") && !forceItemSources.find((s) => s.available()));
     if (yr_needed && yellowRaySources.find((yr) => yr.available())) {
-      if (have($effect`Everything Looks Yellow`)) result.priorities.add(OverridePriority.BadYR);
-      else result.priorities.add(OverridePriority.GoodYR);
+      if (have($effect`Everything Looks Yellow`)) result.priorities.add(Priorities.BadYR);
+      else result.priorities.add(Priorities.GoodYR);
     }
 
     // Check if Grey Goose is charged
@@ -62,11 +66,11 @@ export class Prioritization {
       if (familiarWeight($familiar`Grey Goose`) < 6) {
         // Do not trigger BadGoose if a YR is up, to make the airship flow better.
         // This way we can get the YR off and use the goose separately
-        if (!result.priorities.has(OverridePriority.GoodYR)) {
-          result.priorities.add(OverridePriority.BadGoose);
+        if (!result.priorities.has(Priorities.GoodYR)) {
+          result.priorities.add(Priorities.BadGoose);
         }
       } else {
-        result.priorities.add(OverridePriority.GoodGoose);
+        result.priorities.add(Priorities.GoodGoose);
       }
     }
 
@@ -83,7 +87,7 @@ export class Prioritization {
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
     if (!moodCompatible(outfit_spec?.modifier) && task.name !== "Macguffin/Forest") {
-      result.priorities.add(OverridePriority.BadMood);
+      result.priorities.add(Priorities.BadMood);
     }
 
     // Burn off desert debuffs
@@ -92,7 +96,7 @@ export class Prioritization {
       task.combat &&
       task.combat.can("killItem")
     ) {
-      result.priorities.add(OverridePriority.BadMood);
+      result.priorities.add(Priorities.BadMood);
     }
 
     // Wait until we get a -combat skill before doing any -combat
@@ -110,18 +114,18 @@ export class Prioritization {
         )
       )
     ) {
-      result.priorities.add(OverridePriority.BadMood);
+      result.priorities.add(Priorities.BadMood);
     }
 
     // If we have already used banishes in the zone, prefer it
     if (globalStateCache.banishes().isPartiallyBanished(task)) {
-      result.priorities.add(OverridePriority.GoodBanish);
+      result.priorities.add(Priorities.GoodBanish);
     }
 
     // Avoid ML boosting zones when a scaling holiday wanderer is due
     if (outfit_spec?.modifier?.includes("ML") && !outfit_spec?.modifier.match("-[\\d .]*ML")) {
       if (getTodaysHolidayWanderers().length > 0 && getCounter("holiday") <= 0) {
-        result.priorities.add(OverridePriority.BadHoliday);
+        result.priorities.add(Priorities.BadHoliday);
       }
     }
 
@@ -129,51 +133,37 @@ export class Prioritization {
   }
 
   public explain(): string {
-    const reasons = new Map<OverridePriority, string>([
-      [OverridePriority.Wanderer, "Wanderer"],
-      [OverridePriority.Always, "Forced"],
-      [OverridePriority.Free, "Free action"],
-      [OverridePriority.Start, "Initial tasks"],
-      [OverridePriority.LastCopyableMonster, "Copy last monster"],
-      [OverridePriority.Effect, "Useful effect"],
-      [OverridePriority.GoodOrb, this.orb_monster ? `Target ${this.orb_monster}` : `Target ?`],
-      [OverridePriority.GoodYR, "Yellow ray"],
-      [OverridePriority.MinorEffect, "Useful minor effect"],
-      [OverridePriority.GoodGoose, "Goose charged"],
-      [OverridePriority.GoodBanish, "Banishes committed"],
-      [OverridePriority.GoodAutumnaton, "Setup Autumnaton"],
-      [OverridePriority.BadAutumnaton, "Autumnaton in use here"],
-      [OverridePriority.BadYR, "Too early for yellow ray"],
-      [OverridePriority.BadOrb, this.orb_monster ? `Avoid ${this.orb_monster}` : `Avoid ?`],
-      [OverridePriority.BadGoose, "Goose not charged"],
-      [OverridePriority.BadMood, "Wrong combat modifiers"],
-    ]);
-    return [...this.priorities]
-      .map((priority) => reasons.get(priority))
+    const result = [...this.priorities]
+      .map((priority) => priority.reason)
       .filter((priority) => priority !== undefined)
       .join(", ");
+    if (this.orb_monster) return result.replace("orb monster", `${this.orb_monster}`);
+    else return result;
   }
 
-  public has(priorty: OverridePriority) {
-    return this.priorities.has(priorty);
+  public has(priorty: Priority) {
+    for (const prior of this.priorities) {
+      if (prior.score === priorty.score) return true;
+    }
+    return false;
   }
 
   public score(): number {
     let result = 0;
     for (const priority of this.priorities) {
-      result += priority;
+      result += priority.score;
     }
     return result;
   }
 }
 
-function orbPriority(task: Task, monster: Monster): OverridePriority {
-  if (!(task.do instanceof Location)) return OverridePriority.None;
+function orbPriority(task: Task, monster: Monster): Priority {
+  if (!(task.do instanceof Location)) return Priorities.None;
 
   // If the goose is not charged, do not aim to reprocess
   const absorb_state = globalStateCache.absorb();
   if (absorb_state.isReprocessTarget(monster) && familiarWeight($familiar`Grey Goose`) < 6)
-    return OverridePriority.None;
+    return Priorities.None;
 
   // Determine if a monster is useful or not based on the combat goals
   if (task.orbtargets === undefined) {
@@ -205,27 +195,27 @@ function orbPriority(task: Task, monster: Monster): OverridePriority {
       task_combat.can("killItem");
 
     if (next_useless && others_useful) {
-      return OverridePriority.BadOrb;
+      return Priorities.BadOrb;
     } else if (!next_useless && others_useless) {
-      return OverridePriority.GoodOrb;
+      return Priorities.GoodOrb;
     } else {
-      return OverridePriority.None;
+      return Priorities.None;
     }
   }
 
   // Use orbtargets to decide if the next monster is useful
   const fromTask = task.orbtargets();
-  if (fromTask === undefined) return OverridePriority.None;
+  if (fromTask === undefined) return Priorities.None;
   const targets = [
     ...fromTask,
     ...absorb_state.remainingAbsorbs(task.do),
     ...absorb_state.remainingReprocess(task.do),
   ];
-  if (targets.length === 0) return OverridePriority.None;
+  if (targets.length === 0) return Priorities.None;
   if (targets.find((t) => t === monster) === undefined) {
-    return OverridePriority.BadOrb;
+    return Priorities.BadOrb;
   } else {
-    return OverridePriority.GoodOrb;
+    return Priorities.GoodOrb;
   }
 }
 
