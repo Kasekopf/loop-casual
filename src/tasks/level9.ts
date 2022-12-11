@@ -164,7 +164,7 @@ const Twin: Task[] = [
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
       if (numericModifier("stench resistance") < 4)
-        throw `Unable to ensure cold res for The Icy Peak`;
+        throw `Unable to ensure stench res for Twin Peak`;
     },
     do: $location`Twin Peak`,
     choices: { 606: 1, 607: 1 },
@@ -182,7 +182,7 @@ const Twin: Task[] = [
     prepare: () => {
       if (numericModifier("stench resistance") < 4) ensureEffect($effect`Red Door Syndrome`);
       if (numericModifier("stench resistance") < 4)
-        throw `Unable to ensure cold res for The Icy Peak`;
+        throw `Unable to ensure stench res for Twin Peak`;
     },
     do: () => {
       use($item`rusty hedge trimmers`);
