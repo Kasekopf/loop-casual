@@ -438,7 +438,7 @@ export const HiddenQuest: Quest = {
       do: $location`The Hidden Park`,
       outfit: { modifier: "-combat" },
       choices: { 789: 2 },
-      limit: { soft: 10 },
+      limit: { soft: 15 },
     },
     {
       name: "Boss",
