@@ -329,6 +329,7 @@ export const MiscQuest: Quest = {
         $items`Extrovermectin™`.includes(expectedColdMedicineCabinet().pill),
       completed: () =>
         getWorkshed() !== $item`cold medicine cabinet` || get("_coldMedicineConsults") >= 5,
+      priority: () => true,
       do: () => cliExecute("cmc pill"),
       limit: { tries: 5 },
     },
