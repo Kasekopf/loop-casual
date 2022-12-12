@@ -1,14 +1,17 @@
 import {
   adv1,
   cliExecute,
+  expectedColdMedicineCabinet,
   familiarEquippedEquipment,
   familiarWeight,
+  getWorkshed,
   itemAmount,
   myBasestat,
   myPrimestat,
   retrieveItem,
   retrievePrice,
   runChoice,
+  totalTurnsPlayed,
   use,
   useFamiliar,
   useSkill,
@@ -317,6 +320,17 @@ export const MiscQuest: Quest = {
           .skill($skill`Trap Ghost`)
       ),
       limit: { tries: 10 },
+    },
+    {
+      name: "CMC Pills",
+      ready: () =>
+        (get("_coldMedicineConsults") === 0 ||
+          totalTurnsPlayed() >= get("_nextColdMedicineConsult")) &&
+        $items`Extrovermectin™`.includes(expectedColdMedicineCabinet().pill),
+      completed: () =>
+        getWorkshed() !== $item`cold medicine cabinet` || get("_coldMedicineConsults") >= 5,
+      do: () => cliExecute("cmc pill"),
+      limit: { tries: 5 },
     },
     {
       name: "Autumn-aton",
