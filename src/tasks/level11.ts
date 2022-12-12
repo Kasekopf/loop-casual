@@ -92,21 +92,19 @@ const Desert: Task[] = [
     completed: () => get("desertExploration") >= 100,
     do: $location`The Arid, Extra-Dry Desert`,
     outfit: (): OutfitSpec => {
+      const handItems = $items`survival knife, UV-resistant compass`.filter((it) => have(it));
       if (
         have($item`industrial fire extinguisher`) &&
         get("_fireExtinguisherCharge") >= 20 &&
         !get("fireExtinguisherDesertUsed") &&
         have($effect`Ultrahydrated`)
       )
-        return {
-          equip: $items`industrial fire extinguisher, UV-resistant compass, dromedary drinking helmet`,
-          familiar: $familiar`Melodramedary`,
-        };
-      else
-        return {
-          equip: $items`UV-resistant compass, dromedary drinking helmet`,
-          familiar: $familiar`Melodramedary`,
-        };
+        handItems.unshift($item`industrial fire extinguisher`);
+      return {
+        equip: handItems.slice(0, 2),
+        familiar: $familiar`Melodramedary`,
+        famequip: $item`dromedary drinking helmet`,
+      };
     },
     combat: new CombatStrategy()
       .macro((): Macro => {
