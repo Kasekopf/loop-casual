@@ -171,7 +171,7 @@ export const ChasmQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       priority: () => get("hasAutumnaton"),
       ready: () => myLevel() >= 9,
       completed: () => step("questL09Topping") !== -1,

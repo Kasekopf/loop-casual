@@ -9,7 +9,7 @@ export const FriarQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 6,
       completed: () => step("questL06Friar") !== -1,
       do: () => visitUrl("council.php"),
