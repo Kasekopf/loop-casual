@@ -804,9 +804,13 @@ export class AbsorbState {
     do {
       match = skill_regex.exec(charsheet);
       if (match) {
-        const monster = usefulSkills.get(Skill.get(match[1]));
-        if (monster === undefined) continue;
-        this.absorbed.add(monster);
+        try {
+          const monster = usefulSkills.get(Skill.get(match[1]));
+          if (monster === undefined) continue;
+          this.absorbed.add(monster);
+        } catch {
+          // The skill is unknown to mafia; ignore
+        }
       }
     } while (match);
 
