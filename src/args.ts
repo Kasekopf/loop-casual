@@ -86,11 +86,9 @@ export const args = Args.create(
       }),
       ignoretasks: Args.string({
         help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
-        setting: "",
       }),
       completedtasks: Args.string({
         help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
-        setting: "",
       }),
       list: Args.flag({
         help: "Show the status of all tasks and exit.",
