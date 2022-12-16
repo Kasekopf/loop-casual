@@ -9123,12 +9123,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
       help: "Print out equipment usage before each task."
     }),
     ignoretasks: Args.string({
-      help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",
-      setting: ""
+      help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing."
     }),
     completedtasks: Args.string({
-      help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.",
-      setting: ""
+      help: "A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs."
     }),
     list: Args.flag({
       help: "Show the status of all tasks and exit.",
@@ -9800,7 +9798,7 @@ var heroKeys = [{
   which: Keys.Deck,
   possible: () => have(template_string_$item(keys_templateObject || (keys_templateObject = keys_taggedTemplateLiteral(["Deck of Every Card"])))) && property_get("_deckCardsDrawn") === 0,
   after: [],
-  priority: () => OverridePriority.Free,
+  priority: () => Priorities.Free,
   completed: () => property_get("_deckCardsDrawn") > 0 || !have(template_string_$item(keys_templateObject2 || (keys_templateObject2 = keys_taggedTemplateLiteral(["Deck of Every Card"])))),
   do: () => {
     (0,external_kolmafia_namespaceObject.cliExecute)("cheat tower");
@@ -11415,7 +11413,7 @@ var absorbTasks = [// Level 2
   do: $location(_templateObject116 || (_templateObject116 = absorb_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
   after: ["Macguffin/Desert"]
 }, {
-  priority: () => have($effect(_templateObject117 || (_templateObject117 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject118 || (_templateObject118 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(_templateObject117 || (_templateObject117 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject118 || (_templateObject118 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? Priorities.Effect : Priorities.None,
   do: $location(_templateObject119 || (_templateObject119 = absorb_taggedTemplateLiteral(["The Oasis"]))),
   after: ["Macguffin/Desert"]
 }, {
@@ -11585,14 +11583,18 @@ var AbsorbState = /*#__PURE__*/function () {
       match = skill_regex.exec(charsheet);
 
       if (match) {
-        var monster = usefulSkills.get(external_kolmafia_namespaceObject.Skill.get(match[1]));
-        if (monster === undefined) continue;
-        this.absorbed.add(monster);
+        try {
+          var monster = usefulSkills.get(external_kolmafia_namespaceObject.Skill.get(match[1]));
+          if (monster === undefined) continue;
+          this.absorbed.add(monster);
+        } catch (_unused) {// The skill is unknown to mafia; ignore
+        }
       }
     } while (match); // Mark down all monsters that we have reprocessed
 
 
-    property_get("gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_namespaceObject.Monster.get(id)).map(monster => this.reprocessed.add(monster)); // Ignore unneeded skills for the run
+    property_get("gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_namespaceObject.Monster.get(id)).map(monster => this.reprocessed.add(monster));
+    property_get("_loopgyou_untracked_gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_namespaceObject.Monster.get(id)).map(monster => this.reprocessed.add(monster)); // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
 
     var ignored_skills = new Set([$skill(_templateObject309 || (_templateObject309 = absorb_taggedTemplateLiteral(["Telekinetic Murder"]))), $skill(_templateObject310 || (_templateObject310 = absorb_taggedTemplateLiteral(["Nanoshock"]))), $skill(_templateObject311 || (_templateObject311 = absorb_taggedTemplateLiteral(["Advanced Exo-Alloy"]))), $skill(_templateObject312 || (_templateObject312 = absorb_taggedTemplateLiteral(["Hardslab"]))), $skill(_templateObject313 || (_templateObject313 = absorb_taggedTemplateLiteral(["Snakesmack"]))), $skill(_templateObject314 || (_templateObject314 = absorb_taggedTemplateLiteral(["Audioclasm"]))), $skill(_templateObject315 || (_templateObject315 = absorb_taggedTemplateLiteral(["Nantlers"]))), $skill(_templateObject316 || (_templateObject316 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"])))]); // Ignore the elemental skills that are not useful for the tower
@@ -12442,7 +12444,7 @@ var Flyers = [{
 }, {
   name: "Flyers End",
   after: ["Flyers Start"],
-  priority: () => OverridePriority.Free,
+  priority: () => Priorities.Free,
   ready: () => flyersDone(),
   // Buffer for mafia tracking
   completed: () => property_get("sidequestArenaCompleted") !== "none" || warSkip(),
@@ -12477,11 +12479,11 @@ var Lighthouse = [// Saber into more lobsterfrogmen
   completed: () => (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level12_templateObject6 || (level12_templateObject6 = level12_taggedTemplateLiteral(["barrel of gunpowder"])))) >= 5 || property_get("sidequestLighthouseCompleted") !== "none" || !have(template_string_$item(level12_templateObject7 || (level12_templateObject7 = level12_taggedTemplateLiteral(["backup camera"])))) || !have(template_string_$item(level12_templateObject8 || (level12_templateObject8 = level12_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) || warSkip(),
   priority: () => {
     if (AutumnAton_have()) {
-      if ((0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject9 || (level12_templateObject9 = level12_taggedTemplateLiteral(["Moxie"])))) < 200) return OverridePriority.BadMood;
-      if ($location(level12_templateObject10 || (level12_templateObject10 = level12_taggedTemplateLiteral(["Sonofa Beach"]))).turnsSpent === 0) return OverridePriority.GoodAutumnaton;else if ((0,external_kolmafia_namespaceObject.myTurncount)() < 400) return OverridePriority.BadAutumnaton;
+      if ((0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject9 || (level12_templateObject9 = level12_taggedTemplateLiteral(["Moxie"])))) < 200) return Priorities.BadMood;
+      if ($location(level12_templateObject10 || (level12_templateObject10 = level12_taggedTemplateLiteral(["Sonofa Beach"]))).turnsSpent === 0) return Priorities.GoodAutumnaton;else if ((0,external_kolmafia_namespaceObject.myTurncount)() < 400) return Priorities.BadAutumnaton;
     }
 
-    return OverridePriority.None;
+    return Priorities.None;
   },
   do: $location(level12_templateObject11 || (level12_templateObject11 = level12_taggedTemplateLiteral(["Sonofa Beach"]))),
   outfit: () => {
@@ -12525,10 +12527,10 @@ var Lighthouse = [// Saber into more lobsterfrogmen
   after: ["Enrage", "Lighthouse"],
   priority: () => {
     if (AutumnAton_have()) {
-      if ($location(level12_templateObject23 || (level12_templateObject23 = level12_taggedTemplateLiteral(["Sonofa Beach"]))).turnsSpent === 0) return OverridePriority.GoodAutumnaton;else return OverridePriority.BadAutumnaton;
+      if ($location(level12_templateObject23 || (level12_templateObject23 = level12_taggedTemplateLiteral(["Sonofa Beach"]))).turnsSpent === 0) return Priorities.GoodAutumnaton;else return Priorities.BadAutumnaton;
     }
 
-    return OverridePriority.None;
+    return Priorities.None;
   },
   completed: () => (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level12_templateObject24 || (level12_templateObject24 = level12_taggedTemplateLiteral(["barrel of gunpowder"])))) >= 5 || property_get("sidequestLighthouseCompleted") !== "none" || warSkip(),
   do: $location(level12_templateObject25 || (level12_templateObject25 = level12_taggedTemplateLiteral(["Sonofa Beach"]))),
@@ -12573,7 +12575,7 @@ var Junkyard = [{
   name: "Junkyard Hammer",
   after: ["Junkyard Start"],
   completed: () => have(template_string_$item(level12_templateObject30 || (level12_templateObject30 = level12_taggedTemplateLiteral(["molybdenum hammer"])))) || property_get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject31 || (level12_templateObject31 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject31 || (level12_templateObject31 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? Priorities.BadMood : Priorities.None,
   acquire: [{
     item: template_string_$item(level12_templateObject32 || (level12_templateObject32 = level12_taggedTemplateLiteral(["seal tooth"])))
   }],
@@ -12590,7 +12592,7 @@ var Junkyard = [{
   name: "Junkyard Wrench",
   after: ["Junkyard Start"],
   completed: () => have(template_string_$item(level12_templateObject41 || (level12_templateObject41 = level12_taggedTemplateLiteral(["molybdenum crescent wrench"])))) || property_get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject42 || (level12_templateObject42 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject42 || (level12_templateObject42 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? Priorities.BadMood : Priorities.None,
   acquire: [{
     item: template_string_$item(level12_templateObject43 || (level12_templateObject43 = level12_taggedTemplateLiteral(["seal tooth"])))
   }],
@@ -12610,7 +12612,7 @@ var Junkyard = [{
     item: template_string_$item(level12_templateObject52 || (level12_templateObject52 = level12_taggedTemplateLiteral(["seal tooth"])))
   }],
   completed: () => have(template_string_$item(level12_templateObject53 || (level12_templateObject53 = level12_taggedTemplateLiteral(["molybdenum pliers"])))) || property_get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject54 || (level12_templateObject54 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject54 || (level12_templateObject54 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? Priorities.BadMood : Priorities.None,
   outfit: {
     equip: template_string_$items(level12_templateObject55 || (level12_templateObject55 = level12_taggedTemplateLiteral(["beer helmet, distressed denim pants, bejeweled pledge pin"])))
   },
@@ -12624,7 +12626,7 @@ var Junkyard = [{
   name: "Junkyard Screwdriver",
   after: ["Junkyard Start"],
   completed: () => have(template_string_$item(level12_templateObject63 || (level12_templateObject63 = level12_taggedTemplateLiteral(["molybdenum screwdriver"])))) || property_get("sidequestJunkyardCompleted") !== "none" || warSkip(),
-  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject64 || (level12_templateObject64 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? OverridePriority.BadMood : OverridePriority.None,
+  priority: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level12_templateObject64 || (level12_templateObject64 = level12_taggedTemplateLiteral(["Moxie"])))) < 300 ? Priorities.BadMood : Priorities.None,
   acquire: [{
     item: template_string_$item(level12_templateObject65 || (level12_templateObject65 = level12_taggedTemplateLiteral(["seal tooth"])))
   }],
@@ -12736,7 +12738,7 @@ var Nuns = [{
   name: "Nuns",
   after: ["Open Nuns"],
   completed: () => property_get("sidequestNunsCompleted") !== "none" || warSkip(),
-  priority: () => have($effect(level12_templateObject110 || (level12_templateObject110 = level12_taggedTemplateLiteral(["Winklered"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(level12_templateObject110 || (level12_templateObject110 = level12_taggedTemplateLiteral(["Winklered"])))) ? Priorities.Effect : Priorities.None,
   prepare: () => {
     if (have(template_string_$item(level12_templateObject111 || (level12_templateObject111 = level12_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) && property_get("boomBoxSong") !== "Total Eclipse of Your Meat") (0,external_kolmafia_namespaceObject.cliExecute)("boombox meat");
     if (!property_get("concertVisited")) ensureEffect($effect(level12_templateObject112 || (level12_templateObject112 = level12_taggedTemplateLiteral(["Winklered"]))));
@@ -13211,7 +13213,7 @@ var MiscQuest = {
   }, {
     name: "Acquire Kgnee",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => have(template_string_$familiar(misc_templateObject19 || (misc_templateObject19 = misc_taggedTemplateLiteral(["Reagnimated Gnome"])))) && !have(template_string_$item(misc_templateObject20 || (misc_templateObject20 = misc_taggedTemplateLiteral(["gnomish housemaid's kgnee"])))) && !property_get("_loopcasual_checkedGnome", false),
     completed: () => !have(template_string_$familiar(misc_templateObject21 || (misc_templateObject21 = misc_taggedTemplateLiteral(["Reagnimated Gnome"])))) || have(template_string_$item(misc_templateObject22 || (misc_templateObject22 = misc_taggedTemplateLiteral(["gnomish housemaid's kgnee"])))) || property_get("_loopcasual_checkedGnome", false),
     do: () => {
@@ -13229,7 +13231,7 @@ var MiscQuest = {
   }, {
     name: "Voting",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => have(template_string_$item(misc_templateObject24 || (misc_templateObject24 = misc_taggedTemplateLiteral(["\"I Voted!\" sticker"])))) || property_get("_voteToday") || !property_get("voteAlways"),
     do: () => {
       // Taken from garbo
@@ -13271,7 +13273,7 @@ var MiscQuest = {
     name: "Protonic Ghost",
     after: [],
     completed: () => false,
-    priority: () => OverridePriority.Always,
+    priority: () => Priorities.Always,
     ready: () => {
       if (!have(template_string_$item(misc_templateObject34 || (misc_templateObject34 = misc_taggedTemplateLiteral(["protonic accelerator pack"]))))) return false;
       if (property_get("questPAGhost") === "unstarted") return false;
@@ -13419,7 +13421,7 @@ var MiscQuest = {
   }, {
     name: "Acquire Birch Battery",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => have(template_string_$item(misc_templateObject81 || (misc_templateObject81 = misc_taggedTemplateLiteral(["SpinMaster\u2122 lathe"])))) && (!property_get("_spinmasterLatheVisited") || have(template_string_$item(misc_templateObject82 || (misc_templateObject82 = misc_taggedTemplateLiteral(["flimsy hardwood scraps"]))))),
     completed: () => have(template_string_$item(misc_templateObject83 || (misc_templateObject83 = misc_taggedTemplateLiteral(["birch battery"])))),
     do: () => {
@@ -13433,7 +13435,7 @@ var MiscQuest = {
   }, {
     name: "Acquire Firework Hat",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => (0,external_kolmafia_namespaceObject.myMeat)() >= 500,
     completed: () => have(template_string_$item(misc_templateObject84 || (misc_templateObject84 = misc_taggedTemplateLiteral(["sombrero-mounted sparkler"])))) || property_get("_fireworksShopHatBought") || !have(template_string_$item(misc_templateObject85 || (misc_templateObject85 = misc_taggedTemplateLiteral(["Clan VIP Lounge key"])))),
     do: () => {
@@ -13448,7 +13450,7 @@ var MiscQuest = {
   }, {
     name: "Goose Exp",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject86 || (misc_templateObject86 = misc_taggedTemplateLiteral(["Grey Goose"])))) >= 9 || property_get("_loop_gyou_chef_goose") === "true" || !have(template_string_$familiar(misc_templateObject87 || (misc_templateObject87 = misc_taggedTemplateLiteral(["Shorter-Order Cook"])))),
     do: () => {
       _set("_loop_gyou_chef_goose", "true");
@@ -13478,7 +13480,7 @@ var MiscQuest = {
     after: [],
     ready: () => ((0,external_kolmafia_namespaceObject.inHardcore)() && (0,external_kolmafia_namespaceObject.myAdventures)() < 20 && (0,external_kolmafia_namespaceObject.myTurncount)() >= 50 || step("questL11Worship") >= 3) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject90 || (misc_templateObject90 = misc_taggedTemplateLiteral(["Grey Goose"])))) < 6,
     completed: () => property_get("_clanFortuneBuffUsed") || !have(template_string_$item(misc_templateObject91 || (misc_templateObject91 = misc_taggedTemplateLiteral(["Clan VIP Lounge key"])))),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     do: () => {
       (0,external_kolmafia_namespaceObject.cliExecute)("fortune buff susie");
     },
@@ -13492,7 +13494,7 @@ var MiscQuest = {
     // After the desert to avoid wasting it on the camel
     completed: () => property_get("friarsBlessingReceived"),
     ready: () => (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject92 || (misc_templateObject92 = misc_taggedTemplateLiteral(["Grey Goose"])))) < 6,
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     do: () => {
       (0,external_kolmafia_namespaceObject.cliExecute)("friars familiar");
     },
@@ -13534,7 +13536,7 @@ var MiscQuest = {
     name: "Amulet Coin",
     after: [],
     completed: () => have(template_string_$item(misc_templateObject102 || (misc_templateObject102 = misc_taggedTemplateLiteral(["amulet coin"])))) || !have($skill(misc_templateObject103 || (misc_templateObject103 = misc_taggedTemplateLiteral(["Summon Clip Art"])))) || property_get("tomeSummons") >= 3 || !have(template_string_$familiar(misc_templateObject104 || (misc_templateObject104 = misc_taggedTemplateLiteral(["Cornbeefadon"])))),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     do: () => {
       (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(misc_templateObject105 || (misc_templateObject105 = misc_taggedTemplateLiteral(["box of Familiar Jacks"]))));
       (0,external_kolmafia_namespaceObject.use)(template_string_$item(misc_templateObject106 || (misc_templateObject106 = misc_taggedTemplateLiteral(["box of Familiar Jacks"]))));
@@ -13550,7 +13552,7 @@ var MiscQuest = {
     name: "Grey Down Vest",
     after: [],
     completed: () => have(template_string_$item(misc_templateObject108 || (misc_templateObject108 = misc_taggedTemplateLiteral(["grey down vest"])))) || !have($skill(misc_templateObject109 || (misc_templateObject109 = misc_taggedTemplateLiteral(["Summon Clip Art"])))) || property_get("tomeSummons") >= 3,
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     do: () => {
       (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(misc_templateObject110 || (misc_templateObject110 = misc_taggedTemplateLiteral(["box of Familiar Jacks"]))));
       (0,external_kolmafia_namespaceObject.use)(template_string_$item(misc_templateObject111 || (misc_templateObject111 = misc_taggedTemplateLiteral(["box of Familiar Jacks"]))));
@@ -13565,7 +13567,7 @@ var MiscQuest = {
   }, {
     name: "Boombox",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => !have(template_string_$item(misc_templateObject113 || (misc_templateObject113 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Total Eclipse of Your Meat" || have($skill(misc_templateObject114 || (misc_templateObject114 = misc_taggedTemplateLiteral(["System Sweep"])))) && have($skill(misc_templateObject115 || (misc_templateObject115 = misc_taggedTemplateLiteral(["Double Nanovision"])))) && args.minor.seasoning || property_get("_boomBoxSongsLeft") === 0,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("boombox meat"),
     freeaction: true,
@@ -13575,7 +13577,7 @@ var MiscQuest = {
   }, {
     name: "Boombox Seasoning",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => have($skill(misc_templateObject116 || (misc_templateObject116 = misc_taggedTemplateLiteral(["System Sweep"])))) && have($skill(misc_templateObject117 || (misc_templateObject117 = misc_taggedTemplateLiteral(["Double Nanovision"])))) && (property_get("currentNunneryMeat") === 0 || property_get("currentNunneryMeat") === 100000),
     completed: () => !have(template_string_$item(misc_templateObject118 || (misc_templateObject118 = misc_taggedTemplateLiteral(["SongBoom\u2122 BoomBox"])))) || property_get("boomBoxSong") === "Food Vibrations" || property_get("_boomBoxSongsLeft") === 0 || !args.minor.seasoning,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("boombox food"),
@@ -13589,7 +13591,7 @@ var MiscQuest = {
     after: [],
     ready: () => (0,external_kolmafia_namespaceObject.myMeat)() >= 11000 && (0,external_kolmafia_namespaceObject.gnomadsAvailable)(),
     completed: () => have($skill(misc_templateObject119 || (misc_templateObject119 = misc_taggedTemplateLiteral(["Torso Awareness"])))),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true,
     do: () => {
       (0,external_kolmafia_namespaceObject.visitUrl)("gnomes.php?action=trainskill&whichskill=12");
@@ -13602,7 +13604,7 @@ var MiscQuest = {
     after: ["Gnome Shirt"],
     ready: () => (0,external_kolmafia_namespaceObject.myMeat)() >= 11000 && (0,external_kolmafia_namespaceObject.gnomadsAvailable)(),
     completed: () => have($skill(misc_templateObject120 || (misc_templateObject120 = misc_taggedTemplateLiteral(["Powers of Observatiogn"])))),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true,
     do: () => {
       (0,external_kolmafia_namespaceObject.visitUrl)("gnomes.php?action=trainskill&whichskill=10");
@@ -13615,7 +13617,7 @@ var MiscQuest = {
     after: ["Unlock Beach", "Reprocess/The Bugbear Pen", "Bugbear Outfit"],
     ready: () => (0,external_kolmafia_namespaceObject.knollAvailable)() && ((0,external_kolmafia_namespaceObject.mySign)() !== "Vole" || (0,external_kolmafia_namespaceObject.myMaxmp)() - (0,external_kolmafia_namespaceObject.numericModifier)("Maximum MP") >= 50 && (0,external_kolmafia_namespaceObject.myMaxhp)() - (0,external_kolmafia_namespaceObject.numericModifier)("Maximum HP") >= 50 && (0,external_kolmafia_namespaceObject.myMeat)() >= 11000),
     completed: () => !have(template_string_$item(misc_templateObject121 || (misc_templateObject121 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
@@ -13626,7 +13628,7 @@ var MiscQuest = {
     after: ["Reprocess/Outskirts of Camp Logging Camp"],
     ready: () => (0,external_kolmafia_namespaceObject.canadiaAvailable)(),
     completed: () => !have(template_string_$item(misc_templateObject122 || (misc_templateObject122 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
@@ -13637,7 +13639,7 @@ var MiscQuest = {
     after: ["Reprocess/Thugnderdome", "Gnome Shirt", "Gnome Items"],
     ready: () => (0,external_kolmafia_namespaceObject.gnomadsAvailable)(),
     completed: () => !have(template_string_$item(misc_templateObject123 || (misc_templateObject123 = misc_taggedTemplateLiteral(["hewn moon-rune spoon"])))) || args.major.tune === undefined || property_get("moonTuned", false),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true,
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("spoon ".concat(args.major.tune)),
     limit: {
@@ -13655,7 +13657,7 @@ var MiscQuest = {
   }, {
     name: "Mayday",
     after: ["Macguffin/Start"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => !property_get("hasMaydayContract") || !have(template_string_$item(misc_templateObject125 || (misc_templateObject125 = misc_taggedTemplateLiteral(["MayDay\u2122 supply package"])))) && atLevel(11),
     ready: () => have(template_string_$item(misc_templateObject126 || (misc_templateObject126 = misc_taggedTemplateLiteral(["MayDay\u2122 supply package"])))) && (0,external_kolmafia_namespaceObject.myTurncount)() < 1000,
     do: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(misc_templateObject127 || (misc_templateObject127 = misc_taggedTemplateLiteral(["MayDay\u2122 supply package"])))),
@@ -13682,7 +13684,7 @@ var MiscQuest = {
   }, {
     name: "Mumming Trunk",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => !have(template_string_$item(misc_templateObject129 || (misc_templateObject129 = misc_taggedTemplateLiteral(["mumming trunk"])))) || property_get("_mummeryUses").includes("2,"),
     do: () => (0,external_kolmafia_namespaceObject.cliExecute)("mummery mp"),
     outfit: {
@@ -13695,7 +13697,7 @@ var MiscQuest = {
   }, {
     name: "Swap Workshed",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => property_get("_coldMedicineConsults") >= 5 && (0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(misc_templateObject131 || (misc_templateObject131 = misc_taggedTemplateLiteral(["cold medicine cabinet"]))),
     completed: () => !have(template_string_$item(misc_templateObject132 || (misc_templateObject132 = misc_taggedTemplateLiteral(["Asdon Martin keyfob"])))) || property_get("_workshedItemUsed") || (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000,
     do: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(misc_templateObject133 || (misc_templateObject133 = misc_taggedTemplateLiteral(["Asdon Martin keyfob"])))),
@@ -13706,7 +13708,7 @@ var MiscQuest = {
   }, {
     name: "Bugbear Outfit",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => (0,external_kolmafia_namespaceObject.myMeat)() >= 140,
     completed: () => !have(template_string_$item(misc_templateObject134 || (misc_templateObject134 = misc_taggedTemplateLiteral(["Asdon Martin keyfob"])))) && !installed() || !(0,external_kolmafia_namespaceObject.knollAvailable)() || have(template_string_$item(misc_templateObject135 || (misc_templateObject135 = misc_taggedTemplateLiteral(["bugbear beanie"])))) && have(template_string_$item(misc_templateObject136 || (misc_templateObject136 = misc_taggedTemplateLiteral(["bugbear bungguard"])))) || (0,external_kolmafia_namespaceObject.myAscensions)() >= 10,
     do: () => {
@@ -13720,7 +13722,7 @@ var MiscQuest = {
   }, {
     name: "Break Stone",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => (0,external_kolmafia_namespaceObject.hippyStoneBroken)(),
     ready: () => args.minor.pvp,
     do: () => {
@@ -13734,7 +13736,7 @@ var MiscQuest = {
   }, {
     name: "Autumnaton",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => available(),
     completed: () => !AutumnAton_have(),
     do: () => {
@@ -13785,7 +13787,7 @@ var MiscQuest = {
   }, {
     name: "Saber",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => have(template_string_$item(misc_templateObject154 || (misc_templateObject154 = misc_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))),
     completed: () => property_get("_saberMod") !== 0,
     do: () => {
@@ -13800,7 +13802,7 @@ var MiscQuest = {
   }, {
     name: "Grapefruit",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => have(template_string_$item(misc_templateObject155 || (misc_templateObject155 = misc_taggedTemplateLiteral(["filthy corduroys"])))) && have(template_string_$item(misc_templateObject156 || (misc_templateObject156 = misc_taggedTemplateLiteral(["filthy knitted dread sack"])))) && step("questL12War") < 1,
     completed: () => !have(template_string_$familiar(misc_templateObject157 || (misc_templateObject157 = misc_taggedTemplateLiteral(["Robortender"])))) || have(template_string_$item(misc_templateObject158 || (misc_templateObject158 = misc_taggedTemplateLiteral(["grapefruit"])))) || have(template_string_$item(misc_templateObject159 || (misc_templateObject159 = misc_taggedTemplateLiteral(["drive-by shooting"])))) || property_get("_roboDrinks").toLowerCase().includes("drive-by shooting"),
     do: () => (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(misc_templateObject160 || (misc_templateObject160 = misc_taggedTemplateLiteral(["grapefruit"])))),
@@ -13811,7 +13813,7 @@ var MiscQuest = {
   }, {
     name: "Prepare Robortender",
     after: ["Grapefruit"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     ready: () => (have(template_string_$item(misc_templateObject161 || (misc_templateObject161 = misc_taggedTemplateLiteral(["fish head"])))) && have(template_string_$item(misc_templateObject162 || (misc_templateObject162 = misc_taggedTemplateLiteral(["boxed wine"])))) || have(template_string_$item(misc_templateObject163 || (misc_templateObject163 = misc_taggedTemplateLiteral(["piscatini"]))))) && have(template_string_$item(misc_templateObject164 || (misc_templateObject164 = misc_taggedTemplateLiteral(["grapefruit"])))) || have(template_string_$item(misc_templateObject165 || (misc_templateObject165 = misc_taggedTemplateLiteral(["drive-by shooting"])))),
     completed: () => (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000 || property_get("sidequestNunsCompleted") !== "none" || !have(template_string_$familiar(misc_templateObject166 || (misc_templateObject166 = misc_taggedTemplateLiteral(["Robortender"])))) || property_get("_roboDrinks").toLowerCase().includes("drive-by shooting"),
     do: () => {
@@ -13851,7 +13853,7 @@ var WandQuest = {
     (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject175 || (misc_templateObject175 = misc_taggedTemplateLiteral(["Grey Goose"])))) >= 6 && // Goose exp for potential absorbs during teleportits
     have(template_string_$item(misc_templateObject176 || (misc_templateObject176 = misc_taggedTemplateLiteral(["soft green echo eyedrop antidote"])))),
     // Antitdote to remove teleportitis afterwards
-    priority: () => (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject177 || (misc_templateObject177 = misc_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? OverridePriority.GoodGoose : OverridePriority.None,
+    priority: () => (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(misc_templateObject177 || (misc_templateObject177 = misc_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? Priorities.GoodGoose : Priorities.None,
     completed: () => have($effect(misc_templateObject178 || (misc_templateObject178 = misc_taggedTemplateLiteral(["Teleportitis"])))) || property_get("lastPlusSignUnlock") === (0,external_kolmafia_namespaceObject.myAscensions)(),
     do: $location(misc_templateObject179 || (misc_templateObject179 = misc_taggedTemplateLiteral(["The Enormous Greater-Than Sign"]))),
     outfit: {
@@ -14235,7 +14237,7 @@ var extraReprocessTargets = [{
 }];
 var summonTargets = [{
   target: $monster(summons_templateObject6 || (summons_templateObject6 = summons_taggedTemplateLiteral(["pygmy witch lawyer"]))),
-  priority: () => OverridePriority.Start,
+  priority: () => Priorities.Start,
   after: [],
   completed: () => have($skill(summons_templateObject7 || (summons_templateObject7 = summons_taggedTemplateLiteral(["Infinite Loop"])))),
   acquire: [{
@@ -14316,7 +14318,7 @@ var summonTargets = [{
     target: target.target,
     after: target.after,
     completed: () => !globalStateCache.absorb().isReprocessTarget(target.target) || !target.needed(),
-    priority: () => OverridePriority.GoodGoose,
+    priority: () => Priorities.GoodGoose,
     ready: () => (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(summons_templateObject47 || (summons_templateObject47 = summons_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
     outfit: () => {
       if (CombatLoversLocket_have() && !unlockedLocketMonsters().includes(target.target)) {
@@ -14857,7 +14859,7 @@ var PullQuest = {
   tasks: [].concat(pulls_toConsumableArray(pullStrategy.pulls.map((pull, index) => {
     return {
       name: pull.name,
-      priority: () => OverridePriority.Free,
+      priority: () => Priorities.Free,
       after: [],
       ready: () => pullStrategy.enabled[index] === PullState.READY,
       completed: () => pullStrategy.enabled[index] === PullState.PULLED || pullStrategy.enabled[index] === PullState.UNNEEDED,
@@ -14886,7 +14888,7 @@ var PullQuest = {
   }])
 };
 ;// CONCATENATED MODULE: ./src/engine/engine.ts
-var engine_engine_templateObject, engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8, engine_templateObject9, engine_templateObject10, engine_templateObject11, engine_templateObject12, engine_templateObject13, engine_templateObject14, engine_templateObject15, engine_templateObject16, engine_templateObject17, engine_templateObject18, engine_templateObject19, engine_templateObject20, engine_templateObject21, engine_templateObject22, engine_templateObject23, engine_templateObject24, engine_templateObject25, engine_templateObject26, engine_templateObject27, engine_templateObject28, engine_templateObject29, engine_templateObject30, engine_templateObject31, engine_templateObject32, engine_templateObject33, engine_templateObject34, engine_templateObject35, engine_templateObject36, engine_templateObject37, engine_templateObject38, engine_templateObject39, engine_templateObject40, engine_templateObject41, engine_templateObject42, engine_templateObject43, engine_templateObject44, engine_templateObject45, engine_templateObject46, engine_templateObject47, engine_templateObject48, engine_templateObject49, engine_templateObject50, engine_templateObject51, engine_templateObject52, engine_templateObject53, engine_templateObject54, engine_templateObject55, engine_templateObject56, engine_templateObject57, engine_templateObject58, engine_templateObject59, engine_templateObject60, engine_templateObject61, engine_templateObject62, engine_templateObject63, engine_templateObject64, engine_templateObject65, engine_templateObject66, engine_templateObject67, engine_templateObject68, engine_templateObject69, engine_templateObject70, engine_templateObject71, engine_templateObject72;
+var engine_engine_templateObject, engine_templateObject2, engine_templateObject3, engine_templateObject4, engine_templateObject5, engine_templateObject6, engine_templateObject7, engine_templateObject8, engine_templateObject9, engine_templateObject10, engine_templateObject11, engine_templateObject12, engine_templateObject13, engine_templateObject14, engine_templateObject15, engine_templateObject16, engine_templateObject17, engine_templateObject18, engine_templateObject19, engine_templateObject20, engine_templateObject21, engine_templateObject22, engine_templateObject23, engine_templateObject24, engine_templateObject25, engine_templateObject26, engine_templateObject27, engine_templateObject28, engine_templateObject29, engine_templateObject30, engine_templateObject31, engine_templateObject32, engine_templateObject33, engine_templateObject34, engine_templateObject35, engine_templateObject36, engine_templateObject37, engine_templateObject38, engine_templateObject39, engine_templateObject40, engine_templateObject41, engine_templateObject42, engine_templateObject43, engine_templateObject44, engine_templateObject45, engine_templateObject46, engine_templateObject47, engine_templateObject48, engine_templateObject49, engine_templateObject50, engine_templateObject51, engine_templateObject52, engine_templateObject53, engine_templateObject54, engine_templateObject55, engine_templateObject56, engine_templateObject57, engine_templateObject58, engine_templateObject59, engine_templateObject60, engine_templateObject61, engine_templateObject62, engine_templateObject63, engine_templateObject64, engine_templateObject65, engine_templateObject66, engine_templateObject67, engine_templateObject68, engine_templateObject69, engine_templateObject70, engine_templateObject71, engine_templateObject72, engine_templateObject73;
 
 function engine_engine_toConsumableArray(arr) { return engine_engine_arrayWithoutHoles(arr) || engine_engine_iterableToArray(arr) || engine_engine_unsupportedIterableToArray(arr) || engine_engine_nonIterableSpread(); }
 
@@ -15037,12 +15039,12 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
         if (teleportitis.completed() && removeTeleportitis.ready()) {
           return engine_objectSpread(engine_objectSpread({}, removeTeleportitis), {}, {
-            active_priority: Prioritization.fixed(OverridePriority.Always)
+            active_priority: Prioritization.fixed(Priorities.Always)
           });
         }
 
         return engine_objectSpread(engine_objectSpread({}, teleportitis), {}, {
-          active_priority: Prioritization.fixed(OverridePriority.Always)
+          active_priority: Prioritization.fixed(Priorities.Always)
         });
       } // First, check for any heavily prioritized tasks
 
@@ -15050,12 +15052,12 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       var priority = available_tasks.find(task => {
         var _task$priority;
 
-        return ((_task$priority = task.priority) === null || _task$priority === void 0 ? void 0 : _task$priority.call(task)) === OverridePriority.LastCopyableMonster;
+        return ((_task$priority = task.priority) === null || _task$priority === void 0 ? void 0 : _task$priority.call(task)) === Priorities.LastCopyableMonster;
       });
 
       if (priority !== undefined) {
         return engine_objectSpread(engine_objectSpread({}, priority), {}, {
-          active_priority: Prioritization.fixed(OverridePriority.LastCopyableMonster)
+          active_priority: Prioritization.fixed(Priorities.LastCopyableMonster)
         });
       } // If a wanderer is up try to place it in a useful location
 
@@ -15071,7 +15073,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
         if (delay_burning) {
           return engine_objectSpread(engine_objectSpread({}, delay_burning), {}, {
-            active_priority: Prioritization.fixed(OverridePriority.Wanderer),
+            active_priority: Prioritization.fixed(Priorities.Wanderer),
             wanderer: wanderer
           });
         }
@@ -15247,7 +15249,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
         } // Don't equip the orb if we have a bad target
 
 
-        if ((_task$active_priority3 = task.active_priority) !== null && _task$active_priority3 !== void 0 && _task$active_priority3.has(OverridePriority.BadOrb)) {
+        if ((_task$active_priority3 = task.active_priority) !== null && _task$active_priority3 !== void 0 && _task$active_priority3.has(Priorities.BadOrb)) {
           outfit.equip({
             avoid: template_string_$items(engine_templateObject21 || (engine_templateObject21 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"])))
           });
@@ -15259,7 +15261,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
         // (If we have banished all the bad targets, there is no need to force an orb)
 
 
-        if ((_task$active_priority4 = task.active_priority) !== null && _task$active_priority4 !== void 0 && _task$active_priority4.has(OverridePriority.GoodOrb) && (!combat.can("banish") || !banish_state.isFullyBanished(task))) {
+        if ((_task$active_priority4 = task.active_priority) !== null && _task$active_priority4 !== void 0 && _task$active_priority4.has(Priorities.GoodOrb) && (!combat.can("banish") || !banish_state.isFullyBanished(task))) {
           var _globalStateCache$orb;
 
           outfit.equip(template_string_$item(engine_templateObject25 || (engine_templateObject25 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"])))); // If we are going to reprocess, it is useful to charge the goose
@@ -15444,17 +15446,34 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
       var beaten_turns = (0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject45 || (engine_templateObject45 = engine_engine_taggedTemplateLiteral(["Beaten Up"]))));
       var start_advs = (0,external_kolmafia_namespaceObject.myAdventures)();
       var goose_weight = (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(engine_templateObject46 || (engine_templateObject46 = engine_engine_taggedTemplateLiteral(["Grey Goose"]))));
+      var reprocess_targets = property_get("gooseReprocessed");
 
       engine_get(engine_getPrototypeOf(Engine.prototype), "do", this).call(this, task);
 
-      if ((0,external_kolmafia_namespaceObject.myAdventures)() !== start_advs) getExtros(); // Crash if we unexpectedly lost the fight
+      if ((0,external_kolmafia_namespaceObject.myAdventures)() !== start_advs) getExtros(); // If adventures went up and the goose weight went down, we probably reprocessed
 
-      if (!task.expectbeatenup && have($effect(engine_templateObject47 || (engine_templateObject47 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) && (0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject48 || (engine_templateObject48 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) !== 5) {
+      var reprocessed = (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(engine_templateObject47 || (engine_templateObject47 = engine_engine_taggedTemplateLiteral(["Grey Goose"])))) < goose_weight && (0,external_kolmafia_namespaceObject.myAdventures)() >= start_advs + 4;
+      var monster = (0,external_kolmafia_namespaceObject.toMonster)(property_get("lastEncounter", ""));
+
+      if (reprocessed && property_get("gooseReprocessed") === reprocess_targets) {
+        (0,external_kolmafia_namespaceObject.print)("WARNING: Probably reprocessed ".concat(monster, " but mafia did not notice."), "red");
+
+        if (monster === $monster(engine_templateObject48 || (engine_templateObject48 = engine_engine_taggedTemplateLiteral(["none"])))) {
+          (0,external_kolmafia_namespaceObject.print)("WARNING: But we were unable to tell with lastEncounter what was fought.");
+        } else {
+          var untracked = property_get("_loopgyou_untracked_gooseReprocessed");
+          var new_untracked = untracked.length > 0 ? ",".concat(monster.id) : "".concat(monster.id);
+          _set("_loopgyou_untracked_gooseReprocessed", new_untracked);
+          globalStateCache.invalidate();
+        }
+      } // Crash if we unexpectedly lost the fight
+
+
+      if (!task.expectbeatenup && have($effect(engine_templateObject49 || (engine_templateObject49 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) && (0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject50 || (engine_templateObject50 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) !== 5) {
         // Poetic Justice gives 5
-        if ((0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject49 || (engine_templateObject49 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) > beaten_turns || // Turns of beaten-up increased, so we lost
-        (0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject50 || (engine_templateObject50 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) === beaten_turns && ( // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
-        (0,external_kolmafia_namespaceObject.myAdventures)() < start_advs || // Check if adventures went down but also we reprocessed a monster
-        (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(engine_templateObject51 || (engine_templateObject51 = engine_engine_taggedTemplateLiteral(["Grey Goose"])))) < goose_weight && ((0,external_kolmafia_namespaceObject.myAdventures)() === start_advs + 4 || (0,external_kolmafia_namespaceObject.myAdventures)() === start_advs + 6 || (0,external_kolmafia_namespaceObject.myAdventures)() === start_advs + 9))) throw "Fight was lost (debug info: ".concat(beaten_turns, " => ").concat((0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject52 || (engine_templateObject52 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))), ", (").concat(start_advs, " => ").concat((0,external_kolmafia_namespaceObject.myAdventures)(), "); stop.");
+        if ((0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject51 || (engine_templateObject51 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) > beaten_turns || // Turns of beaten-up increased, so we lost
+        (0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject52 || (engine_templateObject52 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))) === beaten_turns && ( // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
+        (0,external_kolmafia_namespaceObject.myAdventures)() < start_advs || reprocessed)) throw "Fight was lost (debug info: ".concat(beaten_turns, " => ").concat((0,external_kolmafia_namespaceObject.haveEffect)($effect(engine_templateObject53 || (engine_templateObject53 = engine_engine_taggedTemplateLiteral(["Beaten Up"])))), ", (").concat(start_advs, " => ").concat((0,external_kolmafia_namespaceObject.myAdventures)(), "); stop.");
       }
     }
   }, {
@@ -15464,12 +15483,12 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
       engine_get(engine_getPrototypeOf(Engine.prototype), "post", this).call(this, task);
 
-      if ((_task$active_priority5 = task.active_priority) !== null && _task$active_priority5 !== void 0 && _task$active_priority5.has(OverridePriority.BadOrb) && !(0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject53 || (engine_templateObject53 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"]))))) resetBadOrb();
+      if ((_task$active_priority5 = task.active_priority) !== null && _task$active_priority5 !== void 0 && _task$active_priority5.has(Priorities.BadOrb) && !(0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject54 || (engine_templateObject54 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"]))))) resetBadOrb();
       if (property_get("_latteBanishUsed") && shouldFinishLatte()) refillLatte();
       absorbConsumables();
       autosellJunk();
 
-      var _iterator7 = engine_engine_createForOfIteratorHelper($effects(engine_templateObject54 || (engine_templateObject54 = engine_engine_taggedTemplateLiteral(["Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole"])))),
+      var _iterator7 = engine_engine_createForOfIteratorHelper($effects(engine_templateObject55 || (engine_templateObject55 = engine_engine_taggedTemplateLiteral(["Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned, Toad In The Hole"])))),
           _step7;
 
       try {
@@ -15525,18 +15544,18 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
   return Engine;
 }(Engine);
-var consumables_blacklist = new Set(template_string_$items(engine_templateObject55 || (engine_templateObject55 = engine_engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name], Affirmation Cookie, boxed wine, piscatini, grapefruit, drive-by shooting"]))));
+var consumables_blacklist = new Set(template_string_$items(engine_templateObject56 || (engine_templateObject56 = engine_engine_taggedTemplateLiteral(["wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin\u2122, blueberry muffin, bran muffin, chocolate chip muffin, Schr\xF6dinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name], Affirmation Cookie, boxed wine, piscatini, grapefruit, drive-by shooting"]))));
 
 function autosellJunk() {
   // eslint-disable-next-line eqeqeq
-  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(engine_templateObject56 || (engine_templateObject56 = engine_engine_taggedTemplateLiteral(["Grey You"])))) return; // final safety
+  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(engine_templateObject57 || (engine_templateObject57 = engine_engine_taggedTemplateLiteral(["Grey You"])))) return; // final safety
 
   if ((0,external_kolmafia_namespaceObject.myMeat)() >= 10000) return;
   if ((0,external_kolmafia_namespaceObject.myTurncount)() >= 1000) return; // stop after breaking ronin
 
-  if (have(template_string_$item(engine_templateObject57 || (engine_templateObject57 = engine_engine_taggedTemplateLiteral(["pork elf goodies sack"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(engine_templateObject58 || (engine_templateObject58 = engine_engine_taggedTemplateLiteral(["pork elf goodies sack"])))); // Sell junk items
+  if (have(template_string_$item(engine_templateObject58 || (engine_templateObject58 = engine_engine_taggedTemplateLiteral(["pork elf goodies sack"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(engine_templateObject59 || (engine_templateObject59 = engine_engine_taggedTemplateLiteral(["pork elf goodies sack"])))); // Sell junk items
 
-  var junk = template_string_$items(engine_templateObject59 || (engine_templateObject59 = engine_engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"])));
+  var junk = template_string_$items(engine_templateObject60 || (engine_templateObject60 = engine_engine_taggedTemplateLiteral(["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"], ["hamethyst, baconstone, meat stack, dense meat stack, facsimile dictionary, space blanket, 1\\,970 carat gold, black snake skin, demon skin, hellion cube, adder bladder, weremoose spit, Knob Goblin firecracker, wussiness potion, diamond-studded cane, Knob Goblin tongs, Knob Goblin scimitar, eggbeater, red-hot sausage fork, Knob Goblin pants, awful poetry journal, black pixel, pile of dusty animal bones, 1952 Mickey Mantle card, liquid ice"])));
 
   var _iterator8 = engine_engine_createForOfIteratorHelper(junk),
       _step8;
@@ -15553,7 +15572,7 @@ function autosellJunk() {
     _iterator8.f();
   }
 
-  var partial_junk = template_string_$items(engine_templateObject60 || (engine_templateObject60 = engine_engine_taggedTemplateLiteral(["ruby W, metallic A, lowercase N, heavy D"])));
+  var partial_junk = template_string_$items(engine_templateObject61 || (engine_templateObject61 = engine_engine_taggedTemplateLiteral(["ruby W, metallic A, lowercase N, heavy D"])));
 
   var _iterator9 = engine_engine_createForOfIteratorHelper(partial_junk),
       _step9;
@@ -15570,7 +15589,7 @@ function autosellJunk() {
     _iterator9.f();
   }
 
-  var wallets = template_string_$items(engine_templateObject61 || (engine_templateObject61 = engine_engine_taggedTemplateLiteral(["ancient vinyl coin purse, black pension check, old leather wallet, Gathered Meat-Clip, old coin purse"])));
+  var wallets = template_string_$items(engine_templateObject62 || (engine_templateObject62 = engine_engine_taggedTemplateLiteral(["ancient vinyl coin purse, black pension check, old leather wallet, Gathered Meat-Clip, old coin purse"])));
 
   var _iterator10 = engine_engine_createForOfIteratorHelper(wallets),
       _step10;
@@ -15600,7 +15619,7 @@ function autosellJunk() {
 
 function absorbConsumables() {
   // eslint-disable-next-line eqeqeq
-  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(engine_templateObject62 || (engine_templateObject62 = engine_engine_taggedTemplateLiteral(["Grey You"])))) return; // final safety
+  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(engine_templateObject63 || (engine_templateObject63 = engine_engine_taggedTemplateLiteral(["Grey You"])))) return; // final safety
 
   if ((0,external_kolmafia_namespaceObject.myTurncount)() >= 1000) return; // stop after breaking ronin
 
@@ -15618,7 +15637,7 @@ function absorbConsumables() {
     }
 
     if (item.fullness > 0 && !absorbed.has(item_id)) {
-      if (have(template_string_$item(engine_templateObject63 || (engine_templateObject63 = engine_engine_taggedTemplateLiteral(["Special Seasoning"]))))) (0,external_kolmafia_namespaceObject.putCloset)((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(engine_templateObject64 || (engine_templateObject64 = engine_engine_taggedTemplateLiteral(["Special Seasoning"])))), template_string_$item(engine_templateObject65 || (engine_templateObject65 = engine_engine_taggedTemplateLiteral(["Special Seasoning"])))); // eat(item);
+      if (have(template_string_$item(engine_templateObject64 || (engine_templateObject64 = engine_engine_taggedTemplateLiteral(["Special Seasoning"]))))) (0,external_kolmafia_namespaceObject.putCloset)((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(engine_templateObject65 || (engine_templateObject65 = engine_engine_taggedTemplateLiteral(["Special Seasoning"])))), template_string_$item(engine_templateObject66 || (engine_templateObject66 = engine_engine_taggedTemplateLiteral(["Special Seasoning"])))); // eat(item);
 
       (0,external_kolmafia_namespaceObject.visitUrl)("inv_eat.php?pwd&which=1&whichitem=".concat(item_id)); // hotfix for food issue
 
@@ -15634,7 +15653,7 @@ function getExtros() {
   if (!property_get("_loopgyou_checkworkshed", false)) {
     var workshed = (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=workshed");
 
-    if (workshed.includes("Cold Medicine Cabinet") && (0,external_kolmafia_namespaceObject.getWorkshed)() !== template_string_$item(engine_templateObject66 || (engine_templateObject66 = engine_engine_taggedTemplateLiteral(["cold medicine cabinet"])))) {
+    if (workshed.includes("Cold Medicine Cabinet") && (0,external_kolmafia_namespaceObject.getWorkshed)() !== template_string_$item(engine_templateObject67 || (engine_templateObject67 = engine_engine_taggedTemplateLiteral(["cold medicine cabinet"])))) {
       throw "Mafia is not detecting your cold medicine cabinet; consider visiting manually";
     }
 
@@ -15643,7 +15662,7 @@ function getExtros() {
 
   if (property_get("_coldMedicineConsults") >= 5) return;
   if (property_get("_nextColdMedicineConsult") > (0,external_kolmafia_namespaceObject.totalTurnsPlayed)()) return;
-  if ((0,external_kolmafia_namespaceObject.getWorkshed)() !== template_string_$item(engine_templateObject67 || (engine_templateObject67 = engine_engine_taggedTemplateLiteral(["cold medicine cabinet"])))) return;
+  if ((0,external_kolmafia_namespaceObject.getWorkshed)() !== template_string_$item(engine_templateObject68 || (engine_templateObject68 = engine_engine_taggedTemplateLiteral(["cold medicine cabinet"])))) return;
   var options = (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=workshed");
   var match;
   var regexp = /descitem\((\d+)\)/g;
@@ -15651,7 +15670,7 @@ function getExtros() {
   while ((match = regexp.exec(options)) !== null) {
     var item = (0,external_kolmafia_namespaceObject.descToItem)(match[1]);
 
-    if (item === template_string_$item(engine_templateObject68 || (engine_templateObject68 = engine_engine_taggedTemplateLiteral(["Extrovermectin\u2122"])))) {
+    if (item === template_string_$item(engine_templateObject69 || (engine_templateObject69 = engine_engine_taggedTemplateLiteral(["Extrovermectin\u2122"])))) {
       (0,external_kolmafia_namespaceObject.visitUrl)("campground.php?action=workshed");
       (0,external_kolmafia_namespaceObject.runChoice)(5);
       return;
@@ -15660,10 +15679,10 @@ function getExtros() {
 }
 
 function resetBadOrb() {
-  if (!have(template_string_$item(engine_templateObject69 || (engine_templateObject69 = engine_engine_taggedTemplateLiteral(["bitchin' meatcar"])))) && !have(template_string_$item(engine_templateObject70 || (engine_templateObject70 = engine_engine_taggedTemplateLiteral(["Desert Bus pass"]))))) return false;
-  if (property_get("_juneCleaverFightsLeft") === 0 && (0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject71 || (engine_templateObject71 = engine_engine_taggedTemplateLiteral(["June cleaver"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("unequip june cleaver"); // If we just adventured without the orb, visiting the shore will reset the prediction
+  if (!have(template_string_$item(engine_templateObject70 || (engine_templateObject70 = engine_engine_taggedTemplateLiteral(["bitchin' meatcar"])))) && !have(template_string_$item(engine_templateObject71 || (engine_templateObject71 = engine_engine_taggedTemplateLiteral(["Desert Bus pass"]))))) return false;
+  if (property_get("_juneCleaverFightsLeft") === 0 && (0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject72 || (engine_templateObject72 = engine_engine_taggedTemplateLiteral(["June cleaver"]))))) (0,external_kolmafia_namespaceObject.cliExecute)("unequip june cleaver"); // If we just adventured without the orb, visiting the shore will reset the prediction
 
-  var store = (0,external_kolmafia_namespaceObject.visitUrl)((0,external_kolmafia_namespaceObject.toUrl)($location(engine_templateObject72 || (engine_templateObject72 = engine_engine_taggedTemplateLiteral(["The Shore, Inc. Travel Agency"])))));
+  var store = (0,external_kolmafia_namespaceObject.visitUrl)((0,external_kolmafia_namespaceObject.toUrl)($location(engine_templateObject73 || (engine_templateObject73 = engine_engine_taggedTemplateLiteral(["The Shore, Inc. Travel Agency"])))));
 
   if (!store.includes("Check out the gift shop")) {
     (0,external_kolmafia_namespaceObject.print)("Unable to stare longingly at toast");
@@ -15899,11 +15918,11 @@ function priority_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return priori
 
 function priority_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function priority_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function priority_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function priority_createClass(Constructor, protoProps, staticProps) { if (protoProps) priority_defineProperties(Constructor.prototype, protoProps); if (staticProps) priority_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function priority_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function priority_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -15916,30 +15935,106 @@ function priority_defineProperty(obj, key, value) { if (key in obj) { Object.def
 
 
 
-var OverridePriority;
+var Priorities = /*#__PURE__*/priority_createClass(function Priorities() {
+  priority_classCallCheck(this, Priorities);
+});
 
-(function (OverridePriority) {
-  OverridePriority[OverridePriority["Wanderer"] = 20000] = "Wanderer";
-  OverridePriority[OverridePriority["Always"] = 10000] = "Always";
-  OverridePriority[OverridePriority["Free"] = 1000] = "Free";
-  OverridePriority[OverridePriority["Start"] = 900] = "Start";
-  OverridePriority[OverridePriority["LastCopyableMonster"] = 100] = "LastCopyableMonster";
-  OverridePriority[OverridePriority["Effect"] = 20] = "Effect";
-  OverridePriority[OverridePriority["GoodOrb"] = 15] = "GoodOrb";
-  OverridePriority[OverridePriority["GoodYR"] = 10] = "GoodYR";
-  OverridePriority[OverridePriority["MinorEffect"] = 2] = "MinorEffect";
-  OverridePriority[OverridePriority["GoodAutumnaton"] = 2] = "GoodAutumnaton";
-  OverridePriority[OverridePriority["GoodGoose"] = 1] = "GoodGoose";
-  OverridePriority[OverridePriority["GoodBanish"] = 0.5] = "GoodBanish";
-  OverridePriority[OverridePriority["None"] = 0] = "None";
-  OverridePriority[OverridePriority["BadAutumnaton"] = -2] = "BadAutumnaton";
-  OverridePriority[OverridePriority["BadOrb"] = -4] = "BadOrb";
-  OverridePriority[OverridePriority["BadHoliday"] = -10] = "BadHoliday";
-  OverridePriority[OverridePriority["BadYR"] = -16] = "BadYR";
-  OverridePriority[OverridePriority["BadGoose"] = -30] = "BadGoose";
-  OverridePriority[OverridePriority["BadMood"] = -100] = "BadMood";
-  OverridePriority[OverridePriority["Last"] = -10000] = "Last";
-})(OverridePriority || (OverridePriority = {}));
+priority_defineProperty(Priorities, "Wanderer", {
+  score: 20000,
+  reason: "Wanderer"
+});
+
+priority_defineProperty(Priorities, "Always", {
+  score: 10000,
+  reason: "Forced"
+});
+
+priority_defineProperty(Priorities, "Free", {
+  score: 1000,
+  reason: "Free action"
+});
+
+priority_defineProperty(Priorities, "Start", {
+  score: 900,
+  reason: "Initial tasks"
+});
+
+priority_defineProperty(Priorities, "LastCopyableMonster", {
+  score: 100,
+  reason: "Copy last monster"
+});
+
+priority_defineProperty(Priorities, "Effect", {
+  score: 20,
+  reason: "Useful effect"
+});
+
+priority_defineProperty(Priorities, "GoodOrb", {
+  score: 15,
+  reason: "Target orb monster"
+});
+
+priority_defineProperty(Priorities, "GoodYR", {
+  score: 10,
+  reason: "Yellow ray"
+});
+
+priority_defineProperty(Priorities, "MinorEffect", {
+  score: 2,
+  reason: "Useful minor effect"
+});
+
+priority_defineProperty(Priorities, "GoodAutumnaton", {
+  score: 2,
+  reason: "Setup Autumnaton"
+});
+
+priority_defineProperty(Priorities, "GoodGoose", {
+  score: 1,
+  reason: "Goose charged"
+});
+
+priority_defineProperty(Priorities, "GoodBanish", {
+  score: 0.5,
+  reason: "Banishes committed"
+});
+
+priority_defineProperty(Priorities, "None", {
+  score: 0
+});
+
+priority_defineProperty(Priorities, "BadAutumnaton", {
+  score: -2,
+  reason: "Autumnaton in use here"
+});
+
+priority_defineProperty(Priorities, "BadOrb", {
+  score: -4,
+  reason: "Avoid orb monster"
+});
+
+priority_defineProperty(Priorities, "BadHoliday", {
+  score: -10
+});
+
+priority_defineProperty(Priorities, "BadYR", {
+  score: -16,
+  reason: "Too early for yellow ray"
+});
+
+priority_defineProperty(Priorities, "BadGoose", {
+  score: -30,
+  reason: "Goose not charged"
+});
+
+priority_defineProperty(Priorities, "BadMood", {
+  score: -100,
+  reason: "Wrong effects"
+});
+
+priority_defineProperty(Priorities, "Last", {
+  score: -10000
+});
 
 var Prioritization = /*#__PURE__*/function () {
   function Prioritization() {
@@ -15953,31 +16048,46 @@ var Prioritization = /*#__PURE__*/function () {
   priority_createClass(Prioritization, [{
     key: "explain",
     value: function explain() {
-      var reasons = new Map([[OverridePriority.Wanderer, "Wanderer"], [OverridePriority.Always, "Forced"], [OverridePriority.Free, "Free action"], [OverridePriority.Start, "Initial tasks"], [OverridePriority.LastCopyableMonster, "Copy last monster"], [OverridePriority.Effect, "Useful effect"], [OverridePriority.GoodOrb, this.orb_monster ? "Target ".concat(this.orb_monster) : "Target ?"], [OverridePriority.GoodYR, "Yellow ray"], [OverridePriority.MinorEffect, "Useful minor effect"], [OverridePriority.GoodGoose, "Goose charged"], [OverridePriority.GoodBanish, "Banishes committed"], [OverridePriority.GoodAutumnaton, "Setup Autumnaton"], [OverridePriority.BadAutumnaton, "Autumnaton in use here"], [OverridePriority.BadYR, "Too early for yellow ray"], [OverridePriority.BadOrb, this.orb_monster ? "Avoid ".concat(this.orb_monster) : "Avoid ?"], [OverridePriority.BadGoose, "Goose not charged"], [OverridePriority.BadMood, "Wrong combat modifiers"]]);
-      return priority_toConsumableArray(this.priorities).map(priority => reasons.get(priority)).filter(priority => priority !== undefined).join(", ");
+      var result = priority_toConsumableArray(this.priorities).map(priority => priority.reason).filter(priority => priority !== undefined).join(", ");
+
+      if (this.orb_monster) return result.replace("orb monster", "".concat(this.orb_monster));else return result;
     }
   }, {
     key: "has",
     value: function has(priorty) {
-      return this.priorities.has(priorty);
+      var _iterator = priority_createForOfIteratorHelper(this.priorities),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var prior = _step.value;
+          if (prior.score === priorty.score) return true;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return false;
     }
   }, {
     key: "score",
     value: function score() {
       var result = 0;
 
-      var _iterator = priority_createForOfIteratorHelper(this.priorities),
-          _step;
+      var _iterator2 = priority_createForOfIteratorHelper(this.priorities),
+          _step2;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var priority = _step.value;
-          result += priority;
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var priority = _step2.value;
+          result += priority.score;
         }
       } catch (err) {
-        _iterator.e(err);
+        _iterator2.e(err);
       } finally {
-        _iterator.f();
+        _iterator2.f();
       }
 
       return result;
@@ -15995,13 +16105,31 @@ var Prioritization = /*#__PURE__*/function () {
       var _task$priority, _task$priority2, _task$combat, _task$combat2, _outfit_spec$modifier;
 
       var result = new Prioritization();
-      var base = (_task$priority = (_task$priority2 = task.priority) === null || _task$priority2 === void 0 ? void 0 : _task$priority2.call(task)) !== null && _task$priority !== void 0 ? _task$priority : OverridePriority.None;
-      if (base !== OverridePriority.None) result.priorities.add(base); // Prioritize getting a YR
+      var base = (_task$priority = (_task$priority2 = task.priority) === null || _task$priority2 === void 0 ? void 0 : _task$priority2.call(task)) !== null && _task$priority !== void 0 ? _task$priority : Priorities.None;
+
+      if (Array.isArray(base)) {
+        var _iterator3 = priority_createForOfIteratorHelper(base),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var priority = _step3.value;
+            result.priorities.add(priority);
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+      } else {
+        if (base !== Priorities.None) result.priorities.add(base);
+      } // Prioritize getting a YR
+
 
       var yr_needed = ((_task$combat = task.combat) === null || _task$combat === void 0 ? void 0 : _task$combat.can("yellowRay")) || ((_task$combat2 = task.combat) === null || _task$combat2 === void 0 ? void 0 : _task$combat2.can("forceItems")) && !forceItemSources.find(s => s.available());
 
       if (yr_needed && yellowRaySources.find(yr => yr.available())) {
-        if (have($effect(priority_templateObject || (priority_templateObject = priority_taggedTemplateLiteral(["Everything Looks Yellow"]))))) result.priorities.add(OverridePriority.BadYR);else result.priorities.add(OverridePriority.GoodYR);
+        if (have($effect(priority_templateObject || (priority_templateObject = priority_taggedTemplateLiteral(["Everything Looks Yellow"]))))) result.priorities.add(Priorities.BadYR);else result.priorities.add(Priorities.GoodYR);
       } // Check if Grey Goose is charged
 
 
@@ -16009,11 +16137,11 @@ var Prioritization = /*#__PURE__*/function () {
         if ((0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(priority_templateObject2 || (priority_templateObject2 = priority_taggedTemplateLiteral(["Grey Goose"])))) < 6) {
           // Do not trigger BadGoose if a YR is up, to make the airship flow better.
           // This way we can get the YR off and use the goose separately
-          if (!result.priorities.has(OverridePriority.GoodYR)) {
-            result.priorities.add(OverridePriority.BadGoose);
+          if (!result.priorities.has(Priorities.GoodYR)) {
+            result.priorities.add(Priorities.BadGoose);
           }
         } else {
-          result.priorities.add(OverridePriority.GoodGoose);
+          result.priorities.add(Priorities.GoodGoose);
         }
       } // Dodge useless monsters with the orb
 
@@ -16032,29 +16160,29 @@ var Prioritization = /*#__PURE__*/function () {
       var outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
 
       if (!moodCompatible(outfit_spec === null || outfit_spec === void 0 ? void 0 : outfit_spec.modifier) && task.name !== "Macguffin/Forest") {
-        result.priorities.add(OverridePriority.BadMood);
+        result.priorities.add(Priorities.BadMood);
       } // Burn off desert debuffs
 
 
       if ((have($effect(priority_templateObject3 || (priority_templateObject3 = priority_taggedTemplateLiteral(["Prestidigysfunction"])))) || have($effect(priority_templateObject4 || (priority_templateObject4 = priority_taggedTemplateLiteral(["Turned Into a Skeleton"]))))) && task.combat && task.combat.can("killItem")) {
-        result.priorities.add(OverridePriority.BadMood);
+        result.priorities.add(Priorities.BadMood);
       } // Wait until we get a -combat skill before doing any -combat
 
 
       if (outfit_spec !== null && outfit_spec !== void 0 && outfit_spec.modifier && outfit_spec.modifier.includes("-combat") && !have($skill(priority_templateObject5 || (priority_templateObject5 = priority_taggedTemplateLiteral(["Phase Shift"])))) && !( // All these add up to -25 combat fine, no need to wait
       have(template_string_$item(priority_templateObject6 || (priority_templateObject6 = priority_taggedTemplateLiteral(["Space Trip safety headphones"])))) && have(template_string_$item(priority_templateObject7 || (priority_templateObject7 = priority_taggedTemplateLiteral(["unbreakable umbrella"])))) && have(template_string_$item(priority_templateObject8 || (priority_templateObject8 = priority_taggedTemplateLiteral(["protonic accelerator pack"])))) && (!property_get("_olympicSwimmingPool") || have($effect(priority_templateObject9 || (priority_templateObject9 = priority_taggedTemplateLiteral(["Silent Running"]))))))) {
-        result.priorities.add(OverridePriority.BadMood);
+        result.priorities.add(Priorities.BadMood);
       } // If we have already used banishes in the zone, prefer it
 
 
       if (globalStateCache.banishes().isPartiallyBanished(task)) {
-        result.priorities.add(OverridePriority.GoodBanish);
+        result.priorities.add(Priorities.GoodBanish);
       } // Avoid ML boosting zones when a scaling holiday wanderer is due
 
 
       if (outfit_spec !== null && outfit_spec !== void 0 && (_outfit_spec$modifier = outfit_spec.modifier) !== null && _outfit_spec$modifier !== void 0 && _outfit_spec$modifier.includes("ML") && !(outfit_spec !== null && outfit_spec !== void 0 && outfit_spec.modifier.match("-[\\d .]*ML"))) {
         if (getTodaysHolidayWanderers().length > 0 && (0,external_kolmafia_namespaceObject.getCounter)("holiday") <= 0) {
-          result.priorities.add(OverridePriority.BadHoliday);
+          result.priorities.add(Priorities.BadHoliday);
         }
       }
 
@@ -16066,10 +16194,10 @@ var Prioritization = /*#__PURE__*/function () {
 }();
 
 function orbPriority(task, monster) {
-  if (!(task.do instanceof external_kolmafia_namespaceObject.Location)) return OverridePriority.None; // If the goose is not charged, do not aim to reprocess
+  if (!(task.do instanceof external_kolmafia_namespaceObject.Location)) return Priorities.None; // If the goose is not charged, do not aim to reprocess
 
   var absorb_state = globalStateCache.absorb();
-  if (absorb_state.isReprocessTarget(monster) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(priority_templateObject10 || (priority_templateObject10 = priority_taggedTemplateLiteral(["Grey Goose"])))) < 6) return OverridePriority.None; // Determine if a monster is useful or not based on the combat goals
+  if (absorb_state.isReprocessTarget(monster) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(priority_templateObject10 || (priority_templateObject10 = priority_taggedTemplateLiteral(["Grey Goose"])))) < 6) return Priorities.None; // Determine if a monster is useful or not based on the combat goals
 
   if (task.orbtargets === undefined) {
     var _task$combat3;
@@ -16081,24 +16209,24 @@ function orbPriority(task, monster) {
     var others_useful = absorb_state.hasTargets(task.do) || absorb_state.hasReprocessTargets(task.do) || task_combat.can("kill") || task_combat.can("killFree") || task_combat.can("killHard") || task_combat.can("killItem");
 
     if (next_useless && others_useful) {
-      return OverridePriority.BadOrb;
+      return Priorities.BadOrb;
     } else if (!next_useless && others_useless) {
-      return OverridePriority.GoodOrb;
+      return Priorities.GoodOrb;
     } else {
-      return OverridePriority.None;
+      return Priorities.None;
     }
   } // Use orbtargets to decide if the next monster is useful
 
 
   var fromTask = task.orbtargets();
-  if (fromTask === undefined) return OverridePriority.None;
+  if (fromTask === undefined) return Priorities.None;
   var targets = [].concat(priority_toConsumableArray(fromTask), priority_toConsumableArray(absorb_state.remainingAbsorbs(task.do)), priority_toConsumableArray(absorb_state.remainingReprocess(task.do)));
-  if (targets.length === 0) return OverridePriority.None;
+  if (targets.length === 0) return Priorities.None;
 
   if (targets.find(t => t === monster) === undefined) {
-    return OverridePriority.BadOrb;
+    return Priorities.BadOrb;
   } else {
-    return OverridePriority.GoodOrb;
+    return Priorities.GoodOrb;
   }
 }
 
@@ -16122,7 +16250,7 @@ var TootQuest = {
   tasks: [{
     name: "Start",
     after: [],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => step("questM05Toot") !== -1,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -16132,7 +16260,7 @@ var TootQuest = {
   }, {
     name: "Toot",
     after: ["Start"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => step("questM05Toot") > 0,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("tutorial.php?action=toot"),
     limit: {
@@ -16142,7 +16270,7 @@ var TootQuest = {
   }, {
     name: "Finish",
     after: ["Toot"],
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     completed: () => step("questM05Toot") > 0 && !have(template_string_$item(level1_templateObject || (level1_templateObject = level1_taggedTemplateLiteral(["letter from King Ralph XI"])))),
     do: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(level1_templateObject2 || (level1_templateObject2 = level1_taggedTemplateLiteral(["letter from King Ralph XI"])))),
     limit: {
@@ -16173,7 +16301,7 @@ var MosquitoQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Burn Delay",
@@ -16208,7 +16336,7 @@ var MosquitoQuest = {
   }, {
     name: "Finish",
     after: ["Mosquito"],
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     completed: () => step("questL02Larva") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -16240,7 +16368,7 @@ var TavernQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Tavernkeep",
@@ -16255,7 +16383,7 @@ var TavernQuest = {
     name: "Basement",
     after: ["Tavernkeep"],
     completed: () => step("questL03Rat") >= 2,
-    priority: () => (atLevel(17) || !have(template_string_$item(level3_templateObject || (level3_templateObject = level3_taggedTemplateLiteral(["backup camera"]))))) && (!have(template_string_$item(level3_templateObject2 || (level3_templateObject2 = level3_taggedTemplateLiteral(["June cleaver"])))) || property_get("_juneCleaverStench") >= 20 && property_get("_juneCleaverSpooky") >= 20 && property_get("_juneCleaverHot") >= 20 && property_get("_juneCleaverCold") >= 20) ? OverridePriority.None : OverridePriority.BadGoose,
+    priority: () => (atLevel(17) || !have(template_string_$item(level3_templateObject || (level3_templateObject = level3_taggedTemplateLiteral(["backup camera"]))))) && (!have(template_string_$item(level3_templateObject2 || (level3_templateObject2 = level3_taggedTemplateLiteral(["June cleaver"])))) || property_get("_juneCleaverStench") >= 20 && property_get("_juneCleaverSpooky") >= 20 && property_get("_juneCleaverHot") >= 20 && property_get("_juneCleaverCold") >= 20) ? Priorities.None : Priorities.BadGoose,
     // Wait for backup camera to max out
     do: () => {
       (0,external_kolmafia_namespaceObject.visitUrl)("cellar.php");
@@ -16328,7 +16456,7 @@ var BatQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Get Sonar 1",
@@ -16336,7 +16464,7 @@ var BatQuest = {
     completed: () => step("questL04Bat") + (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level4_templateObject || (level4_templateObject = level4_taggedTemplateLiteral(["sonar-in-a-biscuit"])))) >= 1,
     do: $location(level4_templateObject2 || (level4_templateObject2 = level4_taggedTemplateLiteral(["Guano Junction"]))),
     ready: () => stenchPlanner.maximumPossible(true) >= 1,
-    priority: () => have(template_string_$item(level4_templateObject3 || (level4_templateObject3 = level4_taggedTemplateLiteral(["industrial fire extinguisher"])))) || have($skill(level4_templateObject4 || (level4_templateObject4 = level4_taggedTemplateLiteral(["Double Nanovision"])))) ? OverridePriority.None : OverridePriority.BadMood,
+    priority: () => have(template_string_$item(level4_templateObject3 || (level4_templateObject3 = level4_taggedTemplateLiteral(["industrial fire extinguisher"])))) || have($skill(level4_templateObject4 || (level4_templateObject4 = level4_taggedTemplateLiteral(["Double Nanovision"])))) ? Priorities.None : Priorities.BadMood,
     prepare: () => {
       if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 1) ensureEffect($effect(level4_templateObject5 || (level4_templateObject5 = level4_taggedTemplateLiteral(["Red Door Syndrome"]))));
       if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 1) throw "Unable to ensure stench res for guano junction";
@@ -16368,7 +16496,7 @@ var BatQuest = {
     name: "Get Sonar 2",
     after: ["Use Sonar 1"],
     completed: () => step("questL04Bat") + (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level4_templateObject13 || (level4_templateObject13 = level4_taggedTemplateLiteral(["sonar-in-a-biscuit"])))) >= 2,
-    priority: () => step("questL11Shen") === 999 || have(template_string_$item(level4_templateObject14 || (level4_templateObject14 = level4_taggedTemplateLiteral(["The Stankara Stone"])))) || (0,external_kolmafia_namespaceObject.myDaycount)() === 1 && step("questL11Shen") > 1 ? OverridePriority.None : OverridePriority.BadMood,
+    priority: () => step("questL11Shen") === 999 || have(template_string_$item(level4_templateObject14 || (level4_templateObject14 = level4_taggedTemplateLiteral(["The Stankara Stone"])))) || (0,external_kolmafia_namespaceObject.myDaycount)() === 1 && step("questL11Shen") > 1 ? Priorities.None : Priorities.BadMood,
     prepare: () => {
       if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 1) ensureEffect($effect(level4_templateObject15 || (level4_templateObject15 = level4_taggedTemplateLiteral(["Red Door Syndrome"]))));
       if ((0,external_kolmafia_namespaceObject.numericModifier)("stench resistance") < 1) throw "Unable to ensure stench res for guano junction";
@@ -16425,7 +16553,7 @@ var BatQuest = {
     name: "Lobsterfrogman Drop",
     after: ["Use Sonar 3"],
     ready: () => property_get("lastCopyableMonster") === $monster(level4_templateObject28 || (level4_templateObject28 = level4_taggedTemplateLiteral(["lobsterfrogman"]))),
-    priority: () => property_get("lastCopyableMonster") === $monster(level4_templateObject29 || (level4_templateObject29 = level4_taggedTemplateLiteral(["lobsterfrogman"]))) ? OverridePriority.LastCopyableMonster : OverridePriority.None,
+    priority: () => property_get("lastCopyableMonster") === $monster(level4_templateObject29 || (level4_templateObject29 = level4_taggedTemplateLiteral(["lobsterfrogman"]))) ? Priorities.LastCopyableMonster : Priorities.None,
     completed: () => step("questL04Bat") >= 4 || (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level4_templateObject30 || (level4_templateObject30 = level4_taggedTemplateLiteral(["barrel of gunpowder"])))) >= 5 || property_get("sidequestLighthouseCompleted") !== "none" || !have(template_string_$item(level4_templateObject31 || (level4_templateObject31 = level4_taggedTemplateLiteral(["backup camera"])))) || have(template_string_$item(level4_templateObject32 || (level4_templateObject32 = level4_taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))) && (property_get("_saberForceUses") < 5 || property_get("_saberForceMonsterCount") > 0),
     do: $location(level4_templateObject33 || (level4_templateObject33 = level4_taggedTemplateLiteral(["The Boss Bat's Lair"]))),
     combat: new combat_CombatStrategy().macro(new Macro().trySkill($skill(level4_templateObject34 || (level4_templateObject34 = level4_taggedTemplateLiteral(["Back-Up to your Last Enemy"]))))).kill($monsters(level4_templateObject35 || (level4_templateObject35 = level4_taggedTemplateLiteral(["Boss Bat, lobsterfrogman"])))),
@@ -16448,7 +16576,7 @@ var BatQuest = {
   }, {
     name: "Finish",
     after: ["Boss Bat"],
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     completed: () => step("questL04Bat") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -16484,7 +16612,7 @@ var KnobQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Outskirts",
@@ -16545,7 +16673,7 @@ var KnobQuest = {
   }, {
     name: "King",
     after: ["Harem", "Perfume"],
-    priority: () => have($effect(level5_templateObject25 || (level5_templateObject25 = level5_taggedTemplateLiteral(["Knob Goblin Perfume"])))) ? OverridePriority.Effect : OverridePriority.None,
+    priority: () => have($effect(level5_templateObject25 || (level5_templateObject25 = level5_taggedTemplateLiteral(["Knob Goblin Perfume"])))) ? Priorities.Effect : Priorities.None,
     completed: () => step("questL05Goblin") === 999,
     do: $location(level5_templateObject26 || (level5_templateObject26 = level5_taggedTemplateLiteral(["Throne Room"]))),
     combat: new combat_CombatStrategy().killHard($monster(level5_templateObject27 || (level5_templateObject27 = level5_taggedTemplateLiteral(["Knob Goblin King"])))),
@@ -16592,7 +16720,7 @@ var FriarQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Heart",
@@ -16933,10 +17061,10 @@ var Nook = [{
   prepare: tuneCape,
   priority: () => {
     if (AutumnAton_have()) {
-      if ($location(level7_templateObject41 || (level7_templateObject41 = level7_taggedTemplateLiteral(["The Defiled Nook"]))).turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+      if ($location(level7_templateObject41 || (level7_templateObject41 = level7_taggedTemplateLiteral(["The Defiled Nook"]))).turnsSpent === 0) return Priorities.GoodAutumnaton;
     }
 
-    return OverridePriority.None;
+    return Priorities.None;
   },
   ready: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level7_templateObject42 || (level7_templateObject42 = level7_taggedTemplateLiteral(["Muscle"])))) >= 62,
   completed: () => property_get("cyrptNookEvilness") <= 25,
@@ -16964,7 +17092,7 @@ var Nook = [{
   name: "Nook Eye",
   // In case we get eyes from outside sources (Nostalgia)
   after: ["Start"],
-  priority: () => OverridePriority.Free,
+  priority: () => Priorities.Free,
   ready: () => have(template_string_$item(level7_templateObject51 || (level7_templateObject51 = level7_taggedTemplateLiteral(["evil eye"])))) && !globalStateCache.absorb().isReprocessTarget($monster(level7_templateObject52 || (level7_templateObject52 = level7_taggedTemplateLiteral(["party skelteon"])))),
   completed: () => property_get("cyrptNookEvilness") <= 25,
   do: () => {
@@ -16998,7 +17126,7 @@ var CryptQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }].concat(Alcove, Cranny, Niche, Nook, [{
     name: "Bonerdagon",
@@ -17016,7 +17144,7 @@ var CryptQuest = {
   }, {
     name: "Finish",
     after: ["Start", "Bonerdagon"],
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     completed: () => step("questL07Cyrptic") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -17051,7 +17179,7 @@ var McLargeHugeQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Trapper Request",
@@ -17061,7 +17189,7 @@ var McLargeHugeQuest = {
     limit: {
       tries: 1
     },
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     freeaction: true
   }, {
     name: "Clover Ore",
@@ -17452,7 +17580,7 @@ var ChasmQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Bridge",
@@ -17460,10 +17588,10 @@ var ChasmQuest = {
     // Wait for black paint
     priority: () => {
       if (AutumnAton_have()) {
-        if ($location(level9_templateObject49 || (level9_templateObject49 = level9_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))).turnsSpent === 0) return OverridePriority.GoodAutumnaton;
+        if ($location(level9_templateObject49 || (level9_templateObject49 = level9_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))).turnsSpent === 0) return Priorities.GoodAutumnaton;
       }
 
-      return OverridePriority.None;
+      return Priorities.None;
     },
     ready: () => (have(template_string_$item(level9_templateObject50 || (level9_templateObject50 = level9_taggedTemplateLiteral(["frozen jeans"])))) || have(template_string_$item(level9_templateObject51 || (level9_templateObject51 = level9_taggedTemplateLiteral(["industrial fire extinguisher"])))) || have(template_string_$item(level9_templateObject52 || (level9_templateObject52 = level9_taggedTemplateLiteral(["June cleaver"])))) && property_get("_juneCleaverCold", 0) >= 5 || have($skill(level9_templateObject53 || (level9_templateObject53 = level9_taggedTemplateLiteral(["Cryocurrency"])))) || have($skill(level9_templateObject54 || (level9_templateObject54 = level9_taggedTemplateLiteral(["Cooling Tubules"])))) || have($skill(level9_templateObject55 || (level9_templateObject55 = level9_taggedTemplateLiteral(["Snow-Cooling System"]))))) && property_get("smutOrcNoncombatProgress") < 15 || (have($effect(level9_templateObject56 || (level9_templateObject56 = level9_taggedTemplateLiteral(["Red Door Syndrome"])))) || (0,external_kolmafia_namespaceObject.myMeat)() >= 1000) && (0,external_kolmafia_namespaceObject.myBasestat)($stat(level9_templateObject57 || (level9_templateObject57 = level9_taggedTemplateLiteral(["Moxie"])))) >= 350,
     completed: () => step("questL09Topping") >= 1,
@@ -17568,7 +17696,7 @@ var GiantQuest = {
     limit: {
       tries: 1
     },
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     freeaction: true
   }, {
     name: "Get Bean",
@@ -17738,7 +17866,7 @@ var GiantQuest = {
   }, {
     name: "Finish",
     after: ["Top Floor"],
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     completed: () => step("questL10Garbage") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -17863,9 +17991,9 @@ var Temple = [{
   after: ["Open Temple", "Misc/Hermit Clover"],
   completed: () => (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_hidden_templateObject11 || (level11_hidden_templateObject11 = level11_hidden_taggedTemplateLiteral(["stone wool"])))) >= 2 || (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_hidden_templateObject12 || (level11_hidden_templateObject12 = level11_hidden_taggedTemplateLiteral(["stone wool"])))) === 1 && have(template_string_$item(level11_hidden_templateObject13 || (level11_hidden_templateObject13 = level11_hidden_taggedTemplateLiteral(["the Nostril of the Serpent"])))) || step("questL11Worship") >= 3,
   priority: () => {
-    if (have(template_string_$item(level11_hidden_templateObject14 || (level11_hidden_templateObject14 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))))) return OverridePriority.None;
-    if ((0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_hidden_templateObject15 || (level11_hidden_templateObject15 = level11_hidden_taggedTemplateLiteral(["Grey Goose"])))) >= 6) return OverridePriority.GoodGoose;
-    return OverridePriority.BadGoose;
+    if (have(template_string_$item(level11_hidden_templateObject14 || (level11_hidden_templateObject14 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))))) return Priorities.None;
+    if ((0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_hidden_templateObject15 || (level11_hidden_templateObject15 = level11_hidden_taggedTemplateLiteral(["Grey Goose"])))) >= 6) return Priorities.GoodGoose;
+    return Priorities.BadGoose;
   },
   prepare: () => {
     if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_hidden_templateObject16 || (level11_hidden_templateObject16 = level11_hidden_taggedTemplateLiteral(["11-leaf clover"])))) > 1 && !have($effect(level11_hidden_templateObject17 || (level11_hidden_templateObject17 = level11_hidden_taggedTemplateLiteral(["Lucky!"])))) && !have(template_string_$item(level11_hidden_templateObject18 || (level11_hidden_templateObject18 = level11_hidden_taggedTemplateLiteral(["industrial fire extinguisher"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(level11_hidden_templateObject19 || (level11_hidden_templateObject19 = level11_hidden_taggedTemplateLiteral(["11-leaf clover"]))));
@@ -17948,7 +18076,7 @@ var Apartment = [{
   name: "Apartment Files",
   // Get the last McClusky files here if needed, as a backup plan
   after: ["Open Apartment", "Office Files", "Banish Janitors"],
-  priority: () => have($effect(level11_hidden_templateObject39 || (level11_hidden_templateObject39 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || have($effect(level11_hidden_templateObject40 || (level11_hidden_templateObject40 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || have($effect(level11_hidden_templateObject41 || (level11_hidden_templateObject41 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(level11_hidden_templateObject39 || (level11_hidden_templateObject39 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || have($effect(level11_hidden_templateObject40 || (level11_hidden_templateObject40 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || have($effect(level11_hidden_templateObject41 || (level11_hidden_templateObject41 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? Priorities.Effect : Priorities.None,
   completed: () => have(template_string_$item(level11_hidden_templateObject42 || (level11_hidden_templateObject42 = level11_hidden_taggedTemplateLiteral(["McClusky file (page 5)"])))) || have(template_string_$item(level11_hidden_templateObject43 || (level11_hidden_templateObject43 = level11_hidden_taggedTemplateLiteral(["McClusky file (complete)"])))) || property_get("hiddenOfficeProgress") >= 7,
   do: $location(level11_hidden_templateObject44 || (level11_hidden_templateObject44 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
   combat: new combat_CombatStrategy().killHard($monster(level11_hidden_templateObject45 || (level11_hidden_templateObject45 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"])))).kill($monster(level11_hidden_templateObject46 || (level11_hidden_templateObject46 = level11_hidden_taggedTemplateLiteral(["pygmy witch accountant"])))).banish($monsters(level11_hidden_templateObject47 || (level11_hidden_templateObject47 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer"])))).ignoreNoBanish($monster(level11_hidden_templateObject48 || (level11_hidden_templateObject48 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
@@ -17969,7 +18097,7 @@ var Apartment = [{
   name: "Apartment",
   after: ["Open Apartment", "Apartment Files"],
   // Wait until after all needed pygmy witch lawyers are done
-  priority: () => have($effect(level11_hidden_templateObject54 || (level11_hidden_templateObject54 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || have($effect(level11_hidden_templateObject55 || (level11_hidden_templateObject55 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || have($effect(level11_hidden_templateObject56 || (level11_hidden_templateObject56 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? OverridePriority.MinorEffect : OverridePriority.None,
+  priority: () => have($effect(level11_hidden_templateObject54 || (level11_hidden_templateObject54 = level11_hidden_taggedTemplateLiteral(["Once-Cursed"])))) || have($effect(level11_hidden_templateObject55 || (level11_hidden_templateObject55 = level11_hidden_taggedTemplateLiteral(["Twice-Cursed"])))) || have($effect(level11_hidden_templateObject56 || (level11_hidden_templateObject56 = level11_hidden_taggedTemplateLiteral(["Thrice-Cursed"])))) ? Priorities.MinorEffect : Priorities.None,
   completed: () => property_get("hiddenApartmentProgress") >= 7,
   do: $location(level11_hidden_templateObject57 || (level11_hidden_templateObject57 = level11_hidden_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
   combat: new combat_CombatStrategy().killHard($monster(level11_hidden_templateObject58 || (level11_hidden_templateObject58 = level11_hidden_taggedTemplateLiteral(["ancient protector spirit (The Hidden Apartment Building)"])))).banish($monsters(level11_hidden_templateObject59 || (level11_hidden_templateObject59 = level11_hidden_taggedTemplateLiteral(["pygmy janitor, pygmy witch lawyer, pygmy witch accountant"])))).ignoreNoBanish($monster(level11_hidden_templateObject60 || (level11_hidden_templateObject60 = level11_hidden_taggedTemplateLiteral(["pygmy shaman"])))).ignore(),
@@ -18229,7 +18357,7 @@ var HiddenQuest = {
       789: 2
     },
     limit: {
-      soft: 10
+      soft: 15
     }
   }, {
     name: "Boss",
@@ -18290,7 +18418,7 @@ var Manor1 = [{
   name: "Billiards",
   after: ["Kitchen"],
   completed: () => step("questM20Necklace") >= 3,
-  priority: () => have($effect(level11_manor_templateObject4 || (level11_manor_templateObject4 = level11_manor_taggedTemplateLiteral(["Chalky Hand"])))) && !have(template_string_$item(level11_manor_templateObject5 || (level11_manor_templateObject5 = level11_manor_taggedTemplateLiteral(["handful of hand chalk"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(level11_manor_templateObject4 || (level11_manor_templateObject4 = level11_manor_taggedTemplateLiteral(["Chalky Hand"])))) && !have(template_string_$item(level11_manor_templateObject5 || (level11_manor_templateObject5 = level11_manor_taggedTemplateLiteral(["handful of hand chalk"])))) ? Priorities.Effect : Priorities.None,
   prepare: () => {
     if (have(template_string_$item(level11_manor_templateObject6 || (level11_manor_templateObject6 = level11_manor_taggedTemplateLiteral(["handful of hand chalk"]))))) ensureEffect($effect(level11_manor_templateObject7 || (level11_manor_templateObject7 = level11_manor_taggedTemplateLiteral(["Chalky Hand"]))));
   },
@@ -19216,7 +19344,7 @@ var Desert = [{
   name: "Oasis Drum",
   after: ["Compass"],
   ready: () => have(template_string_$item(level11_templateObject37 || (level11_templateObject37 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) || (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject38 || (level11_templateObject38 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) >= 15,
-  priority: () => have($effect(level11_templateObject39 || (level11_templateObject39 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(level11_templateObject39 || (level11_templateObject39 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? Priorities.Effect : Priorities.None,
   completed: () => property_get("desertExploration") >= 100 || have(template_string_$item(level11_templateObject40 || (level11_templateObject40 = level11_taggedTemplateLiteral(["drum machine"])))) || (property_get("gnasirProgress") & 16) !== 0,
   prepare: () => {
     if (globalStateCache.absorb().hasReprocessTargets($location(level11_templateObject41 || (level11_templateObject41 = level11_taggedTemplateLiteral(["The Oasis"]))))) {
@@ -19259,7 +19387,7 @@ var Desert = [{
     useful: () => (property_get("gnasirProgress") & 2) === 0
   }],
   ready: () => (have(template_string_$item(level11_templateObject56 || (level11_templateObject56 = level11_taggedTemplateLiteral(["can of black paint"])))) || (0,external_kolmafia_namespaceObject.myMeat)() >= 1000 || (property_get("gnasirProgress") & 2) !== 0) && (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level11_templateObject57 || (level11_templateObject57 = level11_taggedTemplateLiteral(["worm-riding manual page"])))) < 15 && !have(template_string_$item(level11_templateObject58 || (level11_templateObject58 = level11_taggedTemplateLiteral(["worm-riding hooks"])))) && (property_get("desertExploration") === 0 && !have($effect(level11_templateObject59 || (level11_templateObject59 = level11_taggedTemplateLiteral(["A Girl Named Sue"])))) || have($effect(level11_templateObject60 || (level11_templateObject60 = level11_taggedTemplateLiteral(["Ultrahydrated"]))))),
-  priority: () => have($effect(level11_templateObject61 || (level11_templateObject61 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? OverridePriority.Effect : OverridePriority.None,
+  priority: () => have($effect(level11_templateObject61 || (level11_templateObject61 = level11_taggedTemplateLiteral(["Ultrahydrated"])))) ? Priorities.Effect : Priorities.None,
   completed: () => property_get("desertExploration") >= 100,
   do: $location(level11_templateObject62 || (level11_templateObject62 = level11_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
   outfit: () => {
@@ -19426,7 +19554,7 @@ var MacguffinQuest = {
     name: "Start",
     after: [],
     ready: () => atLevel(11),
-    priority: () => OverridePriority.Free,
+    priority: () => Priorities.Free,
     // Always start this quest ASAP, it is key for routing
     completed: () => step("questL11MacGuffin") !== -1,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
@@ -19437,7 +19565,7 @@ var MacguffinQuest = {
   }].concat(Diary, Desert, Pyramid, [{
     name: "Finish",
     after: ["Boss"],
-    priority: () => councilSafe() ? OverridePriority.Free : OverridePriority.BadMood,
+    priority: () => councilSafe() ? Priorities.Free : Priorities.BadMood,
     completed: () => step("questL11MacGuffin") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("council.php"),
     limit: {
@@ -19999,7 +20127,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "6dce5aa";
+var lastCommitHash = "b29c4c6";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2;
 
