@@ -14,10 +14,11 @@ import {
   itemType,
   mallPrice,
   myAdventures,
+  myBasestat,
   myDaycount,
   myFullness,
   myInebriety,
-  myLevel,
+  myPrimestat,
   mySpleenUse,
   print,
   restoreMp,
@@ -59,7 +60,7 @@ export const DietQuest: Quest = {
       after: [],
       completed: () =>
         myDaycount() > 1 || (myFullness() >= args.stomach && myInebriety() >= args.liver),
-      ready: () => myLevel() >= 13 || myAdventures() <= 1,
+      ready: () => myBasestat(myPrimestat()) >= 149 || myAdventures() <= 1,
       do: (): void => {
         if (have($item`astral six-pack`)) {
           use($item`astral six-pack`);
