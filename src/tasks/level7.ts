@@ -299,7 +299,7 @@ export const CryptQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 7,
       priority: () => get("hasAutumnaton"),
       completed: () => step("questL07Cyrptic") !== -1,

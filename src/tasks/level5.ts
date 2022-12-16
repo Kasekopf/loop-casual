@@ -9,7 +9,7 @@ export const KnobQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 5,
       completed: () => step("questL05Goblin") >= 0,
       do: () => visitUrl("council.php"),

@@ -231,7 +231,7 @@ export const MacguffinQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 11,
       completed: () => step("questL11MacGuffin") !== -1,
       do: () => visitUrl("council.php"),

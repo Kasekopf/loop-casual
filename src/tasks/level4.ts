@@ -9,7 +9,7 @@ export const BatQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 4,
       completed: () => step("questL04Bat") !== -1,
       do: () => visitUrl("council.php"),

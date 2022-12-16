@@ -8,7 +8,7 @@ export const MosquitoQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 2,
       completed: () => step("questL02Larva") !== -1,
       do: () => visitUrl("council.php"),

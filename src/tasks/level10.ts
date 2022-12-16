@@ -10,7 +10,7 @@ export const GiantQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 10,
       completed: () => step("questL10Garbage") !== -1,
       do: () => visitUrl("council.php"),
