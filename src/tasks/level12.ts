@@ -469,7 +469,7 @@ export const WarQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 12,
       completed: () => step("questL12War") !== -1,
       do: () => visitUrl("council.php"),

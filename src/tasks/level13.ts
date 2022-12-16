@@ -14,7 +14,7 @@ const Challenges: Task[] = [
       runChoice(1);
       runChoice(6);
     },
-    outfit: { modifier: "init" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "init" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -28,7 +28,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    outfit: { modifier: "moxie" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "moxie" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -42,7 +42,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    outfit: { modifier: "muscle" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "muscle" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -56,7 +56,7 @@ const Challenges: Task[] = [
       runChoice(2);
       runChoice(6);
     },
-    outfit: { modifier: "mysticality" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "mysticality" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -70,7 +70,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    outfit: { modifier: "hot dmg, hot spell dmg" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "hot dmg, hot spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -84,7 +84,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    outfit: { modifier: "cold dmg, cold spell dmg" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "cold dmg, cold spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -98,7 +98,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    outfit: { modifier: "spooky dmg, spooky spell dmg" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "spooky dmg, spooky spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -112,7 +112,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    outfit: { modifier: "stench dmg, stench spell dmg" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "stench dmg, stench spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },
@@ -126,7 +126,7 @@ const Challenges: Task[] = [
       runChoice(3);
       runChoice(6);
     },
-    outfit: { modifier: "sleaze dmg, sleaze spell dmg" },
+    outfit: { familiar: $familiar`left-hand man`, modifier: "sleaze dmg, sleaze spell dmg" },
     limit: { tries: 1 },
     freeaction: true,
   },

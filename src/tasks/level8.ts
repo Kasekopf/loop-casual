@@ -9,7 +9,7 @@ export const McLargeHugeQuest: Quest = {
   tasks: [
     {
       name: "Start",
-      after: [],
+      after: ["Toot/Finish"],
       ready: () => myLevel() >= 8,
       completed: () => step("questL08Trapper") !== -1,
       do: () => visitUrl("council.php"),
