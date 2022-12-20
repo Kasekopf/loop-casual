@@ -25,8 +25,8 @@ import {
   retrieveItem,
   reverseNumberology,
   setProperty,
-  turnsPerCast,
   toInt,
+  turnsPerCast,
   use,
   useFamiliar,
   useSkill,
@@ -143,13 +143,13 @@ const spleenCleaners = new Map([
   [$item`mojo filter`, 1],
 ]);
 
-function priceToCraft(item: Item) { 
+function priceToCraft(item: Item) {
   if (item.tradeable) {
     return mallPrice(item);
   }
-  var total = 0;
+  let total = 0;
   const ingredients = getIngredients(item);
-  for (var i in ingredients) {
+  for (const i in ingredients) {
     total += priceToCraft($item`${i}`) * ingredients[i];
   }
   return total;
@@ -159,10 +159,13 @@ function acquire(qty: number, item: Item, maxPrice?: number, throwOnFail = true)
   const startAmount = itemAmount(item);
   const remaining = qty - startAmount;
   if (maxPrice === undefined) throw `No price cap for ${item.name}.`;
-  if ($items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta, roasted vegetable focaccia,
-    baked veggie ricotta casserole, plain calzone, Deep Dish of Legend, Calzone of Legend, Pizza of Legend`.includes(item)){
+  if (
+    $items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta, roasted vegetable focaccia, baked veggie ricotta casserole, plain calzone, Deep Dish of Legend, Calzone of Legend, Pizza of Legend`.includes(
+      item
+    )
+  ) {
     print(`Trying to acquire ${qty} ${item.plural}; max price ${maxPrice.toFixed(0)}.`, "green");
-    if (priceToCraft(item) <= maxPrice){
+    if (priceToCraft(item) <= maxPrice) {
       retrieveItem(remaining, item);
     }
     return itemAmount(item) - startAmount;
@@ -265,42 +268,41 @@ function itemPriority<T>(menuItems: MenuItem<T>[]) {
   }
 }
 
-function recipeKnown(item: Item) { 
+function recipeKnown(item: Item) {
   if ($items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta`.includes(item)) {
     return !get(`unknownRecipe${toInt(item)}`);
   }
-  var allComponentsKnown = !get(`unknownRecipe${toInt(item)}`);
+  let allComponentsKnown = !get(`unknownRecipe${toInt(item)}`);
   const ingredients = getIngredients(item);
-  for (var i in ingredients) {
+  for (const i in ingredients) {
     allComponentsKnown = allComponentsKnown && recipeKnown($item`${i}`);
   }
   return allComponentsKnown;
 }
 
 function cookBookBatMenu(): MenuItem<MenuData>[] {
-  /* Excluding 
+  /* Excluding
       - plain calzone, because the +ML buff may not be desirable
       - Deep Dish of Legend, because the +familiar weight buff is best saved for garbo
   */
-  var cookBookBatFoods = $items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta, roasted vegetable focaccia,
-    baked veggie ricotta casserole, Calzone of Legend, Pizza of Legend`;
+  const cookBookBatFoods = $items`Boris's bread, roasted vegetable of Jarlsberg, Pete's rich ricotta, roasted vegetable focaccia, baked veggie ricotta casserole, Calzone of Legend, Pizza of Legend`;
 
-  var legendaryPizzasEaten:Item[] = []
+  const legendaryPizzasEaten: Item[] = [];
   if (get("calzoneOfLegendEaten")) legendaryPizzasEaten.push($item`Calzone of Legend`);
   if (get("pizzaOfLegendEaten")) legendaryPizzasEaten.push($item`Pizza of Legend`);
   if (get("deepDishOfLegendEaten")) legendaryPizzasEaten.push($item`Deep Dish of Legend`);
 
-  var cookBookBatFoodAvailable = cookBookBatFoods.filter(food => recipeKnown(food) && !legendaryPizzasEaten.includes(food));
+  const cookBookBatFoodAvailable = cookBookBatFoods.filter(
+    (food) => recipeKnown(food) && !legendaryPizzasEaten.includes(food)
+  );
   return cookBookBatFoodAvailable.map(
-    food => new MenuItem(
-      food,
-      {
-        priceOverride: priceToCraft(food), 
-        maximum: $items`Calzone of Legend, 
-                        Pizza of Legend, 
-                        Deep Dish of Legend`.includes(food) ? 1 : 99,
-      }
-    )
+    (food) =>
+      new MenuItem(food, {
+        priceOverride: priceToCraft(food),
+        maximum: $items`Calzone of Legend, Pizza of Legend, Deep Dish of Legend`.includes(food)
+          ? 1
+          : 99,
+      })
   );
 }
 
@@ -320,7 +322,7 @@ function menu(): MenuItem<MenuData>[] {
 
   const mallMin = (items: Item[]) => argmax(items.map((i) => [i, -mallPrice(i)]));
 
-  const menu:MenuItem<MenuData>[] = [
+  const menu: MenuItem<MenuData>[] = [
     // FOOD
     new MenuItem($item`Dreadsylvanian spooky pocket`),
     new MenuItem($item`tin cup of mulligan stew`),
@@ -362,7 +364,7 @@ function menu(): MenuItem<MenuData>[] {
     }),
     new MenuItem($item`toasted brie`, { maximum: 1, data: { turns: 10 } }),
     new MenuItem($item`potion of the field gar`, { maximum: 1, data: { turns: 5 } }),
-  ]
+  ];
   return menu.concat(cookBookBatMenu());
 }
 
