@@ -77,5 +77,5 @@ export function level_tasks(): Task[] {
 }
 
 export function organ_tasks(): Task[] {
-  return getTasks([FriarQuest, OrganQuest]);
+  return getTasks([TootQuest, FriarQuest, OrganQuest]);
 }
