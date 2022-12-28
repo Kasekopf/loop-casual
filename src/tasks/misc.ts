@@ -63,6 +63,12 @@ import { atLevel, debug } from "../lib";
 import { args } from "../args";
 import { globalStateCache } from "../engine/state";
 import { coldPlanner } from "../engine/outfit";
+import {
+  getTrainsetConfiguration,
+  getTrainsetPositionsUntilConfigurable,
+  setTrainsetConfiguration,
+  TrainsetPiece,
+} from "./trainrealm";
 
 export const MiscQuest: Quest = {
   name: "Misc",
@@ -801,6 +807,46 @@ export const MiscQuest: Quest = {
       },
       outfit: { familiar: $familiar`Robortender` },
       limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Trainset",
+      after: [],
+      ready: () =>
+        // eslint-disable-next-line libram/verify-constants
+        getWorkshed() === $item`model train set` && getTrainsetPositionsUntilConfigurable() === 0,
+      completed: () => {
+        const config = getTrainsetConfiguration();
+        if (!config.includes(TrainsetPiece.ORE) && step("questL08Trapper") < 2) return false;
+        if (config.includes(TrainsetPiece.ORE) && step("questL08Trapper") >= 2) return false;
+        if (!config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS) && step("questL09Topping") < 1)
+          return false;
+        if (config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS) && step("questL09Topping") >= 1)
+          return false;
+        return true;
+      },
+      do: () => {
+        const config: TrainsetPiece[] = [];
+        config.push(TrainsetPiece.DOUBLE_NEXT_STATION);
+        if (have($item`designer sweatpants`)) {
+          config.push(TrainsetPiece.GAIN_MEAT);
+          config.push(TrainsetPiece.EFFECT_MP);
+        } else {
+          config.push(TrainsetPiece.EFFECT_MP);
+          config.push(TrainsetPiece.GAIN_MEAT);
+        }
+
+        if (step("questL08Trapper") < 2) config.push(TrainsetPiece.ORE);
+        if (step("questL09Topping") < 1) config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
+
+        config.push(TrainsetPiece.HOT_RES_COLD_DMG);
+        config.push(TrainsetPiece.STENCH_RES_SPOOKY_DMG);
+        config.push(TrainsetPiece.RANDOM_BOOZE);
+        if (config.length < 8) config.push(TrainsetPiece.DROP_LAST_FOOD_OR_RANDOM);
+        if (config.length < 8) config.push(TrainsetPiece.CANDY);
+        setTrainsetConfiguration(config);
+      },
+      limit: { tries: 3 },
       freeaction: true,
     },
   ],
