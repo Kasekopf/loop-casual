@@ -2,12 +2,12 @@ import { Args } from "grimoire-kolmafia";
 import { Item } from "kolmafia";
 import { $item } from "libram";
 
-// eslint-disable-next-line libram/verify-constants
 const worksheds = [
-  [$item`model train set`],
-  [$item`cold medicine cabinet`],
-  [$item`Asdon Martin keyfob`],
-] as [Item][];
+  // eslint-disable-next-line libram/verify-constants
+  [$item`model train set`, "Swap to model train set"],
+  [$item`cold medicine cabinet`, "Swap to cold medicine cabinet"],
+  [$item`Asdon Martin keyfob`, "Swap to asdon martin keyfob"],
+] as [Item, string][];
 
 export const args = Args.create(
   "loopgyou",
