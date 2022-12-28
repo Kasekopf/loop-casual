@@ -20,10 +20,10 @@ import { Args, step } from "grimoire-kolmafia";
 
 const worksheds = [
   // eslint-disable-next-line libram/verify-constants
-  [$item`model train set`],
-  [$item`cold medicine cabinet`],
-  [$item`Asdon Martin keyfob`],
-] as [Item][];
+  [$item`model train set`, "Swap to model train set"],
+  [$item`cold medicine cabinet`, "Swap to cold medicine cabinet"],
+  [$item`Asdon Martin keyfob`, "Swap to asdon martin keyfob"],
+] as [Item, string][];
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
