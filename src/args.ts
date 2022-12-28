@@ -1,4 +1,13 @@
 import { Args } from "grimoire-kolmafia";
+import { Item } from "kolmafia";
+import { $item } from "libram";
+
+// eslint-disable-next-line libram/verify-constants
+const worksheds = [
+  [$item`model train set`],
+  [$item`cold medicine cabinet`],
+  [$item`Asdon Martin keyfob`],
+] as [Item][];
 
 export const args = Args.create(
   "loopgyou",
@@ -38,6 +47,16 @@ export const args = Args.create(
         help: "If true, use extra familiar turns to charge your Grey Goose to this weight at the end of the run (for aftercore leveling). If you do not have enough extra familiar turns, the goose may be lower level.",
         default: 20,
       }),
+      workshed: Args.item({
+        help: "Workshed item to place in an empty workshed at the start of the run.",
+        // eslint-disable-next-line libram/verify-constants
+        default: $item`model train set`,
+        options: worksheds,
+      }),
+      swapworkshed: Args.item({
+        help: "Workshed item to place in a workshed to replace the cold medicine cabinet.",
+        options: worksheds,
+      }),
     }),
     minor: Args.group("Minor Options", {
       fax: Args.boolean({
@@ -55,6 +74,7 @@ export const args = Args.create(
       asdon: Args.flag({
         help: "Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained.",
         default: false,
+        hidden: true,
       }),
       jellies: Args.flag({
         help: "Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp).",

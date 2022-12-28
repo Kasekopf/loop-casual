@@ -17,7 +17,7 @@ import { all_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
-import { $path, get, set, sinceKolmafiaRevision } from "libram";
+import { $item, $path, get, set, sinceKolmafiaRevision } from "libram";
 import { Prioritization } from "./engine/priority";
 import { Args, step } from "grimoire-kolmafia";
 import { checkRequirements } from "./sim";
@@ -57,6 +57,9 @@ export function main(command?: string): void {
     breakPrism(args.class);
     return;
   }
+
+  // Adapt depreciated args
+  if (args.minor.asdon) args.major.swapworkshed = $item`Asdon Martin keyfob`;
 
   const set_time_now = get(time_property, -1) === -1;
   if (set_time_now) set(time_property, gametimeToInt());

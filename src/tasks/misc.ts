@@ -643,14 +643,26 @@ export const MiscQuest: Quest = {
       freeaction: true,
     },
     {
+      name: "Workshed",
+      after: [],
+      priority: () => Priorities.Free,
+      completed: () =>
+        getWorkshed() !== $item`none` || !have(args.major.workshed) || myTurncount() >= 1000,
+      do: () => use(args.major.workshed),
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
       name: "Swap Workshed",
       after: [],
       priority: () => Priorities.Free,
       ready: () =>
         get("_coldMedicineConsults") >= 5 && getWorkshed() === $item`cold medicine cabinet`,
       completed: () =>
-        !have($item`Asdon Martin keyfob`) || get("_workshedItemUsed") || myTurncount() >= 1000,
-      do: () => use($item`Asdon Martin keyfob`),
+        !have(args.major.swapworkshed ?? $item`none`) ||
+        get("_workshedItemUsed") ||
+        myTurncount() >= 1000,
+      do: () => use(args.major.swapworkshed ?? $item`none`),
       limit: { tries: 1 },
       freeaction: true,
     },
