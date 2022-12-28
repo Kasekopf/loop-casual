@@ -1,6 +1,7 @@
 import {
   cliExecute,
   gametimeToInt,
+  Item,
   myAdventures,
   myClosetMeat,
   myLevel,
@@ -13,9 +14,16 @@ import { all_tasks, level_tasks, organ_tasks, quest_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
-import { $skill, get, have, set } from "libram";
+import { $item, $skill, get, have, set } from "libram";
 import { Task } from "./engine/task";
 import { Args, step } from "grimoire-kolmafia";
+
+const worksheds = [
+  // eslint-disable-next-line libram/verify-constants
+  [$item`model train set`],
+  [$item`cold medicine cabinet`],
+  [$item`Asdon Martin keyfob`],
+] as [Item][];
 
 export const args = Args.create("loopcasual", "A script to complete casual runs.", {
   goal: Args.string({
@@ -60,6 +68,12 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
   fluffers: Args.boolean({
     help: "If true, use stuffing fluffers to finish the war.",
     default: true,
+  }),
+  workshed: Args.item({
+    help: "Workshed item to place in an empty workshed at the start of the run.",
+    // eslint-disable-next-line libram/verify-constants
+    default: $item`model train set`,
+    options: worksheds,
   }),
 });
 export function main(command?: string): void {
