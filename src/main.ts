@@ -29,7 +29,7 @@ const time_property = "_loop_gyou_first_start";
 const svn_name = "Kasekopf-loop-casual-branches-release";
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(26834);
+  sinceKolmafiaRevision(27020);
 
   Args.fill(args, command);
   if (args.debug.settings) {
