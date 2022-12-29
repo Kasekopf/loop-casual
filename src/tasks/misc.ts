@@ -12,6 +12,7 @@ import {
   hermit,
   hippyStoneBroken,
   inHardcore,
+  Item,
   itemAmount,
   knollAvailable,
   myAdventures,
@@ -818,8 +819,8 @@ export const MiscQuest: Quest = {
         getWorkshed() === $item`model train set` && getTrainsetPositionsUntilConfigurable() === 0,
       completed: () => {
         const config = getTrainsetConfiguration();
-        if (!config.includes(TrainsetPiece.ORE) && step("questL08Trapper") < 2) return false;
-        if (config.includes(TrainsetPiece.ORE) && step("questL08Trapper") >= 2) return false;
+        if (!config.includes(TrainsetPiece.ORE) && !haveOre()) return false;
+        if (config.includes(TrainsetPiece.ORE) && haveOre()) return false;
         if (!config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS) && step("questL09Topping") < 1)
           return false;
         if (config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS) && step("questL09Topping") >= 1)
@@ -837,7 +838,7 @@ export const MiscQuest: Quest = {
           config.push(TrainsetPiece.GAIN_MEAT);
         }
 
-        if (step("questL08Trapper") < 2) config.push(TrainsetPiece.ORE);
+        if (!haveOre()) config.push(TrainsetPiece.ORE);
         if (step("questL09Topping") < 1) config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
 
         config.push(TrainsetPiece.HOT_RES_COLD_DMG);
@@ -1112,6 +1113,18 @@ export function arenaFight() {
     if (start_exp === $familiar`Grey Goose`.experience) throw `Lost training in cake-shaped arena`;
     debug(`Experience gained: ${$familiar`Grey Goose`.experience - start_exp}`);
   }
+}
+
+export function haveOre() {
+  if (step("questL08Trapper") >= 2) return true;
+  if (get("trapperOre") !== "") {
+    return itemAmount(Item.get(get("trapperOre"))) >= 3;
+  }
+  return (
+    itemAmount($item`asbestos ore`) >= 3 &&
+    itemAmount($item`chrome ore`) >= 3 &&
+    itemAmount($item`linoleum ore`) >= 3
+  );
 }
 
 function willWorkshedSwap() {
