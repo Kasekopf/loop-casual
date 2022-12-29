@@ -1,5 +1,6 @@
 import {
   cliExecute,
+  Effect,
   equip,
   outfit as equipOutfit,
   equippedAmount,
@@ -358,7 +359,7 @@ export function cacheScore(desired: Map<Slot, Item>, name?: string): number {
 }
 
 type ResOption = {
-  thing: Item | Skill;
+  thing: Item | Skill | Effect;
   ready?: () => boolean;
   modes?: Partial<Modes>;
   value: number;
@@ -392,7 +393,7 @@ export class ElementalPlanner {
       if (goal <= 0) break; // we equipped enough
 
       if (option.ready && !option.ready()) continue;
-      if (option.thing instanceof Skill) {
+      if (option.thing instanceof Skill || option.thing instanceof Effect) {
         if (have(option.thing)) goal -= option.value;
       } else {
         if (result.equip(option.thing)) {
@@ -406,6 +407,10 @@ export class ElementalPlanner {
 }
 
 export const coldPlanner = new ElementalPlanner([
+  // eslint-disable-next-line libram/verify-constants
+  { thing: $effect`Hot Soupy Garbage`, value: 2 },
+  // eslint-disable-next-line libram/verify-constants
+  { thing: $effect`Double Hot Soupy Garbage`, value: 2 },
   { thing: $skill`Nanofur`, value: 3 },
   { thing: $skill`Microweave`, value: 2 },
   { thing: $item`ice crown`, value: 3 },
@@ -424,6 +429,10 @@ export const coldPlanner = new ElementalPlanner([
 ]);
 
 export const stenchPlanner = new ElementalPlanner([
+  // eslint-disable-next-line libram/verify-constants
+  { thing: $effect`Shivering Spine`, value: 2 },
+  // eslint-disable-next-line libram/verify-constants
+  { thing: $effect`Doubly Shivering Spine`, value: 4 },
   { thing: $skill`Conifer Polymers`, value: 3 },
   { thing: $skill`Clammy Microcilia`, value: 2 },
   { thing: $item`ice crown`, value: 3 },
