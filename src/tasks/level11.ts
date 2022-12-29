@@ -59,7 +59,7 @@ const Diary: Task[] = [
         globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
         globalStateCache.orb().prediction($location`The Black Forest`) ===
-          $monster`black magic woman`
+        $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -325,7 +325,7 @@ const Pyramid: Task[] = [
       return ratchets >= needed;
     },
     do: $location`The Middle Chamber`,
-    limit: { soft: 25 },
+    limit: { soft: 30 },
     combat: new CombatStrategy()
       .macro(
         Macro.tryItem($item`tangle of rat tails`).trySkill($skill`Otoscope`),
