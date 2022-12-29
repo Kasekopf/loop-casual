@@ -744,7 +744,7 @@ export const MiscQuest: Quest = {
         )
           zones.push($location`Sonofa Beach`);
 
-        if (step("questL09Topping") >= 1) {
+        if (step("questL09Topping") < 1) {
           zones.push($location`The Smut Orc Logging Camp`);
         }
 
