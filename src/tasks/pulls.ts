@@ -17,6 +17,7 @@ import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { Keys, keyStrategy } from "./keys";
 import { towerSkip } from "./level13";
+import { trainSetAvailable } from "./misc";
 
 /**
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
@@ -62,6 +63,7 @@ export const pulls: PullSpec[] = [
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
     useful: () => {
+      if (trainSetAvailable()) return false;
       if (
         itemAmount($item`asbestos ore`) >= 3 &&
         itemAmount($item`linoleum ore`) >= 3 &&

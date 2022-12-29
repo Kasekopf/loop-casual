@@ -37,6 +37,7 @@ import { step } from "grimoire-kolmafia";
 import { Priorities } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
 import { args } from "../args";
+import { trainSetAvailable } from "./misc";
 
 export enum Keys {
   Deck = "Deck",
@@ -57,7 +58,10 @@ const heroKeys: KeyTask[] = [
     do: () => {
       cliExecute("cheat tower");
       if (get("_deckCardsDrawn") <= 10) cliExecute("cheat sheep");
-      if (get("_deckCardsDrawn") <= 10) cliExecute("cheat mine");
+      if (get("_deckCardsDrawn") <= 10) {
+        if (trainSetAvailable()) cliExecute("cheat mana");
+        else cliExecute("cheat mine");
+      }
     },
     limit: { tries: 1 },
     freeaction: true,

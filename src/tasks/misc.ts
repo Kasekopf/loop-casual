@@ -1112,3 +1112,25 @@ export function arenaFight() {
     debug(`Experience gained: ${$familiar`Grey Goose`.experience - start_exp}`);
   }
 }
+
+function willWorkshedSwap() {
+  return (
+    args.major.swapworkshed &&
+    getWorkshed() === $item`cold medicine cabinet` &&
+    !get("_workshedItemUsed")
+  );
+}
+
+export function trainSetAvailable() {
+  // eslint-disable-next-line libram/verify-constants
+  if (getWorkshed() === $item`model train set`) return true;
+  // eslint-disable-next-line libram/verify-constants
+  if (getWorkshed() === $item`none` && args.major.workshed === $item`model train set`) return true;
+  if (
+    // eslint-disable-next-line libram/verify-constants
+    args.major.swapworkshed === $item`model train set` &&
+    willWorkshedSwap()
+  )
+    return true;
+  return false;
+}

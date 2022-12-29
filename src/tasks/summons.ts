@@ -43,6 +43,7 @@ import { globalStateCache } from "../engine/state";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { yellowRayPossible } from "../engine/resources";
+import { trainSetAvailable } from "./misc";
 
 type ExtraReprocessTarget = {
   after: string[];
@@ -159,6 +160,7 @@ const summonTargets: SummonTarget[] = [
     completed: () => {
       if (step("questL08Trapper") >= 2) return true;
       if (!have($item`Clan VIP Lounge key`)) return true; // For now, do not do without yellow rocket
+      if (trainSetAvailable()) return true;
       let ore_needed = 3;
       if (have($item`Deck of Every Card`) && get("_deckCardsDrawn") === 0) ore_needed--;
       const pulled = new Set<Item>(

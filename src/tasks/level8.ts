@@ -1,5 +1,15 @@
-import { itemAmount, numericModifier, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, $monsters, ensureEffect, have } from "libram";
+import { Item, itemAmount, numericModifier, use, visitUrl } from "kolmafia";
+import {
+  $effect,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  ensureEffect,
+  get,
+  have,
+} from "libram";
 import { Quest } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { Priorities } from "../engine/priority";
@@ -9,6 +19,7 @@ import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
 import { summonStrategy } from "./summons";
 import { coldPlanner } from "../engine/outfit";
+import { trainSetAvailable } from "./misc";
 
 export const McLargeHugeQuest: Quest = {
   name: "McLargeHuge",
@@ -44,7 +55,8 @@ export const McLargeHugeQuest: Quest = {
         itemAmount($item`chrome ore`) >= 3 ||
         itemAmount($item`linoleum ore`) >= 3 ||
         step("questL08Trapper") >= 2 ||
-        summonStrategy.getSourceFor($monster`mountain man`) !== undefined,
+        summonStrategy.getSourceFor($monster`mountain man`) !== undefined ||
+        trainSetAvailable(),
       do: $location`Itznotyerzitz Mine`,
       limit: { tries: 2 },
     },
@@ -62,6 +74,7 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Trapper Return",
       after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man", "Clover Ore"],
+      ready: () => itemAmount(Item.get(get("trapperOre"))) >= 3, // Checked here since there is no task for Trainset ores
       completed: () => step("questL08Trapper") >= 2,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },

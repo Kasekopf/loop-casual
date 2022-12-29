@@ -24,6 +24,7 @@ export class Priorities {
   static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
   static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
   static None: Priority = { score: 0 };
+  static BadTrain: Priority = { score: -0.5, reason: "Use Trainset" };
   static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
   static BadHoliday: Priority = { score: -10 };
