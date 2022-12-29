@@ -372,6 +372,7 @@ export const ChasmQuest: Quest = {
     {
       name: "Bridge Parts",
       after: ["Start"],
+      priority: () => Priorities.Free,
       ready: () =>
         (have($item`morningwood plank`) ||
           have($item`raging hardwood plank`) ||
