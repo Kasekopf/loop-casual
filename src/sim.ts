@@ -179,6 +179,15 @@ function buildIotmList(): Requirement[] {
       why: 'Stench jellies for profit; see the argument "jellies"',
       optional: true,
     },
+    {
+      thing: new Hardcoded(
+        // eslint-disable-next-line libram/verify-constants
+        have($item`model train set`) || getWorkshed() === $item`model train set`,
+        "Cold medicine cabinet"
+      ),
+      why: "Meat, MP, Ore, Orc bridge parts, and res",
+      optional: true,
+    },
   ];
 }
 
