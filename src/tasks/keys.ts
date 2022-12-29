@@ -59,7 +59,7 @@ const heroKeys: KeyTask[] = [
       cliExecute("cheat tower");
       if (get("_deckCardsDrawn") <= 10) cliExecute("cheat sheep");
       if (get("_deckCardsDrawn") <= 10) {
-        if (trainSetAvailable()) cliExecute("cheat mana");
+        if (trainSetAvailable()) cliExecute("cheat island");
         else cliExecute("cheat mine");
       }
     },

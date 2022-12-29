@@ -54,12 +54,6 @@ export const pulls: PullSpec[] = [
     description: 'Farming currency; see the argument "lgr"',
   },
   {
-    pull: $item`Asdon Martin keyfob`,
-    useful: () => args.minor.asdon,
-    optional: true,
-    description: 'Runaways, banishes, and an insta-kill; see the argument "asdon"',
-  },
-  {
     name: "Ore",
     pull: () => (get("trapperOre") === "" ? undefined : Item.get(get("trapperOre"))),
     useful: () => {

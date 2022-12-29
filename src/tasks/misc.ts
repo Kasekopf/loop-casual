@@ -812,6 +812,7 @@ export const MiscQuest: Quest = {
     {
       name: "Trainset",
       after: [],
+      priority: () => Priorities.Free,
       ready: () =>
         // eslint-disable-next-line libram/verify-constants
         getWorkshed() === $item`model train set` && getTrainsetPositionsUntilConfigurable() === 0,
