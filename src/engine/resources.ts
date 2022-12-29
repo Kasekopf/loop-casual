@@ -26,6 +26,7 @@ import {
   $monster,
   $skill,
   AsdonMartin,
+  Counter,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -34,8 +35,10 @@ import {
   have,
   Macro,
   sum,
+  SourceTerminal,
 } from "libram";
 import { debug } from "../lib";
+import { args } from "../main";
 
 export interface Resource {
   name: string;
@@ -185,6 +188,50 @@ export interface WandererSource extends Resource {
 }
 
 export const wandererSources: WandererSource[] = [
+  { //split into two tasks because I couldn't get Macro.externalIf to re-check its condition every time the macro is run
+    name: "Digitize (Redigitize)", 
+    available: () =>
+      SourceTerminal.have() &&
+      args.digitize &&
+      get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight` &&
+      Counter.get("Digitize Monster") <= 0 &&
+      get("_sourceTerminalDigitizeMonsterCount") >= 4 && 
+      get("_sourceTerminalDigitizeUses") < 2,
+    equip: have($familiar`Grey Goose`) ? {
+            familiar: $familiar`Grey Goose`,
+            // Get 11 famexp at the end of the fight, to maintain goose weight
+            offhand: $item`yule hatchet`,
+            famequip: $item`grey down vest`,
+            acc1: $item`teacher's pen`,
+            acc2: $item`teacher's pen`,
+            acc3: $item`teacher's pen`,
+
+        } : {},
+    monsters: [$monster`witchess knight`],
+    chance: () => 1,
+    macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`).trySkill("Digitize"),
+  },
+  {
+    name: "Digitize",
+    available: () =>
+      SourceTerminal.have() &&
+      args.digitize &&
+      get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight` &&
+      Counter.get("Digitize Monster") <= 0,
+    equip: have($familiar`Grey Goose`) ? {
+            familiar: $familiar`Grey Goose`,
+            // Get 11 famexp at the end of the fight, to maintain goose weight
+            offhand: $item`yule hatchet`,
+            famequip: $item`grey down vest`,
+            acc1: $item`teacher's pen`,
+            acc2: $item`teacher's pen`,
+            acc3: $item`teacher's pen`,
+
+        } : {},
+    monsters: [$monster`witchess knight`],
+    chance: () => 1,
+    macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
+  },
   {
     name: "Voted Legs",
     available: () =>
