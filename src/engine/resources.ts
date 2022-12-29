@@ -195,8 +195,8 @@ export const wandererSources: WandererSource[] = [
       args.digitize &&
       get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight` &&
       Counter.get("Digitize Monster") <= 0 &&
-      get("_sourceTerminalDigitizeMonsterCount") >= 4 && 
-      get("_sourceTerminalDigitizeUses") < 2,
+      SourceTerminal.getDigitizeMonsterCount() >= 4 && 
+      SourceTerminal.getDigitizeUsesRemaining() > 1,
     equip: have($familiar`Grey Goose`) ? {
             familiar: $familiar`Grey Goose`,
             // Get 11 famexp at the end of the fight, to maintain goose weight
@@ -207,6 +207,10 @@ export const wandererSources: WandererSource[] = [
             acc3: $item`teacher's pen`,
 
         } : {},
+    prepare: () =>  {
+        if (!SourceTerminal.isCurrentSkill($skill`Digitize`))
+          SourceTerminal.educate($skill`Digitize`);
+      },
     monsters: [$monster`witchess knight`],
     chance: () => 1,
     macro: new Macro().trySkill($skill`Emit Matter Duplicating Drones`).trySkill("Digitize"),

@@ -422,7 +422,7 @@ export const MiscQuest: Quest = {
       completed: () => get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight`,
       prepare: () =>  {
         if (!SourceTerminal.isCurrentSkill($skill`Digitize`))
-          SourceTerminal.educate([$skill`Duplicate`, $skill`Digitize`]);
+          SourceTerminal.educate($skill`Digitize`);
       },
       priority: () => true,
       do: () => {
