@@ -12298,7 +12298,7 @@ var MiscQuest = {
 
       if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(misc_templateObject149 || (misc_templateObject149 = misc_taggedTemplateLiteral(["barrel of gunpowder"])))) < 5 && property_get("sidequestLighthouseCompleted") === "none") zones.push($location(misc_templateObject150 || (misc_templateObject150 = misc_taggedTemplateLiteral(["Sonofa Beach"]))));
 
-      if (step("questL09Topping") >= 1) {
+      if (step("questL09Topping") < 1) {
         zones.push($location(misc_templateObject151 || (misc_templateObject151 = misc_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))));
       } // Mid underground locations for autumn dollar
 
@@ -19714,7 +19714,7 @@ var Pyramid = [{
   },
   do: $location(level11_templateObject97 || (level11_templateObject97 = level11_taggedTemplateLiteral(["The Middle Chamber"]))),
   limit: {
-    soft: 25
+    soft: 30
   },
   combat: new combat_CombatStrategy().macro(Macro.tryItem(template_string_$item(level11_templateObject98 || (level11_templateObject98 = level11_taggedTemplateLiteral(["tangle of rat tails"])))).trySkill($skill(level11_templateObject99 || (level11_templateObject99 = level11_taggedTemplateLiteral(["Otoscope"])))), $monster(level11_templateObject100 || (level11_templateObject100 = level11_taggedTemplateLiteral(["tomb rat"])))).killItem([$monster(level11_templateObject101 || (level11_templateObject101 = level11_taggedTemplateLiteral(["tomb rat"]))), $monster(level11_templateObject102 || (level11_templateObject102 = level11_taggedTemplateLiteral(["tomb rat king"])))]).banish([$monster(level11_templateObject103 || (level11_templateObject103 = level11_taggedTemplateLiteral(["tomb asp"]))), $monster(level11_templateObject104 || (level11_templateObject104 = level11_taggedTemplateLiteral(["tomb servant"])))]),
   outfit: () => {
@@ -20351,7 +20351,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "154e0cc";
+var lastCommitHash = "fd68b62";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
