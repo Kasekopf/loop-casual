@@ -418,7 +418,7 @@ export const MiscQuest: Quest = {
     {
       name: "Setup Digitize",
       ready: () => SourceTerminal.have() && args.digitize && 
-                    myLevel() > args.levelto && (!have($familiar`Grey Goose`) || familiarWeight($familiar`Grey Goose`) >= 6),
+                    myLevel() >= args.levelto && (!have($familiar`Grey Goose`) || familiarWeight($familiar`Grey Goose`) >= 6),
       completed: () => get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight`,
       prepare: () =>  {
         if (!SourceTerminal.isCurrentSkill($skill`Digitize`))
