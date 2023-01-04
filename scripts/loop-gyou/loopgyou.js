@@ -12650,7 +12650,8 @@ function willWorkshedSwap() {
 
 function trainSetAvailable() {
   // eslint-disable-next-line libram/verify-constants
-  if ((0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(misc_templateObject245 || (misc_templateObject245 = misc_taggedTemplateLiteral(["model train set"])))) return true;
+  if ((0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(misc_templateObject245 || (misc_templateObject245 = misc_taggedTemplateLiteral(["model train set"])))) return true; // eslint-disable-next-line libram/verify-constants
+
   if (!have(template_string_$item(misc_templateObject246 || (misc_templateObject246 = misc_taggedTemplateLiteral(["model train set"]))))) return false; // eslint-disable-next-line libram/verify-constants
 
   if ((0,external_kolmafia_namespaceObject.getWorkshed)() === template_string_$item(misc_templateObject247 || (misc_templateObject247 = misc_taggedTemplateLiteral(["none"]))) && args.major.workshed === template_string_$item(misc_templateObject248 || (misc_templateObject248 = misc_taggedTemplateLiteral(["model train set"])))) return true;
@@ -17155,7 +17156,7 @@ var Alcove = [{
   prepare: tuneCape,
   ready: () => // Reprocess the grave rober, then wait for the +init skill
   (globalStateCache.absorb().hasReprocessTargets($location(level7_templateObject5 || (level7_templateObject5 = level7_taggedTemplateLiteral(["The Defiled Alcove"])))) || have($skill(level7_templateObject6 || (level7_templateObject6 = level7_taggedTemplateLiteral(["Overclocking"])))) || !!(property_get("twinPeakProgress") & 8)) && (0,external_kolmafia_namespaceObject.myBasestat)($stat(level7_templateObject7 || (level7_templateObject7 = level7_taggedTemplateLiteral(["Muscle"])))) >= 62,
-  completed: () => property_get("cyrptAlcoveEvilness") <= 25,
+  completed: () => property_get("cyrptAlcoveEvilness") <= 13,
   do: $location(level7_templateObject8 || (level7_templateObject8 = level7_taggedTemplateLiteral(["The Defiled Alcove"]))),
   outfit: () => {
     if (globalStateCache.absorb().hasReprocessTargets($location(level7_templateObject9 || (level7_templateObject9 = level7_taggedTemplateLiteral(["The Defiled Alcove"])))) && globalStateCache.orb().prediction($location(level7_templateObject10 || (level7_templateObject10 = level7_taggedTemplateLiteral(["The Defiled Alcove"])))) === $monster(level7_templateObject11 || (level7_templateObject11 = level7_taggedTemplateLiteral(["grave rober zmobie"])))) {
@@ -17180,7 +17181,7 @@ var Alcove = [{
   },
   combat: new combat_CombatStrategy().macro(slay_macro),
   limit: {
-    turns: 25
+    turns: 37
   }
 }, {
   name: "Alcove Boss",
@@ -17197,7 +17198,7 @@ var Cranny = [{
   name: "Cranny",
   after: ["Start"],
   ready: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level7_templateObject19 || (level7_templateObject19 = level7_taggedTemplateLiteral(["Muscle"])))) >= 62,
-  completed: () => property_get("cyrptCrannyEvilness") <= 25,
+  completed: () => property_get("cyrptCrannyEvilness") <= 13,
   prepare: () => {
     tuneCape();
     (0,external_kolmafia_namespaceObject.changeMcd)(10);
@@ -17219,7 +17220,7 @@ var Cranny = [{
   // Do not search for swarm with orb
   orbtargets: () => [],
   limit: {
-    turns: 25
+    turns: 37
   }
 }, {
   name: "Cranny Boss",
@@ -17237,7 +17238,7 @@ var Niche = [{
   after: ["Start"],
   prepare: tuneCape,
   ready: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level7_templateObject26 || (level7_templateObject26 = level7_taggedTemplateLiteral(["Muscle"])))) >= 62,
-  completed: () => property_get("cyrptNicheEvilness") <= 25,
+  completed: () => property_get("cyrptNicheEvilness") <= 13,
   do: $location(level7_templateObject27 || (level7_templateObject27 = level7_taggedTemplateLiteral(["The Defiled Niche"]))),
   choices: {
     157: 4
@@ -17253,7 +17254,7 @@ var Niche = [{
   () => new Macro().externalIf(!globalStateCache.absorb().isTarget($monster(level7_templateObject33 || (level7_templateObject33 = level7_taggedTemplateLiteral(["basic lihc"])))), new Macro().trySkill($skill(level7_templateObject34 || (level7_templateObject34 = level7_taggedTemplateLiteral(["Fire Extinguisher: Zone Specific"]))))), $monster(level7_templateObject35 || (level7_templateObject35 = level7_taggedTemplateLiteral(["basic lihc"])))).macro(new Macro().trySkill($skill(level7_templateObject36 || (level7_templateObject36 = level7_taggedTemplateLiteral(["Fire Extinguisher: Zone Specific"])))).step(slay_macro), $monsters(level7_templateObject37 || (level7_templateObject37 = level7_taggedTemplateLiteral(["senile lihc, slick lihc"])))).banish($monsters(level7_templateObject38 || (level7_templateObject38 = level7_taggedTemplateLiteral(["basic lihc, senile lihc, slick lihc"])))),
   orbtargets: () => [$monster(level7_templateObject39 || (level7_templateObject39 = level7_taggedTemplateLiteral(["dirty old lihc"])))],
   limit: {
-    turns: 25
+    turns: 37
   }
 }, {
   name: "Niche Boss",
@@ -17278,7 +17279,7 @@ var Nook = [{
     return Priorities.None;
   },
   ready: () => (0,external_kolmafia_namespaceObject.myBasestat)($stat(level7_templateObject42 || (level7_templateObject42 = level7_taggedTemplateLiteral(["Muscle"])))) >= 62,
-  completed: () => property_get("cyrptNookEvilness") <= 25,
+  completed: () => property_get("cyrptNookEvilness") <= 13,
   do: $location(level7_templateObject43 || (level7_templateObject43 = level7_taggedTemplateLiteral(["The Defiled Nook"]))),
   outfit: () => {
     return {
@@ -17297,7 +17298,7 @@ var Nook = [{
   },
   combat: new combat_CombatStrategy().macro(slay_macro, $monsters(level7_templateObject49 || (level7_templateObject49 = level7_taggedTemplateLiteral(["spiny skelelton, toothy sklelton"])))).banish($monster(level7_templateObject50 || (level7_templateObject50 = level7_taggedTemplateLiteral(["party skelteon"])))),
   limit: {
-    soft: 30
+    soft: 37
   }
 }, {
   name: "Nook Eye",
@@ -17305,13 +17306,13 @@ var Nook = [{
   after: ["Start"],
   priority: () => Priorities.Free,
   ready: () => have(template_string_$item(level7_templateObject51 || (level7_templateObject51 = level7_taggedTemplateLiteral(["evil eye"])))) && !globalStateCache.absorb().isReprocessTarget($monster(level7_templateObject52 || (level7_templateObject52 = level7_taggedTemplateLiteral(["party skelteon"])))),
-  completed: () => property_get("cyrptNookEvilness") <= 25,
+  completed: () => property_get("cyrptNookEvilness") <= 13,
   do: () => {
     (0,external_kolmafia_namespaceObject.cliExecute)("use * evil eye");
   },
   freeaction: true,
   limit: {
-    tries: 9,
+    tries: 13,
     unready: true
   }
 }, {
@@ -20352,7 +20353,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "5b6e546";
+var lastCommitHash = "69ae240";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
