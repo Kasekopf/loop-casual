@@ -75,6 +75,10 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
     default: $item`model train set`,
     options: worksheds,
   }),
+  digitize: Args.boolean({
+    help: "If true, digitize a witchess knight for use as a delay-burning wanderer. Leaves the last use open for garbo.",
+    default: false,
+  }),
 });
 export function main(command?: string): void {
   Args.fill(args, command);

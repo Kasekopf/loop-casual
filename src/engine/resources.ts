@@ -26,6 +26,7 @@ import {
   $monster,
   $skill,
   AsdonMartin,
+  Counter,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -34,8 +35,10 @@ import {
   have,
   Macro,
   sum,
+  SourceTerminal,
 } from "libram";
 import { debug } from "../lib";
+import { args } from "../main";
 
 export interface Resource {
   name: string;
@@ -181,10 +184,36 @@ export function unusedBanishes(to_banish: Monster[]): BanishSource[] {
 export interface WandererSource extends Resource {
   monsters: Monster[];
   chance: () => number;
-  macro?: Macro;
+  macro?: Macro | (() => Macro);
 }
 
 export const wandererSources: WandererSource[] = [
+  {
+    name: "Digitize",
+    available: () =>
+      SourceTerminal.have() &&
+      args.digitize &&
+      get("_sourceTerminalDigitizeMonster") === $monster`Witchess Knight` &&
+      Counter.get("Digitize Monster") <= 0,
+    equip: have($familiar`Grey Goose`) ? {
+            familiar: $familiar`Grey Goose`,
+            // Get 11 famexp at the end of the fight, to maintain goose weight
+            offhand: $item`yule hatchet`,
+            famequip: $item`grey down vest`,
+            acc1: $item`teacher's pen`,
+            acc2: $item`teacher's pen`,
+            acc3: $item`teacher's pen`,
+        } : {},
+    prepare: () =>  {
+        if (!SourceTerminal.isCurrentSkill($skill`Digitize`))
+          SourceTerminal.educate($skill`Digitize`);
+      },
+    monsters: [$monster`witchess knight`],
+    chance: () => 1,
+    macro: () => new Macro().trySkill($skill`Emit Matter Duplicating Drones`).externalIf(
+      SourceTerminal.getDigitizeMonsterCount() >= 4 && SourceTerminal.getDigitizeUsesRemaining() > 1,
+      new Macro().trySkill("Digitize")),
+  },
   {
     name: "Voted Legs",
     available: () =>
