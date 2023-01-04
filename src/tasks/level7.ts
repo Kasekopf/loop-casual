@@ -61,7 +61,7 @@ const Alcove: Task[] = [
         have($skill`Overclocking`) ||
         !!(get("twinPeakProgress") & 8)) &&
       myBasestat($stat`Muscle`) >= 62,
-    completed: () => get("cyrptAlcoveEvilness") <= 25,
+    completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
       if (
@@ -86,7 +86,7 @@ const Alcove: Task[] = [
     orbtargets: () => [],
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro),
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Alcove Boss",
@@ -104,7 +104,7 @@ const Cranny: Task[] = [
     name: "Cranny",
     after: ["Start"],
     ready: () => myBasestat($stat`Muscle`) >= 62,
-    completed: () => get("cyrptCrannyEvilness") <= 25,
+    completed: () => get("cyrptCrannyEvilness") <= 13,
     prepare: () => {
       tuneCape();
       changeMcd(10);
@@ -127,7 +127,7 @@ const Cranny: Task[] = [
       ),
     // Do not search for swarm with orb
     orbtargets: () => [],
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Cranny Boss",
@@ -146,7 +146,7 @@ const Niche: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     ready: () => myBasestat($stat`Muscle`) >= 62,
-    completed: () => get("cyrptNicheEvilness") <= 25,
+    completed: () => get("cyrptNicheEvilness") <= 13,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
     outfit: (): OutfitSpec => {
@@ -180,7 +180,7 @@ const Niche: Task[] = [
       )
       .banish($monsters`basic lihc, senile lihc, slick lihc`),
     orbtargets: () => [$monster`dirty old lihc`],
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Niche Boss",
@@ -205,7 +205,7 @@ const Nook: Task[] = [
       return Priorities.None;
     },
     ready: () => myBasestat($stat`Muscle`) >= 62,
-    completed: () => get("cyrptNookEvilness") <= 25,
+    completed: () => get("cyrptNookEvilness") <= 13,
     do: $location`The Defiled Nook`,
     outfit: (): OutfitSpec => {
       return {
@@ -224,7 +224,7 @@ const Nook: Task[] = [
       .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
     limit: {
-      soft: 30,
+      soft: 37,
     },
   },
   {
@@ -234,12 +234,12 @@ const Nook: Task[] = [
     ready: () =>
       have($item`evil eye`) &&
       !globalStateCache.absorb().isReprocessTarget($monster`party skelteon`),
-    completed: () => get("cyrptNookEvilness") <= 25,
+    completed: () => get("cyrptNookEvilness") <= 13,
     do: (): void => {
       cliExecute("use * evil eye");
     },
     freeaction: true,
-    limit: { tries: 9, unready: true },
+    limit: { tries: 13, unready: true },
   },
   {
     name: "Nook Boss",

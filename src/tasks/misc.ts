@@ -1138,6 +1138,7 @@ function willWorkshedSwap() {
 export function trainSetAvailable() {
   // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`model train set`) return true;
+  // eslint-disable-next-line libram/verify-constants
   if (!have($item`model train set`)) return false;
   // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`none` && args.major.workshed === $item`model train set`) return true;
