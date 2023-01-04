@@ -23,6 +23,7 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $items,
@@ -138,11 +139,25 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`Cobb's Knob Menagerie, Level 2`,
     after: ["Knob/Open Menagerie"],
     skill: $skill`Fluid Dynamics Simulation`,
+    effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
+    outfit: () =>
+      get("greyYouPoints") < 11
+        ? {
+            modifier: "moxie, -10ML",
+          }
+        : {},
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
     after: ["Knob/Open Menagerie"],
     skill: $skill`Phase Shift`,
+    effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
+    outfit: () =>
+      get("greyYouPoints") < 11
+        ? {
+            modifier: "moxie, -10ML",
+          }
+        : {},
   },
   // Level 6
   {
