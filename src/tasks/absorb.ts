@@ -140,24 +140,17 @@ const absorbTasks: AbsorbTask[] = [
     after: ["Knob/Open Menagerie"],
     skill: $skill`Fluid Dynamics Simulation`,
     effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
-    outfit: () =>
-      get("greyYouPoints") < 11
-        ? {
-            modifier: "moxie, -10ML",
-          }
-        : {},
   },
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
     after: ["Knob/Open Menagerie"],
     skill: $skill`Phase Shift`,
     effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
-    outfit: () =>
-      get("greyYouPoints") < 11
-        ? {
-            modifier: "moxie, -10ML",
-          }
-        : {},
+    outfit: () => {
+      if (have($item`designer sweatpants`) && get("greyYouPoints") >= 11)
+        return { equip: $items`designer sweatpants` };
+      else return { modifier: "moxie, -10ML" };
+    },
   },
   // Level 6
   {
