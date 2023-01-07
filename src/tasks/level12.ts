@@ -649,6 +649,7 @@ export function councilSafe(): boolean {
 
 function dimesForGarters(): void {
   if (itemAmount($item`gauze garter`) >= 20) return;
+  if (myTurncount() >= 1000) return;
   const to_sell = $items`pink clay bead, purple clay bead, green clay bead, communications windchimes, bullet-proof corduroys, round purple sunglasses, reinforced beaded headband`;
   for (const it of to_sell) {
     if (itemAmount(it) > 0) sell(it.buyer, itemAmount(it), it);
