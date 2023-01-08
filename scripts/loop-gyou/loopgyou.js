@@ -9135,6 +9135,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     savelocket: Args.number({
       help: "Number of uses of the combat lover's locket to save.",
       default: 0
+    }),
+    luck: Args.number({
+      help: 'Multiply the threshold for stopping execution when "you may just be unlucky". Increasing this can be dangerous and cause the script to waste more adventures; use at your own risk.',
+      default: 1
     })
   }),
   debug: Args.group("Debug Options", {
@@ -18692,7 +18696,7 @@ var Manor1 = [{
     894: 1
   },
   limit: {
-    soft: 15
+    soft: 20
   }
 }, {
   name: "Finish Floor1",
@@ -18798,7 +18802,7 @@ var Manor2 = [{
   .banish($monsters(level11_manor_templateObject32 || (level11_manor_templateObject32 = level11_manor_taggedTemplateLiteral(["animated mahogany nightstand, animated rustic nightstand, Wardr\xF6b nightstand"])))).ignore($monster(level11_manor_templateObject33 || (level11_manor_templateObject33 = level11_manor_taggedTemplateLiteral(["tumbleweed"])))),
   delay: () => have(template_string_$item(level11_manor_templateObject34 || (level11_manor_templateObject34 = level11_manor_taggedTemplateLiteral(["Lord Spookyraven's spectacles"])))) ? 5 : 0,
   limit: {
-    soft: 15
+    soft: 20
   }
 }, {
   name: "Bedroom Camera",
@@ -19813,6 +19817,13 @@ var MacguffinQuest = {
   }])
 };
 ;// CONCATENATED MODULE: ./src/tasks/all.ts
+function all_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = all_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function all_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return all_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return all_arrayLikeToArray(o, minLen); }
+
+function all_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 
 
 
@@ -19838,7 +19849,26 @@ var MacguffinQuest = {
 function all_tasks() {
   var quests = [TootQuest, MiscQuest, PullQuest, WandQuest, KeysQuest, SummonQuest, MosquitoQuest, TavernQuest, BatQuest, KnobQuest, FriarQuest, // OrganQuest,
   CryptQuest, McLargeHugeQuest, ChasmQuest, GiantQuest, HiddenQuest, ManorQuest, PalindomeQuest, MacguffinQuest, WarQuest, TowerQuest, AbsorbQuest, ReprocessQuest];
-  return getTasks(quests);
+  var tasks = getTasks(quests);
+
+  var _iterator = all_createForOfIteratorHelper(tasks),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var task = _step.value;
+
+      if (task.limit.soft) {
+        task.limit.soft *= args.minor.luck;
+      }
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  return tasks;
 }
 ;// CONCATENATED MODULE: ./src/route.ts
 
@@ -20370,7 +20400,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "0eccd2b";
+var lastCommitHash = "1f1e346";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
