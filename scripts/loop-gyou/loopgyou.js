@@ -9171,7 +9171,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
   defaultGroupName: "Commands"
 });
 ;// CONCATENATED MODULE: ./src/tasks/level13.ts
-var level13_templateObject, level13_templateObject2, level13_templateObject3, level13_templateObject4, level13_templateObject5, level13_templateObject6, level13_templateObject7, level13_templateObject8, level13_templateObject9, level13_templateObject10, level13_templateObject11, level13_templateObject12, level13_templateObject13, level13_templateObject14, level13_templateObject15, level13_templateObject16, level13_templateObject17, level13_templateObject18, level13_templateObject19, level13_templateObject20, level13_templateObject21, level13_templateObject22, level13_templateObject23, level13_templateObject24, level13_templateObject25, level13_templateObject26, level13_templateObject27, level13_templateObject28, level13_templateObject29, level13_templateObject30, level13_templateObject31, level13_templateObject32, level13_templateObject33, level13_templateObject34, level13_templateObject35, level13_templateObject36, level13_templateObject37, level13_templateObject38, level13_templateObject39, level13_templateObject40, level13_templateObject41, level13_templateObject42, level13_templateObject43, level13_templateObject44, level13_templateObject45, level13_templateObject46, level13_templateObject47, level13_templateObject48, _templateObject49, _templateObject50, _templateObject51, _templateObject52, _templateObject53, _templateObject54, _templateObject55, _templateObject56, _templateObject57, _templateObject58, _templateObject59, _templateObject60, _templateObject61, _templateObject62, _templateObject63, _templateObject64, _templateObject65, _templateObject66, _templateObject67, _templateObject68, _templateObject69, _templateObject70, _templateObject71, _templateObject72, _templateObject73, _templateObject74, _templateObject75, _templateObject76, _templateObject77, _templateObject78, _templateObject79, _templateObject80, _templateObject81, _templateObject82, _templateObject83, _templateObject84, _templateObject85, _templateObject86, _templateObject87, _templateObject88, _templateObject89, _templateObject90, _templateObject91, _templateObject92, _templateObject93, _templateObject94, _templateObject95, _templateObject96, _templateObject97, _templateObject98, _templateObject99, _templateObject100, _templateObject101, _templateObject102, _templateObject103;
+var level13_templateObject, level13_templateObject2, level13_templateObject3, level13_templateObject4, level13_templateObject5, level13_templateObject6, level13_templateObject7, level13_templateObject8, level13_templateObject9, level13_templateObject10, level13_templateObject11, level13_templateObject12, level13_templateObject13, level13_templateObject14, level13_templateObject15, level13_templateObject16, level13_templateObject17, level13_templateObject18, level13_templateObject19, level13_templateObject20, level13_templateObject21, level13_templateObject22, level13_templateObject23, level13_templateObject24, level13_templateObject25, level13_templateObject26, level13_templateObject27, level13_templateObject28, level13_templateObject29, level13_templateObject30, level13_templateObject31, level13_templateObject32, level13_templateObject33, level13_templateObject34, level13_templateObject35, level13_templateObject36, level13_templateObject37, level13_templateObject38, level13_templateObject39, level13_templateObject40, level13_templateObject41, level13_templateObject42, level13_templateObject43, level13_templateObject44, level13_templateObject45, level13_templateObject46, level13_templateObject47, level13_templateObject48, _templateObject49, _templateObject50, _templateObject51, _templateObject52, _templateObject53, _templateObject54, _templateObject55, _templateObject56, _templateObject57, _templateObject58, _templateObject59, _templateObject60, _templateObject61, _templateObject62, _templateObject63, _templateObject64, _templateObject65, _templateObject66, _templateObject67, _templateObject68, _templateObject69, _templateObject70, _templateObject71, _templateObject72, _templateObject73, _templateObject74, _templateObject75, _templateObject76, _templateObject77, _templateObject78, _templateObject79, _templateObject80, _templateObject81, _templateObject82, _templateObject83, _templateObject84, _templateObject85, _templateObject86, _templateObject87, _templateObject88, _templateObject89, _templateObject90, _templateObject91, _templateObject92, _templateObject93, _templateObject94, _templateObject95, _templateObject96, _templateObject97, _templateObject98, _templateObject99, _templateObject100, _templateObject101, _templateObject102, _templateObject103, _templateObject104, _templateObject105;
 
 function level13_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -9699,26 +9699,33 @@ var TowerQuest = {
     name: "Shadow",
     after: ["Mirror", "Absorb/Twin Peak"],
     prepare: () => {
-      fillHp();
+      fillHp(); // Buy garters here instead of in acquire,
+      // since the amount needed depends on Max HP.
+
+      var garters_needed = Math.min(20, Math.ceil((100 + (0,external_kolmafia_namespaceObject.myMaxhp)() / 6) / 80)) - (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(_templateObject91 || (_templateObject91 = level13_taggedTemplateLiteral(["gauze garter"]))));
+
+      if (garters_needed > 0 && (0,external_kolmafia_namespaceObject.myTurncount)() >= 1000) {
+        (0,external_kolmafia_namespaceObject.buy)(template_string_$item(_templateObject92 || (_templateObject92 = level13_taggedTemplateLiteral(["gauze garter"]))), garters_needed, 500);
+      }
     },
     completed: () => step("questL13Final") > 10,
-    do: $location(_templateObject91 || (_templateObject91 = level13_taggedTemplateLiteral(["Tower Level 5"]))),
+    do: $location(_templateObject93 || (_templateObject93 = level13_taggedTemplateLiteral(["Tower Level 5"]))),
     outfit: () => {
-      if (have(template_string_$item(_templateObject92 || (_templateObject92 = level13_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))))) return {
-        equip: template_string_$items(_templateObject93 || (_templateObject93 = level13_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))),
+      if (have(template_string_$item(_templateObject94 || (_templateObject94 = level13_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))))) return {
+        equip: template_string_$items(_templateObject95 || (_templateObject95 = level13_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))),
         modes: {
           retrocape: ["heck", "hold"]
         }
-      };else if (have(template_string_$item(_templateObject94 || (_templateObject94 = level13_taggedTemplateLiteral(["attorney's badge"]))))) return {
+      };else if (have(template_string_$item(_templateObject96 || (_templateObject96 = level13_taggedTemplateLiteral(["attorney's badge"]))))) return {
         modifier: "HP",
-        equip: template_string_$items(_templateObject95 || (_templateObject95 = level13_taggedTemplateLiteral(["attorney's badge"]))),
-        avoid: template_string_$items(_templateObject96 || (_templateObject96 = level13_taggedTemplateLiteral(["extra-wide head candle"])))
+        equip: template_string_$items(_templateObject97 || (_templateObject97 = level13_taggedTemplateLiteral(["attorney's badge"]))),
+        avoid: template_string_$items(_templateObject98 || (_templateObject98 = level13_taggedTemplateLiteral(["extra-wide head candle"])))
       };else return {
         modifier: "HP",
-        avoid: template_string_$items(_templateObject97 || (_templateObject97 = level13_taggedTemplateLiteral(["extra-wide head candle"])))
+        avoid: template_string_$items(_templateObject99 || (_templateObject99 = level13_taggedTemplateLiteral(["extra-wide head candle"])))
       };
     },
-    combat: new combat_CombatStrategy().macro(new Macro().item(template_string_$item(_templateObject98 || (_templateObject98 = level13_taggedTemplateLiteral(["gauze garter"])))).repeat()),
+    combat: new combat_CombatStrategy().macro(new Macro().item(template_string_$item(_templateObject100 || (_templateObject100 = level13_taggedTemplateLiteral(["gauze garter"])))).repeat()),
     boss: true,
     limit: {
       tries: 1
@@ -9727,7 +9734,7 @@ var TowerQuest = {
     name: "Naughty Sorceress",
     after: ["Shadow"],
     completed: () => step("questL13Final") > 11,
-    do: $location(_templateObject99 || (_templateObject99 = level13_taggedTemplateLiteral(["The Naughty Sorceress' Chamber"]))),
+    do: $location(_templateObject101 || (_templateObject101 = level13_taggedTemplateLiteral(["The Naughty Sorceress' Chamber"]))),
     outfit: {
       modifier: "muscle"
     },
@@ -9742,8 +9749,8 @@ function fillHp() {
   if ((0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)()) {
     if (!(0,external_kolmafia_namespaceObject.restoreHp)((0,external_kolmafia_namespaceObject.myMaxhp)())) {
       // Backup healing plan in a pinch
-      if (have(template_string_$item(_templateObject100 || (_templateObject100 = level13_taggedTemplateLiteral(["scroll of drastic healing"]))))) {
-        (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject101 || (_templateObject101 = level13_taggedTemplateLiteral(["scroll of drastic healing"]))));
+      if (have(template_string_$item(_templateObject102 || (_templateObject102 = level13_taggedTemplateLiteral(["scroll of drastic healing"]))))) {
+        (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject103 || (_templateObject103 = level13_taggedTemplateLiteral(["scroll of drastic healing"]))));
       } else if (property_get("_hotTubSoaks") < 5) {
         (0,external_kolmafia_namespaceObject.visitUrl)("clan_viplounge.php?action=hottub");
       }
@@ -9752,8 +9759,8 @@ function fillHp() {
 
       while ((0,external_kolmafia_namespaceObject.myHp)() < (0,external_kolmafia_namespaceObject.myMaxhp)() && (0,external_kolmafia_namespaceObject.myMeat)() >= 1000 && tries < 30) {
         tries++;
-        (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(_templateObject102 || (_templateObject102 = level13_taggedTemplateLiteral(["Doc Galaktik's Homeopathic Elixir"]))));
-        (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject103 || (_templateObject103 = level13_taggedTemplateLiteral(["Doc Galaktik's Homeopathic Elixir"]))));
+        (0,external_kolmafia_namespaceObject.retrieveItem)(template_string_$item(_templateObject104 || (_templateObject104 = level13_taggedTemplateLiteral(["Doc Galaktik's Homeopathic Elixir"]))));
+        (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject105 || (_templateObject105 = level13_taggedTemplateLiteral(["Doc Galaktik's Homeopathic Elixir"]))));
       }
     }
   }
@@ -9980,7 +9987,7 @@ function feed(beverage) {
   return currentDrinks().includes(beverage);
 }
 ;// CONCATENATED MODULE: ./src/tasks/absorb.ts
-var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, _templateObject104, _templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128, _templateObject129, _templateObject130, _templateObject131, _templateObject132, _templateObject133, _templateObject134, _templateObject135, _templateObject136, _templateObject137, _templateObject138, _templateObject139, _templateObject140, _templateObject141, _templateObject142, _templateObject143, _templateObject144, _templateObject145, _templateObject146, _templateObject147, _templateObject148, _templateObject149, _templateObject150, _templateObject151, _templateObject152, _templateObject153, _templateObject154, _templateObject155, _templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292, _templateObject293, _templateObject294, _templateObject295, _templateObject296, _templateObject297, _templateObject298, _templateObject299, _templateObject300, _templateObject301, _templateObject302, _templateObject303, _templateObject304, _templateObject305, _templateObject306, _templateObject307, _templateObject308, _templateObject309, _templateObject310, _templateObject311, _templateObject312, _templateObject313, _templateObject314, _templateObject315, _templateObject316, _templateObject317, _templateObject318, _templateObject319, _templateObject320, _templateObject321, _templateObject322, _templateObject323, _templateObject324, _templateObject325, _templateObject326, _templateObject327, _templateObject328, _templateObject329, _templateObject330, _templateObject331, _templateObject332, _templateObject333, _templateObject334, _templateObject335, _templateObject336, _templateObject337, _templateObject338, _templateObject339, _templateObject340, _templateObject341, _templateObject342, _templateObject343;
+var absorb_templateObject, absorb_templateObject2, absorb_templateObject3, absorb_templateObject4, absorb_templateObject5, absorb_templateObject6, absorb_templateObject7, absorb_templateObject8, absorb_templateObject9, absorb_templateObject10, absorb_templateObject11, absorb_templateObject12, absorb_templateObject13, absorb_templateObject14, absorb_templateObject15, absorb_templateObject16, absorb_templateObject17, absorb_templateObject18, absorb_templateObject19, absorb_templateObject20, absorb_templateObject21, absorb_templateObject22, absorb_templateObject23, absorb_templateObject24, absorb_templateObject25, absorb_templateObject26, absorb_templateObject27, absorb_templateObject28, absorb_templateObject29, absorb_templateObject30, absorb_templateObject31, absorb_templateObject32, absorb_templateObject33, absorb_templateObject34, absorb_templateObject35, absorb_templateObject36, absorb_templateObject37, absorb_templateObject38, absorb_templateObject39, absorb_templateObject40, absorb_templateObject41, absorb_templateObject42, absorb_templateObject43, absorb_templateObject44, absorb_templateObject45, absorb_templateObject46, absorb_templateObject47, absorb_templateObject48, absorb_templateObject49, absorb_templateObject50, absorb_templateObject51, absorb_templateObject52, absorb_templateObject53, absorb_templateObject54, absorb_templateObject55, absorb_templateObject56, absorb_templateObject57, absorb_templateObject58, absorb_templateObject59, absorb_templateObject60, absorb_templateObject61, absorb_templateObject62, absorb_templateObject63, absorb_templateObject64, absorb_templateObject65, absorb_templateObject66, absorb_templateObject67, absorb_templateObject68, absorb_templateObject69, absorb_templateObject70, absorb_templateObject71, absorb_templateObject72, absorb_templateObject73, absorb_templateObject74, absorb_templateObject75, absorb_templateObject76, absorb_templateObject77, absorb_templateObject78, absorb_templateObject79, absorb_templateObject80, absorb_templateObject81, absorb_templateObject82, absorb_templateObject83, absorb_templateObject84, absorb_templateObject85, absorb_templateObject86, absorb_templateObject87, absorb_templateObject88, absorb_templateObject89, absorb_templateObject90, absorb_templateObject91, absorb_templateObject92, absorb_templateObject93, absorb_templateObject94, absorb_templateObject95, absorb_templateObject96, absorb_templateObject97, absorb_templateObject98, absorb_templateObject99, absorb_templateObject100, absorb_templateObject101, absorb_templateObject102, absorb_templateObject103, absorb_templateObject104, absorb_templateObject105, _templateObject106, _templateObject107, _templateObject108, _templateObject109, _templateObject110, _templateObject111, _templateObject112, _templateObject113, _templateObject114, _templateObject115, _templateObject116, _templateObject117, _templateObject118, _templateObject119, _templateObject120, _templateObject121, _templateObject122, _templateObject123, _templateObject124, _templateObject125, _templateObject126, _templateObject127, _templateObject128, _templateObject129, _templateObject130, _templateObject131, _templateObject132, _templateObject133, _templateObject134, _templateObject135, _templateObject136, _templateObject137, _templateObject138, _templateObject139, _templateObject140, _templateObject141, _templateObject142, _templateObject143, _templateObject144, _templateObject145, _templateObject146, _templateObject147, _templateObject148, _templateObject149, _templateObject150, _templateObject151, _templateObject152, _templateObject153, _templateObject154, _templateObject155, _templateObject156, _templateObject157, _templateObject158, _templateObject159, _templateObject160, _templateObject161, _templateObject162, _templateObject163, _templateObject164, _templateObject165, _templateObject166, _templateObject167, _templateObject168, _templateObject169, _templateObject170, _templateObject171, _templateObject172, _templateObject173, _templateObject174, _templateObject175, _templateObject176, _templateObject177, _templateObject178, _templateObject179, _templateObject180, _templateObject181, _templateObject182, _templateObject183, _templateObject184, _templateObject185, _templateObject186, _templateObject187, _templateObject188, _templateObject189, _templateObject190, _templateObject191, _templateObject192, _templateObject193, _templateObject194, _templateObject195, _templateObject196, _templateObject197, _templateObject198, _templateObject199, _templateObject200, _templateObject201, _templateObject202, _templateObject203, _templateObject204, _templateObject205, _templateObject206, _templateObject207, _templateObject208, _templateObject209, _templateObject210, _templateObject211, _templateObject212, _templateObject213, _templateObject214, _templateObject215, _templateObject216, _templateObject217, _templateObject218, _templateObject219, _templateObject220, _templateObject221, _templateObject222, _templateObject223, _templateObject224, _templateObject225, _templateObject226, _templateObject227, _templateObject228, _templateObject229, _templateObject230, _templateObject231, _templateObject232, _templateObject233, _templateObject234, _templateObject235, _templateObject236, _templateObject237, _templateObject238, _templateObject239, _templateObject240, _templateObject241, _templateObject242, _templateObject243, _templateObject244, _templateObject245, _templateObject246, _templateObject247, _templateObject248, _templateObject249, _templateObject250, _templateObject251, _templateObject252, _templateObject253, _templateObject254, _templateObject255, _templateObject256, _templateObject257, _templateObject258, _templateObject259, _templateObject260, _templateObject261, _templateObject262, _templateObject263, _templateObject264, _templateObject265, _templateObject266, _templateObject267, _templateObject268, _templateObject269, _templateObject270, _templateObject271, _templateObject272, _templateObject273, _templateObject274, _templateObject275, _templateObject276, _templateObject277, _templateObject278, _templateObject279, _templateObject280, _templateObject281, _templateObject282, _templateObject283, _templateObject284, _templateObject285, _templateObject286, _templateObject287, _templateObject288, _templateObject289, _templateObject290, _templateObject291, _templateObject292, _templateObject293, _templateObject294, _templateObject295, _templateObject296, _templateObject297, _templateObject298, _templateObject299, _templateObject300, _templateObject301, _templateObject302, _templateObject303, _templateObject304, _templateObject305, _templateObject306, _templateObject307, _templateObject308, _templateObject309, _templateObject310, _templateObject311, _templateObject312, _templateObject313, _templateObject314, _templateObject315, _templateObject316, _templateObject317, _templateObject318, _templateObject319, _templateObject320, _templateObject321, _templateObject322, _templateObject323, _templateObject324, _templateObject325, _templateObject326, _templateObject327, _templateObject328, _templateObject329, _templateObject330, _templateObject331, _templateObject332, _templateObject333, _templateObject334, _templateObject335, _templateObject336, _templateObject337, _templateObject338, _templateObject339, _templateObject340, _templateObject341, _templateObject342, _templateObject343, _templateObject344, _templateObject345;
 
 function absorb_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -10108,55 +10115,56 @@ var absorbTasks = [// Level 2
   do: $location(absorb_templateObject20 || (absorb_templateObject20 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 2"]))),
   after: ["Knob/Open Menagerie"],
   skill: $skill(absorb_templateObject21 || (absorb_templateObject21 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))),
-  effects: () => property_get("greyYouPoints") < 11 ? $effects(absorb_templateObject22 || (absorb_templateObject22 = absorb_taggedTemplateLiteral(["Butt-Rock Hair"]))) : [],
-  outfit: () => property_get("greyYouPoints") < 11 ? {
-    modifier: "moxie, -10ML"
-  } : {}
+  effects: () => property_get("greyYouPoints") < 11 ? $effects(absorb_templateObject22 || (absorb_templateObject22 = absorb_taggedTemplateLiteral(["Butt-Rock Hair"]))) : []
 }, {
   do: $location(absorb_templateObject23 || (absorb_templateObject23 = absorb_taggedTemplateLiteral(["Cobb's Knob Menagerie, Level 3"]))),
   after: ["Knob/Open Menagerie"],
   skill: $skill(absorb_templateObject24 || (absorb_templateObject24 = absorb_taggedTemplateLiteral(["Phase Shift"]))),
   effects: () => property_get("greyYouPoints") < 11 ? $effects(absorb_templateObject25 || (absorb_templateObject25 = absorb_taggedTemplateLiteral(["Butt-Rock Hair"]))) : [],
-  outfit: () => property_get("greyYouPoints") < 11 ? {
-    modifier: "moxie, -10ML"
-  } : {}
+  outfit: () => {
+    if (have(template_string_$item(absorb_templateObject26 || (absorb_templateObject26 = absorb_taggedTemplateLiteral(["designer sweatpants"])))) && property_get("greyYouPoints") >= 11) return {
+      equip: template_string_$items(absorb_templateObject27 || (absorb_templateObject27 = absorb_taggedTemplateLiteral(["designer sweatpants"])))
+    };else return {
+      modifier: "moxie, -10ML"
+    };
+  }
 }, // Level 6
 {
-  do: $location(absorb_templateObject26 || (absorb_templateObject26 = absorb_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
+  do: $location(absorb_templateObject28 || (absorb_templateObject28 = absorb_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
   after: ["Friar/Heart"],
   ready: () => step("questL06Friar") < 999,
   outfit: () => {
-    if (have(template_string_$item(absorb_templateObject27 || (absorb_templateObject27 = absorb_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("wing")) {
+    if (have(template_string_$item(absorb_templateObject29 || (absorb_templateObject29 = absorb_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("wing")) {
       return {
-        equip: template_string_$items(absorb_templateObject28 || (absorb_templateObject28 = absorb_taggedTemplateLiteral(["latte lovers member's mug, miniature crystal ball"])))
+        equip: template_string_$items(absorb_templateObject30 || (absorb_templateObject30 = absorb_taggedTemplateLiteral(["latte lovers member's mug, miniature crystal ball"])))
       };
     }
 
     return {
-      equip: template_string_$items(absorb_templateObject29 || (absorb_templateObject29 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(absorb_templateObject31 || (absorb_templateObject31 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     };
   }
 }, {
-  do: $location(absorb_templateObject30 || (absorb_templateObject30 = absorb_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
+  do: $location(absorb_templateObject32 || (absorb_templateObject32 = absorb_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
   after: ["Friar/Neck"],
   ready: () => step("questL06Friar") < 999
 }, {
-  do: $location(absorb_templateObject31 || (absorb_templateObject31 = absorb_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
+  do: $location(absorb_templateObject33 || (absorb_templateObject33 = absorb_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
   after: ["Friar/Elbow"],
   ready: () => step("questL06Friar") < 999,
   outfit: () => {
-    if (have(template_string_$item(absorb_templateObject32 || (absorb_templateObject32 = absorb_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("vitamins")) {
+    if (have(template_string_$item(absorb_templateObject34 || (absorb_templateObject34 = absorb_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("vitamins")) {
       return {
-        equip: template_string_$items(absorb_templateObject33 || (absorb_templateObject33 = absorb_taggedTemplateLiteral(["latte lovers member's mug, miniature crystal ball"])))
+        equip: template_string_$items(absorb_templateObject35 || (absorb_templateObject35 = absorb_taggedTemplateLiteral(["latte lovers member's mug, miniature crystal ball"])))
       };
     }
 
     return {
-      equip: template_string_$items(absorb_templateObject34 || (absorb_templateObject34 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(absorb_templateObject36 || (absorb_templateObject36 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     };
   }
 }, {
-  do: $location(absorb_templateObject35 || (absorb_templateObject35 = absorb_taggedTemplateLiteral(["Pandamonium Slums"]))),
+  do: $location(absorb_templateObject37 || (absorb_templateObject37 = absorb_taggedTemplateLiteral(["Pandamonium Slums"]))),
   prepare: () => {
     if (step("questM10Azazel") === -1) {
       (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=temp");
@@ -10165,7 +10173,7 @@ var absorbTasks = [// Level 2
   },
   after: ["Friar/Finish"]
 }, {
-  do: $location(absorb_templateObject36 || (absorb_templateObject36 = absorb_taggedTemplateLiteral(["The Laugh Floor"]))),
+  do: $location(absorb_templateObject38 || (absorb_templateObject38 = absorb_taggedTemplateLiteral(["The Laugh Floor"]))),
   prepare: () => {
     if (step("questM10Azazel") === -1) {
       (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=temp");
@@ -10174,7 +10182,7 @@ var absorbTasks = [// Level 2
   },
   after: ["Friar/Finish"]
 }, {
-  do: $location(absorb_templateObject37 || (absorb_templateObject37 = absorb_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
+  do: $location(absorb_templateObject39 || (absorb_templateObject39 = absorb_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
   prepare: () => {
     if (step("questM10Azazel") === -1) {
       (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=temp");
@@ -10182,14 +10190,14 @@ var absorbTasks = [// Level 2
     }
   },
   after: ["Friar/Finish"],
-  skill: $skill(absorb_templateObject38 || (absorb_templateObject38 = absorb_taggedTemplateLiteral(["Gravitational Compression"])))
+  skill: $skill(absorb_templateObject40 || (absorb_templateObject40 = absorb_taggedTemplateLiteral(["Gravitational Compression"])))
 }, // Level 7
 {
-  do: $location(absorb_templateObject39 || (absorb_templateObject39 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"]))),
+  do: $location(absorb_templateObject41 || (absorb_templateObject41 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"]))),
   after: ["Crypt/Start", "Crypt/Finish"]
 }, // Level 8
 {
-  do: $location(absorb_templateObject40 || (absorb_templateObject40 = absorb_taggedTemplateLiteral(["Itznotyerzitz Mine"]))),
+  do: $location(absorb_templateObject42 || (absorb_templateObject42 = absorb_taggedTemplateLiteral(["Itznotyerzitz Mine"]))),
   after: ["McLargeHuge/Trapper Request"],
   choices: {
     18: 3,
@@ -10199,16 +10207,16 @@ var absorbTasks = [// Level 2
   },
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject41 || (absorb_templateObject41 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject43 || (absorb_templateObject43 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, {
-  do: $location(absorb_templateObject42 || (absorb_templateObject42 = absorb_taggedTemplateLiteral(["The Goatlet"]))),
+  do: $location(absorb_templateObject44 || (absorb_templateObject44 = absorb_taggedTemplateLiteral(["The Goatlet"]))),
   after: ["McLargeHuge/Goatlet"]
 }, {
-  do: $location(absorb_templateObject43 || (absorb_templateObject43 = absorb_taggedTemplateLiteral(["Lair of the Ninja Snowmen"]))),
+  do: $location(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["Lair of the Ninja Snowmen"]))),
   after: ["McLargeHuge/Climb", "Palindome/Cold Snake"]
 }, {
-  do: $location(absorb_templateObject44 || (absorb_templateObject44 = absorb_taggedTemplateLiteral(["The eXtreme Slope"]))),
+  do: $location(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["The eXtreme Slope"]))),
   after: ["McLargeHuge/Climb"],
   choices: {
     15: 3,
@@ -10218,46 +10226,46 @@ var absorbTasks = [// Level 2
   },
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject45 || (absorb_templateObject45 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject47 || (absorb_templateObject47 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, {
-  do: $location(absorb_templateObject46 || (absorb_templateObject46 = absorb_taggedTemplateLiteral(["The Icy Peak"]))),
+  do: $location(absorb_templateObject48 || (absorb_templateObject48 = absorb_taggedTemplateLiteral(["The Icy Peak"]))),
   after: ["McLargeHuge/Peak"],
   ready: () => coldPlanner.maximumPossible(true) >= 5,
   prepare: () => {
-    if ((0,external_kolmafia_namespaceObject.numericModifier)("cold resistance") < 5) ensureEffect(template_string_$effect(absorb_templateObject47 || (absorb_templateObject47 = absorb_taggedTemplateLiteral(["Red Door Syndrome"]))));
+    if ((0,external_kolmafia_namespaceObject.numericModifier)("cold resistance") < 5) ensureEffect(template_string_$effect(absorb_templateObject49 || (absorb_templateObject49 = absorb_taggedTemplateLiteral(["Red Door Syndrome"]))));
     if ((0,external_kolmafia_namespaceObject.numericModifier)("cold resistance") < 5) throw "Unable to ensure cold res for The Icy Peak";
   },
   outfit: () => {
     return coldPlanner.outfitFor(5, {
       modifier: "+combat",
-      equip: template_string_$items(absorb_templateObject48 || (absorb_templateObject48 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(absorb_templateObject50 || (absorb_templateObject50 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     });
   },
-  combat: new combat_CombatStrategy().macro(new Macro().attack().repeat(), $monster(absorb_templateObject49 || (absorb_templateObject49 = absorb_taggedTemplateLiteral(["Snow Queen"]))))
+  combat: new combat_CombatStrategy().macro(new Macro().attack().repeat(), $monster(absorb_templateObject51 || (absorb_templateObject51 = absorb_taggedTemplateLiteral(["Snow Queen"]))))
 }, // Level 9
 {
-  do: $location(absorb_templateObject50 || (absorb_templateObject50 = absorb_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))),
+  do: $location(absorb_templateObject52 || (absorb_templateObject52 = absorb_taggedTemplateLiteral(["The Smut Orc Logging Camp"]))),
   after: ["Orc Chasm/Bridge"],
   choices: {
     1345: 1
   }
 }, {
-  do: $location(absorb_templateObject51 || (absorb_templateObject51 = absorb_taggedTemplateLiteral(["A-Boo Peak"]))),
+  do: $location(absorb_templateObject53 || (absorb_templateObject53 = absorb_taggedTemplateLiteral(["A-Boo Peak"]))),
   after: ["Orc Chasm/ABoo Clues"],
   combat: new combat_CombatStrategy().macro(new Macro().attack().repeat())
 }, {
-  do: $location(absorb_templateObject52 || (absorb_templateObject52 = absorb_taggedTemplateLiteral(["Twin Peak"]))),
+  do: $location(absorb_templateObject54 || (absorb_templateObject54 = absorb_taggedTemplateLiteral(["Twin Peak"]))),
   after: ["Orc Chasm/Twin Init"],
-  skill: $skill(absorb_templateObject53 || (absorb_templateObject53 = absorb_taggedTemplateLiteral(["Overclocking"])))
+  skill: $skill(absorb_templateObject55 || (absorb_templateObject55 = absorb_taggedTemplateLiteral(["Overclocking"])))
 }, {
-  do: $location(absorb_templateObject54 || (absorb_templateObject54 = absorb_taggedTemplateLiteral(["Oil Peak"]))),
+  do: $location(absorb_templateObject56 || (absorb_templateObject56 = absorb_taggedTemplateLiteral(["Oil Peak"]))),
   after: ["Orc Chasm/Oil Peak"],
-  ready: () => have(template_string_$item(absorb_templateObject55 || (absorb_templateObject55 = absorb_taggedTemplateLiteral(["backup camera"])))) || have(template_string_$item(absorb_templateObject56 || (absorb_templateObject56 = absorb_taggedTemplateLiteral(["old patched suit-pants"])))),
+  ready: () => have(template_string_$item(absorb_templateObject57 || (absorb_templateObject57 = absorb_taggedTemplateLiteral(["backup camera"])))) || have(template_string_$item(absorb_templateObject58 || (absorb_templateObject58 = absorb_taggedTemplateLiteral(["old patched suit-pants"])))),
   prepare: () => {
     // Unequip the umbrella if it pushes us over the cap
-    if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(absorb_templateObject57 || (absorb_templateObject57 = absorb_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0 && property_get("umbrellaState") === "broken" && (0,external_kolmafia_namespaceObject.numericModifier)("Monster Level") >= 80) {
-      (0,external_kolmafia_namespaceObject.equip)($slot(absorb_templateObject58 || (absorb_templateObject58 = absorb_taggedTemplateLiteral(["off-hand"]))), template_string_$item(absorb_templateObject59 || (absorb_templateObject59 = absorb_taggedTemplateLiteral(["none"]))));
+    if ((0,external_kolmafia_namespaceObject.equippedAmount)(template_string_$item(absorb_templateObject59 || (absorb_templateObject59 = absorb_taggedTemplateLiteral(["unbreakable umbrella"])))) > 0 && property_get("umbrellaState") === "broken" && (0,external_kolmafia_namespaceObject.numericModifier)("Monster Level") >= 80) {
+      (0,external_kolmafia_namespaceObject.equip)($slot(absorb_templateObject60 || (absorb_templateObject60 = absorb_taggedTemplateLiteral(["off-hand"]))), template_string_$item(absorb_templateObject61 || (absorb_templateObject61 = absorb_taggedTemplateLiteral(["none"]))));
     } // Unequip items one-by-one until we are below 100 ML
     // (Always leave the backup camera on)
 
@@ -10270,11 +10278,11 @@ var absorbTasks = [// Level 2
         var slot = _step.value;
         if ((0,external_kolmafia_namespaceObject.numericModifier)("Monster Level") < 100) break;
         var item = (0,external_kolmafia_namespaceObject.equippedItem)(slot);
-        if (item === template_string_$item(absorb_templateObject60 || (absorb_templateObject60 = absorb_taggedTemplateLiteral(["none"])))) continue;
-        if ((0,external_kolmafia_namespaceObject.numericModifier)(item, "Monster Level") === 0 && item !== template_string_$item(absorb_templateObject61 || (absorb_templateObject61 = absorb_taggedTemplateLiteral(["Jurassic Parka"])))) continue;
-        if (item === template_string_$item(absorb_templateObject62 || (absorb_templateObject62 = absorb_taggedTemplateLiteral(["backup camera"])))) continue; // Always keep equipped to ensure we can get to 50
+        if (item === template_string_$item(absorb_templateObject62 || (absorb_templateObject62 = absorb_taggedTemplateLiteral(["none"])))) continue;
+        if ((0,external_kolmafia_namespaceObject.numericModifier)(item, "Monster Level") === 0 && item !== template_string_$item(absorb_templateObject63 || (absorb_templateObject63 = absorb_taggedTemplateLiteral(["Jurassic Parka"])))) continue;
+        if (item === template_string_$item(absorb_templateObject64 || (absorb_templateObject64 = absorb_taggedTemplateLiteral(["backup camera"])))) continue; // Always keep equipped to ensure we can get to 50
 
-        (0,external_kolmafia_namespaceObject.equip)(slot, template_string_$item(absorb_templateObject63 || (absorb_templateObject63 = absorb_taggedTemplateLiteral(["none"]))));
+        (0,external_kolmafia_namespaceObject.equip)(slot, template_string_$item(absorb_templateObject65 || (absorb_templateObject65 = absorb_taggedTemplateLiteral(["none"]))));
       }
     } catch (err) {
       _iterator.e(err);
@@ -10297,27 +10305,27 @@ var absorbTasks = [// Level 2
     tries: 1
   }
 }, {
-  do: $location(absorb_templateObject64 || (absorb_templateObject64 = absorb_taggedTemplateLiteral(["The Valley of Rof L'm Fao"]))),
+  do: $location(absorb_templateObject66 || (absorb_templateObject66 = absorb_taggedTemplateLiteral(["The Valley of Rof L'm Fao"]))),
   after: ["Orc Chasm/Finish"],
-  combat: new combat_CombatStrategy().ccs("attack", $monster(absorb_templateObject65 || (absorb_templateObject65 = absorb_taggedTemplateLiteral(["rampaging adding machine"]))))
+  combat: new combat_CombatStrategy().ccs("attack", $monster(absorb_templateObject67 || (absorb_templateObject67 = absorb_taggedTemplateLiteral(["rampaging adding machine"]))))
 }, // Level 10
 {
-  do: $location(absorb_templateObject66 || (absorb_templateObject66 = absorb_taggedTemplateLiteral(["The Penultimate Fantasy Airship"]))),
+  do: $location(absorb_templateObject68 || (absorb_templateObject68 = absorb_taggedTemplateLiteral(["The Penultimate Fantasy Airship"]))),
   after: ["Giant/Airship"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject67 || (absorb_templateObject67 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject69 || (absorb_templateObject69 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     178: 2,
     182: 2
   }
 }, {
-  do: $location(absorb_templateObject68 || (absorb_templateObject68 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
+  do: $location(absorb_templateObject70 || (absorb_templateObject70 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Basement)"]))),
   after: ["Giant/Basement Finish"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject69 || (absorb_templateObject69 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject71 || (absorb_templateObject71 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     670: 3,
@@ -10325,11 +10333,11 @@ var absorbTasks = [// Level 2
     671: 3
   }
 }, {
-  do: $location(absorb_templateObject70 || (absorb_templateObject70 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Ground Floor)"]))),
+  do: $location(absorb_templateObject72 || (absorb_templateObject72 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Ground Floor)"]))),
   after: ["Giant/Ground"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject71 || (absorb_templateObject71 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject73 || (absorb_templateObject73 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     672: 3,
@@ -10338,11 +10346,11 @@ var absorbTasks = [// Level 2
     1026: 3
   }
 }, {
-  do: $location(absorb_templateObject72 || (absorb_templateObject72 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
+  do: $location(absorb_templateObject74 || (absorb_templateObject74 = absorb_taggedTemplateLiteral(["The Castle in the Clouds in the Sky (Top Floor)"]))),
   after: ["Giant/Top Floor", "Palindome/Hot Snake Postcastle"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject73 || (absorb_templateObject73 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject75 || (absorb_templateObject75 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     675: 4,
@@ -10353,28 +10361,28 @@ var absorbTasks = [// Level 2
     1431: 4
   }
 }, {
-  do: $location(absorb_templateObject74 || (absorb_templateObject74 = absorb_taggedTemplateLiteral(["The Hole in the Sky"]))),
+  do: $location(absorb_templateObject76 || (absorb_templateObject76 = absorb_taggedTemplateLiteral(["The Hole in the Sky"]))),
   after: ["Giant/Unlock HITS", "Keys/Star Key"]
 }, // Level 11
 {
-  do: $location(absorb_templateObject75 || (absorb_templateObject75 = absorb_taggedTemplateLiteral(["The Black Forest"]))),
+  do: $location(absorb_templateObject77 || (absorb_templateObject77 = absorb_taggedTemplateLiteral(["The Black Forest"]))),
   after: ["Macguffin/Forest"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject76 || (absorb_templateObject76 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject78 || (absorb_templateObject78 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     923: 1,
     924: 1
   },
-  skill: $skill(absorb_templateObject77 || (absorb_templateObject77 = absorb_taggedTemplateLiteral(["Photonic Shroud"])))
+  skill: $skill(absorb_templateObject79 || (absorb_templateObject79 = absorb_taggedTemplateLiteral(["Photonic Shroud"])))
 }, // Level 11: Hidden City
 {
-  do: $location(absorb_templateObject78 || (absorb_templateObject78 = absorb_taggedTemplateLiteral(["The Hidden Temple"]))),
+  do: $location(absorb_templateObject80 || (absorb_templateObject80 = absorb_taggedTemplateLiteral(["The Hidden Temple"]))),
   after: ["Hidden City/Open City"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject79 || (absorb_templateObject79 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject81 || (absorb_templateObject81 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     579: () => {
@@ -10384,39 +10392,39 @@ var absorbTasks = [// Level 2
     581: 3
   }
 }, {
-  do: $location(absorb_templateObject80 || (absorb_templateObject80 = absorb_taggedTemplateLiteral(["The Hidden Park"]))),
+  do: $location(absorb_templateObject82 || (absorb_templateObject82 = absorb_taggedTemplateLiteral(["The Hidden Park"]))),
   after: ["Hidden City/Open City", "Hidden City/Banish Janitors"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject81 || (absorb_templateObject81 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject83 || (absorb_templateObject83 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     789: () => {
       return property_get("relocatePygmyJanitor") === (0,external_kolmafia_namespaceObject.myAscensions)() ? 2 : 3;
     }
   },
-  skill: $skill(absorb_templateObject82 || (absorb_templateObject82 = absorb_taggedTemplateLiteral(["System Sweep"])))
+  skill: $skill(absorb_templateObject84 || (absorb_templateObject84 = absorb_taggedTemplateLiteral(["System Sweep"])))
 }, {
-  do: $location(absorb_templateObject83 || (absorb_templateObject83 = absorb_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
+  do: $location(absorb_templateObject85 || (absorb_templateObject85 = absorb_taggedTemplateLiteral(["The Hidden Apartment Building"]))),
   after: ["Hidden City/Apartment"],
   choices: {
     780: 4
   }
 }, {
-  do: $location(absorb_templateObject84 || (absorb_templateObject84 = absorb_taggedTemplateLiteral(["The Hidden Office Building"]))),
+  do: $location(absorb_templateObject86 || (absorb_templateObject86 = absorb_taggedTemplateLiteral(["The Hidden Office Building"]))),
   after: ["Hidden City/Office Boss"],
   choices: {
     786: 4
   }
 }, {
-  do: $location(absorb_templateObject85 || (absorb_templateObject85 = absorb_taggedTemplateLiteral(["The Hidden Hospital"]))),
+  do: $location(absorb_templateObject87 || (absorb_templateObject87 = absorb_taggedTemplateLiteral(["The Hidden Hospital"]))),
   after: ["Hidden City/Hospital"]
 }, {
-  do: $location(absorb_templateObject86 || (absorb_templateObject86 = absorb_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
+  do: $location(absorb_templateObject88 || (absorb_templateObject88 = absorb_taggedTemplateLiteral(["The Hidden Bowling Alley"]))),
   after: ["Hidden City/Bowling"]
 }, // Level 11: Manor
 {
-  do: $location(absorb_templateObject87 || (absorb_templateObject87 = absorb_taggedTemplateLiteral(["The Haunted Pantry"]))),
+  do: $location(absorb_templateObject89 || (absorb_templateObject89 = absorb_taggedTemplateLiteral(["The Haunted Pantry"]))),
   after: [],
   choices: {
     114: 2,
@@ -10426,35 +10434,35 @@ var absorbTasks = [// Level 2
   },
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject88 || (absorb_templateObject88 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject90 || (absorb_templateObject90 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, {
-  do: $location(absorb_templateObject89 || (absorb_templateObject89 = absorb_taggedTemplateLiteral(["The Haunted Conservatory"]))),
+  do: $location(absorb_templateObject91 || (absorb_templateObject91 = absorb_taggedTemplateLiteral(["The Haunted Conservatory"]))),
   after: ["Manor/Start"],
   choices: {
     899: 2
   },
-  skill: $skill(absorb_templateObject90 || (absorb_templateObject90 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"])))
+  skill: $skill(absorb_templateObject92 || (absorb_templateObject92 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"])))
 }, {
-  do: $location(absorb_templateObject91 || (absorb_templateObject91 = absorb_taggedTemplateLiteral(["The Haunted Kitchen"]))),
+  do: $location(absorb_templateObject93 || (absorb_templateObject93 = absorb_taggedTemplateLiteral(["The Haunted Kitchen"]))),
   after: ["Manor/Kitchen"],
   choices: {
     893: 2
   }
 }, {
-  do: $location(absorb_templateObject92 || (absorb_templateObject92 = absorb_taggedTemplateLiteral(["The Haunted Billiards Room"]))),
+  do: $location(absorb_templateObject94 || (absorb_templateObject94 = absorb_taggedTemplateLiteral(["The Haunted Billiards Room"]))),
   after: ["Manor/Billiards"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject93 || (absorb_templateObject93 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject95 || (absorb_templateObject95 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
-  combat: new combat_CombatStrategy().macro(new Macro().attack().repeat(), $monster(absorb_templateObject94 || (absorb_templateObject94 = absorb_taggedTemplateLiteral(["chalkdust wraith"])))),
+  combat: new combat_CombatStrategy().macro(new Macro().attack().repeat(), $monster(absorb_templateObject96 || (absorb_templateObject96 = absorb_taggedTemplateLiteral(["chalkdust wraith"])))),
   choices: {
     900: 2
   },
-  skill: $skill(absorb_templateObject95 || (absorb_templateObject95 = absorb_taggedTemplateLiteral(["Subatomic Hardening"])))
+  skill: $skill(absorb_templateObject97 || (absorb_templateObject97 = absorb_taggedTemplateLiteral(["Subatomic Hardening"])))
 }, {
-  do: $location(absorb_templateObject96 || (absorb_templateObject96 = absorb_taggedTemplateLiteral(["The Haunted Library"]))),
+  do: $location(absorb_templateObject98 || (absorb_templateObject98 = absorb_taggedTemplateLiteral(["The Haunted Library"]))),
   after: ["Manor/Library"],
   choices: {
     163: 4,
@@ -10463,31 +10471,31 @@ var absorbTasks = [// Level 2
     894: 1
   }
 }, {
-  do: $location(absorb_templateObject97 || (absorb_templateObject97 = absorb_taggedTemplateLiteral(["The Haunted Gallery"]))),
+  do: $location(absorb_templateObject99 || (absorb_templateObject99 = absorb_taggedTemplateLiteral(["The Haunted Gallery"]))),
   after: ["Manor/Gallery"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject98 || (absorb_templateObject98 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject100 || (absorb_templateObject100 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     89: 6,
     896: 1
   }
 }, {
-  do: $location(absorb_templateObject99 || (absorb_templateObject99 = absorb_taggedTemplateLiteral(["The Haunted Bathroom"]))),
+  do: $location(absorb_templateObject101 || (absorb_templateObject101 = absorb_taggedTemplateLiteral(["The Haunted Bathroom"]))),
   after: ["Manor/Bathroom"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(absorb_templateObject100 || (absorb_templateObject100 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(absorb_templateObject102 || (absorb_templateObject102 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     881: 1,
     105: 1,
     892: 1
   },
-  skill: $skill(absorb_templateObject101 || (absorb_templateObject101 = absorb_taggedTemplateLiteral(["Clammy Microcilia"])))
+  skill: $skill(absorb_templateObject103 || (absorb_templateObject103 = absorb_taggedTemplateLiteral(["Clammy Microcilia"])))
 }, {
-  do: $location(absorb_templateObject102 || (absorb_templateObject102 = absorb_taggedTemplateLiteral(["The Haunted Bedroom"]))),
+  do: $location(absorb_templateObject104 || (absorb_templateObject104 = absorb_taggedTemplateLiteral(["The Haunted Bedroom"]))),
   after: ["Manor/Bedroom"],
   choices: {
     876: 1,
@@ -10498,11 +10506,11 @@ var absorbTasks = [// Level 2
     897: 2
   }
 }, {
-  do: $location(absorb_templateObject103 || (absorb_templateObject103 = absorb_taggedTemplateLiteral(["The Haunted Ballroom"]))),
+  do: $location(absorb_templateObject105 || (absorb_templateObject105 = absorb_taggedTemplateLiteral(["The Haunted Ballroom"]))),
   after: ["Manor/Ballroom"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject104 || (_templateObject104 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(_templateObject106 || (_templateObject106 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     881: 1,
@@ -10510,19 +10518,19 @@ var absorbTasks = [// Level 2
     892: 1
   }
 }, {
-  do: $location(_templateObject105 || (_templateObject105 = absorb_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
+  do: $location(_templateObject107 || (_templateObject107 = absorb_taggedTemplateLiteral(["The Haunted Wine Cellar"]))),
   after: ["Manor/Wine Cellar"],
   choices: {
     901: 2
   }
 }, {
-  do: $location(_templateObject106 || (_templateObject106 = absorb_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
+  do: $location(_templateObject108 || (_templateObject108 = absorb_taggedTemplateLiteral(["The Haunted Laundry Room"]))),
   after: ["Manor/Laundry Room"],
   choices: {
     891: 2
   }
 }, {
-  do: $location(_templateObject107 || (_templateObject107 = absorb_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
+  do: $location(_templateObject109 || (_templateObject109 = absorb_taggedTemplateLiteral(["The Haunted Boiler Room"]))),
   after: ["Manor/Boiler Room"],
   choices: {
     902: 2
@@ -10531,7 +10539,7 @@ var absorbTasks = [// Level 2
   prepare: () => {
     if (step("questM17Babies") === -1) (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
   },
-  do: $location(_templateObject108 || (_templateObject108 = absorb_taggedTemplateLiteral(["The Haunted Storage Room"]))),
+  do: $location(_templateObject110 || (_templateObject110 = absorb_taggedTemplateLiteral(["The Haunted Storage Room"]))),
   after: ["Manor/Finish Floor2"],
   choices: {
     886: 6,
@@ -10541,7 +10549,7 @@ var absorbTasks = [// Level 2
   prepare: () => {
     if (step("questM17Babies") === -1) (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
   },
-  do: $location(_templateObject109 || (_templateObject109 = absorb_taggedTemplateLiteral(["The Haunted Nursery"]))),
+  do: $location(_templateObject111 || (_templateObject111 = absorb_taggedTemplateLiteral(["The Haunted Nursery"]))),
   after: ["Manor/Finish Floor2"],
   choices: {
     884: 6,
@@ -10552,7 +10560,7 @@ var absorbTasks = [// Level 2
   prepare: () => {
     if (step("questM17Babies") === -1) (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=manor3&action=manor3_ladys");
   },
-  do: $location(_templateObject110 || (_templateObject110 = absorb_taggedTemplateLiteral(["The Haunted Laboratory"]))),
+  do: $location(_templateObject112 || (_templateObject112 = absorb_taggedTemplateLiteral(["The Haunted Laboratory"]))),
   after: ["Manor/Finish Floor2"],
   choices: {
     884: 6,
@@ -10560,23 +10568,23 @@ var absorbTasks = [// Level 2
   }
 }, // Level 11: Palindome
 {
-  do: $location(_templateObject111 || (_templateObject111 = absorb_taggedTemplateLiteral(["The Copperhead Club"]))),
+  do: $location(_templateObject113 || (_templateObject113 = absorb_taggedTemplateLiteral(["The Copperhead Club"]))),
   after: ["Palindome/Copperhead"],
   choices: {
     855: 4
   }
 }, {
-  do: $location(_templateObject112 || (_templateObject112 = absorb_taggedTemplateLiteral(["A Mob of Zeppelin Protesters"]))),
+  do: $location(_templateObject114 || (_templateObject114 = absorb_taggedTemplateLiteral(["A Mob of Zeppelin Protesters"]))),
   after: ["Palindome/Protesters Finish"]
 }, {
-  do: $location(_templateObject113 || (_templateObject113 = absorb_taggedTemplateLiteral(["The Red Zeppelin"]))),
+  do: $location(_templateObject115 || (_templateObject115 = absorb_taggedTemplateLiteral(["The Red Zeppelin"]))),
   after: ["Palindome/Zepplin"]
 }, {
-  do: $location(_templateObject114 || (_templateObject114 = absorb_taggedTemplateLiteral(["Inside the Palindome"]))),
+  do: $location(_templateObject116 || (_templateObject116 = absorb_taggedTemplateLiteral(["Inside the Palindome"]))),
   after: ["Palindome/Palindome Photos"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject115 || (_templateObject115 = absorb_taggedTemplateLiteral(["Talisman o' Namsilat, miniature crystal ball"])))
+    equip: template_string_$items(_templateObject117 || (_templateObject117 = absorb_taggedTemplateLiteral(["Talisman o' Namsilat, miniature crystal ball"])))
   },
   choices: {
     2: 2,
@@ -10585,11 +10593,11 @@ var absorbTasks = [// Level 2
     180: 2
   }
 }, {
-  do: $location(_templateObject116 || (_templateObject116 = absorb_taggedTemplateLiteral(["Whitey's Grove"]))),
+  do: $location(_templateObject118 || (_templateObject118 = absorb_taggedTemplateLiteral(["Whitey's Grove"]))),
   after: ["Palindome/Open Alarm"],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject117 || (_templateObject117 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(_templateObject119 || (_templateObject119 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   choices: {
     73: 3,
@@ -10598,36 +10606,36 @@ var absorbTasks = [// Level 2
   }
 }, // Level 11: Pyramid
 {
-  do: $location(_templateObject118 || (_templateObject118 = absorb_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
+  do: $location(_templateObject120 || (_templateObject120 = absorb_taggedTemplateLiteral(["The Arid, Extra-Dry Desert"]))),
   after: ["Macguffin/Desert"]
 }, {
-  priority: () => have(template_string_$effect(_templateObject119 || (_templateObject119 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject120 || (_templateObject120 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? Priorities.Effect : Priorities.None,
-  do: $location(_templateObject121 || (_templateObject121 = absorb_taggedTemplateLiteral(["The Oasis"]))),
+  priority: () => have(template_string_$effect(_templateObject121 || (_templateObject121 = absorb_taggedTemplateLiteral(["Ultrahydrated"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject122 || (_templateObject122 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6 ? Priorities.Effect : Priorities.None,
+  do: $location(_templateObject123 || (_templateObject123 = absorb_taggedTemplateLiteral(["The Oasis"]))),
   after: ["Macguffin/Desert"]
 }, {
-  do: $location(_templateObject122 || (_templateObject122 = absorb_taggedTemplateLiteral(["The Upper Chamber"]))),
+  do: $location(_templateObject124 || (_templateObject124 = absorb_taggedTemplateLiteral(["The Upper Chamber"]))),
   after: ["Macguffin/Upper Chamber"]
 }, {
-  do: $location(_templateObject123 || (_templateObject123 = absorb_taggedTemplateLiteral(["The Middle Chamber"]))),
+  do: $location(_templateObject125 || (_templateObject125 = absorb_taggedTemplateLiteral(["The Middle Chamber"]))),
   after: ["Macguffin/Middle Chamber"]
 }, // Misc areas
 // These are probably only worthwhile with orb
 {
-  do: $location(_templateObject124 || (_templateObject124 = absorb_taggedTemplateLiteral(["South of the Border"]))),
-  ready: () => have(template_string_$item(_templateObject125 || (_templateObject125 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))),
+  do: $location(_templateObject126 || (_templateObject126 = absorb_taggedTemplateLiteral(["South of the Border"]))),
+  ready: () => have(template_string_$item(_templateObject127 || (_templateObject127 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))),
   after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
   choices: {
     4: 3
   },
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject126 || (_templateObject126 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(_templateObject128 || (_templateObject128 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, {
-  do: $location(_templateObject127 || (_templateObject127 = absorb_taggedTemplateLiteral(["The Unquiet Garves"]))),
+  do: $location(_templateObject129 || (_templateObject129 = absorb_taggedTemplateLiteral(["The Unquiet Garves"]))),
   after: ["Crypt/Start"]
 }, {
-  do: $location(_templateObject128 || (_templateObject128 = absorb_taggedTemplateLiteral(["The Old Landfill"]))),
+  do: $location(_templateObject130 || (_templateObject130 = absorb_taggedTemplateLiteral(["The Old Landfill"]))),
   after: ["Mosquito/Start"],
   prepare: () => {
     if (step("questM19Hippy") === -1) {
@@ -10637,13 +10645,13 @@ var absorbTasks = [// Level 2
       (0,external_kolmafia_namespaceObject.visitUrl)("woods.php");
     }
 
-    if (have(template_string_$item(_templateObject129 || (_templateObject129 = absorb_taggedTemplateLiteral(["funky junk key"]))))) {
-      (0,external_kolmafia_namespaceObject.putCloset)(template_string_$item(_templateObject130 || (_templateObject130 = absorb_taggedTemplateLiteral(["funky junk key"]))), (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(_templateObject131 || (_templateObject131 = absorb_taggedTemplateLiteral(["funky junk key"])))));
+    if (have(template_string_$item(_templateObject131 || (_templateObject131 = absorb_taggedTemplateLiteral(["funky junk key"]))))) {
+      (0,external_kolmafia_namespaceObject.putCloset)(template_string_$item(_templateObject132 || (_templateObject132 = absorb_taggedTemplateLiteral(["funky junk key"]))), (0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(_templateObject133 || (_templateObject133 = absorb_taggedTemplateLiteral(["funky junk key"])))));
     }
   },
   ready: () => atLevel(6)
 }, {
-  do: $location(_templateObject132 || (_templateObject132 = absorb_taggedTemplateLiteral(["The Skeleton Store"]))),
+  do: $location(_templateObject134 || (_templateObject134 = absorb_taggedTemplateLiteral(["The Skeleton Store"]))),
   after: [],
   prepare: () => {
     if (step("questM23Meatsmith") === -1) {
@@ -10656,7 +10664,7 @@ var absorbTasks = [// Level 2
     1060: 1
   }
 }, {
-  do: $location(_templateObject133 || (_templateObject133 = absorb_taggedTemplateLiteral(["The Overgrown Lot"]))),
+  do: $location(_templateObject135 || (_templateObject135 = absorb_taggedTemplateLiteral(["The Overgrown Lot"]))),
   after: [],
   prepare: () => {
     if (step("questM24Doc") === -1) {
@@ -10669,7 +10677,7 @@ var absorbTasks = [// Level 2
     1062: 3
   }
 }, {
-  do: $location(_templateObject134 || (_templateObject134 = absorb_taggedTemplateLiteral(["Madness Bakery"]))),
+  do: $location(_templateObject136 || (_templateObject136 = absorb_taggedTemplateLiteral(["Madness Bakery"]))),
   after: [],
   prepare: () => {
     if (step("questM25Armorer") === -1) {
@@ -10682,11 +10690,11 @@ var absorbTasks = [// Level 2
     1061: 5
   }
 }, {
-  do: $location(_templateObject135 || (_templateObject135 = absorb_taggedTemplateLiteral(["The Dungeons of Doom"]))),
-  skill: $skill(_templateObject136 || (_templateObject136 = absorb_taggedTemplateLiteral(["Hivemindedness"]))),
+  do: $location(_templateObject137 || (_templateObject137 = absorb_taggedTemplateLiteral(["The Dungeons of Doom"]))),
+  skill: $skill(_templateObject138 || (_templateObject138 = absorb_taggedTemplateLiteral(["Hivemindedness"]))),
   after: [],
   prepare: () => {
-    if (have(template_string_$item(_templateObject137 || (_templateObject137 = absorb_taggedTemplateLiteral(["plus sign"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject138 || (_templateObject138 = absorb_taggedTemplateLiteral(["plus sign"]))));
+    if (have(template_string_$item(_templateObject139 || (_templateObject139 = absorb_taggedTemplateLiteral(["plus sign"]))))) (0,external_kolmafia_namespaceObject.use)(template_string_$item(_templateObject140 || (_templateObject140 = absorb_taggedTemplateLiteral(["plus sign"]))));
   },
   ready: () => property_get("lastPlusSignUnlock") === (0,external_kolmafia_namespaceObject.myAscensions)(),
   choices: {
@@ -10694,11 +10702,11 @@ var absorbTasks = [// Level 2
   },
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject139 || (_templateObject139 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(_templateObject141 || (_templateObject141 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, // Moon-sign zones
 {
-  do: $location(_templateObject140 || (_templateObject140 = absorb_taggedTemplateLiteral(["The Bugbear Pen"]))),
+  do: $location(_templateObject142 || (_templateObject142 = absorb_taggedTemplateLiteral(["The Bugbear Pen"]))),
   ready: () => (0,external_kolmafia_namespaceObject.knollAvailable)(),
   prepare: () => {
     if (step("questM03Bugbear") === -1) {
@@ -10707,31 +10715,31 @@ var absorbTasks = [// Level 2
   },
   after: ["Mosquito/Start"]
 }, {
-  do: $location(_templateObject141 || (_templateObject141 = absorb_taggedTemplateLiteral(["Outskirts of Camp Logging Camp"]))),
+  do: $location(_templateObject143 || (_templateObject143 = absorb_taggedTemplateLiteral(["Outskirts of Camp Logging Camp"]))),
   ready: () => (0,external_kolmafia_namespaceObject.canadiaAvailable)(),
   after: [],
   outfit: {
     modifier: "+combat",
-    equip: template_string_$items(_templateObject142 || (_templateObject142 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+    equip: template_string_$items(_templateObject144 || (_templateObject144 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
   }
 }, {
-  do: $location(_templateObject143 || (_templateObject143 = absorb_taggedTemplateLiteral(["Thugnderdome"]))),
+  do: $location(_templateObject145 || (_templateObject145 = absorb_taggedTemplateLiteral(["Thugnderdome"]))),
   ready: () => (0,external_kolmafia_namespaceObject.gnomadsAvailable)(),
   after: []
 }]; // All monsters that give adventures upon absorption
 
 var reprocessTargets = new Set([// 10 adv monsters
-$monster(_templateObject144 || (_templateObject144 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), $monster(_templateObject145 || (_templateObject145 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), $monster(_templateObject146 || (_templateObject146 = absorb_taggedTemplateLiteral(["black magic woman"]))), $monster(_templateObject147 || (_templateObject147 = absorb_taggedTemplateLiteral(["blur"]))), $monster(_templateObject148 || (_templateObject148 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), $monster(_templateObject149 || (_templateObject149 = absorb_taggedTemplateLiteral(["coaltergeist"]))), $monster(_templateObject150 || (_templateObject150 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), $monster(_templateObject151 || (_templateObject151 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), $monster(_templateObject152 || (_templateObject152 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), $monster(_templateObject153 || (_templateObject153 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), $monster(_templateObject154 || (_templateObject154 = absorb_taggedTemplateLiteral(["mad wino"]))), $monster(_templateObject155 || (_templateObject155 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), $monster(_templateObject156 || (_templateObject156 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), $monster(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), $monster(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), $monster(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), $monster(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), $monster(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), $monster(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["Raver Giant"]))), $monster(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), $monster(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), $monster(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
-$monster(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), $monster(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["basic lihc"]))), $monster(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), $monster(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), $monster(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["CH Imp"]))), $monster(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), $monster(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), $monster(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), $monster(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), $monster(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), $monster(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), $monster(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), $monster(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), $monster(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), $monster(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["model skeleton"]))), $monster(_templateObject181 || (_templateObject181 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), $monster(_templateObject182 || (_templateObject182 = absorb_taggedTemplateLiteral(["oil baron"]))), $monster(_templateObject183 || (_templateObject183 = absorb_taggedTemplateLiteral(["party skelteon"]))), $monster(_templateObject184 || (_templateObject184 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), $monster(_templateObject185 || (_templateObject185 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), $monster(_templateObject186 || (_templateObject186 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), $monster(_templateObject187 || (_templateObject187 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), $monster(_templateObject188 || (_templateObject188 = absorb_taggedTemplateLiteral(["serialbus"]))), $monster(_templateObject189 || (_templateObject189 = absorb_taggedTemplateLiteral(["sheet ghost"]))), $monster(_templateObject190 || (_templateObject190 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), $monster(_templateObject191 || (_templateObject191 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), $monster(_templateObject192 || (_templateObject192 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), $monster(_templateObject193 || (_templateObject193 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), $monster(_templateObject194 || (_templateObject194 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), $monster(_templateObject195 || (_templateObject195 = absorb_taggedTemplateLiteral(["upgraded ram"]))), $monster(_templateObject196 || (_templateObject196 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), $monster(_templateObject197 || (_templateObject197 = absorb_taggedTemplateLiteral(["whitesnake"]))), $monster(_templateObject198 || (_templateObject198 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
-$monster(_templateObject199 || (_templateObject199 = absorb_taggedTemplateLiteral(["dire pigeon"]))), $monster(_templateObject200 || (_templateObject200 = absorb_taggedTemplateLiteral(["gingerbread murderer"]))), $monster(_templateObject201 || (_templateObject201 = absorb_taggedTemplateLiteral(["grave rober"]))), $monster(_templateObject202 || (_templateObject202 = absorb_taggedTemplateLiteral(["irate mariachi"]))), $monster(_templateObject203 || (_templateObject203 = absorb_taggedTemplateLiteral(["plastered frat orc"]))), $monster(_templateObject204 || (_templateObject204 = absorb_taggedTemplateLiteral(["swarm of skulls"]))), $monster(_templateObject205 || (_templateObject205 = absorb_taggedTemplateLiteral(["albino bat"]))), $monster(_templateObject206 || (_templateObject206 = absorb_taggedTemplateLiteral(["batrat"]))), $monster(_templateObject207 || (_templateObject207 = absorb_taggedTemplateLiteral(["G imp"]))), $monster(_templateObject208 || (_templateObject208 = absorb_taggedTemplateLiteral(["Knob Goblin Bean Counter"]))), $monster(_templateObject209 || (_templateObject209 = absorb_taggedTemplateLiteral(["Knob Goblin Madam"]))), $monster(_templateObject210 || (_templateObject210 = absorb_taggedTemplateLiteral(["Knob Goblin Master Chef"]))), $monster(_templateObject211 || (_templateObject211 = absorb_taggedTemplateLiteral(["L imp"]))), $monster(_templateObject212 || (_templateObject212 = absorb_taggedTemplateLiteral(["magical fruit bat"]))), $monster(_templateObject213 || (_templateObject213 = absorb_taggedTemplateLiteral(["P imp"]))), $monster(_templateObject214 || (_templateObject214 = absorb_taggedTemplateLiteral(["swarm of Knob lice"]))), $monster(_templateObject215 || (_templateObject215 = absorb_taggedTemplateLiteral(["W imp"]))), $monster(_templateObject216 || (_templateObject216 = absorb_taggedTemplateLiteral(["warwelf"])))]); // Other monsters that give skills
+$monster(_templateObject146 || (_templateObject146 = absorb_taggedTemplateLiteral(["1335 HaXx0r"]))), $monster(_templateObject147 || (_templateObject147 = absorb_taggedTemplateLiteral(["Alphabet Giant"]))), $monster(_templateObject148 || (_templateObject148 = absorb_taggedTemplateLiteral(["black magic woman"]))), $monster(_templateObject149 || (_templateObject149 = absorb_taggedTemplateLiteral(["blur"]))), $monster(_templateObject150 || (_templateObject150 = absorb_taggedTemplateLiteral(["Bob Racecar"]))), $monster(_templateObject151 || (_templateObject151 = absorb_taggedTemplateLiteral(["coaltergeist"]))), $monster(_templateObject152 || (_templateObject152 = absorb_taggedTemplateLiteral(["fleet woodsman"]))), $monster(_templateObject153 || (_templateObject153 = absorb_taggedTemplateLiteral(["Iiti Kitty"]))), $monster(_templateObject154 || (_templateObject154 = absorb_taggedTemplateLiteral(["Irritating Series of Random Encounters"]))), $monster(_templateObject155 || (_templateObject155 = absorb_taggedTemplateLiteral(["Little Man in the Canoe"]))), $monster(_templateObject156 || (_templateObject156 = absorb_taggedTemplateLiteral(["mad wino"]))), $monster(_templateObject157 || (_templateObject157 = absorb_taggedTemplateLiteral(["Mob Penguin Capo"]))), $monster(_templateObject158 || (_templateObject158 = absorb_taggedTemplateLiteral(["One-Eyed Willie"]))), $monster(_templateObject159 || (_templateObject159 = absorb_taggedTemplateLiteral(["pygmy blowgunner"]))), $monster(_templateObject160 || (_templateObject160 = absorb_taggedTemplateLiteral(["pygmy headhunter"]))), $monster(_templateObject161 || (_templateObject161 = absorb_taggedTemplateLiteral(["pygmy orderlies"]))), $monster(_templateObject162 || (_templateObject162 = absorb_taggedTemplateLiteral(["pygmy shaman"]))), $monster(_templateObject163 || (_templateObject163 = absorb_taggedTemplateLiteral(["Racecar Bob"]))), $monster(_templateObject164 || (_templateObject164 = absorb_taggedTemplateLiteral(["Raver Giant"]))), $monster(_templateObject165 || (_templateObject165 = absorb_taggedTemplateLiteral(["Renaissance Giant"]))), $monster(_templateObject166 || (_templateObject166 = absorb_taggedTemplateLiteral(["swarm of fire ants"]))), $monster(_templateObject167 || (_templateObject167 = absorb_taggedTemplateLiteral(["tomb asp"]))), // 7 adv monsters
+$monster(_templateObject168 || (_templateObject168 = absorb_taggedTemplateLiteral(["animated rustic nightstand"]))), $monster(_templateObject169 || (_templateObject169 = absorb_taggedTemplateLiteral(["basic lihc"]))), $monster(_templateObject170 || (_templateObject170 = absorb_taggedTemplateLiteral(["Battlie Knight Ghost"]))), $monster(_templateObject171 || (_templateObject171 = absorb_taggedTemplateLiteral(["Bubblemint Twins"]))), $monster(_templateObject172 || (_templateObject172 = absorb_taggedTemplateLiteral(["CH Imp"]))), $monster(_templateObject173 || (_templateObject173 = absorb_taggedTemplateLiteral(["chalkdust wraith"]))), $monster(_templateObject174 || (_templateObject174 = absorb_taggedTemplateLiteral(["cloud of disembodied whiskers"]))), $monster(_templateObject175 || (_templateObject175 = absorb_taggedTemplateLiteral(["eXtreme Orcish snowboarder"]))), $monster(_templateObject176 || (_templateObject176 = absorb_taggedTemplateLiteral(["gluttonous ghuol"]))), $monster(_templateObject177 || (_templateObject177 = absorb_taggedTemplateLiteral(["Grass Elemental"]))), $monster(_templateObject178 || (_templateObject178 = absorb_taggedTemplateLiteral(["grave rober zmobie"]))), $monster(_templateObject179 || (_templateObject179 = absorb_taggedTemplateLiteral(["guy with a pitchfork, and his wife"]))), $monster(_templateObject180 || (_templateObject180 = absorb_taggedTemplateLiteral(["junksprite sharpener"]))), $monster(_templateObject181 || (_templateObject181 = absorb_taggedTemplateLiteral(["Knob Goblin Very Mad Scientist"]))), $monster(_templateObject182 || (_templateObject182 = absorb_taggedTemplateLiteral(["model skeleton"]))), $monster(_templateObject183 || (_templateObject183 = absorb_taggedTemplateLiteral(["Ninja Snowman Janitor"]))), $monster(_templateObject184 || (_templateObject184 = absorb_taggedTemplateLiteral(["oil baron"]))), $monster(_templateObject185 || (_templateObject185 = absorb_taggedTemplateLiteral(["party skelteon"]))), $monster(_templateObject186 || (_templateObject186 = absorb_taggedTemplateLiteral(["possessed silverware drawer"]))), $monster(_templateObject187 || (_templateObject187 = absorb_taggedTemplateLiteral(["possessed toy chest"]))), $monster(_templateObject188 || (_templateObject188 = absorb_taggedTemplateLiteral(["revolving bugbear"]))), $monster(_templateObject189 || (_templateObject189 = absorb_taggedTemplateLiteral(["sabre-toothed goat"]))), $monster(_templateObject190 || (_templateObject190 = absorb_taggedTemplateLiteral(["serialbus"]))), $monster(_templateObject191 || (_templateObject191 = absorb_taggedTemplateLiteral(["sheet ghost"]))), $monster(_templateObject192 || (_templateObject192 = absorb_taggedTemplateLiteral(["skeletal hamster"]))), $monster(_templateObject193 || (_templateObject193 = absorb_taggedTemplateLiteral(["smut orc pipelayer"]))), $monster(_templateObject194 || (_templateObject194 = absorb_taggedTemplateLiteral(["swarm of killer bees"]))), $monster(_templateObject195 || (_templateObject195 = absorb_taggedTemplateLiteral(["tapdancing skeleton"]))), $monster(_templateObject196 || (_templateObject196 = absorb_taggedTemplateLiteral(["toilet papergeist"]))), $monster(_templateObject197 || (_templateObject197 = absorb_taggedTemplateLiteral(["upgraded ram"]))), $monster(_templateObject198 || (_templateObject198 = absorb_taggedTemplateLiteral(["vicious gnauga"]))), $monster(_templateObject199 || (_templateObject199 = absorb_taggedTemplateLiteral(["whitesnake"]))), $monster(_templateObject200 || (_templateObject200 = absorb_taggedTemplateLiteral(["Booze Giant"]))), // 5 adv monsters
+$monster(_templateObject201 || (_templateObject201 = absorb_taggedTemplateLiteral(["dire pigeon"]))), $monster(_templateObject202 || (_templateObject202 = absorb_taggedTemplateLiteral(["gingerbread murderer"]))), $monster(_templateObject203 || (_templateObject203 = absorb_taggedTemplateLiteral(["grave rober"]))), $monster(_templateObject204 || (_templateObject204 = absorb_taggedTemplateLiteral(["irate mariachi"]))), $monster(_templateObject205 || (_templateObject205 = absorb_taggedTemplateLiteral(["plastered frat orc"]))), $monster(_templateObject206 || (_templateObject206 = absorb_taggedTemplateLiteral(["swarm of skulls"]))), $monster(_templateObject207 || (_templateObject207 = absorb_taggedTemplateLiteral(["albino bat"]))), $monster(_templateObject208 || (_templateObject208 = absorb_taggedTemplateLiteral(["batrat"]))), $monster(_templateObject209 || (_templateObject209 = absorb_taggedTemplateLiteral(["G imp"]))), $monster(_templateObject210 || (_templateObject210 = absorb_taggedTemplateLiteral(["Knob Goblin Bean Counter"]))), $monster(_templateObject211 || (_templateObject211 = absorb_taggedTemplateLiteral(["Knob Goblin Madam"]))), $monster(_templateObject212 || (_templateObject212 = absorb_taggedTemplateLiteral(["Knob Goblin Master Chef"]))), $monster(_templateObject213 || (_templateObject213 = absorb_taggedTemplateLiteral(["L imp"]))), $monster(_templateObject214 || (_templateObject214 = absorb_taggedTemplateLiteral(["magical fruit bat"]))), $monster(_templateObject215 || (_templateObject215 = absorb_taggedTemplateLiteral(["P imp"]))), $monster(_templateObject216 || (_templateObject216 = absorb_taggedTemplateLiteral(["swarm of Knob lice"]))), $monster(_templateObject217 || (_templateObject217 = absorb_taggedTemplateLiteral(["W imp"]))), $monster(_templateObject218 || (_templateObject218 = absorb_taggedTemplateLiteral(["warwelf"])))]); // Other monsters that give skills
 
-var usefulSkills = new Map([[$skill(_templateObject217 || (_templateObject217 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"]))), $monster(_templateObject218 || (_templateObject218 = absorb_taggedTemplateLiteral(["anglerbush"])))], [$skill(_templateObject219 || (_templateObject219 = absorb_taggedTemplateLiteral(["Ominous Substrate"]))), $monster(_templateObject220 || (_templateObject220 = absorb_taggedTemplateLiteral(["animated ornate nightstand"])))], [$skill(_templateObject221 || (_templateObject221 = absorb_taggedTemplateLiteral(["Innuendo Circuitry"]))), $monster(_templateObject222 || (_templateObject222 = absorb_taggedTemplateLiteral(["Astronomer"])))], [$skill(_templateObject223 || (_templateObject223 = absorb_taggedTemplateLiteral(["Exhaust Tubules"]))), $monster(_templateObject224 || (_templateObject224 = absorb_taggedTemplateLiteral(["beanbat"])))], [$skill(_templateObject225 || (_templateObject225 = absorb_taggedTemplateLiteral(["Overclocking"]))), $monster(_templateObject226 || (_templateObject226 = absorb_taggedTemplateLiteral(["Big Wheelin' Twins"])))], [$skill(_templateObject227 || (_templateObject227 = absorb_taggedTemplateLiteral(["Photonic Shroud"]))), $monster(_templateObject228 || (_templateObject228 = absorb_taggedTemplateLiteral(["black panther"])))], [$skill(_templateObject229 || (_templateObject229 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))), $monster(_templateObject230 || (_templateObject230 = absorb_taggedTemplateLiteral(["Carnivorous Moxie Weed"])))], [$skill(_templateObject231 || (_templateObject231 = absorb_taggedTemplateLiteral(["Ectogenesis"]))), $monster(_templateObject232 || (_templateObject232 = absorb_taggedTemplateLiteral(["Claybender Sorcerer Ghost"])))], [$skill(_templateObject233 || (_templateObject233 = absorb_taggedTemplateLiteral(["Microburner"]))), $monster(_templateObject234 || (_templateObject234 = absorb_taggedTemplateLiteral(["Cobb's Knob oven"])))], [$skill(_templateObject235 || (_templateObject235 = absorb_taggedTemplateLiteral(["Telekinetic Murder"]))), $monster(_templateObject236 || (_templateObject236 = absorb_taggedTemplateLiteral(["cr\xEAep"])))], [$skill(_templateObject237 || (_templateObject237 = absorb_taggedTemplateLiteral(["Localized Vacuum"]))), $monster(_templateObject238 || (_templateObject238 = absorb_taggedTemplateLiteral(["cubist bull"])))], [$skill(_templateObject239 || (_templateObject239 = absorb_taggedTemplateLiteral(["Infernal Automata"]))), $monster(_templateObject240 || (_templateObject240 = absorb_taggedTemplateLiteral(["demonic icebox"])))], [$skill(_templateObject241 || (_templateObject241 = absorb_taggedTemplateLiteral(["Secondary Fermentation"]))), $monster(_templateObject242 || (_templateObject242 = absorb_taggedTemplateLiteral(["drunk goat"])))], [$skill(_templateObject243 || (_templateObject243 = absorb_taggedTemplateLiteral(["Double Nanovision"]))), $monster(_templateObject244 || (_templateObject244 = absorb_taggedTemplateLiteral(["drunk pygmy"])))], [$skill(_templateObject245 || (_templateObject245 = absorb_taggedTemplateLiteral(["Microweave"]))), $monster(_templateObject246 || (_templateObject246 = absorb_taggedTemplateLiteral(["eXtreme cross-country hippy"])))], [$skill(_templateObject247 || (_templateObject247 = absorb_taggedTemplateLiteral(["AUTOEXEC.BAT"]))), $monster(_templateObject248 || (_templateObject248 = absorb_taggedTemplateLiteral(["Flock of Stab-bats"])))], [$skill(_templateObject249 || (_templateObject249 = absorb_taggedTemplateLiteral(["Nanoshock"]))), $monster(_templateObject250 || (_templateObject250 = absorb_taggedTemplateLiteral(["Jacob's adder"])))], [$skill(_templateObject251 || (_templateObject251 = absorb_taggedTemplateLiteral(["Propagation Drive"]))), $monster(_templateObject252 || (_templateObject252 = absorb_taggedTemplateLiteral(["junksprite bender"])))], [$skill(_templateObject253 || (_templateObject253 = absorb_taggedTemplateLiteral(["Advanced Exo-Alloy"]))), $monster(_templateObject254 || (_templateObject254 = absorb_taggedTemplateLiteral(["Knob Goblin Elite Guard"])))], [$skill(_templateObject255 || (_templateObject255 = absorb_taggedTemplateLiteral(["Camp Subroutines"]))), $monster(_templateObject256 || (_templateObject256 = absorb_taggedTemplateLiteral(["Knob Goblin Harem Girl"])))], [$skill(_templateObject257 || (_templateObject257 = absorb_taggedTemplateLiteral(["Cryocurrency"]))), $monster(_templateObject258 || (_templateObject258 = absorb_taggedTemplateLiteral(["Knob Goblin MBA"])))], [$skill(_templateObject259 || (_templateObject259 = absorb_taggedTemplateLiteral(["Curses Library"]))), $monster(_templateObject260 || (_templateObject260 = absorb_taggedTemplateLiteral(["lihc"])))], [$skill(_templateObject261 || (_templateObject261 = absorb_taggedTemplateLiteral(["Clammy Microcilia"]))), $monster(_templateObject262 || (_templateObject262 = absorb_taggedTemplateLiteral(["malevolent hair clog"])))], [$skill(_templateObject263 || (_templateObject263 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"]))), $monster(_templateObject264 || (_templateObject264 = absorb_taggedTemplateLiteral(["me4t begZ0r"])))], [$skill(_templateObject265 || (_templateObject265 = absorb_taggedTemplateLiteral(["Hivemindedness"]))), $monster(_templateObject266 || (_templateObject266 = absorb_taggedTemplateLiteral(["mind flayer"])))], [$skill(_templateObject267 || (_templateObject267 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))), $monster(_templateObject268 || (_templateObject268 = absorb_taggedTemplateLiteral(["Ninja Snowman Weaponmaster"])))], // [$skill`Lubricant Layer`, $monster`oil slick`],
-[$skill(_templateObject269 || (_templateObject269 = absorb_taggedTemplateLiteral(["Conifer Polymers"]))), $monster(_templateObject270 || (_templateObject270 = absorb_taggedTemplateLiteral(["pine bat"])))], [$skill(_templateObject271 || (_templateObject271 = absorb_taggedTemplateLiteral(["Subatomic Hardening"]))), $monster(_templateObject272 || (_templateObject272 = absorb_taggedTemplateLiteral(["pooltergeist"])))], [$skill(_templateObject273 || (_templateObject273 = absorb_taggedTemplateLiteral(["Legacy Code"]))), $monster(_templateObject274 || (_templateObject274 = absorb_taggedTemplateLiteral(["possessed wine rack"])))], [$skill(_templateObject275 || (_templateObject275 = absorb_taggedTemplateLiteral(["System Sweep"]))), $monster(_templateObject276 || (_templateObject276 = absorb_taggedTemplateLiteral(["pygmy janitor"])))], [$skill(_templateObject277 || (_templateObject277 = absorb_taggedTemplateLiteral(["Infinite Loop"]))), $monster(_templateObject278 || (_templateObject278 = absorb_taggedTemplateLiteral(["pygmy witch lawyer"])))], [$skill(_templateObject279 || (_templateObject279 = absorb_taggedTemplateLiteral(["Ire Proof"]))), $monster(_templateObject280 || (_templateObject280 = absorb_taggedTemplateLiteral(["raging bull"])))], [$skill(_templateObject281 || (_templateObject281 = absorb_taggedTemplateLiteral(["Nanofur"]))), $monster(_templateObject282 || (_templateObject282 = absorb_taggedTemplateLiteral(["ratbat"])))], [$skill(_templateObject283 || (_templateObject283 = absorb_taggedTemplateLiteral(["Hardslab"]))), $monster(_templateObject284 || (_templateObject284 = absorb_taggedTemplateLiteral(["remaindered skeleton"])))], [$skill(_templateObject285 || (_templateObject285 = absorb_taggedTemplateLiteral(["Snakesmack"]))), $monster(_templateObject286 || (_templateObject286 = absorb_taggedTemplateLiteral(["sewer snake with a sewer snake in it"])))], [$skill(_templateObject287 || (_templateObject287 = absorb_taggedTemplateLiteral(["Procgen Ribaldry"]))), $monster(_templateObject288 || (_templateObject288 = absorb_taggedTemplateLiteral(["smut orc screwer"])))], [$skill(_templateObject289 || (_templateObject289 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))), $monster(_templateObject290 || (_templateObject290 = absorb_taggedTemplateLiteral(["Snow Queen"])))], [$skill(_templateObject291 || (_templateObject291 = absorb_taggedTemplateLiteral(["Phase Shift"]))), $monster(_templateObject292 || (_templateObject292 = absorb_taggedTemplateLiteral(["Spectral Jellyfish"])))], [$skill(_templateObject293 || (_templateObject293 = absorb_taggedTemplateLiteral(["Audioclasm"]))), $monster(_templateObject294 || (_templateObject294 = absorb_taggedTemplateLiteral(["spooky music box"])))], [$skill(_templateObject295 || (_templateObject295 = absorb_taggedTemplateLiteral(["Autovampirism Routines"]))), $monster(_templateObject296 || (_templateObject296 = absorb_taggedTemplateLiteral(["spooky vampire"])))], [$skill(_templateObject297 || (_templateObject297 = absorb_taggedTemplateLiteral(["Steam Mycelia"]))), $monster(_templateObject298 || (_templateObject298 = absorb_taggedTemplateLiteral(["steam elemental"])))], [$skill(_templateObject299 || (_templateObject299 = absorb_taggedTemplateLiteral(["Nantlers"]))), $monster(_templateObject300 || (_templateObject300 = absorb_taggedTemplateLiteral(["stuffed moose head"])))], [$skill(_templateObject301 || (_templateObject301 = absorb_taggedTemplateLiteral(["Gravitational Compression"]))), $monster(_templateObject302 || (_templateObject302 = absorb_taggedTemplateLiteral(["suckubus"])))], [$skill(_templateObject303 || (_templateObject303 = absorb_taggedTemplateLiteral(["Grey Noise"]))), $monster(_templateObject304 || (_templateObject304 = absorb_taggedTemplateLiteral(["Boss Bat"])))], [$skill(_templateObject305 || (_templateObject305 = absorb_taggedTemplateLiteral(["Anti-Sleaze Recursion"]))), $monster(_templateObject306 || (_templateObject306 = absorb_taggedTemplateLiteral(["werecougar"])))], [$skill(_templateObject307 || (_templateObject307 = absorb_taggedTemplateLiteral(["Piezoelectric Honk"]))), $monster(_templateObject308 || (_templateObject308 = absorb_taggedTemplateLiteral(["white lion"])))]]);
+var usefulSkills = new Map([[$skill(_templateObject219 || (_templateObject219 = absorb_taggedTemplateLiteral(["Ponzi Apparatus"]))), $monster(_templateObject220 || (_templateObject220 = absorb_taggedTemplateLiteral(["anglerbush"])))], [$skill(_templateObject221 || (_templateObject221 = absorb_taggedTemplateLiteral(["Ominous Substrate"]))), $monster(_templateObject222 || (_templateObject222 = absorb_taggedTemplateLiteral(["animated ornate nightstand"])))], [$skill(_templateObject223 || (_templateObject223 = absorb_taggedTemplateLiteral(["Innuendo Circuitry"]))), $monster(_templateObject224 || (_templateObject224 = absorb_taggedTemplateLiteral(["Astronomer"])))], [$skill(_templateObject225 || (_templateObject225 = absorb_taggedTemplateLiteral(["Exhaust Tubules"]))), $monster(_templateObject226 || (_templateObject226 = absorb_taggedTemplateLiteral(["beanbat"])))], [$skill(_templateObject227 || (_templateObject227 = absorb_taggedTemplateLiteral(["Overclocking"]))), $monster(_templateObject228 || (_templateObject228 = absorb_taggedTemplateLiteral(["Big Wheelin' Twins"])))], [$skill(_templateObject229 || (_templateObject229 = absorb_taggedTemplateLiteral(["Photonic Shroud"]))), $monster(_templateObject230 || (_templateObject230 = absorb_taggedTemplateLiteral(["black panther"])))], [$skill(_templateObject231 || (_templateObject231 = absorb_taggedTemplateLiteral(["Fluid Dynamics Simulation"]))), $monster(_templateObject232 || (_templateObject232 = absorb_taggedTemplateLiteral(["Carnivorous Moxie Weed"])))], [$skill(_templateObject233 || (_templateObject233 = absorb_taggedTemplateLiteral(["Ectogenesis"]))), $monster(_templateObject234 || (_templateObject234 = absorb_taggedTemplateLiteral(["Claybender Sorcerer Ghost"])))], [$skill(_templateObject235 || (_templateObject235 = absorb_taggedTemplateLiteral(["Microburner"]))), $monster(_templateObject236 || (_templateObject236 = absorb_taggedTemplateLiteral(["Cobb's Knob oven"])))], [$skill(_templateObject237 || (_templateObject237 = absorb_taggedTemplateLiteral(["Telekinetic Murder"]))), $monster(_templateObject238 || (_templateObject238 = absorb_taggedTemplateLiteral(["cr\xEAep"])))], [$skill(_templateObject239 || (_templateObject239 = absorb_taggedTemplateLiteral(["Localized Vacuum"]))), $monster(_templateObject240 || (_templateObject240 = absorb_taggedTemplateLiteral(["cubist bull"])))], [$skill(_templateObject241 || (_templateObject241 = absorb_taggedTemplateLiteral(["Infernal Automata"]))), $monster(_templateObject242 || (_templateObject242 = absorb_taggedTemplateLiteral(["demonic icebox"])))], [$skill(_templateObject243 || (_templateObject243 = absorb_taggedTemplateLiteral(["Secondary Fermentation"]))), $monster(_templateObject244 || (_templateObject244 = absorb_taggedTemplateLiteral(["drunk goat"])))], [$skill(_templateObject245 || (_templateObject245 = absorb_taggedTemplateLiteral(["Double Nanovision"]))), $monster(_templateObject246 || (_templateObject246 = absorb_taggedTemplateLiteral(["drunk pygmy"])))], [$skill(_templateObject247 || (_templateObject247 = absorb_taggedTemplateLiteral(["Microweave"]))), $monster(_templateObject248 || (_templateObject248 = absorb_taggedTemplateLiteral(["eXtreme cross-country hippy"])))], [$skill(_templateObject249 || (_templateObject249 = absorb_taggedTemplateLiteral(["AUTOEXEC.BAT"]))), $monster(_templateObject250 || (_templateObject250 = absorb_taggedTemplateLiteral(["Flock of Stab-bats"])))], [$skill(_templateObject251 || (_templateObject251 = absorb_taggedTemplateLiteral(["Nanoshock"]))), $monster(_templateObject252 || (_templateObject252 = absorb_taggedTemplateLiteral(["Jacob's adder"])))], [$skill(_templateObject253 || (_templateObject253 = absorb_taggedTemplateLiteral(["Propagation Drive"]))), $monster(_templateObject254 || (_templateObject254 = absorb_taggedTemplateLiteral(["junksprite bender"])))], [$skill(_templateObject255 || (_templateObject255 = absorb_taggedTemplateLiteral(["Advanced Exo-Alloy"]))), $monster(_templateObject256 || (_templateObject256 = absorb_taggedTemplateLiteral(["Knob Goblin Elite Guard"])))], [$skill(_templateObject257 || (_templateObject257 = absorb_taggedTemplateLiteral(["Camp Subroutines"]))), $monster(_templateObject258 || (_templateObject258 = absorb_taggedTemplateLiteral(["Knob Goblin Harem Girl"])))], [$skill(_templateObject259 || (_templateObject259 = absorb_taggedTemplateLiteral(["Cryocurrency"]))), $monster(_templateObject260 || (_templateObject260 = absorb_taggedTemplateLiteral(["Knob Goblin MBA"])))], [$skill(_templateObject261 || (_templateObject261 = absorb_taggedTemplateLiteral(["Curses Library"]))), $monster(_templateObject262 || (_templateObject262 = absorb_taggedTemplateLiteral(["lihc"])))], [$skill(_templateObject263 || (_templateObject263 = absorb_taggedTemplateLiteral(["Clammy Microcilia"]))), $monster(_templateObject264 || (_templateObject264 = absorb_taggedTemplateLiteral(["malevolent hair clog"])))], [$skill(_templateObject265 || (_templateObject265 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"]))), $monster(_templateObject266 || (_templateObject266 = absorb_taggedTemplateLiteral(["me4t begZ0r"])))], [$skill(_templateObject267 || (_templateObject267 = absorb_taggedTemplateLiteral(["Hivemindedness"]))), $monster(_templateObject268 || (_templateObject268 = absorb_taggedTemplateLiteral(["mind flayer"])))], [$skill(_templateObject269 || (_templateObject269 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))), $monster(_templateObject270 || (_templateObject270 = absorb_taggedTemplateLiteral(["Ninja Snowman Weaponmaster"])))], // [$skill`Lubricant Layer`, $monster`oil slick`],
+[$skill(_templateObject271 || (_templateObject271 = absorb_taggedTemplateLiteral(["Conifer Polymers"]))), $monster(_templateObject272 || (_templateObject272 = absorb_taggedTemplateLiteral(["pine bat"])))], [$skill(_templateObject273 || (_templateObject273 = absorb_taggedTemplateLiteral(["Subatomic Hardening"]))), $monster(_templateObject274 || (_templateObject274 = absorb_taggedTemplateLiteral(["pooltergeist"])))], [$skill(_templateObject275 || (_templateObject275 = absorb_taggedTemplateLiteral(["Legacy Code"]))), $monster(_templateObject276 || (_templateObject276 = absorb_taggedTemplateLiteral(["possessed wine rack"])))], [$skill(_templateObject277 || (_templateObject277 = absorb_taggedTemplateLiteral(["System Sweep"]))), $monster(_templateObject278 || (_templateObject278 = absorb_taggedTemplateLiteral(["pygmy janitor"])))], [$skill(_templateObject279 || (_templateObject279 = absorb_taggedTemplateLiteral(["Infinite Loop"]))), $monster(_templateObject280 || (_templateObject280 = absorb_taggedTemplateLiteral(["pygmy witch lawyer"])))], [$skill(_templateObject281 || (_templateObject281 = absorb_taggedTemplateLiteral(["Ire Proof"]))), $monster(_templateObject282 || (_templateObject282 = absorb_taggedTemplateLiteral(["raging bull"])))], [$skill(_templateObject283 || (_templateObject283 = absorb_taggedTemplateLiteral(["Nanofur"]))), $monster(_templateObject284 || (_templateObject284 = absorb_taggedTemplateLiteral(["ratbat"])))], [$skill(_templateObject285 || (_templateObject285 = absorb_taggedTemplateLiteral(["Hardslab"]))), $monster(_templateObject286 || (_templateObject286 = absorb_taggedTemplateLiteral(["remaindered skeleton"])))], [$skill(_templateObject287 || (_templateObject287 = absorb_taggedTemplateLiteral(["Snakesmack"]))), $monster(_templateObject288 || (_templateObject288 = absorb_taggedTemplateLiteral(["sewer snake with a sewer snake in it"])))], [$skill(_templateObject289 || (_templateObject289 = absorb_taggedTemplateLiteral(["Procgen Ribaldry"]))), $monster(_templateObject290 || (_templateObject290 = absorb_taggedTemplateLiteral(["smut orc screwer"])))], [$skill(_templateObject291 || (_templateObject291 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))), $monster(_templateObject292 || (_templateObject292 = absorb_taggedTemplateLiteral(["Snow Queen"])))], [$skill(_templateObject293 || (_templateObject293 = absorb_taggedTemplateLiteral(["Phase Shift"]))), $monster(_templateObject294 || (_templateObject294 = absorb_taggedTemplateLiteral(["Spectral Jellyfish"])))], [$skill(_templateObject295 || (_templateObject295 = absorb_taggedTemplateLiteral(["Audioclasm"]))), $monster(_templateObject296 || (_templateObject296 = absorb_taggedTemplateLiteral(["spooky music box"])))], [$skill(_templateObject297 || (_templateObject297 = absorb_taggedTemplateLiteral(["Autovampirism Routines"]))), $monster(_templateObject298 || (_templateObject298 = absorb_taggedTemplateLiteral(["spooky vampire"])))], [$skill(_templateObject299 || (_templateObject299 = absorb_taggedTemplateLiteral(["Steam Mycelia"]))), $monster(_templateObject300 || (_templateObject300 = absorb_taggedTemplateLiteral(["steam elemental"])))], [$skill(_templateObject301 || (_templateObject301 = absorb_taggedTemplateLiteral(["Nantlers"]))), $monster(_templateObject302 || (_templateObject302 = absorb_taggedTemplateLiteral(["stuffed moose head"])))], [$skill(_templateObject303 || (_templateObject303 = absorb_taggedTemplateLiteral(["Gravitational Compression"]))), $monster(_templateObject304 || (_templateObject304 = absorb_taggedTemplateLiteral(["suckubus"])))], [$skill(_templateObject305 || (_templateObject305 = absorb_taggedTemplateLiteral(["Grey Noise"]))), $monster(_templateObject306 || (_templateObject306 = absorb_taggedTemplateLiteral(["Boss Bat"])))], [$skill(_templateObject307 || (_templateObject307 = absorb_taggedTemplateLiteral(["Anti-Sleaze Recursion"]))), $monster(_templateObject308 || (_templateObject308 = absorb_taggedTemplateLiteral(["werecougar"])))], [$skill(_templateObject309 || (_templateObject309 = absorb_taggedTemplateLiteral(["Piezoelectric Honk"]))), $monster(_templateObject310 || (_templateObject310 = absorb_taggedTemplateLiteral(["white lion"])))]]);
 var usefulMonsters = new Set([].concat(absorb_toConsumableArray(reprocessTargets), absorb_toConsumableArray(usefulSkills.values())));
 function monstersAt(location) {
-  if (location === $location(_templateObject309 || (_templateObject309 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"])))) {
+  if (location === $location(_templateObject311 || (_templateObject311 = absorb_taggedTemplateLiteral(["The VERY Unquiet Garves"])))) {
     // Workaround
-    return $monsters(_templateObject310 || (_templateObject310 = absorb_taggedTemplateLiteral(["basic lihc, party skelteon, corpulent zobmie, grave rober zmobie, senile lihc, slick lihc, gluttonous ghuol, gaunt ghuol"])));
+    return $monsters(_templateObject312 || (_templateObject312 = absorb_taggedTemplateLiteral(["basic lihc, party skelteon, corpulent zobmie, grave rober zmobie, senile lihc, slick lihc, gluttonous ghuol, gaunt ghuol"])));
   }
 
   var result = Object.entries((0,external_kolmafia_namespaceObject.appearanceRates)(location)).filter(i => i[1] !== -2) // Avoid impossible monsters
@@ -10785,14 +10793,14 @@ var AbsorbState = /*#__PURE__*/function () {
     property_get("_loopgyou_untracked_gooseReprocessed").split(",").map(id => parseInt(id)).filter(id => id > 0).map(id => external_kolmafia_namespaceObject.Monster.get(id)).map(monster => this.reprocessed.add(monster)); // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
 
-    var ignored_skills = new Set([$skill(_templateObject311 || (_templateObject311 = absorb_taggedTemplateLiteral(["Telekinetic Murder"]))), $skill(_templateObject312 || (_templateObject312 = absorb_taggedTemplateLiteral(["Nanoshock"]))), $skill(_templateObject313 || (_templateObject313 = absorb_taggedTemplateLiteral(["Advanced Exo-Alloy"]))), $skill(_templateObject314 || (_templateObject314 = absorb_taggedTemplateLiteral(["Hardslab"]))), $skill(_templateObject315 || (_templateObject315 = absorb_taggedTemplateLiteral(["Snakesmack"]))), $skill(_templateObject316 || (_templateObject316 = absorb_taggedTemplateLiteral(["Audioclasm"]))), $skill(_templateObject317 || (_templateObject317 = absorb_taggedTemplateLiteral(["Nantlers"]))), $skill(_templateObject318 || (_templateObject318 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"])))]); // Ignore the elemental skills that are not useful for the tower
+    var ignored_skills = new Set([$skill(_templateObject313 || (_templateObject313 = absorb_taggedTemplateLiteral(["Telekinetic Murder"]))), $skill(_templateObject314 || (_templateObject314 = absorb_taggedTemplateLiteral(["Nanoshock"]))), $skill(_templateObject315 || (_templateObject315 = absorb_taggedTemplateLiteral(["Advanced Exo-Alloy"]))), $skill(_templateObject316 || (_templateObject316 = absorb_taggedTemplateLiteral(["Hardslab"]))), $skill(_templateObject317 || (_templateObject317 = absorb_taggedTemplateLiteral(["Snakesmack"]))), $skill(_templateObject318 || (_templateObject318 = absorb_taggedTemplateLiteral(["Audioclasm"]))), $skill(_templateObject319 || (_templateObject319 = absorb_taggedTemplateLiteral(["Nantlers"]))), $skill(_templateObject320 || (_templateObject320 = absorb_taggedTemplateLiteral(["Financial Spreadsheets"])))]); // Ignore the elemental skills that are not useful for the tower
 
     var needed_elem_skills = {
-      hot: $skills(_templateObject319 || (_templateObject319 = absorb_taggedTemplateLiteral(["Microburner, Infernal Automata, Steam Mycelia"]))),
-      cold: $skills(_templateObject320 || (_templateObject320 = absorb_taggedTemplateLiteral(["Cryocurrency, Cooling Tubules, Snow-Cooling System"]))),
-      spooky: $skills(_templateObject321 || (_templateObject321 = absorb_taggedTemplateLiteral(["Curses Library, Ominous Substrate, Legacy Code"]))),
-      stench: $skills(_templateObject322 || (_templateObject322 = absorb_taggedTemplateLiteral(["Exhaust Tubules, Secondary Fermentation, AUTOEXEC.BAT"]))),
-      sleaze: $skills(_templateObject323 || (_templateObject323 = absorb_taggedTemplateLiteral(["Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry"])))
+      hot: $skills(_templateObject321 || (_templateObject321 = absorb_taggedTemplateLiteral(["Microburner, Infernal Automata, Steam Mycelia"]))),
+      cold: $skills(_templateObject322 || (_templateObject322 = absorb_taggedTemplateLiteral(["Cryocurrency, Cooling Tubules, Snow-Cooling System"]))),
+      spooky: $skills(_templateObject323 || (_templateObject323 = absorb_taggedTemplateLiteral(["Curses Library, Ominous Substrate, Legacy Code"]))),
+      stench: $skills(_templateObject324 || (_templateObject324 = absorb_taggedTemplateLiteral(["Exhaust Tubules, Secondary Fermentation, AUTOEXEC.BAT"]))),
+      sleaze: $skills(_templateObject325 || (_templateObject325 = absorb_taggedTemplateLiteral(["Camp Subroutines, Procgen Ribaldry, Innuendo Circuitry"])))
     };
 
     for (var _elem in needed_elem_skills) {
@@ -10815,17 +10823,17 @@ var AbsorbState = /*#__PURE__*/function () {
     // Or if we already found the bubblemint twins and can use Slay the Dead
 
 
-    if (towerSkip() && (property_get("cyrptAlcoveEvilness") <= 25 && step("questL07Cyrptic") !== -1 || have(template_string_$item(_templateObject324 || (_templateObject324 = absorb_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"])))) && !this.isTarget($monster(_templateObject325 || (_templateObject325 = absorb_taggedTemplateLiteral(["Bubblemint Twins"])))))) {
-      ignored_skills.add($skill(_templateObject326 || (_templateObject326 = absorb_taggedTemplateLiteral(["Overclocking"]))));
+    if (towerSkip() && (property_get("cyrptAlcoveEvilness") <= 25 && step("questL07Cyrptic") !== -1 || have(template_string_$item(_templateObject326 || (_templateObject326 = absorb_taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"])))) && !this.isTarget($monster(_templateObject327 || (_templateObject327 = absorb_taggedTemplateLiteral(["Bubblemint Twins"])))))) {
+      ignored_skills.add($skill(_templateObject328 || (_templateObject328 = absorb_taggedTemplateLiteral(["Overclocking"]))));
     } // No need for resistance skills if we already have enough
     // Get at least 3 cold res for icy peak
 
 
-    if (coldPlanner.maximumPossible(false) >= 3) ignored_skills.add($skill(_templateObject327 || (_templateObject327 = absorb_taggedTemplateLiteral(["Nanofur"])))); // Get at least 4 stench res for twin peaks
+    if (coldPlanner.maximumPossible(false) >= 3) ignored_skills.add($skill(_templateObject329 || (_templateObject329 = absorb_taggedTemplateLiteral(["Nanofur"])))); // Get at least 4 stench res for twin peaks
 
-    if (stenchPlanner.maximumPossible(false) >= 2) ignored_skills.add($skill(_templateObject328 || (_templateObject328 = absorb_taggedTemplateLiteral(["Clammy Microcilia"])))); // Other res skills are only needed for the tower hedge maze
+    if (stenchPlanner.maximumPossible(false) >= 2) ignored_skills.add($skill(_templateObject330 || (_templateObject330 = absorb_taggedTemplateLiteral(["Clammy Microcilia"])))); // Other res skills are only needed for the tower hedge maze
 
-    var res_skills = $skills(_templateObject329 || (_templateObject329 = absorb_taggedTemplateLiteral(["Ire Proof, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Lubricant Layer"])));
+    var res_skills = $skills(_templateObject331 || (_templateObject331 = absorb_taggedTemplateLiteral(["Ire Proof, Autovampirism Routines, Conifer Polymers, Anti-Sleaze Recursion, Localized Vacuum, Microweave, Ectogenesis, Lubricant Layer"])));
 
     if (towerSkip()) {
       var _iterator3 = absorb_createForOfIteratorHelper(res_skills),
@@ -10844,12 +10852,12 @@ var AbsorbState = /*#__PURE__*/function () {
     } // We need a single +cold dmg source for orcs
 
 
-    if (!have(template_string_$item(_templateObject330 || (_templateObject330 = absorb_taggedTemplateLiteral(["frozen jeans"])))) && !have(template_string_$item(_templateObject331 || (_templateObject331 = absorb_taggedTemplateLiteral(["June cleaver"])))) && !have(template_string_$item(_templateObject332 || (_templateObject332 = absorb_taggedTemplateLiteral(["industrial fire extinguisher"])))) && !have($skill(_templateObject333 || (_templateObject333 = absorb_taggedTemplateLiteral(["Cryocurrency"])))) && !have($skill(_templateObject334 || (_templateObject334 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))))) {
-      ignored_skills.delete($skill(_templateObject335 || (_templateObject335 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))));
+    if (!have(template_string_$item(_templateObject332 || (_templateObject332 = absorb_taggedTemplateLiteral(["frozen jeans"])))) && !have(template_string_$item(_templateObject333 || (_templateObject333 = absorb_taggedTemplateLiteral(["June cleaver"])))) && !have(template_string_$item(_templateObject334 || (_templateObject334 = absorb_taggedTemplateLiteral(["industrial fire extinguisher"])))) && !have($skill(_templateObject335 || (_templateObject335 = absorb_taggedTemplateLiteral(["Cryocurrency"])))) && !have($skill(_templateObject336 || (_templateObject336 = absorb_taggedTemplateLiteral(["Cooling Tubules"]))))) {
+      ignored_skills.delete($skill(_templateObject337 || (_templateObject337 = absorb_taggedTemplateLiteral(["Snow-Cooling System"]))));
     } // Sweatpants are enough MP regen
 
 
-    if (have(template_string_$item(_templateObject336 || (_templateObject336 = absorb_taggedTemplateLiteral(["designer sweatpants"]))))) ignored_skills.add($skill(_templateObject337 || (_templateObject337 = absorb_taggedTemplateLiteral(["Hivemindedness"])))); // Do not ignore skills that were given in the args
+    if (have(template_string_$item(_templateObject338 || (_templateObject338 = absorb_taggedTemplateLiteral(["designer sweatpants"]))))) ignored_skills.add($skill(_templateObject339 || (_templateObject339 = absorb_taggedTemplateLiteral(["Hivemindedness"])))); // Do not ignore skills that were given in the args
 
     var forced_skills = new Set();
 
@@ -10917,7 +10925,7 @@ var AbsorbState = /*#__PURE__*/function () {
       _set("_loopgyou_museum", true);
     }
 
-    var icehouse = getBanishedMonsters().get(template_string_$item(_templateObject338 || (_templateObject338 = absorb_taggedTemplateLiteral(["ice house"]))));
+    var icehouse = getBanishedMonsters().get(template_string_$item(_templateObject340 || (_templateObject340 = absorb_taggedTemplateLiteral(["ice house"]))));
     if (icehouse !== undefined) this.ignored.add(icehouse);
   }
 
@@ -10993,7 +11001,7 @@ var AbsorbQuest = {
     });
 
     if (result.outfit === undefined) result.outfit = {
-      equip: template_string_$items(_templateObject339 || (_templateObject339 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(_templateObject341 || (_templateObject341 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     };
     return result;
   })), absorb_toConsumableArray(absorbTasks.filter(task => task.skill !== undefined).map(task => {
@@ -11004,7 +11012,7 @@ var AbsorbQuest = {
       completed: () => {
         var _task$skill2;
 
-        return globalStateCache.absorb().skillCompleted((_task$skill2 = task.skill) !== null && _task$skill2 !== void 0 ? _task$skill2 : $skill(_templateObject340 || (_templateObject340 = absorb_taggedTemplateLiteral(["none"]))));
+        return globalStateCache.absorb().skillCompleted((_task$skill2 = task.skill) !== null && _task$skill2 !== void 0 ? _task$skill2 : $skill(_templateObject342 || (_templateObject342 = absorb_taggedTemplateLiteral(["none"]))));
       }
     }, task), {}, {
       combat: ((_task$combat2 = task.combat) !== null && _task$combat2 !== void 0 ? _task$combat2 : new combat_CombatStrategy()).ignoreSoftBanish(),
@@ -11015,7 +11023,7 @@ var AbsorbQuest = {
     });
 
     if (result.outfit === undefined) result.outfit = {
-      equip: template_string_$items(_templateObject341 || (_templateObject341 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(_templateObject343 || (_templateObject343 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     };
     return result;
   })), [{
@@ -11043,7 +11051,7 @@ var ReprocessQuest = {
       completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do)
     }, task), {}, {
       after: [].concat(absorb_toConsumableArray((_task$after2 = task.after) !== null && _task$after2 !== void 0 ? _task$after2 : []), ["Absorb/".concat(task.do.toString())]),
-      ready: () => (task.ready === undefined || task.ready()) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject342 || (_templateObject342 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
+      ready: () => (task.ready === undefined || task.ready()) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject344 || (_templateObject344 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
       combat: ((_task$combat3 = task.combat) !== null && _task$combat3 !== void 0 ? _task$combat3 : new combat_CombatStrategy()).ignoreSoftBanish(),
       // killing targetting monsters is set in the engine
       limit: {
@@ -11052,7 +11060,7 @@ var ReprocessQuest = {
     });
 
     if (result.outfit === undefined) result.outfit = {
-      equip: template_string_$items(_templateObject343 || (_templateObject343 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
+      equip: template_string_$items(_templateObject345 || (_templateObject345 = absorb_taggedTemplateLiteral(["miniature crystal ball"])))
     };
     return result;
   })), [{
@@ -14204,6 +14212,7 @@ function councilSafe() {
 
 function dimesForGarters() {
   if ((0,external_kolmafia_namespaceObject.itemAmount)(template_string_$item(level12_templateObject169 || (level12_templateObject169 = level12_taggedTemplateLiteral(["gauze garter"])))) >= 20) return;
+  if ((0,external_kolmafia_namespaceObject.myTurncount)() >= 1000) return;
   var to_sell = template_string_$items(level12_templateObject170 || (level12_templateObject170 = level12_taggedTemplateLiteral(["pink clay bead, purple clay bead, green clay bead, communications windchimes, bullet-proof corduroys, round purple sunglasses, reinforced beaded headband"])));
 
   var _iterator = level12_createForOfIteratorHelper(to_sell),
@@ -20361,7 +20370,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "2149cc7";
+var lastCommitHash = "0eccd2b";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
