@@ -21,6 +21,7 @@ import { AbsorbQuest, ReprocessQuest } from "./absorb";
 import { SummonQuest } from "./summons";
 import { Task } from "../engine/task";
 import { getTasks } from "grimoire-kolmafia";
+import { args } from "../args";
 
 export function all_tasks(): Task[] {
   const quests = [
@@ -49,5 +50,11 @@ export function all_tasks(): Task[] {
     AbsorbQuest,
     ReprocessQuest,
   ];
-  return getTasks(quests);
+  const tasks = getTasks(quests);
+  for (const task of tasks) {
+    if (task.limit.soft) {
+      task.limit.soft *= args.minor.luck;
+    }
+  }
+  return tasks;
 }

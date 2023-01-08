@@ -75,7 +75,7 @@ const Manor1: Task[] = [
     do: $location`The Haunted Library`,
     combat: new CombatStrategy().banish($monsters`banshee librarian, bookbat`).kill(),
     choices: { 163: 4, 888: 4, 889: 5, 894: 1 },
-    limit: { soft: 15 },
+    limit: { soft: 20 },
   },
   {
     name: "Finish Floor1",
@@ -170,7 +170,7 @@ const Manor2: Task[] = [
       )
       .ignore($monster`tumbleweed`),
     delay: () => (have($item`Lord Spookyraven's spectacles`) ? 5 : 0),
-    limit: { soft: 15 },
+    limit: { soft: 20 },
   },
   {
     name: "Bedroom Camera",
