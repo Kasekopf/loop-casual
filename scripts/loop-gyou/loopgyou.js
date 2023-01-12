@@ -17453,7 +17453,7 @@ var McLargeHugeQuest = {
   }, {
     name: "Trapper Return",
     after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man", "Clover Ore"],
-    ready: () => (0,external_kolmafia_namespaceObject.itemAmount)(external_kolmafia_namespaceObject.Item.get(property_get("trapperOre"))) >= 3,
+    ready: () => property_get("trapperOre") !== "" && (0,external_kolmafia_namespaceObject.itemAmount)(external_kolmafia_namespaceObject.Item.get(property_get("trapperOre"))) >= 3,
     // Checked here since there is no task for Trainset ores
     completed: () => step("questL08Trapper") >= 2,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=mclargehuge&action=trappercabin"),
@@ -20400,7 +20400,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "1f1e346";
+var lastCommitHash = "4ba4179";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
