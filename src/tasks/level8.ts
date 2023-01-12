@@ -74,7 +74,7 @@ export const McLargeHugeQuest: Quest = {
     {
       name: "Trapper Return",
       after: ["Goatlet", "Pull/Ore", "Summon/Mountain Man", "Clover Ore"],
-      ready: () => itemAmount(Item.get(get("trapperOre"))) >= 3, // Checked here since there is no task for Trainset ores
+      ready: () => get("trapperOre") !== "" && itemAmount(Item.get(get("trapperOre"))) >= 3, // Checked here since there is no task for Trainset ores
       completed: () => step("questL08Trapper") >= 2,
       do: () => visitUrl("place.php?whichplace=mclargehuge&action=trappercabin"),
       limit: { tries: 1 },
