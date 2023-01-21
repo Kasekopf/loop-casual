@@ -19908,7 +19908,7 @@ function all_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) l
 
 function all_tasks() {
   var quests = [TootQuest, MiscQuest, PullQuest, WandQuest, KeysQuest, SummonQuest, MosquitoQuest, TavernQuest, BatQuest, KnobQuest, FriarQuest, // OrganQuest,
-  CryptQuest, McLargeHugeQuest, ChasmQuest, GiantQuest, HiddenQuest, ManorQuest, PalindomeQuest, MacguffinQuest, WarQuest, TowerQuest, AbsorbQuest, ReprocessQuest];
+  CryptQuest, McLargeHugeQuest, ChasmQuest, GiantQuest, HiddenQuest, ManorQuest, PalindomeQuest, MacguffinQuest, WarQuest, TowerQuest, AbsorbQuest, DigitalQuest, ReprocessQuest];
   var tasks = getTasks(quests);
 
   var _iterator = all_createForOfIteratorHelper(tasks),
@@ -20460,7 +20460,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "bbe2cd8";
+var lastCommitHash = "fbf8a6f";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
