@@ -13368,10 +13368,10 @@ function equipDefaults(outfit, force_charge_goose) {
     outfit.equip(template_string_$item(outfit_templateObject57 || (outfit_templateObject57 = engine_outfit_taggedTemplateLiteral(["Cargo Cultist Shorts"]))));
     outfit.equip(template_string_$item(outfit_templateObject58 || (outfit_templateObject58 = engine_outfit_taggedTemplateLiteral(["lucky gold ring"]))));
     if (outfit.familiar === template_string_$familiar(outfit_templateObject59 || (outfit_templateObject59 = engine_outfit_taggedTemplateLiteral(["Grey Goose"]))) && ((0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(outfit_templateObject60 || (outfit_templateObject60 = engine_outfit_taggedTemplateLiteral(["Grey Goose"])))) < 6 || force_charge_goose)) outfit.equip(template_string_$item(outfit_templateObject61 || (outfit_templateObject61 = engine_outfit_taggedTemplateLiteral(["teacher's pen"]))), $slot(outfit_templateObject62 || (outfit_templateObject62 = engine_outfit_taggedTemplateLiteral(["acc3"]))));
-    outfit.equip(template_string_$item(outfit_templateObject63 || (outfit_templateObject63 = engine_outfit_taggedTemplateLiteral(["Powerful Glove"]))));
-    outfit.equip(template_string_$item(outfit_templateObject64 || (outfit_templateObject64 = engine_outfit_taggedTemplateLiteral(["backup camera"]))));
-    outfit.equip(template_string_$item(outfit_templateObject65 || (outfit_templateObject65 = engine_outfit_taggedTemplateLiteral(["birch battery"]))));
-    outfit.equip(template_string_$item(outfit_templateObject66 || (outfit_templateObject66 = engine_outfit_taggedTemplateLiteral(["combat lover's locket"]))));
+    outfit.equip(template_string_$item(outfit_templateObject63 || (outfit_templateObject63 = engine_outfit_taggedTemplateLiteral(["backup camera"]))));
+    outfit.equip(template_string_$item(outfit_templateObject64 || (outfit_templateObject64 = engine_outfit_taggedTemplateLiteral(["birch battery"]))));
+    outfit.equip(template_string_$item(outfit_templateObject65 || (outfit_templateObject65 = engine_outfit_taggedTemplateLiteral(["combat lover's locket"]))));
+    outfit.equip(template_string_$item(outfit_templateObject66 || (outfit_templateObject66 = engine_outfit_taggedTemplateLiteral(["Powerful Glove"]))));
   } else {
     outfit.modifier += ", 0.01 MP regen, 0.001 HP regen"; // Defibrillator breaks the Beaten up tests
 
@@ -14926,7 +14926,7 @@ var pulls = [// Always pull the key items first
   useful: () => step("questL11Black") < 2
 }, {
   pull: template_string_$item(pulls_templateObject39 || (pulls_templateObject39 = pulls_taggedTemplateLiteral(["killing jar"]))),
-  useful: () => !have(template_string_$familiar(pulls_templateObject40 || (pulls_templateObject40 = pulls_taggedTemplateLiteral(["Melodramedary"]))))
+  useful: () => !have(template_string_$familiar(pulls_templateObject40 || (pulls_templateObject40 = pulls_taggedTemplateLiteral(["Melodramedary"])))) && (property_get("gnasirProgress") & 4) === 0 && property_get("desertExploration") < 100
 }, {
   pull: template_string_$item(pulls_templateObject41 || (pulls_templateObject41 = pulls_taggedTemplateLiteral(["old patched suit-pants"]))),
   optional: true
@@ -18389,7 +18389,7 @@ var Apartment = [{
     equip: template_string_$items(level11_hidden_templateObject53 || (level11_hidden_templateObject53 = level11_hidden_taggedTemplateLiteral(["miniature crystal ball"])))
   },
   limit: {
-    tries: 9
+    soft: 9
   },
   choices: {
     780: 1
@@ -18413,7 +18413,7 @@ var Apartment = [{
     780: 1
   },
   limit: {
-    tries: 9
+    soft: 9
   }
 }, {
   name: "Finish Apartment",
@@ -20459,7 +20459,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "296bd9e";
+var lastCommitHash = "93dd84a";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
