@@ -4,6 +4,7 @@ import {
   expectedColdMedicineCabinet,
   familiarEquippedEquipment,
   familiarWeight,
+  getProperty,
   getWorkshed,
   itemAmount,
   myBasestat,
@@ -53,7 +54,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Unlock Island",
-      after: [],
+      after: ["Mosquito/Start"],
       completed: () =>
         have($item`dingy dinghy`) ||
         have($item`junk junk`) ||
@@ -508,3 +509,88 @@ export const KeysQuest: Quest = {
     },
   ],
 };
+
+export const DigitalQuest: Quest = {
+  name: "Digital",
+  tasks: [
+    {
+      name: "Open",
+      after: ["Mosquito/Start"],
+      completed: () => have($item`continuum transfunctioner`),
+      do: () => {
+        visitUrl("place.php?whichplace=forestvillage&action=fv_mystic");
+        runChoice(1);
+        runChoice(1);
+        runChoice(1);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Fungus",
+      after: ["Open"],
+      completed: () => getScore() >= 10000,
+      ready: () => get("8BitColor", "black") === "red",
+      // eslint-disable-next-line libram/verify-constants
+      do: $location`The Fungus Plains`,
+      outfit: { modifier: "meat", equip: $items`continuum transfunctioner` },
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 21 },
+      delay: 5,
+    },
+    {
+      name: "Vanya",
+      after: ["Open"],
+      completed: () => getScore() >= 10000,
+      ready: () => get("8BitColor", "black") === "black",
+      // eslint-disable-next-line libram/verify-constants
+      do: $location`Vanya's Castle`,
+      outfit: { modifier: "init", equip: $items`continuum transfunctioner` },
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 21 },
+      delay: 10,
+    },
+    {
+      name: "Megalo",
+      after: ["Open"],
+      completed: () => getScore() >= 10000,
+      ready: () => get("8BitColor", "black") === "blue",
+      // eslint-disable-next-line libram/verify-constants
+      do: $location`Megalo-City`,
+      outfit: { modifier: "DA", equip: $items`continuum transfunctioner` },
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 21 },
+      delay: 5,
+    },
+    {
+      name: "Hero",
+      after: ["Open"],
+      completed: () => getScore() >= 10000,
+      ready: () => get("8BitColor", "black") === "green",
+      // eslint-disable-next-line libram/verify-constants
+      do: $location`Hero's Field`,
+      outfit: { modifier: "item", equip: $items`continuum transfunctioner` },
+      combat: new CombatStrategy().kill(),
+      limit: { tries: 21 },
+      delay: 5,
+    },
+    {
+      name: "Key",
+      after: ["Fungus", "Vanya", "Megalo", "Hero"],
+      completed: () =>
+        have($item`digital key`) || get("nsTowerDoorKeysUsed").includes("digital key"),
+      do: () => {
+        visitUrl("place.php?whichplace=8bit&action=8treasure");
+        runChoice(1);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+  ],
+};
+
+function getScore(): number {
+  const score = getProperty("8BitScore");
+  if (score === "") return 0;
+  return parseInt(score.replace(",", ""));
+}

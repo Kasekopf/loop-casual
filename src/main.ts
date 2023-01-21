@@ -14,7 +14,7 @@ import { all_tasks, level_tasks, organ_tasks, quest_tasks } from "./tasks/all";
 import { prioritize } from "./route";
 import { Engine } from "./engine/engine";
 import { convertMilliseconds, debug } from "./lib";
-import { $item, $skill, get, have, set } from "libram";
+import { $item, $skill, get, have, set, sinceKolmafiaRevision } from "libram";
 import { Task } from "./engine/task";
 import { Args, step } from "grimoire-kolmafia";
 
@@ -77,6 +77,8 @@ export const args = Args.create("loopcasual", "A script to complete casual runs.
   }),
 });
 export function main(command?: string): void {
+  sinceKolmafiaRevision(27108);
+
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
