@@ -185,10 +185,10 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
       (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
     )
       outfit.equip($item`teacher's pen`, $slot`acc3`);
-    outfit.equip($item`Powerful Glove`);
     outfit.equip($item`backup camera`);
     outfit.equip($item`birch battery`);
     outfit.equip($item`combat lover's locket`);
+    outfit.equip($item`Powerful Glove`);
   } else {
     outfit.modifier += ", 0.01 MP regen, 0.001 HP regen";
     // Defibrillator breaks the Beaten up tests
