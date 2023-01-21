@@ -16,7 +16,7 @@ import { WarQuest } from "./level12";
 import { TowerQuest } from "./level13";
 import { MiscQuest, WandQuest } from "./misc";
 import { PullQuest } from "./pulls";
-import { KeysQuest } from "./keys";
+import { DigitalQuest, KeysQuest } from "./keys";
 import { AbsorbQuest, ReprocessQuest } from "./absorb";
 import { SummonQuest } from "./summons";
 import { Task } from "../engine/task";
@@ -48,6 +48,7 @@ export function all_tasks(): Task[] {
     WarQuest,
     TowerQuest,
     AbsorbQuest,
+    DigitalQuest,
     ReprocessQuest,
   ];
   const tasks = getTasks(quests);
