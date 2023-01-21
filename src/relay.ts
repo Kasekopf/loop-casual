@@ -1,16 +1,17 @@
 import { Args } from "grimoire-kolmafia";
 import { write } from "kolmafia";
-import {
-  ComponentSetting,
-  generateHTML,
-  handleApiRequest,
-  RelayPage,
-} from "mafia-shared-relay";
+import { ComponentSetting, generateHTML, handleApiRequest, RelayPage } from "mafia-shared-relay";
 import { args } from "./args";
 
 function convertArgsToHtml(): RelayPage[] {
   const metadata = Args.getMetadata(args);
-  const pages: RelayPage[] = [{ page: metadata.options.defaultGroupName ?? "Options", file: metadata.options.defaultGroupName ?? "Options", components: [] }];
+  const pages: RelayPage[] = [
+    {
+      page: metadata.options.defaultGroupName ?? "Options",
+      file: metadata.options.defaultGroupName ?? "Options",
+      components: [],
+    },
+  ];
 
   metadata.traverse(
     (key, name: string) => {
@@ -21,7 +22,7 @@ function convertArgsToHtml(): RelayPage[] {
         name: key.key ?? name,
         description: key.help || "No Description Provided",
         preference: key.setting ?? `${metadata.scriptName}_${key.key ?? name}`,
-        default: ("default" in key) ? `${key["default"]}` : undefined,
+        default: "default" in key ? `${key["default"]}` : undefined,
       };
 
       if (key.valueHelpName === "FLAG" || key.valueHelpName === "BOOLEAN") {
@@ -36,8 +37,8 @@ function convertArgsToHtml(): RelayPage[] {
     },
     (group, name: string) => {
       pages.push({ page: group.name, file: name, components: [] });
-    },
-  )
+    }
+  );
 
   return pages.filter((page) => page.components.length > 0);
 }
