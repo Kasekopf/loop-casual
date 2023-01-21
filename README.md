@@ -26,7 +26,7 @@ Options can be changed in a few different ways:
 
 - In the Mafia relay browser, select `loopgyou` from the dropdown in the top right. Be sure to `Save Changes` after modifying a setting.
 - By setting a mafia setting, e.g. `set loopgyou_pulls=18` or `set loopgyou_delaytower=true`.
-- By providing an argument at runtime, e.g. `loopgyou pull=18 delaytower`. Note that any arguments provided at runtime override relay and mafia settings.
+- By providing an argument at runtime, e.g. `loopgyou pulls=18 delaytower`. Note that any arguments provided at runtime override relay and mafia settings.
 
 Run `loopgyou help` for the full set of script commands and options:
 
