@@ -187,7 +187,7 @@ const Apartment: Task[] = [
     },
     post: makeCompleteFile,
     outfit: { equip: $items`miniature crystal ball` },
-    limit: { tries: 9 },
+    limit: { soft: 9 },
     choices: { 780: 1 },
   },
   {
@@ -211,7 +211,7 @@ const Apartment: Task[] = [
     post: makeCompleteFile,
     outfit: { equip: $items`miniature crystal ball` },
     choices: { 780: 1 },
-    limit: { tries: 9 },
+    limit: { soft: 9 },
   },
   {
     name: "Finish Apartment",
