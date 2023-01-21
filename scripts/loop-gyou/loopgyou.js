@@ -13055,9 +13055,9 @@ var DigitalQuest = {
     },
     combat: new combat_CombatStrategy().kill(),
     limit: {
-      tries: 5
+      soft: 16
     },
-    delay: 5
+    delay: 16
   }, {
     name: "Vanya",
     after: ["Open"],
@@ -13071,9 +13071,9 @@ var DigitalQuest = {
     },
     combat: new combat_CombatStrategy().kill(),
     limit: {
-      tries: 10
+      soft: 16
     },
-    delay: 10
+    delay: 16
   }, {
     name: "Megalo",
     after: ["Open"],
@@ -13087,9 +13087,9 @@ var DigitalQuest = {
     },
     combat: new combat_CombatStrategy().kill(),
     limit: {
-      tries: 5
+      soft: 16
     },
-    delay: 5
+    delay: 16
   }, {
     name: "Hero",
     after: ["Open"],
@@ -13103,9 +13103,9 @@ var DigitalQuest = {
     },
     combat: new combat_CombatStrategy().killItem(),
     limit: {
-      tries: 5
+      soft: 16
     },
-    delay: 5
+    delay: 16
   }, {
     name: "Key",
     after: ["Fungus", "Vanya", "Megalo", "Hero"],
@@ -20460,7 +20460,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "7d2bbe2";
+var lastCommitHash = "bbe2cd8";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
