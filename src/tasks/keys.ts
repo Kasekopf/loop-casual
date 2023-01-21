@@ -3,6 +3,7 @@ import {
   cliExecute,
   equip,
   equippedItem,
+  getProperty,
   haveEquipped,
   inHardcore,
   Item,
@@ -112,7 +113,7 @@ const heroKeys: KeyTask[] = [
         if (have($item`Platinum Yendorian Express Card`)) return 7;
         if (
           itemAmount($item`skeleton key`) +
-          min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
+            min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
           1
         )
           return 2;
@@ -161,7 +162,7 @@ const heroKeys: KeyTask[] = [
         if (have($item`Platinum Yendorian Express Card`)) return 7;
         if (
           itemAmount($item`skeleton key`) +
-          min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
+            min(itemAmount($item`skeleton bone`), itemAmount($item`loose teeth`)) >
           1
         )
           return 2;
@@ -361,7 +362,7 @@ export const DigitalQuest: Quest = {
     {
       name: "Fungus",
       after: ["Open"],
-      completed: () => parseInt(get("8BitScore", "0").replace(",", "")) >= 10000,
+      completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "red" && myBasestat($stat`Moxie`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`The Fungus Plains`,
@@ -373,7 +374,7 @@ export const DigitalQuest: Quest = {
     {
       name: "Vanya",
       after: ["Open"],
-      completed: () => parseInt(get("8BitScore", "0").replace(",", "")) >= 10000,
+      completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "black" && myBasestat($stat`Moxie`) >= 220,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Vanya's Castle`,
@@ -385,7 +386,7 @@ export const DigitalQuest: Quest = {
     {
       name: "Megalo",
       after: ["Open"],
-      completed: () => parseInt(get("8BitScore", "0").replace(",", "")) >= 10000,
+      completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "blue" && myBasestat($stat`Moxie`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Megalo-City`,
@@ -397,7 +398,7 @@ export const DigitalQuest: Quest = {
     {
       name: "Hero",
       after: ["Open"],
-      completed: () => parseInt(get("8BitScore", "0").replace(",", "")) >= 10000,
+      completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "green" && myBasestat($stat`Mysticality`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Hero's Field`,
@@ -447,4 +448,10 @@ function makeZapChoice(): Item {
 
 function min(a: number, b: number) {
   return a < b ? a : b;
+}
+
+function getScore(): number {
+  const score = getProperty("8BitScore");
+  if (score === "") return 0;
+  return parseInt(score.replace(",", ""));
 }
