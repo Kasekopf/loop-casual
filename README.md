@@ -22,14 +22,13 @@ git checkout https://github.com/Kasekopf/loop-casual release
 2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora. Workshed will be set to `model train set` by default at the start of the run, but this can be changed with the `workshed` argument.
 3. Run `loopgyou` and watch it go! If you are more hesitant, you can run `loopgyou actions 10` to only do 10 things and stop.
 
-To modify most script options, you can use the Mafia relay browser (select `loopgyou` from the dropdown in the top right of the relay browser).
-Options can be changed in many different ways:
+Options can be changed in a few different ways:
 
 - In the Mafia relay browser, select `loopgyou` from the dropdown in the top right. Be sure to `Save Changes` after modifying a setting.
 - By setting a mafia setting, e.g. `set loopgyou_pulls=18` or `set loopgyou_delaytower=true`.
 - By providing an argument at runtime, e.g. `loopgyou pull=18 delaytower`. Note that any arguments provided at runtime override relay and mafia settings.
 
-Run `loopgyou help` for the full set of script options:
+Run `loopgyou help` for the full set of script commands and options:
 
 ```
 > loopgyou help
