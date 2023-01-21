@@ -13045,7 +13045,7 @@ var DigitalQuest = {
   }, {
     name: "Fungus",
     after: ["Open"],
-    completed: () => parseInt(property_get("8BitScore", "0").replace(",", "")) >= 10000,
+    completed: () => getScore() >= 10000,
     ready: () => property_get("8BitColor", "black") === "red" && (0,external_kolmafia_namespaceObject.myBasestat)($stat(keys_templateObject75 || (keys_templateObject75 = keys_taggedTemplateLiteral(["Moxie"])))) >= 200,
     // eslint-disable-next-line libram/verify-constants
     do: $location(keys_templateObject76 || (keys_templateObject76 = keys_taggedTemplateLiteral(["The Fungus Plains"]))),
@@ -13061,7 +13061,7 @@ var DigitalQuest = {
   }, {
     name: "Vanya",
     after: ["Open"],
-    completed: () => parseInt(property_get("8BitScore", "0").replace(",", "")) >= 10000,
+    completed: () => getScore() >= 10000,
     ready: () => property_get("8BitColor", "black") === "black" && (0,external_kolmafia_namespaceObject.myBasestat)($stat(keys_templateObject78 || (keys_templateObject78 = keys_taggedTemplateLiteral(["Moxie"])))) >= 220,
     // eslint-disable-next-line libram/verify-constants
     do: $location(keys_templateObject79 || (keys_templateObject79 = keys_taggedTemplateLiteral(["Vanya's Castle"]))),
@@ -13077,7 +13077,7 @@ var DigitalQuest = {
   }, {
     name: "Megalo",
     after: ["Open"],
-    completed: () => parseInt(property_get("8BitScore", "0").replace(",", "")) >= 10000,
+    completed: () => getScore() >= 10000,
     ready: () => property_get("8BitColor", "black") === "blue" && (0,external_kolmafia_namespaceObject.myBasestat)($stat(keys_templateObject81 || (keys_templateObject81 = keys_taggedTemplateLiteral(["Moxie"])))) >= 200,
     // eslint-disable-next-line libram/verify-constants
     do: $location(keys_templateObject82 || (keys_templateObject82 = keys_taggedTemplateLiteral(["Megalo-City"]))),
@@ -13093,7 +13093,7 @@ var DigitalQuest = {
   }, {
     name: "Hero",
     after: ["Open"],
-    completed: () => parseInt(property_get("8BitScore", "0").replace(",", "")) >= 10000,
+    completed: () => getScore() >= 10000,
     ready: () => property_get("8BitColor", "black") === "green" && (0,external_kolmafia_namespaceObject.myBasestat)($stat(keys_templateObject84 || (keys_templateObject84 = keys_taggedTemplateLiteral(["Mysticality"])))) >= 200,
     // eslint-disable-next-line libram/verify-constants
     do: $location(keys_templateObject85 || (keys_templateObject85 = keys_taggedTemplateLiteral(["Hero's Field"]))),
@@ -13185,6 +13185,12 @@ function makeZapChoice() {
 
 function min(a, b) {
   return a < b ? a : b;
+}
+
+function getScore() {
+  var score = (0,external_kolmafia_namespaceObject.getProperty)("8BitScore");
+  if (score === "") return 0;
+  return parseInt(score.replace(",", ""));
 }
 ;// CONCATENATED MODULE: ./src/engine/outfit.ts
 var engine_outfit_templateObject, engine_outfit_templateObject2, engine_outfit_templateObject3, engine_outfit_templateObject4, engine_outfit_templateObject5, engine_outfit_templateObject6, engine_outfit_templateObject7, engine_outfit_templateObject8, engine_outfit_templateObject9, engine_outfit_templateObject10, engine_outfit_templateObject11, engine_outfit_templateObject12, engine_outfit_templateObject13, engine_outfit_templateObject14, engine_outfit_templateObject15, engine_outfit_templateObject16, engine_outfit_templateObject17, engine_outfit_templateObject18, engine_outfit_templateObject19, engine_outfit_templateObject20, engine_outfit_templateObject21, engine_outfit_templateObject22, engine_outfit_templateObject23, engine_outfit_templateObject24, engine_outfit_templateObject25, engine_outfit_templateObject26, engine_outfit_templateObject27, engine_outfit_templateObject28, engine_outfit_templateObject29, engine_outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, outfit_templateObject49, outfit_templateObject50, outfit_templateObject51, outfit_templateObject52, outfit_templateObject53, outfit_templateObject54, outfit_templateObject55, outfit_templateObject56, outfit_templateObject57, outfit_templateObject58, outfit_templateObject59, outfit_templateObject60, outfit_templateObject61, outfit_templateObject62, outfit_templateObject63, outfit_templateObject64, outfit_templateObject65, outfit_templateObject66, outfit_templateObject67, outfit_templateObject68, outfit_templateObject69, outfit_templateObject70, outfit_templateObject71, outfit_templateObject72, outfit_templateObject73, outfit_templateObject74, outfit_templateObject75, outfit_templateObject76, outfit_templateObject77, outfit_templateObject78, outfit_templateObject79, outfit_templateObject80, outfit_templateObject81, outfit_templateObject82, outfit_templateObject83, outfit_templateObject84, outfit_templateObject85, outfit_templateObject86, outfit_templateObject87, outfit_templateObject88, outfit_templateObject89, outfit_templateObject90, outfit_templateObject91, outfit_templateObject92, outfit_templateObject93, outfit_templateObject94, outfit_templateObject95, outfit_templateObject96, outfit_templateObject97, outfit_templateObject98, outfit_templateObject99, outfit_templateObject100, outfit_templateObject101, outfit_templateObject102, outfit_templateObject103, outfit_templateObject104, outfit_templateObject105, outfit_templateObject106, outfit_templateObject107, outfit_templateObject108, outfit_templateObject109, outfit_templateObject110;
@@ -20460,7 +20466,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "fbf8a6f";
+var lastCommitHash = "5412538";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
