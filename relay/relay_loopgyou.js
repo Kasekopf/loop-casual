@@ -5519,14 +5519,14 @@ var $path = createSingleConstant(external_kolmafia_.Path);
 
 var $paths = createPluralConstant(external_kolmafia_.Path);
 ;// CONCATENATED MODULE: ./src/args.ts
-var args_templateObject, args_templateObject2, args_templateObject3, args_templateObject4;
+var args_templateObject, args_templateObject2, args_templateObject3, args_templateObject4, args_templateObject5, args_templateObject6;
 
 function args_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 
 
-var worksheds = [// eslint-disable-next-line libram/verify-constants
-[template_string_$item(args_templateObject || (args_templateObject = args_taggedTemplateLiteral(["model train set"]))), "Swap to model train set"], [template_string_$item(args_templateObject2 || (args_templateObject2 = args_taggedTemplateLiteral(["cold medicine cabinet"]))), "Swap to cold medicine cabinet"], [template_string_$item(args_templateObject3 || (args_templateObject3 = args_taggedTemplateLiteral(["Asdon Martin keyfob"]))), "Swap to asdon martin keyfob"]];
+var worksheds = [[template_string_$item(args_templateObject || (args_templateObject = args_taggedTemplateLiteral(["none"]))), "Do nothing"], // eslint-disable-next-line libram/verify-constants
+[template_string_$item(args_templateObject2 || (args_templateObject2 = args_taggedTemplateLiteral(["model train set"]))), "Swap to model train set"], [template_string_$item(args_templateObject3 || (args_templateObject3 = args_taggedTemplateLiteral(["cold medicine cabinet"]))), "Swap to cold medicine cabinet"], [template_string_$item(args_templateObject4 || (args_templateObject4 = args_taggedTemplateLiteral(["Asdon Martin keyfob"]))), "Swap to asdon martin keyfob"]];
 var args = Args.create("loopgyou", 'This is a script to complete Grey You Softcore runs. Run "loopgyou sim" without quotes to check if this script will work for you.\n\nYou must ascend manually into a Grey You Softcore run before running the script. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.\n\nThe arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).', {
   sim: Args.flag({
     help: "Check if you have the requirements to run this script.",
@@ -5564,11 +5564,12 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     workshed: Args.item({
       help: "Workshed item to place in an empty workshed at the start of the run.",
       // eslint-disable-next-line libram/verify-constants
-      default: template_string_$item(args_templateObject4 || (args_templateObject4 = args_taggedTemplateLiteral(["model train set"]))),
+      default: template_string_$item(args_templateObject5 || (args_templateObject5 = args_taggedTemplateLiteral(["model train set"]))),
       options: worksheds
     }),
     swapworkshed: Args.item({
       help: "Workshed item to place in a workshed to replace the cold medicine cabinet.",
+      default: template_string_$item(args_templateObject6 || (args_templateObject6 = args_taggedTemplateLiteral(["none"]))),
       options: worksheds
     })
   }),
