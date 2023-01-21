@@ -135,7 +135,13 @@ export const pulls: PullSpec[] = [
   },
   { pull: $item`teacher's pen`, duplicate: true },
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
-  { pull: $item`killing jar`, useful: () => !have($familiar`Melodramedary`) },
+  {
+    pull: $item`killing jar`,
+    useful: () =>
+      !have($familiar`Melodramedary`) &&
+      (get("gnasirProgress") & 4) === 0 &&
+      get("desertExploration") < 100,
+  },
   { pull: $item`old patched suit-pants`, optional: true },
   {
     pull: $item`transparent pants`,
