@@ -367,8 +367,8 @@ export const DigitalQuest: Quest = {
       do: $location`The Fungus Plains`,
       outfit: { modifier: "meat", equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().kill(),
-      limit: { tries: 5 },
-      delay: 5,
+      limit: { soft: 16 },
+      delay: 16,
     },
     {
       name: "Vanya",
@@ -379,8 +379,8 @@ export const DigitalQuest: Quest = {
       do: $location`Vanya's Castle`,
       outfit: { modifier: "init", equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().kill(),
-      limit: { tries: 10 },
-      delay: 10,
+      limit: { soft: 16 },
+      delay: 16,
     },
     {
       name: "Megalo",
@@ -391,8 +391,8 @@ export const DigitalQuest: Quest = {
       do: $location`Megalo-City`,
       outfit: { modifier: "DA", equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().kill(),
-      limit: { tries: 5 },
-      delay: 5,
+      limit: { soft: 16 },
+      delay: 16,
     },
     {
       name: "Hero",
@@ -403,8 +403,8 @@ export const DigitalQuest: Quest = {
       do: $location`Hero's Field`,
       outfit: { modifier: "item", equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().killItem(),
-      limit: { tries: 5 },
-      delay: 5,
+      limit: { soft: 16 },
+      delay: 16,
     },
     {
       name: "Key",
