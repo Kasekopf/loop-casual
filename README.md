@@ -1,29 +1,45 @@
 # Overview
 
-This is a Grey You softcore script, based on the [loop-casual](https://github.com/Kasekopf/loop-casual) framework.
+This is a Grey You softcore script, using the [grimoire](https://github.com/Kasekopf/grimoire) framework.
 
 ### Strategy
 
 The script is designed to be run as part of a loop. In particular, it expects that something like [garbo](https://github.com/Loathing-Associates-Scripting-Society/garbage-collector) will use the rest of the turns. This means that profitable daily resources (e.g. copiers) are avoided, but other resources (free runaways, kills, some wanderers) are used to save turns where possible.
+
+Most people run this script through [goorbo](https://github.com/frazazel/goorbo).
 
 ### Installation
 
 To install the script, use the following command in the KoLMafia CLI.
 
 ```
-svn checkout https://github.com/Kasekopf/loop-casual/branches/release/
+git checkout https://github.com/Kasekopf/loop-casual release
 ```
 
 ### Usage
 
 1. In aftercore, run `loopgyou sim` to verify that the script is installed, and to confirm that you meet the requirements (see below for more details).
-2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora. No particular workshed is required, but only cold medicine cabinet is used at the moment.
+2. Ascend into a Grey You Softcore run. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora. Workshed will be set to `model train set` by default at the start of the run, but this can be changed with the `workshed` argument.
 3. Run `loopgyou` and watch it go! If you are more hesitant, you can run `loopgyou actions 10` to only do 10 things and stop.
+
+To modify most script options, you can use the Mafia relay browser (select `loopgyou` from the dropdown in the top right of the relay browser).
+Options can be changed in many different ways:
+
+- In the Mafia relay browser, select `loopgyou` from the dropdown in the top right. Be sure to `Save Changes` after modifying a setting.
+- By setting a mafia setting, e.g. `set loopgyou_pulls=18` or `set loopgyou_delaytower=true`.
+- By providing an argument at runtime, e.g. `loopgyou pull=18 delaytower`. Note that any arguments provided at runtime override relay and mafia settings.
 
 Run `loopgyou help` for the full set of script options:
 
 ```
+> loopgyou help
+
+This is a script to complete Grey You Softcore runs. Run "loopgyou sim" without quotes to check if this script will work for you.
+
+You must ascend manually into a Grey You Softcore run before running the script. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.
+
 The arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).
+
 Commands:
   sim - Check if you have the requirements to run this script.
   version - Show script version and exit.
@@ -42,24 +58,37 @@ Major Options:
   delaytower - Delay the NS tower until after ronin ends. [default: false] [setting: loopgyou_delaytower]
   delaywar - Delay the war until after ronin ends, then finish with stuffing fluffers. [default: false] [setting: loopgyou_delaywar]
   chargegoose NUMBER - If true, use extra familiar turns to charge your Grey Goose to this weight at the end of the run (for aftercore leveling). If you do not have enough extra familiar turns, the goose may be lower level. [default: 20] [setting: loopgyou_chargegoose]
+  workshed ITEM - Workshed item to place in an empty workshed at the start of the run. [default: model train set] [setting: loopgyou_workshed]
+    workshed none - Do nothing
+    workshed model train set - Swap to model train set
+    workshed cold medicine cabinet - Swap to cold medicine cabinet
+    workshed Asdon Martin keyfob - Swap to asdon martin keyfob
+  swapworkshed ITEM - Workshed item to place in a workshed to replace the cold medicine cabinet. [default: none] [setting: loopgyou_swapworkshed]
+    swapworkshed none - Do nothing
+    swapworkshed model train set - Swap to model train set
+    swapworkshed cold medicine cabinet - Swap to cold medicine cabinet
+    swapworkshed Asdon Martin keyfob - Swap to asdon martin keyfob
 
 Minor Options:
   fax BOOLEAN - Use a fax to summon a monster. Set to false if the faxbots are offline. [default: true] [setting: loopgyou_fax]
   seasoning BOOLEAN - If true, get special seasoning from SongBoom boombox after the beginning of the run. [default: true] [setting: loopgyou_seasoning]
   lgr - Pull a lucky gold ring. If pulled, it will be equipped during many combats. [default: false] [setting: loopgyou_lgr]
-  asdon - Pull an Asdon Martin keyfob. If pulled, it will be used to replace the cold medicine cabinet once all Extrovermectin™ have been obtained. [default: false] [setting: loopgyou_asdon]
   jellies - Use your Space Jellyfish to get stench jellies during the war (this may reduce your goose familiar exp). [default: false] [setting: loopgyou_jellies]
   pvp - Break your hippy stone at the start of the run. [default: false] [setting: loopgyou_pvp]
   wand - Always get the zap wand. [default: false] [setting: loopgyou_wand]
   skills TEXT - A comma-separated list of skills to get, in addition to skills that will directly help the run. [default: Financial Spreadsheets] [setting: loopgyou_skills]
+  forcelocket - Always equip the combat lover's locket, in order to get monsters inside quickly. [default: false] [setting: loopgyou_forcelocket]
+  savelocket NUMBER - Number of uses of the combat lover's locket to save. [default: 0] [setting: loopgyou_savelocket]
+  luck NUMBER - Multiply the threshold for stopping execution when "you may just be unlucky". Increasing this can be dangerous and cause the script to waste more adventures; use at your own risk. [default: 1] [setting: loopgyou_luck]
 
 Debug Options:
   actions NUMBER - Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time. [setting: loopgyou_actions]
   verboseequip - Print out equipment usage before each task. [setting: loopgyou_verboseequip]
-  ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.
-  completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs.
+  ignoretasks TEXT - A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing. [setting: loopgyou_ignoretasks]
+  completedtasks TEXT - A comma-separated list of task names the should be treated as completed. Can be used as a workaround for script bugs. [setting: loopgyou_completedtasks]
   list - Show the status of all tasks and exit.
   settings - Show the parsed value for all arguments and exit.
+  ignorekeys - Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys [default: false] [setting: loopgyou_ignorekeys]
 ```
 
 ### Will this script work for me?
