@@ -282,6 +282,19 @@ export const wandererSources: WandererSource[] = [
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
   },
   {
+    name: "Hipster",
+    available: () => have($familiar`Mini-Hipster`) && get("_hipsterAdv") < 7,
+    equip: $familiar`Mini-Hipster`,
+    monsters: [
+      $monster`angry bassist`,
+      $monster`blue-haired girl`,
+      $monster`evil ex-girlfriend`,
+      $monster`peeved roommate`,
+      $monster`random scenester`,
+    ],
+    chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
+  },
+  {
     name: "Kramco (Drones)",
     available: () =>
       have($item`Kramco Sausage-o-Matic™`) &&
