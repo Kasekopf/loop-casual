@@ -3,6 +3,7 @@ import { Item } from "kolmafia";
 import { $item } from "libram";
 
 const worksheds = [
+  [$item`none`, "Do nothing"],
   // eslint-disable-next-line libram/verify-constants
   [$item`model train set`, "Swap to model train set"],
   [$item`cold medicine cabinet`, "Swap to cold medicine cabinet"],
@@ -55,6 +56,7 @@ export const args = Args.create(
       }),
       swapworkshed: Args.item({
         help: "Workshed item to place in a workshed to replace the cold medicine cabinet.",
+        default: $item`none`,
         options: worksheds,
       }),
     }),

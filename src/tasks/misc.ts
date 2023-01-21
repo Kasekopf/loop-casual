@@ -666,10 +666,10 @@ export const MiscQuest: Quest = {
       ready: () =>
         get("_coldMedicineConsults") >= 5 && getWorkshed() === $item`cold medicine cabinet`,
       completed: () =>
-        !have(args.major.swapworkshed ?? $item`none`) ||
+        !have(args.major.swapworkshed) ||
         get("_workshedItemUsed") ||
         myTurncount() >= 1000,
-      do: () => use(args.major.swapworkshed ?? $item`none`),
+      do: () => use(args.major.swapworkshed),
       limit: { tries: 1 },
       freeaction: true,
     },
