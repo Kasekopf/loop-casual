@@ -1,9 +1,9 @@
 import { Args } from "grimoire-kolmafia";
-import { print, write } from "kolmafia";
+import { write } from "kolmafia";
 import {
   ComponentSetting,
   generateHTML,
-  handledApiRequest,
+  handleApiRequest,
   RelayPage,
 } from "mafia-shared-relay";
 import { args } from "./args";
@@ -23,7 +23,6 @@ function convertArgsToHtml(): RelayPage[] {
         preference: key.setting ?? `${metadata.scriptName}_${key.key ?? name}`,
         default: ("default" in key) ? `${key["default"]}` : undefined,
       };
-      print(JSON.stringify(component));
 
       if (key.valueHelpName === "FLAG" || key.valueHelpName === "BOOLEAN") {
         component.type = "boolean";
@@ -44,6 +43,6 @@ function convertArgsToHtml(): RelayPage[] {
 }
 
 export function main() {
-  if (handledApiRequest()) return;
+  if (handleApiRequest()) return;
   write(generateHTML(convertArgsToHtml()));
 }

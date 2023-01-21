@@ -2324,10 +2324,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-mafia-shared-relay@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/mafia-shared-relay/-/mafia-shared-relay-0.0.6.tgz#7bfa94b817c33366fe0c73d6eb33ea553cbab707"
-  integrity sha512-W+5u7KqTzSsnFuzIRkZLpKMuEbgPqehPrOoEiWxOi3bGS4IgsKdZXflEKbyxMVKEDM59pfEQSn+WAJF75Zrhqw==
+mafia-shared-relay@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mafia-shared-relay/-/mafia-shared-relay-0.0.7.tgz#1a0d333ebeed8cdbb4506360376099108c72d95b"
+  integrity sha512-sz5a+5tlI7u8eMasVVUdItPq5VdekLx6cDYCCbIjqhiFLluCE+0I1IqZ4n0JDzwLuiUZmAcsIq0VZfAp9WlbKA==
 
 make-dir@^2.1.0:
   version "2.1.0"

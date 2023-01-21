@@ -35,7 +35,7 @@
     "grimoire-kolmafia": "^0.3.11",
     "kolmafia": "^5.26781.0",
     "libram": "^0.7.6",
-    "mafia-shared-relay": "^0.0.6"
+    "mafia-shared-relay": "^0.0.7"
   },
   "author": "Kasekopf",
   "license": "ISC",
