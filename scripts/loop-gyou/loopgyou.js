@@ -13101,19 +13101,21 @@ var DigitalQuest = {
     delay: 16
   }, {
     name: "Key",
-    after: ["Fungus", "Vanya", "Megalo", "Hero"],
+    after: ["Open", "Fungus", "Vanya", "Megalo", "Hero"],
     completed: () => have(template_string_$item(keys_templateObject87 || (keys_templateObject87 = keys_taggedTemplateLiteral(["digital key"])))) || property_get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => {
-      (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=8bit&action=8treasure");
-      (0,external_kolmafia_namespaceObject.runChoice)(1);
+      if (getScore() >= 10000) {
+        (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=8bit&action=8treasure");
+        (0,external_kolmafia_namespaceObject.runChoice)(1);
+      }
     },
     outfit: {
       equip: template_string_$items(keys_templateObject88 || (keys_templateObject88 = keys_taggedTemplateLiteral(["continuum transfunctioner"])))
     },
     limit: {
-      tries: 1
-    },
-    freeaction: true
+      tries: 2
+    } // The first time may only set the property
+
   }]
 };
 
@@ -20462,7 +20464,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "ab1fc5c";
+var lastCommitHash = "d27de9d";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
