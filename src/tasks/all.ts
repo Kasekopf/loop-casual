@@ -68,6 +68,7 @@ export function quest_tasks(): Task[] {
     PalindomeQuest,
     MacguffinQuest,
     WarQuest,
+    DigitalQuest,
     TowerQuest,
   ];
   return getTasks(quests);
