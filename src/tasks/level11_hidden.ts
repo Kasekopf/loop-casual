@@ -256,7 +256,7 @@ const Office: Task[] = [
       .kill($monster`pygmy witch accountant`)
       .banish($monsters`pygmy janitor, pygmy headhunter, pygmy witch lawyer`),
     choices: { 786: 2 },
-    limit: { tries: 10 },
+    limit: { soft: 10 },
   },
   {
     name: "Office Clip",
