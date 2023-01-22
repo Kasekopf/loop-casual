@@ -321,7 +321,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
-      outfit: { modifier: "meat", skipDefaults: true },
+      outfit: { modifier: "meat", skipDefaults: true, familiar: $familiar`Hobo Monkey` },
       boss: true,
       combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },

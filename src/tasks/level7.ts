@@ -103,6 +103,7 @@ const Alcove: Task[] = [
       return {
         equip: tryCape($item`costume sword`, $item`gravy boat`),
         modifier: "init 850max, sword",
+        familiar: $familiar`Oily Woim`,
       };
     },
     choices: { 153: 4 },
