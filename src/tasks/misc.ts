@@ -576,16 +576,17 @@ export const DigitalQuest: Quest = {
     },
     {
       name: "Key",
-      after: ["Fungus", "Vanya", "Megalo", "Hero"],
+      after: ["Open", "Fungus", "Vanya", "Megalo", "Hero"],
       completed: () =>
         have($item`digital key`) || get("nsTowerDoorKeysUsed").includes("digital key"),
       do: () => {
-        visitUrl("place.php?whichplace=8bit&action=8treasure");
-        runChoice(1);
+        if (getScore() >= 10000) {
+          visitUrl("place.php?whichplace=8bit&action=8treasure");
+          runChoice(1);
+        }
       },
       outfit: { equip: $items`continuum transfunctioner` },
-      limit: { tries: 1 },
-      freeaction: true,
+      limit: { tries: 2 }, // The first time may only set the property
     },
   ],
 };
