@@ -583,6 +583,7 @@ export const DigitalQuest: Quest = {
         visitUrl("place.php?whichplace=8bit&action=8treasure");
         runChoice(1);
       },
+      outfit: { equip: $items`continuum transfunctioner` },
       limit: { tries: 1 },
       freeaction: true,
     },
