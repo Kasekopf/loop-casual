@@ -41,8 +41,6 @@ export function equipInitial(outfit: Outfit) {
         outfit.equip($familiar`Jumpsuited Hound Dog`);
       }
     }
-    if (outfit.modifier.includes("meat")) outfit.equip($familiar`Hobo Monkey`);
-    if (outfit.modifier.includes("init")) outfit.equip($familiar`Oily Woim`);
   }
 }
 

@@ -97,17 +97,18 @@ const Alcove: Task[] = [
       { item: $item`panty raider camouflage`, price: 2000, optional: true },
       { item: $item`Freddie's blessing of Mercury`, price: 2000, optional: true },
     ],
-    completed: () => get("cyrptAlcoveEvilness") <= 25,
+    completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
     outfit: (): OutfitSpec => {
       return {
         equip: tryCape($item`costume sword`, $item`gravy boat`),
         modifier: "init 850max, sword",
+        familiar: $familiar`Oily Woim`,
       };
     },
     choices: { 153: 4 },
     combat: new CombatStrategy().macro(slay_macro, $monsters`modern zmobie, conjoined zmombie`),
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Alcove Boss",
@@ -126,7 +127,7 @@ const Cranny: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
-    completed: () => get("cyrptCrannyEvilness") <= 25,
+    completed: () => get("cyrptCrannyEvilness") <= 13,
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {
@@ -144,7 +145,7 @@ const Cranny: Task[] = [
         $monsters`swarm of ghuol whelps, big swarm of ghuol whelps, giant swarm of ghuol whelps, huge ghuol`
       )
       .macro(slay_macro),
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Cranny Boss",
@@ -163,7 +164,7 @@ const Niche: Task[] = [
     after: ["Start"],
     prepare: tuneCape,
     acquire: [{ item: $item`gravy boat` }],
-    completed: () => get("cyrptNicheEvilness") <= 25,
+    completed: () => get("cyrptNicheEvilness") <= 13,
     do: $location`The Defiled Niche`,
     choices: { 157: 4 },
     outfit: (): OutfitSpec => {
@@ -181,7 +182,7 @@ const Niche: Task[] = [
     combat: new CombatStrategy()
       .macro(new Macro().trySkill($skill`Fire Extinguisher: Zone Specific`).step(slay_macro))
       .banish($monsters`basic lihc, senile lihc, slick lihc`),
-    limit: { turns: 25 },
+    limit: { turns: 37 },
   },
   {
     name: "Niche Boss",
@@ -203,7 +204,7 @@ const Nook: Task[] = [
     acquire: [{ item: $item`gravy boat` }],
     ready: () =>
       (get("camelSpit") >= 100 || !have($familiar`Melodramedary`)) && !farmingNookWithAutumnaton(),
-    completed: () => get("cyrptNookEvilness") <= 25,
+    completed: () => get("cyrptNookEvilness") <= 13,
     do: (): void => {
       useSkill($skill`Map the Monsters`);
       if (get("mappingMonsters")) {
@@ -255,7 +256,7 @@ const Nook: Task[] = [
     name: "Nook Eye", // In case we get eyes from outside sources (Nostalgia)
     after: ["Start"],
     ready: () => have($item`evil eye`),
-    completed: () => get("cyrptNookEvilness") <= 25,
+    completed: () => get("cyrptNookEvilness") <= 13,
     do: (): void => {
       cliExecute("use * evil eye");
     },
@@ -272,10 +273,10 @@ const Nook: Task[] = [
       (get("cyrptNookEvilness") < 30 || get("hasAutumnaton")) &&
       !have($item`evil eye`) &&
       !farmingNookWithAutumnaton(),
-    completed: () => get("cyrptNookEvilness") <= 25,
+    completed: () => get("cyrptNookEvilness") <= 13,
     do: $location`The Defiled Nook`,
     post: (): void => {
-      while (have($item`evil eye`) && get("cyrptNookEvilness") > 25) cliExecute("use * evil eye");
+      while (have($item`evil eye`) && get("cyrptNookEvilness") > 13) cliExecute("use * evil eye");
     },
     outfit: (): OutfitSpec => {
       return {

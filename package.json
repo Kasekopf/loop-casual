@@ -24,7 +24,7 @@
     "babel-loader": "^8.2.2",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-libram": "^0.2.19",
+    "eslint-plugin-libram": "^0.2.25",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2",
     "webpack": "^5.51.1",
@@ -32,9 +32,9 @@
   },
   "dependencies": {
     "core-js": "^3.16.4",
-    "grimoire-kolmafia": "^0.3.9",
+    "grimoire-kolmafia": "^0.3.11",
     "kolmafia": "^5.26781.0",
-    "libram": "^0.7.4"
+    "libram": "^0.7.6"
   },
   "author": "Kasekopf",
   "license": "ISC",

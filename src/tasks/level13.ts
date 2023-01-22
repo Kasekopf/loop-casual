@@ -207,8 +207,7 @@ const Door: Task[] = [
   },
   {
     name: "Digital Lock",
-    after: ["Maze"],
-    acquire: [{ item: $item`digital key` }],
+    after: ["Maze", "Digital/Key"],
     completed: () => get("nsTowerDoorKeysUsed").includes("digital key"),
     do: () => visitUrl("place.php?whichplace=nstower_door&action=ns_lock5"),
     limit: { tries: 1 },
@@ -322,7 +321,7 @@ export const TowerQuest: Quest = {
       prepare: () => useSkill($skill`Cannelloni Cocoon`),
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
-      outfit: { modifier: "meat", skipDefaults: true },
+      outfit: { modifier: "meat", skipDefaults: true, familiar: $familiar`Hobo Monkey` },
       boss: true,
       combat: new CombatStrategy().killHard(),
       limit: { tries: 1 },

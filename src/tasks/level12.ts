@@ -452,6 +452,7 @@ const Nuns: Task[] = [
       }
       return {
         modifier: "meat",
+        familiar: $familiar`Hobo Monkey`,
         equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin, amulet coin`, // Use amulet coin (if we have) to avoid using orb
       };
     },

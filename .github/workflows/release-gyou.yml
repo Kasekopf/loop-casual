@@ -35,8 +35,10 @@ jobs:
           git switch release
           rm -rf scripts/
           rm -rf ccs/
+          rm -rf relay/
           mv KoLmafia/* ./
           rm -rf KoLmafia
           git add scripts/
+          git add relay/
           git commit -m "Build Mafia files for commit $SHA"
           git push origin release
