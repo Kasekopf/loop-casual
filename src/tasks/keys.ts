@@ -409,7 +409,7 @@ export const DigitalQuest: Quest = {
     },
     {
       name: "Key",
-      after: ["Fungus", "Vanya", "Megalo", "Hero"],
+      after: ["Open", "Fungus", "Vanya", "Megalo", "Hero"],
       completed: () =>
         have($item`digital key`) || get("nsTowerDoorKeysUsed").includes("digital key"),
       do: () => {
