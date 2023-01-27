@@ -5226,7 +5226,6 @@ var Args = /*#__PURE__*/function () {
 
       var _a;
 
-      if (command === undefined || command === "") return;
       var metadata = Args.getMetadata(args); // Load the list of keys and flags from the arg spec
 
       var keys = new Set();
@@ -5254,6 +5253,7 @@ var Args = /*#__PURE__*/function () {
       } // Parse new argments from the command line
 
 
+      if (command === undefined || command === "") return;
       var parsed = new CommandParser(command, keys, flags, (_a = metadata.options.positionalArgs) !== null && _a !== void 0 ? _a : []).parse();
       metadata.traverseAndMaybeSet(args, (keySpec, key) => {
         var _a;
@@ -20734,7 +20734,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "b4f0cb7";
+var lastCommitHash = "696f775";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 

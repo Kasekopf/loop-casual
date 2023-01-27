@@ -442,7 +442,6 @@ var Args = /*#__PURE__*/function () {
 
       var _a;
 
-      if (command === undefined || command === "") return;
       var metadata = Args.getMetadata(args); // Load the list of keys and flags from the arg spec
 
       var keys = new Set();
@@ -470,6 +469,7 @@ var Args = /*#__PURE__*/function () {
       } // Parse new argments from the command line
 
 
+      if (command === undefined || command === "") return;
       var parsed = new CommandParser(command, keys, flags, (_a = metadata.options.positionalArgs) !== null && _a !== void 0 ? _a : []).parse();
       metadata.traverseAndMaybeSet(args, (keySpec, key) => {
         var _a;
