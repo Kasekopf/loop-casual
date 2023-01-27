@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "core-js": "^3.16.4",
-    "grimoire-kolmafia": "^0.3.12",
+    "grimoire-kolmafia": "^0.3.13",
     "kolmafia": "^5.26781.0",
     "libram": "^0.7.10",
     "mafia-shared-relay": "^0.0.7"
