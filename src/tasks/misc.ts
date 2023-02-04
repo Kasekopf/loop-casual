@@ -543,7 +543,7 @@ export const DigitalQuest: Quest = {
       name: "Vanya",
       after: ["Open"],
       completed: () => getScore() >= 10000,
-      ready: () => get("8BitColor", "black") === "black",
+      ready: () => get("8BitColor", "black") === "black" || get("8BitColor", "black") === "",
       // eslint-disable-next-line libram/verify-constants
       do: $location`Vanya's Castle`,
       outfit: { modifier: "init", equip: $items`continuum transfunctioner` },
