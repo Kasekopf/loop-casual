@@ -18,13 +18,13 @@ export const routing: string[] = [
   "Summon/Pygmy Witch Lawyer",
   "Summon/Mountain Man",
 
-  "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
+  // "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
   // Get initial -combat
   "Knob/King",
   "Absorb/Phase Shift",
   "McLargeHuge/Trapper Request", // open for absorbing
-  "Absorb/Fluid Dynamics Simulation",
+  // "Absorb/Fluid Dynamics Simulation",
   "Misc/Unlock Island", // unlock island to start YRing
 
   // ASAP once level 11 is hit, grab -combat
