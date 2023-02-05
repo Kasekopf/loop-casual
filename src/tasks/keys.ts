@@ -26,6 +26,7 @@ import {
   $monsters,
   $slots,
   $stat,
+  ensureEffect,
   get,
   have,
   Macro,
@@ -389,10 +390,23 @@ export const DigitalQuest: Quest = {
       name: "Megalo",
       after: ["Open"],
       completed: () => getScore() >= 10000,
+      prepare: () => {
+        // Get the GAP DA buff, saving 1 for after the run
+        if (haveEquipped($item`Greatest American Pants`) && get("_gapBuffs") < 4) {
+          ensureEffect($effect`Super Structure`); // after GAP are equipped
+        }
+      },
       ready: () => get("8BitColor", "black") === "blue" && myBasestat($stat`Moxie`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Megalo-City`,
-      outfit: { modifier: "DA", equip: $items`continuum transfunctioner` },
+      outfit: () => {
+        if (have($item`Greatest American Pants`) && get("_gapBuffs") < 4)
+          return {
+            modifier: "DA",
+            equip: $items`continuum transfunctioner, Greatest American Pants`,
+          };
+        else return { modifier: "DA", equip: $items`continuum transfunctioner` };
+      },
       combat: new CombatStrategy().kill(),
       limit: { soft: 16 },
       delay: 16,

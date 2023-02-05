@@ -201,8 +201,8 @@ class Pull {
       pull instanceof Item
         ? () => [pull]
         : typeof pull === "function"
-          ? () => [pull()]
-          : () => pull;
+        ? () => [pull()]
+        : () => pull;
     this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
