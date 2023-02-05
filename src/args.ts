@@ -136,6 +136,10 @@ export const args = Args.create(
         help: "Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys",
         default: false,
       }),
+      halt: Args.number({
+        help: "Halt when you have this number of adventures remaining or fewer",
+        default: 5,
+      }),
     }),
   },
   {

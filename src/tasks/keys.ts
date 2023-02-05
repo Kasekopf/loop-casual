@@ -372,6 +372,12 @@ export const DigitalQuest: Quest = {
       name: "Vanya",
       after: ["Open", "Summon/Big Wheelin' Twins"],
       completed: () => getScore() >= 10000,
+      prepare: () => {
+        if (have($item`designer sweatpants`) && get("sweat", 0) >= 80) {
+          // Use visit URL to avoid needing to equip the pants
+          visitUrl("runskillz.php?action=Skillz&whichskill=7419&targetplayer=0&pwd&quantity=1");
+        }
+      },
       ready: () =>
         (get("8BitColor", "black") === "black" || get("8BitColor", "black") === "") &&
         myBasestat($stat`Moxie`) >= 220,

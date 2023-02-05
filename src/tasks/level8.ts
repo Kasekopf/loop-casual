@@ -90,7 +90,7 @@ export const McLargeHugeQuest: Quest = {
         fillHp();
       },
       do: $location`Lair of the Ninja Snowmen`,
-      outfit: { modifier: "50 combat, init" },
+      outfit: { modifier: "50 combat, init", skipDefaults: true },
       limit: { soft: 20 },
       combat: new CombatStrategy().killHard([
         $monster`Frozen Solid Snake`,

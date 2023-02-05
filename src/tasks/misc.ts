@@ -742,6 +742,9 @@ export const MiscQuest: Quest = {
         )
           zones.push($location`Sonofa Beach`);
 
+        if (itemAmount($item`goat cheese`) < 3 && step("questL08Trapper") < 2)
+          zones.push($location`The Goatlet`);
+
         if (step("questL09Topping") < 1) {
           zones.push($location`The Smut Orc Logging Camp`);
         }
@@ -861,13 +864,13 @@ export const WandQuest: Quest = {
       ready: () =>
         myBasestat($stat`muscle`) >= 45 &&
         myBasestat($stat`mysticality`) >= 45 &&
-        myBasestat($stat`moxie`) >= 45,
+        myBasestat($stat`moxie`) >= 45 &&
+        (keyStrategy.useful(Keys.Zap) ||
+          args.minor.wand ||
+          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
       completed: () =>
         have($item`plus sign`) ||
-        get("lastPlusSignUnlock") === myAscensions() ||
-        (keyStrategy.useful(Keys.Zap) === false &&
-          !args.minor.wand &&
-          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
+        get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 3 },
@@ -879,15 +882,15 @@ export const WandQuest: Quest = {
       ready: () =>
         myMeat() >= 1000 && // Meat for goal teleportitis choice adventure
         familiarWeight($familiar`Grey Goose`) >= 6 && // Goose exp for potential absorbs during teleportits
-        have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
+        have($item`soft green echo eyedrop antidote`) && // Antitdote to remove teleportitis afterwards
+        (keyStrategy.useful(Keys.Zap) ||
+          args.minor.wand ||
+          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
       priority: () =>
         familiarWeight($familiar`Grey Goose`) >= 6 ? Priorities.GoodGoose : Priorities.None,
       completed: () =>
         have($effect`Teleportitis`) ||
-        get("lastPlusSignUnlock") === myAscensions() ||
-        (keyStrategy.useful(Keys.Zap) === false &&
-          !args.minor.wand &&
-          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
+        get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 5 },

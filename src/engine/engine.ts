@@ -212,6 +212,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const why = reason === "" ? "Route" : reason;
     debug(`Executing ${task.name} [${why}]`, "blue");
     this.checkLimits({ ...task, limit: { ...task.limit, unready: false } }, () => true); // ignore unready for this initial check
+    if (myAdventures() < args.debug.halt) throw `Running out of adventures!`;
     super.execute(task);
 
     if (task.completed()) {
@@ -381,31 +382,33 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
 
       // Set up a runaway if there are combats we do not care about
-      let runaway = undefined;
-      if (
-        (combat.can("ignore") || combat.can("ignoreSoftBanish")) &&
-        familiarWeight($familiar`Grey Goose`) >= 6 &&
-        myLevel() >= 11
-      ) {
-        runaway = equipFirst(outfit, runawaySources);
-        resources.provide("ignore", runaway);
-        resources.provide("ignoreSoftBanish", runaway);
-      }
-      if (
-        combat.can("ignoreNoBanish") &&
-        familiarWeight($familiar`Grey Goose`) >= 6 &&
-        myLevel() >= 11
-      ) {
-        if (runaway !== undefined && !runaway.banishes)
-          resources.provide("ignoreNoBanish", runaway);
-        else
-          resources.provide(
-            "ignoreNoBanish",
-            equipFirst(
-              outfit,
-              runawaySources.filter((source) => !source.banishes)
-            )
-          );
+      if (!outfit.skipDefaults) {
+        let runaway = undefined;
+        if (
+          (combat.can("ignore") || combat.can("ignoreSoftBanish")) &&
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myLevel() >= 11
+        ) {
+          runaway = equipFirst(outfit, runawaySources);
+          resources.provide("ignore", runaway);
+          resources.provide("ignoreSoftBanish", runaway);
+        }
+        if (
+          combat.can("ignoreNoBanish") &&
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myLevel() >= 11
+        ) {
+          if (runaway !== undefined && !runaway.banishes)
+            resources.provide("ignoreNoBanish", runaway);
+          else
+            resources.provide(
+              "ignoreNoBanish",
+              equipFirst(
+                outfit,
+                runawaySources.filter((source) => !source.banishes)
+              )
+            );
+        }
       }
 
       // Set up a free kill if needed, or if no free kills will ever be needed again
@@ -445,9 +448,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         ((combat.can("kill") && !resources.has("killFree")) || combat.can("killHard") || task.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
-
-      equipDefaults(outfit, force_charge_goose);
     }
+
+    equipDefaults(outfit, force_charge_goose);
 
     // Kill wanderers
     for (const wanderer of wanderers) {

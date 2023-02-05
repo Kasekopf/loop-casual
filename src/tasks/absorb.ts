@@ -917,6 +917,7 @@ export class AbsorbState {
     // Do not ignore skills that were given in the args
     const forced_skills = new Set<Skill>();
     for (const skill_name of args.minor.skills.split(",")) {
+      if (skill_name.length === 0) continue;
       const skill = Skill.get(skill_name.trim());
       if (!skill || skill === Skill.none || !usefulSkills.has(skill)) {
         throw `Unable to determine how to get skill ${skill_name}`;
@@ -1027,7 +1028,9 @@ export const AbsorbQuest: Quest = {
     {
       // Add a last task for routing
       name: "All",
-      after: absorbTasks.map((task) => task.do.toString()),
+      after: absorbTasks
+        .filter((task) => task.skill !== undefined)
+        .map((task) => task.skill?.name ?? ""),
       ready: () => false,
       completed: () => true,
       do: (): void => {

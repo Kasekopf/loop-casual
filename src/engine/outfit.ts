@@ -132,10 +132,6 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 }
 
 export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void {
-  if (outfit.skipDefaults) return;
-
-  if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
-
   if (have($familiar`Temporal Riftlet`)) {
     outfit.equip($familiar`Temporal Riftlet`);
   } else if (have($item`gnomish housemaid's kgnee`)) {
@@ -149,6 +145,9 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
     outfit.equip($item`gnomish housemaid's kgnee`);
 
+  if (outfit.skipDefaults) return;
+
+  if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
   if (!outfit.modifier?.includes("meat") || !have($item`backup camera`)) {
     // Leave room for backup camera for nuns
     outfit.equip($item`mafia thumb ring`);

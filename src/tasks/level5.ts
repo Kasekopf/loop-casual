@@ -131,6 +131,7 @@ export const KnobQuest: Quest = {
       name: "Open Menagerie",
       after: ["King"],
       completed: () => have($item`Cobb's Knob Menagerie key`),
+      ready: () => !have($skill`Phase Shift`),
       do: $location`Cobb's Knob Laboratory`,
       combat: new CombatStrategy().kill($monster`Knob Goblin Very Mad Scientist`),
       limit: { soft: 15 },
