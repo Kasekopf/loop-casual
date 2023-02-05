@@ -539,13 +539,13 @@ const absorbTasks: AbsorbTask[] = [
   },
   // Misc areas
   // These are probably only worthwhile with orb
-  {
-    do: $location`South of the Border`,
-    ready: () => false,
-    after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
-    choices: { 4: 3 },
-    outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
-  },
+  // {
+  //   do: $location`South of the Border`,
+  //   ready: () => false,
+  //   after: ["Misc/Unlock Beach", "Absorb/Whitey's Grove"],
+  //   choices: { 4: 3 },
+  //   outfit: { modifier: "+combat", equip: $items`miniature crystal ball` },
+  // },
   {
     do: $location`The Unquiet Garves`,
     after: ["Crypt/Start"],
@@ -1011,18 +1011,6 @@ export const AbsorbQuest: Quest = {
   name: "Absorb",
   tasks: [
     // Construct a full Task from each minimally-specified AbsorbTask.
-    ...absorbTasks.map((task): Task => {
-      const result = {
-        name: task.do.toString(),
-        completed: () => !globalStateCache.absorb().hasTargets(task.do),
-        ...task,
-        after: task.skill ? [...(task.after ?? []), task.skill.name] : task.after,
-        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
-        limit: { soft: 25 },
-      };
-      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
-      return result;
-    }),
     ...absorbTasks
       .filter((task) => task.skill !== undefined)
       .map((task): Task => {
