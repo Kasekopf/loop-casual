@@ -395,10 +395,25 @@ const Bowling: Task[] = [
       .killHard($monster`ancient protector spirit (The Hidden Bowling Alley)`)
       .killItem($monster`pygmy bowler`)
       .autoattack(new Macro().trySkill($skill`Infinite Loop`), $monster`drunk pygmy`)
+      .macro(
+        () =>
+          Macro.externalIf(get("camelSpit") === 100, Macro.trySkill($skill`%fn, spit on them!`)),
+        $monster`pygmy bowler`
+      )
       .banish($monsters`pygmy janitor, pygmy orderlies`),
-    outfit: {
-      modifier: "item",
-      avoid: $items`broken champagne bottle`,
+    outfit: () => {
+      if (have($familiar`Melodramedary`) && get("camelSpit") === 100) {
+        return {
+          modifier: "item",
+          avoid: $items`broken champagne bottle`,
+          familiar: $familiar`Melodramedary`,
+        };
+      } else {
+        return {
+          modifier: "item",
+          avoid: $items`broken champagne bottle`,
+        };
+      }
     },
     choices: { 788: 1 },
     limit: { soft: 25 },
