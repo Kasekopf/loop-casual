@@ -197,12 +197,13 @@ class Pull {
     }
 
     const pull = spec.pull;
-    this.items =
-      pull instanceof Item
-        ? () => [pull]
-        : typeof pull === "function"
-        ? () => [pull()]
-        : () => pull;
+    if (pull instanceof Item) {
+      this.items = () => [pull];
+    } else if (typeof pull === "function") {
+      this.items = () => [pull()];
+    } else {
+      this.items = () => pull;
+    }
     this.duplicate = spec.duplicate ?? false;
     this.optional = spec.optional ?? false;
     this.useful = spec.useful ?? (() => true);
