@@ -31,7 +31,7 @@ import {
   set,
 } from "libram";
 import { CombatStrategy } from "../engine/combat";
-import { debug } from "../lib";
+import { atLevel, debug } from "../lib";
 import { args } from "../args";
 import { Priorities } from "../engine/priority";
 import { Quest, Task } from "../engine/task";
@@ -165,6 +165,26 @@ const summonTargets: SummonTarget[] = [
         };
     },
     combat: new CombatStrategy().yellowRay(),
+  },
+  {
+    target: $monster`Spectral Jellyfish`,
+    after: [],
+    ready: () => atLevel(6),
+    completed: () => have($skill`Phase Shift`),
+    combat: new CombatStrategy().kill(),
+  },
+  {
+    target: $monster`anglerbush`,
+    after: [],
+    completed: () => have($skill`Ponzi Apparatus`),
+    combat: new CombatStrategy().kill(),
+  },
+  {
+    target: $monster`Big Wheelin' Twins`,
+    after: [],
+    ready: () => atLevel(11),
+    completed: () => have($skill`Overclocking`),
+    combat: new CombatStrategy().kill(),
   },
   {
     target: $monster`white lion`,
