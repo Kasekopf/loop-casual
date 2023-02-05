@@ -87,7 +87,7 @@ import { args } from "../args";
 import { flyersDone } from "../tasks/level12";
 import { globalStateCache } from "./state";
 import { removeTeleportitis, teleportitisTask } from "../tasks/misc";
-import { extraReprocessTargets, summonStrategy } from "../tasks/summons";
+import { summonStrategy } from "../tasks/summons";
 import { pullStrategy } from "../tasks/pulls";
 import { keyStrategy } from "../tasks/keys";
 import { applyEffects } from "./moods";
@@ -426,11 +426,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       // to summon one (and so we want to charge the goose during that fight)
       // or all remaining summons are inaccesible (and so it is time to
       // overcharge the goose)
-      const summonedMonsters = new Set<Monster>(
-        extraReprocessTargets.filter((t) => t.needed()).map((t) => t.target)
-      );
-      if (!have($item`miniature crystal ball`)) summonedMonsters.add($monster`irate mariachi`); // will be skipped
-      if (absorb_state.remainingReprocess().find((m) => !summonedMonsters.has(m)) === undefined) {
+      if (absorb_state.remainingReprocess().length === 0) {
         force_charge_goose = true;
       }
     }
