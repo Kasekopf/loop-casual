@@ -862,7 +862,12 @@ export const WandQuest: Quest = {
         myBasestat($stat`muscle`) >= 45 &&
         myBasestat($stat`mysticality`) >= 45 &&
         myBasestat($stat`moxie`) >= 45,
-      completed: () => have($item`plus sign`) || get("lastPlusSignUnlock") === myAscensions(),
+      completed: () =>
+        have($item`plus sign`) ||
+        get("lastPlusSignUnlock") === myAscensions() ||
+        (keyStrategy.useful(Keys.Zap) === false &&
+          !args.minor.wand &&
+          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 3 },
@@ -877,7 +882,12 @@ export const WandQuest: Quest = {
         have($item`soft green echo eyedrop antidote`), // Antitdote to remove teleportitis afterwards
       priority: () =>
         familiarWeight($familiar`Grey Goose`) >= 6 ? Priorities.GoodGoose : Priorities.None,
-      completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
+      completed: () =>
+        have($effect`Teleportitis`) ||
+        get("lastPlusSignUnlock") === myAscensions() ||
+        (keyStrategy.useful(Keys.Zap) === false &&
+          !args.minor.wand &&
+          !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 5 },
