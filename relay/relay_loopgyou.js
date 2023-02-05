@@ -3529,7 +3529,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     }),
     skills: Args.string({
       help: "A comma-separated list of skills to get, in addition to skills that will directly help the run.",
-      default: "Financial Spreadsheets"
+      default: ""
     }),
     forcelocket: Args.flag({
       help: "Always equip the combat lover's locket, in order to get monsters inside quickly.",
@@ -3572,6 +3572,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     ignorekeys: Args.flag({
       help: "Ignore the check that all keys can be obtained. Typically for hardcore, if you plan to get your own keys",
       default: false
+    }),
+    halt: Args.number({
+      help: "Halt when you have this number of adventures remaining or fewer",
+      default: 5
     })
   })
 }, {
