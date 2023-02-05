@@ -29,7 +29,7 @@ export class Priorities {
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
   static BadHoliday: Priority = { score: -10 };
   static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
-  static BadGoose: Priority = { score: -30, reason: "Goose not charged" };
+  static BadGoose: Priority = { score: 0, reason: "Goose not charged" };
   static BadMood: Priority = { score: -100, reason: "Wrong effects" };
   static Last: Priority = { score: -10000 };
 }
