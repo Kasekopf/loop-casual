@@ -408,7 +408,7 @@ export const TowerQuest: Quest = {
     ...Door,
     {
       name: "Beehive",
-      after: ["Macguffin/Forest", "Reprocess/The Black Forest"],
+      after: ["Macguffin/Forest"],
       completed: () =>
         have($item`beehive`) || have($familiar`Shorter-Order Cook`) || step("questL13Final") > 6,
       do: $location`The Black Forest`,
@@ -501,7 +501,7 @@ export const TowerQuest: Quest = {
     },
     {
       name: "Shadow",
-      after: ["Mirror", "Absorb/Twin Peak"],
+      after: ["Mirror", "Absorb/Overclocking"],
       prepare: () => {
         fillHp();
 

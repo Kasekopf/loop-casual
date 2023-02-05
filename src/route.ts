@@ -30,8 +30,6 @@ export const routing: string[] = [
   // ASAP once level 11 is hit, grab -combat
   // Also grab +adv to ensure we have adventures
   "Absorb/Photonic Shroud",
-  "Reprocess/The Black Forest",
-
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
   "Hidden City/Open Temple",
@@ -97,15 +95,11 @@ export const routing: string[] = [
 
   "Orc Chasm/Start Peaks",
   "Orc Chasm/Finish",
-  "Reprocess/Twin Peak", // Work on absorbing Twin Peak during war
   "War/Boss Hippie",
 
   "Crypt/Finish", // Finish nook late for autumnaton
   "Bat/Finish", // Finish up with last delay
   "Tower/Naughty Sorceress",
-  "Absorb/South of the Border", // If we are doing this, do it early to give room for orb
-  "Absorb/All",
-  "Reprocess/All", // Return to locations if reprocessing was missed
 
   "Misc/Dog Chow", // Eat if there are no other options
   "Misc/Cake-Shaped Arena", // Arena if there are no charged options

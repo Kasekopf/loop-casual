@@ -66,13 +66,7 @@ const ABoo: Task[] = [
   },
   {
     name: "ABoo Horror",
-    after: [
-      "ABoo Start",
-      "Absorb/The Batrat and Ratbat Burrow",
-      "Absorb/The Spooky Forest",
-      "Absorb/The eXtreme Slope",
-      "Absorb/A-Boo Peak",
-    ],
+    after: ["ABoo Start"],
     ready: () => have($item`A-Boo clue`),
     completed: () => get("booPeakProgress") === 0,
     prepare: () => {

@@ -562,7 +562,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Tune from Muscle",
-      after: ["Unlock Beach", "Reprocess/The Bugbear Pen", "Bugbear Outfit"],
+      after: ["Unlock Beach", "Bugbear Outfit"],
       ready: () =>
         knollAvailable() &&
         (mySign() !== "Vole" ||
@@ -580,7 +580,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Tune from Myst",
-      after: ["Reprocess/Outskirts of Camp Logging Camp"],
+      after: [],
       ready: () => canadiaAvailable(),
       completed: () =>
         !have($item`hewn moon-rune spoon`) ||
@@ -593,7 +593,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Tune from Moxie",
-      after: ["Reprocess/Thugnderdome", "Gnome Shirt", "Gnome Items"],
+      after: ["Gnome Shirt", "Gnome Items"],
       ready: () => gnomadsAvailable(),
       completed: () =>
         !have($item`hewn moon-rune spoon`) ||
