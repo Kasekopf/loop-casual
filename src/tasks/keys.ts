@@ -373,7 +373,7 @@ export const DigitalQuest: Quest = {
     },
     {
       name: "Vanya",
-      after: ["Open"],
+      after: ["Open", "Summon/Big Wheelin' Twins"],
       completed: () => getScore() >= 10000,
       ready: () =>
         (get("8BitColor", "black") === "black" || get("8BitColor", "black") === "") &&

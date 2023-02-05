@@ -18,6 +18,11 @@ export const routing: string[] = [
   "Summon/Pygmy Witch Lawyer",
   "Summon/Mountain Man",
 
+  // Do other skill summons early
+  "Summon/Spectral Jellyfish",
+  "Summon/Anglerbush",
+  "Summon/Big Wheelin' Twins",
+
   // "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
   // Get initial -combat
