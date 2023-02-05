@@ -1,19 +1,14 @@
 import {
   abort,
-  canadiaAvailable,
   canFaxbot,
   chatPrivate,
   cliExecute,
   equippedAmount,
-  familiarWeight,
-  gnomadsAvailable,
   inHardcore,
   initiativeModifier,
   Item,
   itemAmount,
-  knollAvailable,
   Monster,
-  myAscensions,
   myFamiliar,
   myMeat,
   myTurncount,
@@ -39,44 +34,10 @@ import { CombatStrategy } from "../engine/combat";
 import { debug } from "../lib";
 import { args } from "../args";
 import { Priorities } from "../engine/priority";
-import { globalStateCache } from "../engine/state";
 import { Quest, Task } from "../engine/task";
 import { step } from "grimoire-kolmafia";
 import { yellowRayPossible } from "../engine/resources";
 import { trainSetAvailable } from "./misc";
-
-type ExtraReprocessTarget = {
-  after: string[];
-  target: Monster;
-  needed: () => boolean;
-};
-export const extraReprocessTargets: ExtraReprocessTarget[] = [
-  {
-    after: ["Absorb/The Hole in the Sky"],
-    target: $monster`One-Eyed Willie`,
-    needed: () => myAscensions() % 2 === 1,
-  },
-  {
-    after: ["Absorb/The Hole in the Sky"],
-    target: $monster`Little Man in the Canoe`,
-    needed: () => myAscensions() % 2 === 0,
-  },
-  {
-    after: ["Misc/Retune Moon"],
-    target: $monster`revolving bugbear`,
-    needed: () => !knollAvailable(),
-  },
-  {
-    after: ["Misc/Retune Moon"],
-    target: $monster`cloud of disembodied whiskers`,
-    needed: () => !canadiaAvailable(),
-  },
-  {
-    after: ["Misc/Retune Moon"],
-    target: $monster`vicious gnauga`,
-    needed: () => !gnomadsAvailable(),
-  },
-];
 
 type SummonTarget = Omit<Task, "do" | "name" | "limit"> & {
   target: Monster;
@@ -205,31 +166,6 @@ const summonTargets: SummonTarget[] = [
     },
     combat: new CombatStrategy().yellowRay(),
   },
-  ...extraReprocessTargets.map((target: ExtraReprocessTarget): SummonTarget => {
-    return {
-      target: target.target,
-      after: target.after,
-      completed: () =>
-        !globalStateCache.absorb().isReprocessTarget(target.target) || !target.needed(),
-      priority: () => Priorities.GoodGoose,
-      ready: () => familiarWeight($familiar`Grey Goose`) >= 6,
-      outfit: () => {
-        if (
-          CombatLoversLocket.have() &&
-          !CombatLoversLocket.unlockedLocketMonsters().includes(target.target)
-        ) {
-          // Store this monster in the locket for the next run
-          return { familiar: $familiar`Grey Goose`, equip: $items`combat lover's locket` };
-        } else {
-          return { familiar: $familiar`Grey Goose` };
-        }
-      },
-      combat: new CombatStrategy()
-        .autoattack(new Macro().trySkill($skill`Re-Process Matter`))
-        .macro(new Macro().trySkill($skill`Re-Process Matter`))
-        .kill(),
-    };
-  }),
   {
     target: $monster`white lion`,
     after: ["Hidden City/Bowling Skills"],
