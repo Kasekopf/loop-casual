@@ -1,5 +1,5 @@
-import { myBasestat, print } from "kolmafia";
-import { $item, $stat, have } from "libram";
+import { myBasestat, myFamiliar, Phylum, print } from "kolmafia";
+import { $familiar, $item, $stat, have, Snapper } from "libram";
 
 export function debug(message: string, color?: string): void {
   if (color) {
@@ -57,4 +57,10 @@ const legionForms = [
 ];
 export function haveLoathingLegion(): boolean {
   return legionForms.some((item) => have(item));
+}
+
+export function tuneSnapper(phylum: Phylum) {
+  if (myFamiliar() === $familiar`Red-Nosed Snapper` && Snapper.getTrackedPhylum() !== phylum) {
+    Snapper.trackPhylum(phylum);
+  }
 }

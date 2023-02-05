@@ -9,11 +9,13 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
   $monster,
   $monsters,
+  $phylum,
   $skill,
   ensureEffect,
   get,
@@ -24,6 +26,7 @@ import { Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { Priorities } from "../engine/priority";
+import { tuneSnapper } from "../lib";
 
 const Manor1: Task[] = [
   {
@@ -304,6 +307,7 @@ const ManorBasement: Task[] = [
     completed: () => have($item`wine bomb`) || step("questL11Manor") >= 3,
     prepare: () => {
       if (numericModifier("Monster Level") < 81) changeMcd(10);
+      tuneSnapper($phylum`constructs`);
     },
     post: () => {
       if (currentMcd() > 0) changeMcd(0);
@@ -315,8 +319,13 @@ const ManorBasement: Task[] = [
           modifier: "ML",
           equip: $items`unstable fulminate, old patched suit-pants`,
           avoid: $items`Jurassic Parka`,
+          familiar: $familiar`Red-Nosed Snapper`,
         };
-      return { modifier: "ML", equip: $items`unstable fulminate, old patched suit-pants` };
+      return {
+        modifier: "ML",
+        equip: $items`unstable fulminate, old patched suit-pants`,
+        familiar: $familiar`Red-Nosed Snapper`,
+      };
     },
     choices: { 902: 2 },
     combat: new CombatStrategy()

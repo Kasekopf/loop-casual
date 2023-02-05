@@ -20,6 +20,7 @@ import {
   $location,
   $monster,
   $monsters,
+  $phylum,
   $stat,
   ensureEffect,
   get,
@@ -32,6 +33,7 @@ import { CombatStrategy } from "../engine/combat";
 import { fillHp } from "./level13";
 import { args } from "../args";
 import { globalStateCache } from "../engine/state";
+import { tuneSnapper } from "../lib";
 
 function shenItem(item: Item) {
   return (
@@ -328,14 +330,20 @@ const Dome: Task[] = [
     name: "Palindome Dog",
     after: ["Talisman", "Manor/Bedroom Camera"],
     completed: () => have($item`photograph of a dog`) || step("questL11Palindome") >= 3,
+    prepare: () => tuneSnapper($phylum`dudes`),
     do: $location`Inside the Palindome`,
     outfit: () => {
       if (have($item`stunt nuts`))
-        return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
+        return {
+          equip: $items`Talisman o' Namsilat`,
+          modifier: "-combat",
+          familiar: $familiar`Red-Nosed Snapper`,
+        };
       return {
         equip: $items`Talisman o' Namsilat`,
         modifier: "-combat, item",
         avoid: $items`broken champagne bottle`,
+        familiar: $familiar`Red-Nosed Snapper`,
       };
     },
     combat: new CombatStrategy()
@@ -353,13 +361,19 @@ const Dome: Task[] = [
     after: ["Palindome Dog"],
     completed: () => have(Item.get(7262)) || step("questL11Palindome") >= 3,
     do: $location`Inside the Palindome`,
+    prepare: () => tuneSnapper($phylum`dudes`),
     outfit: () => {
       if (have($item`stunt nuts`))
-        return { equip: $items`Talisman o' Namsilat`, modifier: "-combat" };
+        return {
+          equip: $items`Talisman o' Namsilat`,
+          modifier: "-combat",
+          familiar: $familiar`Red-Nosed Snapper`,
+        };
       return {
         equip: $items`Talisman o' Namsilat`,
         modifier: "-combat, item",
         avoid: $items`broken champagne bottle`,
+        familiar: $familiar`Red-Nosed Snapper`,
       };
     },
     combat: new CombatStrategy()
