@@ -638,83 +638,83 @@ const absorbTasks: AbsorbTask[] = [
 ];
 
 // All monsters that give adventures upon absorption
-const reprocessTargets = new Set<Monster>([
+const reprocessTargets = new Map<Monster, number>([
   // 10 adv monsters
-  $monster`1335 HaXx0r`,
-  $monster`Alphabet Giant`,
-  $monster`black magic woman`,
-  $monster`blur`,
-  $monster`Bob Racecar`,
-  $monster`coaltergeist`,
-  $monster`fleet woodsman`,
-  $monster`Iiti Kitty`,
-  $monster`Irritating Series of Random Encounters`,
-  $monster`Little Man in the Canoe`,
-  $monster`mad wino`,
-  $monster`Mob Penguin Capo`,
-  $monster`One-Eyed Willie`,
-  $monster`pygmy blowgunner`,
-  $monster`pygmy headhunter`,
-  $monster`pygmy orderlies`,
-  $monster`pygmy shaman`,
-  $monster`Racecar Bob`,
-  $monster`Raver Giant`,
-  $monster`Renaissance Giant`,
-  $monster`swarm of fire ants`,
-  $monster`tomb asp`,
+  [$monster`1335 HaXx0r`, 10],
+  [$monster`Alphabet Giant`, 10],
+  [$monster`black magic woman`, 10],
+  [$monster`blur`, 10],
+  [$monster`Bob Racecar`, 10],
+  [$monster`coaltergeist`, 10],
+  [$monster`fleet woodsman`, 10],
+  [$monster`Iiti Kitty`, 10],
+  [$monster`Irritating Series of Random Encounters`, 10],
+  [$monster`Little Man in the Canoe`, 10],
+  [$monster`mad wino`, 10],
+  [$monster`Mob Penguin Capo`, 10],
+  [$monster`One-Eyed Willie`, 10],
+  [$monster`pygmy blowgunner`, 10],
+  [$monster`pygmy headhunter`, 10],
+  [$monster`pygmy orderlies`, 10],
+  [$monster`pygmy shaman`, 10],
+  [$monster`Racecar Bob`, 10],
+  [$monster`Raver Giant`, 10],
+  [$monster`Renaissance Giant`, 10],
+  [$monster`swarm of fire ants`, 10],
+  [$monster`tomb asp`, 10],
   // 7 adv monsters
-  $monster`animated rustic nightstand`,
-  $monster`basic lihc`,
-  $monster`Battlie Knight Ghost`,
-  $monster`Bubblemint Twins`,
-  $monster`CH Imp`,
-  $monster`chalkdust wraith`,
-  $monster`cloud of disembodied whiskers`,
-  $monster`eXtreme Orcish snowboarder`,
-  $monster`gluttonous ghuol`,
-  $monster`Grass Elemental`,
-  $monster`grave rober zmobie`,
-  $monster`guy with a pitchfork, and his wife`,
-  $monster`junksprite sharpener`,
-  $monster`Knob Goblin Very Mad Scientist`,
-  $monster`model skeleton`,
-  $monster`Ninja Snowman Janitor`,
-  $monster`oil baron`,
-  $monster`party skelteon`,
-  $monster`possessed silverware drawer`,
-  $monster`possessed toy chest`,
-  $monster`revolving bugbear`,
-  $monster`sabre-toothed goat`,
-  $monster`serialbus`,
-  $monster`sheet ghost`,
-  $monster`skeletal hamster`,
-  $monster`smut orc pipelayer`,
-  $monster`swarm of killer bees`,
-  $monster`tapdancing skeleton`,
-  $monster`toilet papergeist`,
-  $monster`upgraded ram`,
-  $monster`vicious gnauga`,
-  $monster`whitesnake`,
-  $monster`Booze Giant`,
+  [$monster`animated rustic nightstand`, 7],
+  [$monster`basic lihc`, 7],
+  [$monster`Battlie Knight Ghost`, 7],
+  [$monster`Bubblemint Twins`, 7],
+  [$monster`CH Imp`, 7],
+  [$monster`chalkdust wraith`, 7],
+  [$monster`cloud of disembodied whiskers`, 7],
+  [$monster`eXtreme Orcish snowboarder`, 7],
+  [$monster`gluttonous ghuol`, 7],
+  [$monster`Grass Elemental`, 7],
+  [$monster`grave rober zmobie`, 7],
+  [$monster`guy with a pitchfork, and his wife`, 7],
+  [$monster`junksprite sharpener`, 7],
+  [$monster`Knob Goblin Very Mad Scientist`, 7],
+  [$monster`model skeleton`, 7],
+  [$monster`Ninja Snowman Janitor`, 7],
+  [$monster`oil baron`, 7],
+  [$monster`party skelteon`, 7],
+  [$monster`possessed silverware drawer`, 7],
+  [$monster`possessed toy chest`, 7],
+  [$monster`revolving bugbear`, 7],
+  [$monster`sabre-toothed goat`, 7],
+  [$monster`serialbus`, 7],
+  [$monster`sheet ghost`, 7],
+  [$monster`skeletal hamster`, 7],
+  [$monster`smut orc pipelayer`, 7],
+  [$monster`swarm of killer bees`, 7],
+  [$monster`tapdancing skeleton`, 7],
+  [$monster`toilet papergeist`, 7],
+  [$monster`upgraded ram`, 7],
+  [$monster`vicious gnauga`, 7],
+  [$monster`whitesnake`, 7],
+  [$monster`Booze Giant`, 7],
   // 5 adv monsters
-  $monster`dire pigeon`,
-  $monster`gingerbread murderer`,
-  $monster`grave rober`,
-  $monster`irate mariachi`,
-  $monster`plastered frat orc`,
-  $monster`swarm of skulls`,
-  $monster`albino bat`,
-  $monster`batrat`,
-  $monster`G imp`,
-  $monster`Knob Goblin Bean Counter`,
-  $monster`Knob Goblin Madam`,
-  $monster`Knob Goblin Master Chef`,
-  $monster`L imp`,
-  $monster`magical fruit bat`,
-  $monster`P imp`,
-  $monster`swarm of Knob lice`,
-  $monster`W imp`,
-  $monster`warwelf`,
+  [$monster`dire pigeon`, 5],
+  [$monster`gingerbread murderer`, 5],
+  [$monster`grave rober`, 5],
+  [$monster`irate mariachi`, 5],
+  [$monster`plastered frat orc`, 5],
+  [$monster`swarm of skulls`, 5],
+  [$monster`albino bat`, 5],
+  [$monster`batrat`, 5],
+  [$monster`G imp`, 5],
+  [$monster`Knob Goblin Bean Counter`, 5],
+  [$monster`Knob Goblin Madam`, 5],
+  [$monster`Knob Goblin Master Chef`, 5],
+  [$monster`L imp`, 5],
+  [$monster`magical fruit bat`, 5],
+  [$monster`P imp`, 5],
+  [$monster`swarm of Knob lice`, 5],
+  [$monster`W imp`, 5],
+  [$monster`warwelf`, 5],
 ]);
 
 // Other monsters that give skills
@@ -767,7 +767,8 @@ const usefulSkills = new Map<Skill, Monster>([
   [$skill`Anti-Sleaze Recursion`, $monster`werecougar`],
   [$skill`Piezoelectric Honk`, $monster`white lion`],
 ]);
-const usefulMonsters = new Set<Monster>([...reprocessTargets, ...usefulSkills.values()]);
+const usefulMonsters = new Set<Monster>([...reprocessTargets.keys(), ...usefulSkills.values()]);
+const skillMonsters = new Set<Monster>(usefulSkills.values());
 
 export function monstersAt(location: Location): Monster[] {
   if (location === $location`The VERY Unquiet Garves`) {
@@ -785,6 +786,7 @@ export class AbsorbState {
   reprocessed = new Set<Monster>();
   ignored = new Set<Monster>();
   ignoredSkills = new Set<Skill>();
+  advAbsorbed = 0;
 
   constructor() {
     const charsheet = visitUrl("charsheet.php");
@@ -801,7 +803,9 @@ export class AbsorbState {
           .replace(/^some /g, "")
           .replace(/^the /g, "")
           .replace(/^The /g, "");
-        this.absorbed.add(Monster.get(name));
+        const monster = Monster.get(name);
+        this.absorbed.add(monster);
+        this.advAbsorbed += reprocessTargets.get(monster) ?? 0;
       }
     } while (match);
 
@@ -828,13 +832,19 @@ export class AbsorbState {
       .map((id) => parseInt(id))
       .filter((id) => id > 0)
       .map((id) => Monster.get(id))
-      .map((monster) => this.reprocessed.add(monster));
+      .map((monster) => {
+        this.reprocessed.add(monster);
+        this.advAbsorbed += reprocessTargets.get(monster) ?? 0;
+      });
     get("_loopgyou_untracked_gooseReprocessed")
       .split(",")
       .map((id) => parseInt(id))
       .filter((id) => id > 0)
       .map((id) => Monster.get(id))
-      .map((monster) => this.reprocessed.add(monster));
+      .map((monster) => {
+        this.reprocessed.add(monster);
+        this.advAbsorbed += reprocessTargets.get(monster) ?? 0;
+      });
 
     // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
@@ -941,8 +951,9 @@ export class AbsorbState {
 
   public remainingReprocess(location?: Location): Monster[] {
     // Return all remaining desired and unreprocessed monsters, in this location or everywhere
+    if (this.atAbsorbCap()) return [];
     if (!location) {
-      return [...reprocessTargets].filter(
+      return [...reprocessTargets.keys()].filter(
         (monster) => !this.reprocessed.has(monster) && !this.ignored.has(monster)
       );
     }
@@ -953,7 +964,8 @@ export class AbsorbState {
   public remainingAbsorbs(location?: Location): Monster[] {
     // Return all remaining desired and unabsorbed monsters, in this location or everywhere
     if (!location) {
-      return [...usefulMonsters].filter(
+      const targets = this.atAbsorbCap() ? skillMonsters : usefulMonsters;
+      return [...targets].filter(
         (monster) => !this.absorbed.has(monster) && !this.ignored.has(monster)
       );
     }
@@ -973,11 +985,13 @@ export class AbsorbState {
 
   public isTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unabsorbed
-    return usefulMonsters.has(monster) && !this.absorbed.has(monster) && !this.ignored.has(monster);
+    const targets = this.atAbsorbCap() ? skillMonsters : usefulMonsters;
+    return targets.has(monster) && !this.absorbed.has(monster) && !this.ignored.has(monster);
   }
 
   public isReprocessTarget(monster: Monster): boolean {
     // Return true if the monster is desired and unreprocessed
+    if (this.atAbsorbCap()) return false;
     return (
       reprocessTargets.has(monster) && !this.reprocessed.has(monster) && !this.ignored.has(monster)
     );
@@ -986,6 +1000,10 @@ export class AbsorbState {
   public skillCompleted(skill: Skill) {
     // Return true if the skill is obtained or is safe to ignore
     return have(skill) || this.ignoredSkills.has(skill);
+  }
+
+  public atAbsorbCap() {
+    return this.advAbsorbed >= 500;
   }
 }
 
