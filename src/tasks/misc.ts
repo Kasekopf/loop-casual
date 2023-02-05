@@ -470,9 +470,9 @@ export const MiscQuest: Quest = {
       after: [],
       ready: () => familiarWeight($familiar`Grey Goose`) < 6 && myMeat() >= 100,
       completed: () => globalStateCache.absorb().remainingReprocess().length === 0,
+      priority: () => Priorities.Last,
       do: arenaFight,
       outfit: { familiar: $familiar`Grey Goose`, modifier: "50 familiar exp, familiar weight" },
-      freeaction: true,
       limit: { soft: 75 },
     },
     {
