@@ -420,7 +420,15 @@ export const DigitalQuest: Quest = {
       ready: () => get("8BitColor", "black") === "green" && myBasestat($stat`Mysticality`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Hero's Field`,
-      outfit: { modifier: "item", equip: $items`continuum transfunctioner` },
+      outfit: () => {
+        if (have($familiar`Trick-or-Treating Tot`) && have($item`li'l ninja costume`))
+          return {
+            modifier: "item",
+            familiar: $familiar`Trick-or-Treating Tot`,
+            equip: $items`continuum transfunctioner, li'l ninja costume`,
+          };
+        else return { modifier: "item", equip: $items`continuum transfunctioner` };
+      },
       combat: new CombatStrategy().killItem(),
       limit: { soft: 16 },
       delay: 16,

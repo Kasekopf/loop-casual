@@ -1,6 +1,7 @@
 import { Item, itemAmount, numericModifier, use, visitUrl } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
@@ -11,7 +12,7 @@ import {
   have,
 } from "libram";
 import { Quest } from "../engine/task";
-import { step } from "grimoire-kolmafia";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
@@ -90,7 +91,19 @@ export const McLargeHugeQuest: Quest = {
         fillHp();
       },
       do: $location`Lair of the Ninja Snowmen`,
-      outfit: { modifier: "50 combat, init", skipDefaults: true },
+      outfit: () => {
+        const spec: OutfitSpec = { modifier: "50 combat, init", skipDefaults: true };
+        if (have($familiar`Trick-or-Treating Tot`) && !have($item`li'l ninja costume`))
+          spec.familiar = $familiar`Trick-or-Treating Tot`;
+        if (
+          have($item`latte lovers member's mug`) &&
+          get("latteModifier").includes("Combat Rate: 10")
+        ) {
+          // Ensure kramco does not override +combat
+          spec.offhand = $item`latte lovers member's mug`;
+        }
+        return spec;
+      },
       limit: { soft: 20 },
       combat: new CombatStrategy().killHard([
         $monster`Frozen Solid Snake`,

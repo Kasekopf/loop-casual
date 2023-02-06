@@ -124,14 +124,17 @@ const Copperhead: Task[] = [
     },
     do: $location`Lair of the Ninja Snowmen`,
     outfit: () => {
+      const spec: OutfitSpec = { modifier: "50 combat, init", skipDefaults: true };
+      if (have($familiar`Trick-or-Treating Tot`) && !have($item`li'l ninja costume`))
+        spec.familiar = $familiar`Trick-or-Treating Tot`;
       if (
         have($item`latte lovers member's mug`) &&
         get("latteModifier").includes("Combat Rate: 10")
       ) {
         // Ensure kramco does not override +combat
-        return { modifier: "50 combat, init", offhand: $item`latte lovers member's mug` };
+        spec.offhand = $item`latte lovers member's mug`;
       }
-      return { modifier: "50 combat, init" };
+      return spec;
     },
     combat: new CombatStrategy().killHard([
       $monster`Frozen Solid Snake`,
