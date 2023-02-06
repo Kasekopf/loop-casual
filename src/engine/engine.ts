@@ -326,9 +326,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         resources.provide("yellowRay", equipFirst(outfit, yellowRaySources));
       }
       if (combat.can("forceItems")) {
-        let source = undefined;
-        if (!have($effect`Everything Looks Yellow`)) source = equipFirst(outfit, yellowRaySources);
-        if (source === undefined) source = equipFirst(outfit, forceItemSources);
+        let source = equipFirst(outfit, forceItemSources);
+        if (source === undefined && !have($effect`Everything Looks Yellow`)) source = equipFirst(outfit, yellowRaySources);
         resources.provide("forceItems", source);
       }
 
