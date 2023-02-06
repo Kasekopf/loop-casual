@@ -27,6 +27,7 @@ export type Task = {
   // If given but function returns undefined, do not use orb predictions.
   orbtargets?: () => Monster[] | undefined;
   boss?: boolean;
+  ncforce?: boolean | (() => boolean);
 } & BaseTask<CombatActions>;
 
 export type Priority = {

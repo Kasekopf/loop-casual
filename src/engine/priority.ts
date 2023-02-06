@@ -8,11 +8,12 @@ import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
-import { forceItemSources, yellowRaySources } from "./resources";
+import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
 
 export class Priorities {
   static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
   static Always: Priority = { score: 10000, reason: "Forced" };
+  static GoodForceNC: Priority = { score: 8000, reason: "Forcing NC" };
   static Free: Priority = { score: 1000, reason: "Free action" };
   static Start: Priority = { score: 900, reason: "Initial tasks" };
   static LastCopyableMonster: Priority = { score: 100, reason: "Copy last monster" };
@@ -24,6 +25,7 @@ export class Priorities {
   static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
   static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
   static None: Priority = { score: 0 };
+  static BadForcingNC: Priority = { score: -0.4, reason: "Not forcing NC" };
   static BadTrain: Priority = { score: -0.5, reason: "Use Trainset" };
   static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
@@ -127,6 +129,18 @@ export class Prioritization {
     if (outfit_spec?.modifier?.includes("ML") && !outfit_spec?.modifier.match("-[\\d .]*ML")) {
       if (getTodaysHolidayWanderers().length > 0 && getCounter("holiday") <= 0) {
         result.priorities.add(Priorities.BadHoliday);
+      }
+    }
+
+    // Handle potential NC forcers in a zone
+    if (
+      (typeof task.ncforce === "boolean" && task.ncforce) ||
+      (typeof task.ncforce === "function" && task.ncforce())
+    ) {
+      if (get("_loopgyou_ncforce", false)) {
+        result.priorities.add(Priorities.GoodForceNC);
+      } else if (forceNCPossible()) {
+        result.priorities.add(Priorities.BadForcingNC);
       }
     }
 

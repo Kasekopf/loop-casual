@@ -74,6 +74,8 @@ import { atLevel, debug } from "../lib";
 import {
   canChargeVoid,
   forceItemSources,
+  forceNCPossible,
+  forceNCSources,
   freekillSources,
   refillLatte,
   runawaySources,
@@ -422,6 +424,30 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       ) {
         resources.provide("killFree", equipFirst(outfit, freekillSources));
       }
+
+      // Use an NC forcer if one is available and another task needs it.
+      const nc_blacklist = new Set<Location>($locations`The Enormous Greater-Than Sign`);
+      if (
+        forceNCPossible() &&
+        !(task.do instanceof Location && nc_blacklist.has(task.do)) &&
+        !have($effect`Teleportitis`) &&
+        !get("_loopgyou_ncforce", false)
+      ) {
+        if (
+          this.tasks.find(
+            (t) =>
+              this.available(t) &&
+              t.name !== task.name &&
+              ((typeof task.ncforce === "boolean" && task.ncforce) ||
+                (typeof task.ncforce === "function" && task.ncforce()))
+          )
+        ) {
+          const ncforcer = equipFirst(outfit, forceNCSources);
+          if (ncforcer) {
+            combat.macro(ncforcer.do, undefined, true);
+          }
+        }
+      }
     }
 
     if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`)) {
@@ -435,8 +461,13 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
     equipCharging(outfit, force_charge_goose);
 
-    if (wanderers.length === 0 && this.hasDelay(task))
+    if (wanderers.length === 0 && this.hasDelay(task) && !get("_loopgyou_ncforce", false))
       wanderers.push(...equipUntilCapped(outfit, wandererSources));
+
+    if (get("_loopgyou_ncforce", false)) {
+      // Avoid some things that might override the NC and break the tracking
+      outfit.equip({ avoid: $items`Kramco Sausage-o-Matic™`, familiar: $familiar`Grey Goose` });
+    }
 
     // Prepare full outfit
     if (!outfit.skipDefaults) {
@@ -572,6 +603,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const start_advs = myAdventures();
     const goose_weight = familiarWeight($familiar`Grey Goose`);
     const reprocess_targets = get("gooseReprocessed");
+    const spikelodon_spikes = get("_spikolodonSpikeUses");
+
+    set("_loopgyou_ncforce", false);
+
     super.do(task);
     if (myAdventures() !== start_advs) getExtros();
 
@@ -589,6 +624,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         set("_loopgyou_untracked_gooseReprocessed", new_untracked);
         globalStateCache.invalidate();
       }
+    }
+
+    // Check if we used an NC forcer
+    if (get("_spikolodonSpikeUses") > spikelodon_spikes) {
+      set("_loopgyou_ncforce", true);
     }
 
     // Crash if we unexpectedly lost the fight

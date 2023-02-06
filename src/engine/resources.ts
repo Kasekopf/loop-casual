@@ -502,3 +502,20 @@ export const forceItemSources: ForceItemSource[] = [
 export function forceItemPossible(): boolean {
   return yellowRayPossible() || forceItemSources.find((s) => s.available()) !== undefined;
 }
+
+export type ForceNCSorce = CombatResource & { do: Macro };
+export const forceNCSources: ForceNCSorce[] = [
+  {
+    name: "Parka",
+    available: () =>
+      have($skill`Torso Awareness`) &&
+      have($item`Jurassic Parka`) &&
+      get("_spikolodonSpikeUses") < 5,
+    equip: { equip: $items`Jurassic Parka`, modes: { parka: "spikolodon" } },
+    do: Macro.skill($skill`Launch spikolodon spikes`),
+  },
+];
+
+export function forceNCPossible(): boolean {
+  return forceNCSources.find((s) => s.available()) !== undefined;
+}

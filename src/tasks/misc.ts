@@ -868,9 +868,7 @@ export const WandQuest: Quest = {
         (keyStrategy.useful(Keys.Zap) ||
           args.minor.wand ||
           !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
-      completed: () =>
-        have($item`plus sign`) ||
-        get("lastPlusSignUnlock") === myAscensions(),
+      completed: () => have($item`plus sign`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 3 },
@@ -888,9 +886,7 @@ export const WandQuest: Quest = {
           !globalStateCache.absorb().skillCompleted($skill`Hivemindedness`)),
       priority: () =>
         familiarWeight($familiar`Grey Goose`) >= 6 ? Priorities.GoodGoose : Priorities.None,
-      completed: () =>
-        have($effect`Teleportitis`) ||
-        get("lastPlusSignUnlock") === myAscensions(),
+      completed: () => have($effect`Teleportitis`) || get("lastPlusSignUnlock") === myAscensions(),
       do: $location`The Enormous Greater-Than Sign`,
       outfit: { modifier: "-combat" },
       choices: { 451: 5 },
