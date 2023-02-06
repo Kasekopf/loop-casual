@@ -77,6 +77,7 @@ export const MiscQuest: Quest = {
     {
       name: "Unlock Beach",
       after: [],
+      priority: () => Priorities.Free,
       ready: () => myMeat() >= (knollAvailable() ? 538 : 5000),
       completed: () => have($item`bitchin' meatcar`) || have($item`Desert Bus pass`),
       do: () => {

@@ -327,7 +327,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
       if (combat.can("forceItems")) {
         let source = equipFirst(outfit, forceItemSources);
-        if (source === undefined && !have($effect`Everything Looks Yellow`)) source = equipFirst(outfit, yellowRaySources);
+        if (source === undefined && !have($effect`Everything Looks Yellow`))
+          source = equipFirst(outfit, yellowRaySources);
         resources.provide("forceItems", source);
       }
 
@@ -435,11 +436,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         if (
           this.tasks.find(
             (t) =>
+              t.ncforce !== undefined &&
               this.available(t) &&
               t.name !== task.name &&
-              ((typeof task.ncforce === "boolean" && task.ncforce) ||
-                (typeof task.ncforce === "function" && task.ncforce()))
-          )
+              ((typeof t.ncforce === "boolean" && t.ncforce) ||
+                (typeof t.ncforce === "function" && t.ncforce()))
+          ) !== undefined
         ) {
           const ncforcer = equipFirst(outfit, forceNCSources);
           if (ncforcer) {

@@ -106,6 +106,10 @@ export const args = Args.create(
         help: 'Multiply the threshold for stopping execution when "you may just be unlucky". Increasing this can be dangerous and cause the script to waste more adventures; use at your own risk.',
         default: 1,
       }),
+      saveparka: Args.number({
+        help: "Number of spikolodon spikes to save (max 5).",
+        default: 0,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({

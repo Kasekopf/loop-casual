@@ -46,9 +46,11 @@ export function main(command?: string): void {
     return;
   }
   if (args.major.delaytower) {
-    if (!userConfirm(
-      "With the January nerf to the Grey You path, delaytower is not generally useful (since we are not able to break ronin with the adventures from the first day). Are you sure you want to continue with delaytower enabled?"
-    )) {
+    if (
+      !userConfirm(
+        "With the January nerf to the Grey You path, delaytower is not generally useful (since we are not able to break ronin with the adventures from the first day). Are you sure you want to continue with delaytower enabled?"
+      )
+    ) {
       return;
     }
   }

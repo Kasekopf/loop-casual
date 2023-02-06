@@ -510,7 +510,7 @@ export const forceNCSources: ForceNCSorce[] = [
     available: () =>
       have($skill`Torso Awareness`) &&
       have($item`Jurassic Parka`) &&
-      get("_spikolodonSpikeUses") < 5,
+      get("_spikolodonSpikeUses") + args.minor.saveparka < 5,
     equip: { equip: $items`Jurassic Parka`, modes: { parka: "spikolodon" } },
     do: Macro.skill($skill`Launch spikolodon spikes`),
   },
