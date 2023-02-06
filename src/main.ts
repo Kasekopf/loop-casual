@@ -11,6 +11,7 @@ import {
   svnAtHead,
   svnExists,
   turnsPlayed,
+  userConfirm,
   visitUrl,
 } from "kolmafia";
 import { all_tasks } from "./tasks/all";
@@ -43,6 +44,13 @@ export function main(command?: string): void {
   if (args.sim) {
     checkRequirements();
     return;
+  }
+  if (args.major.delaytower) {
+    if (!userConfirm(
+      "With the January nerf to the Grey You path, delaytower is not generally useful (since we are not able to break ronin with the adventures from the first day). Are you sure you want to continue with delaytower enabled?"
+    )) {
+      return;
+    }
   }
 
   printVersionInfo();
