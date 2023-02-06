@@ -31,6 +31,7 @@ export const routing: string[] = [
   "McLargeHuge/Trapper Request", // open for absorbing
   // "Absorb/Fluid Dynamics Simulation",
   "Misc/Unlock Island", // unlock island to start YRing
+  "Misc/Retune Moon",
 
   // ASAP once level 11 is hit, grab -combat
   // Also grab +adv to ensure we have adventures
@@ -50,7 +51,6 @@ export const routing: string[] = [
   "War/Flyers Start", // Start the war and get flyers
   "War/Flyers End", // End the flyers quest ASAP in case of tracking errors
   "Giant/Airship YR Healer",
-  "Misc/Retune Moon",
 
   // For MP regen, ASAP
   "Wand/Wand",
