@@ -1,5 +1,5 @@
-import { cliExecute, containsText, use, visitUrl } from "kolmafia";
-import { $effect, $item, $items, $location, $monster, $monsters, have } from "libram";
+import { cliExecute, containsText, familiarWeight, myDaycount, use, visitUrl } from "kolmafia";
+import { $effect, $familiar, $item, $items, $location, $monster, $monsters, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { Quest } from "../engine/task";
@@ -143,6 +143,17 @@ export const GiantQuest: Quest = {
     {
       name: "Top Floor",
       after: ["Ground"],
+      priority: () => {
+        if (
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myDaycount() === 1 &&
+          step("questL11Shen") < 5
+        ) {
+          return { score: -1 * Priorities.GoodGoose.score - 0.01, reason: "Waiting for Shen" };
+        } else {
+          return [];
+        }
+      },
       completed: () => step("questL10Garbage") >= 10,
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       outfit: { equip: $items`Mohawk wig`, modifier: "-combat" },
@@ -162,6 +173,17 @@ export const GiantQuest: Quest = {
     {
       name: "Unlock HITS",
       after: ["Top Floor"],
+      priority: () => {
+        if (
+          familiarWeight($familiar`Grey Goose`) >= 6 &&
+          myDaycount() === 1 &&
+          step("questL11Shen") < 5
+        ) {
+          return { score: -1 * Priorities.GoodGoose.score - 0.01, reason: "Waiting for Shen" };
+        } else {
+          return [];
+        }
+      },
       completed: () => have($item`steam-powered model rocketship`),
       do: $location`The Castle in the Clouds in the Sky (Top Floor)`,
       outfit: { modifier: "-combat" },

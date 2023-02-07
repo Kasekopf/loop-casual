@@ -319,7 +319,7 @@ const ManorBasement: Task[] = [
           modifier: "ML",
           equip: $items`unstable fulminate, old patched suit-pants, backup camera`,
           avoid: $items`Jurassic Parka`,
-          modes: { "backupcamera": "ml" },
+          modes: { backupcamera: "ml" },
           familiar: $familiar`Red-Nosed Snapper`,
         };
       return {
