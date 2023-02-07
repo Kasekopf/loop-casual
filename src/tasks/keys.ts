@@ -27,6 +27,7 @@ import {
   $slots,
   $stat,
   ensureEffect,
+  FloristFriar,
   get,
   have,
   Macro,
@@ -420,6 +421,11 @@ export const DigitalQuest: Quest = {
       ready: () => get("8BitColor", "black") === "green" && myBasestat($stat`Mysticality`) >= 200,
       // eslint-disable-next-line libram/verify-constants
       do: $location`Hero's Field`,
+      post: () => {
+        if (FloristFriar.have() && FloristFriar.Rutabeggar.available()) {
+          FloristFriar.Rutabeggar.plant();
+        }
+      },
       outfit: () => {
         if (have($familiar`Trick-or-Treating Tot`) && have($item`li'l ninja costume`))
           return {
