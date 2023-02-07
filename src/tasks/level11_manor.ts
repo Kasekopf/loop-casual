@@ -317,7 +317,7 @@ const ManorBasement: Task[] = [
       if (have($item`old patched suit-pants`) && have($item`backup camera`))
         return {
           modifier: "ML",
-          equip: $items`unstable fulminate, old patched suit-pants`,
+          equip: $items`unstable fulminate, old patched suit-pants, backup camera`,
           avoid: $items`Jurassic Parka`,
           familiar: $familiar`Red-Nosed Snapper`,
         };
