@@ -7,6 +7,7 @@ import {
   equippedItem,
   familiarWeight,
   Item,
+  itemAmount,
   weaponHands as mafiaWeaponHands,
   myBasestat,
   myMeat,
@@ -19,6 +20,7 @@ import {
 import {
   $effect,
   $familiar,
+  $familiars,
   $item,
   $skill,
   $slot,
@@ -118,7 +120,23 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
         outfit.equip($item`familiar scrapbook`);
       }
     }
-  } else if (
+  }
+
+  if (yellowSubmarinePossible() && itemAmount($item`yellow pixel`) < 50) {
+    outfit.equip($familiar`Puck Man`);
+    outfit.equip($familiar`Ms. Puck Man`);
+    if (!outfit.modifier.includes("combat") && !outfit.modifier.includes("res")) {
+      if (get("_yellowPixelDropsCrown") < 25 && outfit.equip($item`Buddy Bjorn`)) {
+        outfit.bjornify($familiars`Puck Man, Ms. Puck Man`);
+      }
+    }
+  }
+
+  if (get("camelSpit") < 100 && get("hiddenBowlingAlleyProgress") < 7) {
+    outfit.equip($familiar`Melodramedary`);
+  }
+
+  if (
     (!have($item`eleven-foot pole`) ||
       !have($item`ring of Detect Boring Doors`) ||
       !have($item`Pick-O-Matic lockpicks`)) &&
@@ -126,8 +144,6 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
     !towerSkip()
   ) {
     outfit.equip($familiar`Gelatinous Cubeling`);
-  } else if (get("camelSpit") < 100 && get("zeppelinProtestors") < 80) {
-    outfit.equip($familiar`Melodramedary`);
   }
 }
 
@@ -180,6 +196,16 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`square sponge pants`);
     outfit.equip($item`Cargo Cultist Shorts`);
     outfit.equip($item`lucky gold ring`);
+
+    if (
+      yellowSubmarinePossible() &&
+      (itemAmount($item`red pixel`) < 5 ||
+        itemAmount($item`blue pixel`) < 5 ||
+        itemAmount($item`green pixel`) < 5)
+    ) {
+      outfit.equip($item`Powerful Glove`);
+    }
+
     if (
       outfit.familiar === $familiar`Grey Goose` &&
       (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
@@ -209,6 +235,20 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   outfit.equip($item`miniature crystal ball`);
   // If we never found a better familiar, just keep charging the goose
   outfit.equip($familiar`Grey Goose`);
+}
+
+export function yellowSubmarinePossible(assumePulls = false) {
+  if (!have($item`Powerful Glove`)) return false;
+  if (!assumePulls && !have($item`Buddy Bjorn`)) return false;
+  if (!have($familiar`Puck Man`) && !have($familiar`Ms. Puck Man`)) return false;
+  if (
+    have($item`dingy dinghy`) ||
+    have($item`junk junk`) ||
+    have($item`skeletal skiff`) ||
+    have($item`yellow submarine`)
+  )
+    return false;
+  return true;
 }
 
 export function fixFoldables(outfit: Outfit) {

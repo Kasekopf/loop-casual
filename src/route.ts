@@ -30,8 +30,12 @@ export const routing: string[] = [
   "Absorb/Phase Shift",
   "McLargeHuge/Trapper Request", // open for absorbing
   // "Absorb/Fluid Dynamics Simulation",
-  "Misc/Unlock Island", // unlock island to start YRing
   "Misc/Retune Moon",
+
+  // Unlock island to start YRing
+  "Misc/Unlock Island Submarine",
+  "Misc/Unlock Island",
+  "War/Enrage",
 
   // ASAP once level 11 is hit, grab -combat
   // Also grab +adv to ensure we have adventures

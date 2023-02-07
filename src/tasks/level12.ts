@@ -527,7 +527,7 @@ export const WarQuest: Quest = {
     },
     {
       name: "Enrage",
-      after: ["Start", "Misc/Unlock Island", "Outfit Frat"],
+      after: ["Start", "Misc/Unlock Island", "Misc/Unlock Island Submarine", "Outfit Frat"],
       ready: warReady,
       completed: () => step("questL12War") >= 1,
       prepare: () => {

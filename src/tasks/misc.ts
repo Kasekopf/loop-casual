@@ -63,7 +63,7 @@ import { Keys, keyStrategy } from "./keys";
 import { atLevel, debug } from "../lib";
 import { args } from "../args";
 import { globalStateCache } from "../engine/state";
-import { coldPlanner } from "../engine/outfit";
+import { coldPlanner, yellowSubmarinePossible } from "../engine/outfit";
 import {
   getTrainsetConfiguration,
   getTrainsetPositionsUntilConfigurable,
@@ -92,7 +92,8 @@ export const MiscQuest: Quest = {
       after: ["Unlock Beach"],
       ready: () =>
         (myMeat() >= 6000 || (step("questL11Black") >= 4 && myMeat() >= 500)) &&
-        myAdventures() >= 20,
+        myAdventures() >= 20 &&
+        !yellowSubmarinePossible(),
       completed: () =>
         itemAmount($item`Shore Inc. Ship Trip Scrip`) >= 3 ||
         have($item`dinghy plans`) ||
@@ -107,7 +108,7 @@ export const MiscQuest: Quest = {
     {
       name: "Unlock Island",
       after: ["Island Scrip"],
-      ready: () => myMeat() >= 400 || have($item`dingy planks`),
+      ready: () => (myMeat() >= 400 || have($item`dingy planks`)) && !yellowSubmarinePossible(),
       completed: () =>
         have($item`dingy dinghy`) ||
         have($item`junk junk`) ||
@@ -117,6 +118,25 @@ export const MiscQuest: Quest = {
         retrieveItem($item`dingy planks`);
         retrieveItem($item`dinghy plans`);
         use($item`dinghy plans`);
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Unlock Island Submarine",
+      after: ["Digital/Open"],
+      ready: () =>
+        itemAmount($item`yellow pixel`) >= 50 &&
+        itemAmount($item`red pixel`) >= 5 &&
+        itemAmount($item`blue pixel`) >= 5 &&
+        itemAmount($item`green pixel`) >= 5,
+      completed: () =>
+        have($item`dingy dinghy`) ||
+        have($item`junk junk`) ||
+        have($item`skeletal skiff`) ||
+        have($item`yellow submarine`),
+      do: () => {
+        retrieveItem($item`yellow submarine`);
       },
       limit: { tries: 1 },
       freeaction: true,

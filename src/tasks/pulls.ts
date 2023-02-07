@@ -18,6 +18,7 @@ import { step } from "grimoire-kolmafia";
 import { Keys, keyStrategy } from "./keys";
 import { towerSkip } from "./level13";
 import { trainSetAvailable } from "./misc";
+import { yellowSubmarinePossible } from "../engine/outfit";
 
 /**
  * optional: If true, only pull this if there is one in storage (i.e., no mall buy).
@@ -135,6 +136,7 @@ export const pulls: PullSpec[] = [
   },
   { pull: $item`teacher's pen`, duplicate: true },
   { pull: $item`blackberry galoshes`, useful: () => step("questL11Black") < 2 },
+  { pull: $item`Buddy Bjorn`, useful: () => yellowSubmarinePossible(true), optional: true },
   {
     pull: $item`killing jar`,
     useful: () =>
