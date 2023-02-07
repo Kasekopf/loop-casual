@@ -16,6 +16,7 @@ import {
   $skill,
   $stat,
   AutumnAton,
+  FloristFriar,
   get,
   have,
   Macro,
@@ -63,6 +64,11 @@ const Alcove: Task[] = [
       myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
+    post: () => {
+      if (FloristFriar.have() && FloristFriar.ShuffleTruffle.available()) {
+        FloristFriar.ShuffleTruffle.plant();
+      }
+    },
     outfit: (): OutfitSpec => {
       if (
         globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
@@ -111,6 +117,9 @@ const Cranny: Task[] = [
     },
     post: () => {
       if (currentMcd() > 0) changeMcd(0);
+      if (FloristFriar.have() && FloristFriar.BlusteryPuffball.available()) {
+        FloristFriar.BlusteryPuffball.plant();
+      }
     },
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
@@ -207,6 +216,11 @@ const Nook: Task[] = [
     ready: () => myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptNookEvilness") <= 13,
     do: $location`The Defiled Nook`,
+    post: () => {
+      if (FloristFriar.have() && FloristFriar.HornOfPlenty.available()) {
+        FloristFriar.HornOfPlenty.plant();
+      }
+    },
     outfit: (): OutfitSpec => {
       return {
         equip: tryCape($item`antique machete`, $item`gravy boat`),
