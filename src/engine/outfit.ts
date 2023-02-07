@@ -237,18 +237,20 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   outfit.equip($familiar`Grey Goose`);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function yellowSubmarinePossible(assumePulls = false) {
-  if (!have($item`Powerful Glove`)) return false;
-  if (!assumePulls && !have($item`Buddy Bjorn`)) return false;
-  if (!have($familiar`Puck Man`) && !have($familiar`Ms. Puck Man`)) return false;
-  if (
-    have($item`dingy dinghy`) ||
-    have($item`junk junk`) ||
-    have($item`skeletal skiff`) ||
-    have($item`yellow submarine`)
-  )
-    return false;
-  return true;
+  return false;
+  // if (!have($item`Powerful Glove`)) return false;
+  // if (!assumePulls && !have($item`Buddy Bjorn`)) return false;
+  // if (!have($familiar`Puck Man`) && !have($familiar`Ms. Puck Man`)) return false;
+  // if (
+  //   have($item`dingy dinghy`) ||
+  //   have($item`junk junk`) ||
+  //   have($item`skeletal skiff`) ||
+  //   have($item`yellow submarine`)
+  // )
+  //   return false;
+  // return true;
 }
 
 export function fixFoldables(outfit: Outfit) {
