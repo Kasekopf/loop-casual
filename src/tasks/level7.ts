@@ -73,7 +73,7 @@ const Alcove: Task[] = [
       if (
         globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
         globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-        $monster`grave rober zmobie`
+          $monster`grave rober zmobie`
       ) {
         // Try not to fight modern zmobie
         return {
