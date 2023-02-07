@@ -2,8 +2,11 @@ import {
   changeMcd,
   council,
   currentMcd,
+  Item,
   itemAmount,
   myBasestat,
+  myHp,
+  myMaxhp,
   myMaxmp,
   myMeat,
   myMp,
@@ -30,7 +33,7 @@ import {
   Macro,
 } from "libram";
 import { Priority, Quest, Task } from "../engine/task";
-import { Guards, step } from "grimoire-kolmafia";
+import { Guards, OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { Priorities } from "../engine/priority";
@@ -101,6 +104,7 @@ const Oil: Task[] = [
     completed: () => get("oilPeakProgress") === 0,
     prepare: () => {
       if (myMp() < 80 && myMaxmp() >= 80) restoreMp(80 - myMp());
+      if (myHp() < 100 && myMaxhp() >= 100) restoreMp(100 - myMp());
       if (numericModifier("Monster Level") < 100) changeMcd(10);
     },
     post: () => {
@@ -108,19 +112,31 @@ const Oil: Task[] = [
     },
     do: $location`Oil Peak`,
     outfit: () => {
-      if (have($item`unbreakable umbrella`))
-        return {
-          modifier: "ML 80 max, 0.1 item",
-          equip: $items`unbreakable umbrella, unwrapped knock-off retro superhero cape`,
-          avoid: $items`Kramco Sausage-o-Matic™`,
-          modes: { retrocape: ["vampire", "hold"] }
-        };
-      else return {
+      const spec: OutfitSpec & { equip: Item[] } = {
         modifier: "ML 100 max, 0.1 item",
-        equip: $items`unwrapped knock-off retro superhero cape`,
+        equip: [],
         avoid: $items`Kramco Sausage-o-Matic™`,
-        modes: { retrocape: ["vampire", "hold"] }
       };
+
+      // Use a retro superhero cape to dodge the first hit
+      if (have($item`unwrapped knock-off retro superhero cape`)) {
+        spec.equip.push($item`unwrapped knock-off retro superhero cape`);
+        spec.modes = { retrocape: ["vampire", "hold"] };
+      }
+
+      // The unbreakable umbrella lowers the ML cap; handle it separately.
+      if (have($item`unbreakable umbrella`)) {
+        spec.modifier = "ML 80 max, 0.1 item";
+        spec.equip.push($item`unbreakable umbrella`);
+      }
+
+      // Use the Tot for more +item
+      if (have($familiar`Trick-or-Treating Tot`) && have($item`li'l ninja costume`)) {
+        spec.familiar = $familiar`Trick-or-Treating Tot`;
+        spec.equip.push($item`li'l ninja costume`);
+      }
+
+      return spec;
     },
     combat: new CombatStrategy().killItem(),
     limit: { tries: 18 },
