@@ -11,6 +11,7 @@ import {
   mallPrice,
   myBasestat,
   myTurncount,
+  numericModifier,
   pullsRemaining,
   runChoice,
   storageAmount,
@@ -374,7 +375,7 @@ export const DigitalQuest: Quest = {
       after: ["Open", "Summon/Big Wheelin' Twins"],
       completed: () => getScore() >= 10000,
       prepare: () => {
-        if (have($item`designer sweatpants`) && get("sweat", 0) >= 80) {
+        if (have($item`designer sweatpants`) && get("sweat", 0) >= 80 && numericModifier("Initiative") < 600) {
           // Use visit URL to avoid needing to equip the pants
           visitUrl("runskillz.php?action=Skillz&whichskill=7419&targetplayer=0&pwd&quantity=1");
         }
