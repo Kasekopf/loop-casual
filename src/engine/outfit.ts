@@ -134,9 +134,10 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void {
   if (have($familiar`Temporal Riftlet`)) {
     outfit.equip($familiar`Temporal Riftlet`);
-  } else if (have($item`gnomish housemaid's kgnee`)) {
-    outfit.equip($familiar`Reagnimated Gnome`);
   }
+  // if (have($item`gnomish housemaid's kgnee`)) {
+  //   outfit.equip($familiar`Reagnimated Gnome`);
+  // }
 
   if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
     outfit.equip($item`grey down vest`);
