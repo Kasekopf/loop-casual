@@ -11,6 +11,7 @@ import {
   weaponHands as mafiaWeaponHands,
   myBasestat,
   myMeat,
+  myTurncount,
   outfitPieces,
   print,
   Skill,
@@ -89,6 +90,11 @@ export function equipInitial(outfit: Outfit): void {
 
 export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
+
+  // Try and get the Spooky Forest ghost first
+  if (myTurncount() === 0 && get("nextParanormalActivity") === 1) {
+    outfit.equip($item`protonic accelerator pack`);
+  }
 
   if (
     familiarWeight($familiar`Grey Goose`) < 6 ||
