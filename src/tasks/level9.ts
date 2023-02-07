@@ -111,10 +111,16 @@ const Oil: Task[] = [
       if (have($item`unbreakable umbrella`))
         return {
           modifier: "ML 80 max, 0.1 item",
-          equip: $items`unbreakable umbrella`,
+          equip: $items`unbreakable umbrella, unwrapped knock-off retro superhero cape`,
           avoid: $items`Kramco Sausage-o-Matic™`,
+          modes: { retrocape: ["vampire", "hold"] }
         };
-      else return { modifier: "ML 100 max, 0.1 item", avoid: $items`Kramco Sausage-o-Matic™` };
+      else return {
+        modifier: "ML 100 max, 0.1 item",
+        equip: $items`unwrapped knock-off retro superhero cape`,
+        avoid: $items`Kramco Sausage-o-Matic™`,
+        modes: { retrocape: ["vampire", "hold"] }
+      };
     },
     combat: new CombatStrategy().killItem(),
     limit: { tries: 18 },
