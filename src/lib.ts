@@ -1,4 +1,4 @@
-import { myBasestat, myFamiliar, Phylum, print } from "kolmafia";
+import { myBasestat, myFamiliar, Phylum, print, visitUrl } from "kolmafia";
 import { $familiar, $item, $stat, have, Snapper } from "libram";
 
 export function debug(message: string, color?: string): void {
@@ -63,4 +63,13 @@ export function tuneSnapper(phylum: Phylum) {
   if (myFamiliar() === $familiar`Red-Nosed Snapper` && Snapper.getTrackedPhylum() !== phylum) {
     Snapper.trackPhylum(phylum);
   }
+}
+
+let cachedHaveFlorest: boolean | undefined = undefined;
+export function haveFlorest(): boolean {
+  if (cachedHaveFlorest === undefined) {
+    const village = visitUrl("forestvillage.php");
+    cachedHaveFlorest = village.includes("action=fv_friar");
+  }
+  return cachedHaveFlorest;
 }

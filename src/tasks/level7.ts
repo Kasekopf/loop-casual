@@ -24,7 +24,7 @@ import {
 import { Priority, Quest, Task } from "../engine/task";
 import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
-import { atLevel } from "../lib";
+import { atLevel, haveFlorest } from "../lib";
 import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { globalStateCache } from "../engine/state";
@@ -65,7 +65,7 @@ const Alcove: Task[] = [
     completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
     post: () => {
-      if (FloristFriar.have() && FloristFriar.ShuffleTruffle.available()) {
+      if (haveFlorest() && FloristFriar.ShuffleTruffle.available()) {
         FloristFriar.ShuffleTruffle.plant();
       }
     },
@@ -73,7 +73,7 @@ const Alcove: Task[] = [
       if (
         globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
         globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-          $monster`grave rober zmobie`
+        $monster`grave rober zmobie`
       ) {
         // Try not to fight modern zmobie
         return {
@@ -117,7 +117,7 @@ const Cranny: Task[] = [
     },
     post: () => {
       if (currentMcd() > 0) changeMcd(0);
-      if (FloristFriar.have() && FloristFriar.BlusteryPuffball.available()) {
+      if (haveFlorest() && FloristFriar.BlusteryPuffball.available()) {
         FloristFriar.BlusteryPuffball.plant();
       }
     },
@@ -217,7 +217,7 @@ const Nook: Task[] = [
     completed: () => get("cyrptNookEvilness") <= 13,
     do: $location`The Defiled Nook`,
     post: () => {
-      if (FloristFriar.have() && FloristFriar.HornOfPlenty.available()) {
+      if (haveFlorest() && FloristFriar.HornOfPlenty.available()) {
         FloristFriar.HornOfPlenty.plant();
       }
     },

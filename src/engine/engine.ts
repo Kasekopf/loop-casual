@@ -271,6 +271,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       $monster`annoyed snake`,
       $monster`slime blob`,
     ];
+    if (get("camelSpit") === 100) monster_blacklist.push($monster`pygmy bowler`); // we will spit
     if (
       myBasestat($stat`Moxie`) >= 200 &&
       myBuffedstat($stat`Moxie`) >= 200 &&

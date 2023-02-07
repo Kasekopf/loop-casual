@@ -42,6 +42,7 @@ import { Priorities } from "../engine/priority";
 import { towerReady, towerSkip } from "./level13";
 import { args } from "../args";
 import { trainSetAvailable } from "./misc";
+import { haveFlorest } from "../lib";
 
 export enum Keys {
   Deck = "Deck",
@@ -427,7 +428,7 @@ export const DigitalQuest: Quest = {
       // eslint-disable-next-line libram/verify-constants
       do: $location`Hero's Field`,
       post: () => {
-        if (FloristFriar.have() && FloristFriar.Rutabeggar.available()) {
+        if (haveFlorest() && FloristFriar.Rutabeggar.available()) {
           FloristFriar.Rutabeggar.plant();
         }
       },
