@@ -356,11 +356,17 @@ const Orchard: Task[] = [
         return {
           familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
         };
+      else if (have($item`industrial fire extinguisher`) && get("_fireExtinguisherCharge") >= 10)
+        return {
+          equip: $items`industrial fire extinguisher`,
+        };
       else return { modifier: "item" };
     },
     combat: new CombatStrategy()
       .yellowRay($monster`filthworm drone`)
-      .macro(Macro.trySkill($skill`Extract Jelly`)),
+      .macro(
+        Macro.trySkill($skill`Extract Jelly`).trySkill($skill`Fire Extinguisher: Polar Vortex`)
+      ),
     effects: $effects`Filthworm Larva Stench`,
     limit: { soft: 10 },
   },
@@ -380,11 +386,17 @@ const Orchard: Task[] = [
         return {
           familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
         };
+      else if (have($item`industrial fire extinguisher`) && get("_fireExtinguisherCharge") >= 10)
+        return {
+          equip: $items`industrial fire extinguisher`,
+        };
       else return { modifier: "item" };
     },
     combat: new CombatStrategy()
       .yellowRay($monster`filthworm royal guard`)
-      .macro(Macro.trySkill($skill`Extract Jelly`)),
+      .macro(
+        Macro.trySkill($skill`Extract Jelly`).trySkill($skill`Fire Extinguisher: Polar Vortex`)
+      ),
     limit: { soft: 10 },
   },
   {
