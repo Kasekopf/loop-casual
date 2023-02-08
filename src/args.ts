@@ -115,6 +115,10 @@ export const args = Args.create(
       actions: Args.number({
         help: "Maximum number of actions to perform, if given. Can be used to execute just a few steps at a time.",
       }),
+      verbose: Args.flag({
+        help: "Print out a list of possible tasks at each step.",
+        default: false,
+      }),
       verboseequip: Args.flag({
         help: "Print out equipment usage before each task.",
       }),

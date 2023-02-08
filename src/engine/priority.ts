@@ -33,7 +33,7 @@ export class Priorities {
   static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
   static BadGoose: Priority = { score: 0, reason: "Goose not charged" };
   static BadMood: Priority = { score: -100, reason: "Wrong effects" };
-  static Last: Priority = { score: -10000 };
+  static Last: Priority = { score: -10000, reason: "Only if nothing else" };
 }
 
 export class Prioritization {
@@ -154,6 +154,23 @@ export class Prioritization {
       .join(", ");
     if (this.orb_monster) return result.replace("orb monster", `${this.orb_monster}`);
     else return result;
+  }
+
+  public explainWithColor(): string | undefined {
+    const result = [...this.priorities]
+      .map((priority) => {
+        if (priority.reason === undefined) return undefined;
+        if (priority.score > 0) return `<font color='blue'>${priority.reason}</font>,`;
+        else if (priority.score < 0) return `<font color='red'>${priority.reason}</font>,`;
+        else return undefined;
+      })
+      .filter((priority) => priority !== undefined)
+      .join(" ");
+    if (result === undefined || result.length === 0) return undefined;
+
+    const trimmed_result = result.slice(0, -1);
+    if (this.orb_monster) return trimmed_result.replace("orb monster", `${this.orb_monster}`);
+    else return trimmed_result;
   }
 
   public has(priorty: Priority) {

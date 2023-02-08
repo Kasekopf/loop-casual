@@ -25,6 +25,7 @@ import {
   myTurncount,
   overdrink,
   print,
+  printHtml,
   putCloset,
   restoreHp,
   restoreMp,
@@ -114,6 +115,12 @@ type ActiveTask = Task & {
   active_priority?: Prioritization;
 };
 
+type ScoredTask = {
+  task: ActiveTask;
+  score: number;
+  index: number;
+};
+
 export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   constructor(tasks: Task[], ignoreTasks: string[], completedTasks: string[]) {
     const ignore_set = new Set<string>(ignoreTasks.map((n) => n.trim()));
@@ -180,29 +187,58 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     // If a wanderer is up try to place it in a useful location
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     if (wanderer) {
-      const delay_burning = available_tasks.find(
+      const possible_locations = available_tasks.filter(
         (task) => this.hasDelay(task) && this.createOutfit(task).canEquip(wanderer?.equip ?? [])
       );
-      if (delay_burning) {
+      if (possible_locations.length > 0) {
+        if (args.debug.verbose) {
+          printHtml(
+            `A wanderer (${wanderer.name}) is available to place in a delay zone. Available zones:`
+          );
+          for (const task of possible_locations) {
+            printHtml(`${task.name}`);
+          }
+        }
         return {
-          ...delay_burning,
+          ...possible_locations[0],
           active_priority: Prioritization.fixed(Priorities.Wanderer),
           wanderer: wanderer,
         };
+      } else {
+        logprint(`Wanderer ${wanderer.name} is ready but no tasks have delay`);
       }
-
-      logprint(`Wanderer ${wanderer.name} is ready but no tasks have delay`);
     }
 
-    // Next, choose tasks by priorty, then by route.
+    // Finally, choose from all available tasks
     const task_priorities = available_tasks.map((task) => {
       return { ...task, active_priority: Prioritization.from(task) };
     });
-    const highest_priority = Math.max(...task_priorities.map((tp) => tp.active_priority.score()));
-    const todo = task_priorities.find((tp) => tp.active_priority.score() === highest_priority);
-    if (todo !== undefined) {
-      return todo;
+
+    // Sort tasks in a stable way, by priority and then by route
+    const scored_tasks: ScoredTask[] = [];
+    for (let i = 0; i < task_priorities.length; i++) {
+      scored_tasks.push({
+        task: task_priorities[i],
+        score: task_priorities[i].active_priority.score(),
+        index: i,
+      });
     }
+    scored_tasks.sort((a, b) => {
+      if (a.score === b.score) return a.index - b.index;
+      return b.score - a.score;
+    });
+    if (args.debug.verbose) {
+      printHtml("");
+      printHtml("Available Tasks:");
+      for (const scored_task of scored_tasks) {
+        const name = scored_task.task.name;
+        const reason = scored_task.task.active_priority?.explainWithColor() ?? "Route";
+        const score = scored_task.score;
+        printHtml(`<u>${name}</u>: ${reason} <font color='#888888'>(${score})</font>`);
+      }
+      printHtml("");
+    }
+    if (scored_tasks.length > 0) return scored_tasks[0].task;
 
     // No next task
     return undefined;
