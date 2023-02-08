@@ -232,7 +232,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       printHtml("Available Tasks:");
       for (const scored_task of scored_tasks) {
         const name = scored_task.task.name;
-        const reason = scored_task.task.active_priority?.explainWithColor() ?? "Route";
+        const reason = scored_task.task.active_priority?.explainWithColor() ?? "Available";
         const score = scored_task.score;
         printHtml(`<u>${name}</u>: ${reason} <font color='#888888'>(${score})</font>`);
       }
