@@ -16215,7 +16215,7 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
 
             var scored_task = _step4.value;
             var name = scored_task.task.name;
-            var reason = (_scored_task$task$act = (_scored_task$task$act2 = scored_task.task.active_priority) === null || _scored_task$task$act2 === void 0 ? void 0 : _scored_task$task$act2.explainWithColor()) !== null && _scored_task$task$act !== void 0 ? _scored_task$task$act : "Route";
+            var reason = (_scored_task$task$act = (_scored_task$task$act2 = scored_task.task.active_priority) === null || _scored_task$task$act2 === void 0 ? void 0 : _scored_task$task$act2.explainWithColor()) !== null && _scored_task$task$act !== void 0 ? _scored_task$task$act : "Available";
             var score = scored_task.score;
             (0,external_kolmafia_namespaceObject.printHtml)("<u>".concat(name, "</u>: ").concat(reason, " <font color='#888888'>(").concat(score, ")</font>"));
           }
@@ -21465,7 +21465,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "64d79e2";
+var lastCommitHash = "20b59df";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
