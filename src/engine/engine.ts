@@ -643,7 +643,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const reprocess_targets = get("gooseReprocessed");
     const spikelodon_spikes = get("_spikolodonSpikeUses");
 
-    set("_loopgyou_ncforce", false);
+    // The NC force is not reset by wanderers
+    if (
+      !task.active_priority?.has(Priorities.Wanderer) &&
+      !task.active_priority?.has(Priorities.Always)
+    )
+      set("_loopgyou_ncforce", false);
 
     super.do(task);
     if (myAdventures() !== start_advs) getExtros();
