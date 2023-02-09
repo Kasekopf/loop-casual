@@ -175,7 +175,7 @@ export const MiscQuest: Quest = {
       name: "Voting",
       after: [],
       priority: () => Priorities.Free,
-      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
+      completed: () => !args.minor.voterbooth || have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
