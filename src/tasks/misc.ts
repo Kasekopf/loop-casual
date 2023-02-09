@@ -873,6 +873,18 @@ export const MiscQuest: Quest = {
       limit: { tries: 3 },
       freeaction: true,
     },
+    {
+      name: "Learn About Bugs",
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`S.I.T. Course Completion Certificate`),
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => get("_sitCourseCompleted", true) || have($skill`Insectologist`),
+      // eslint-disable-next-line libram/verify-constants
+      do: () => use($item`S.I.T. Course Completion Certificate`),
+      choices: { [1494]: 2 },
+      limit: { tries: 1 },
+      freeaction: true
+    },
   ],
 };
 
