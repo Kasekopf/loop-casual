@@ -851,22 +851,33 @@ export const MiscQuest: Quest = {
       },
       do: () => {
         const config: TrainsetPiece[] = [];
+        // 1 piece
         config.push(TrainsetPiece.DOUBLE_NEXT_STATION);
-        if (have($item`designer sweatpants`)) {
-          config.push(TrainsetPiece.GAIN_MEAT);
+        // 1-2 pieces
+        if (!have($item`designer sweatpants`)) {
           config.push(TrainsetPiece.EFFECT_MP);
-        } else {
-          config.push(TrainsetPiece.EFFECT_MP);
-          config.push(TrainsetPiece.GAIN_MEAT);
         }
-
+        // 1-3 pieces
+        if (step("questL09Topping") < 1) {
+          config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
+        }
+        // 2-4 pieces
+        config.push(TrainsetPiece.GAIN_MEAT);
+        // 3-4 pieces
+        if (!config.includes(TrainsetPiece.EFFECT_MP)) {
+          config.push(TrainsetPiece.EFFECT_MP);
+        }
+        // 3-5 pieces
         if (!haveOre()) config.push(TrainsetPiece.ORE);
-        if (step("questL09Topping") < 1) config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
-
+        // 4-6 pieces
         config.push(TrainsetPiece.HOT_RES_COLD_DMG);
+        // 5-7 pieces
         config.push(TrainsetPiece.STENCH_RES_SPOOKY_DMG);
+        // 6-8 pieces
         config.push(TrainsetPiece.RANDOM_BOOZE);
+        // 7-8 pieces
         if (config.length < 8) config.push(TrainsetPiece.DROP_LAST_FOOD_OR_RANDOM);
+        // 8 pieces
         if (config.length < 8) config.push(TrainsetPiece.CANDY);
         setTrainsetConfiguration(config);
       },
