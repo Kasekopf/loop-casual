@@ -6,6 +6,7 @@ import {
   equippedAmount,
   Familiar,
   familiarWeight,
+  getCampground,
   getWorkshed,
   gnomadsAvailable,
   haveEquipped,
@@ -925,11 +926,12 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => Priorities.Free,
       ready: () => haveInCampground($item`packet of rock seeds`),
-      completed: () => get("desertExploration") > 0 || have($item`milestone`),
+      completed: () => getCampground()[$item`milestone`.name] === 0,
       do: () => {
         visitUrl("campground.php?action=rgarden1&pwd");
         visitUrl("campground.php?action=rgarden2&pwd");
         visitUrl("campground.php?action=rgarden3&pwd");
+        visitUrl("campground.php");
       },
       limit: { tries: 1 },
       freeaction: true,
