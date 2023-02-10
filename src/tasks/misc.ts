@@ -176,7 +176,11 @@ export const MiscQuest: Quest = {
       name: "Voting",
       after: [],
       priority: () => Priorities.Free,
-      completed: () => !args.minor.voterbooth || have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
+      completed: () =>
+        !args.minor.voterbooth ||
+        have($item`"I Voted!" sticker`) ||
+        get("_voteToday") ||
+        !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
@@ -903,6 +907,8 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Learn About Bugs",
+      after: [],
+      priority: () => Priorities.Free,
       // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`S.I.T. Course Completion Certificate`),
       // eslint-disable-next-line libram/verify-constants
@@ -911,7 +917,7 @@ export const MiscQuest: Quest = {
       do: () => use($item`S.I.T. Course Completion Certificate`),
       choices: { [1494]: 2 },
       limit: { tries: 1 },
-      freeaction: true
+      freeaction: true,
     },
   ],
 };
