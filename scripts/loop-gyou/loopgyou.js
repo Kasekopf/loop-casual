@@ -9785,6 +9785,10 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     saveparka: Args.number({
       help: "Number of spikolodon spikes to save (max 5).",
       default: 0
+    }),
+    voterbooth: Args.flag({
+      help: "Attempt to use the voter booth if we have access.",
+      default: true
     })
   }),
   debug: Args.group("Debug Options", {
@@ -12498,7 +12502,7 @@ var MiscQuest = {
     name: "Voting",
     after: [],
     priority: () => Priorities.Free,
-    completed: () => have(template_string_$item(misc_templateObject33 || (misc_templateObject33 = misc_taggedTemplateLiteral(["\"I Voted!\" sticker"])))) || property_get("_voteToday") || !property_get("voteAlways"),
+    completed: () => !args.minor.voterbooth || have(template_string_$item(misc_templateObject33 || (misc_templateObject33 = misc_taggedTemplateLiteral(["\"I Voted!\" sticker"])))) || property_get("_voteToday") || !property_get("voteAlways"),
     do: () => {
       // Taken from garbo
       var voterValueTable = [{
@@ -13141,6 +13145,19 @@ var MiscQuest = {
     },
     limit: {
       tries: 3
+    },
+    freeaction: true
+  }, {
+    name: "Harvest Chateau",
+    after: [],
+    priority: () => Priorities.Free,
+    ready: () => property_get("chateauAvailable"),
+    completed: () => property_get("_chateauDeskHarvested"),
+    do: () => {
+      (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=chateau&action=chateau_desk2");
+    },
+    limit: {
+      tries: 1
     },
     freeaction: true
   }]
@@ -16601,12 +16618,15 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
   }, {
     key: "do",
     value: function _do(task) {
+      var _task$active_priority5, _task$active_priority6;
+
       var beaten_turns = (0,external_kolmafia_namespaceObject.haveEffect)(template_string_$effect(engine_templateObject48 || (engine_templateObject48 = engine_engine_taggedTemplateLiteral(["Beaten Up"]))));
       var start_advs = (0,external_kolmafia_namespaceObject.myAdventures)();
       var goose_weight = (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(engine_templateObject49 || (engine_templateObject49 = engine_engine_taggedTemplateLiteral(["Grey Goose"]))));
       var reprocess_targets = property_get("gooseReprocessed");
-      var spikelodon_spikes = property_get("_spikolodonSpikeUses");
-      _set("_loopgyou_ncforce", false);
+      var spikelodon_spikes = property_get("_spikolodonSpikeUses"); // The NC force is not reset by wanderers
+
+      if (!((_task$active_priority5 = task.active_priority) !== null && _task$active_priority5 !== void 0 && _task$active_priority5.has(Priorities.Wanderer)) && !((_task$active_priority6 = task.active_priority) !== null && _task$active_priority6 !== void 0 && _task$active_priority6.has(Priorities.Always))) _set("_loopgyou_ncforce", false);
 
       engine_get(engine_getPrototypeOf(Engine.prototype), "do", this).call(this, task);
 
@@ -16644,11 +16664,11 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
   }, {
     key: "post",
     value: function post(task) {
-      var _task$active_priority5;
+      var _task$active_priority7;
 
       engine_get(engine_getPrototypeOf(Engine.prototype), "post", this).call(this, task);
 
-      if ((_task$active_priority5 = task.active_priority) !== null && _task$active_priority5 !== void 0 && _task$active_priority5.has(Priorities.BadOrb) && !(0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject57 || (engine_templateObject57 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"]))))) resetBadOrb();
+      if ((_task$active_priority7 = task.active_priority) !== null && _task$active_priority7 !== void 0 && _task$active_priority7.has(Priorities.BadOrb) && !(0,external_kolmafia_namespaceObject.haveEquipped)(template_string_$item(engine_templateObject57 || (engine_templateObject57 = engine_engine_taggedTemplateLiteral(["miniature crystal ball"]))))) resetBadOrb();
       if (property_get("_latteBanishUsed") && shouldFinishLatte()) refillLatte();
       absorbConsumables();
       autosellJunk();
@@ -17901,7 +17921,7 @@ var KnobQuest = {
   }]
 };
 ;// CONCATENATED MODULE: ./src/tasks/level6.ts
-var level6_templateObject, level6_templateObject2, level6_templateObject3, level6_templateObject4, level6_templateObject5, level6_templateObject6, level6_templateObject7, level6_templateObject8, level6_templateObject9, level6_templateObject10, level6_templateObject11, level6_templateObject12, level6_templateObject13, level6_templateObject14, level6_templateObject15, level6_templateObject16, level6_templateObject17, level6_templateObject18, level6_templateObject19, level6_templateObject20, level6_templateObject21, level6_templateObject22, level6_templateObject23, level6_templateObject24, level6_templateObject25, level6_templateObject26, level6_templateObject27, level6_templateObject28, level6_templateObject29;
+var level6_templateObject, level6_templateObject2, level6_templateObject3, level6_templateObject4, level6_templateObject5, level6_templateObject6, level6_templateObject7, level6_templateObject8, level6_templateObject9, level6_templateObject10, level6_templateObject11, level6_templateObject12, level6_templateObject13, level6_templateObject14, level6_templateObject15, level6_templateObject16, level6_templateObject17, level6_templateObject18, level6_templateObject19, level6_templateObject20, level6_templateObject21, level6_templateObject22, level6_templateObject23, level6_templateObject24, level6_templateObject25, level6_templateObject26, level6_templateObject27, level6_templateObject28, level6_templateObject29, level6_templateObject30, level6_templateObject31;
 
 function level6_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -17928,13 +17948,19 @@ var FriarQuest = {
   }, {
     name: "Heart",
     after: ["Start"],
-    completed: () => have(template_string_$item(level6_templateObject || (level6_templateObject = level6_taggedTemplateLiteral(["box of birthday candles"])))) || step("questL06Friar") === 999,
-    do: $location(level6_templateObject2 || (level6_templateObject2 = level6_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
+    priority: () => {
+      if (property_get("_loopgyou_ncforce", false) && have(template_string_$item(level6_templateObject || (level6_templateObject = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("wing")) return {
+        score: -2,
+        reason: "Still need latte here"
+      };else return Priorities.None;
+    },
+    completed: () => have(template_string_$item(level6_templateObject2 || (level6_templateObject2 = level6_taggedTemplateLiteral(["box of birthday candles"])))) || step("questL06Friar") === 999,
+    do: $location(level6_templateObject3 || (level6_templateObject3 = level6_taggedTemplateLiteral(["The Dark Heart of the Woods"]))),
     outfit: () => {
-      if (have(template_string_$item(level6_templateObject3 || (level6_templateObject3 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("wing")) {
+      if (have(template_string_$item(level6_templateObject4 || (level6_templateObject4 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("wing")) {
         return {
           modifier: "-combat",
-          equip: template_string_$items(level6_templateObject4 || (level6_templateObject4 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))
+          equip: template_string_$items(level6_templateObject5 || (level6_templateObject5 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))
         };
       }
 
@@ -17949,8 +17975,8 @@ var FriarQuest = {
   }, {
     name: "Neck",
     after: ["Start"],
-    completed: () => have(template_string_$item(level6_templateObject5 || (level6_templateObject5 = level6_taggedTemplateLiteral(["dodecagram"])))) || step("questL06Friar") === 999,
-    do: $location(level6_templateObject6 || (level6_templateObject6 = level6_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
+    completed: () => have(template_string_$item(level6_templateObject6 || (level6_templateObject6 = level6_taggedTemplateLiteral(["dodecagram"])))) || step("questL06Friar") === 999,
+    do: $location(level6_templateObject7 || (level6_templateObject7 = level6_taggedTemplateLiteral(["The Dark Neck of the Woods"]))),
     outfit: {
       modifier: "-combat"
     },
@@ -17964,13 +17990,19 @@ var FriarQuest = {
   }, {
     name: "Elbow",
     after: ["Start"],
-    completed: () => have(template_string_$item(level6_templateObject7 || (level6_templateObject7 = level6_taggedTemplateLiteral(["eldritch butterknife"])))) || step("questL06Friar") === 999,
-    do: $location(level6_templateObject8 || (level6_templateObject8 = level6_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
+    priority: () => {
+      if (property_get("_loopgyou_ncforce", false) && have(template_string_$item(level6_templateObject8 || (level6_templateObject8 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("vitamins")) return {
+        score: -2,
+        reason: "Still need latte here"
+      };else return Priorities.None;
+    },
+    completed: () => have(template_string_$item(level6_templateObject9 || (level6_templateObject9 = level6_taggedTemplateLiteral(["eldritch butterknife"])))) || step("questL06Friar") === 999,
+    do: $location(level6_templateObject10 || (level6_templateObject10 = level6_taggedTemplateLiteral(["The Dark Elbow of the Woods"]))),
     outfit: () => {
-      if (have(template_string_$item(level6_templateObject9 || (level6_templateObject9 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("vitamins")) {
+      if (have(template_string_$item(level6_templateObject11 || (level6_templateObject11 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))) && !property_get("latteUnlocks").includes("vitamins")) {
         return {
           modifier: "-combat",
-          equip: template_string_$items(level6_templateObject10 || (level6_templateObject10 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))
+          equip: template_string_$items(level6_templateObject12 || (level6_templateObject12 = level6_taggedTemplateLiteral(["latte lovers member's mug"])))
         };
       }
 
@@ -17984,7 +18016,7 @@ var FriarQuest = {
     }
   }, {
     name: "Finish",
-    after: ["Heart", "Neck", "Elbow"],
+    after: ["Heart", "Elbow", "Neck"],
     completed: () => step("questL06Friar") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("friars.php?action=ritual&pwd"),
     limit: {
@@ -18010,12 +18042,12 @@ var OrganQuest = {
   }, {
     name: "Tutu",
     after: ["Start"],
-    completed: () => have(template_string_$item(level6_templateObject11 || (level6_templateObject11 = level6_taggedTemplateLiteral(["Azazel's tutu"])))) || step("questM10Azazel") === 999,
+    completed: () => have(template_string_$item(level6_templateObject13 || (level6_templateObject13 = level6_taggedTemplateLiteral(["Azazel's tutu"])))) || step("questM10Azazel") === 999,
     acquire: [{
-      item: template_string_$item(level6_templateObject12 || (level6_templateObject12 = level6_taggedTemplateLiteral(["imp air"]))),
+      item: template_string_$item(level6_templateObject14 || (level6_templateObject14 = level6_taggedTemplateLiteral(["imp air"]))),
       num: 5
     }, {
-      item: template_string_$item(level6_templateObject13 || (level6_templateObject13 = level6_taggedTemplateLiteral(["bus pass"]))),
+      item: template_string_$item(level6_templateObject15 || (level6_templateObject15 = level6_taggedTemplateLiteral(["bus pass"]))),
       num: 5
     }],
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=moan"),
@@ -18028,15 +18060,15 @@ var OrganQuest = {
     after: ["Start"],
     completed: () => {
       if (step("questM10Azazel") === 999) return true;
-      if (have(template_string_$item(level6_templateObject14 || (level6_templateObject14 = level6_taggedTemplateLiteral(["Azazel's unicorn"]))))) return true;
+      if (have(template_string_$item(level6_templateObject16 || (level6_templateObject16 = level6_taggedTemplateLiteral(["Azazel's unicorn"]))))) return true;
 
       var count = items => items.reduce((sum, item) => sum + (0,external_kolmafia_namespaceObject.itemAmount)(item), 0);
 
-      if (count(template_string_$items(level6_templateObject15 || (level6_templateObject15 = level6_taggedTemplateLiteral(["giant marshmallow, beer-scented teddy bear, gin-soaked blotter paper"])))) < 2) return false;
-      if (count(template_string_$items(level6_templateObject16 || (level6_templateObject16 = level6_taggedTemplateLiteral(["booze-soaked cherry, comfy pillow, sponge cake"])))) < 2) return false;
+      if (count(template_string_$items(level6_templateObject17 || (level6_templateObject17 = level6_taggedTemplateLiteral(["giant marshmallow, beer-scented teddy bear, gin-soaked blotter paper"])))) < 2) return false;
+      if (count(template_string_$items(level6_templateObject18 || (level6_templateObject18 = level6_taggedTemplateLiteral(["booze-soaked cherry, comfy pillow, sponge cake"])))) < 2) return false;
       return true;
     },
-    do: $location(level6_templateObject17 || (level6_templateObject17 = level6_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
+    do: $location(level6_templateObject19 || (level6_templateObject19 = level6_taggedTemplateLiteral(["Infernal Rackets Backstage"]))),
     limit: {
       soft: 30
     },
@@ -18046,13 +18078,13 @@ var OrganQuest = {
   }, {
     name: "Unicorn",
     after: ["Arena"],
-    completed: () => have(template_string_$item(level6_templateObject18 || (level6_templateObject18 = level6_taggedTemplateLiteral(["Azazel's unicorn"])))) || step("questM10Azazel") === 999,
+    completed: () => have(template_string_$item(level6_templateObject20 || (level6_templateObject20 = level6_taggedTemplateLiteral(["Azazel's unicorn"])))) || step("questM10Azazel") === 999,
     do: () => {
       var goals = {
-        Bognort: template_string_$items(level6_templateObject19 || (level6_templateObject19 = level6_taggedTemplateLiteral(["giant marshmallow, gin-soaked blotter paper"]))),
-        Stinkface: template_string_$items(level6_templateObject20 || (level6_templateObject20 = level6_taggedTemplateLiteral(["beer-scented teddy bear, gin-soaked blotter paper"]))),
-        Flargwurm: template_string_$items(level6_templateObject21 || (level6_templateObject21 = level6_taggedTemplateLiteral(["booze-soaked cherry, sponge cake"]))),
-        Jim: template_string_$items(level6_templateObject22 || (level6_templateObject22 = level6_taggedTemplateLiteral(["comfy pillow, sponge cake"])))
+        Bognort: template_string_$items(level6_templateObject21 || (level6_templateObject21 = level6_taggedTemplateLiteral(["giant marshmallow, gin-soaked blotter paper"]))),
+        Stinkface: template_string_$items(level6_templateObject22 || (level6_templateObject22 = level6_taggedTemplateLiteral(["beer-scented teddy bear, gin-soaked blotter paper"]))),
+        Flargwurm: template_string_$items(level6_templateObject23 || (level6_templateObject23 = level6_taggedTemplateLiteral(["booze-soaked cherry, sponge cake"]))),
+        Jim: template_string_$items(level6_templateObject24 || (level6_templateObject24 = level6_taggedTemplateLiteral(["comfy pillow, sponge cake"])))
       };
       (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=sven");
 
@@ -18070,22 +18102,22 @@ var OrganQuest = {
   }, {
     name: "Comedy Club",
     after: ["Start"],
-    completed: () => have(template_string_$item(level6_templateObject23 || (level6_templateObject23 = level6_taggedTemplateLiteral(["observational glasses"])))),
-    do: $location(level6_templateObject24 || (level6_templateObject24 = level6_taggedTemplateLiteral(["The Laugh Floor"]))),
+    completed: () => have(template_string_$item(level6_templateObject25 || (level6_templateObject25 = level6_taggedTemplateLiteral(["observational glasses"])))),
+    do: $location(level6_templateObject26 || (level6_templateObject26 = level6_taggedTemplateLiteral(["The Laugh Floor"]))),
     outfit: {
       modifier: "+combat"
     },
-    combat: new combat_CombatStrategy().kill($monsters(level6_templateObject25 || (level6_templateObject25 = level6_taggedTemplateLiteral(["Carbuncle Top, Larry of the Field of Signs, Victor the Insult Comic Hellhound"])))),
+    combat: new combat_CombatStrategy().kill($monsters(level6_templateObject27 || (level6_templateObject27 = level6_taggedTemplateLiteral(["Carbuncle Top, Larry of the Field of Signs, Victor the Insult Comic Hellhound"])))),
     limit: {
       soft: 30
     }
   }, {
     name: "Lollipop",
     after: ["Comedy Club"],
-    completed: () => have(template_string_$item(level6_templateObject26 || (level6_templateObject26 = level6_taggedTemplateLiteral(["Azazel's lollipop"])))) || step("questM10Azazel") === 999,
+    completed: () => have(template_string_$item(level6_templateObject28 || (level6_templateObject28 = level6_taggedTemplateLiteral(["Azazel's lollipop"])))) || step("questM10Azazel") === 999,
     do: () => (0,external_kolmafia_namespaceObject.visitUrl)("pandamonium.php?action=mourn&preaction=observe"),
     outfit: {
-      equip: template_string_$items(level6_templateObject27 || (level6_templateObject27 = level6_taggedTemplateLiteral(["observational glasses"])))
+      equip: template_string_$items(level6_templateObject29 || (level6_templateObject29 = level6_taggedTemplateLiteral(["observational glasses"])))
     },
     limit: {
       tries: 1
@@ -18101,8 +18133,8 @@ var OrganQuest = {
   }, {
     name: "Finish",
     after: ["Azazel"],
-    completed: () => have($skill(level6_templateObject28 || (level6_templateObject28 = level6_taggedTemplateLiteral(["Liver of Steel"])))),
-    do: () => (0,external_kolmafia_namespaceObject.drink)(template_string_$item(level6_templateObject29 || (level6_templateObject29 = level6_taggedTemplateLiteral(["steel margarita"])))),
+    completed: () => have($skill(level6_templateObject30 || (level6_templateObject30 = level6_taggedTemplateLiteral(["Liver of Steel"])))),
+    do: () => (0,external_kolmafia_namespaceObject.drink)(template_string_$item(level6_templateObject31 || (level6_templateObject31 = level6_taggedTemplateLiteral(["steel margarita"])))),
     limit: {
       tries: 1
     },
@@ -21465,7 +21497,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "20b59df";
+var lastCommitHash = "8fee2c5";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
