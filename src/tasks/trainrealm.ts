@@ -98,6 +98,10 @@ export function getTrainsetConfiguration(): TrainsetPiece[] {
   return getProperty("trainsetConfiguration").split(",") as TrainsetPiece[];
 }
 
+export function getTrainsetPosition(): number {
+  return toInt(getProperty("trainsetPosition"));
+}
+
 export function getTrainsetPositionsUntilConfigurable(): number {
   const pos = toInt(getProperty("trainsetPosition"));
   const configured = toInt(getProperty("lastTrainsetConfiguration"));

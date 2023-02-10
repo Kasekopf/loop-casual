@@ -66,6 +66,7 @@ import { globalStateCache } from "../engine/state";
 import { coldPlanner, yellowSubmarinePossible } from "../engine/outfit";
 import {
   getTrainsetConfiguration,
+  getTrainsetPosition,
   getTrainsetPositionsUntilConfigurable,
   setTrainsetConfiguration,
   TrainsetPiece,
@@ -858,7 +859,7 @@ export const MiscQuest: Quest = {
           config.push(TrainsetPiece.EFFECT_MP);
         }
         // 1-3 pieces
-        if (step("questL09Topping") < 1) {
+        if (step("questL09Topping") < 1 && getTrainsetPosition() >= 30) {
           config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
         }
         // 2-4 pieces
@@ -866,6 +867,10 @@ export const MiscQuest: Quest = {
         // 3-4 pieces
         if (!config.includes(TrainsetPiece.EFFECT_MP)) {
           config.push(TrainsetPiece.EFFECT_MP);
+        }
+        // 3-4 pieces
+        if (step("questL09Topping") < 1 && !config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS)) {
+          config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
         }
         // 3-5 pieces
         if (!haveOre()) config.push(TrainsetPiece.ORE);
