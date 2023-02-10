@@ -175,7 +175,7 @@ export const MiscQuest: Quest = {
       name: "Voting",
       after: [],
       priority: () => Priorities.Free,
-      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
+      completed: () => !args.minor.voterbooth || have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
@@ -871,6 +871,18 @@ export const MiscQuest: Quest = {
         setTrainsetConfiguration(config);
       },
       limit: { tries: 3 },
+      freeaction: true,
+    },
+    {
+      name: "Harvest Chateau",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => get("chateauAvailable"),
+      completed: () => get("_chateauDeskHarvested"),
+      do: (): void => {
+        visitUrl("place.php?whichplace=chateau&action=chateau_desk2");
+      },
+      limit: { tries: 1 },
       freeaction: true,
     },
     {

@@ -110,6 +110,10 @@ export const args = Args.create(
         help: "Number of spikolodon spikes to save (max 5).",
         default: 0,
       }),
+      voterbooth: Args.flag({
+        help: "Attempt to use the voter booth if we have access.",
+        default: true,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({
