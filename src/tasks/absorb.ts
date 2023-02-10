@@ -404,7 +404,6 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Conservatory`,
     after: ["Manor/Start"],
     choices: { 899: 2 },
-    skill: $skill`Ponzi Apparatus`,
   },
   {
     do: $location`The Haunted Kitchen`,
