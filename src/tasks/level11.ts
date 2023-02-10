@@ -209,7 +209,7 @@ const Desert: Task[] = [
       (have($item`can of black paint`) || myMeat() >= 1000 || (get("gnasirProgress") & 2) !== 0) &&
       itemAmount($item`worm-riding manual page`) < 15 &&
       !have($item`worm-riding hooks`) &&
-      ((get("desertExploration") === 0 && !have($effect`A Girl Named Sue`)) ||
+      ((!get("oasisAvailable", false) && !have($effect`A Girl Named Sue`)) ||
         have($effect`Ultrahydrated`)),
     priority: () => (have($effect`Ultrahydrated`) ? Priorities.Effect : Priorities.None),
     completed: () => get("desertExploration") >= 100,
