@@ -873,6 +873,18 @@ export const MiscQuest: Quest = {
       limit: { tries: 3 },
       freeaction: true,
     },
+    {
+      name: "Harvest Chateau",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => get("chateauAvailable"),
+      completed: () => get("_chateauDeskHarvested"),
+      do: (): void => {
+        visitUrl("place.php?whichplace=chateau&action=chateau_desk2");
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
   ],
 };
 
