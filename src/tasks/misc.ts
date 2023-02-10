@@ -50,6 +50,7 @@ import {
   get,
   getSaleValue,
   have,
+  haveInCampground,
   Macro,
   Robortender,
   set,
@@ -916,6 +917,20 @@ export const MiscQuest: Quest = {
       // eslint-disable-next-line libram/verify-constants
       do: () => use($item`S.I.T. Course Completion Certificate`),
       choices: { [1494]: 2 },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Harvest Rock Garden",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => haveInCampground($item`packet of rock seeds`),
+      completed: () => get("desertExploration") > 0 || have($item`milestone`),
+      do: () => {
+        visitUrl("campground.php?action=rgarden1&pwd");
+        visitUrl("campground.php?action=rgarden2&pwd");
+        visitUrl("campground.php?action=rgarden3&pwd");
+      },
       limit: { tries: 1 },
       freeaction: true,
     },

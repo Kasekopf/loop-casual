@@ -59,7 +59,7 @@ const Diary: Task[] = [
         globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
         familiarWeight($familiar`Grey Goose`) >= 6 &&
         globalStateCache.orb().prediction($location`The Black Forest`) ===
-          $monster`black magic woman`
+        $monster`black magic woman`
       ) {
         // Swoop in for a single adventure to reprocess the black magic woman
         return {
@@ -150,7 +150,7 @@ const Desert: Task[] = [
     name: "Oasis",
     after: ["Compass"],
     completed: () => get("desertExploration") >= 100,
-    ready: () => !have($effect`Ultrahydrated`) && get("desertExploration") > 0,
+    ready: () => !have($effect`Ultrahydrated`) && get("oasisAvailable", false),
     do: $location`The Oasis`,
     limit: { soft: 10 },
   },
@@ -193,8 +193,17 @@ const Desert: Task[] = [
     },
   },
   {
+    name: "Milestone",
+    after: ["Misc/Unlock Beach", "Diary"],
+    ready: () => have($item`milestone`),
+    completed: () => !have($item`milestone`) || get("desertExploration") >= 100,
+    do: () => use($item`milestone`),
+    limit: { tries: 5 }, // 5 to account for max of starting, poke garden & pull
+    freeaction: true,
+  },
+  {
     name: "Desert",
-    after: ["Diary", "Compass"],
+    after: ["Diary", "Compass", "Milestone"],
     acquire: [{ item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 }],
     ready: () =>
       (have($item`can of black paint`) || myMeat() >= 1000 || (get("gnasirProgress") & 2) !== 0) &&
