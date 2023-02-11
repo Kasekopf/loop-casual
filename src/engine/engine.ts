@@ -784,7 +784,7 @@ function autosellJunk(): void {
   // Sell extra consumables (after 1 has been absorbed)
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
-    if (consumables_blacklist.has(item) || historicalPrice(item) > 5000 || !item.tradeable || item.quest || item.gift) continue;
+    if (consumables_blacklist.has(item) || historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) || !item.tradeable || item.quest || item.gift) continue;
     if (autosellPrice(item) === 0) continue;
     if (item.inebriety > 0 || item.fullness > 0 || item.spleen > 0) {
       autosell(item, itemAmount(item));
@@ -803,7 +803,7 @@ function absorbConsumables(): void {
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
     const item_id = `${toInt(item)}`;
-    if (consumables_blacklist.has(item) || historicalPrice(item) > 5000 || !item.tradeable || item.quest || item.gift) continue;
+    if (consumables_blacklist.has(item) || historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) || !item.tradeable || item.quest || item.gift) continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
       overdrink(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
