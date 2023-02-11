@@ -338,10 +338,21 @@ export const MiscQuest: Quest = {
       outfit: (): OutfitSpec | Outfit => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
           return {
-            equip: $items`Talisman o' Namsilat, protonic accelerator pack`,
+            equip: $items`Talisman o' Namsilat, protonic accelerator pack, designer sweatpants`,
             modifier: "DA, DR",
           };
         if (get("ghostLocation") === $location`The Icy Peak`) {
+          if (
+            !get("lovebugsUnlocked") &&
+            have($item`designer sweatpants`) &&
+            get("sweat") >= 5 &&
+            coldPlanner.maximumPossible(true, $slots`back, pants`) >= 5
+          ) {
+            return coldPlanner.outfitFor(5, {
+              equip: $items`protonic accelerator pack, designer sweatpants`,
+              modifier: "DA, DR",
+            });
+          }
           if (coldPlanner.maximumPossible(true, $slots`back`) >= 5)
             return coldPlanner.outfitFor(5, {
               equip: $items`protonic accelerator pack`,
@@ -349,7 +360,10 @@ export const MiscQuest: Quest = {
             });
           else return coldPlanner.outfitFor(5, { modifier: "DA, DR" }); // not enough cold res without back
         }
-        return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
+        return {
+          equip: $items`protonic accelerator pack, designer sweatpants`,
+          modifier: "DA, DR",
+        };
       },
       combat: new CombatStrategy().macro(() => {
         if (get("lovebugsUnlocked")) {
