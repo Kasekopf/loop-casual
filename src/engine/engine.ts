@@ -489,14 +489,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`)) {
-      // If all the remaining monsters are summonable, then either we are about
-      // to summon one (and so we want to charge the goose during that fight)
-      // or all remaining summons are inaccesible (and so it is time to
-      // overcharge the goose)
-      if (absorb_state.remainingReprocess().length === 0) {
-        force_charge_goose = true;
-      }
+    if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`) && absorb_state.remainingReprocess().length === 0) {
+      force_charge_goose = true;
     }
     equipCharging(outfit, force_charge_goose);
 
@@ -518,6 +512,27 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         ((combat.can("kill") && !resources.has("killFree")) || combat.can("killHard") || task.boss)
       )
         outfit.equip($item`cursed magnifying glass`);
+    }
+
+
+    // Prefer to charge the goose if we need it for an absorb
+    if (
+      outfit.familiar === $familiar`Grey Goose` &&
+      (familiarWeight($familiar`Grey Goose`) < 6)
+    )
+      outfit.equip($item`grey down vest`);
+
+    // Determine if it is useful to target monsters with an orb (with no predictions).
+    // 1. If task.orbtargets is undefined, then use an orb if there are absorb targets.
+    // 2. If task.orbtargets() is undefined, an orb is detrimental in this zone, do not use it.
+    // 3. Otherwise, use an orb if task.orbtargets() is nonempty, or if there are absorb targets.
+    const orb_targets = task.orbtargets?.();
+    const orb_useful =
+      task.orbtargets === undefined
+        ? absorb_targets.size > 0
+        : orb_targets !== undefined && (orb_targets.length > 0 || absorb_targets.size > 0);
+    if (orb_useful && !outfit.skipDefaults) {
+      outfit.equip($item`miniature crystal ball`);
     }
 
     equipDefaults(outfit, force_charge_goose);
@@ -787,7 +802,14 @@ function autosellJunk(): void {
   // Sell extra consumables (after 1 has been absorbed)
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
-    if (consumables_blacklist.has(item) || historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) || !item.tradeable || item.quest || item.gift) continue;
+    if (
+      consumables_blacklist.has(item) ||
+      historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) ||
+      !item.tradeable ||
+      item.quest ||
+      item.gift
+    )
+      continue;
     if (autosellPrice(item) === 0) continue;
     if (item.inebriety > 0 || item.fullness > 0 || item.spleen > 0) {
       autosell(item, itemAmount(item));
@@ -806,7 +828,14 @@ function absorbConsumables(): void {
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
     const item_id = `${toInt(item)}`;
-    if (consumables_blacklist.has(item) || historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) || !item.tradeable || item.quest || item.gift) continue;
+    if (
+      consumables_blacklist.has(item) ||
+      historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) ||
+      !item.tradeable ||
+      item.quest ||
+      item.gift
+    )
+      continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
       overdrink(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;

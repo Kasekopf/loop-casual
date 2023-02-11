@@ -157,16 +157,20 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   if (have($familiar`Temporal Riftlet`)) {
     outfit.equip($familiar`Temporal Riftlet`);
   }
-  // if (have($item`gnomish housemaid's kgnee`)) {
-  //   outfit.equip($familiar`Reagnimated Gnome`);
-  // }
 
-  if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+  if (have($familiar`Reagnimated Gnome`) && outfit.equips.get($slot`familiar`) === undefined) {
+    if (outfit.equip($familiar`Reagnimated Gnome`)) {
+      outfit.equip($item`gnomish housemaid's kgnee`);
+    }
+  }
+
+  if (
+    outfit.familiar === $familiar`Grey Goose` &&
+    (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
+  )
     outfit.equip($item`grey down vest`);
   if (outfit.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
     outfit.equip($item`dromedary drinking helmet`);
-  if (outfit.familiar === $familiar`Reagnimated Gnome`)
-    outfit.equip($item`gnomish housemaid's kgnee`);
 
   if (outfit.skipDefaults) return;
 
