@@ -629,10 +629,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       task_combat.currentStrategy($monster`sausage goblin`) !== "killHard"
     ) {
       task_combat.action("killHard", $monster`sausage goblin`);
-      task_combat.macro(
-        new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-        $monster`sausage goblin`
-      );
+      if (familiarWeight($familiar`Grey Goose`) <= 10)
+        task_combat.macro(
+          new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
+          $monster`sausage goblin`
+        );
     }
 
     super.setCombat(task, task_combat, task_resources);
