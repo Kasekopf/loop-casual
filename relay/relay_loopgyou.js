@@ -3561,7 +3561,7 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
       default: false
     }),
     verboseequip: Args.flag({
-      help: "Print out equipment usage before each task."
+      help: "Print out equipment usage before each task to the CLI."
     }),
     ignoretasks: Args.string({
       help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing."
