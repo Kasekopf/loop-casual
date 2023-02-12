@@ -448,7 +448,19 @@ export const TowerQuest: Quest = {
       },
       completed: () => step("questL13Final") > 7,
       do: $location`Tower Level 2`,
-      outfit: { modifier: "meat", equip: $items`amulet coin` },
+      outfit: () => {
+        if (have($familiar`Trick-or-Treating Tot`) && have($item`li'l pirate costume`)) {
+          return {
+            modifier: "meat",
+            familiar: $familiar`Trick-or-Treating Tot`,
+            equip: $items`li'l pirate costume`,
+          };
+        }
+        return {
+          modifier: "meat",
+          equip: $items`amulet coin`, // Use amulet coin (if we have) to avoid using orb
+        };
+      },
       combat: new CombatStrategy().killHard(),
       boss: true,
       limit: { tries: 2 },
