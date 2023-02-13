@@ -29,12 +29,14 @@ import {
   $skill,
   $stat,
   AsdonMartin,
+  Counter,
   get,
   getBanishedMonsters,
   getKramcoWandererChance,
   have,
   Macro,
   set,
+  SourceTerminal,
 } from "libram";
 import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel } from "../lib";
@@ -175,12 +177,26 @@ export class BanishState {
 }
 
 export interface WandererSource extends Resource {
-  monsters: Monster[];
+  monsters: Monster[] | (() => Monster[]);
   chance: () => number;
   action?: Macro;
 }
 
 export const wandererSources: WandererSource[] = [
+  {
+    name: "Digitize Easy",
+    available: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
+    equip: { equip: $items`Space Trip safety headphones` },
+    monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
+    chance: () => 1,
+  },
+  {
+    name: "Digitize",
+    available: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
+    equip: {},
+    monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
+    chance: () => 1,
+  },
   {
     name: "Voted",
     available: () =>

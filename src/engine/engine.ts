@@ -489,7 +489,10 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`) && absorb_state.remainingReprocess().length === 0) {
+    if (
+      args.major.chargegoose > familiarWeight($familiar`Grey Goose`) &&
+      absorb_state.remainingReprocess().length === 0
+    ) {
       force_charge_goose = true;
     }
     equipCharging(outfit, force_charge_goose);
@@ -514,12 +517,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         outfit.equip($item`cursed magnifying glass`);
     }
 
-
     // Prefer to charge the goose if we need it for an absorb
-    if (
-      outfit.familiar === $familiar`Grey Goose` &&
-      (familiarWeight($familiar`Grey Goose`) < 6)
-    )
+    if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
       outfit.equip($item`grey down vest`);
 
     // Determine if it is useful to target monsters with an orb (with no predictions).
@@ -539,7 +538,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
     // Kill wanderers
     for (const wanderer of wanderers) {
-      for (const monster of wanderer.monsters) {
+      const monsters =
+        typeof wanderer.monsters === "function" ? wanderer.monsters() : wanderer.monsters;
+      for (const monster of monsters) {
         if (combat.currentStrategy(monster) !== "killHard") {
           combat.action("killHard", monster);
           if (wanderer.action) combat.macro(wanderer.action, monster);

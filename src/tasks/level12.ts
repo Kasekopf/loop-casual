@@ -4,7 +4,6 @@ import {
   create,
   effectModifier,
   equippedAmount,
-  haveEffect,
   Item,
   itemAmount,
   mallPrice,
@@ -442,7 +441,9 @@ const Nuns: Task[] = [
         cliExecute("boombox meat");
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
       // eslint-disable-next-line libram/verify-constants
-      $items`flapper fly, autumn dollar, Pink candy heart`.filter(i => have(i, 2) && !have(effectModifier(i, "Effect"))).forEach(i => use(i));
+      $items`flapper fly, autumn dollar, Pink candy heart`
+        .filter((i) => have(i, 2) && !have(effectModifier(i, "Effect")))
+        .forEach((i) => use(i));
     },
     do: $location`The Themthar Hills`,
     outfit: () => {
