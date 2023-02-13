@@ -24,6 +24,7 @@ import {
   myMp,
   myPath,
   myTurncount,
+  numericModifier,
   overdrink,
   print,
   printHtml,
@@ -591,6 +592,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     } else {
       logprint(`Equipped: ${equipped.join(", ")}`);
     }
+    logModifiers(outfit);
 
     if (
       (typeof task.freeaction === "boolean" && task.freeaction) ||
@@ -914,4 +916,31 @@ function ensureRecovery(property: string, items: string[], avoid: string[]): str
     }
   }
   return recovery_property.filter((v) => !avoid.includes(v)).join(";");
+}
+
+const modifierNames: { [name: string]: string } = {
+  combat: "Combat Rate",
+  item: "Item Drop",
+  meat: "Meat Drop",
+  ml: "Monster Level",
+  "stench res": "Stench Resistance",
+  "hot res": "Hot Resistance",
+  "cold res": "Cold Resistance",
+  "spooky res": "Spooky Resistance",
+  "sleaze res": "Sleaze Resistance",
+  init: "Initiative",
+  "booze drop": "Booze Drop",
+  "food drop": "Food Drop",
+  da: "Damage Absorption",
+};
+
+function logModifiers(outfit: Outfit) {
+  const maximizer = outfit.modifier.toLowerCase();
+  for (const modifier of Object.keys(modifierNames)) {
+    if (maximizer.includes(modifier)) {
+      const name = modifierNames[modifier];
+      const value = numericModifier(modifierNames[modifier]);
+      logprint(`= ${name}: ${value}`);
+    }
+  }
 }
