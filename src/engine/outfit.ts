@@ -39,12 +39,23 @@ import { Modes, Outfit, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel, haveLoathingLegion } from "../lib";
 import { args } from "../args";
 
+export function canEquipResource(outfit: Outfit, resource: Resource): boolean {
+  if (!resource.equip) return true;
+  if (Array.isArray(resource.equip))
+    return resource.equip.find((spec) => outfit.canEquip(spec)) !== undefined;
+  return outfit.canEquip(resource.equip);
+}
+
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip ?? [])) continue;
-    if (!outfit.equip(resource.equip ?? [])) continue;
+    if (resource.equip) {
+      // At least one of the provided equipment options must be equippable
+      const specs = Array.isArray(resource.equip) ? resource.equip : [resource.equip];
+      const chosen = specs.find((spec) => outfit.canEquip(spec) && outfit.equip(spec));
+      if (chosen === undefined) continue;
+    }
     return resource;
   }
   return undefined;
@@ -55,8 +66,12 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip ?? [])) continue;
-    if (!outfit.equip(resource.equip ?? [])) continue;
+    if (resource.equip) {
+      // At least one of the provided equipment options must be equippable
+      const specs = Array.isArray(resource.equip) ? resource.equip : [resource.equip];
+      const chosen = specs.find((spec) => outfit.canEquip(spec) && outfit.equip(spec));
+      if (chosen === undefined) continue;
+    }
     result.push(resource);
     if (resource.chance && resource.chance() === 1) break;
   }

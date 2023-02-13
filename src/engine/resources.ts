@@ -10,7 +10,6 @@ import {
   Location,
   Monster,
   myAscensions,
-  myBasestat,
   myMeat,
   myTurncount,
   retrieveItem,
@@ -27,7 +26,6 @@ import {
   $items,
   $monster,
   $skill,
-  $stat,
   AsdonMartin,
   Counter,
   get,
@@ -48,7 +46,7 @@ export interface Resource {
   name: string;
   available: () => boolean;
   prepare?: () => void;
-  equip?: Item | Familiar | Item[] | OutfitSpec;
+  equip?: Item | Familiar | OutfitSpec | OutfitSpec[];
   chance?: () => number;
 }
 
@@ -184,16 +182,9 @@ export interface WandererSource extends Resource {
 
 export const wandererSources: WandererSource[] = [
   {
-    name: "Digitize Easy",
-    available: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
-    equip: { equip: $items`Space Trip safety headphones` },
-    monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
-    chance: () => 1,
-  },
-  {
     name: "Digitize",
     available: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
-    equip: {},
+    equip: [{ equip: $items`Space Trip safety headphones` }, {}],
     monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
     chance: () => 1,
   },
@@ -269,40 +260,26 @@ export const wandererSources: WandererSource[] = [
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
   },
   {
-    name: "Kramco Easy",
-    available: () =>
-      have($item`Kramco Sausage-o-Matic™`) &&
-      atLevel(5) &&
-      myBasestat($stat`mysticality`) >= 35 &&
-      familiarWeight($familiar`Grey Goose`) <= 10,
-    equip: { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
-    monsters: [$monster`sausage goblin`],
-    chance: () => getKramcoWandererChance(),
-    action: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-  },
-  {
     name: "Kramco",
     available: () =>
       have($item`Kramco Sausage-o-Matic™`) &&
       atLevel(5) &&
       familiarWeight($familiar`Grey Goose`) <= 10,
-    equip: $item`Kramco Sausage-o-Matic™`,
+    equip: [
+      { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
+      { equip: $items`Kramco Sausage-o-Matic™` },
+    ],
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
     action: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
   },
   {
-    name: "Kramco Easy (No Dupe)",
-    available: () =>
-      have($item`Kramco Sausage-o-Matic™`) && atLevel(5) && myBasestat($stat`mysticality`) >= 35,
-    equip: { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
-    monsters: [$monster`sausage goblin`],
-    chance: () => getKramcoWandererChance(),
-  },
-  {
     name: "Kramco (No Dupe)",
     available: () => have($item`Kramco Sausage-o-Matic™`) && atLevel(5),
-    equip: $item`Kramco Sausage-o-Matic™`,
+    equip: [
+      { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
+      { equip: $items`Kramco Sausage-o-Matic™` },
+    ],
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
   },

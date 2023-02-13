@@ -64,6 +64,7 @@ import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "g
 import { CombatActions, MyActionDefaults } from "./combat";
 import {
   cacheDress,
+  canEquipResource,
   equipCharging,
   equipDefaults,
   equipFirst,
@@ -189,7 +190,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     if (wanderer) {
       const possible_locations = available_tasks.filter(
-        (task) => this.hasDelay(task) && this.createOutfit(task).canEquip(wanderer?.equip ?? [])
+        (task) => this.hasDelay(task) && canEquipResource(this.createOutfit(task), wanderer)
       );
       if (possible_locations.length > 0) {
         if (args.debug.verbose) {
@@ -277,7 +278,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     equipInitial(outfit);
     const wanderers = task.wanderer ? [task.wanderer] : [];
     for (const wanderer of wanderers) {
-      if (!outfit.equip(wanderer?.equip ?? []))
+      if (!equipFirst(outfit, [wanderer]))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
