@@ -388,6 +388,7 @@ const Dome: Task[] = [
   {
     name: "Palindome Photos",
     after: ["Palindome Dog", "Palindome Dudes"],
+    prepare: () => tuneSnapper($phylum`dudes`),
     completed: () =>
       (have($item`photograph of a red nugget`) &&
         have($item`photograph of God`) &&
@@ -401,6 +402,7 @@ const Dome: Task[] = [
         equip: $items`Talisman o' Namsilat`,
         modifier: "-combat, item",
         avoid: $items`broken champagne bottle`,
+        familiar: $familiar`Red-Nosed Snapper`,
       };
     },
     combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
@@ -410,12 +412,14 @@ const Dome: Task[] = [
     name: "Palindome Nuts",
     after: ["Palindome Dog", "Palindome Dudes", "Palindome Photos"],
     do: $location`Inside the Palindome`,
+    prepare: () => tuneSnapper($phylum`dudes`),
     completed: () =>
       have($item`stunt nuts`) || have($item`wet stunt nut stew`) || step("questL11Palindome") >= 5,
     outfit: {
       equip: $items`Talisman o' Namsilat`,
       modifier: "item",
       avoid: $items`broken champagne bottle`,
+      familiar: $familiar`Red-Nosed Snapper`,
     },
     combat: new CombatStrategy().killItem($monsters`Bob Racecar, Racecar Bob`),
     limit: { soft: 20 },
