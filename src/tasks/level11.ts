@@ -1,4 +1,5 @@
 import {
+  availableAmount,
   buy,
   cliExecute,
   familiarWeight,
@@ -197,13 +198,13 @@ const Desert: Task[] = [
     after: ["Misc/Unlock Beach", "Diary"],
     ready: () => have($item`milestone`),
     completed: () => !have($item`milestone`) || get("desertExploration") >= 100,
-    do: () => use($item`milestone`),
+    do: () => use($item`milestone`, availableAmount($item`milestone`)),
     limit: { tries: 5 }, // 5 to account for max of starting, poke garden & pull
     freeaction: true,
   },
   {
     name: "Desert",
-    after: ["Diary", "Compass", "Milestone"],
+    after: ["Diary", "Compass"],
     acquire: [{ item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 }],
     ready: () =>
       (have($item`can of black paint`) || myMeat() >= 1000 || (get("gnasirProgress") & 2) !== 0) &&
