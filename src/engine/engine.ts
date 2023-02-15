@@ -61,7 +61,13 @@ import {
   set,
   uneffect,
 } from "libram";
-import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
+import {
+  Engine as BaseEngine,
+  CombatResources,
+  CombatStrategy,
+  Outfit,
+  undelay,
+} from "grimoire-kolmafia";
 import { CombatActions, MyActionDefaults } from "./combat";
 import {
   cacheDress,
@@ -282,10 +288,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
-    if (
-      (typeof task.freeaction === "boolean" && task.freeaction) ||
-      (typeof task.freeaction === "function" && task.freeaction())
-    ) {
+    if (undelay(task.freeaction)) {
       // Prepare only as requested by the task
       return;
     }
@@ -478,8 +481,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
               t.ncforce !== undefined &&
               this.available(t) &&
               t.name !== task.name &&
-              ((typeof t.ncforce === "boolean" && t.ncforce) ||
-                (typeof t.ncforce === "function" && t.ncforce()))
+              undelay(t.ncforce)
           ) !== undefined
         ) {
           const ncforcer = equipFirst(outfit, forceNCSources);
@@ -539,9 +541,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
     // Kill wanderers
     for (const wanderer of wanderers) {
-      const monsters =
-        typeof wanderer.monsters === "function" ? wanderer.monsters() : wanderer.monsters;
-      for (const monster of monsters) {
+      for (const monster of undelay(wanderer.monsters)) {
         if (combat.currentStrategy(monster) !== "killHard") {
           combat.action("killHard", monster);
           if (wanderer.action) combat.macro(wanderer.action, monster);
@@ -565,7 +565,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   createOutfit(task: Task): Outfit {
-    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    const spec = undelay(task.outfit);
     const outfit = new Outfit();
     if (spec !== undefined) outfit.equip(spec); // no error on failure
     return outfit;
@@ -584,10 +584,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     }
     logModifiers(outfit);
 
-    if (
-      (typeof task.freeaction === "boolean" && task.freeaction) ||
-      (typeof task.freeaction === "function" && task.freeaction())
-    ) {
+    if (undelay(task.freeaction)) {
       // Prepare only as requested by the task
       return;
     }

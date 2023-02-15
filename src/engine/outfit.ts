@@ -82,11 +82,7 @@ export function equipInitial(outfit: Outfit): void {
 
   if (modifier.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
-    if (
-      !modifier.includes("+combat") &&
-      !modifier.includes(" combat") &&
-      !modifier.includes("res")
-    )
+    if (!modifier.includes("+combat") && !modifier.includes(" combat") && !modifier.includes("res"))
       outfit.equip($item`protonic accelerator pack`);
   }
   // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
@@ -335,9 +331,7 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
     } else if (
       modifier.includes("-combat") ||
-      (modifier.includes("init") &&
-        !modifier.match("-[\\d .]*init") &&
-        !modifier.match("combat"))
+      (modifier.includes("init") && !modifier.match("-[\\d .]*init") && !modifier.match("combat"))
     ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {

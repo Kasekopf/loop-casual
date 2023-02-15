@@ -9,6 +9,7 @@ import { moodCompatible } from "./moods";
 import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
 import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
+import { undelay } from "grimoire-kolmafia";
 
 export class Priorities {
   static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
@@ -88,9 +89,13 @@ export class Prioritization {
 
     // Ensure that the current +/- combat effects are compatible
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    const modifier = outfit_spec?.modifier === undefined ? undefined :
-      (Array.isArray(outfit_spec.modifier) ? outfit_spec.modifier.join(",") : outfit_spec.modifier);
+    const outfit_spec = undelay(task.outfit);
+    const modifier =
+      outfit_spec?.modifier === undefined
+        ? undefined
+        : Array.isArray(outfit_spec.modifier)
+        ? outfit_spec.modifier.join(",")
+        : outfit_spec.modifier;
     if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }
@@ -134,10 +139,7 @@ export class Prioritization {
     }
 
     // Handle potential NC forcers in a zone
-    if (
-      (typeof task.ncforce === "boolean" && task.ncforce) ||
-      (typeof task.ncforce === "function" && task.ncforce())
-    ) {
+    if (undelay(task.ncforce)) {
       if (get("_loopgyou_ncforce", false)) {
         result.priorities.add(Priorities.GoodForceNC);
       } else if (forceNCPossible()) {

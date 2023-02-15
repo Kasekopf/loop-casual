@@ -1223,10 +1223,6 @@ export function trainSetAvailable() {
   if (getWorkshed() === $item`model train set`) return true;
   if (!have($item`model train set`)) return false;
   if (getWorkshed() === $item`none` && args.major.workshed === $item`model train set`) return true;
-  if (
-    args.major.swapworkshed === $item`model train set` &&
-    willWorkshedSwap()
-  )
-    return true;
+  if (args.major.swapworkshed === $item`model train set` && willWorkshedSwap()) return true;
   return false;
 }
