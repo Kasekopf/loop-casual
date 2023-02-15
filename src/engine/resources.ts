@@ -36,7 +36,12 @@ import {
   set,
   SourceTerminal,
 } from "libram";
-import { CombatResource as BaseCombatResource, OutfitSpec, step } from "grimoire-kolmafia";
+import {
+  CombatResource as BaseCombatResource,
+  DelayedMacro,
+  OutfitSpec,
+  step,
+} from "grimoire-kolmafia";
 import { atLevel } from "../lib";
 import { Task } from "./task";
 import { monstersAt } from "../tasks/absorb";
@@ -177,7 +182,7 @@ export class BanishState {
 export interface WandererSource extends Resource {
   monsters: Monster[] | (() => Monster[]);
   chance: () => number;
-  action?: Macro;
+  action?: DelayedMacro;
 }
 
 export const wandererSources: WandererSource[] = [
@@ -187,6 +192,14 @@ export const wandererSources: WandererSource[] = [
     equip: [{ equip: $items`Space Trip safety headphones` }, {}],
     monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
     chance: () => 1,
+    action: () => {
+      if (
+        familiarWeight($familiar`Grey Goose`) <= 10 &&
+        get("_sourceTerminalDigitizeMonster") === $monster`sausage goblin`
+      )
+        return new Macro().trySkill($skill`Emit Matter Duplicating Drones`);
+      else return new Macro();
+    },
   },
   {
     name: "Voted",
@@ -261,20 +274,6 @@ export const wandererSources: WandererSource[] = [
   },
   {
     name: "Kramco",
-    available: () =>
-      have($item`Kramco Sausage-o-Matic™`) &&
-      atLevel(5) &&
-      familiarWeight($familiar`Grey Goose`) <= 10,
-    equip: [
-      { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
-      { equip: $items`Kramco Sausage-o-Matic™` },
-    ],
-    monsters: [$monster`sausage goblin`],
-    chance: () => getKramcoWandererChance(),
-    action: new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-  },
-  {
-    name: "Kramco (No Dupe)",
     available: () => have($item`Kramco Sausage-o-Matic™`) && atLevel(5),
     equip: [
       { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
@@ -282,6 +281,11 @@ export const wandererSources: WandererSource[] = [
     ],
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
+    action: () => {
+      if (familiarWeight($familiar`Grey Goose`) <= 10)
+        return new Macro().trySkill($skill`Emit Matter Duplicating Drones`);
+      else return new Macro();
+    },
   },
 ];
 
