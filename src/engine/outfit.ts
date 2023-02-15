@@ -30,7 +30,6 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  MaximizeOptions,
 } from "libram";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
@@ -79,23 +78,25 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
 }
 
 export function equipInitial(outfit: Outfit): void {
-  if (outfit.modifier?.includes("item")) {
+  const modifier = outfit.modifier.join(",");
+
+  if (modifier.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
     if (
-      !outfit.modifier?.includes("+combat") &&
-      !outfit.modifier?.includes(" combat") &&
-      !outfit.modifier?.includes("res")
+      !modifier.includes("+combat") &&
+      !modifier.includes(" combat") &&
+      !modifier.includes("res")
     )
       outfit.equip($item`protonic accelerator pack`);
   }
   // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
-  if (outfit.modifier?.includes("meat")) {
+  if (modifier.includes("meat")) {
     if (get("_roboDrinks").toLowerCase().includes("drive-by shooting"))
       outfit.equip($familiar`Robortender`);
     outfit.equip($familiar`Hobo Monkey`);
     outfit.equip($familiar`Leprechaun`); // backup
   }
-  if (outfit.modifier?.includes("+combat") && !outfit.modifier?.includes("res"))
+  if (modifier.includes("+combat") && !modifier.includes("res"))
     outfit.equip($item`thermal blanket`);
 
   if (args.minor.forcelocket) {
@@ -105,6 +106,8 @@ export function equipInitial(outfit: Outfit): void {
 
 export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
+
+  const modifier = outfit.modifier.join(",");
 
   // Try and get the Spooky Forest ghost first
   if (myTurncount() === 0 && get("nextParanormalActivity") === 1) {
@@ -124,7 +127,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 
       // Use latte mug for familiar exp
       if (
-        !outfit.modifier?.includes("-combat") &&
+        !modifier.includes("-combat") &&
         have($item`latte lovers member's mug`) &&
         get("latteModifier").includes("Experience (familiar): 3")
       ) {
@@ -133,7 +136,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 
       // Equip an offhand if it is not needed for the -combat umbrella
       if (
-        !outfit.modifier?.includes("-combat") ||
+        !modifier.includes("-combat") ||
         have($skill`Photonic Shroud`) ||
         !have($item`unbreakable umbrella`)
       ) {
@@ -146,7 +149,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
   if (yellowSubmarinePossible() && itemAmount($item`yellow pixel`) < 50) {
     outfit.equip($familiar`Puck Man`);
     outfit.equip($familiar`Ms. Puck Man`);
-    if (!outfit.modifier.includes("combat") && !outfit.modifier.includes("res")) {
+    if (!modifier.includes("combat") && !modifier.includes("res")) {
       if (get("_yellowPixelDropsCrown") < 25 && outfit.equip($item`Buddy Bjorn`)) {
         outfit.bjornify($familiars`Puck Man, Ms. Puck Man`);
       }
@@ -189,8 +192,9 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
 
   if (outfit.skipDefaults) return;
 
-  if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
-  if (!outfit.modifier?.includes("meat") || !have($item`backup camera`)) {
+  const modifier = outfit.modifier.join(",");
+  if (modifier.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
+  if (!modifier.includes("meat") || !have($item`backup camera`)) {
     // Leave room for backup camera for nuns
     outfit.equip($item`mafia thumb ring`);
   }
@@ -203,7 +207,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`burning paper slippers`);
   }
 
-  if (!outfit.modifier) {
+  if (modifier.length === 0) {
     // Default outfit
     outfit.equip($item`giant yellow hat`);
     outfit.equip($item`ice crown`);
@@ -241,7 +245,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`combat lover's locket`);
     outfit.equip($item`Powerful Glove`);
   } else {
-    outfit.modifier += ", 0.01 MP regen, 0.001 HP regen";
+    outfit.modifier.push("0.01 MP regen, 0.001 HP regen");
     // Defibrillator breaks the Beaten up tests
     if (haveLoathingLegion()) {
       outfit.avoid.push($item`Loathing Legion defibrillator`);
@@ -279,13 +283,15 @@ export function yellowSubmarinePossible(assumePulls = false) {
 }
 
 export function fixFoldables(outfit: Outfit) {
+  const modifier = outfit.modifier.join(",");
+
   // Libram outfit cache may not autofold umbrella, so we need to
   if (equippedAmount($item`unbreakable umbrella`) > 0 && !outfit.modes["umbrella"]) {
-    if (outfit.modifier?.includes("-combat")) {
+    if (modifier.includes("-combat")) {
       if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    } else if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
-    } else if (outfit.modifier?.includes("item")) {
+    } else if (modifier.includes("item")) {
       if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
     } else {
       if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
@@ -294,9 +300,9 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold camera, so we need to
   if (equippedAmount($item`backup camera`) > 0 && !outfit.modes["backupcamera"]) {
-    if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
-    } else if (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) {
+    } else if (modifier.includes("init") && !modifier.match("-[\\d .]*init")) {
       if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
     } else {
       if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
@@ -312,7 +318,7 @@ export function fixFoldables(outfit: Outfit) {
     !outfit.modes["retrocape"]
   ) {
     if (
-      (outfit.modifier?.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
+      (modifier.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
       get("retroCapeWashingInstructions") !== "hold"
     ) {
       cliExecute("retrocape vampire hold");
@@ -321,17 +327,17 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold parka, so we need to
   if (equippedAmount($item`Jurassic Parka`) > 0 && !outfit.modes["parka"]) {
-    if (outfit.modifier?.includes("cold res")) {
+    if (modifier.includes("cold res")) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
-    } else if (outfit.modifier?.includes("stench res")) {
+    } else if (modifier.includes("stench res")) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
-    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    } else if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
     } else if (
-      outfit.modifier?.includes("-combat") ||
-      (outfit.modifier?.includes("init") &&
-        !outfit.modifier.match("-[\\d .]*init") &&
-        !outfit.modifier.match("combat"))
+      modifier.includes("-combat") ||
+      (modifier.includes("init") &&
+        !modifier.match("-[\\d .]*init") &&
+        !modifier.match("combat"))
     ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {
@@ -343,7 +349,7 @@ export function fixFoldables(outfit: Outfit) {
 
 const weaponHands = (i?: Item) => (i ? mafiaWeaponHands(i) : 0);
 
-export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOptions>) {
+export function cacheDress(outfit: Outfit) {
   const currentEquipScore = cacheScore(outfit.equips);
 
   const outfits: { name: string; score: number }[] = [0, 1, 2, 3, 4, 5]
@@ -366,7 +372,7 @@ export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOption
     equip($item`none`, $slot`weapon`);
   }
 
-  outfit.dress(extraOptions);
+  outfit.dress();
 }
 
 const nonAccSlots = $slots`hat, weapon, off-hand, back, shirt, pants`;

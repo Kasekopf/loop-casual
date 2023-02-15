@@ -573,18 +573,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   dress(task: ActiveTask, outfit: Outfit): void {
-    try {
-      cacheDress(outfit);
-    } catch {
-      // If we fail to dress, this is maybe just a mafia desync.
-      // So refresh our inventory and try again (once).
-      debug("Possible mafia desync detected; refreshing...");
-      cliExecute("refresh all");
-      // Do not try and cache-dress
-      outfit.dress({ forceUpdate: true });
-    }
+    cacheDress(outfit);
     fixFoldables(outfit);
-    applyEffects(outfit.modifier ?? "");
+    applyEffects(outfit.modifier.join(","));
 
     const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
     if (args.debug.verboseequip) {
@@ -935,7 +926,7 @@ const modifierNames: { [name: string]: string } = {
 };
 
 function logModifiers(outfit: Outfit) {
-  const maximizer = outfit.modifier.toLowerCase();
+  const maximizer = outfit.modifier.join(",").toLowerCase();
   for (const modifier of Object.keys(modifierNames)) {
     if (maximizer.includes(modifier)) {
       const name = modifierNames[modifier];

@@ -89,7 +89,9 @@ export class Prioritization {
     // Ensure that the current +/- combat effects are compatible
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
     const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (!moodCompatible(outfit_spec?.modifier) && task.name !== "Macguffin/Forest") {
+    const modifier = outfit_spec?.modifier === undefined ? undefined :
+      (Array.isArray(outfit_spec.modifier) ? outfit_spec.modifier.join(",") : outfit_spec.modifier);
+    if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }
 
@@ -104,8 +106,7 @@ export class Prioritization {
 
     // Wait until we get a -combat skill before doing any -combat
     if (
-      outfit_spec?.modifier &&
-      outfit_spec.modifier.includes("-combat") &&
+      modifier?.includes("-combat") &&
       !have($skill`Phase Shift`) &&
       !(
         // All these add up to -25 combat fine, no need to wait
@@ -126,7 +127,7 @@ export class Prioritization {
     }
 
     // Avoid ML boosting zones when a scaling holiday wanderer is due
-    if (outfit_spec?.modifier?.includes("ML") && !outfit_spec?.modifier.match("-[\\d .]*ML")) {
+    if (modifier?.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (getTodaysHolidayWanderers().length > 0 && getCounter("holiday") <= 0) {
         result.priorities.add(Priorities.BadHoliday);
       }
