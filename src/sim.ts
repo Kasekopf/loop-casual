@@ -181,7 +181,6 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: new Hardcoded(
-        // eslint-disable-next-line libram/verify-constants
         have($item`model train set`) || getWorkshed() === $item`model train set`,
         "Cold medicine cabinet"
       ),

@@ -480,9 +480,7 @@ export class ElementalPlanner {
 }
 
 export const coldPlanner = new ElementalPlanner([
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Hot Soupy Garbage`, value: 2 },
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Double Hot Soupy Garbage`, value: 2 },
   { thing: $skill`Nanofur`, value: 3 },
   { thing: $skill`Microweave`, value: 2 },
@@ -502,9 +500,7 @@ export const coldPlanner = new ElementalPlanner([
 ]);
 
 export const stenchPlanner = new ElementalPlanner([
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Shivering Spine`, value: 2 },
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Doubly Shivering Spine`, value: 4 },
   { thing: $skill`Conifer Polymers`, value: 3 },
   { thing: $skill`Clammy Microcilia`, value: 2 },

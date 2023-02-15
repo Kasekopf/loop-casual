@@ -161,7 +161,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const available_tasks = this.tasks.filter((task) => this.available(task));
     this.updatePlan();
 
-    // eslint-disable-next-line eqeqeq
     if (myPath() !== $path`Grey You`) return undefined; // Prism broken
 
     // Teleportitis overrides all
@@ -770,7 +769,6 @@ const consumables_blacklist = new Set<Item>(
   $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin™, blueberry muffin, bran muffin, chocolate chip muffin, Schrödinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name], Affirmation Cookie, boxed wine, piscatini, grapefruit, drive-by shooting`
 );
 function autosellJunk(): void {
-  // eslint-disable-next-line eqeqeq
   if (myPath() !== $path`Grey You`) return; // final safety
   if (myMeat() >= 10000) return;
   if (myTurncount() >= 1000) return; // stop after breaking ronin
@@ -813,7 +811,6 @@ function autosellJunk(): void {
 }
 
 function absorbConsumables(): void {
-  // eslint-disable-next-line eqeqeq
   if (myPath() !== $path`Grey You`) return; // final safety
   if (myTurncount() >= 1000) return; // stop after breaking ronin
 

@@ -440,8 +440,7 @@ const Nuns: Task[] = [
       if (have($item`SongBoom™ BoomBox`) && get("boomBoxSong") !== "Total Eclipse of Your Meat")
         cliExecute("boombox meat");
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
-      // eslint-disable-next-line libram/verify-constants
-      $items`flapper fly, autumn dollar, Pink candy heart`
+      $items`flapper fly, autumn dollar, pink candy heart`
         .filter((i) => have(i, 2) && !have(effectModifier(i, "Effect")))
         .forEach((i) => use(i));
     },

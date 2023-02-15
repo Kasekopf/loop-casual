@@ -856,7 +856,6 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => Priorities.Free,
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
         getWorkshed() === $item`model train set` && getTrainsetPositionsUntilConfigurable() === 0,
       completed: () => {
         const config = getTrainsetConfiguration();
@@ -923,11 +922,8 @@ export const MiscQuest: Quest = {
       name: "Learn About Bugs",
       after: [],
       priority: () => Priorities.Free,
-      // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`S.I.T. Course Completion Certificate`),
-      // eslint-disable-next-line libram/verify-constants
       completed: () => get("_sitCourseCompleted", true) || have($skill`Insectologist`),
-      // eslint-disable-next-line libram/verify-constants
       do: () => use($item`S.I.T. Course Completion Certificate`),
       choices: { [1494]: 2 },
       limit: { tries: 1 },
@@ -1224,14 +1220,10 @@ function willWorkshedSwap() {
 }
 
 export function trainSetAvailable() {
-  // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`model train set`) return true;
-  // eslint-disable-next-line libram/verify-constants
   if (!have($item`model train set`)) return false;
-  // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`none` && args.major.workshed === $item`model train set`) return true;
   if (
-    // eslint-disable-next-line libram/verify-constants
     args.major.swapworkshed === $item`model train set` &&
     willWorkshedSwap()
   )
