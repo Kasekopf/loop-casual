@@ -1002,9 +1002,6 @@ function combat_createClass(Constructor, protoProps, staticProps) { if (protoPro
 
 
 
-function undelay(macro) {
-  if (macro instanceof Macro) return macro;else return macro();
-}
 /**
  * The strategy to use for combat for a task, which indicates what to do
  * for each monster.
@@ -1042,7 +1039,6 @@ function undelay(macro) {
  * 1. The monster-specific macro(s) from .autoattack().
  * 2. The general macro(s) from .autoattack().
  */
-
 
 var combat_CombatStrategy = /*#__PURE__*/(/* unused pure expression or super */ null && (function () {
   function CombatStrategy() {
@@ -1593,1385 +1589,87 @@ var combat_CombatResources = /*#__PURE__*/(/* unused pure expression or super */
       if (resource === undefined) return undefined;
       if (resource.do instanceof Item) return new Macro().item(resource.do);
       if (resource.do instanceof Skill) return new Macro().skill(resource.do);
-      return resource.do;
+      return undelay(resource.do);
     }
   }]);
 
   return CombatResources;
 }()));
-;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/outfit.js
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46, _templateObject47, _templateObject48, _templateObject49, _templateObject50;
+;// CONCATENATED MODULE: ./node_modules/libram/dist/logger.js
+function logger_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || outfit_unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function logger_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function logger_createClass(Constructor, protoProps, staticProps) { if (protoProps) logger_defineProperties(Constructor.prototype, protoProps); if (staticProps) logger_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function logger_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var defaultHandlers = {
+  info: message => {
+    (0,external_kolmafia_.printHtml)("<b>[Libram]</b> ".concat(message));
+    (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
+  },
+  warning: message => {
+    (0,external_kolmafia_.printHtml)("<span style=\"background: orange; color: white;\"><b>[Libram]</b> ".concat(message, "</span>"));
+    (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
+  },
+  error: _error => {
+    (0,external_kolmafia_.printHtml)("<span style=\"background: red; color: white;\"><b>[Libram]</b> ".concat(_error.toString(), "</span>"));
+    (0,external_kolmafia_.logprint)("[Libram] ".concat(_error.toString()));
+  }
+};
+
+var Logger = /*#__PURE__*/function () {
+  function Logger() {
+    logger_classCallCheck(this, Logger);
+
+    logger_defineProperty(this, "handlers", defaultHandlers);
+  }
+
+  logger_createClass(Logger, [{
+    key: "setHandler",
+    value: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function setHandler(level, callback) {
+      this.handlers[level] = callback;
+    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  }, {
+    key: "log",
+    value: function log(level, message) {
+      this.handlers[level](message);
+    }
+  }, {
+    key: "info",
+    value: function info(message) {
+      this.log("info", message);
+    }
+  }, {
+    key: "warning",
+    value: function warning(message) {
+      this.log("warning", message);
+    }
+  }, {
+    key: "error",
+    value: function error(message) {
+      this.log("error", message);
+    }
+  }]);
+
+  return Logger;
+}();
+
+/* harmony default export */ const logger = (new Logger());
+;// CONCATENATED MODULE: ./node_modules/libram/dist/utils.js
+function utils_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = utils_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || utils_unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function outfit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function outfit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? outfit_ownKeys(Object(source), !0).forEach(function (key) { outfit_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : outfit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function outfit_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function outfit_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = outfit_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function outfit_toConsumableArray(arr) { return outfit_arrayWithoutHoles(arr) || outfit_iterableToArray(arr) || outfit_unsupportedIterableToArray(arr) || outfit_nonIterableSpread(); }
-
-function outfit_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function outfit_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return outfit_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return outfit_arrayLikeToArray(o, minLen); }
-
-function outfit_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function outfit_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return outfit_arrayLikeToArray(arr); }
-
-function outfit_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function outfit_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function outfit_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function outfit_createClass(Constructor, protoProps, staticProps) { if (protoProps) outfit_defineProperties(Constructor.prototype, protoProps); if (staticProps) outfit_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
-var outfitSlots = (/* unused pure expression or super */ null && (["hat", "back", "weapon", "offhand", "shirt", "pants", "acc1", "acc2", "acc3", "famequip"]));
-var riderSlots = (/* unused pure expression or super */ null && (["buddy-bjorn", "crown-of-thrones"]));
-
-var weaponHands = i => i ? mafiaWeaponHands(i) : 0;
-
-var modeableCommands = (/* unused pure expression or super */ null && (["backupcamera", "umbrella", "snowsuit", "edpiece", "retrocape", "parka"]));
-var outfit_Outfit = /*#__PURE__*/(/* unused pure expression or super */ null && (function () {
-  function Outfit() {
-    outfit_classCallCheck(this, Outfit);
-
-    this.equips = new Map();
-    this.riders = new Map();
-    this.modes = {};
-    this.skipDefaults = false;
-    this.modifier = "";
-    this.avoid = [];
-  }
-  /**
-   * Create an outfit from your current player state.
-   */
-
-
-  outfit_createClass(Outfit, [{
-    key: "equippedAmount",
-    value:
-    /**
-     * Check how many of an item is equipped on the outfit.
-     */
-    function equippedAmount(item) {
-      return outfit_toConsumableArray(this.equips.values()).filter(i => i === item).length;
-    }
-  }, {
-    key: "isAvailable",
-    value: function isAvailable(item) {
-      var _a;
-
-      if ((_a = this.avoid) === null || _a === void 0 ? void 0 : _a.includes(item)) return false;
-      if (!have(item, this.equippedAmount(item) + 1)) return false;
-      if (booleanModifier(item, "Single Equip") && this.equippedAmount(item) > 0) return false;
-      return true;
-    }
-    /**
-     * Check whether an item is equipped on the outfit, optionally in a specific slot.
-     */
-
-  }, {
-    key: "haveEquipped",
-    value: function haveEquipped(item, slot) {
-      if (slot === undefined) return this.equippedAmount(item) > 0;
-      return this.equips.get(slot) === item;
-    }
-  }, {
-    key: "equipItemNone",
-    value: function equipItemNone(item, slot) {
-      if (item !== $item.none) return false;
-      if (slot === undefined) return true;
-      if (this.equips.has(slot)) return false;
-      this.equips.set(slot, item);
-      return true;
-    }
-  }, {
-    key: "equipNonAccessory",
-    value: function equipNonAccessory(item, slot) {
-      if ($slots(_templateObject || (_templateObject = _taggedTemplateLiteral(["acc1, acc2, acc3"]))).includes(toSlot(item))) return false;
-      if (slot !== undefined && slot !== toSlot(item)) return false;
-      if (this.equips.has(toSlot(item))) return false;
-
-      switch (toSlot(item)) {
-        case $slot(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["off-hand"]))):
-          if (this.equips.has($slot(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["weapon"]))))) !== 1) {
-            return false;
-          }
-
-          break;
-
-        case $slot(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["familiar"]))):
-          if (this.familiar !== undefined && !canEquip(this.familiar, item)) return false;
-      }
-
-      if (toSlot(item) !== $slot(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["familiar"]))) && !canEquip(item)) return false;
-      this.equips.set(toSlot(item), item);
-      return true;
-    }
-  }, {
-    key: "equipAccessory",
-    value: function equipAccessory(item, slot) {
-      if (![undefined].concat(outfit_toConsumableArray($slots(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["acc1, acc2, acc3"]))))).includes(slot)) return false;
-      if (toSlot(item) !== $slot(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["acc1"])))) return false;
-      if (!canEquip(item)) return false;
-
-      if (slot === undefined) {
-        // We don't care which of the accessory slots we equip in
-        var empty = $slots(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["acc1, acc2, acc3"]))).find(s => !this.equips.has(s));
-        if (empty === undefined) return false;
-        this.equips.set(empty, item);
-      } else {
-        if (this.equips.has(slot)) return false;
-        this.equips.set(slot, item);
-      }
-
-      return true;
-    }
-  }, {
-    key: "equipUsingDualWield",
-    value: function equipUsingDualWield(item, slot) {
-      if (![undefined, $slot(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["off-hand"])))].includes(slot)) return false;
-      if (toSlot(item) !== $slot(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["weapon"])))) return false;
-
-      if (this.equips.has($slot(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["weapon"]))))) !== 1) {
-        return false;
-      }
-
-      if (this.equips.has($slot(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["off-hand"]))))) return false;
-      if (!have($skill(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["Double-Fisted Skull Smashing"]))))) return false;
-      if (weaponHands(item) !== 1) return false;
-      if (!canEquip(item)) return false;
-      this.equips.set($slot(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["off-hand"]))), item);
-      return true;
-    }
-  }, {
-    key: "getHoldingFamiliar",
-    value: function getHoldingFamiliar(item) {
-      switch (toSlot(item)) {
-        case $slot(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["weapon"]))):
-          return $familiar(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["Disembodied Hand"])));
-
-        case $slot(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["off-hand"]))):
-          return $familiar(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["Left-Hand Man"])));
-
-        default:
-          return undefined;
-      }
-    }
-  }, {
-    key: "equipUsingFamiliar",
-    value: function equipUsingFamiliar(item, slot) {
-      if (![undefined, $slot(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["familiar"])))].includes(slot)) return false;
-      if (this.equips.has($slot(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["familiar"]))))) return false;
-      if (booleanModifier(item, "Single Equip")) return false;
-      var familiar = this.getHoldingFamiliar(item);
-      if (familiar === undefined || !this.equip(familiar)) return false;
-      this.equips.set($slot(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["familiar"]))), item);
-      return true;
-    }
-  }, {
-    key: "equipItem",
-    value: function equipItem(item, slot) {
-      return this.haveEquipped(item, slot) || this.equipItemNone(item, slot) || this.isAvailable(item) && (this.equipNonAccessory(item, slot) || this.equipAccessory(item, slot) || this.equipUsingDualWield(item, slot) || this.equipUsingFamiliar(item, slot));
-    }
-  }, {
-    key: "equipFamiliar",
-    value: function equipFamiliar(familiar) {
-      if (familiar === this.familiar) return true;
-      if (this.familiar !== undefined) return false;
-
-      if (familiar !== $familiar.none) {
-        if (!have(familiar)) return false;
-        if (Array.from(this.riders.values()).includes(familiar)) return false;
-      }
-
-      var item = this.equips.get($slot(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["familiar"]))));
-      if (item !== undefined && item !== $item.none && !canEquip(familiar, item)) return false;
-      this.familiar = familiar;
-      return true;
-    }
-  }, {
-    key: "equipSpec",
-    value: function equipSpec(spec) {
-      var _this$avoid;
-
-      var _a, _b, _c, _d;
-
-      var succeeded = true;
-
-      var _iterator = outfit_createForOfIteratorHelper(outfitSlots),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var slotName = _step.value;
-          var slot = (_a = new Map([["famequip", $slot(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName);
-          var itemOrItems = spec[slotName];
-          if (itemOrItems !== undefined && !this.equip(itemOrItems, slot)) succeeded = false;
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      var _iterator2 = outfit_createForOfIteratorHelper((_b = spec === null || spec === void 0 ? void 0 : spec.equip) !== null && _b !== void 0 ? _b : []),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var item = _step2.value;
-          if (!this.equip(item)) succeeded = false;
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      if ((spec === null || spec === void 0 ? void 0 : spec.familiar) !== undefined) {
-        if (!this.equip(spec.familiar)) succeeded = false;
-      }
-
-      (_this$avoid = this.avoid).push.apply(_this$avoid, outfit_toConsumableArray((_c = spec === null || spec === void 0 ? void 0 : spec.avoid) !== null && _c !== void 0 ? _c : []));
-
-      this.skipDefaults = this.skipDefaults || ((_d = spec.skipDefaults) !== null && _d !== void 0 ? _d : false);
-
-      if (spec.modifier) {
-        this.modifier = this.modifier + (this.modifier ? ", " : "") + spec.modifier;
-      }
-
-      if (spec.modes) {
-        if (!this.setModes(spec.modes)) {
-          succeeded = false;
-        }
-      }
-
-      return succeeded;
-    }
-    /**
-     * Equip the first thing that can be equipped to the outfit.
-     *
-     * @param things The things to equip.
-     * @param slot The slot to equip them.
-     * @returns True if one of the things is equipped, and false otherwise.
-     */
-
-  }, {
-    key: "equipFirst",
-    value: function equipFirst(things, slot) {
-      return things.some(val => this.equip(val, slot));
-    }
-    /**
-     * Equip a thing to the outfit.
-     *
-     * If no slot is given, then the thing will be equipped wherever possible
-     * (possibly using dual-wielding, any of the accessory slots, or as
-     * familiar equipment). If it is impossible to add this thing anywhere to
-     * the outfit, this function will return false.
-     *
-     * If a slot is given, the item will be equipped only in that slot. If the
-     * slot is filled with a different item, this function will return false.
-     *
-     * If the thing is already equipped in the provided slot, or if no slot is
-     * given and the thing is already equipped in any slot, this function will
-     * return true and not change the outfit.
-     *
-     * @param thing The thing or things to equip.
-     * @param slot The slot to equip them.
-     * @returns True if the thing was sucessfully equipped, and false otherwise.
-     */
-
-  }, {
-    key: "equip",
-    value: function equip(thing, slot) {
-      if (Array.isArray(thing)) {
-        if (slot !== undefined) return this.equipFirst(thing, slot);
-        return thing.every(val => this.equip(val));
-      }
-
-      if (thing instanceof Item) return this.equipItem(thing, slot);
-      if (thing instanceof Familiar) return this.equipFamiliar(thing);
-      if (thing instanceof Outfit) return this.equipSpec(thing.spec());
-      return this.equipSpec(thing);
-    }
-  }, {
-    key: "bjornify",
-    value:
-    /**
-     * Add a bjornified familiar to the outfit.
-     *
-     * This function does *not* equip the buddy bjorn itself; it must be equipped separately.
-     *
-     * If a familiar is already specified for the buddy bjorn that is different from the provided target, this function will return false and not change the buddy bjorn.
-     * @param target The familiar to bjornify, or a ranked list of familiars to try to bjornify.
-     * @returns True if we successfully set the bjorn to a valid target.
-     */
-    function bjornify(target) {
-      var current = this.riders.get($slot(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["buddy-bjorn"]))));
-
-      if (current) {
-        if (Array.isArray(target) ? target.includes(current) : current === target) {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (Array.isArray(target)) {
-        var fam = target.find(f => have(f) && this.familiar !== f && this.riders.get($slot(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["crown-of-thrones"])))) !== f);
-
-        if (fam) {
-          this.riders.set($slot(_templateObject29 || (_templateObject29 = _taggedTemplateLiteral(["buddy-bjorn"]))), fam);
-          return true;
-        }
-
-        return false;
-      } else {
-        if (have(target) && this.familiar !== target && !Array.from(this.riders.values()).includes(target)) {
-          this.riders.set($slot(_templateObject30 || (_templateObject30 = _taggedTemplateLiteral(["buddy-bjorn"]))), target);
-          return true;
-        }
-
-        return false;
-      }
-    }
-    /**
-     * Add anenthroned familiar to the outfit.
-     *
-     * This function does *not* equip the crown of thrones itself; it must be equipped separately.
-     *
-     * If a familiar is already specified for the crown of thrones that is different from the provided target, this function will return false and not change the crown of thrones.
-     * @param target The familiar to enthrone, or a ranked list of familiars to try to enthrone.
-     * @returns True if we successfully set the enthrone to a valid target.
-     */
-
-  }, {
-    key: "enthrone",
-    value: function enthrone(target) {
-      var current = this.riders.get($slot(_templateObject31 || (_templateObject31 = _taggedTemplateLiteral(["crown-of-thrones"]))));
-
-      if (current) {
-        if (Array.isArray(target) ? target.includes(current) : current === target) {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (Array.isArray(target)) {
-        var fam = target.find(f => have(f) && this.familiar !== f && this.riders.get($slot(_templateObject32 || (_templateObject32 = _taggedTemplateLiteral(["buddy-bjorn"])))) !== f);
-
-        if (fam) {
-          this.riders.set($slot(_templateObject33 || (_templateObject33 = _taggedTemplateLiteral(["crown-of-thrones"]))), fam);
-          return true;
-        }
-
-        return false;
-      } else {
-        if (have(target) && this.familiar !== target && !Array.from(this.riders.values()).includes(target)) {
-          this.riders.set($slot(_templateObject34 || (_templateObject34 = _taggedTemplateLiteral(["crown-of-thrones"]))), target);
-          return true;
-        }
-
-        return false;
-      }
-    }
-    /**
-     * Set the provided modes for items that may be equipped in the outfit.
-     *
-     * This function does *not* equip items for the set modes; they must be
-     * equipped separately.
-     *
-     * If a mode is already set for an item that is different from the provided
-     * mode, this function will return false and not change the mode for that
-     * item. (But other modes might still be changed if they are compatible.)
-     *
-     * Note that the superhero and instuctions of a retrocape can be set
-     * independently (`undefined` is treated as "don't care").
-     *
-     * @param modes Modes to set in this outfit.
-     * @returns True if all modes were sucessfully set, and false otherwise.
-     */
-
-  }, {
-    key: "setModes",
-    value: function setModes(modes) {
-      var _a, _b;
-
-      var compatible = true; // Check if the new modes are compatible with existing modes
-
-      var _iterator3 = outfit_createForOfIteratorHelper(modeableCommands),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var mode = _step3.value;
-          if (mode === "retrocape") continue; // checked below
-
-          if (this.modes[mode] && modes[mode] && this.modes[mode] !== modes[mode]) {
-            compatible = false;
-          }
-        } // Check if retrocape modes are compatible
-        // (Parts that are undefined are compatible with everything)
-
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
-
-      if (this.modes["retrocape"] && modes["retrocape"]) {
-        if (this.modes["retrocape"][0] && modes["retrocape"][0] && this.modes["retrocape"][0] !== modes["retrocape"][0]) {
-          compatible = false;
-        }
-
-        if (this.modes["retrocape"][1] && modes["retrocape"][1] && this.modes["retrocape"][1] !== modes["retrocape"][1]) {
-          compatible = false;
-        }
-
-        this.modes["retrocape"][0] = (_a = this.modes["retrocape"][0]) !== null && _a !== void 0 ? _a : modes["retrocape"][0];
-        this.modes["retrocape"][1] = (_b = this.modes["retrocape"][1]) !== null && _b !== void 0 ? _b : modes["retrocape"][1];
-      }
-
-      this.modes = outfit_objectSpread(outfit_objectSpread({}, modes), this.modes);
-      return compatible;
-    }
-    /**
-     * Check if it is possible to equip a thing to this outfit using .equip().
-     *
-     * This does not change the current outfit.
-     *
-     * @param thing The thing to equip.
-     * @param slot The slot to equip them.
-     * @returns True if this thing can be equipped.
-     */
-
-  }, {
-    key: "canEquip",
-    value: function canEquip(thing, slot) {
-      var outfit = this.clone();
-      return outfit.equip(thing, slot);
-    }
-    /**
-     * Equip this outfit.
-     * @param extraOptions Passed to any maximizer calls made.
-     */
-
-  }, {
-    key: "dress",
-    value: function dress(extraOptions) {
-      if (this.familiar) useFamiliar(this.familiar);
-      var targetEquipment = Array.from(this.equips.values());
-      var usedSlots = new Set(); // First, we equip non-accessory equipment.
-
-      var nonaccessorySlots = $slots(_templateObject35 || (_templateObject35 = _taggedTemplateLiteral(["weapon, off-hand, hat, back, shirt, pants, familiar"]))); // We must manually remove equipment that we want to use in a different
-      // slot than where it is currently equipped, to avoid a mafia issue.
-      // Order is anchored here to prevent DFSS shenanigans
-
-      var _iterator4 = outfit_createForOfIteratorHelper(nonaccessorySlots),
-          _step4;
-
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var slot = _step4.value;
-          if (targetEquipment.includes(equippedItem(slot)) && this.equips.get(slot) !== equippedItem(slot) || this.avoid.includes(equippedItem(slot))) equip(slot, $item.none);
-        } // Then we equip all the non-accessory equipment.
-
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
-      }
-
-      var _iterator5 = outfit_createForOfIteratorHelper(nonaccessorySlots),
-          _step5;
-
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _slot = _step5.value;
-          var equipment = this.equips.get(_slot);
-
-          if (equipment) {
-            equip(_slot, equipment);
-            usedSlots.add(_slot);
-          }
-        } // Next, we equip accessories
-
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
-      }
-
-      var accessorySlots = $slots(_templateObject36 || (_templateObject36 = _taggedTemplateLiteral(["acc1, acc2, acc3"])));
-      var accessoryEquips = accessorySlots.map(slot => this.equips.get(slot)).filter(item => item !== undefined); // To plan how to equip accessories, first check which accessories are
-      // already equipped in some accessory slot. There is no need to move them,
-      // since KoL doesn't care what order accessories are equipped in.
-
-      var missingAccessories = []; // accessories that are not already equipped
-
-      var _iterator6 = outfit_createForOfIteratorHelper(accessoryEquips),
-          _step6;
-
-      try {
-        var _loop = function _loop() {
-          var accessory = _step6.value;
-          var alreadyEquipped = accessorySlots.find(slot => !usedSlots.has(slot) && equippedItem(slot) === accessory);
-
-          if (alreadyEquipped) {
-            usedSlots.add(alreadyEquipped);
-          } else {
-            missingAccessories.push(accessory);
-          }
-        };
-
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          _loop();
-        } // Then, for all accessories that are not currently equipped, use the first
-        // open slot to place them.
-
-      } catch (err) {
-        _iterator6.e(err);
-      } finally {
-        _iterator6.f();
-      }
-
-      for (var _i = 0, _missingAccessories = missingAccessories; _i < _missingAccessories.length; _i++) {
-        var accessory = _missingAccessories[_i];
-        var unusedSlot = accessorySlots.find(slot => !usedSlots.has(slot));
-
-        if (unusedSlot === undefined) {
-          // This should only occur if there is a bug in .dress()
-          throw "No accessory slots remaining";
-        }
-
-        equip(unusedSlot, accessory);
-        usedSlots.add(unusedSlot);
-      } // Handle the rider slots next
-
-
-      var bjorn = this.riders.get($slot(_templateObject37 || (_templateObject37 = _taggedTemplateLiteral(["buddy-bjorn"]))));
-
-      if (bjorn) {
-        if (myEnthronedFamiliar() === bjorn) enthroneFamiliar($familiar.none);
-        if (myBjornedFamiliar() !== bjorn) bjornifyFamiliar(bjorn);
-        usedSlots.add($slot(_templateObject38 || (_templateObject38 = _taggedTemplateLiteral(["buddy-bjorn"]))));
-      }
-
-      var crown = this.riders.get($slot(_templateObject39 || (_templateObject39 = _taggedTemplateLiteral(["crown-of-thrones"]))));
-
-      if (crown) {
-        if (myBjornedFamiliar() === crown) bjornifyFamiliar($familiar.none);
-        if (myEnthronedFamiliar() !== crown) enthroneFamiliar(crown);
-        usedSlots.add($slot(_templateObject40 || (_templateObject40 = _taggedTemplateLiteral(["crown-of-thrones"]))));
-      } // Remaining slots are filled by the maximizer
-
-
-      var modes = convertToLibramModes(this.modes);
-
-      if (this.modifier) {
-        var allRequirements = [new Requirement([this.modifier], {
-          preventSlot: outfit_toConsumableArray(usedSlots),
-          preventEquip: this.avoid,
-          modes: modes
-        })];
-        if (extraOptions) allRequirements.push(new Requirement([], extraOptions));
-
-        if (!Requirement.merge(allRequirements).maximize()) {
-          throw "Unable to maximize ".concat(this.modifier);
-        }
-
-        logprint("Maximize: ".concat(this.modifier));
-      } // Set the modes of any equipped items.
-
-
-      applyModes(modes); // Verify that all equipment was indeed equipped
-
-      if (this.familiar !== undefined && myFamiliar() !== this.familiar) throw "Failed to fully dress (expected: familiar ".concat(this.familiar, ")");
-
-      var _iterator7 = outfit_createForOfIteratorHelper(nonaccessorySlots),
-          _step7;
-
-      try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-          var _slot2 = _step7.value;
-
-          if (this.equips.has(_slot2) && equippedItem(_slot2) !== this.equips.get(_slot2)) {
-            throw "Failed to fully dress (expected: ".concat(_slot2, " ").concat(this.equips.get(_slot2), ")");
-          }
-        }
-      } catch (err) {
-        _iterator7.e(err);
-      } finally {
-        _iterator7.f();
-      }
-
-      var _iterator8 = outfit_createForOfIteratorHelper(accessoryEquips),
-          _step8;
-
-      try {
-        var _loop2 = function _loop2() {
-          var accessory = _step8.value;
-
-          if (mafiaEquippedAmount(accessory) < accessoryEquips.filter(acc => acc === accessory).length) {
-            throw "Failed to fully dress (expected: acc ".concat(accessory, ")");
-          }
-        };
-
-        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-          _loop2();
-        }
-      } catch (err) {
-        _iterator8.e(err);
-      } finally {
-        _iterator8.f();
-      }
-
-      for (var _i2 = 0, _arr = [[$slot(_templateObject41 || (_templateObject41 = _taggedTemplateLiteral(["buddy-bjorn"]))), myBjornedFamiliar], [$slot(_templateObject42 || (_templateObject42 = _taggedTemplateLiteral(["crown-of-thrones"]))), myEnthronedFamiliar]]; _i2 < _arr.length; _i2++) {
-        var _arr$_i = _slicedToArray(_arr[_i2], 2),
-            rider = _arr$_i[0],
-            checkingFunction = _arr$_i[1];
-
-        var wanted = this.riders.get(rider);
-
-        if (wanted && checkingFunction() !== wanted) {
-          throw "Failed to fully dress: (expected ".concat(rider, " ").concat(wanted, ")");
-        }
-      }
-    }
-    /**
-     * Build an Outfit identical to this outfit.
-     */
-
-  }, {
-    key: "clone",
-    value: function clone() {
-      var result = new Outfit();
-      result.equips = new Map(this.equips);
-      result.skipDefaults = this.skipDefaults;
-      result.familiar = this.familiar;
-      result.modifier = this.modifier;
-      result.avoid = outfit_toConsumableArray(this.avoid);
-      result.modes = outfit_objectSpread({}, this.modes);
-      return result;
-    }
-    /**
-     * Build an OutfitSpec identical to this outfit.
-     */
-
-  }, {
-    key: "spec",
-    value: function spec() {
-      var _a;
-
-      var result = {
-        modifier: this.modifier,
-        familiar: this.familiar,
-        avoid: outfit_toConsumableArray(this.avoid),
-        skipDefaults: this.skipDefaults,
-        modes: outfit_objectSpread({}, this.modes)
-      }; // Add all equipment forced in a particular slot
-
-      var _iterator9 = outfit_createForOfIteratorHelper(outfitSlots),
-          _step9;
-
-      try {
-        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-          var slotName = _step9.value;
-          result[slotName] = this.equips.get((_a = new Map([["famequip", $slot(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName));
-        }
-      } catch (err) {
-        _iterator9.e(err);
-      } finally {
-        _iterator9.f();
-      }
-
-      return result;
-    }
-  }], [{
-    key: "current",
-    value: function current() {
-      var _a;
-
-      var outfit = new Outfit();
-      var familiar = myFamiliar();
-
-      if (outfit.equip(familiar)) {
-        throw "Failed to create outfit from current state (expected: familiar ".concat(familiar, ")");
-      }
-
-      var _iterator10 = outfit_createForOfIteratorHelper(outfitSlots),
-          _step10;
-
-      try {
-        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-          var slotName = _step10.value;
-          var slot = (_a = new Map([["famequip", $slot(_templateObject49 || (_templateObject49 = _taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject50 || (_templateObject50 = _taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName);
-          var item = equippedItem(slot);
-
-          if (!outfit.equip(item, slot)) {
-            throw "Failed to create outfit from current state (expected: ".concat(slot, " ").concat(item, ")");
-          }
-        }
-      } catch (err) {
-        _iterator10.e(err);
-      } finally {
-        _iterator10.f();
-      }
-
-      if (haveEquipped($item(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral(["Crown of Thrones"]))))) outfit.riders.set($slot(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["crown-of-thrones"]))), myEnthronedFamiliar());
-      if (haveEquipped($item(_templateObject47 || (_templateObject47 = _taggedTemplateLiteral(["Buddy Bjorn"]))))) outfit.riders.set($slot(_templateObject48 || (_templateObject48 = _taggedTemplateLiteral(["buddy-bjorn"]))), myBjornedFamiliar());
-      outfit.setModes(getCurrentModes());
-      return outfit;
-    }
-  }, {
-    key: "from",
-    value: function from(spec) {
-      var error = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var outfit = new Outfit();
-      var success = outfit.equip(spec);
-      if (!success && error) throw error;
-      return success ? outfit : null;
-    }
-  }]);
-
-  return Outfit;
-}()));
-/**
- * Get the modes of this outfit in a type compatible with Libram.
- *
- * This conversion is needed since we store the retrocape modes
- * internally as an array, but libram uses a string.
- *
- * @returns The modes equipped to this outfit.
- */
-
-function convertToLibramModes(modes) {
-  var _a;
-
-  return {
-    backupcamera: modes["backupcamera"],
-    umbrella: modes["umbrella"],
-    snowsuit: modes["snowsuit"],
-    edpiece: modes["edpiece"],
-    retrocape: (_a = modes["retrocape"]) === null || _a === void 0 ? void 0 : _a.filter(s => s !== undefined).join(" "),
-    parka: modes["parka"]
-  };
-}
-/**
- * Get the current modes of all items.
- *
- * @returns The current mode settings for all items, equipped or not.
- */
-
-function getCurrentModes() {
-  return {
-    backupcamera: getMode("backupCameraMode", ["ml", "meat", "init"]),
-    umbrella: getMode("umbrellaState", ["broken", "forward-facing", "bucket style", "pitchfork style", "constantly twirling", "cocoon"]),
-    snowsuit: getMode("snowsuit", ["eyebrows", "smirk", "nose", "goatee", "hat"]),
-    edpiece: getMode("edPiece", ["bear", "owl", "puma", "hyena", "mouse", "weasel", "fish"]),
-    retrocape: [getMode("retroCapeSuperhero", ["vampire", "heck", "robot"]), getMode("retroCapeWashingInstructions", ["hold", "thrill", "kiss", "kill"])],
-    parka: getMode("parkaMode", ["kachungasaur", "dilophosaur", "ghostasaurus", "spikolodon", "pterodactyl"])
-  };
-}
-/**
- * Get the current value for a mode in a type-safe way.
- *
- * @param property The mafia property for the mode.
- * @param options A typed list of options for the mode.
- * @returns The mode if the property value matched a valid option, or undefined.
- */
-
-function getMode(property, options) {
-  var val = get(property, "");
-  return options.find(s => s === val); // .includes has type issues
-}
-;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/engine.js
-var engine_templateObject;
-
-function engine_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function engine_toConsumableArray(arr) { return engine_arrayWithoutHoles(arr) || engine_iterableToArray(arr) || engine_unsupportedIterableToArray(arr) || engine_nonIterableSpread(); }
-
-function engine_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function engine_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function engine_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return engine_arrayLikeToArray(arr); }
-
-function engine_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = engine_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function engine_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return engine_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return engine_arrayLikeToArray(o, minLen); }
-
-function engine_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function engine_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function engine_createClass(Constructor, protoProps, staticProps) { if (protoProps) engine_defineProperties(Constructor.prototype, protoProps); if (staticProps) engine_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function engine_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-
-var EngineOptions = /*#__PURE__*/(/* unused pure expression or super */ null && (engine_createClass(function EngineOptions() {
-  engine_classCallCheck(this, EngineOptions);
-})));
-var grimoireCCS = "grimoire_macro";
-var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (function () {
-  /**
-   * Create the engine.
-   * @param tasks A list of tasks for looking up task dependencies.
-   * @param options Basic configuration of the engine.
-   */
-  function Engine(tasks, options) {
-    engine_classCallCheck(this, Engine);
-
-    this.attempts = {};
-    this.propertyManager = new PropertiesManager();
-    this.tasks_by_name = new Map();
-    this.cachedCcsContents = "";
-    this.tasks = tasks;
-    this.options = options !== null && options !== void 0 ? options : {};
-
-    var _iterator = engine_createForOfIteratorHelper(tasks),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var task = _step.value;
-        this.tasks_by_name.set(task.name, task);
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
-    this.initPropertiesManager(this.propertyManager);
-  }
-  /**
-   * Determine the next task to perform.
-   * By default, this is the first task in the task list that is available.
-   * @returns The next task to perform, or undefined if no tasks are available.
-   */
-
-
-  engine_createClass(Engine, [{
-    key: "getNextTask",
-    value: function getNextTask() {
-      return this.tasks.find(task => this.available(task));
-    }
-    /**
-     * Continually get the next task and execute it.
-     * @param actions If given, only perform up to this many tasks.
-     */
-
-  }, {
-    key: "run",
-    value: function run(actions) {
-      for (var i = 0; i < (actions !== null && actions !== void 0 ? actions : Infinity); i++) {
-        var task = this.getNextTask();
-        if (!task) return;
-        this.execute(task);
-      }
-    }
-    /**
-     * Close the engine and reset all properties.
-     * After this has been called, this object should not be used.
-     */
-
-  }, {
-    key: "destruct",
-    value: function destruct() {
-      this.propertyManager.resetAll();
-      setAutoAttack(0);
-    }
-    /**
-     * Check if the given task is available at this moment.
-     * @returns true if all dependencies are complete and the task is ready.
-     *  Note that dependencies are not checked transitively. That is, if
-     *  A depends on B which depends on C, then A is ready if B is complete
-     *  (regardless of if C is complete or not).
-     */
-
-  }, {
-    key: "available",
-    value: function available(task) {
-      var _a;
-
-      var _iterator2 = engine_createForOfIteratorHelper((_a = task.after) !== null && _a !== void 0 ? _a : []),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var after = _step2.value;
-          var after_task = this.tasks_by_name.get(after);
-          if (after_task === undefined) throw "Unknown task dependency ".concat(after, " on ").concat(task.name);
-          if (!after_task.completed()) return false;
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      if (task.ready && !task.ready()) return false;
-      if (task.completed()) return false;
-      return true;
-    }
-    /**
-     * Perform all steps to execute the provided task.
-     * This is the main entry point for the Engine.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "execute",
-    value: function execute(task) {
-      var _a, _b, _c, _d, _e;
-
-      print("");
-      print("Executing ".concat(task.name), "blue"); // Determine the proper postcondition for after the task executes.
-
-      var postcondition = (_b = (_a = task.limit) === null || _a === void 0 ? void 0 : _a.guard) === null || _b === void 0 ? void 0 : _b.call(_a); // Acquire any items and effects first, possibly for later execution steps.
-
-      this.acquireItems(task);
-      this.acquireEffects(task); // Prepare the outfit, with resources.
-
-      var task_combat = (_d = (_c = task.combat) === null || _c === void 0 ? void 0 : _c.clone()) !== null && _d !== void 0 ? _d : new CombatStrategy();
-      var outfit = this.createOutfit(task);
-      var task_resources = new CombatResources();
-      this.customize(task, outfit, task_combat, task_resources);
-      this.dress(task, outfit); // Prepare combat and choices
-
-      this.setCombat(task, task_combat, task_resources);
-      this.setChoices(task, this.propertyManager); // Actually perform the task
-
-      var _iterator3 = engine_createForOfIteratorHelper(task_resources.all()),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var resource = _step3.value;
-          (_e = resource.prepare) === null || _e === void 0 ? void 0 : _e.call(resource);
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
-
-      this.prepare(task);
-      this.do(task);
-
-      while (this.shouldRepeatAdv(task)) {
-        set("lastEncounter", "");
-        this.do(task);
-      }
-
-      this.post(task); // Mark that we tried the task, and apply limits
-
-      this.markAttempt(task);
-      this.checkLimits(task, postcondition);
-    }
-    /**
-     * Acquire all items for the task.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "acquireItems",
-    value: function acquireItems(task) {
-      var _a;
-
-      var acquire = task.acquire instanceof Function ? task.acquire() : task.acquire;
-
-      var _iterator4 = engine_createForOfIteratorHelper(acquire || []),
-          _step4;
-
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var to_get = _step4.value;
-          var num_needed = (_a = to_get.num) !== null && _a !== void 0 ? _a : 1;
-          var num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
-          if (num_needed <= num_have) continue;
-          if (to_get.useful !== undefined && !to_get.useful()) continue;
-
-          if (to_get.get) {
-            to_get.get();
-          } else if (to_get.price !== undefined) {
-            buy(to_get.item, num_needed - num_have, to_get.price);
-          } else if (Object.keys(getRelated(to_get.item, "fold")).length > 0) {
-            cliExecute("fold ".concat(to_get.item));
-          } else {
-            retrieveItem(to_get.item, num_needed);
-          }
-
-          if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed && !to_get.optional) {
-            throw "Task ".concat(task.name, " was unable to acquire ").concat(num_needed, " ").concat(to_get.item);
-          }
-        }
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
-      }
-    }
-    /**
-     * Acquire all effects for the task.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "acquireEffects",
-    value: function acquireEffects(task) {
-      var _a;
-
-      var effects = typeof task.effects === "function" ? task.effects() : (_a = task.effects) !== null && _a !== void 0 ? _a : [];
-      var songs = effects.filter(effect => isSong(effect));
-      if (songs.length > maxSongs()) throw "Too many AT songs";
-      var extraSongs = Object.keys(myEffects()).map(effectName => toEffect(effectName)).filter(effect => isSong(effect) && !songs.includes(effect));
-
-      while (songs.length + extraSongs.length > maxSongs()) {
-        var toRemove = extraSongs.pop();
-
-        if (toRemove === undefined) {
-          break;
-        } else {
-          uneffect(toRemove);
-        }
-      }
-
-      var _iterator5 = engine_createForOfIteratorHelper(effects),
-          _step5;
-
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var effect = _step5.value;
-          ensureEffect(effect);
-        }
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
-      }
-    }
-    /**
-     * Create an outfit for the task with all required equipment.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "createOutfit",
-    value: function createOutfit(task) {
-      var spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-      if (spec instanceof Outfit) return spec.clone();
-      var outfit = new Outfit();
-
-      if (spec !== undefined) {
-        if (!outfit.equip(spec)) {
-          throw "Unable to equip all items for ".concat(task.name);
-        }
-      }
-
-      return outfit;
-    }
-    /**
-     * Equip the outfit for the task.
-     * @param task The current executing task.
-     * @param outfit The outfit for the task, possibly augmented by the engine.
-     */
-
-  }, {
-    key: "dress",
-    value: function dress(task, outfit) {
-      if (task.do instanceof Location) setLocation(task.do);
-      outfit.dress();
-    }
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-
-    /**
-     * Perform any engine-specific customization for the outfit and combat plan.
-     *
-     * This is a natural method to override in order to:
-     *   * Enable the use of any resources in the outfit or combat (e.g., allocate banishers).
-     *   * Equip a default outfit.
-     *   * Determine additional monster macros at a global level (e.g., use flyers).
-     * @param task The current executing task.
-     * @param outfit The outfit for the task.
-     * @param combat The combat strategy so far for the task.
-     * @param resources The combat resources assigned so far for the task.
-     */
-
-  }, {
-    key: "customize",
-    value: function customize(task, outfit, combat, resources) {// do nothing by default
-    }
-    /* eslint-enable @typescript-eslint/no-unused-vars */
-
-    /**
-     * Set the choice settings for the task.
-     * @param task The current executing task.
-     * @param manager The property manager to use.
-     */
-
-  }, {
-    key: "setChoices",
-    value: function setChoices(task, manager) {
-      var choices = {};
-
-      for (var choice_id_str in task.choices) {
-        var choice_id = parseInt(choice_id_str);
-        var choice = task.choices[choice_id];
-        if (typeof choice === "number") choices[choice_id] = choice;else choices[choice_id] = choice();
-      }
-
-      manager.setChoices(choices);
-    }
-    /**
-     * Save the combat macro for this task.
-     * @param task The current executing task.
-     * @param task_combat The completed combat strategy far for the task.
-     * @param task_resources The combat resources assigned for the task.
-     */
-
-  }, {
-    key: "setCombat",
-    value: function setCombat(task, task_combat, task_resources) {
-      var _a; // Save regular combat macro
-
-
-      var macro = task_combat.compile(task_resources, (_a = this.options) === null || _a === void 0 ? void 0 : _a.combat_defaults, task.do instanceof Location ? task.do : undefined);
-      macro.save();
-
-      if (!this.options.ccs) {
-        // Use the macro through a CCS file
-        var otherCCSEntries = task_combat.compileCcs();
-        var ccsContents = ["[default]", "\"".concat(macro.toString(), "\"")].concat(engine_toConsumableArray(otherCCSEntries)).join("\n"); // Log Macro + other CCS
-
-        logprint("CCS: ".concat(ccsContents.replace("\n", "\\n ")));
-
-        if (ccsContents !== this.cachedCcsContents) {
-          writeCcs(ccsContents, grimoireCCS);
-          cliExecute("ccs ".concat(grimoireCCS)); // force Mafia to reparse the ccs
-
-          this.cachedCcsContents = ccsContents;
-        }
-      } // Save autoattack combat macro
-
-
-      var autoattack = task_combat.compileAutoattack();
-
-      if (autoattack.toString().length > 1) {
-        logprint("Autoattack macro: ".concat(autoattack.toString()));
-        autoattack.setAutoAttack();
-      } else {
-        setAutoAttack(0);
-      }
-    }
-    /**
-     * Do any task-specific preparation.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "prepare",
-    value: function prepare(task) {
-      var _a;
-
-      (_a = task.prepare) === null || _a === void 0 ? void 0 : _a.call(task);
-    }
-    /**
-     * Actually perform the task.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "do",
-    value: function _do(task) {
-      if (typeof task.do === "function") {
-        task.do();
-      } else {
-        adv1(task.do, 0, "");
-      }
-
-      runCombat();
-
-      while (inMultiFight()) {
-        runCombat();
-      }
-
-      if (choiceFollowsFight()) runChoice(-1);
-    }
-    /**
-     * Check if the task.do should be immediately repeated without any prep.
-     *
-     * By default, this is only used to repeat a task if we hit one of:
-     *   1. Halloweener dog noncombats,
-     *   2. June cleaver noncombats, or
-     *   3. Lil' Doctor™ bag noncombt.
-     * @param task The current executing task.
-     * @returns True if the task should be immediately repeated.
-     */
-
-  }, {
-    key: "shouldRepeatAdv",
-    value: function shouldRepeatAdv(task) {
-      return task.do instanceof Location && lastEncounterWasWanderingNC();
-    }
-    /**
-     * Do any task-specific wrapup activities.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "post",
-    value: function post(task) {
-      var _a;
-
-      (_a = task.post) === null || _a === void 0 ? void 0 : _a.call(task);
-    }
-    /**
-     * Mark that an attempt was made on the current task.
-     * @param task The current executing task.
-     */
-
-  }, {
-    key: "markAttempt",
-    value: function markAttempt(task) {
-      if (!(task.name in this.attempts)) this.attempts[task.name] = 0;
-      this.attempts[task.name]++;
-    }
-    /**
-     * Check if the task has passed any of its internal limits.
-     * @param task The task to check.
-     * @throws An error if any of the internal limits have been passed.
-     */
-
-  }, {
-    key: "checkLimits",
-    value: function checkLimits(task, postcondition) {
-      var _a;
-
-      if (!task.limit) return;
-      var failureMessage = task.limit.message ? " ".concat(task.limit.message) : "";
-
-      if (!task.completed()) {
-        if (task.limit.tries && this.attempts[task.name] >= task.limit.tries) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.tries, " attempts. Please check what went wrong.").concat(failureMessage);
-        if (task.limit.soft && this.attempts[task.name] >= task.limit.soft) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.soft, " attempts. Please check what went wrong (you may just be unlucky).").concat(failureMessage);
-        if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.turns, " turns. Please check what went wrong.").concat(failureMessage);
-        if (task.limit.unready && ((_a = task.ready) === null || _a === void 0 ? void 0 : _a.call(task))) throw "Task ".concat(task.name, " is still ready, but it should not be. Please check what went wrong.").concat(failureMessage);
-      }
-
-      if (postcondition && !postcondition()) {
-        throw "Task ".concat(task.name, " failed its guard. Please check what went wrong.").concat(failureMessage);
-      }
-    }
-    /**
-     * Initialize properties for the script.
-     * @param manager The properties manager to use.
-     */
-
-  }, {
-    key: "initPropertiesManager",
-    value: function initPropertiesManager(manager) {
-      var _a; // Properties adapted from garbo
-
-
-      manager.set({
-        logPreferenceChange: true,
-        logPreferenceChangeFilter: engine_toConsumableArray(new Set([].concat(engine_toConsumableArray(get("logPreferenceChangeFilter").split(",")), ["libram_savedMacro", "maximizerMRUList", "testudinalTeachings", "_lastCombatStarted"]))).sort().filter(a => a).join(","),
-        battleAction: "custom combat script",
-        autoSatisfyWithMall: true,
-        autoSatisfyWithNPCs: true,
-        autoSatisfyWithCoinmasters: true,
-        autoSatisfyWithStash: false,
-        dontStopForCounters: true,
-        maximizerFoldables: true,
-        hpAutoRecovery: "-0.05",
-        hpAutoRecoveryTarget: "0.0",
-        mpAutoRecovery: "-0.05",
-        mpAutoRecoveryTarget: "0.0",
-        afterAdventureScript: "",
-        betweenBattleScript: "",
-        choiceAdventureScript: "",
-        familiarScript: "",
-        currentMood: "apathetic",
-        autoTuxedo: true,
-        autoPinkyRing: true,
-        autoGarish: true,
-        allowNonMoodBurning: false,
-        allowSummonBurning: true,
-        libramSkillsSoftcore: "none"
-      });
-
-      if (this.options.ccs !== "") {
-        if (this.options.ccs === undefined && readCcs(grimoireCCS) === "") {
-          // Write a simple CCS so we can switch to it
-          writeCcs("[ default ]\nabort", grimoireCCS);
-        }
-
-        manager.set({
-          customCombatScript: (_a = this.options.ccs) !== null && _a !== void 0 ? _a : grimoireCCS
-        });
-      }
-    }
-  }]);
-
-  return Engine;
-}()));
-function maxSongs() {
-  return have($skill(engine_templateObject || (engine_templateObject = engine_taggedTemplateLiteral(["Mariachi Memory"])))) ? 4 : 3;
-}
-var wanderingNCs = new Set(["Wooof! Wooooooof!", "Playing Fetch*", "A Pound of Cure", "Aunts not Ants", "Bath Time", "Beware of Aligator", "Delicious Sprouts", "Hypnotic Master", "Lost and Found", "Poetic Justice", "Summer Days", "Teacher's Pet"]);
-/**
- * Return true if the last adv was one of:
- *   1. Halloweener dog noncombats,
- *   2. June cleaver noncombats, or
- *   3. Lil' Doctor™ bag noncombt.
- */
-
-function lastEncounterWasWanderingNC() {
-  return wanderingNCs.has(get("lastEncounter"));
-}
-;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/index.js
-
-
-
-
-
-
-
-// EXTERNAL MODULE: ./node_modules/mafia-shared-relay/dist/index.js
-var dist = __webpack_require__(139);
-;// CONCATENATED MODULE: ./node_modules/libram/dist/utils.js
-function utils_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = utils_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function utils_slicedToArray(arr, i) { return utils_arrayWithHoles(arr) || utils_iterableToArrayLimit(arr, i) || utils_unsupportedIterableToArray(arr, i) || utils_nonIterableRest(); }
-
-function utils_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function utils_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function utils_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function utils_toConsumableArray(arr) { return utils_arrayWithoutHoles(arr) || utils_iterableToArray(arr) || utils_unsupportedIterableToArray(arr) || utils_nonIterableSpread(); }
 
@@ -3030,7 +1728,7 @@ function countedMapToArray(map) {
   var _ref;
 
   return (_ref = []).concat.apply(_ref, utils_toConsumableArray(utils_toConsumableArray(map).map(_ref2 => {
-    var _ref3 = utils_slicedToArray(_ref2, 2),
+    var _ref3 = _slicedToArray(_ref2, 2),
         item = _ref3[0],
         quantity = _ref3[1];
 
@@ -3039,21 +1737,15 @@ function countedMapToArray(map) {
 }
 function countedMapToString(map) {
   return utils_toConsumableArray(map).map(_ref4 => {
-    var _ref5 = utils_slicedToArray(_ref4, 2),
+    var _ref5 = _slicedToArray(_ref4, 2),
         item = _ref5[0],
         quantity = _ref5[1];
 
     return "".concat(quantity, " x ").concat(item);
   }).join(", ");
 }
-/**
- * Sum an array of numbers.
- * @param addends Addends to sum.
- * @param mappingFunction function to turn elements into numbers
- */
-
-function sum(addends, mappingFunction) {
-  return addends.reduce((subtotal, element) => subtotal + mappingFunction(element), 0);
+function sum(addends, x) {
+  return addends.reduce((subtotal, element) => subtotal + (typeof x === "function" ? x(element) : element[x]), 0);
 }
 function sumNumbers(addends) {
   return sum(addends, x => x);
@@ -3095,7 +1787,7 @@ function invertMap(map) {
 
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var _step$value = utils_slicedToArray(_step.value, 2),
+      var _step$value = _slicedToArray(_step.value, 2),
           key = _step$value[0],
           value = _step$value[1];
 
@@ -3108,15 +1800,6 @@ function invertMap(map) {
   }
 
   return returnValue;
-}
-/**
- * Creates a Type Guard function for a string union type defined via an array as const.
- */
-
-function createStringUnionTypeGuardFunction(array) {
-  return function (x) {
-    return array.includes(x);
-  };
 }
 /**
  * Splits a string by commas while also respecting escaping commas with a backslash
@@ -3157,6 +1840,34 @@ function splitByCommasWithEscapes(str) {
 
   returnValue.push(currentString.trim());
   return returnValue;
+}
+function maxBy(array, optimizer) {
+  var reverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  if (!array.length) throw new Error("Cannot call maxBy on an empty array!");
+
+  if (typeof optimizer === "function") {
+    return utils_toConsumableArray(array).reduce((_ref6, other) => {
+      var value = _ref6.value,
+          item = _ref6.item;
+      var otherValue = optimizer(other);
+      return value >= otherValue !== reverse ? {
+        value: value,
+        item: item
+      } : {
+        value: otherValue,
+        item: other
+      };
+    }, {
+      item: array[0],
+      value: optimizer(array[0])
+    }).item;
+  } else {
+    return array.reduce((a, b) => a[optimizer] >= b[optimizer] !== reverse ? a : b);
+  }
+}
+function arrayEquals(left, right) {
+  if (left.length !== right.length) return false;
+  return left.every((element, index) => element === right[index]);
 }
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/template-string.js
 
@@ -3442,6 +2153,2236 @@ var $path = createSingleConstant(external_kolmafia_.Path);
  */
 
 var $paths = createPluralConstant(external_kolmafia_.Path);
+;// CONCATENATED MODULE: ./node_modules/libram/dist/maximize.js
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46, _templateObject47, _templateObject48;
+
+function maximize_slicedToArray(arr, i) { return maximize_arrayWithHoles(arr) || maximize_iterableToArrayLimit(arr, i) || maximize_unsupportedIterableToArray(arr, i) || maximize_nonIterableRest(); }
+
+function maximize_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function maximize_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function maximize_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+function maximize_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function maximize_createClass(Constructor, protoProps, staticProps) { if (protoProps) maximize_defineProperties(Constructor.prototype, protoProps); if (staticProps) maximize_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function maximize_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function maximize_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = maximize_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function maximize_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function maximize_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? maximize_ownKeys(Object(source), !0).forEach(function (key) { maximize_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : maximize_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function maximize_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function maximize_toConsumableArray(arr) { return maximize_arrayWithoutHoles(arr) || maximize_iterableToArray(arr) || maximize_unsupportedIterableToArray(arr) || maximize_nonIterableSpread(); }
+
+function maximize_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function maximize_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return maximize_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return maximize_arrayLikeToArray(o, minLen); }
+
+function maximize_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function maximize_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return maximize_arrayLikeToArray(arr); }
+
+function maximize_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+
+/**
+ * Merges a Partial<MaximizeOptions> onto a MaximizeOptions. We merge via overriding for all boolean properties and for onlySlot, and concat all other array properties.
+ * @param defaultOptions MaximizeOptions to use as a "base."
+ * @param addendums Options to attempt to merge onto defaultOptions.
+ */
+
+function mergeMaximizeOptions(defaultOptions, addendums) {
+  var _addendums$updateOnFa, _addendums$updateOnCa, _addendums$useOutfitC, _addendums$forceEquip, _addendums$preventEqu, _addendums$bonusEquip, _addendums$onlySlot, _addendums$preventSlo, _addendums$forceUpdat, _addendums$modes;
+
+  return {
+    updateOnFamiliarChange: (_addendums$updateOnFa = addendums.updateOnFamiliarChange) !== null && _addendums$updateOnFa !== void 0 ? _addendums$updateOnFa : defaultOptions.updateOnFamiliarChange,
+    updateOnCanEquipChanged: (_addendums$updateOnCa = addendums.updateOnCanEquipChanged) !== null && _addendums$updateOnCa !== void 0 ? _addendums$updateOnCa : defaultOptions.updateOnCanEquipChanged,
+    useOutfitCaching: (_addendums$useOutfitC = addendums.useOutfitCaching) !== null && _addendums$useOutfitC !== void 0 ? _addendums$useOutfitC : defaultOptions.useOutfitCaching,
+    forceEquip: [].concat(maximize_toConsumableArray(defaultOptions.forceEquip), maximize_toConsumableArray((_addendums$forceEquip = addendums.forceEquip) !== null && _addendums$forceEquip !== void 0 ? _addendums$forceEquip : [])),
+    preventEquip: [].concat(maximize_toConsumableArray(defaultOptions.preventEquip), maximize_toConsumableArray((_addendums$preventEqu = addendums.preventEquip) !== null && _addendums$preventEqu !== void 0 ? _addendums$preventEqu : [])).filter(item => {
+      var _addendums$forceEquip2;
+
+      return !defaultOptions.forceEquip.includes(item) && !((_addendums$forceEquip2 = addendums.forceEquip) !== null && _addendums$forceEquip2 !== void 0 && _addendums$forceEquip2.includes(item));
+    }),
+    bonusEquip: new Map([].concat(maximize_toConsumableArray(defaultOptions.bonusEquip), maximize_toConsumableArray((_addendums$bonusEquip = addendums.bonusEquip) !== null && _addendums$bonusEquip !== void 0 ? _addendums$bonusEquip : []))),
+    onlySlot: (_addendums$onlySlot = addendums.onlySlot) !== null && _addendums$onlySlot !== void 0 ? _addendums$onlySlot : defaultOptions.onlySlot,
+    preventSlot: [].concat(maximize_toConsumableArray(defaultOptions.preventSlot), maximize_toConsumableArray((_addendums$preventSlo = addendums.preventSlot) !== null && _addendums$preventSlo !== void 0 ? _addendums$preventSlo : [])),
+    forceUpdate: (_addendums$forceUpdat = addendums.forceUpdate) !== null && _addendums$forceUpdat !== void 0 ? _addendums$forceUpdat : defaultOptions.forceUpdate,
+    modes: maximize_objectSpread(maximize_objectSpread({}, defaultOptions.modes), (_addendums$modes = addendums.modes) !== null && _addendums$modes !== void 0 ? _addendums$modes : {})
+  };
+}
+var defaultMaximizeOptions = {
+  updateOnFamiliarChange: true,
+  updateOnCanEquipChanged: true,
+  useOutfitCaching: true,
+  forceEquip: [],
+  preventEquip: [],
+  bonusEquip: new Map(),
+  onlySlot: [],
+  preventSlot: [],
+  forceUpdate: false,
+  modes: {}
+};
+/**
+ *
+ * @param options Default options for each maximizer run.
+ * @param options.updateOnFamiliarChange Re-run the maximizer if familiar has changed. Default true.
+ * @param options.updateOnCanEquipChanged Re-run the maximizer if stats have changed what can be equipped. Default true.
+ * @param options.forceEquip Equipment to force-equip ("equip X").
+ * @param options.preventEquip Equipment to prevent equipping ("-equip X").
+ * @param options.bonusEquip Equipment to apply a bonus to ("200 bonus X").
+ */
+
+function setDefaultMaximizeOptions(options) {
+  Object.assign(defaultMaximizeOptions, options);
+}
+var modeableCommands = ["backupcamera", "umbrella", "snowsuit", "edpiece", "retrocape", "parka"];
+var modeableItems = {
+  backupcamera: template_string_$item(_templateObject || (_templateObject = _taggedTemplateLiteral(["backup camera"]))),
+  umbrella: template_string_$item(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["unbreakable umbrella"]))),
+  snowsuit: template_string_$item(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["Snow Suit"]))),
+  edpiece: template_string_$item(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["The Crown of Ed the Undying"]))),
+  retrocape: template_string_$item(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["unwrapped knock-off retro superhero cape"]))),
+  parka: template_string_$item(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["Jurassic Parka"])))
+};
+var modeableState = {
+  backupcamera: () => (0,external_kolmafia_.getProperty)("backupCameraMode"),
+  umbrella: () => (0,external_kolmafia_.getProperty)("umbrellaState"),
+  snowsuit: () => (0,external_kolmafia_.getProperty)("snowsuit"),
+  edpiece: () => (0,external_kolmafia_.getProperty)("edPiece"),
+  retrocape: () => (0,external_kolmafia_.getProperty)("retroCapeSuperhero") + " " + (0,external_kolmafia_.getProperty)("retroCapeWashingInstructions"),
+  parka: () => (0,external_kolmafia_.getProperty)("parkaMode")
+};
+function getCurrentModes() {
+  var modes = {};
+
+  var _iterator = maximize_createForOfIteratorHelper(modeableCommands),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var key = _step.value;
+
+      if ((0,external_kolmafia_.haveEquipped)(modeableItems[key])) {
+        modes[key] = modeableState[key]();
+      }
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  return modes;
+}
+function maximize_applyModes(modes) {
+  var _iterator2 = maximize_createForOfIteratorHelper(modeableCommands),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var command = _step2.value;
+
+      if ((0,external_kolmafia_.haveEquipped)(modeableItems[command]) && modes[command] !== undefined) {
+        if (modeableState[command]() !== modes[command]) {
+          (0,external_kolmafia_.cliExecute)(command + " " + modes[command]);
+        }
+      }
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+} // Subset of slots that are valid for caching.
+
+var cachedSlots = template_string_$slots(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["hat, weapon, off-hand, back, shirt, pants, acc1, acc2, acc3, familiar"])));
+
+var CacheEntry = /*#__PURE__*/maximize_createClass(function CacheEntry(equipment, rider, familiar, canEquipItemCount, modes) {
+  maximize_classCallCheck(this, CacheEntry);
+
+  maximize_defineProperty(this, "equipment", void 0);
+
+  maximize_defineProperty(this, "rider", void 0);
+
+  maximize_defineProperty(this, "familiar", void 0);
+
+  maximize_defineProperty(this, "canEquipItemCount", void 0);
+
+  maximize_defineProperty(this, "modes", void 0);
+
+  this.equipment = equipment;
+  this.rider = rider;
+  this.familiar = familiar;
+  this.canEquipItemCount = canEquipItemCount;
+  this.modes = modes;
+});
+
+var _outfitSlots = /*#__PURE__*/new WeakMap();
+
+var _useHistory = /*#__PURE__*/new WeakMap();
+
+var _maxSize = /*#__PURE__*/new WeakMap();
+
+var OutfitLRUCache = /*#__PURE__*/function () {
+  // Current outfits allocated
+  // Array of indices into #outfitSlots in order of use. Most recent at the front.
+  function OutfitLRUCache(maxSize) {
+    maximize_classCallCheck(this, OutfitLRUCache);
+
+    _classPrivateFieldInitSpec(this, _outfitSlots, {
+      writable: true,
+      value: []
+    });
+
+    _classPrivateFieldInitSpec(this, _useHistory, {
+      writable: true,
+      value: []
+    });
+
+    _classPrivateFieldInitSpec(this, _maxSize, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldSet(this, _maxSize, maxSize);
+  }
+
+  maximize_createClass(OutfitLRUCache, [{
+    key: "checkConsistent",
+    value: function checkConsistent() {
+      if (_classPrivateFieldGet(this, _useHistory).length !== _classPrivateFieldGet(this, _outfitSlots).length || !maximize_toConsumableArray(_classPrivateFieldGet(this, _useHistory)).sort().every((value, index) => value === index)) {
+        throw new Error("Outfit cache consistency failed.");
+      }
+    }
+  }, {
+    key: "promote",
+    value: function promote(index) {
+      _classPrivateFieldSet(this, _useHistory, [index].concat(maximize_toConsumableArray(_classPrivateFieldGet(this, _useHistory).filter(i => i !== index))));
+
+      this.checkConsistent();
+    }
+  }, {
+    key: "get",
+    value: function get(key) {
+      var index = _classPrivateFieldGet(this, _outfitSlots).indexOf(key);
+
+      if (index < 0) return undefined;
+      this.promote(index);
+      return "".concat(OutfitLRUCache.OUTFIT_PREFIX, " ").concat(index);
+    }
+  }, {
+    key: "insert",
+    value: function insert(key) {
+      var lastUseIndex = undefined;
+
+      if (_classPrivateFieldGet(this, _outfitSlots).length >= _classPrivateFieldGet(this, _maxSize)) {
+        lastUseIndex = _classPrivateFieldGet(this, _useHistory).pop();
+
+        if (lastUseIndex === undefined) {
+          throw new Error("Outfit cache consistency failed.");
+        }
+
+        _classPrivateFieldGet(this, _useHistory).splice(0, 0, lastUseIndex);
+
+        _classPrivateFieldGet(this, _outfitSlots)[lastUseIndex] = key;
+        this.checkConsistent();
+        return "".concat(OutfitLRUCache.OUTFIT_PREFIX, " ").concat(lastUseIndex);
+      } else {
+        var index = _classPrivateFieldGet(this, _outfitSlots).push(key) - 1;
+
+        _classPrivateFieldGet(this, _useHistory).splice(0, 0, index);
+
+        this.checkConsistent();
+        return "".concat(OutfitLRUCache.OUTFIT_PREFIX, " ").concat(index);
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      _classPrivateFieldSet(this, _outfitSlots, []);
+
+      _classPrivateFieldSet(this, _useHistory, []);
+    }
+  }]);
+
+  return OutfitLRUCache;
+}();
+/**
+ * Save current equipment as KoL-native outfit.
+ * @param name Name of new outfit.
+ */
+
+
+maximize_defineProperty(OutfitLRUCache, "OUTFIT_PREFIX", "Script Outfit");
+
+function saveOutfit(name) {
+  (0,external_kolmafia_.cliExecute)("outfit save ".concat(name));
+} // Objective cache entries.
+
+
+var cachedObjectives = {}; // Outfit cache entries. Keep 6 by default to avoid cluttering list.
+
+var outfitCache = new OutfitLRUCache(6); // Cache to prevent rescanning all items unnecessarily
+
+var cachedStats = [0, 0, 0];
+var cachedCanEquipItemCount = 0;
+/**
+ * Count the number of unique items that can be equipped.
+ * @returns The count of unique items.
+ */
+
+function canEquipItemCount() {
+  var stats = $stats(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["Muscle, Mysticality, Moxie"]))).map(stat => Math.min((0,external_kolmafia_.myBasestat)(stat), 300));
+
+  if (stats.every((value, index) => value === cachedStats[index])) {
+    return cachedCanEquipItemCount;
+  }
+
+  cachedStats = stats;
+  cachedCanEquipItemCount = external_kolmafia_.Item.all().filter(item => (0,external_kolmafia_.canEquip)(item)).length;
+  return cachedCanEquipItemCount;
+}
+/**
+ * Checks the objective cache for a valid entry.
+ * @param cacheKey The cache key to check.
+ * @param updateOnFamiliarChange Ignore cache if familiar has changed.
+ * @param updateOnCanEquipChanged Ignore cache if stats have changed what can be equipped.
+ * @returns A valid CacheEntry or null.
+ */
+
+
+function checkCache(cacheKey, options) {
+  var entry = cachedObjectives[cacheKey];
+
+  if (!entry) {
+    return null;
+  }
+
+  if (options.updateOnFamiliarChange && (0,external_kolmafia_.myFamiliar)() !== entry.familiar) {
+    logger.warning("Equipment found in maximize cache but familiar is different.");
+    return null;
+  }
+
+  if (options.updateOnCanEquipChanged && entry.canEquipItemCount !== canEquipItemCount()) {
+    logger.warning("Equipment found in maximize cache but equippable item list is out of date.");
+    return null;
+  }
+
+  return entry;
+}
+/**
+ * Applies equipment that was found in the cache.
+ * @param entry The CacheEntry to apply
+ */
+
+
+function applyCached(entry, options) {
+  var outfitName = options.useOutfitCaching ? outfitCache.get(entry) : undefined;
+
+  if (outfitName) {
+    if (!(0,external_kolmafia_.isWearingOutfit)(outfitName)) {
+      (0,external_kolmafia_.outfit)(outfitName);
+    }
+
+    var familiarEquip = entry.equipment.get(template_string_$slot(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["familiar"]))));
+    if (familiarEquip) (0,external_kolmafia_.equip)(template_string_$slot(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["familiar"]))), familiarEquip);
+  } else {
+    var _iterator3 = maximize_createForOfIteratorHelper(entry.equipment),
+        _step3;
+
+    try {
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var _step3$value = maximize_slicedToArray(_step3.value, 2),
+            slot = _step3$value[0],
+            item = _step3$value[1];
+
+        if ((0,external_kolmafia_.equippedItem)(slot) !== item && (0,external_kolmafia_.availableAmount)(item) > 0) {
+          (0,external_kolmafia_.equip)(slot, item);
+        }
+      }
+    } catch (err) {
+      _iterator3.e(err);
+    } finally {
+      _iterator3.f();
+    }
+
+    if (verifyCached(entry) && options.useOutfitCaching) {
+      var _outfitName = outfitCache.insert(entry);
+
+      logger.info("Saving equipment to outfit ".concat(_outfitName, "."));
+      saveOutfit(_outfitName);
+    }
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["Crown of Thrones"])))) > 0 && entry.rider.get(template_string_$item(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["Crown of Thrones"]))))) {
+    (0,external_kolmafia_.enthroneFamiliar)(entry.rider.get(template_string_$item(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["Crown of Thrones"])))) || template_string_$familiar.none);
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["Buddy Bjorn"])))) > 0 && entry.rider.get(template_string_$item(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["Buddy Bjorn"]))))) {
+    (0,external_kolmafia_.bjornifyFamiliar)(entry.rider.get(template_string_$item(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["Buddy Bjorn"])))) || template_string_$familiar.none);
+  }
+
+  maximize_applyModes(maximize_objectSpread(maximize_objectSpread({}, entry.modes), options.modes));
+}
+
+var slotStructure = [template_string_$slots(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["hat"]))), template_string_$slots(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["back"]))), template_string_$slots(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["shirt"]))), template_string_$slots(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["weapon, off-hand"]))), template_string_$slots(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["pants"]))), template_string_$slots(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["acc1, acc2, acc3"]))), template_string_$slots(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["familiar"])))];
+/**
+ * Verifies that a CacheEntry was applied successfully.
+ * @param entry The CacheEntry to verify
+ * @returns If all desired equipment was appliedn in the correct slots.
+ */
+
+function verifyCached(entry) {
+  var warn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var success = true;
+
+  var _iterator4 = maximize_createForOfIteratorHelper(slotStructure),
+      _step4;
+
+  try {
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+      var slotGroup = _step4.value;
+      var desiredSlots = slotGroup.map(slot => {
+        var _entry$equipment$get;
+
+        return [slot, (_entry$equipment$get = entry.equipment.get(slot)) !== null && _entry$equipment$get !== void 0 ? _entry$equipment$get : null];
+      }).filter(_ref => {
+        var _ref2 = maximize_slicedToArray(_ref, 2),
+            item = _ref2[1];
+
+        return item !== null;
+      });
+      var desiredSet = desiredSlots.map(_ref3 => {
+        var _ref4 = maximize_slicedToArray(_ref3, 2),
+            item = _ref4[1];
+
+        return item;
+      });
+      var equippedSet = desiredSlots.map(_ref5 => {
+        var _ref6 = maximize_slicedToArray(_ref5, 1),
+            slot = _ref6[0];
+
+        return (0,external_kolmafia_.equippedItem)(slot);
+      });
+
+      if (!setEqual(desiredSet, equippedSet)) {
+        if (warn) {
+          logger.warning("Failed to apply cached ".concat(desiredSet.join(", "), " in ").concat(slotGroup.join(", "), "."));
+        }
+
+        success = false;
+      }
+    }
+  } catch (err) {
+    _iterator4.e(err);
+  } finally {
+    _iterator4.f();
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["Crown of Thrones"])))) > 0 && entry.rider.get(template_string_$item(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["Crown of Thrones"]))))) {
+    if (entry.rider.get(template_string_$item(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["Crown of Thrones"])))) !== (0,external_kolmafia_.myEnthronedFamiliar)()) {
+      if (warn) {
+        logger.warning("Failed to apply ".concat(entry.rider.get(template_string_$item(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["Crown of Thrones"])))), " in ").concat(template_string_$item(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["Crown of Thrones"]))), "."));
+      }
+
+      success = false;
+    }
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject29 || (_templateObject29 = _taggedTemplateLiteral(["Buddy Bjorn"])))) > 0 && entry.rider.get(template_string_$item(_templateObject30 || (_templateObject30 = _taggedTemplateLiteral(["Buddy Bjorn"]))))) {
+    if (entry.rider.get(template_string_$item(_templateObject31 || (_templateObject31 = _taggedTemplateLiteral(["Buddy Bjorn"])))) !== (0,external_kolmafia_.myBjornedFamiliar)()) {
+      if (warn) {
+        logger.warning("Failed to apply".concat(entry.rider.get(template_string_$item(_templateObject32 || (_templateObject32 = _taggedTemplateLiteral(["Buddy Bjorn"])))), " in ").concat(template_string_$item(_templateObject33 || (_templateObject33 = _taggedTemplateLiteral(["Buddy Bjorn"]))), "."));
+      }
+
+      success = false;
+    }
+  }
+
+  return success;
+}
+/**
+ * Save current equipment to the objective cache.
+ * @param cacheKey The cache key to save.
+ */
+
+
+function saveCached(cacheKey, options) {
+  var equipment = new Map();
+  var rider = new Map();
+
+  var _iterator5 = maximize_createForOfIteratorHelper(cachedSlots),
+      _step5;
+
+  try {
+    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+      var _slot2 = _step5.value;
+      equipment.set(_slot2, (0,external_kolmafia_.equippedItem)(_slot2));
+    }
+  } catch (err) {
+    _iterator5.e(err);
+  } finally {
+    _iterator5.f();
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject34 || (_templateObject34 = _taggedTemplateLiteral(["card sleeve"])))) > 0) {
+    equipment.set(template_string_$slot(_templateObject35 || (_templateObject35 = _taggedTemplateLiteral(["card-sleeve"]))), (0,external_kolmafia_.equippedItem)(template_string_$slot(_templateObject36 || (_templateObject36 = _taggedTemplateLiteral(["card-sleeve"])))));
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject37 || (_templateObject37 = _taggedTemplateLiteral(["Crown of Thrones"])))) > 0) {
+    rider.set(template_string_$item(_templateObject38 || (_templateObject38 = _taggedTemplateLiteral(["Crown of Thrones"]))), (0,external_kolmafia_.myEnthronedFamiliar)());
+  }
+
+  if ((0,external_kolmafia_.equippedAmount)(template_string_$item(_templateObject39 || (_templateObject39 = _taggedTemplateLiteral(["Buddy Bjorn"])))) > 0) {
+    rider.set(template_string_$item(_templateObject40 || (_templateObject40 = _taggedTemplateLiteral(["Buddy Bjorn"]))), (0,external_kolmafia_.myBjornedFamiliar)());
+  }
+
+  if (options.preventSlot && options.preventSlot.length > 0) {
+    var _iterator6 = maximize_createForOfIteratorHelper(options.preventSlot),
+        _step6;
+
+    try {
+      for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+        var slot = _step6.value;
+        equipment.delete(slot);
+      }
+    } catch (err) {
+      _iterator6.e(err);
+    } finally {
+      _iterator6.f();
+    }
+
+    if (options.preventSlot.includes(template_string_$slot(_templateObject41 || (_templateObject41 = _taggedTemplateLiteral(["buddy-bjorn"]))))) {
+      rider.delete(template_string_$item(_templateObject42 || (_templateObject42 = _taggedTemplateLiteral(["Buddy Bjorn"]))));
+    }
+
+    if (options.preventSlot.includes(template_string_$slot(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["crown-of-thrones"]))))) {
+      rider.delete(template_string_$item(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["Crown of Thrones"]))));
+    }
+  }
+
+  if (options.onlySlot && options.onlySlot.length > 0) {
+    var _iterator7 = maximize_createForOfIteratorHelper(external_kolmafia_.Slot.all()),
+        _step7;
+
+    try {
+      for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+        var _slot = _step7.value;
+
+        if (!options.onlySlot.includes(_slot)) {
+          equipment.delete(_slot);
+        }
+      }
+    } catch (err) {
+      _iterator7.e(err);
+    } finally {
+      _iterator7.f();
+    }
+
+    if (!options.onlySlot.includes(template_string_$slot(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral(["buddy-bjorn"]))))) {
+      rider.delete(template_string_$item(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["Buddy Bjorn"]))));
+    }
+
+    if (!options.onlySlot.includes(template_string_$slot(_templateObject47 || (_templateObject47 = _taggedTemplateLiteral(["crown-of-thrones"]))))) {
+      rider.delete(template_string_$item(_templateObject48 || (_templateObject48 = _taggedTemplateLiteral(["Crown of Thrones"]))));
+    }
+  }
+
+  var entry = new CacheEntry(equipment, rider, (0,external_kolmafia_.myFamiliar)(), canEquipItemCount(), maximize_objectSpread(maximize_objectSpread({}, getCurrentModes()), options.modes));
+  cachedObjectives[cacheKey] = entry;
+
+  if (options.useOutfitCaching) {
+    var outfitName = outfitCache.insert(entry);
+    logger.info("Saving equipment to outfit ".concat(outfitName, "."));
+    saveOutfit(outfitName);
+  }
+}
+/**
+ * Run the maximizer, but only if the objective and certain pieces of game state haven't changed since it was last run.
+ * @param objectives Objectives to maximize for.
+ * @param options Options for this run of the maximizer.
+ * @param options.updateOnFamiliarChange Re-run the maximizer if familiar has changed. Default true.
+ * @param options.updateOnCanEquipChanged Re-run the maximizer if stats have changed what can be equipped. Default true.
+ * @param options.forceEquip Equipment to force-equip ("equip X").
+ * @param options.preventEquip Equipment to prevent equipping ("-equip X").
+ * @param options.bonusEquip Equipment to apply a bonus to ("200 bonus X").
+ * @returns Whether the maximize call succeeded.
+ */
+
+
+function maximizeCached(objectives) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var fullOptions = mergeMaximizeOptions(defaultMaximizeOptions, options);
+  var forceEquip = fullOptions.forceEquip,
+      preventEquip = fullOptions.preventEquip,
+      bonusEquip = fullOptions.bonusEquip,
+      onlySlot = fullOptions.onlySlot,
+      preventSlot = fullOptions.preventSlot,
+      forceUpdate = fullOptions.forceUpdate; // Sort each group in objective to ensure consistent ordering in string
+
+  var objective = maximize_toConsumableArray(new Set([].concat(maximize_toConsumableArray(objectives.sort()), maximize_toConsumableArray(forceEquip.map(item => "equip ".concat(item)).sort()), maximize_toConsumableArray(preventEquip.map(item => "-equip ".concat(item)).sort()), maximize_toConsumableArray(onlySlot.map(slot => "".concat(slot)).sort()), maximize_toConsumableArray(preventSlot.map(slot => "-".concat(slot)).sort()), maximize_toConsumableArray(Array.from(bonusEquip.entries()).filter(_ref7 => {
+    var _ref8 = maximize_slicedToArray(_ref7, 2),
+        bonus = _ref8[1];
+
+    return bonus !== 0;
+  }).map(_ref9 => {
+    var _ref10 = maximize_slicedToArray(_ref9, 2),
+        item = _ref10[0],
+        bonus = _ref10[1];
+
+    return "".concat(Math.round(bonus * 100) / 100, " bonus ").concat(item);
+  }).sort())))).join(", "); // Items equipped in slots not touched by the maximizer must be in the cache key
+
+
+  var untouchedSlots = cachedSlots.filter(slot => preventSlot.includes(slot) || onlySlot.length > 0 && !onlySlot.includes(slot));
+  var cacheKey = [objective].concat(maximize_toConsumableArray(untouchedSlots.map(slot => "".concat(slot, ":").concat((0,external_kolmafia_.equippedItem)(slot))).sort())).join("; ");
+  var cacheEntry = checkCache(cacheKey, fullOptions);
+
+  if (cacheEntry && !forceUpdate) {
+    if (verifyCached(cacheEntry, false)) return true;
+    logger.info("Equipment found in maximize cache, equipping...");
+    applyCached(cacheEntry, fullOptions);
+
+    if (verifyCached(cacheEntry)) {
+      logger.info("Equipped cached ".concat(cacheKey));
+      return true;
+    }
+
+    logger.warning("Maximize cache application failed, maximizing...");
+  }
+
+  var result = (0,external_kolmafia_.maximize)(objective, false);
+  saveCached(cacheKey, fullOptions);
+  return result;
+}
+
+var _maximizeParameters = /*#__PURE__*/new WeakMap();
+
+var _maximizeOptions = /*#__PURE__*/new WeakMap();
+
+var maximize_Requirement = /*#__PURE__*/function () {
+  /**
+   * A convenient way of combining maximization parameters and options
+   * @param maximizeParameters Parameters you're attempting to maximize
+   * @param maximizeOptions Object potentially containing forceEquips, bonusEquips, preventEquips, and preventSlots
+   */
+  function Requirement(maximizeParameters, maximizeOptions) {
+    maximize_classCallCheck(this, Requirement);
+
+    _classPrivateFieldInitSpec(this, _maximizeParameters, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldInitSpec(this, _maximizeOptions, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldSet(this, _maximizeParameters, maximizeParameters);
+
+    _classPrivateFieldSet(this, _maximizeOptions, maximizeOptions);
+  }
+
+  maximize_createClass(Requirement, [{
+    key: "maximizeParameters",
+    get: function get() {
+      return _classPrivateFieldGet(this, _maximizeParameters);
+    }
+  }, {
+    key: "maximizeOptions",
+    get: function get() {
+      return _classPrivateFieldGet(this, _maximizeOptions);
+    }
+    /**
+     * Merges two requirements, concanating relevant arrays. Typically used in static form.
+     * @param other Requirement to merge with.
+     */
+
+  }, {
+    key: "merge",
+    value: function merge(other) {
+      var _optionsA$forceEquip, _other$maximizeOption, _optionsA$preventEqui, _other$maximizeOption3, _optionsA$bonusEquip$, _optionsA$bonusEquip, _optionsB$bonusEquip$, _optionsB$bonusEquip, _optionsA$onlySlot, _optionsB$onlySlot, _optionsA$preventSlot, _optionsB$preventSlot;
+
+      var optionsA = this.maximizeOptions;
+      var optionsB = other.maximizeOptions;
+      return new Requirement([].concat(maximize_toConsumableArray(this.maximizeParameters), maximize_toConsumableArray(other.maximizeParameters)), {
+        updateOnFamiliarChange: optionsA.updateOnFamiliarChange || other.maximizeOptions.updateOnFamiliarChange,
+        updateOnCanEquipChanged: optionsA.updateOnCanEquipChanged || other.maximizeOptions.updateOnCanEquipChanged,
+        forceEquip: [].concat(maximize_toConsumableArray((_optionsA$forceEquip = optionsA.forceEquip) !== null && _optionsA$forceEquip !== void 0 ? _optionsA$forceEquip : []), maximize_toConsumableArray((_other$maximizeOption = other.maximizeOptions.forceEquip) !== null && _other$maximizeOption !== void 0 ? _other$maximizeOption : [])).filter(x => {
+          var _other$maximizeOption2;
+
+          return !((_other$maximizeOption2 = other.maximizeOptions.preventEquip) !== null && _other$maximizeOption2 !== void 0 && _other$maximizeOption2.includes(x));
+        }),
+        preventEquip: [].concat(maximize_toConsumableArray((_optionsA$preventEqui = optionsA.preventEquip) !== null && _optionsA$preventEqui !== void 0 ? _optionsA$preventEqui : []), maximize_toConsumableArray((_other$maximizeOption3 = other.maximizeOptions.preventEquip) !== null && _other$maximizeOption3 !== void 0 ? _other$maximizeOption3 : [])).filter(x => {
+          var _other$maximizeOption4;
+
+          return !((_other$maximizeOption4 = other.maximizeOptions.forceEquip) !== null && _other$maximizeOption4 !== void 0 && _other$maximizeOption4.includes(x));
+        }),
+        bonusEquip: new Map([].concat(maximize_toConsumableArray((_optionsA$bonusEquip$ = (_optionsA$bonusEquip = optionsA.bonusEquip) === null || _optionsA$bonusEquip === void 0 ? void 0 : _optionsA$bonusEquip.entries()) !== null && _optionsA$bonusEquip$ !== void 0 ? _optionsA$bonusEquip$ : []), maximize_toConsumableArray((_optionsB$bonusEquip$ = (_optionsB$bonusEquip = optionsB.bonusEquip) === null || _optionsB$bonusEquip === void 0 ? void 0 : _optionsB$bonusEquip.entries()) !== null && _optionsB$bonusEquip$ !== void 0 ? _optionsB$bonusEquip$ : []))),
+        onlySlot: [].concat(maximize_toConsumableArray((_optionsA$onlySlot = optionsA.onlySlot) !== null && _optionsA$onlySlot !== void 0 ? _optionsA$onlySlot : []), maximize_toConsumableArray((_optionsB$onlySlot = optionsB.onlySlot) !== null && _optionsB$onlySlot !== void 0 ? _optionsB$onlySlot : [])),
+        preventSlot: [].concat(maximize_toConsumableArray((_optionsA$preventSlot = optionsA.preventSlot) !== null && _optionsA$preventSlot !== void 0 ? _optionsA$preventSlot : []), maximize_toConsumableArray((_optionsB$preventSlot = optionsB.preventSlot) !== null && _optionsB$preventSlot !== void 0 ? _optionsB$preventSlot : [])),
+        forceUpdate: optionsA.forceUpdate || optionsB.forceUpdate
+      });
+    }
+    /**
+     * Merges a set of requirements together, starting with an empty requirement.
+     * @param allRequirements Requirements to merge
+     */
+
+  }, {
+    key: "maximize",
+    value:
+    /**
+     * Runs maximizeCached, using the maximizeParameters and maximizeOptions contained by this requirement.
+     * @returns Whether the maximize call succeeded.
+     */
+    function maximize() {
+      return maximizeCached(this.maximizeParameters, this.maximizeOptions);
+    }
+    /**
+     * Merges requirements, and then runs maximizeCached on the combined requirement.
+     * @param requirements Requirements to maximize on
+     */
+
+  }], [{
+    key: "merge",
+    value: function merge(allRequirements) {
+      return allRequirements.reduce((x, y) => x.merge(y), new Requirement([], {}));
+    }
+  }, {
+    key: "maximize",
+    value: function maximize() {
+      for (var _len = arguments.length, requirements = new Array(_len), _key = 0; _key < _len; _key++) {
+        requirements[_key] = arguments[_key];
+      }
+
+      Requirement.merge(requirements).maximize();
+    }
+  }]);
+
+  return Requirement;
+}();
+/**
+ * Clear all outfits cached by the maximizer.
+ */
+
+function clearMaximizerCache() {
+  outfitCache.clear();
+
+  for (var member in cachedObjectives) {
+    delete cachedObjectives[member];
+  }
+}
+;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/outfit.js
+var outfit_templateObject, outfit_templateObject2, outfit_templateObject3, outfit_templateObject4, outfit_templateObject5, outfit_templateObject6, outfit_templateObject7, outfit_templateObject8, outfit_templateObject9, outfit_templateObject10, outfit_templateObject11, outfit_templateObject12, outfit_templateObject13, outfit_templateObject14, outfit_templateObject15, outfit_templateObject16, outfit_templateObject17, outfit_templateObject18, outfit_templateObject19, outfit_templateObject20, outfit_templateObject21, outfit_templateObject22, outfit_templateObject23, outfit_templateObject24, outfit_templateObject25, outfit_templateObject26, outfit_templateObject27, outfit_templateObject28, outfit_templateObject29, outfit_templateObject30, outfit_templateObject31, outfit_templateObject32, outfit_templateObject33, outfit_templateObject34, outfit_templateObject35, outfit_templateObject36, outfit_templateObject37, outfit_templateObject38, outfit_templateObject39, outfit_templateObject40, outfit_templateObject41, outfit_templateObject42, outfit_templateObject43, outfit_templateObject44, outfit_templateObject45, outfit_templateObject46, outfit_templateObject47, outfit_templateObject48, _templateObject49, _templateObject50, _templateObject51, _templateObject52, _templateObject53, _templateObject54, _templateObject55, _templateObject56, _templateObject57, _templateObject58, _templateObject59, _templateObject60;
+
+function outfit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function outfit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? outfit_ownKeys(Object(source), !0).forEach(function (key) { outfit_defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : outfit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function outfit_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function outfit_slicedToArray(arr, i) { return outfit_arrayWithHoles(arr) || outfit_iterableToArrayLimit(arr, i) || outfit_unsupportedIterableToArray(arr, i) || outfit_nonIterableRest(); }
+
+function outfit_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function outfit_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function outfit_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function outfit_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = outfit_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function outfit_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function outfit_toConsumableArray(arr) { return outfit_arrayWithoutHoles(arr) || outfit_iterableToArray(arr) || outfit_unsupportedIterableToArray(arr) || outfit_nonIterableSpread(); }
+
+function outfit_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function outfit_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return outfit_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return outfit_arrayLikeToArray(o, minLen); }
+
+function outfit_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function outfit_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return outfit_arrayLikeToArray(arr); }
+
+function outfit_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function outfit_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function outfit_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function outfit_createClass(Constructor, protoProps, staticProps) { if (protoProps) outfit_defineProperties(Constructor.prototype, protoProps); if (staticProps) outfit_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+var FORCE_REFRESH_REQUIREMENT = new maximize_Requirement([], {
+  forceUpdate: true
+});
+var outfitSlots = (/* unused pure expression or super */ null && (["hat", "back", "weapon", "offhand", "shirt", "pants", "acc1", "acc2", "acc3", "famequip"]));
+var riderSlots = (/* unused pure expression or super */ null && (["buddy-bjorn", "crown-of-thrones"]));
+
+var weaponHands = i => i ? mafiaWeaponHands(i) : 0;
+
+var outfit_modeableCommands = (/* unused pure expression or super */ null && (["backupcamera", "umbrella", "snowsuit", "edpiece", "retrocape", "parka"]));
+var outfit_Outfit = /*#__PURE__*/(/* unused pure expression or super */ null && (function () {
+  function Outfit() {
+    outfit_classCallCheck(this, Outfit);
+
+    this.equips = new Map();
+    this.riders = new Map();
+    this.modes = {};
+    this.skipDefaults = false;
+    this.modifier = [];
+    this.avoid = [];
+    this.bonuses = new Map();
+  }
+  /**
+   * Create an outfit from your current player state.
+   */
+
+
+  outfit_createClass(Outfit, [{
+    key: "equippedAmount",
+    value:
+    /**
+     * Check how many of an item is equipped on the outfit.
+     */
+    function equippedAmount(item) {
+      return outfit_toConsumableArray(this.equips.values()).filter(i => i === item).length;
+    }
+  }, {
+    key: "isAvailable",
+    value: function isAvailable(item) {
+      var _a;
+
+      if ((_a = this.avoid) === null || _a === void 0 ? void 0 : _a.includes(item)) return false;
+      if (!have(item, this.equippedAmount(item) + 1)) return false;
+      if (booleanModifier(item, "Single Equip") && this.equippedAmount(item) > 0) return false;
+      return true;
+    }
+    /**
+     * Check whether an item is equipped on the outfit, optionally in a specific slot.
+     */
+
+  }, {
+    key: "haveEquipped",
+    value: function haveEquipped(item, slot) {
+      if (slot === undefined) return this.equippedAmount(item) > 0;
+      return this.equips.get(slot) === item;
+    }
+  }, {
+    key: "equipItemNone",
+    value: function equipItemNone(item, slot) {
+      if (item !== $item.none) return false;
+      if (slot === undefined) return true;
+      if (this.equips.has(slot)) return false;
+      this.equips.set(slot, item);
+      return true;
+    }
+  }, {
+    key: "equipNonAccessory",
+    value: function equipNonAccessory(item, slot) {
+      if ($slots(outfit_templateObject || (outfit_templateObject = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).includes(toSlot(item))) return false;
+      if (slot !== undefined && slot !== toSlot(item)) return false;
+      if (this.equips.has(toSlot(item))) return false;
+
+      switch (toSlot(item)) {
+        case $slot(outfit_templateObject2 || (outfit_templateObject2 = outfit_taggedTemplateLiteral(["off-hand"]))):
+          if (this.equips.has($slot(outfit_templateObject3 || (outfit_templateObject3 = outfit_taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(outfit_templateObject4 || (outfit_templateObject4 = outfit_taggedTemplateLiteral(["weapon"]))))) !== 1) {
+            return false;
+          }
+
+          break;
+
+        case $slot(outfit_templateObject5 || (outfit_templateObject5 = outfit_taggedTemplateLiteral(["familiar"]))):
+          if (this.familiar !== undefined && !canEquip(this.familiar, item)) return false;
+      }
+
+      if (toSlot(item) !== $slot(outfit_templateObject6 || (outfit_templateObject6 = outfit_taggedTemplateLiteral(["familiar"]))) && !canEquip(item)) return false;
+      this.equips.set(toSlot(item), item);
+      return true;
+    }
+  }, {
+    key: "equipAccessory",
+    value: function equipAccessory(item, slot) {
+      if (![undefined].concat(outfit_toConsumableArray($slots(outfit_templateObject7 || (outfit_templateObject7 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))))).includes(slot)) return false;
+      if (toSlot(item) !== $slot(outfit_templateObject8 || (outfit_templateObject8 = outfit_taggedTemplateLiteral(["acc1"])))) return false;
+      if (!canEquip(item)) return false;
+
+      if (slot === undefined) {
+        // We don't care which of the accessory slots we equip in
+        var empty = $slots(outfit_templateObject9 || (outfit_templateObject9 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"]))).find(s => !this.equips.has(s));
+        if (empty === undefined) return false;
+        this.equips.set(empty, item);
+      } else {
+        if (this.equips.has(slot)) return false;
+        this.equips.set(slot, item);
+      }
+
+      return true;
+    }
+  }, {
+    key: "equipUsingDualWield",
+    value: function equipUsingDualWield(item, slot) {
+      if (![undefined, $slot(outfit_templateObject10 || (outfit_templateObject10 = outfit_taggedTemplateLiteral(["off-hand"])))].includes(slot)) return false;
+      if (toSlot(item) !== $slot(outfit_templateObject11 || (outfit_templateObject11 = outfit_taggedTemplateLiteral(["weapon"])))) return false;
+
+      if (this.equips.has($slot(outfit_templateObject12 || (outfit_templateObject12 = outfit_taggedTemplateLiteral(["weapon"])))) && weaponHands(this.equips.get($slot(outfit_templateObject13 || (outfit_templateObject13 = outfit_taggedTemplateLiteral(["weapon"]))))) !== 1) {
+        return false;
+      }
+
+      if (this.equips.has($slot(outfit_templateObject14 || (outfit_templateObject14 = outfit_taggedTemplateLiteral(["off-hand"]))))) return false;
+      if (!have($skill(outfit_templateObject15 || (outfit_templateObject15 = outfit_taggedTemplateLiteral(["Double-Fisted Skull Smashing"]))))) return false;
+      if (weaponHands(item) !== 1) return false;
+      if (!canEquip(item)) return false;
+      this.equips.set($slot(outfit_templateObject16 || (outfit_templateObject16 = outfit_taggedTemplateLiteral(["off-hand"]))), item);
+      return true;
+    }
+  }, {
+    key: "getHoldingFamiliar",
+    value: function getHoldingFamiliar(item) {
+      switch (toSlot(item)) {
+        case $slot(outfit_templateObject17 || (outfit_templateObject17 = outfit_taggedTemplateLiteral(["weapon"]))):
+          return $familiar(outfit_templateObject18 || (outfit_templateObject18 = outfit_taggedTemplateLiteral(["Disembodied Hand"])));
+
+        case $slot(outfit_templateObject19 || (outfit_templateObject19 = outfit_taggedTemplateLiteral(["off-hand"]))):
+          return $familiar(outfit_templateObject20 || (outfit_templateObject20 = outfit_taggedTemplateLiteral(["Left-Hand Man"])));
+
+        default:
+          return undefined;
+      }
+    }
+    /**
+     * Returns the bonus value associated with a given item.
+     * @param item The item to check the bonus of.
+     * @returns The bonus assigned to that item.
+     */
+
+  }, {
+    key: "getBonus",
+    value: function getBonus(item) {
+      var _a;
+
+      return (_a = this.bonuses.get(item)) !== null && _a !== void 0 ? _a : 0;
+    }
+    /**
+     * Sets the bonus value of an item equal to a given value, overriding any current bonus assigned.
+     *
+     * Only triggers on items that may be equipped to this outfit.
+     * @param item The item to try to apply a bonus to.
+     * @param value The value to try to apply.
+     * @returns Whether the bonus was successfully asigned.
+     */
+
+  }, {
+    key: "setBonus",
+    value: function setBonus(item, value) {
+      var can = this.canEquip(item);
+      if (can) this.bonuses.set(item, value);
+      return can;
+    }
+    /**
+     * Adds a value to any existing bonus this item has; if it started without a bonus, sets the bonus equal to that value.
+     *
+     * Only triggers on items that may be equipped to this outfit.
+     * @param item The item to try to add a bonus to.
+     * @param value The value to try to add.
+     * @returns The total assigned bonus to that item.
+     */
+
+  }, {
+    key: "addBonus",
+    value: function addBonus(item, value) {
+      var previous = this.getBonus(item);
+      this.setBonus(item, previous + value);
+      return this.getBonus(item);
+    }
+  }, {
+    key: "equipUsingFamiliar",
+    value: function equipUsingFamiliar(item, slot) {
+      if (![undefined, $slot(outfit_templateObject21 || (outfit_templateObject21 = outfit_taggedTemplateLiteral(["familiar"])))].includes(slot)) return false;
+      if (this.equips.has($slot(outfit_templateObject22 || (outfit_templateObject22 = outfit_taggedTemplateLiteral(["familiar"]))))) return false;
+      if (booleanModifier(item, "Single Equip")) return false;
+      var familiar = this.getHoldingFamiliar(item);
+      if (familiar === undefined || !this.equip(familiar)) return false;
+      this.equips.set($slot(outfit_templateObject23 || (outfit_templateObject23 = outfit_taggedTemplateLiteral(["familiar"]))), item);
+      return true;
+    }
+  }, {
+    key: "equipItem",
+    value: function equipItem(item, slot) {
+      return this.haveEquipped(item, slot) || this.equipItemNone(item, slot) || this.isAvailable(item) && (this.equipNonAccessory(item, slot) || this.equipAccessory(item, slot) || this.equipUsingDualWield(item, slot) || this.equipUsingFamiliar(item, slot));
+    }
+  }, {
+    key: "equipFamiliar",
+    value: function equipFamiliar(familiar) {
+      if (familiar === this.familiar) return true;
+      if (this.familiar !== undefined) return false;
+
+      if (familiar !== $familiar.none) {
+        if (!have(familiar)) return false;
+        if (Array.from(this.riders.values()).includes(familiar)) return false;
+      }
+
+      var item = this.equips.get($slot(outfit_templateObject24 || (outfit_templateObject24 = outfit_taggedTemplateLiteral(["familiar"]))));
+      if (item !== undefined && item !== $item.none && !canEquip(familiar, item)) return false;
+      this.familiar = familiar;
+      return true;
+    }
+  }, {
+    key: "equipSpec",
+    value: function equipSpec(spec) {
+      var _this$avoid;
+
+      var _a, _b, _c, _d;
+
+      var succeeded = true;
+
+      var _iterator = outfit_createForOfIteratorHelper(outfitSlots),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var slotName = _step.value;
+          var slot = (_a = new Map([["famequip", $slot(outfit_templateObject25 || (outfit_templateObject25 = outfit_taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(outfit_templateObject26 || (outfit_templateObject26 = outfit_taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName);
+          var itemOrItems = spec[slotName];
+          if (itemOrItems !== undefined && !this.equip(itemOrItems, slot)) succeeded = false;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var _iterator2 = outfit_createForOfIteratorHelper((_b = spec === null || spec === void 0 ? void 0 : spec.equip) !== null && _b !== void 0 ? _b : []),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var _item = _step2.value;
+          if (!this.equip(_item)) succeeded = false;
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      if ((spec === null || spec === void 0 ? void 0 : spec.familiar) !== undefined) {
+        if (!this.equip(spec.familiar)) succeeded = false;
+      }
+
+      (_this$avoid = this.avoid).push.apply(_this$avoid, outfit_toConsumableArray((_c = spec === null || spec === void 0 ? void 0 : spec.avoid) !== null && _c !== void 0 ? _c : []));
+
+      this.skipDefaults = this.skipDefaults || ((_d = spec.skipDefaults) !== null && _d !== void 0 ? _d : false);
+
+      if (spec.modifier) {
+        var _this$modifier;
+
+        if (Array.isArray(spec.modifier)) (_this$modifier = this.modifier).push.apply(_this$modifier, outfit_toConsumableArray(spec.modifier));else this.modifier.push(spec.modifier);
+      }
+
+      if (spec.modes) {
+        if (!this.setModes(spec.modes)) {
+          succeeded = false;
+        }
+      }
+
+      if (spec.riders) {
+        if (spec.riders["buddy-bjorn"] && !this.bjornify(spec.riders["buddy-bjorn"])) succeeded = false;
+        if (spec.riders["crown-of-thrones"] && !this.enthrone(spec.riders["crown-of-thrones"])) succeeded = false;
+      }
+
+      if (spec.bonuses) {
+        var _iterator3 = outfit_createForOfIteratorHelper(spec.bonuses),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var _step3$value = outfit_slicedToArray(_step3.value, 2),
+                item = _step3$value[0],
+                value = _step3$value[1];
+
+            succeeded && (succeeded = value + this.getBonus(item) === this.addBonus(item, value));
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+      }
+
+      return succeeded;
+    }
+    /**
+     * Equip the first thing that can be equipped to the outfit.
+     *
+     * @param things The things to equip.
+     * @param slot The slot to equip them.
+     * @returns True if one of the things is equipped, and false otherwise.
+     */
+
+  }, {
+    key: "equipFirst",
+    value: function equipFirst(things, slot) {
+      return things.some(val => this.equip(val, slot));
+    }
+    /**
+     * Equip a thing to the outfit.
+     *
+     * If no slot is given, then the thing will be equipped wherever possible
+     * (possibly using dual-wielding, any of the accessory slots, or as
+     * familiar equipment). If it is impossible to add this thing anywhere to
+     * the outfit, this function will return false.
+     *
+     * If a slot is given, the item will be equipped only in that slot. If the
+     * slot is filled with a different item, this function will return false.
+     *
+     * If the thing is already equipped in the provided slot, or if no slot is
+     * given and the thing is already equipped in any slot, this function will
+     * return true and not change the outfit.
+     *
+     * @param thing The thing or things to equip.
+     * @param slot The slot to equip them.
+     * @returns True if the thing was sucessfully equipped, and false otherwise.
+     */
+
+  }, {
+    key: "equip",
+    value: function equip(thing, slot) {
+      if (Array.isArray(thing)) {
+        if (slot !== undefined) return this.equipFirst(thing, slot);
+        return thing.every(val => this.equip(val));
+      }
+
+      if (thing instanceof Item) return this.equipItem(thing, slot);
+      if (thing instanceof Familiar) return this.equipFamiliar(thing);
+      if (thing instanceof Outfit) return this.equipSpec(thing.spec());
+      return this.equipSpec(thing);
+    }
+  }, {
+    key: "bjornify",
+    value:
+    /**
+     * Add a bjornified familiar to the outfit.
+     *
+     * This function does *not* equip the buddy bjorn itself; it must be equipped separately.
+     *
+     * If a familiar is already specified for the buddy bjorn that is different from the provided target, this function will return false and not change the buddy bjorn.
+     * @param target The familiar to bjornify, or a ranked list of familiars to try to bjornify.
+     * @returns True if we successfully set the bjorn to a valid target.
+     */
+    function bjornify(target) {
+      var current = this.riders.get($slot(outfit_templateObject27 || (outfit_templateObject27 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))));
+
+      if (current) {
+        if (Array.isArray(target) ? target.includes(current) : current === target) {
+          return true;
+        }
+
+        return false;
+      }
+
+      if (Array.isArray(target)) {
+        var fam = target.find(f => have(f) && this.familiar !== f && this.riders.get($slot(outfit_templateObject28 || (outfit_templateObject28 = outfit_taggedTemplateLiteral(["crown-of-thrones"])))) !== f);
+
+        if (fam) {
+          this.riders.set($slot(outfit_templateObject29 || (outfit_templateObject29 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))), fam);
+          return true;
+        }
+
+        return false;
+      } else {
+        if (have(target) && this.familiar !== target && !Array.from(this.riders.values()).includes(target)) {
+          this.riders.set($slot(outfit_templateObject30 || (outfit_templateObject30 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))), target);
+          return true;
+        }
+
+        return false;
+      }
+    }
+    /**
+     * Add anenthroned familiar to the outfit.
+     *
+     * This function does *not* equip the crown of thrones itself; it must be equipped separately.
+     *
+     * If a familiar is already specified for the crown of thrones that is different from the provided target, this function will return false and not change the crown of thrones.
+     * @param target The familiar to enthrone, or a ranked list of familiars to try to enthrone.
+     * @returns True if we successfully set the enthrone to a valid target.
+     */
+
+  }, {
+    key: "enthrone",
+    value: function enthrone(target) {
+      var current = this.riders.get($slot(outfit_templateObject31 || (outfit_templateObject31 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))));
+
+      if (current) {
+        if (Array.isArray(target) ? target.includes(current) : current === target) {
+          return true;
+        }
+
+        return false;
+      }
+
+      if (Array.isArray(target)) {
+        var fam = target.find(f => have(f) && this.familiar !== f && this.riders.get($slot(outfit_templateObject32 || (outfit_templateObject32 = outfit_taggedTemplateLiteral(["buddy-bjorn"])))) !== f);
+
+        if (fam) {
+          this.riders.set($slot(outfit_templateObject33 || (outfit_templateObject33 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))), fam);
+          return true;
+        }
+
+        return false;
+      } else {
+        if (have(target) && this.familiar !== target && !Array.from(this.riders.values()).includes(target)) {
+          this.riders.set($slot(outfit_templateObject34 || (outfit_templateObject34 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))), target);
+          return true;
+        }
+
+        return false;
+      }
+    }
+    /**
+     * Set the provided modes for items that may be equipped in the outfit.
+     *
+     * This function does *not* equip items for the set modes; they must be
+     * equipped separately.
+     *
+     * If a mode is already set for an item that is different from the provided
+     * mode, this function will return false and not change the mode for that
+     * item. (But other modes might still be changed if they are compatible.)
+     *
+     * Note that the superhero and instuctions of a retrocape can be set
+     * independently (`undefined` is treated as "don't care").
+     *
+     * @param modes Modes to set in this outfit.
+     * @returns True if all modes were sucessfully set, and false otherwise.
+     */
+
+  }, {
+    key: "setModes",
+    value: function setModes(modes) {
+      var _a, _b;
+
+      var compatible = true; // Check if the new modes are compatible with existing modes
+
+      var _iterator4 = outfit_createForOfIteratorHelper(outfit_modeableCommands),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var mode = _step4.value;
+          if (mode === "retrocape") continue; // checked below
+
+          if (this.modes[mode] && modes[mode] && this.modes[mode] !== modes[mode]) {
+            compatible = false;
+          }
+        } // Check if retrocape modes are compatible
+        // (Parts that are undefined are compatible with everything)
+
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      if (this.modes["retrocape"] && modes["retrocape"]) {
+        if (this.modes["retrocape"][0] && modes["retrocape"][0] && this.modes["retrocape"][0] !== modes["retrocape"][0]) {
+          compatible = false;
+        }
+
+        if (this.modes["retrocape"][1] && modes["retrocape"][1] && this.modes["retrocape"][1] !== modes["retrocape"][1]) {
+          compatible = false;
+        }
+
+        this.modes["retrocape"][0] = (_a = this.modes["retrocape"][0]) !== null && _a !== void 0 ? _a : modes["retrocape"][0];
+        this.modes["retrocape"][1] = (_b = this.modes["retrocape"][1]) !== null && _b !== void 0 ? _b : modes["retrocape"][1];
+      }
+
+      this.modes = outfit_objectSpread(outfit_objectSpread({}, modes), this.modes);
+      return compatible;
+    }
+    /**
+     * Check if it is possible to equip a thing to this outfit using .equip().
+     *
+     * This does not change the current outfit.
+     *
+     * @param thing The thing to equip.
+     * @param slot The slot to equip them.
+     * @returns True if this thing can be equipped.
+     */
+
+  }, {
+    key: "canEquip",
+    value: function canEquip(thing, slot) {
+      var outfit = this.clone();
+      return outfit.equip(thing, slot);
+    }
+    /**
+     * Check if it is possible to equip a thing to this outfit using .equip(); if it is, do so.
+     *
+     * This does change the current outfit.
+     * @param thing The thing to equip.
+     * @param slot The slot to equip them.
+     * @returns True if this thing was successfully equipped.
+     */
+
+  }, {
+    key: "tryEquip",
+    value: function tryEquip(thing, slot) {
+      return this.canEquip(thing, slot) && this.equip(thing, slot);
+    }
+    /**
+     * Equip this outfit.
+     */
+
+  }, {
+    key: "_dress",
+    value: function _dress(refreshed) {
+      if (this.familiar) useFamiliar(this.familiar);
+      var targetEquipment = Array.from(this.equips.values());
+      var usedSlots = new Set(); // First, we equip non-accessory equipment.
+
+      var nonaccessorySlots = $slots(outfit_templateObject35 || (outfit_templateObject35 = outfit_taggedTemplateLiteral(["weapon, off-hand, hat, back, shirt, pants, familiar"])));
+      var bjorn = this.riders.get($slot(outfit_templateObject36 || (outfit_templateObject36 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))));
+
+      if (bjorn && (this.equips.get($slot(outfit_templateObject37 || (outfit_templateObject37 = outfit_taggedTemplateLiteral(["back"])))) === $item(outfit_templateObject38 || (outfit_templateObject38 = outfit_taggedTemplateLiteral(["Buddy Bjorn"]))) || this.getBonus($item(outfit_templateObject39 || (outfit_templateObject39 = outfit_taggedTemplateLiteral(["Buddy Bjorn"])))))) {
+        usedSlots.add($slot(outfit_templateObject40 || (outfit_templateObject40 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))));
+        usedSlots.add($slot(outfit_templateObject41 || (outfit_templateObject41 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))));
+      }
+
+      var crown = this.riders.get($slot(outfit_templateObject42 || (outfit_templateObject42 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))));
+
+      if (crown && (this.equips.get($slot(outfit_templateObject43 || (outfit_templateObject43 = outfit_taggedTemplateLiteral(["hat"])))) === $item(outfit_templateObject44 || (outfit_templateObject44 = outfit_taggedTemplateLiteral(["Crown of Thrones"]))) || this.getBonus($item(outfit_templateObject45 || (outfit_templateObject45 = outfit_taggedTemplateLiteral(["Crown of Thrones"])))))) {
+        usedSlots.add($slot(outfit_templateObject46 || (outfit_templateObject46 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))));
+        usedSlots.add($slot(outfit_templateObject47 || (outfit_templateObject47 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))));
+      } // We must manually remove equipment that we want to use in a different
+      // slot than where it is currently equipped, to avoid a mafia issue.
+      // Order is anchored here to prevent DFSS shenanigans
+
+
+      var _iterator5 = outfit_createForOfIteratorHelper(nonaccessorySlots),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var slot = _step5.value;
+          if (targetEquipment.includes(equippedItem(slot)) && this.equips.get(slot) !== equippedItem(slot) || this.avoid.includes(equippedItem(slot))) equip(slot, $item.none);
+        } // Then we equip all the non-accessory equipment.
+
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      var _iterator6 = outfit_createForOfIteratorHelper(nonaccessorySlots),
+          _step6;
+
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var _slot = _step6.value;
+          var equipment = this.equips.get(_slot);
+
+          if (equipment) {
+            equip(_slot, equipment);
+            usedSlots.add(_slot);
+          }
+        } // Next, we equip accessories
+
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
+      }
+
+      var accessorySlots = $slots(outfit_templateObject48 || (outfit_templateObject48 = outfit_taggedTemplateLiteral(["acc1, acc2, acc3"])));
+      var accessoryEquips = accessorySlots.map(slot => this.equips.get(slot)).filter(item => item !== undefined); // To plan how to equip accessories, first check which accessories are
+      // already equipped in some accessory slot. There is no need to move them,
+      // since KoL doesn't care what order accessories are equipped in.
+
+      var missingAccessories = []; // accessories that are not already equipped
+
+      var _iterator7 = outfit_createForOfIteratorHelper(accessoryEquips),
+          _step7;
+
+      try {
+        var _loop = function _loop() {
+          var accessory = _step7.value;
+          var alreadyEquipped = accessorySlots.find(slot => !usedSlots.has(slot) && equippedItem(slot) === accessory);
+
+          if (alreadyEquipped) {
+            usedSlots.add(alreadyEquipped);
+          } else {
+            missingAccessories.push(accessory);
+          }
+        };
+
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          _loop();
+        } // Then, for all accessories that are not currently equipped, use the first
+        // open slot to place them.
+
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+
+      for (var _i2 = 0, _missingAccessories = missingAccessories; _i2 < _missingAccessories.length; _i2++) {
+        var accessory = _missingAccessories[_i2];
+        var unusedSlot = accessorySlots.find(slot => !usedSlots.has(slot));
+
+        if (unusedSlot === undefined) {
+          // This should only occur if there is a bug in .dress()
+          throw "No accessory slots remaining";
+        }
+
+        equip(unusedSlot, accessory);
+        usedSlots.add(unusedSlot);
+      } // Remaining slots are filled by the maximizer
+
+
+      var modes = convertToLibramModes(this.modes);
+
+      if (this.modifier) {
+        var allRequirements = [new Requirement(this.modifier, {
+          preventSlot: outfit_toConsumableArray(usedSlots),
+          preventEquip: this.avoid,
+          modes: modes,
+          bonusEquip: this.bonuses
+        })];
+        if (refreshed) allRequirements.push(FORCE_REFRESH_REQUIREMENT);
+
+        if (!Requirement.merge(allRequirements).maximize()) {
+          if (!refreshed) {
+            cliExecute("refresh inventory");
+
+            this._dress(true);
+
+            return;
+          } else throw new Error("Failed to maximize properly!");
+        }
+
+        logprint("Maximize: ".concat(this.modifier));
+      } // Set the modes of any equipped items.
+
+
+      applyModes(modes); // Handle the rider slots next
+
+      if (bjorn) {
+        if (myEnthronedFamiliar() === bjorn) enthroneFamiliar($familiar.none);
+        if (myBjornedFamiliar() !== bjorn) bjornifyFamiliar(bjorn);
+      }
+
+      if (crown) {
+        if (myBjornedFamiliar() === crown) bjornifyFamiliar($familiar.none);
+        if (myEnthronedFamiliar() !== crown) enthroneFamiliar(crown);
+      } // Verify that all equipment was indeed equipped
+
+
+      if (this.familiar !== undefined && myFamiliar() !== this.familiar) throw "Failed to fully dress (expected: familiar ".concat(this.familiar, ")");
+
+      var _iterator8 = outfit_createForOfIteratorHelper(nonaccessorySlots),
+          _step8;
+
+      try {
+        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+          var _slot2 = _step8.value;
+
+          if (this.equips.has(_slot2) && equippedItem(_slot2) !== this.equips.get(_slot2)) {
+            throw "Failed to fully dress (expected: ".concat(_slot2, " ").concat(this.equips.get(_slot2), ")");
+          }
+        }
+      } catch (err) {
+        _iterator8.e(err);
+      } finally {
+        _iterator8.f();
+      }
+
+      var _iterator9 = outfit_createForOfIteratorHelper(accessoryEquips),
+          _step9;
+
+      try {
+        var _loop2 = function _loop2() {
+          var accessory = _step9.value;
+
+          if (mafiaEquippedAmount(accessory) < accessoryEquips.filter(acc => acc === accessory).length) {
+            throw "Failed to fully dress (expected: acc ".concat(accessory, ")");
+          }
+        };
+
+        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+          _loop2();
+        }
+      } catch (err) {
+        _iterator9.e(err);
+      } finally {
+        _iterator9.f();
+      }
+
+      for (var _i3 = 0, _arr2 = [[$slot(_templateObject49 || (_templateObject49 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))), myBjornedFamiliar], [$slot(_templateObject50 || (_templateObject50 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))), myEnthronedFamiliar]]; _i3 < _arr2.length; _i3++) {
+        var _arr2$_i = outfit_slicedToArray(_arr2[_i3], 2),
+            rider = _arr2$_i[0],
+            checkingFunction = _arr2$_i[1];
+
+        var wanted = this.riders.get(rider);
+
+        if (wanted && checkingFunction() !== wanted) {
+          throw "Failed to fully dress: (expected ".concat(rider, " ").concat(wanted, ")");
+        }
+      }
+    }
+  }, {
+    key: "dress",
+    value: function dress() {
+      this._dress(false);
+    }
+    /**
+     * Build an Outfit identical to this outfit.
+     */
+
+  }, {
+    key: "clone",
+    value: function clone() {
+      var result = new Outfit();
+      result.equips = new Map(this.equips);
+      result.skipDefaults = this.skipDefaults;
+      result.familiar = this.familiar;
+      result.modifier = outfit_toConsumableArray(this.modifier);
+      result.avoid = outfit_toConsumableArray(this.avoid);
+      result.modes = outfit_objectSpread({}, this.modes);
+      result.riders = new Map(this.riders);
+      result.bonuses = new Map(this.bonuses);
+      return result;
+    }
+    /**
+     * Build an OutfitSpec identical to this outfit.
+     */
+
+  }, {
+    key: "spec",
+    value: function spec() {
+      var _a;
+
+      var result = {
+        modifier: outfit_toConsumableArray(this.modifier),
+        familiar: this.familiar,
+        avoid: outfit_toConsumableArray(this.avoid),
+        skipDefaults: this.skipDefaults,
+        modes: outfit_objectSpread({}, this.modes),
+        bonuses: new Map(this.bonuses)
+      }; // Add all equipment forced in a particular slot
+
+      var _iterator10 = outfit_createForOfIteratorHelper(outfitSlots),
+          _step10;
+
+      try {
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+          var slotName = _step10.value;
+          result[slotName] = this.equips.get((_a = new Map([["famequip", $slot(_templateObject53 || (_templateObject53 = outfit_taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject54 || (_templateObject54 = outfit_taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName));
+        } // Include the riders
+
+      } catch (err) {
+        _iterator10.e(err);
+      } finally {
+        _iterator10.f();
+      }
+
+      var riders = {};
+      var buddyRider = this.riders.get($slot(_templateObject51 || (_templateObject51 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))));
+      if (buddyRider !== undefined) riders["buddy-bjorn"] = buddyRider;
+      var throneRider = this.riders.get($slot(_templateObject52 || (_templateObject52 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))));
+      if (throneRider !== undefined) riders["crown-of-thrones"] = throneRider;
+      if (buddyRider !== undefined || throneRider !== undefined) result.riders = riders;
+      return result;
+    }
+  }], [{
+    key: "current",
+    value: function current() {
+      var _a;
+
+      var outfit = new Outfit();
+      var familiar = myFamiliar();
+
+      if (outfit.equip(familiar)) {
+        throw "Failed to create outfit from current state (expected: familiar ".concat(familiar, ")");
+      }
+
+      var _iterator11 = outfit_createForOfIteratorHelper(outfitSlots),
+          _step11;
+
+      try {
+        for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+          var slotName = _step11.value;
+          var slot = (_a = new Map([["famequip", $slot(_templateObject59 || (_templateObject59 = outfit_taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject60 || (_templateObject60 = outfit_taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName);
+          var item = equippedItem(slot);
+
+          if (!outfit.equip(item, slot)) {
+            throw "Failed to create outfit from current state (expected: ".concat(slot, " ").concat(item, ")");
+          }
+        }
+      } catch (err) {
+        _iterator11.e(err);
+      } finally {
+        _iterator11.f();
+      }
+
+      if (haveEquipped($item(_templateObject55 || (_templateObject55 = outfit_taggedTemplateLiteral(["Crown of Thrones"]))))) outfit.riders.set($slot(_templateObject56 || (_templateObject56 = outfit_taggedTemplateLiteral(["crown-of-thrones"]))), myEnthronedFamiliar());
+      if (haveEquipped($item(_templateObject57 || (_templateObject57 = outfit_taggedTemplateLiteral(["Buddy Bjorn"]))))) outfit.riders.set($slot(_templateObject58 || (_templateObject58 = outfit_taggedTemplateLiteral(["buddy-bjorn"]))), myBjornedFamiliar());
+      outfit.setModes(outfit_getCurrentModes());
+      return outfit;
+    }
+  }, {
+    key: "from",
+    value: function from(spec) {
+      var error = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var outfit = new Outfit();
+      var success = outfit.equip(spec);
+      if (!success && error) throw error;
+      return success ? outfit : null;
+    }
+  }]);
+
+  return Outfit;
+}()));
+/**
+ * Get the modes of this outfit in a type compatible with Libram.
+ *
+ * This conversion is needed since we store the retrocape modes
+ * internally as an array, but libram uses a string.
+ *
+ * @returns The modes equipped to this outfit.
+ */
+
+function convertToLibramModes(modes) {
+  var _a;
+
+  return {
+    backupcamera: modes["backupcamera"],
+    umbrella: modes["umbrella"],
+    snowsuit: modes["snowsuit"],
+    edpiece: modes["edpiece"],
+    retrocape: (_a = modes["retrocape"]) === null || _a === void 0 ? void 0 : _a.filter(s => s !== undefined).join(" "),
+    parka: modes["parka"]
+  };
+}
+/**
+ * Get the current modes of all items.
+ *
+ * @returns The current mode settings for all items, equipped or not.
+ */
+
+function outfit_getCurrentModes() {
+  return {
+    backupcamera: getMode("backupCameraMode", ["ml", "meat", "init"]),
+    umbrella: getMode("umbrellaState", ["broken", "forward-facing", "bucket style", "pitchfork style", "constantly twirling", "cocoon"]),
+    snowsuit: getMode("snowsuit", ["eyebrows", "smirk", "nose", "goatee", "hat"]),
+    edpiece: getMode("edPiece", ["bear", "owl", "puma", "hyena", "mouse", "weasel", "fish"]),
+    retrocape: [getMode("retroCapeSuperhero", ["vampire", "heck", "robot"]), getMode("retroCapeWashingInstructions", ["hold", "thrill", "kiss", "kill"])],
+    parka: getMode("parkaMode", ["kachungasaur", "dilophosaur", "ghostasaurus", "spikolodon", "pterodactyl"])
+  };
+}
+/**
+ * Get the current value for a mode in a type-safe way.
+ *
+ * @param property The mafia property for the mode.
+ * @param options A typed list of options for the mode.
+ * @returns The mode if the property value matched a valid option, or undefined.
+ */
+
+function getMode(property, options) {
+  var val = get(property, "");
+  return options.find(s => s === val); // .includes has type issues
+}
+;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/engine.js
+var engine_templateObject;
+
+function engine_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function engine_toConsumableArray(arr) { return engine_arrayWithoutHoles(arr) || engine_iterableToArray(arr) || engine_unsupportedIterableToArray(arr) || engine_nonIterableSpread(); }
+
+function engine_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function engine_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function engine_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return engine_arrayLikeToArray(arr); }
+
+function engine_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = engine_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function engine_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return engine_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return engine_arrayLikeToArray(o, minLen); }
+
+function engine_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function engine_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function engine_createClass(Constructor, protoProps, staticProps) { if (protoProps) engine_defineProperties(Constructor.prototype, protoProps); if (staticProps) engine_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function engine_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+
+var EngineOptions = /*#__PURE__*/(/* unused pure expression or super */ null && (engine_createClass(function EngineOptions() {
+  engine_classCallCheck(this, EngineOptions);
+})));
+var grimoireCCS = "grimoire_macro";
+var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (function () {
+  /**
+   * Create the engine.
+   * @param tasks A list of tasks for looking up task dependencies.
+   * @param options Basic configuration of the engine.
+   */
+  function Engine(tasks, options) {
+    engine_classCallCheck(this, Engine);
+
+    this.attempts = {};
+    this.propertyManager = new PropertiesManager();
+    this.tasks_by_name = new Map();
+    this.cachedCcsContents = "";
+    this.tasks = tasks;
+    this.options = options !== null && options !== void 0 ? options : {};
+
+    var _iterator = engine_createForOfIteratorHelper(tasks),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var task = _step.value;
+        this.tasks_by_name.set(task.name, task);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    this.initPropertiesManager(this.propertyManager);
+  }
+  /**
+   * Determine the next task to perform.
+   * By default, this is the first task in the task list that is available.
+   * @returns The next task to perform, or undefined if no tasks are available.
+   */
+
+
+  engine_createClass(Engine, [{
+    key: "getNextTask",
+    value: function getNextTask() {
+      return this.tasks.find(task => this.available(task));
+    }
+    /**
+     * Continually get the next task and execute it.
+     * @param actions If given, only perform up to this many tasks.
+     */
+
+  }, {
+    key: "run",
+    value: function run(actions) {
+      for (var i = 0; i < (actions !== null && actions !== void 0 ? actions : Infinity); i++) {
+        var task = this.getNextTask();
+        if (!task) return;
+        this.execute(task);
+      }
+    }
+    /**
+     * Close the engine and reset all properties.
+     * After this has been called, this object should not be used.
+     */
+
+  }, {
+    key: "destruct",
+    value: function destruct() {
+      this.propertyManager.resetAll();
+      setAutoAttack(0);
+    }
+    /**
+     * Check if the given task is available at this moment.
+     * @returns true if all dependencies are complete and the task is ready.
+     *  Note that dependencies are not checked transitively. That is, if
+     *  A depends on B which depends on C, then A is ready if B is complete
+     *  (regardless of if C is complete or not).
+     */
+
+  }, {
+    key: "available",
+    value: function available(task) {
+      var _a;
+
+      var _iterator2 = engine_createForOfIteratorHelper((_a = task.after) !== null && _a !== void 0 ? _a : []),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var after = _step2.value;
+          var after_task = this.tasks_by_name.get(after);
+          if (after_task === undefined) throw "Unknown task dependency ".concat(after, " on ").concat(task.name);
+          if (!after_task.completed()) return false;
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      if (task.ready && !task.ready()) return false;
+      if (task.completed()) return false;
+      return true;
+    }
+    /**
+     * Perform all steps to execute the provided task.
+     * This is the main entry point for the Engine.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "execute",
+    value: function execute(task) {
+      var _a, _b, _c, _d, _e;
+
+      print("");
+      print("Executing ".concat(task.name), "blue"); // Determine the proper postcondition for after the task executes.
+
+      var postcondition = (_b = (_a = task.limit) === null || _a === void 0 ? void 0 : _a.guard) === null || _b === void 0 ? void 0 : _b.call(_a); // Acquire any items and effects first, possibly for later execution steps.
+
+      this.acquireItems(task);
+      this.acquireEffects(task); // Prepare the outfit, with resources.
+
+      var task_combat = (_d = (_c = task.combat) === null || _c === void 0 ? void 0 : _c.clone()) !== null && _d !== void 0 ? _d : new CombatStrategy();
+      var outfit = this.createOutfit(task);
+      var task_resources = new CombatResources();
+      this.customize(task, outfit, task_combat, task_resources);
+      this.dress(task, outfit); // Prepare combat and choices
+
+      this.setCombat(task, task_combat, task_resources);
+      this.setChoices(task, this.propertyManager); // Actually perform the task
+
+      var _iterator3 = engine_createForOfIteratorHelper(task_resources.all()),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var resource = _step3.value;
+          (_e = resource.prepare) === null || _e === void 0 ? void 0 : _e.call(resource);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      this.prepare(task);
+      this.do(task);
+
+      while (this.shouldRepeatAdv(task)) {
+        set("lastEncounter", "");
+        this.do(task);
+      }
+
+      this.post(task); // Mark that we tried the task, and apply limits
+
+      this.markAttempt(task);
+      this.checkLimits(task, postcondition);
+    }
+    /**
+     * Acquire all items for the task.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "acquireItems",
+    value: function acquireItems(task) {
+      var _a;
+
+      var acquire = undelay(task.acquire);
+
+      var _iterator4 = engine_createForOfIteratorHelper(acquire || []),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var to_get = _step4.value;
+          var num_needed = (_a = to_get.num) !== null && _a !== void 0 ? _a : 1;
+          var num_have = itemAmount(to_get.item) + equippedAmount(to_get.item);
+          if (num_needed <= num_have) continue;
+          if (to_get.useful !== undefined && !to_get.useful()) continue;
+
+          if (to_get.get) {
+            to_get.get();
+          } else if (to_get.price !== undefined) {
+            buy(to_get.item, num_needed - num_have, to_get.price);
+          } else if (Object.keys(getRelated(to_get.item, "fold")).length > 0) {
+            cliExecute("fold ".concat(to_get.item));
+          } else {
+            retrieveItem(to_get.item, num_needed);
+          }
+
+          if (itemAmount(to_get.item) + equippedAmount(to_get.item) < num_needed && !to_get.optional) {
+            throw "Task ".concat(task.name, " was unable to acquire ").concat(num_needed, " ").concat(to_get.item);
+          }
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+    }
+    /**
+     * Acquire all effects for the task.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "acquireEffects",
+    value: function acquireEffects(task) {
+      var _a;
+
+      var effects = (_a = undelay(task.effects)) !== null && _a !== void 0 ? _a : [];
+      var songs = effects.filter(effect => isSong(effect));
+      if (songs.length > maxSongs()) throw "Too many AT songs";
+      var extraSongs = Object.keys(myEffects()).map(effectName => toEffect(effectName)).filter(effect => isSong(effect) && !songs.includes(effect));
+
+      while (songs.length + extraSongs.length > maxSongs()) {
+        var toRemove = extraSongs.pop();
+
+        if (toRemove === undefined) {
+          break;
+        } else {
+          uneffect(toRemove);
+        }
+      }
+
+      var _iterator5 = engine_createForOfIteratorHelper(effects),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var effect = _step5.value;
+          ensureEffect(effect);
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+    }
+    /**
+     * Create an outfit for the task with all required equipment.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "createOutfit",
+    value: function createOutfit(task) {
+      var spec = undelay(task.outfit);
+      if (spec instanceof Outfit) return spec.clone();
+      var outfit = new Outfit();
+
+      if (spec !== undefined) {
+        if (!outfit.equip(spec)) {
+          throw "Unable to equip all items for ".concat(task.name);
+        }
+      }
+
+      return outfit;
+    }
+    /**
+     * Equip the outfit for the task.
+     * @param task The current executing task.
+     * @param outfit The outfit for the task, possibly augmented by the engine.
+     */
+
+  }, {
+    key: "dress",
+    value: function dress(task, outfit) {
+      if (task.do instanceof Location) setLocation(task.do);
+      outfit.dress();
+    }
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+
+    /**
+     * Perform any engine-specific customization for the outfit and combat plan.
+     *
+     * This is a natural method to override in order to:
+     *   * Enable the use of any resources in the outfit or combat (e.g., allocate banishers).
+     *   * Equip a default outfit.
+     *   * Determine additional monster macros at a global level (e.g., use flyers).
+     * @param task The current executing task.
+     * @param outfit The outfit for the task.
+     * @param combat The combat strategy so far for the task.
+     * @param resources The combat resources assigned so far for the task.
+     */
+
+  }, {
+    key: "customize",
+    value: function customize(task, outfit, combat, resources) {// do nothing by default
+    }
+    /* eslint-enable @typescript-eslint/no-unused-vars */
+
+    /**
+     * Set the choice settings for the task.
+     * @param task The current executing task.
+     * @param manager The property manager to use.
+     */
+
+  }, {
+    key: "setChoices",
+    value: function setChoices(task, manager) {
+      var choices = {};
+
+      for (var choice_id_str in task.choices) {
+        var choice_id = parseInt(choice_id_str);
+        var choice = task.choices[choice_id];
+        choices[choice_id] = undelay(choice);
+      }
+
+      manager.setChoices(choices);
+    }
+    /**
+     * Save the combat macro for this task.
+     * @param task The current executing task.
+     * @param task_combat The completed combat strategy far for the task.
+     * @param task_resources The combat resources assigned for the task.
+     */
+
+  }, {
+    key: "setCombat",
+    value: function setCombat(task, task_combat, task_resources) {
+      var _a; // Save regular combat macro
+
+
+      var macro = task_combat.compile(task_resources, (_a = this.options) === null || _a === void 0 ? void 0 : _a.combat_defaults, task.do instanceof Location ? task.do : undefined);
+      macro.save();
+
+      if (!this.options.ccs) {
+        // Use the macro through a CCS file
+        var otherCCSEntries = task_combat.compileCcs();
+        var ccsContents = ["[default]", "\"".concat(macro.toString(), "\"")].concat(engine_toConsumableArray(otherCCSEntries)).join("\n"); // Log Macro + other CCS
+
+        logprint("CCS: ".concat(ccsContents.replace("\n", "\\n ")));
+
+        if (ccsContents !== this.cachedCcsContents) {
+          writeCcs(ccsContents, grimoireCCS);
+          cliExecute("ccs ".concat(grimoireCCS)); // force Mafia to reparse the ccs
+
+          this.cachedCcsContents = ccsContents;
+        }
+      } // Save autoattack combat macro
+
+
+      var autoattack = task_combat.compileAutoattack();
+
+      if (autoattack.toString().length > 1) {
+        logprint("Autoattack macro: ".concat(autoattack.toString()));
+        autoattack.setAutoAttack();
+      } else {
+        setAutoAttack(0);
+      }
+    }
+    /**
+     * Do any task-specific preparation.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "prepare",
+    value: function prepare(task) {
+      var _a;
+
+      (_a = task.prepare) === null || _a === void 0 ? void 0 : _a.call(task);
+    }
+    /**
+     * Actually perform the task.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "do",
+    value: function _do(task) {
+      if (typeof task.do === "function") {
+        task.do();
+      } else {
+        adv1(task.do, 0, "");
+      }
+
+      runCombat();
+
+      while (inMultiFight()) {
+        runCombat();
+      }
+
+      if (choiceFollowsFight()) runChoice(-1);
+    }
+    /**
+     * Check if the task.do should be immediately repeated without any prep.
+     *
+     * By default, this is only used to repeat a task if we hit one of:
+     *   1. Halloweener dog noncombats,
+     *   2. June cleaver noncombats, or
+     *   3. Lil' Doctor™ bag noncombt.
+     * @param task The current executing task.
+     * @returns True if the task should be immediately repeated.
+     */
+
+  }, {
+    key: "shouldRepeatAdv",
+    value: function shouldRepeatAdv(task) {
+      return task.do instanceof Location && lastEncounterWasWanderingNC();
+    }
+    /**
+     * Do any task-specific wrapup activities.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "post",
+    value: function post(task) {
+      var _a;
+
+      (_a = task.post) === null || _a === void 0 ? void 0 : _a.call(task);
+    }
+    /**
+     * Mark that an attempt was made on the current task.
+     * @param task The current executing task.
+     */
+
+  }, {
+    key: "markAttempt",
+    value: function markAttempt(task) {
+      if (!(task.name in this.attempts)) this.attempts[task.name] = 0;
+      this.attempts[task.name]++;
+    }
+    /**
+     * Check if the task has passed any of its internal limits.
+     * @param task The task to check.
+     * @throws An error if any of the internal limits have been passed.
+     */
+
+  }, {
+    key: "checkLimits",
+    value: function checkLimits(task, postcondition) {
+      var _a;
+
+      if (!task.limit) return;
+      var failureMessage = task.limit.message ? " ".concat(task.limit.message) : "";
+
+      if (!task.completed()) {
+        if (task.limit.tries && this.attempts[task.name] >= task.limit.tries) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.tries, " attempts. Please check what went wrong.").concat(failureMessage);
+        if (task.limit.soft && this.attempts[task.name] >= task.limit.soft) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.soft, " attempts. Please check what went wrong (you may just be unlucky).").concat(failureMessage);
+        if (task.limit.turns && task.do instanceof Location && task.do.turnsSpent >= task.limit.turns) throw "Task ".concat(task.name, " did not complete within ").concat(task.limit.turns, " turns. Please check what went wrong.").concat(failureMessage);
+        if (task.limit.unready && ((_a = task.ready) === null || _a === void 0 ? void 0 : _a.call(task))) throw "Task ".concat(task.name, " is still ready, but it should not be. Please check what went wrong.").concat(failureMessage);
+      }
+
+      if (postcondition && !postcondition()) {
+        throw "Task ".concat(task.name, " failed its guard. Please check what went wrong.").concat(failureMessage);
+      }
+    }
+    /**
+     * Initialize properties for the script.
+     * @param manager The properties manager to use.
+     */
+
+  }, {
+    key: "initPropertiesManager",
+    value: function initPropertiesManager(manager) {
+      var _a; // Properties adapted from garbo
+
+
+      manager.set({
+        logPreferenceChange: true,
+        logPreferenceChangeFilter: engine_toConsumableArray(new Set([].concat(engine_toConsumableArray(get("logPreferenceChangeFilter").split(",")), ["libram_savedMacro", "maximizerMRUList", "testudinalTeachings", "_lastCombatStarted"]))).sort().filter(a => a).join(","),
+        battleAction: "custom combat script",
+        autoSatisfyWithMall: true,
+        autoSatisfyWithNPCs: true,
+        autoSatisfyWithCoinmasters: true,
+        autoSatisfyWithStash: false,
+        dontStopForCounters: true,
+        maximizerFoldables: true,
+        hpAutoRecovery: "-0.05",
+        hpAutoRecoveryTarget: "0.0",
+        mpAutoRecovery: "-0.05",
+        mpAutoRecoveryTarget: "0.0",
+        afterAdventureScript: "",
+        betweenBattleScript: "",
+        choiceAdventureScript: "",
+        familiarScript: "",
+        currentMood: "apathetic",
+        autoTuxedo: true,
+        autoPinkyRing: true,
+        autoGarish: true,
+        allowNonMoodBurning: false,
+        allowSummonBurning: true,
+        libramSkillsSoftcore: "none"
+      });
+
+      if (this.options.ccs !== "") {
+        if (this.options.ccs === undefined && readCcs(grimoireCCS) === "") {
+          // Write a simple CCS so we can switch to it
+          writeCcs("[ default ]\nabort", grimoireCCS);
+        }
+
+        manager.set({
+          customCombatScript: (_a = this.options.ccs) !== null && _a !== void 0 ? _a : grimoireCCS
+        });
+      }
+    }
+  }]);
+
+  return Engine;
+}()));
+function maxSongs() {
+  return have($skill(engine_templateObject || (engine_templateObject = engine_taggedTemplateLiteral(["Mariachi Memory"])))) ? 4 : 3;
+}
+var wanderingNCs = new Set(["Wooof! Wooooooof!", "Playing Fetch*", "A Pound of Cure", "Aunts not Ants", "Bath Time", "Beware of Aligator", "Delicious Sprouts", "Hypnotic Master", "Lost and Found", "Poetic Justice", "Summer Days", "Teacher's Pet"]);
+/**
+ * Return true if the last adv was one of:
+ *   1. Halloweener dog noncombats,
+ *   2. June cleaver noncombats, or
+ *   3. Lil' Doctor™ bag noncombt.
+ */
+
+function lastEncounterWasWanderingNC() {
+  return wanderingNCs.has(get("lastEncounter"));
+}
+;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/index.js
+
+
+
+
+
+
+
+
+// EXTERNAL MODULE: ./node_modules/mafia-shared-relay/dist/index.js
+var dist = __webpack_require__(139);
 ;// CONCATENATED MODULE: ./src/args.ts
 var args_templateObject, args_templateObject2, args_templateObject3, args_templateObject4, args_templateObject5, args_templateObject6;
 
@@ -3449,8 +4390,7 @@ function args_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.sl
 
 
 
-var worksheds = [[template_string_$item(args_templateObject || (args_templateObject = args_taggedTemplateLiteral(["none"]))), "Do nothing"], // eslint-disable-next-line libram/verify-constants
-[template_string_$item(args_templateObject2 || (args_templateObject2 = args_taggedTemplateLiteral(["model train set"]))), "Swap to model train set"], [template_string_$item(args_templateObject3 || (args_templateObject3 = args_taggedTemplateLiteral(["cold medicine cabinet"]))), "Swap to cold medicine cabinet"], [template_string_$item(args_templateObject4 || (args_templateObject4 = args_taggedTemplateLiteral(["Asdon Martin keyfob"]))), "Swap to asdon martin keyfob"]];
+var worksheds = [[template_string_$item(args_templateObject || (args_templateObject = args_taggedTemplateLiteral(["none"]))), "Do nothing"], [template_string_$item(args_templateObject2 || (args_templateObject2 = args_taggedTemplateLiteral(["model train set"]))), "Swap to model train set"], [template_string_$item(args_templateObject3 || (args_templateObject3 = args_taggedTemplateLiteral(["cold medicine cabinet"]))), "Swap to cold medicine cabinet"], [template_string_$item(args_templateObject4 || (args_templateObject4 = args_taggedTemplateLiteral(["Asdon Martin keyfob"]))), "Swap to asdon martin keyfob"]];
 var args = Args.create("loopgyou", 'This is a script to complete Grey You Softcore runs. Run "loopgyou sim" without quotes to check if this script will work for you.\n\nYou must ascend manually into a Grey You Softcore run before running the script. The cold medicine cabinet is required in your workshed. Prefer the Vole sign until you have finished most of the path progression. Astral mask or astral belt are both useful, but neither is required. Prefer candles for your eurdora.\n\nThe arguments accepted by the script are listed below. Note that you can combine multiple options; for example "loopgyou pulls=18 tune=blender" will save 2 pulls and switch moon sign to Blender during the run. Most options also have an associated setting to set an option permanently; for example "set loopgyou_pulls=18" will cause the script to always save 2 pulls (unless overriden by using the pulls option at runtime).', {
   sim: Args.flag({
     help: "Check if you have the requirements to run this script.",
@@ -3487,7 +4427,6 @@ var args = Args.create("loopgyou", 'This is a script to complete Grey You Softco
     }),
     workshed: Args.item({
       help: "Workshed item to place in an empty workshed at the start of the run.",
-      // eslint-disable-next-line libram/verify-constants
       default: template_string_$item(args_templateObject5 || (args_templateObject5 = args_taggedTemplateLiteral(["model train set"]))),
       options: worksheds
     }),
