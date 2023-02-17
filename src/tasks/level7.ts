@@ -323,11 +323,15 @@ export const CryptQuest: Quest = {
       name: "Bonerdagon",
       after: ["Alcove Boss", "Cranny Boss", "Niche Boss", "Nook Boss"],
       completed: () => step("questL07Cyrptic") >= 1,
-      do: $location`Haert of the Cyrpt`,
+      do: () => {
+        adv1($location`Haert of the Cyrpt`, -1, "");
+        if (get("lastEncounter") !== "The Bonerdagon")
+          visitUrl(toUrl($location`The Defiled Cranny`));
+      },
       choices: { 527: 1 },
       boss: true,
       combat: new CombatStrategy().kill(),
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Finish",
