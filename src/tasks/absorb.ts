@@ -1097,6 +1097,6 @@ export const AdvAbsorbQuest: Quest = {
       };
       if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
       return result;
-    })
-  ]
-}
+    }),
+  ],
+};

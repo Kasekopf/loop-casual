@@ -56,26 +56,29 @@ const Diary: Task[] = [
           equip: equip,
           modifier: "50 combat 5max, -1ML",
         };
-      } else if (
-        globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
-        familiarWeight($familiar`Grey Goose`) >= 6 &&
-        globalStateCache.orb().prediction($location`The Black Forest`) ===
-        $monster`black magic woman`
-      ) {
-        // Swoop in for a single adventure to reprocess the black magic woman
-        return {
-          equip: [...equip, $item`miniature crystal ball`],
-          familiar: $familiar`Grey Goose`,
-          modifier: "50 combat 5max, -1ML",
-        };
-      } else {
-        return {
-          equip: equip,
-          familiar: $familiar`Reassembled Blackbird`,
-          modifier: "50 combat 5max, item, -1ML",
-          avoid: $items`broken champagne bottle`,
-        };
       }
+
+      if (
+        globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
+        familiarWeight($familiar`Grey Goose`) >= 6
+      ) {
+        const orb = globalStateCache.orb().prediction($location`The Black Forest`);
+        if (orb === $monster`black magic woman`) {
+          // Swoop in for a single adventure to reprocess the black magic woman
+          return {
+            equip: [...equip, $item`miniature crystal ball`],
+            familiar: $familiar`Grey Goose`,
+            modifier: "50 combat 5max, -1ML",
+          };
+        }
+      }
+
+      return {
+        equip: equip,
+        familiar: $familiar`Reassembled Blackbird`,
+        modifier: "50 combat 5max, item, -1ML",
+        avoid: $items`broken champagne bottle`,
+      };
     },
     choices: {
       923: 1,

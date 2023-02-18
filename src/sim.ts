@@ -216,7 +216,7 @@ function buildLocketList(): Requirement[] {
       thing: $monster`Big Wheelin' Twins`,
       why: "Init skill",
       optional: true,
-    }
+    },
   ];
 }
 

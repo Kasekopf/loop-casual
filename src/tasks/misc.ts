@@ -936,7 +936,8 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => Priorities.Free,
       ready: () => haveInCampground($item`packet of rock seeds`),
-      completed: () => !haveInCampground($item`milestone`) || getCampground()[$item`milestone`.name] < 1,
+      completed: () =>
+        !haveInCampground($item`milestone`) || getCampground()[$item`milestone`.name] < 1,
       do: () => {
         visitUrl("campground.php?action=rgarden1&pwd");
         visitUrl("campground.php?action=rgarden2&pwd");

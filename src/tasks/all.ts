@@ -53,10 +53,7 @@ export function all_tasks(): Task[] {
   ];
 
   if (myDaycount() > 2) {
-    quests.push(
-      AdvAbsorbQuest,
-      ReprocessQuest,
-    )
+    quests.push(AdvAbsorbQuest, ReprocessQuest);
   }
 
   const tasks = getTasks(quests);
