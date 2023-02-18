@@ -12050,7 +12050,7 @@ var AbsorbState = /*#__PURE__*/function () {
 
     if ((0,external_kolmafia_namespaceObject.myDaycount)() === 1) {
       if (this.advAbsorbed !== property_get("_greyYouAdventures", 0) && args.debug.verbose) {
-        (0,external_kolmafia_namespaceObject.print)("Tracking misalignment: ".concat(this.advAbsorbed, " != ").concat(property_get("_greyYouAdventures", 0)));
+        (0,external_kolmafia_namespaceObject.print)("Verbose: Tracking misalignment on absorb: ".concat(this.advAbsorbed, " != ").concat(property_get("_greyYouAdventures", 0), "."));
       }
     } else {
       this.advAbsorbed = property_get("_greyYouAdventures", this.advAbsorbed);
@@ -12821,6 +12821,7 @@ function state_defineProperty(obj, key, value) { if (key in obj) { Object.define
 
 
 
+
 var GameState = /*#__PURE__*/function () {
   function GameState() {
     state_classCallCheck(this, GameState);
@@ -12877,7 +12878,13 @@ var OrbState = /*#__PURE__*/function () {
 
     state_defineProperty(this, "predictions", void 0);
 
+    var initialPrediction = property_get("crystalBallPredictions");
     (0,external_kolmafia_namespaceObject.visitUrl)("inventory.php?ponder=1", false);
+
+    if (property_get("crystalBallPredictions") !== initialPrediction && args.debug.verbose) {
+      (0,external_kolmafia_namespaceObject.print)("Verbose: Tracking misalignment on orb.");
+    }
+
     this.predictions = new Map(property_get("crystalBallPredictions").split("|").map(element => element.split(":")).map(_ref => {
       var _ref2 = state_slicedToArray(_ref, 3),
           location = _ref2[1],
@@ -22177,7 +22184,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "ffe37da";
+var lastCommitHash = "79c2cb2";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
