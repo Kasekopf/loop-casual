@@ -850,7 +850,12 @@ export class AbsorbState {
     // Use _greyYouAdventures on later days
     if (myDaycount() === 1) {
       if (this.advAbsorbed !== get("_greyYouAdventures", 0) && args.debug.verbose) {
-        print(`Tracking misalignment: ${this.advAbsorbed} != ${get("_greyYouAdventures", 0)}`);
+        print(
+          `Verbose: Tracking misalignment on absorb: ${this.advAbsorbed} != ${get(
+            "_greyYouAdventures",
+            0
+          )}.`
+        );
       }
     } else {
       this.advAbsorbed = get("_greyYouAdventures", this.advAbsorbed);
