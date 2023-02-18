@@ -27,6 +27,7 @@ jobs:
           echo "export const lastCommitHash: string | undefined = \"$(git rev-parse --short HEAD)\";" > src/_git_commit.ts
           yarn run build
           git checkout src/_git_commit.ts
+          git checkout yarn.lock
       - run: |
           git config user.name "Build Script"
           git config user.email "<>"
