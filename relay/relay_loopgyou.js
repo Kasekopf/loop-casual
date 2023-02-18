@@ -3571,7 +3571,7 @@ var outfit_Outfit = /*#__PURE__*/(/* unused pure expression or super */ null && 
 
       var modes = convertToLibramModes(this.modes);
 
-      if (this.modifier) {
+      if (this.modifier.length > 0) {
         var allRequirements = [new Requirement(this.modifier, {
           preventSlot: outfit_toConsumableArray(usedSlots),
           preventEquip: this.avoid,
