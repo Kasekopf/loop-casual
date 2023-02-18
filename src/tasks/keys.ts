@@ -350,6 +350,7 @@ export const DigitalQuest: Quest = {
       name: "Open",
       after: ["Mosquito/Start"],
       completed: () => have($item`continuum transfunctioner`),
+      priority: () => Priorities.Free,
       do: () => {
         visitUrl("place.php?whichplace=forestvillage&action=fv_mystic");
         runChoice(1);

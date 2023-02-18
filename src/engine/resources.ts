@@ -5,11 +5,13 @@ import {
   familiarWeight,
   getFuel,
   getWorkshed,
+  haveEquipped,
   Item,
   itemAmount,
   Location,
   Monster,
   myAscensions,
+  myFamiliar,
   myMeat,
   myTurncount,
   retrieveItem,
@@ -183,6 +185,7 @@ export interface WandererSource extends Resource {
   monsters: Monster[] | (() => Monster[]);
   chance: () => number;
   action?: DelayedMacro;
+  possible: () => boolean; // If it is possible to encounter this on accident in the current character state.
 }
 
 export const wandererSources: WandererSource[] = [
@@ -200,6 +203,7 @@ export const wandererSources: WandererSource[] = [
         return new Macro().trySkill($skill`Emit Matter Duplicating Drones`);
       else return new Macro();
     },
+    possible: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
   },
   {
     name: "Voted",
@@ -218,6 +222,7 @@ export const wandererSources: WandererSource[] = [
       $monster`slime blob`,
     ],
     chance: () => 1, // when available
+    possible: () => haveEquipped($item`"I Voted!" sticker`),
   },
   {
     name: "Cursed Magnifying Glass",
@@ -228,6 +233,7 @@ export const wandererSources: WandererSource[] = [
     equip: $item`cursed magnifying glass`,
     monsters: [$monster`void guy`, $monster`void slab`, $monster`void spider`],
     chance: () => 1, // when available
+    possible: () => haveEquipped($item`cursed magnifying glass`),
   },
   {
     name: "Goth",
@@ -258,6 +264,7 @@ export const wandererSources: WandererSource[] = [
       $monster`Black Crayon Spiraling Shape`,
     ],
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
+    possible: () => myFamiliar() === $familiar`Artistic Goth Kid`,
   },
   {
     name: "Hipster",
@@ -271,6 +278,7 @@ export const wandererSources: WandererSource[] = [
       $monster`random scenester`,
     ],
     chance: () => [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0][get("_hipsterAdv")],
+    possible: () => myFamiliar() === $familiar`Mini-Hipster`,
   },
   {
     name: "Kramco",
@@ -279,13 +287,22 @@ export const wandererSources: WandererSource[] = [
       { equip: $items`Kramco Sausage-o-Matic™, Space Trip safety headphones` },
       { equip: $items`Kramco Sausage-o-Matic™` },
     ],
+    prepare: () => {
+      if (SourceTerminal.have() && SourceTerminal.getDigitizeUses() === 0) {
+        SourceTerminal.prepareDigitize();
+      }
+    },
     monsters: [$monster`sausage goblin`],
     chance: () => getKramcoWandererChance(),
     action: () => {
+      const result = new Macro();
+      if (SourceTerminal.have() && SourceTerminal.getDigitizeUses() === 0)
+        result.trySkill($skill`Digitize`);
       if (familiarWeight($familiar`Grey Goose`) <= 10)
-        return new Macro().trySkill($skill`Emit Matter Duplicating Drones`);
-      else return new Macro();
+        result.trySkill($skill`Emit Matter Duplicating Drones`);
+      return result;
     },
+    possible: () => haveEquipped($item`Kramco Sausage-o-Matic™`),
   },
 ];
 

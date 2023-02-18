@@ -630,17 +630,17 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     task_combat: CombatStrategy<CombatActions>,
     task_resources: CombatResources<CombatActions>
   ): void {
-    // Always be ready to fight sausage goblins if we equip Kramco
-    if (
-      haveEquipped($item`Kramco Sausage-o-Matic™`) &&
-      task_combat.currentStrategy($monster`sausage goblin`) !== "killHard"
-    ) {
-      task_combat.action("killHard", $monster`sausage goblin`);
-      if (familiarWeight($familiar`Grey Goose`) <= 10)
-        task_combat.macro(
-          new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-          $monster`sausage goblin`
-        );
+    // Always be ready to fight possible wanderers, even if we didn't equip
+    // things on purpose, e.g. if we equip Kramco for +item.
+    for (const wanderer of wandererSources) {
+      if (wanderer.possible()) {
+        for (const monster of undelay(wanderer.monsters)) {
+          if (task_combat.currentStrategy(monster) !== "killHard") {
+            task_combat.action("killHard", monster);
+            if (wanderer.action) task_combat.macro(wanderer.action, monster);
+          }
+        }
+      }
     }
 
     super.setCombat(task, task_combat, task_resources);
