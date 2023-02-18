@@ -222,12 +222,12 @@ const summonSources: SummonSource[] = [
       args.minor.fax && !get("_photocopyUsed") && have($item`Clan VIP Lounge key`) ? 1 : 0,
     canFight: (mon: Monster) => canFaxbot(mon),
     summon: (mon: Monster) => {
-      chatPrivate("cheesefax", mon.name);
-      for (let i = 0; i < 3; i++) {
-        wait(10);
+      for (let i = 0; i < 6; i++) {
+        if (i % 3 === 0) chatPrivate("cheesefax", mon.name);
+        wait(10 + i);
         if (checkFax(mon)) break;
-        if (i === 2) throw `Failed to acquire photocopied ${mon.name}.`;
       }
+      if (!checkFax(mon)) throw `Failed to acquire photocopied ${mon.name}.`;
       use($item`photocopied monster`);
     },
   },
