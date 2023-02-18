@@ -58,7 +58,7 @@ export function main(command?: string): void {
   printVersionInfo();
   if (args.version) return;
 
-  if (myPath() !== $path`Grey You`)
+  if (myPath() !== $path`Grey You` && !args.debug.list)
     throw `You are not currently in a Grey You run. Please start one.`;
 
   // Break the prism and exit if requested
