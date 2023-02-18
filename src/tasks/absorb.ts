@@ -13,6 +13,7 @@ import {
   Location,
   Monster,
   myAscensions,
+  myDaycount,
   numericModifier,
   putCloset,
   runChoice,
@@ -845,6 +846,11 @@ export class AbsorbState {
         this.advAbsorbed += reprocessTargets.get(monster) ?? 0;
       });
 
+    // Use _greyYouAdventures on later days
+    if (myDaycount() > 1) {
+      this.advAbsorbed = get("_greyYouAdventures", this.advAbsorbed);
+    }
+
     // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
     const ignored_skills = new Set<Skill>([
@@ -1040,3 +1046,57 @@ export const AbsorbQuest: Quest = {
     },
   ],
 };
+
+// Only used on day 2+
+export const ReprocessQuest: Quest = {
+  name: "Reprocess",
+  tasks: [
+    // Construct a full Task from each minimally-specified AbsorbTask.
+    ...absorbTasks.map((task): Task => {
+      const result = {
+        name: task.do.toString(),
+        completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do),
+        ...task,
+        after: [...(task.after ?? []), `Absorb/${task.do.toString()}`],
+        ready: () =>
+          (task.ready === undefined || task.ready()) && familiarWeight($familiar`Grey Goose`) >= 6,
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
+        limit: { soft: 25 },
+      };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
+    }),
+    {
+      // Add a last task for routing
+      name: "All",
+      after: absorbTasks.map((task) => task.do.toString()),
+      ready: () => false,
+      completed: () => true,
+      do: (): void => {
+        throw "Unable to reprocess all target monsters";
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+  ],
+};
+
+// Only used on day 2+
+export const AdvAbsorbQuest: Quest = {
+  name: "AdvAbsorb",
+  tasks: [
+    // Construct a full Task from each minimally-specified AbsorbTask.
+    ...absorbTasks.map((task): Task => {
+      const result = {
+        name: task.do.toString(),
+        completed: () => !globalStateCache.absorb().hasTargets(task.do),
+        ...task,
+        after: task.skill ? [...(task.after ?? []), task.skill.name] : task.after,
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
+        limit: { soft: 25 },
+      };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
+    })
+  ]
+}
