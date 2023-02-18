@@ -22270,7 +22270,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "caa295d";
+var lastCommitHash = "79f71f1";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
@@ -22361,7 +22361,6 @@ function main(command) {
         }
       }
 
-      if (args.debug.actions === 0) return;
       debug("Remaining tasks:", "red");
 
       var _iterator = main_createForOfIteratorHelper(remaining_tasks),
