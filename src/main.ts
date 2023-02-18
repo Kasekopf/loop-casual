@@ -101,7 +101,6 @@ export function main(command?: string): void {
           return;
         }
       }
-      if (args.debug.actions === 0) return;
 
       debug("Remaining tasks:", "red");
       for (const task of remaining_tasks) {
