@@ -52,7 +52,7 @@ export function all_tasks(): Task[] {
     DigitalQuest,
   ];
 
-  if (myDaycount() > 2) {
+  if (myDaycount() > 1) {
     quests.push(AdvAbsorbQuest, ReprocessQuest);
   }
 
