@@ -87,6 +87,7 @@ export const MiscQuest: Quest = {
         if (knollAvailable()) cliExecute("acquire 1 bitchin' meatcar");
         else cliExecute("acquire 1 desert bus pass");
       },
+      outfit: { equip: $items`designer sweatpants` },
       limit: { tries: 1 },
       freeaction: true,
     },
