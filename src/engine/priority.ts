@@ -33,6 +33,8 @@ export class Priorities {
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
   static BadHoliday: Priority = { score: -10 };
   static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
+  static BadSweat: Priority = { score: -20, reason: "Not enough sweat" };
+  static BadProtonic: Priority = { score: -40, reason: "Protonic ghost here" };
   static BadGoose: Priority = { score: 0, reason: "Goose not charged" };
   static BadMood: Priority = { score: -100, reason: "Wrong effects" };
   static Last: Priority = { score: -10000, reason: "Only if nothing else" };
@@ -156,6 +158,15 @@ export class Prioritization {
         result.priorities.add(Priorities.BadForcingNC);
       }
     }
+
+    // Delay if there is a protonic ghost we have not killed
+    if (
+      have($item`protonic accelerator pack`) &&
+      get("questPAGhost") !== "unstarted" &&
+      get("ghostLocation") &&
+      get("ghostLocation") === task.do
+    )
+      result.priorities.add(Priorities.BadProtonic);
 
     return result;
   }

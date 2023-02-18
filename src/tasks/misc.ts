@@ -258,7 +258,12 @@ export const MiscQuest: Quest = {
       name: "Protonic Ghost",
       after: [],
       completed: () => false,
-      priority: () => Priorities.Always,
+      priority: () => {
+        if (!get("lovebugsUnlocked") && have($item`designer sweatpants`) && get("sweat") < 5) {
+          // Wait for more sweat, if possible
+          return Priorities.BadSweat;
+        } else return Priorities.Always;
+      },
       ready: () => {
         if (!have($item`protonic accelerator pack`)) return false;
         if (get("questPAGhost") === "unstarted") return false;
