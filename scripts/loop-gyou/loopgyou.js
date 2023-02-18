@@ -12048,7 +12048,11 @@ var AbsorbState = /*#__PURE__*/function () {
       this.advAbsorbed += (_reprocessTargets$get3 = reprocessTargets.get(monster)) !== null && _reprocessTargets$get3 !== void 0 ? _reprocessTargets$get3 : 0;
     }); // Use _greyYouAdventures on later days
 
-    if ((0,external_kolmafia_namespaceObject.myDaycount)() > 1) {
+    if ((0,external_kolmafia_namespaceObject.myDaycount)() === 1) {
+      if (this.advAbsorbed !== property_get("_greyYouAdventures", 0) && args.debug.verbose) {
+        (0,external_kolmafia_namespaceObject.print)("Tracking misalignment: ".concat(this.advAbsorbed, " != ").concat(property_get("_greyYouAdventures", 0)));
+      }
+    } else {
       this.advAbsorbed = property_get("_greyYouAdventures", this.advAbsorbed);
     } // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
@@ -21236,21 +21240,27 @@ var Diary = [{
         equip: equip,
         modifier: "50 combat 5max, -1ML"
       };
-    } else if (globalStateCache.absorb().isReprocessTarget($monster(level11_templateObject10 || (level11_templateObject10 = level11_taggedTemplateLiteral(["black magic woman"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_templateObject11 || (level11_templateObject11 = level11_taggedTemplateLiteral(["Grey Goose"])))) >= 6 && globalStateCache.orb().prediction($location(level11_templateObject12 || (level11_templateObject12 = level11_taggedTemplateLiteral(["The Black Forest"])))) === $monster(level11_templateObject13 || (level11_templateObject13 = level11_taggedTemplateLiteral(["black magic woman"])))) {
-      // Swoop in for a single adventure to reprocess the black magic woman
-      return {
-        equip: [].concat(equip, [template_string_$item(level11_templateObject14 || (level11_templateObject14 = level11_taggedTemplateLiteral(["miniature crystal ball"])))]),
-        familiar: template_string_$familiar(level11_templateObject15 || (level11_templateObject15 = level11_taggedTemplateLiteral(["Grey Goose"]))),
-        modifier: "50 combat 5max, -1ML"
-      };
-    } else {
-      return {
-        equip: equip,
-        familiar: template_string_$familiar(level11_templateObject16 || (level11_templateObject16 = level11_taggedTemplateLiteral(["Reassembled Blackbird"]))),
-        modifier: "50 combat 5max, item, -1ML",
-        avoid: template_string_$items(level11_templateObject17 || (level11_templateObject17 = level11_taggedTemplateLiteral(["broken champagne bottle"])))
-      };
     }
+
+    if (globalStateCache.absorb().isReprocessTarget($monster(level11_templateObject10 || (level11_templateObject10 = level11_taggedTemplateLiteral(["black magic woman"])))) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(level11_templateObject11 || (level11_templateObject11 = level11_taggedTemplateLiteral(["Grey Goose"])))) >= 6) {
+      var orb = globalStateCache.orb().prediction($location(level11_templateObject12 || (level11_templateObject12 = level11_taggedTemplateLiteral(["The Black Forest"]))));
+
+      if (orb === $monster(level11_templateObject13 || (level11_templateObject13 = level11_taggedTemplateLiteral(["black magic woman"])))) {
+        // Swoop in for a single adventure to reprocess the black magic woman
+        return {
+          equip: [].concat(equip, [template_string_$item(level11_templateObject14 || (level11_templateObject14 = level11_taggedTemplateLiteral(["miniature crystal ball"])))]),
+          familiar: template_string_$familiar(level11_templateObject15 || (level11_templateObject15 = level11_taggedTemplateLiteral(["Grey Goose"]))),
+          modifier: "50 combat 5max, -1ML"
+        };
+      }
+    }
+
+    return {
+      equip: equip,
+      familiar: template_string_$familiar(level11_templateObject16 || (level11_templateObject16 = level11_taggedTemplateLiteral(["Reassembled Blackbird"]))),
+      modifier: "50 combat 5max, item, -1ML",
+      avoid: template_string_$items(level11_templateObject17 || (level11_templateObject17 = level11_taggedTemplateLiteral(["broken champagne bottle"])))
+    };
   },
   choices: {
     923: 1,
@@ -22167,7 +22177,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "482582d";
+var lastCommitHash = "ffe37da";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
