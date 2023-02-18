@@ -94,13 +94,14 @@ export function main(command?: string): void {
 
     const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
-      if (args.debug.actions) {
+      if (args.debug.actions !== undefined) {
         const next = engine.getNextTask();
         if (next) {
           debug(`Next task: ${next.name}`);
           return;
         }
       }
+      if (args.debug.actions === 0) return;
 
       debug("Remaining tasks:", "red");
       for (const task of remaining_tasks) {
