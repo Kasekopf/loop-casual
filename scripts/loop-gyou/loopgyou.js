@@ -12436,7 +12436,7 @@ var ReprocessQuest = {
       name: task.do.toString(),
       completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do)
     }, task), {}, {
-      after: [].concat(absorb_toConsumableArray((_task$after = task.after) !== null && _task$after !== void 0 ? _task$after : []), ["Absorb/".concat(task.do.toString())]),
+      after: [].concat(absorb_toConsumableArray((_task$after = task.after) !== null && _task$after !== void 0 ? _task$after : []), ["AdvAbsorb/".concat(task.do.toString())]),
       ready: () => (task.ready === undefined || task.ready()) && (0,external_kolmafia_namespaceObject.familiarWeight)(template_string_$familiar(_templateObject342 || (_templateObject342 = absorb_taggedTemplateLiteral(["Grey Goose"])))) >= 6,
       combat: ((_task$combat2 = task.combat) !== null && _task$combat2 !== void 0 ? _task$combat2 : new combat_CombatStrategy()).ignoreSoftBanish(),
       // killing targetting monsters is set in the engine
@@ -12474,7 +12474,7 @@ var AdvAbsorbQuest = {
       name: task.do.toString(),
       completed: () => globalStateCache.absorb().remainingAdventures(task.do) === 0
     }, task), {}, {
-      after: task.skill ? [].concat(absorb_toConsumableArray((_task$after2 = task.after) !== null && _task$after2 !== void 0 ? _task$after2 : []), [task.skill.name]) : task.after,
+      after: task.skill ? [].concat(absorb_toConsumableArray((_task$after2 = task.after) !== null && _task$after2 !== void 0 ? _task$after2 : []), ["Absorb/".concat(task.skill.name)]) : task.after,
       combat: ((_task$combat3 = task.combat) !== null && _task$combat3 !== void 0 ? _task$combat3 : new combat_CombatStrategy()).ignoreSoftBanish(),
       // killing targetting monsters is set in the engine
       limit: {
@@ -22270,7 +22270,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "dd38547";
+var lastCommitHash = "3d07dec";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
@@ -22325,7 +22325,7 @@ function main(command) {
 
   printVersionInfo();
   if (args.version) return;
-  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(main_templateObject || (main_templateObject = main_taggedTemplateLiteral(["Grey You"])))) throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
+  if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(main_templateObject || (main_templateObject = main_taggedTemplateLiteral(["Grey You"]))) && !args.debug.list) throw "You are not currently in a Grey You run. Please start one."; // Break the prism and exit if requested
 
   if (args["class"] !== undefined) {
     breakPrism(args["class"]);
