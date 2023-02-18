@@ -203,6 +203,8 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`burning paper slippers`);
   }
 
+  if (get("sweat") < 15) outfit.equip($item`designer sweatpants`);
+
   if (modifier.length === 0) {
     // Default outfit
     outfit.equip($item`giant yellow hat`);
