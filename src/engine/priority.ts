@@ -22,14 +22,14 @@ export class Priorities {
   static Effect: Priority = { score: 20, reason: "Useful effect" };
   static GoodOrb: Priority = { score: 15, reason: "Target orb monster" };
   static GoodYR: Priority = { score: 10, reason: "Yellow ray" };
+  static GoodAutumnaton: Priority = { score: 4, reason: "Setup Autumnaton" };
   static MinorEffect: Priority = { score: 2, reason: "Useful minor effect" };
-  static GoodAutumnaton: Priority = { score: 2, reason: "Setup Autumnaton" };
   static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
   static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
   static None: Priority = { score: 0 };
   static BadForcingNC: Priority = { score: -0.4, reason: "Not forcing NC" };
-  static BadTrain: Priority = { score: -0.5, reason: "Use Trainset" };
   static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };
+  static BadTrain: Priority = { score: -3, reason: "Use Trainset" };
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
   static BadHoliday: Priority = { score: -10 };
   static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
@@ -106,8 +106,8 @@ export class Prioritization {
       outfit_spec?.modifier === undefined
         ? undefined
         : Array.isArray(outfit_spec.modifier)
-        ? outfit_spec.modifier.join(",")
-        : outfit_spec.modifier;
+          ? outfit_spec.modifier.join(",")
+          : outfit_spec.modifier;
     if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }
