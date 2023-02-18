@@ -572,9 +572,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   dress(task: ActiveTask, outfit: Outfit): void {
+    applyEffects(outfit.modifier.join(","));
     cacheDress(outfit);
     fixFoldables(outfit);
-    applyEffects(outfit.modifier.join(","));
 
     const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
     if (args.debug.verboseequip) {
