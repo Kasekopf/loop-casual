@@ -640,6 +640,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
             if (wanderer.action) task_combat.macro(wanderer.action, monster);
           }
         }
+        wanderer.prepare?.();
       }
     }
 
