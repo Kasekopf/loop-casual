@@ -994,6 +994,10 @@ export class AbsorbState {
     return this.remainingAbsorbs(location).length > 0;
   }
 
+  public remainingAdventures(location: Location): number {
+    return this.remainingAbsorbs(location).reduce((a, b) => a + (reprocessTargets.get(b) ?? 0), 0);
+  }
+
   public hasReprocessTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
     return this.remainingReprocess(location).length > 0;
@@ -1099,7 +1103,7 @@ export const AdvAbsorbQuest: Quest = {
     ...absorbTasks.map((task): Task => {
       const result = {
         name: task.do.toString(),
-        completed: () => !globalStateCache.absorb().hasTargets(task.do),
+        completed: () => globalStateCache.absorb().remainingAdventures(task.do) === 0,
         ...task,
         after: task.skill ? [...(task.after ?? []), task.skill.name] : task.after,
         combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
