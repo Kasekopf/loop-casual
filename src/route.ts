@@ -42,6 +42,10 @@ export const routing: string[] = [
   "Absorb/Photonic Shroud",
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
+  "Hidden City/Forest Coin",  // First to get meat
+  "Hidden City/Forest Map",
+  "Hidden City/Forest Fertilizer",
+  "Hidden City/Forest Sapling",  // Last to sell bar skins
   "Hidden City/Open Temple",
 
   // Get +item
