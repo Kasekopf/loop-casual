@@ -433,7 +433,7 @@ const Orchard: Task[] = [
 const Nuns: Task[] = [
   {
     name: "Nuns",
-    after: ["Open Nuns"],
+    after: ["Open Nuns", "Absorb/Ponzi Apparatus"],
     completed: () => get("sidequestNunsCompleted") !== "none" || warSkip(),
     priority: () => (have($effect`Winklered`) ? Priorities.Effect : Priorities.None),
     prepare: () => {
