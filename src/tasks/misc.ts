@@ -587,7 +587,9 @@ export const MiscQuest: Quest = {
     {
       name: "Gnome Shirt",
       after: [],
-      ready: () => myMeat() >= 11000 && gnomadsAvailable(),
+      ready: () =>
+        (myMeat() >= 11000 || (myMeat() >= 6000 && getWorkshed() === $item`model train set`)) &&
+        gnomadsAvailable(),
       completed: () => have($skill`Torso Awareness`),
       priority: () => Priorities.Free,
       freeaction: true,
@@ -616,7 +618,7 @@ export const MiscQuest: Quest = {
         (mySign() !== "Vole" ||
           (myMaxmp() - numericModifier("Maximum MP") >= 50 &&
             myMaxhp() - numericModifier("Maximum HP") >= 40 &&
-            myMeat() >= 11000)),
+            myMeat() >= 6000)),
       completed: () =>
         !have($item`hewn moon-rune spoon`) ||
         args.major.tune === undefined ||
