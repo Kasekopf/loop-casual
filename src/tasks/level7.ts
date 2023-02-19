@@ -124,8 +124,14 @@ const Cranny: Task[] = [
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`antique machete`, $item`gravy boat`, $item`old patched suit-pants`),
+        equip: tryCape(
+          $item`antique machete`,
+          $item`gravy boat`,
+          $item`old patched suit-pants`,
+          $item`unbreakable umbrella`
+        ),
         modifier: "-combat, ML",
+        modes: { umbrella: "cocoon" },
       };
     },
     choices: { 523: 4 },
