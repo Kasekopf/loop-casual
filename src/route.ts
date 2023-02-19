@@ -111,7 +111,7 @@ export const routing: string[] = [
 
   "Crypt/Finish", // Finish nook late for autumnaton
   "Bat/Finish", // Finish up with last delay
-  "Knob/Finish",
+  "Knob/King",
   "Tower/Naughty Sorceress",
 
   "Misc/Dog Chow", // Eat if there are no other options
