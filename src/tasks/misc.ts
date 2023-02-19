@@ -616,7 +616,8 @@ export const MiscQuest: Quest = {
       ready: () =>
         knollAvailable() &&
         (mySign() !== "Vole" ||
-          (myMaxmp() - numericModifier("Maximum MP") >= 50 &&
+          ((myMaxmp() - numericModifier("Maximum MP") >= 50 ||
+            (myMaxmp() - numericModifier("Maximum MP") >= 40 && have($item`birch battery`))) &&
             myMaxhp() - numericModifier("Maximum HP") >= 40 &&
             myMeat() >= 6000)),
       completed: () =>
