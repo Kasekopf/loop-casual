@@ -10,6 +10,7 @@ import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
 import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
 import { undelay } from "grimoire-kolmafia";
+import { mayLaunchGooseForStats } from "./strategies";
 
 export class Priorities {
   static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
@@ -76,7 +77,7 @@ export class Prioritization {
         if (!result.priorities.has(Priorities.GoodYR)) {
           result.priorities.add(Priorities.BadGoose);
         }
-      } else {
+      } else if (!mayLaunchGooseForStats()) {
         result.priorities.add(Priorities.GoodGoose);
       }
     }
@@ -106,8 +107,8 @@ export class Prioritization {
       outfit_spec?.modifier === undefined
         ? undefined
         : Array.isArray(outfit_spec.modifier)
-          ? outfit_spec.modifier.join(",")
-          : outfit_spec.modifier;
+        ? outfit_spec.modifier.join(",")
+        : outfit_spec.modifier;
     if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }

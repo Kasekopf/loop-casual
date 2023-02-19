@@ -192,11 +192,14 @@ export const wandererSources: WandererSource[] = [
   {
     name: "Digitize",
     available: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
-    equip: [{ equip: $items`Space Trip safety headphones` },
-    {
-      equip: $items`unwrapped knock-off retro superhero cape`,
-      modes: { retrocape: ["heck", "hold"] },
-    }, {}],
+    equip: [
+      { equip: $items`Space Trip safety headphones` },
+      {
+        equip: $items`unwrapped knock-off retro superhero cape`,
+        modes: { retrocape: ["heck", "hold"] },
+      },
+      {},
+    ],
     monsters: () => [get("_sourceTerminalDigitizeMonster") ?? $monster`none`],
     chance: () => 1,
     action: () => {

@@ -103,6 +103,7 @@ import { summonStrategy } from "../tasks/summons";
 import { pullStrategy } from "../tasks/pulls";
 import { keyStrategy } from "../tasks/keys";
 import { applyEffects } from "./moods";
+import { mayLaunchGooseForStats } from "./strategies";
 
 export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
@@ -331,6 +332,22 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       );
     }
 
+    let force_charge_goose = false;
+    let goose_weight_in_use = false;
+
+    // Try to use the goose for stats, if we can
+    if (
+      mayLaunchGooseForStats() &&
+      !undelay(task.freeaction) &&
+      task.name !== "Summon/Pygmy Witch Lawyer"
+    ) {
+      if (outfit.equip($familiar`Grey Goose`)) {
+        combat.macro(new Macro().trySkill($skill`Convert Matter to Pomade`), undefined, true);
+        goose_weight_in_use = true;
+        force_charge_goose = true;
+      }
+    }
+
     // Absorb targeted monsters
     const absorb_state = globalStateCache.absorb();
     const absorb_targets = new Set<Monster>();
@@ -341,7 +358,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       for (const monster of absorb_state.remainingReprocess(zone)) absorb_targets.add(monster);
     }
     for (const monster of absorb_targets) {
-      if (absorb_state.isReprocessTarget(monster)) {
+      if (absorb_state.isReprocessTarget(monster) && !goose_weight_in_use) {
         outfit.equip($familiar`Grey Goose`);
         combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
         combat.macro(new Macro().trySkill($skill`Re-Process Matter`), monster, true);
@@ -360,7 +377,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    let force_charge_goose = false;
     if (wanderers.length === 0) {
       // Set up a banish if needed
 
