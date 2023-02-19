@@ -210,7 +210,7 @@ export const wandererSources: WandererSource[] = [
         return new Macro().trySkill($skill`Emit Matter Duplicating Drones`);
       else return new Macro();
     },
-    possible: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 0,
+    possible: () => SourceTerminal.have() && Counter.get("Digitize Monster") <= 5,
   },
   {
     name: "Voted",
