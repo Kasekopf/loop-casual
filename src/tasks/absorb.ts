@@ -52,6 +52,7 @@ import { Quest, Task } from "../engine/task";
 import { Limit, step } from "grimoire-kolmafia";
 import { args } from "../args";
 import { coldPlanner, stenchPlanner } from "../engine/outfit";
+import { prioritizeJellyfish } from "./level5";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -147,6 +148,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
     after: ["Knob/Open Menagerie"],
+    priority: prioritizeJellyfish,
     skill: $skill`Phase Shift`,
     effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
     outfit: () => {

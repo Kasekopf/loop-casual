@@ -27,6 +27,7 @@ export class Priorities {
   static MinorEffect: Priority = { score: 2, reason: "Useful minor effect" };
   static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
   static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
+  static SeekJellyfish: Priority = { score: 0.1, reason: "Get Spectral Jellyfish" };
   static None: Priority = { score: 0 };
   static BadForcingNC: Priority = { score: -0.4, reason: "Not forcing NC" };
   static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };

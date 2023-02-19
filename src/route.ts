@@ -26,8 +26,7 @@ export const routing: string[] = [
   // "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
   // Get initial -combat
-  "Knob/King",
-  "Absorb/Phase Shift",
+  "Knob/Start",
   "McLargeHuge/Trapper Request", // open for absorbing
   // "Absorb/Fluid Dynamics Simulation",
   "Misc/Retune Moon",
@@ -112,6 +111,7 @@ export const routing: string[] = [
 
   "Crypt/Finish", // Finish nook late for autumnaton
   "Bat/Finish", // Finish up with last delay
+  "Knob/Finish",
   "Tower/Naughty Sorceress",
 
   "Misc/Dog Chow", // Eat if there are no other options
