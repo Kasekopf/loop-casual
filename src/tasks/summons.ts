@@ -172,6 +172,7 @@ const summonTargets: SummonTarget[] = [
     ready: () => atLevel(6),
     completed: () => have($skill`Phase Shift`),
     combat: new CombatStrategy().kill(),
+    outfit: { modifier: "10 init, moxie" },
   },
   {
     target: $monster`anglerbush`,
