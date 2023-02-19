@@ -389,7 +389,11 @@ export const DigitalQuest: Quest = {
         (get("8BitColor", "black") === "black" || get("8BitColor", "black") === "") &&
         myBasestat($stat`Moxie`) >= 220,
       do: $location`Vanya's Castle`,
-      outfit: { modifier: "init", equip: $items`continuum transfunctioner` },
+      outfit: {
+        modifier: "init",
+        equip: $items`continuum transfunctioner, backup camera`,
+        modes: { backupcamera: "init" },
+      },
       combat: new CombatStrategy().kill(),
       limit: { soft: 16 },
       delay: 16,
