@@ -58,9 +58,7 @@ const Alcove: Task[] = [
     prepare: tuneCape,
     ready: () =>
       // Reprocess the grave rober, then wait for the +init skill
-      (globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) ||
-        have($skill`Overclocking`) ||
-        !!(get("twinPeakProgress") & 8)) &&
+      (have($skill`Overclocking`) || !!(get("twinPeakProgress") & 8)) &&
       myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
@@ -70,19 +68,6 @@ const Alcove: Task[] = [
       }
     },
     outfit: (): OutfitSpec => {
-      if (
-        globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
-        globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-          $monster`grave rober zmobie`
-      ) {
-        // Try not to fight modern zmobie
-        return {
-          equip: tryCape($item`antique machete`, $item`gravy boat`),
-          famequip: $item`miniature crystal ball`,
-          modifier: "-init",
-          avoid: $items`carnivorous potted plant`,
-        };
-      }
       return {
         equip: tryCape($item`antique machete`, $item`gravy boat`),
         modifier: "init 850max",
