@@ -107,6 +107,7 @@ export const routing: string[] = [
 
   "Orc Chasm/Start Peaks",
   "Orc Chasm/Finish",
+  "Keys/Star Key", // Allow for better use of orb
   "War/Boss Hippie",
 
   "Crypt/Finish", // Finish nook late for autumnaton
