@@ -83,6 +83,7 @@ const Manor1: Task[] = [
   {
     name: "Finish Floor1",
     after: ["Library"],
+    priority: () => Priorities.Free,
     completed: () => step("questM20Necklace") === 999,
     do: () => visitUrl("place.php?whichplace=manor1&action=manor1_ladys"),
     limit: { tries: 1 },
@@ -94,6 +95,7 @@ const Manor2: Task[] = [
   {
     name: "Start Floor2",
     after: ["Finish Floor1"],
+    priority: () => Priorities.Free,
     completed: () => step("questM21Dance") >= 1,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
     limit: { tries: 1 },
@@ -203,6 +205,7 @@ const Manor2: Task[] = [
     name: "Open Ballroom",
     after: ["Gallery", "Bathroom", "Bedroom"],
     completed: () => step("questM21Dance") >= 3,
+    priority: () => Priorities.Free,
     do: () => visitUrl("place.php?whichplace=manor2&action=manor2_ladys"),
     limit: { tries: 1 },
     freeaction: true,
