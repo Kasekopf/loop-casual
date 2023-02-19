@@ -11,6 +11,7 @@ import { globalStateCache } from "./state";
 import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
 import { undelay } from "grimoire-kolmafia";
 import { mayLaunchGooseForStats } from "./strategies";
+import { getModifiersFrom } from "./outfit";
 
 export class Priorities {
   static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
@@ -103,13 +104,7 @@ export class Prioritization {
 
     // Ensure that the current +/- combat effects are compatible
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
-    const outfit_spec = undelay(task.outfit);
-    const modifier =
-      outfit_spec?.modifier === undefined
-        ? undefined
-        : Array.isArray(outfit_spec.modifier)
-        ? outfit_spec.modifier.join(",")
-        : outfit_spec.modifier;
+    const modifier = getModifiersFrom(undelay(task.outfit));
     if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }

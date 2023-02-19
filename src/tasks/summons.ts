@@ -175,7 +175,7 @@ const summonTargets: SummonTarget[] = [
     outfit: {
       equip: $items`unwrapped knock-off retro superhero cape`,
       modes: { retrocape: ["heck", "hold"] },
-      modifier: "10 init, moxie"
+      modifier: "10 init, moxie",
     },
   },
   {

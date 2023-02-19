@@ -78,7 +78,7 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
 }
 
 export function equipInitial(outfit: Outfit): void {
-  const modifier = outfit.modifier.join(",");
+  const modifier = getModifiersFrom(outfit);
 
   if (modifier.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
@@ -103,7 +103,7 @@ export function equipInitial(outfit: Outfit): void {
 export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
 
-  const modifier = outfit.modifier.join(",");
+  const modifier = getModifiersFrom(outfit);
 
   // Try and get the Spooky Forest ghost first
   if (myTurncount() === 0 && get("nextParanormalActivity") === 1) {
@@ -188,7 +188,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
 
   if (outfit.skipDefaults) return;
 
-  const modifier = outfit.modifier.join(",");
+  const modifier = getModifiersFrom(outfit);
   if (modifier.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
   if (!modifier.includes("meat") || !have($item`backup camera`)) {
     // Leave room for backup camera for nuns
@@ -281,7 +281,7 @@ export function yellowSubmarinePossible(assumePulls = false) {
 }
 
 export function fixFoldables(outfit: Outfit) {
-  const modifier = outfit.modifier.join(",");
+  const modifier = getModifiersFrom(outfit);
 
   // Libram outfit cache may not autofold umbrella, so we need to
   if (equippedAmount($item`unbreakable umbrella`) > 0 && !outfit.modes["umbrella"]) {
@@ -514,3 +514,9 @@ export const stenchPlanner = new ElementalPlanner([
     modes: { parka: "dilophosaur" },
   },
 ]);
+
+export function getModifiersFrom(outfit: OutfitSpec | Outfit | undefined): string {
+  if (!outfit?.modifier) return "";
+  if (Array.isArray(outfit.modifier)) return outfit.modifier.join(",");
+  return outfit.modifier;
+}
