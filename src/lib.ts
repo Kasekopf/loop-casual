@@ -68,7 +68,7 @@ export function tuneSnapper(phylum: Phylum) {
 
 let cachedHaveFlorest: boolean | undefined = undefined;
 export function haveFlorest(): boolean {
-  if (step("questL02Larva") === -1) return false;  // we cannot check yet
+  if (step("questL02Larva") === -1) return false; // we cannot check yet
   if (cachedHaveFlorest === undefined) {
     const village = visitUrl("forestvillage.php");
     cachedHaveFlorest = village.includes("action=fv_friar");
