@@ -51,7 +51,8 @@ const Manor1: Task[] = [
         ? Priorities.Effect
         : Priorities.None,
     prepare: () => {
-      if (have($item`handful of hand chalk`)) ensureEffect($effect`Chalky Hand`);
+      if (have($item`handful of hand chalk`) && have($item`pool cue`))
+        ensureEffect($effect`Chalky Hand`);
     },
     ready: () => myInebriety() <= 15, // Nonnegative contribution
     do: $location`The Haunted Billiards Room`,
