@@ -532,7 +532,7 @@ export const WarQuest: Quest = {
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island", "Misc/Unlock Island Submarine", "Outfit Frat"],
-      ready: warReady,
+      ready: () => warReady() && myBasestat($stat`mysticality`) >= 70,
       completed: () => step("questL12War") >= 1,
       prepare: () => {
         // Restore a bit more HP than usual
