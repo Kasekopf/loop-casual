@@ -1,10 +1,12 @@
 import {
+  adv1,
   changeMcd,
   cliExecute,
   currentMcd,
   Item,
   myBasestat,
   myTurncount,
+  toUrl,
   visitUrl,
 } from "kolmafia";
 import {
