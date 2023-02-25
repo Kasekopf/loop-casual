@@ -309,7 +309,7 @@ export const wandererSources: WandererSource[] = [
       const result = new Macro();
       if (SourceTerminal.have() && SourceTerminal.getDigitizeUses() === 0)
         result.trySkill($skill`Digitize`);
-      if (familiarWeight($familiar`Grey Goose`) <= 10)
+      if (familiarWeight($familiar`Grey Goose`) <= 10 && haveEquipped($item`Space Trip safety headphones`))
         result.trySkill($skill`Emit Matter Duplicating Drones`);
       return result;
     },
