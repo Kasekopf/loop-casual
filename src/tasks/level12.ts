@@ -546,7 +546,7 @@ export const WarQuest: Quest = {
         },
       combat: new CombatStrategy().macro(Macro.trySkill($skill`Extract Jelly`)),
       do: $location`Wartime Hippy Camp (Frat Disguise)`,
-      choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
+      choices: { 139: 3, 140: 3, 141: 3, 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
     },
     ...Flyers,
