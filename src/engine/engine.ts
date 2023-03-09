@@ -83,6 +83,7 @@ import { cliExecute, equippedAmount, itemAmount, runChoice } from "kolmafia";
 import { atLevel, debug } from "../lib";
 import {
   canChargeVoid,
+  CombatResource,
   forceItemSources,
   forceNCPossible,
   forceNCSources,
@@ -383,11 +384,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       if (combat.can("yellowRay") && !have($effect`Everything Looks Yellow`)) {
         resources.provide("yellowRay", equipFirst(outfit, yellowRaySources));
       }
+      let force_item_source: CombatResource | undefined = undefined;
       if (combat.can("forceItems")) {
-        let source = equipFirst(outfit, forceItemSources);
-        if (source === undefined && !have($effect`Everything Looks Yellow`))
-          source = equipFirst(outfit, yellowRaySources);
-        resources.provide("forceItems", source);
+        force_item_source = equipFirst(outfit, forceItemSources);
+        if (force_item_source === undefined && !have($effect`Everything Looks Yellow`))
+          force_item_source = equipFirst(outfit, yellowRaySources);
+        resources.provide("forceItems", force_item_source);
       }
 
       const banish_state = globalStateCache.banishes();
@@ -485,12 +487,15 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       // Use an NC forcer if one is available and another task needs it.
       const nc_blacklist = new Set<Location>($locations`The Enormous Greater-Than Sign`);
-      const nc_task_blacklist = new Set<string>(["Summon/Spectral Jellyfish"]);
+      const nc_task_blacklist = new Set<string>([
+        "Summon/Spectral Jellyfish",
+      ]);
       if (
         forceNCPossible() &&
         !(task.do instanceof Location && nc_blacklist.has(task.do)) &&
         !nc_task_blacklist.has(task.name) &&
         !have($effect`Teleportitis`) &&
+        force_item_source?.equip !== $item`Fourth of May Cosplay Saber` &&
         !get("_loopgyou_ncforce", false)
       ) {
         if (
