@@ -30,7 +30,6 @@ import {
   get,
   getKramcoWandererChance,
   have,
-  MaximizeOptions,
 } from "libram";
 import { Resource } from "./resources";
 import { Keys, keyStrategy } from "../tasks/keys";
@@ -39,12 +38,23 @@ import { Modes, Outfit, OutfitSpec, step } from "grimoire-kolmafia";
 import { atLevel, haveLoathingLegion } from "../lib";
 import { args } from "../args";
 
+export function canEquipResource(outfit: Outfit, resource: Resource): boolean {
+  if (!resource.equip) return true;
+  if (Array.isArray(resource.equip))
+    return resource.equip.find((spec) => outfit.canEquip(spec)) !== undefined;
+  return outfit.canEquip(resource.equip);
+}
+
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip ?? [])) continue;
-    if (!outfit.equip(resource.equip ?? [])) continue;
+    if (resource.equip) {
+      // At least one of the provided equipment options must be equippable
+      const specs = Array.isArray(resource.equip) ? resource.equip : [resource.equip];
+      const chosen = specs.find((spec) => outfit.canEquip(spec) && outfit.equip(spec));
+      if (chosen === undefined) continue;
+    }
     return resource;
   }
   return undefined;
@@ -55,8 +65,12 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
   for (const resource of resources) {
     if (!resource.available()) continue;
     if (resource.chance && resource.chance() === 0) continue;
-    if (!outfit.canEquip(resource.equip ?? [])) continue;
-    if (!outfit.equip(resource.equip ?? [])) continue;
+    if (resource.equip) {
+      // At least one of the provided equipment options must be equippable
+      const specs = Array.isArray(resource.equip) ? resource.equip : [resource.equip];
+      const chosen = specs.find((spec) => outfit.canEquip(spec) && outfit.equip(spec));
+      if (chosen === undefined) continue;
+    }
     result.push(resource);
     if (resource.chance && resource.chance() === 1) break;
   }
@@ -64,23 +78,21 @@ export function equipUntilCapped<T extends Resource>(outfit: Outfit, resources: 
 }
 
 export function equipInitial(outfit: Outfit): void {
-  if (outfit.modifier?.includes("item")) {
+  const modifier = getModifiersFrom(outfit);
+
+  if (modifier.includes("item")) {
     outfit.equip($familiar`Grey Goose`);
-    if (
-      !outfit.modifier?.includes("+combat") &&
-      !outfit.modifier?.includes(" combat") &&
-      !outfit.modifier?.includes("res")
-    )
+    if (!modifier.includes("+combat") && !modifier.includes(" combat") && !modifier.includes("res"))
       outfit.equip($item`protonic accelerator pack`);
   }
   // if (spec.modifier.includes("+combat")) outfit.equip($familiar`Jumpsuited Hound Dog`);
-  if (outfit.modifier?.includes("meat")) {
+  if (modifier.includes("meat")) {
     if (get("_roboDrinks").toLowerCase().includes("drive-by shooting"))
       outfit.equip($familiar`Robortender`);
     outfit.equip($familiar`Hobo Monkey`);
     outfit.equip($familiar`Leprechaun`); // backup
   }
-  if (outfit.modifier?.includes("+combat") && !outfit.modifier?.includes("res"))
+  if (modifier.includes("+combat") && !modifier.includes("res"))
     outfit.equip($item`thermal blanket`);
 
   if (args.minor.forcelocket) {
@@ -90,6 +102,8 @@ export function equipInitial(outfit: Outfit): void {
 
 export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void {
   if (outfit.skipDefaults) return;
+
+  const modifier = getModifiersFrom(outfit);
 
   // Try and get the Spooky Forest ghost first
   if (myTurncount() === 0 && get("nextParanormalActivity") === 1) {
@@ -109,7 +123,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 
       // Use latte mug for familiar exp
       if (
-        !outfit.modifier?.includes("-combat") &&
+        !modifier.includes("-combat") &&
         have($item`latte lovers member's mug`) &&
         get("latteModifier").includes("Experience (familiar): 3")
       ) {
@@ -118,7 +132,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
 
       // Equip an offhand if it is not needed for the -combat umbrella
       if (
-        !outfit.modifier?.includes("-combat") ||
+        !modifier.includes("-combat") ||
         have($skill`Photonic Shroud`) ||
         !have($item`unbreakable umbrella`)
       ) {
@@ -131,7 +145,7 @@ export function equipCharging(outfit: Outfit, force_charge_goose: boolean): void
   if (yellowSubmarinePossible() && itemAmount($item`yellow pixel`) < 50) {
     outfit.equip($familiar`Puck Man`);
     outfit.equip($familiar`Ms. Puck Man`);
-    if (!outfit.modifier.includes("combat") && !outfit.modifier.includes("res")) {
+    if (!modifier.includes("combat") && !modifier.includes("res")) {
       if (get("_yellowPixelDropsCrown") < 25 && outfit.equip($item`Buddy Bjorn`)) {
         outfit.bjornify($familiars`Puck Man, Ms. Puck Man`);
       }
@@ -157,21 +171,26 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
   if (have($familiar`Temporal Riftlet`)) {
     outfit.equip($familiar`Temporal Riftlet`);
   }
-  // if (have($item`gnomish housemaid's kgnee`)) {
-  //   outfit.equip($familiar`Reagnimated Gnome`);
-  // }
 
-  if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+  if (have($familiar`Reagnimated Gnome`) && outfit.equips.get($slot`familiar`) === undefined) {
+    if (outfit.equip($familiar`Reagnimated Gnome`)) {
+      outfit.equip($item`gnomish housemaid's kgnee`);
+    }
+  }
+
+  if (
+    outfit.familiar === $familiar`Grey Goose` &&
+    (familiarWeight($familiar`Grey Goose`) < 6 || force_charge_goose)
+  )
     outfit.equip($item`grey down vest`);
   if (outfit.familiar === $familiar`Melodramedary` && get("camelSpit") < 100)
     outfit.equip($item`dromedary drinking helmet`);
-  if (outfit.familiar === $familiar`Reagnimated Gnome`)
-    outfit.equip($item`gnomish housemaid's kgnee`);
 
   if (outfit.skipDefaults) return;
 
-  if (outfit.modifier?.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
-  if (!outfit.modifier?.includes("meat") || !have($item`backup camera`)) {
+  const modifier = getModifiersFrom(outfit);
+  if (modifier.includes("-combat")) outfit.equip($familiar`Disgeist`); // low priority
+  if (!modifier.includes("meat") || !have($item`backup camera`)) {
     // Leave room for backup camera for nuns
     outfit.equip($item`mafia thumb ring`);
   }
@@ -184,7 +203,9 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`burning paper slippers`);
   }
 
-  if (!outfit.modifier) {
+  if (get("sweat") < 15) outfit.equip($item`designer sweatpants`);
+
+  if (modifier.length === 0) {
     // Default outfit
     outfit.equip($item`giant yellow hat`);
     outfit.equip($item`ice crown`);
@@ -222,7 +243,7 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     outfit.equip($item`combat lover's locket`);
     outfit.equip($item`Powerful Glove`);
   } else {
-    outfit.modifier += ", 0.01 MP regen, 0.001 HP regen";
+    outfit.modifier.push("0.01 MP regen, 0.001 HP regen");
     // Defibrillator breaks the Beaten up tests
     if (haveLoathingLegion()) {
       outfit.avoid.push($item`Loathing Legion defibrillator`);
@@ -260,13 +281,15 @@ export function yellowSubmarinePossible(assumePulls = false) {
 }
 
 export function fixFoldables(outfit: Outfit) {
+  const modifier = getModifiersFrom(outfit);
+
   // Libram outfit cache may not autofold umbrella, so we need to
   if (equippedAmount($item`unbreakable umbrella`) > 0 && !outfit.modes["umbrella"]) {
-    if (outfit.modifier?.includes("-combat")) {
+    if (modifier.includes("-combat")) {
       if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
-    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    } else if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
-    } else if (outfit.modifier?.includes("item")) {
+    } else if (modifier.includes("item")) {
       if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
     } else {
       if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
@@ -275,9 +298,9 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold camera, so we need to
   if (equippedAmount($item`backup camera`) > 0 && !outfit.modes["backupcamera"]) {
-    if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
-    } else if (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) {
+    } else if (modifier.includes("init") && !modifier.match("-[\\d .]*init")) {
       if (get("backupCameraMode").toLowerCase() !== "init") cliExecute("backupcamera init");
     } else {
       if (get("backupCameraMode").toLowerCase() !== "meat") cliExecute("backupcamera meat");
@@ -293,7 +316,7 @@ export function fixFoldables(outfit: Outfit) {
     !outfit.modes["retrocape"]
   ) {
     if (
-      (outfit.modifier?.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
+      (modifier.includes("res") && get("retroCapeSuperhero") !== "vampire") ||
       get("retroCapeWashingInstructions") !== "hold"
     ) {
       cliExecute("retrocape vampire hold");
@@ -302,17 +325,15 @@ export function fixFoldables(outfit: Outfit) {
 
   // Libram outfit cache may not autofold parka, so we need to
   if (equippedAmount($item`Jurassic Parka`) > 0 && !outfit.modes["parka"]) {
-    if (outfit.modifier?.includes("cold res")) {
+    if (modifier.includes("cold res")) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
-    } else if (outfit.modifier?.includes("stench res")) {
+    } else if (modifier.includes("stench res")) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
-    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    } else if (modifier.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
     } else if (
-      outfit.modifier?.includes("-combat") ||
-      (outfit.modifier?.includes("init") &&
-        !outfit.modifier.match("-[\\d .]*init") &&
-        !outfit.modifier.match("combat"))
+      modifier.includes("-combat") ||
+      (modifier.includes("init") && !modifier.match("-[\\d .]*init") && !modifier.match("combat"))
     ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
     } else {
@@ -324,7 +345,7 @@ export function fixFoldables(outfit: Outfit) {
 
 const weaponHands = (i?: Item) => (i ? mafiaWeaponHands(i) : 0);
 
-export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOptions>) {
+export function cacheDress(outfit: Outfit) {
   const currentEquipScore = cacheScore(outfit.equips);
 
   const outfits: { name: string; score: number }[] = [0, 1, 2, 3, 4, 5]
@@ -347,7 +368,7 @@ export function cacheDress(outfit: Outfit, extraOptions?: Partial<MaximizeOption
     equip($item`none`, $slot`weapon`);
   }
 
-  outfit.dress(extraOptions);
+  outfit.dress();
 }
 
 const nonAccSlots = $slots`hat, weapon, off-hand, back, shirt, pants`;
@@ -455,9 +476,7 @@ export class ElementalPlanner {
 }
 
 export const coldPlanner = new ElementalPlanner([
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Hot Soupy Garbage`, value: 2 },
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Double Hot Soupy Garbage`, value: 2 },
   { thing: $skill`Nanofur`, value: 3 },
   { thing: $skill`Microweave`, value: 2 },
@@ -477,9 +496,7 @@ export const coldPlanner = new ElementalPlanner([
 ]);
 
 export const stenchPlanner = new ElementalPlanner([
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Shivering Spine`, value: 2 },
-  // eslint-disable-next-line libram/verify-constants
   { thing: $effect`Doubly Shivering Spine`, value: 4 },
   { thing: $skill`Conifer Polymers`, value: 3 },
   { thing: $skill`Clammy Microcilia`, value: 2 },
@@ -497,3 +514,9 @@ export const stenchPlanner = new ElementalPlanner([
     modes: { parka: "dilophosaur" },
   },
 ]);
+
+export function getModifiersFrom(outfit: OutfitSpec | Outfit | undefined): string {
+  if (!outfit?.modifier) return "";
+  if (Array.isArray(outfit.modifier)) return outfit.modifier.join(",");
+  return outfit.modifier;
+}

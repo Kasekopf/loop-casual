@@ -26,8 +26,7 @@ export const routing: string[] = [
   // "Absorb/Ponzi Apparatus", // Get +meat early, we'll want a lot
 
   // Get initial -combat
-  "Knob/King",
-  "Absorb/Phase Shift",
+  "Knob/Start",
   "McLargeHuge/Trapper Request", // open for absorbing
   // "Absorb/Fluid Dynamics Simulation",
   "Misc/Retune Moon",
@@ -42,6 +41,10 @@ export const routing: string[] = [
   "Absorb/Photonic Shroud",
   // Grind tasks until level 11
   "Mosquito/Burn Delay",
+  "Hidden City/Forest Coin", // First to get meat
+  "Hidden City/Forest Map",
+  "Hidden City/Forest Fertilizer",
+  "Hidden City/Forest Sapling", // Last to sell bar skins
   "Hidden City/Open Temple",
 
   // Get +item
@@ -81,7 +84,6 @@ export const routing: string[] = [
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
   "Crypt/Cranny",
-  "Manor/Finish Floor2",
   "Mosquito/Finish",
 
   // The following 3 tasks should always stay in this order
@@ -104,10 +106,12 @@ export const routing: string[] = [
 
   "Orc Chasm/Start Peaks",
   "Orc Chasm/Finish",
+  "Keys/Star Key", // Allow for better use of orb
   "War/Boss Hippie",
 
   "Crypt/Finish", // Finish nook late for autumnaton
   "Bat/Finish", // Finish up with last delay
+  "Knob/King",
   "Tower/Naughty Sorceress",
 
   "Misc/Dog Chow", // Eat if there are no other options

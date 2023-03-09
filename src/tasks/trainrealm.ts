@@ -72,7 +72,6 @@ const trainsetEffectsDoubled: Map<TrainsetPiece, Effect> = new Map([
   [TrainsetPiece.BUFF_FOOD_DROP, Effect.get("Doubly Craving Prawns")],
 ]);
 
-// eslint-disable-next-line libram/verify-constants
 const trainset: Item = $item`model train set`;
 
 export function getTrainsetEffect(piece: TrainsetPiece): Effect {
@@ -96,6 +95,10 @@ function getPieceId(piece: TrainsetPiece): number {
 
 export function getTrainsetConfiguration(): TrainsetPiece[] {
   return getProperty("trainsetConfiguration").split(",") as TrainsetPiece[];
+}
+
+export function getTrainsetPosition(): number {
+  return toInt(getProperty("trainsetPosition"));
 }
 
 export function getTrainsetPositionsUntilConfigurable(): number {

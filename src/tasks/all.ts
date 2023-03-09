@@ -17,11 +17,12 @@ import { TowerQuest } from "./level13";
 import { MiscQuest, WandQuest } from "./misc";
 import { PullQuest } from "./pulls";
 import { DigitalQuest, KeysQuest } from "./keys";
-import { AbsorbQuest } from "./absorb";
+import { AbsorbQuest, AdvAbsorbQuest, ReprocessQuest } from "./absorb";
 import { SummonQuest } from "./summons";
 import { Task } from "../engine/task";
 import { getTasks } from "grimoire-kolmafia";
 import { args } from "../args";
+import { myDaycount } from "kolmafia";
 
 export function all_tasks(): Task[] {
   const quests = [
@@ -50,6 +51,11 @@ export function all_tasks(): Task[] {
     AbsorbQuest,
     DigitalQuest,
   ];
+
+  if (myDaycount() > 1) {
+    quests.push(AdvAbsorbQuest, ReprocessQuest);
+  }
+
   const tasks = getTasks(quests);
   for (const task of tasks) {
     if (task.limit.soft) {

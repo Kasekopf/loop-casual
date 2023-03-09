@@ -8,6 +8,7 @@ import {
   getWorkshed,
   haveEffect,
   haveEquipped,
+  historicalPrice,
   Item,
   Location,
   logprint,
@@ -23,6 +24,7 @@ import {
   myMp,
   myPath,
   myTurncount,
+  numericModifier,
   overdrink,
   print,
   printHtml,
@@ -59,10 +61,17 @@ import {
   set,
   uneffect,
 } from "libram";
-import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
+import {
+  Engine as BaseEngine,
+  CombatResources,
+  CombatStrategy,
+  Outfit,
+  undelay,
+} from "grimoire-kolmafia";
 import { CombatActions, MyActionDefaults } from "./combat";
 import {
   cacheDress,
+  canEquipResource,
   equipCharging,
   equipDefaults,
   equipFirst,
@@ -94,6 +103,7 @@ import { summonStrategy } from "../tasks/summons";
 import { pullStrategy } from "../tasks/pulls";
 import { keyStrategy } from "../tasks/keys";
 import { applyEffects } from "./moods";
+import { mayLaunchGooseForStats } from "./strategies";
 
 export const wanderingNCs = new Set<string>([
   "Wooof! Wooooooof!",
@@ -158,7 +168,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const available_tasks = this.tasks.filter((task) => this.available(task));
     this.updatePlan();
 
-    // eslint-disable-next-line eqeqeq
     if (myPath() !== $path`Grey You`) return undefined; // Prism broken
 
     // Teleportitis overrides all
@@ -188,7 +197,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const wanderer = wandererSources.find((source) => source.available() && source.chance() === 1);
     if (wanderer) {
       const possible_locations = available_tasks.filter(
-        (task) => this.hasDelay(task) && this.createOutfit(task).canEquip(wanderer?.equip ?? [])
+        (task) => this.hasDelay(task) && canEquipResource(this.createOutfit(task), wanderer)
       );
       if (possible_locations.length > 0) {
         if (args.debug.verbose) {
@@ -276,14 +285,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     equipInitial(outfit);
     const wanderers = task.wanderer ? [task.wanderer] : [];
     for (const wanderer of wanderers) {
-      if (!outfit.equip(wanderer?.equip ?? []))
+      if (!equipFirst(outfit, [wanderer]))
         throw `Wanderer equipment ${wanderer.equip} conflicts with ${task.name}`;
     }
 
-    if (
-      (typeof task.freeaction === "boolean" && task.freeaction) ||
-      (typeof task.freeaction === "function" && task.freeaction())
-    ) {
+    if (undelay(task.freeaction)) {
       // Prepare only as requested by the task
       return;
     }
@@ -326,6 +332,22 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       );
     }
 
+    let force_charge_goose = false;
+    let goose_weight_in_use = false;
+
+    // Try to use the goose for stats, if we can
+    if (
+      mayLaunchGooseForStats() &&
+      !undelay(task.freeaction) &&
+      task.name !== "Summon/Pygmy Witch Lawyer"
+    ) {
+      if (outfit.equip($familiar`Grey Goose`)) {
+        combat.macro(new Macro().trySkill($skill`Convert Matter to Pomade`), undefined, true);
+        goose_weight_in_use = true;
+        force_charge_goose = true;
+      }
+    }
+
     // Absorb targeted monsters
     const absorb_state = globalStateCache.absorb();
     const absorb_targets = new Set<Monster>();
@@ -336,7 +358,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       for (const monster of absorb_state.remainingReprocess(zone)) absorb_targets.add(monster);
     }
     for (const monster of absorb_targets) {
-      if (absorb_state.isReprocessTarget(monster)) {
+      if (absorb_state.isReprocessTarget(monster) && !goose_weight_in_use) {
         outfit.equip($familiar`Grey Goose`);
         combat.autoattack(new Macro().trySkill($skill`Re-Process Matter`), monster);
         combat.macro(new Macro().trySkill($skill`Re-Process Matter`), monster, true);
@@ -355,7 +377,6 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    let force_charge_goose = false;
     if (wanderers.length === 0) {
       // Set up a banish if needed
 
@@ -464,9 +485,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       // Use an NC forcer if one is available and another task needs it.
       const nc_blacklist = new Set<Location>($locations`The Enormous Greater-Than Sign`);
+      const nc_task_blacklist = new Set<string>(["Summon/Spectral Jellyfish"]);
       if (
         forceNCPossible() &&
         !(task.do instanceof Location && nc_blacklist.has(task.do)) &&
+        !nc_task_blacklist.has(task.name) &&
         !have($effect`Teleportitis`) &&
         !get("_loopgyou_ncforce", false)
       ) {
@@ -476,8 +499,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
               t.ncforce !== undefined &&
               this.available(t) &&
               t.name !== task.name &&
-              ((typeof t.ncforce === "boolean" && t.ncforce) ||
-                (typeof t.ncforce === "function" && t.ncforce()))
+              undelay(t.ncforce)
           ) !== undefined
         ) {
           const ncforcer = equipFirst(outfit, forceNCSources);
@@ -488,14 +510,11 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       }
     }
 
-    if (args.major.chargegoose > familiarWeight($familiar`Grey Goose`)) {
-      // If all the remaining monsters are summonable, then either we are about
-      // to summon one (and so we want to charge the goose during that fight)
-      // or all remaining summons are inaccesible (and so it is time to
-      // overcharge the goose)
-      if (absorb_state.remainingReprocess().length === 0) {
-        force_charge_goose = true;
-      }
+    if (
+      args.major.chargegoose > familiarWeight($familiar`Grey Goose`) &&
+      absorb_state.remainingReprocess().length === 0
+    ) {
+      force_charge_goose = true;
     }
     equipCharging(outfit, force_charge_goose);
 
@@ -519,11 +538,28 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         outfit.equip($item`cursed magnifying glass`);
     }
 
+    // Prefer to charge the goose if we need it for an absorb
+    if (outfit.familiar === $familiar`Grey Goose` && familiarWeight($familiar`Grey Goose`) < 6)
+      outfit.equip($item`grey down vest`);
+
+    // Determine if it is useful to target monsters with an orb (with no predictions).
+    // 1. If task.orbtargets is undefined, then use an orb if there are absorb targets.
+    // 2. If task.orbtargets() is undefined, an orb is detrimental in this zone, do not use it.
+    // 3. Otherwise, use an orb if task.orbtargets() is nonempty, or if there are absorb targets.
+    const orb_targets = task.orbtargets?.();
+    const orb_useful =
+      task.orbtargets === undefined
+        ? absorb_targets.size > 0
+        : orb_targets !== undefined && (orb_targets.length > 0 || absorb_targets.size > 0);
+    if (orb_useful && !outfit.skipDefaults) {
+      outfit.equip($item`miniature crystal ball`);
+    }
+
     equipDefaults(outfit, force_charge_goose);
 
     // Kill wanderers
     for (const wanderer of wanderers) {
-      for (const monster of wanderer.monsters) {
+      for (const monster of undelay(wanderer.monsters)) {
         if (combat.currentStrategy(monster) !== "killHard") {
           combat.action("killHard", monster);
           if (wanderer.action) combat.macro(wanderer.action, monster);
@@ -547,35 +583,26 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   createOutfit(task: Task): Outfit {
-    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    const spec = undelay(task.outfit);
     const outfit = new Outfit();
     if (spec !== undefined) outfit.equip(spec); // no error on failure
     return outfit;
   }
 
   dress(task: ActiveTask, outfit: Outfit): void {
-    try {
-      cacheDress(outfit);
-    } catch {
-      // If we fail to dress, this is maybe just a mafia desync.
-      // So refresh our inventory and try again (once).
-      debug("Possible mafia desync detected; refreshing...");
-      cliExecute("refresh all");
-      // Do not try and cache-dress
-      outfit.dress({ forceUpdate: true });
-    }
+    applyEffects(outfit.modifier.join(","));
+    cacheDress(outfit);
     fixFoldables(outfit);
-    applyEffects(outfit.modifier ?? "");
 
+    const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
     if (args.debug.verboseequip) {
-      const equipped = [...new Set(Slot.all().map((slot) => equippedItem(slot)))];
       print(`Equipped: ${equipped.join(", ")}`);
+    } else {
+      logprint(`Equipped: ${equipped.join(", ")}`);
     }
+    logModifiers(outfit);
 
-    if (
-      (typeof task.freeaction === "boolean" && task.freeaction) ||
-      (typeof task.freeaction === "function" && task.freeaction())
-    ) {
+    if (undelay(task.freeaction)) {
       // Prepare only as requested by the task
       return;
     }
@@ -621,16 +648,18 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     task_combat: CombatStrategy<CombatActions>,
     task_resources: CombatResources<CombatActions>
   ): void {
-    // Always be ready to fight sausage goblins if we equip Kramco
-    if (
-      haveEquipped($item`Kramco Sausage-o-Matic™`) &&
-      task_combat.currentStrategy($monster`sausage goblin`) !== "killHard"
-    ) {
-      task_combat.action("killHard", $monster`sausage goblin`);
-      task_combat.macro(
-        new Macro().trySkill($skill`Emit Matter Duplicating Drones`),
-        $monster`sausage goblin`
-      );
+    // Always be ready to fight possible wanderers, even if we didn't equip
+    // things on purpose, e.g. if we equip Kramco for +item.
+    for (const wanderer of wandererSources) {
+      if (wanderer.possible()) {
+        for (const monster of undelay(wanderer.monsters)) {
+          if (task_combat.currentStrategy(monster) !== "killHard") {
+            task_combat.action("killHard", monster);
+            if (wanderer.action) task_combat.macro(wanderer.action, monster);
+          }
+        }
+        wanderer.prepare?.();
+      }
     }
 
     super.setCombat(task, task_combat, task_resources);
@@ -643,7 +672,12 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
     const reprocess_targets = get("gooseReprocessed");
     const spikelodon_spikes = get("_spikolodonSpikeUses");
 
-    set("_loopgyou_ncforce", false);
+    // The NC force is not reset by wanderers
+    if (
+      !task.active_priority?.has(Priorities.Wanderer) &&
+      !task.active_priority?.has(Priorities.Always)
+    )
+      set("_loopgyou_ncforce", false);
 
     super.do(task);
     if (myAdventures() !== start_advs) getExtros();
@@ -751,7 +785,6 @@ const consumables_blacklist = new Set<Item>(
   $items`wet stew, wet stunt nut stew, stunt nuts, astral pilsner, astral hot dog dinner, giant marshmallow, booze-soaked cherry, sponge cake, gin-soaked blotter paper, steel margarita, bottle of Chateau de Vinegar, Bowl of Scorpions, unnamed cocktail, Flamin' Whatshisname, goat cheese, Extrovermectin™, blueberry muffin, bran muffin, chocolate chip muffin, Schrödinger's thermos, quantum taco, pirate fork, everfull glass, [glitch season reward name], Affirmation Cookie, boxed wine, piscatini, grapefruit, drive-by shooting`
 );
 function autosellJunk(): void {
-  // eslint-disable-next-line eqeqeq
   if (myPath() !== $path`Grey You`) return; // final safety
   if (myMeat() >= 10000) return;
   if (myTurncount() >= 1000) return; // stop after breaking ronin
@@ -778,7 +811,14 @@ function autosellJunk(): void {
   // Sell extra consumables (after 1 has been absorbed)
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
-    if (consumables_blacklist.has(item)) continue;
+    if (
+      consumables_blacklist.has(item) ||
+      historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) ||
+      !item.tradeable ||
+      item.quest ||
+      item.gift
+    )
+      continue;
     if (autosellPrice(item) === 0) continue;
     if (item.inebriety > 0 || item.fullness > 0 || item.spleen > 0) {
       autosell(item, itemAmount(item));
@@ -787,7 +827,6 @@ function autosellJunk(): void {
 }
 
 function absorbConsumables(): void {
-  // eslint-disable-next-line eqeqeq
   if (myPath() !== $path`Grey You`) return; // final safety
   if (myTurncount() >= 1000) return; // stop after breaking ronin
 
@@ -797,7 +836,14 @@ function absorbConsumables(): void {
   for (const item_name in getInventory()) {
     const item = Item.get(item_name);
     const item_id = `${toInt(item)}`;
-    if (consumables_blacklist.has(item)) continue;
+    if (
+      consumables_blacklist.has(item) ||
+      historicalPrice(item) > Math.max(5000, autosellPrice(item) * 2) ||
+      !item.tradeable ||
+      item.quest ||
+      item.gift
+    )
+      continue;
     if (item.inebriety > 0 && !absorbed.has(item_id)) {
       overdrink(item);
       absorbed_list += absorbed_list.length > 0 ? `,${item_id}` : item_id;
@@ -874,4 +920,31 @@ function ensureRecovery(property: string, items: string[], avoid: string[]): str
     }
   }
   return recovery_property.filter((v) => !avoid.includes(v)).join(";");
+}
+
+const modifierNames: { [name: string]: string } = {
+  combat: "Combat Rate",
+  item: "Item Drop",
+  meat: "Meat Drop",
+  ml: "Monster Level",
+  "stench res": "Stench Resistance",
+  "hot res": "Hot Resistance",
+  "cold res": "Cold Resistance",
+  "spooky res": "Spooky Resistance",
+  "sleaze res": "Sleaze Resistance",
+  init: "Initiative",
+  "booze drop": "Booze Drop",
+  "food drop": "Food Drop",
+  da: "Damage Absorption",
+};
+
+function logModifiers(outfit: Outfit) {
+  const maximizer = outfit.modifier.join(",").toLowerCase();
+  for (const modifier of Object.keys(modifierNames)) {
+    if (maximizer.includes(modifier)) {
+      const name = modifierNames[modifier];
+      const value = numericModifier(modifierNames[modifier]);
+      logprint(`= ${name}: ${value}`);
+    }
+  }
 }

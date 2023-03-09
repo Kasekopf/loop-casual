@@ -1,5 +1,5 @@
 import { visitUrl } from "kolmafia";
-import { $location } from "libram";
+import { $item, $location, get, have } from "libram";
 import { atLevel } from "../lib";
 import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
@@ -22,6 +22,10 @@ export const MosquitoQuest: Quest = {
     {
       name: "Burn Delay",
       after: ["Start"],
+      ready: () =>
+        !have($item`protonic accelerator pack`) ||
+        get("questPAGhost") === "unstarted" ||
+        get("ghostLocation") !== $location`The Spooky Forest`,
       completed: () => $location`The Spooky Forest`.turnsSpent >= 5 || step("questL02Larva") >= 1,
       do: $location`The Spooky Forest`,
       choices: { 502: 2, 505: 1, 334: 1 },

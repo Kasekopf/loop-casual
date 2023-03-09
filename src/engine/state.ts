@@ -1,7 +1,8 @@
-import { Location, Monster, toLocation, toMonster, visitUrl } from "kolmafia";
+import { Location, Monster, print, toLocation, toMonster, visitUrl } from "kolmafia";
 import { get } from "libram";
 import { BanishState } from "./resources";
 import { AbsorbState } from "../tasks/absorb";
+import { args } from "../args";
 
 class GameState {
   private _banishes?: BanishState;
@@ -40,7 +41,11 @@ class OrbState {
   predictions: Map<Location, Monster>;
 
   constructor() {
+    const initialPrediction = get("crystalBallPredictions");
     visitUrl("inventory.php?ponder=1", false);
+    if (get("crystalBallPredictions") !== initialPrediction && args.debug.verbose) {
+      print(`Verbose: Tracking misalignment on orb.`);
+    }
     this.predictions = new Map(
       get("crystalBallPredictions")
         .split("|")

@@ -1,10 +1,12 @@
 import {
+  adv1,
   changeMcd,
   cliExecute,
   currentMcd,
   Item,
   myBasestat,
   myTurncount,
+  toUrl,
   visitUrl,
 } from "kolmafia";
 import {
@@ -58,9 +60,7 @@ const Alcove: Task[] = [
     prepare: tuneCape,
     ready: () =>
       // Reprocess the grave rober, then wait for the +init skill
-      (globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) ||
-        have($skill`Overclocking`) ||
-        !!(get("twinPeakProgress") & 8)) &&
+      (have($skill`Overclocking`) || !!(get("twinPeakProgress") & 8)) &&
       myBasestat($stat`Muscle`) >= 62,
     completed: () => get("cyrptAlcoveEvilness") <= 13,
     do: $location`The Defiled Alcove`,
@@ -70,19 +70,6 @@ const Alcove: Task[] = [
       }
     },
     outfit: (): OutfitSpec => {
-      if (
-        globalStateCache.absorb().hasReprocessTargets($location`The Defiled Alcove`) &&
-        globalStateCache.orb().prediction($location`The Defiled Alcove`) ===
-          $monster`grave rober zmobie`
-      ) {
-        // Try not to fight modern zmobie
-        return {
-          equip: tryCape($item`antique machete`, $item`gravy boat`),
-          famequip: $item`miniature crystal ball`,
-          modifier: "-init",
-          avoid: $items`carnivorous potted plant`,
-        };
-      }
       return {
         equip: tryCape($item`antique machete`, $item`gravy boat`),
         modifier: "init 850max",
@@ -124,8 +111,14 @@ const Cranny: Task[] = [
     do: $location`The Defiled Cranny`,
     outfit: (): OutfitSpec => {
       return {
-        equip: tryCape($item`antique machete`, $item`gravy boat`, $item`old patched suit-pants`),
+        equip: tryCape(
+          $item`antique machete`,
+          $item`gravy boat`,
+          $item`old patched suit-pants`,
+          $item`unbreakable umbrella`
+        ),
         modifier: "-combat, ML",
+        modes: { umbrella: "cocoon" },
       };
     },
     choices: { 523: 4 },
@@ -287,11 +280,15 @@ export const CryptQuest: Quest = {
       name: "Bonerdagon",
       after: ["Start", "Alcove Boss", "Cranny Boss", "Niche Boss", "Nook Boss"],
       completed: () => step("questL07Cyrptic") >= 1,
-      do: $location`Haert of the Cyrpt`,
+      do: () => {
+        adv1($location`Haert of the Cyrpt`, -1, "");
+        if (get("lastEncounter") !== "The Bonerdagon")
+          visitUrl(toUrl($location`The Defiled Cranny`));
+      },
       choices: { 527: 1 },
       combat: new CombatStrategy().killHard(),
       boss: true,
-      limit: { tries: 1 },
+      limit: { tries: 2 },
     },
     {
       name: "Finish",

@@ -2,6 +2,7 @@ import {
   availableAmount,
   cliExecute,
   create,
+  effectModifier,
   equippedAmount,
   Item,
   itemAmount,
@@ -432,13 +433,16 @@ const Orchard: Task[] = [
 const Nuns: Task[] = [
   {
     name: "Nuns",
-    after: ["Open Nuns"],
+    after: ["Open Nuns", "Absorb/Ponzi Apparatus"],
     completed: () => get("sidequestNunsCompleted") !== "none" || warSkip(),
     priority: () => (have($effect`Winklered`) ? Priorities.Effect : Priorities.None),
     prepare: () => {
       if (have($item`SongBoom™ BoomBox`) && get("boomBoxSong") !== "Total Eclipse of Your Meat")
         cliExecute("boombox meat");
       if (!get("concertVisited")) ensureEffect($effect`Winklered`);
+      $items`flapper fly, autumn dollar, pink candy heart`
+        .filter((i) => have(i, 2) && !have(effectModifier(i, "Effect")))
+        .forEach((i) => use(i));
     },
     do: $location`The Themthar Hills`,
     outfit: () => {
@@ -528,7 +532,7 @@ export const WarQuest: Quest = {
     {
       name: "Enrage",
       after: ["Start", "Misc/Unlock Island", "Misc/Unlock Island Submarine", "Outfit Frat"],
-      ready: warReady,
+      ready: () => warReady() && myBasestat($stat`mysticality`) >= 70,
       completed: () => step("questL12War") >= 1,
       prepare: () => {
         // Restore a bit more HP than usual
@@ -542,7 +546,7 @@ export const WarQuest: Quest = {
         },
       combat: new CombatStrategy().macro(Macro.trySkill($skill`Extract Jelly`)),
       do: $location`Wartime Hippy Camp (Frat Disguise)`,
-      choices: { 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
+      choices: { 139: 3, 140: 3, 141: 3, 142: 3, 143: 3, 144: 3, 145: 1, 146: 3, 1433: 3 },
       limit: { soft: 20 },
     },
     ...Flyers,

@@ -350,6 +350,7 @@ export const DigitalQuest: Quest = {
       name: "Open",
       after: ["Mosquito/Start"],
       completed: () => have($item`continuum transfunctioner`),
+      priority: () => Priorities.Free,
       do: () => {
         visitUrl("place.php?whichplace=forestvillage&action=fv_mystic");
         runChoice(1);
@@ -364,7 +365,6 @@ export const DigitalQuest: Quest = {
       after: ["Open"],
       completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "red" && myBasestat($stat`Moxie`) >= 200,
-      // eslint-disable-next-line libram/verify-constants
       do: $location`The Fungus Plains`,
       outfit: { modifier: "meat", equip: $items`continuum transfunctioner` },
       combat: new CombatStrategy().kill(),
@@ -388,9 +388,12 @@ export const DigitalQuest: Quest = {
       ready: () =>
         (get("8BitColor", "black") === "black" || get("8BitColor", "black") === "") &&
         myBasestat($stat`Moxie`) >= 220,
-      // eslint-disable-next-line libram/verify-constants
       do: $location`Vanya's Castle`,
-      outfit: { modifier: "init", equip: $items`continuum transfunctioner` },
+      outfit: {
+        modifier: "init",
+        equip: $items`continuum transfunctioner, backup camera`,
+        modes: { backupcamera: "init" },
+      },
       combat: new CombatStrategy().kill(),
       limit: { soft: 16 },
       delay: 16,
@@ -406,7 +409,6 @@ export const DigitalQuest: Quest = {
         }
       },
       ready: () => get("8BitColor", "black") === "blue" && myBasestat($stat`Moxie`) >= 200,
-      // eslint-disable-next-line libram/verify-constants
       do: $location`Megalo-City`,
       outfit: () => {
         if (have($item`Greatest American Pants`) && get("_gapBuffs") < 4)
@@ -425,7 +427,6 @@ export const DigitalQuest: Quest = {
       after: ["Open"],
       completed: () => getScore() >= 10000,
       ready: () => get("8BitColor", "black") === "green" && myBasestat($stat`Mysticality`) >= 200,
-      // eslint-disable-next-line libram/verify-constants
       do: $location`Hero's Field`,
       post: () => {
         if (haveFlorest() && FloristFriar.Rutabeggar.available()) {

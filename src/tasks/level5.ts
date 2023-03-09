@@ -19,6 +19,7 @@ import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { councilSafe } from "./level12";
 import { globalStateCache } from "../engine/state";
+import { summonStrategy } from "./summons";
 
 export const KnobQuest: Quest = {
   name: "Knob",
@@ -39,6 +40,7 @@ export const KnobQuest: Quest = {
     {
       name: "Outskirts",
       after: [],
+      priority: prioritizeJellyfish,
       completed: () => have($item`Knob Goblin encryption key`) || step("questL05Goblin") > 0,
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
@@ -48,6 +50,7 @@ export const KnobQuest: Quest = {
     {
       name: "Open Knob",
       after: ["Start", "Outskirts"],
+      priority: () => Priorities.Free,
       completed: () => step("questL05Goblin") >= 1,
       do: () => use($item`Cobb's Knob map`),
       limit: { tries: 1 },
@@ -56,6 +59,7 @@ export const KnobQuest: Quest = {
     {
       name: "Harem",
       after: ["Open Knob"],
+      priority: prioritizeJellyfish,
       completed: () => have($item`Knob Goblin harem veil`) && have($item`Knob Goblin harem pants`),
       do: $location`Cobb's Knob Harem`,
       outfit: (): OutfitSpec => {
@@ -104,6 +108,7 @@ export const KnobQuest: Quest = {
     {
       name: "Perfume",
       after: ["Harem"],
+      priority: prioritizeJellyfish,
       completed: () =>
         have($effect`Knob Goblin Perfume`) ||
         have($item`Knob Goblin perfume`) ||
@@ -115,7 +120,8 @@ export const KnobQuest: Quest = {
     {
       name: "King",
       after: ["Harem", "Perfume"],
-      priority: () => (have($effect`Knob Goblin Perfume`) ? Priorities.Effect : Priorities.None),
+      priority: () =>
+        have($effect`Knob Goblin Perfume`) ? Priorities.Effect : prioritizeJellyfish(),
       completed: () => step("questL05Goblin") === 999,
       do: $location`Throne Room`,
       combat: new CombatStrategy().killHard($monster`Knob Goblin King`),
@@ -130,6 +136,7 @@ export const KnobQuest: Quest = {
     {
       name: "Open Menagerie",
       after: ["King"],
+      priority: prioritizeJellyfish,
       completed: () => have($item`Cobb's Knob Menagerie key`),
       ready: () => !have($skill`Phase Shift`),
       do: $location`Cobb's Knob Laboratory`,
@@ -138,3 +145,12 @@ export const KnobQuest: Quest = {
     },
   ],
 };
+
+export function prioritizeJellyfish() {
+  // Get the Spectral Jellyfish manually if we cannot summon it
+  if (!summonStrategy.getSourceFor($monster`Spectral Jellyfish`) && !have($skill`Phase Shift`)) {
+    return Priorities.SeekJellyfish;
+  } else {
+    return Priorities.None;
+  }
+}

@@ -6,6 +6,7 @@ import {
   equippedAmount,
   Familiar,
   familiarWeight,
+  getCampground,
   getWorkshed,
   gnomadsAvailable,
   haveEquipped,
@@ -50,6 +51,7 @@ import {
   get,
   getSaleValue,
   have,
+  haveInCampground,
   Macro,
   Robortender,
   set,
@@ -66,6 +68,7 @@ import { globalStateCache } from "../engine/state";
 import { coldPlanner, yellowSubmarinePossible } from "../engine/outfit";
 import {
   getTrainsetConfiguration,
+  getTrainsetPosition,
   getTrainsetPositionsUntilConfigurable,
   setTrainsetConfiguration,
   TrainsetPiece,
@@ -84,6 +87,7 @@ export const MiscQuest: Quest = {
         if (knollAvailable()) cliExecute("acquire 1 bitchin' meatcar");
         else cliExecute("acquire 1 desert bus pass");
       },
+      outfit: { equip: $items`designer sweatpants` },
       limit: { tries: 1 },
       freeaction: true,
     },
@@ -175,7 +179,11 @@ export const MiscQuest: Quest = {
       name: "Voting",
       after: [],
       priority: () => Priorities.Free,
-      completed: () => have($item`"I Voted!" sticker`) || get("_voteToday") || !get("voteAlways"),
+      completed: () =>
+        !args.minor.voterbooth ||
+        have($item`"I Voted!" sticker`) ||
+        get("_voteToday") ||
+        !get("voteAlways"),
       do: (): void => {
         // Taken from garbo
         const voterValueTable = [
@@ -251,7 +259,12 @@ export const MiscQuest: Quest = {
       name: "Protonic Ghost",
       after: [],
       completed: () => false,
-      priority: () => Priorities.Always,
+      priority: () => {
+        if (!get("lovebugsUnlocked") && have($item`designer sweatpants`) && get("sweat") < 5) {
+          // Wait for more sweat, if possible
+          return Priorities.BadSweat;
+        } else return Priorities.Always;
+      },
       ready: () => {
         if (!have($item`protonic accelerator pack`)) return false;
         if (get("questPAGhost") === "unstarted") return false;
@@ -333,10 +346,21 @@ export const MiscQuest: Quest = {
       outfit: (): OutfitSpec | Outfit => {
         if (get("ghostLocation") === $location`Inside the Palindome`)
           return {
-            equip: $items`Talisman o' Namsilat, protonic accelerator pack`,
+            equip: $items`Talisman o' Namsilat, protonic accelerator pack, designer sweatpants`,
             modifier: "DA, DR",
           };
         if (get("ghostLocation") === $location`The Icy Peak`) {
+          if (
+            !get("lovebugsUnlocked") &&
+            have($item`designer sweatpants`) &&
+            get("sweat") >= 5 &&
+            coldPlanner.maximumPossible(true, $slots`back, pants`) >= 5
+          ) {
+            return coldPlanner.outfitFor(5, {
+              equip: $items`protonic accelerator pack, designer sweatpants`,
+              modifier: "DA, DR",
+            });
+          }
           if (coldPlanner.maximumPossible(true, $slots`back`) >= 5)
             return coldPlanner.outfitFor(5, {
               equip: $items`protonic accelerator pack`,
@@ -344,7 +368,10 @@ export const MiscQuest: Quest = {
             });
           else return coldPlanner.outfitFor(5, { modifier: "DA, DR" }); // not enough cold res without back
         }
-        return { equip: $items`protonic accelerator pack`, modifier: "DA, DR" };
+        return {
+          equip: $items`protonic accelerator pack, designer sweatpants`,
+          modifier: "DA, DR",
+        };
       },
       combat: new CombatStrategy().macro(() => {
         if (get("lovebugsUnlocked")) {
@@ -560,7 +587,9 @@ export const MiscQuest: Quest = {
     {
       name: "Gnome Shirt",
       after: [],
-      ready: () => myMeat() >= 11000 && gnomadsAvailable(),
+      ready: () =>
+        (myMeat() >= 11000 || (myMeat() >= 6000 && getWorkshed() === $item`model train set`)) &&
+        gnomadsAvailable(),
       completed: () => have($skill`Torso Awareness`),
       priority: () => Priorities.Free,
       freeaction: true,
@@ -587,9 +616,10 @@ export const MiscQuest: Quest = {
       ready: () =>
         knollAvailable() &&
         (mySign() !== "Vole" ||
-          (myMaxmp() - numericModifier("Maximum MP") >= 50 &&
+          ((myMaxmp() - numericModifier("Maximum MP") >= 50 ||
+            (myMaxmp() - numericModifier("Maximum MP") >= 40 && have($item`birch battery`))) &&
             myMaxhp() - numericModifier("Maximum HP") >= 40 &&
-            myMeat() >= 11000)),
+            myMeat() >= 6000)),
       completed: () =>
         !have($item`hewn moon-rune spoon`) ||
         args.major.tune === undefined ||
@@ -837,7 +867,6 @@ export const MiscQuest: Quest = {
       after: [],
       priority: () => Priorities.Free,
       ready: () =>
-        // eslint-disable-next-line libram/verify-constants
         getWorkshed() === $item`model train set` && getTrainsetPositionsUntilConfigurable() === 0,
       completed: () => {
         const config = getTrainsetConfiguration();
@@ -851,26 +880,79 @@ export const MiscQuest: Quest = {
       },
       do: () => {
         const config: TrainsetPiece[] = [];
+        // 1 piece
         config.push(TrainsetPiece.DOUBLE_NEXT_STATION);
-        if (have($item`designer sweatpants`)) {
-          config.push(TrainsetPiece.GAIN_MEAT);
+        // 1-2 pieces
+        if (!have($item`designer sweatpants`)) {
           config.push(TrainsetPiece.EFFECT_MP);
-        } else {
-          config.push(TrainsetPiece.EFFECT_MP);
-          config.push(TrainsetPiece.GAIN_MEAT);
         }
-
+        // 1-3 pieces
+        if (step("questL09Topping") < 1 && getTrainsetPosition() >= 30) {
+          config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
+        }
+        // 2-4 pieces
+        config.push(TrainsetPiece.GAIN_MEAT);
+        // 3-4 pieces
+        if (!config.includes(TrainsetPiece.EFFECT_MP)) {
+          config.push(TrainsetPiece.EFFECT_MP);
+        }
+        // 3-4 pieces
+        if (step("questL09Topping") < 1 && !config.includes(TrainsetPiece.SMUT_BRIDGE_OR_STATS)) {
+          config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
+        }
+        // 3-5 pieces
         if (!haveOre()) config.push(TrainsetPiece.ORE);
-        if (step("questL09Topping") < 1) config.push(TrainsetPiece.SMUT_BRIDGE_OR_STATS);
-
+        // 4-6 pieces
         config.push(TrainsetPiece.HOT_RES_COLD_DMG);
+        // 5-7 pieces
         config.push(TrainsetPiece.STENCH_RES_SPOOKY_DMG);
+        // 6-8 pieces
         config.push(TrainsetPiece.RANDOM_BOOZE);
+        // 7-8 pieces
         if (config.length < 8) config.push(TrainsetPiece.DROP_LAST_FOOD_OR_RANDOM);
+        // 8 pieces
         if (config.length < 8) config.push(TrainsetPiece.CANDY);
         setTrainsetConfiguration(config);
       },
       limit: { tries: 3 },
+      freeaction: true,
+    },
+    {
+      name: "Harvest Chateau",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => get("chateauAvailable"),
+      completed: () => get("_chateauDeskHarvested"),
+      do: (): void => {
+        visitUrl("place.php?whichplace=chateau&action=chateau_desk2");
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Learn About Bugs",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => have($item`S.I.T. Course Completion Certificate`),
+      completed: () => get("_sitCourseCompleted", true) || have($skill`Insectologist`),
+      do: () => use($item`S.I.T. Course Completion Certificate`),
+      choices: { [1494]: 2 },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+    {
+      name: "Harvest Rock Garden",
+      after: [],
+      priority: () => Priorities.Free,
+      ready: () => haveInCampground($item`packet of rock seeds`),
+      completed: () =>
+        !haveInCampground($item`milestone`) || getCampground()[$item`milestone`.name] < 1,
+      do: () => {
+        visitUrl("campground.php?action=rgarden1&pwd");
+        visitUrl("campground.php?action=rgarden2&pwd");
+        visitUrl("campground.php?action=rgarden3&pwd");
+      },
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],
@@ -1164,17 +1246,9 @@ function willWorkshedSwap() {
 }
 
 export function trainSetAvailable() {
-  // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`model train set`) return true;
-  // eslint-disable-next-line libram/verify-constants
   if (!have($item`model train set`)) return false;
-  // eslint-disable-next-line libram/verify-constants
   if (getWorkshed() === $item`none` && args.major.workshed === $item`model train set`) return true;
-  if (
-    // eslint-disable-next-line libram/verify-constants
-    args.major.swapworkshed === $item`model train set` &&
-    willWorkshedSwap()
-  )
-    return true;
+  if (args.major.swapworkshed === $item`model train set` && willWorkshedSwap()) return true;
   return false;
 }

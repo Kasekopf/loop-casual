@@ -30,7 +30,7 @@ const time_property = "_loop_gyou_first_start";
 const svn_name = "Kasekopf-loop-casual-branches-release";
 
 export function main(command?: string): void {
-  sinceKolmafiaRevision(27108);
+  sinceKolmafiaRevision(27199);
 
   Args.fill(args, command);
   if (args.debug.settings) {
@@ -58,8 +58,7 @@ export function main(command?: string): void {
   printVersionInfo();
   if (args.version) return;
 
-  // eslint-disable-next-line eqeqeq
-  if (myPath() !== $path`Grey You`)
+  if (myPath() !== $path`Grey You` && !args.debug.list)
     throw `You are not currently in a Grey You run. Please start one.`;
 
   // Break the prism and exit if requested
@@ -95,7 +94,7 @@ export function main(command?: string): void {
 
     const remaining_tasks = tasks.filter((task) => !task.completed());
     if (!runComplete()) {
-      if (args.debug.actions) {
+      if (args.debug.actions !== undefined) {
         const next = engine.getNextTask();
         if (next) {
           debug(`Next task: ${next.name}`);
@@ -154,7 +153,6 @@ export function main(command?: string): void {
 function runComplete(): boolean {
   return (
     step("questL13Final") > 11 ||
-    // eslint-disable-next-line eqeqeq
     myPath() !== $path`Grey You` ||
     (args.major.delaytower && myTurncount() < 1000 && step("questL13Final") !== -1) ||
     (args.major.delaywar &&

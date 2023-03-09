@@ -2,6 +2,7 @@ import {
   changeMcd,
   council,
   currentMcd,
+  getWorkshed,
   Item,
   itemAmount,
   myBasestat,
@@ -40,7 +41,6 @@ import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { fillHp } from "./level13";
 import { stenchPlanner } from "../engine/outfit";
-import { trainSetAvailable } from "./misc";
 
 const ABoo: Task[] = [
   {
@@ -317,12 +317,12 @@ export const ChasmQuest: Quest = {
       name: "Bridge",
       after: ["Start", "Macguffin/Forest"], // Wait for black paint
       priority: (): Priority => {
+        if (getWorkshed() === $item`model train set`) {
+          return Priorities.BadTrain;
+        }
         if (AutumnAton.have()) {
           if ($location`The Smut Orc Logging Camp`.turnsSpent === 0)
             return Priorities.GoodAutumnaton;
-        }
-        if (trainSetAvailable()) {
-          return Priorities.BadTrain;
         }
         return Priorities.None;
       },

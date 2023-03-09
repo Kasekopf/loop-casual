@@ -13,7 +13,9 @@ import {
   Location,
   Monster,
   myAscensions,
+  myDaycount,
   numericModifier,
+  print,
   putCloset,
   runChoice,
   Skill,
@@ -33,6 +35,7 @@ import {
   $skill,
   $skills,
   $slot,
+  CombatLoversLocket,
   ensureEffect,
   get,
   getBanishedMonsters,
@@ -49,6 +52,7 @@ import { Quest, Task } from "../engine/task";
 import { Limit, step } from "grimoire-kolmafia";
 import { args } from "../args";
 import { coldPlanner, stenchPlanner } from "../engine/outfit";
+import { prioritizeJellyfish } from "./level5";
 
 // Add a shorthand for expressing absorption-only tasks; there are a lot.
 interface AbsorbTask extends Omit<Task, "name" | "limit" | "completed"> {
@@ -144,6 +148,7 @@ const absorbTasks: AbsorbTask[] = [
   {
     do: $location`Cobb's Knob Menagerie, Level 3`,
     after: ["Knob/Open Menagerie"],
+    priority: prioritizeJellyfish,
     skill: $skill`Phase Shift`,
     effects: () => (get("greyYouPoints") < 11 ? $effects`Butt-Rock Hair` : []),
     outfit: () => {
@@ -404,7 +409,12 @@ const absorbTasks: AbsorbTask[] = [
     do: $location`The Haunted Conservatory`,
     after: ["Manor/Start"],
     choices: { 899: 2 },
+    ready: () =>
+      atLevel(12) ||
+      !CombatLoversLocket.have() ||
+      !CombatLoversLocket.availableLocketMonsters().includes($monster`anglerbush`), // For now, get this manually if we get far without it
     skill: $skill`Ponzi Apparatus`,
+    outfit: { equip: $items`miniature crystal ball, combat lover's locket` },
   },
   {
     do: $location`The Haunted Kitchen`,
@@ -846,6 +856,20 @@ export class AbsorbState {
         this.advAbsorbed += reprocessTargets.get(monster) ?? 0;
       });
 
+    // Use _greyYouAdventures on later days
+    if (myDaycount() === 1) {
+      if (this.advAbsorbed !== get("_greyYouAdventures", 0) && args.debug.verbose) {
+        print(
+          `Verbose: Tracking misalignment on absorb: ${this.advAbsorbed} != ${get(
+            "_greyYouAdventures",
+            0
+          )}.`
+        );
+      }
+    } else {
+      this.advAbsorbed = get("_greyYouAdventures", this.advAbsorbed);
+    }
+
     // Ignore unneeded skills for the run
     // Some of them might be re-added by forced_skills
     const ignored_skills = new Set<Skill>([
@@ -979,6 +1003,10 @@ export class AbsorbState {
     return this.remainingAbsorbs(location).length > 0;
   }
 
+  public remainingAdventures(location: Location): number {
+    return this.remainingAbsorbs(location).reduce((a, b) => a + (reprocessTargets.get(b) ?? 0), 0);
+  }
+
   public hasReprocessTargets(location: Location): boolean {
     // Return true if the location has at least one desired unabsorbed monster we desire to reprocess
     return this.remainingReprocess(location).length > 0;
@@ -1039,5 +1067,59 @@ export const AbsorbQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
+  ],
+};
+
+// Only used on day 2+
+export const ReprocessQuest: Quest = {
+  name: "Reprocess",
+  tasks: [
+    // Construct a full Task from each minimally-specified AbsorbTask.
+    ...absorbTasks.map((task): Task => {
+      const result = {
+        name: task.do.toString(),
+        completed: () => !globalStateCache.absorb().hasReprocessTargets(task.do),
+        ...task,
+        after: [...(task.after ?? []), `AdvAbsorb/${task.do.toString()}`],
+        ready: () =>
+          (task.ready === undefined || task.ready()) && familiarWeight($familiar`Grey Goose`) >= 6,
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
+        limit: { soft: 25 },
+      };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
+    }),
+    {
+      // Add a last task for routing
+      name: "All",
+      after: absorbTasks.map((task) => task.do.toString()),
+      ready: () => false,
+      completed: () => true,
+      do: (): void => {
+        throw "Unable to reprocess all target monsters";
+      },
+      limit: { tries: 1 },
+      freeaction: true,
+    },
+  ],
+};
+
+// Only used on day 2+
+export const AdvAbsorbQuest: Quest = {
+  name: "AdvAbsorb",
+  tasks: [
+    // Construct a full Task from each minimally-specified AbsorbTask.
+    ...absorbTasks.map((task): Task => {
+      const result = {
+        name: task.do.toString(),
+        completed: () => globalStateCache.absorb().remainingAdventures(task.do) === 0,
+        ...task,
+        after: task.skill ? [...(task.after ?? []), `Absorb/${task.skill.name}`] : task.after,
+        combat: (task.combat ?? new CombatStrategy()).ignoreSoftBanish(), // killing targetting monsters is set in the engine
+        limit: { soft: 25 },
+      };
+      if (result.outfit === undefined) result.outfit = { equip: $items`miniature crystal ball` };
+      return result;
+    }),
   ],
 };

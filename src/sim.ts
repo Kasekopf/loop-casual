@@ -181,7 +181,6 @@ function buildIotmList(): Requirement[] {
     },
     {
       thing: new Hardcoded(
-        // eslint-disable-next-line libram/verify-constants
         have($item`model train set`) || getWorkshed() === $item`model train set`,
         "Cold medicine cabinet"
       ),
@@ -204,28 +203,18 @@ function buildLocketList(): Requirement[] {
       optional: true,
     },
     {
-      thing: $monster`One-Eyed Willie`,
-      why: "Absorbing adventures",
+      thing: $monster`Spectral Jellyfish`,
+      why: "-Combat skill",
       optional: true,
     },
     {
-      thing: $monster`Little Man in the Canoe`,
-      why: "Absorbing adventures",
+      thing: $monster`anglerbush`,
+      why: "Meat skill",
       optional: true,
     },
     {
-      thing: $monster`revolving bugbear`,
-      why: "Absorbing adventures",
-      optional: true,
-    },
-    {
-      thing: $monster`cloud of disembodied whiskers`,
-      why: "Absorbing adventures",
-      optional: true,
-    },
-    {
-      thing: $monster`vicious gnauga`,
-      why: "Absorbing adventures",
+      thing: $monster`Big Wheelin' Twins`,
+      why: "Init skill",
       optional: true,
     },
   ];

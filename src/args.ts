@@ -4,7 +4,6 @@ import { $item } from "libram";
 
 const worksheds = [
   [$item`none`, "Do nothing"],
-  // eslint-disable-next-line libram/verify-constants
   [$item`model train set`, "Swap to model train set"],
   [$item`cold medicine cabinet`, "Swap to cold medicine cabinet"],
   [$item`Asdon Martin keyfob`, "Swap to asdon martin keyfob"],
@@ -50,7 +49,6 @@ export const args = Args.create(
       }),
       workshed: Args.item({
         help: "Workshed item to place in an empty workshed at the start of the run.",
-        // eslint-disable-next-line libram/verify-constants
         default: $item`model train set`,
         options: worksheds,
       }),
@@ -110,6 +108,10 @@ export const args = Args.create(
         help: "Number of spikolodon spikes to save (max 5).",
         default: 0,
       }),
+      voterbooth: Args.flag({
+        help: "Attempt to use the voter booth if we have access.",
+        default: true,
+      }),
     }),
     debug: Args.group("Debug Options", {
       actions: Args.number({
@@ -120,7 +122,7 @@ export const args = Args.create(
         default: false,
       }),
       verboseequip: Args.flag({
-        help: "Print out equipment usage before each task.",
+        help: "Print out equipment usage before each task to the CLI.",
       }),
       ignoretasks: Args.string({
         help: "A comma-separated list of task names that should not be done. Can be used as a workaround for script bugs where a task is crashing.",

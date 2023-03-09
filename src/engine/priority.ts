@@ -2,13 +2,16 @@
  * Temporary priorities that override the routing.
  */
 
-import { familiarWeight, getCounter, Location, Monster } from "kolmafia";
+import { familiarWeight, getCounter, Location, Monster, myAdventures, myDaycount } from "kolmafia";
 import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have } from "libram";
 import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
 import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
+import { undelay } from "grimoire-kolmafia";
+import { mayLaunchGooseForStats } from "./strategies";
+import { getModifiersFrom } from "./outfit";
 
 export class Priorities {
   static Wanderer: Priority = { score: 20000, reason: "Wanderer" };
@@ -16,21 +19,25 @@ export class Priorities {
   static GoodForceNC: Priority = { score: 8000, reason: "Forcing NC" };
   static Free: Priority = { score: 1000, reason: "Free action" };
   static Start: Priority = { score: 900, reason: "Initial tasks" };
+  static NeedAdv: Priority = { score: 200, reason: "Low on adventures" };
   static LastCopyableMonster: Priority = { score: 100, reason: "Copy last monster" };
   static Effect: Priority = { score: 20, reason: "Useful effect" };
   static GoodOrb: Priority = { score: 15, reason: "Target orb monster" };
   static GoodYR: Priority = { score: 10, reason: "Yellow ray" };
+  static GoodAutumnaton: Priority = { score: 4, reason: "Setup Autumnaton" };
   static MinorEffect: Priority = { score: 2, reason: "Useful minor effect" };
-  static GoodAutumnaton: Priority = { score: 2, reason: "Setup Autumnaton" };
   static GoodGoose: Priority = { score: 1, reason: "Goose charged" };
   static GoodBanish: Priority = { score: 0.5, reason: "Banishes committed" };
+  static SeekJellyfish: Priority = { score: 0.1, reason: "Get Spectral Jellyfish" };
   static None: Priority = { score: 0 };
   static BadForcingNC: Priority = { score: -0.4, reason: "Not forcing NC" };
-  static BadTrain: Priority = { score: -0.5, reason: "Use Trainset" };
   static BadAutumnaton: Priority = { score: -2, reason: "Autumnaton in use here" };
+  static BadTrain: Priority = { score: -3, reason: "Use Trainset" };
   static BadOrb: Priority = { score: -4, reason: "Avoid orb monster" };
   static BadHoliday: Priority = { score: -10 };
   static BadYR: Priority = { score: -16, reason: "Too early for yellow ray" };
+  static BadSweat: Priority = { score: -20, reason: "Not enough sweat" };
+  static BadProtonic: Priority = { score: -40, reason: "Protonic ghost here" };
   static BadGoose: Priority = { score: 0, reason: "Goose not charged" };
   static BadMood: Priority = { score: -100, reason: "Wrong effects" };
   static Last: Priority = { score: -10000, reason: "Only if nothing else" };
@@ -72,8 +79,17 @@ export class Prioritization {
         if (!result.priorities.has(Priorities.GoodYR)) {
           result.priorities.add(Priorities.BadGoose);
         }
-      } else {
+      } else if (!mayLaunchGooseForStats()) {
         result.priorities.add(Priorities.GoodGoose);
+      }
+    }
+
+    // Go places with more adventures if we need them
+    if (myAdventures() < 10 && myDaycount() > 1) {
+      const adv = adventuresRemaining(task);
+      if (adv > 0) {
+        const score = Priorities.NeedAdv.score + 0.001 * adv; // Prefer locations with more adventures
+        result.priorities.add({ ...Priorities.NeedAdv, score: score });
       }
     }
 
@@ -88,8 +104,8 @@ export class Prioritization {
 
     // Ensure that the current +/- combat effects are compatible
     //  (Macguffin/Forest is tough and doesn't need much +combat; just power though)
-    const outfit_spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
-    if (!moodCompatible(outfit_spec?.modifier) && task.name !== "Macguffin/Forest") {
+    const modifier = getModifiersFrom(undelay(task.outfit));
+    if (!moodCompatible(modifier) && task.name !== "Macguffin/Forest") {
       result.priorities.add(Priorities.BadMood);
     }
 
@@ -104,8 +120,7 @@ export class Prioritization {
 
     // Wait until we get a -combat skill before doing any -combat
     if (
-      outfit_spec?.modifier &&
-      outfit_spec.modifier.includes("-combat") &&
+      modifier?.includes("-combat") &&
       !have($skill`Phase Shift`) &&
       !(
         // All these add up to -25 combat fine, no need to wait
@@ -126,23 +141,29 @@ export class Prioritization {
     }
 
     // Avoid ML boosting zones when a scaling holiday wanderer is due
-    if (outfit_spec?.modifier?.includes("ML") && !outfit_spec?.modifier.match("-[\\d .]*ML")) {
+    if (modifier?.includes("ML") && !modifier.match("-[\\d .]*ML")) {
       if (getTodaysHolidayWanderers().length > 0 && getCounter("holiday") <= 0) {
         result.priorities.add(Priorities.BadHoliday);
       }
     }
 
     // Handle potential NC forcers in a zone
-    if (
-      (typeof task.ncforce === "boolean" && task.ncforce) ||
-      (typeof task.ncforce === "function" && task.ncforce())
-    ) {
+    if (undelay(task.ncforce)) {
       if (get("_loopgyou_ncforce", false)) {
         result.priorities.add(Priorities.GoodForceNC);
       } else if (forceNCPossible()) {
         result.priorities.add(Priorities.BadForcingNC);
       }
     }
+
+    // Delay if there is a protonic ghost we have not killed
+    if (
+      have($item`protonic accelerator pack`) &&
+      get("questPAGhost") !== "unstarted" &&
+      get("ghostLocation") &&
+      get("ghostLocation") === task.do
+    )
+      result.priorities.add(Priorities.BadProtonic);
 
     return result;
   }
@@ -256,4 +277,9 @@ function needsChargedGoose(task: Task): boolean {
   // in the location. We want to eventually reprocess everything, and so a
   // charged goose allows us to use the orb to target reprocess monsters.
   return task.do instanceof Location && globalStateCache.absorb().hasReprocessTargets(task.do);
+}
+
+function adventuresRemaining(task: Task): number {
+  if (task.do instanceof Location) return globalStateCache.absorb().remainingAdventures(task.do);
+  return 0;
 }

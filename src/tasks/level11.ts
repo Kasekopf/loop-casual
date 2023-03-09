@@ -1,4 +1,5 @@
 import {
+  availableAmount,
   buy,
   cliExecute,
   familiarWeight,
@@ -55,26 +56,29 @@ const Diary: Task[] = [
           equip: equip,
           modifier: "50 combat 5max, -1ML",
         };
-      } else if (
-        globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
-        familiarWeight($familiar`Grey Goose`) >= 6 &&
-        globalStateCache.orb().prediction($location`The Black Forest`) ===
-          $monster`black magic woman`
-      ) {
-        // Swoop in for a single adventure to reprocess the black magic woman
-        return {
-          equip: [...equip, $item`miniature crystal ball`],
-          familiar: $familiar`Grey Goose`,
-          modifier: "50 combat 5max, -1ML",
-        };
-      } else {
-        return {
-          equip: equip,
-          familiar: $familiar`Reassembled Blackbird`,
-          modifier: "50 combat 5max, item, -1ML",
-          avoid: $items`broken champagne bottle`,
-        };
       }
+
+      if (
+        globalStateCache.absorb().isReprocessTarget($monster`black magic woman`) &&
+        familiarWeight($familiar`Grey Goose`) >= 6
+      ) {
+        const orb = globalStateCache.orb().prediction($location`The Black Forest`);
+        if (orb === $monster`black magic woman`) {
+          // Swoop in for a single adventure to reprocess the black magic woman
+          return {
+            equip: [...equip, $item`miniature crystal ball`],
+            familiar: $familiar`Grey Goose`,
+            modifier: "50 combat 5max, -1ML",
+          };
+        }
+      }
+
+      return {
+        equip: equip,
+        familiar: $familiar`Reassembled Blackbird`,
+        modifier: "50 combat 5max, item, -1ML",
+        avoid: $items`broken champagne bottle`,
+      };
     },
     choices: {
       923: 1,
@@ -150,7 +154,7 @@ const Desert: Task[] = [
     name: "Oasis",
     after: ["Compass"],
     completed: () => get("desertExploration") >= 100,
-    ready: () => !have($effect`Ultrahydrated`) && get("desertExploration") > 0,
+    ready: () => !have($effect`Ultrahydrated`) && get("oasisAvailable", false),
     do: $location`The Oasis`,
     limit: { soft: 10 },
   },
@@ -193,6 +197,15 @@ const Desert: Task[] = [
     },
   },
   {
+    name: "Milestone",
+    after: ["Misc/Unlock Beach", "Diary"],
+    ready: () => have($item`milestone`),
+    completed: () => !have($item`milestone`) || get("desertExploration") >= 100,
+    do: () => use($item`milestone`, availableAmount($item`milestone`)),
+    limit: { tries: 5 }, // 5 to account for max of starting, poke garden & pull
+    freeaction: true,
+  },
+  {
     name: "Desert",
     after: ["Diary", "Compass"],
     acquire: [{ item: $item`can of black paint`, useful: () => (get("gnasirProgress") & 2) === 0 }],
@@ -200,7 +213,7 @@ const Desert: Task[] = [
       (have($item`can of black paint`) || myMeat() >= 1000 || (get("gnasirProgress") & 2) !== 0) &&
       itemAmount($item`worm-riding manual page`) < 15 &&
       !have($item`worm-riding hooks`) &&
-      ((get("desertExploration") === 0 && !have($effect`A Girl Named Sue`)) ||
+      ((!get("oasisAvailable", false) && !have($effect`A Girl Named Sue`)) ||
         have($effect`Ultrahydrated`)),
     priority: () => (have($effect`Ultrahydrated`) ? Priorities.Effect : Priorities.None),
     completed: () => get("desertExploration") >= 100,

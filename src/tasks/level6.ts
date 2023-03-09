@@ -23,6 +23,15 @@ export const FriarQuest: Quest = {
     {
       name: "Heart",
       after: ["Start"],
+      priority: () => {
+        if (
+          get("_loopgyou_ncforce", false) &&
+          have($item`latte lovers member's mug`) &&
+          !get("latteUnlocks").includes("wing")
+        )
+          return { score: -2, reason: "Still need latte here" };
+        else return Priorities.None;
+      },
       completed: () => have($item`box of birthday candles`) || step("questL06Friar") === 999,
       do: $location`The Dark Heart of the Woods`,
       outfit: () => {
@@ -47,6 +56,15 @@ export const FriarQuest: Quest = {
     {
       name: "Elbow",
       after: ["Start"],
+      priority: () => {
+        if (
+          get("_loopgyou_ncforce", false) &&
+          have($item`latte lovers member's mug`) &&
+          !get("latteUnlocks").includes("vitamins")
+        )
+          return { score: -2, reason: "Still need latte here" };
+        else return Priorities.None;
+      },
       completed: () => have($item`eldritch butterknife`) || step("questL06Friar") === 999,
       do: $location`The Dark Elbow of the Woods`,
       outfit: () => {
@@ -60,7 +78,7 @@ export const FriarQuest: Quest = {
     },
     {
       name: "Finish",
-      after: ["Heart", "Neck", "Elbow"],
+      after: ["Heart", "Elbow", "Neck"],
       completed: () => step("questL06Friar") === 999,
       do: () => visitUrl("friars.php?action=ritual&pwd"),
       limit: { tries: 1 },
