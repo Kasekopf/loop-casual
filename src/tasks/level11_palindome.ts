@@ -14,6 +14,7 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $effects,
   $familiar,
   $item,
   $items,
@@ -423,6 +424,8 @@ const Dome: Task[] = [
   {
     name: "Alarm Gem",
     after: ["Palindome Dudes", "Palindome Photos"],
+    // If we are not cursed, or we've already completed the cursed quest. Then no risk of removing curse.
+    ready: () => $effects`Once-Cursed, Twice-Cursed, Thrice-Cursed`.find(e => have(e)) === undefined || get("hiddenApartmentProgress") >= 7,
     completed: () => step("questL11Palindome") >= 3,
     do: () => {
       if (have(Item.get(7262))) use(Item.get(7262));
