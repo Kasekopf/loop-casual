@@ -564,7 +564,7 @@ export function fillHp() {
       // Backup healing plan in a pinch
       if (have($item`scroll of drastic healing`)) {
         use($item`scroll of drastic healing`);
-      } else if (get("_hotTubSoaks") < 5) {
+      } else if (get("_hotTubSoaks") < 5 && ($effects`Once-Cursed, Twice-Cursed, Thrice-Cursed`.find(e => have(e)) === undefined || get("hiddenApartmentProgress") >= 7)) {
         visitUrl("clan_viplounge.php?action=hottub");
       }
       let tries = 0;
