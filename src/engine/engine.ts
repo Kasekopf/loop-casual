@@ -487,9 +487,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
 
       // Use an NC forcer if one is available and another task needs it.
       const nc_blacklist = new Set<Location>($locations`The Enormous Greater-Than Sign`);
-      const nc_task_blacklist = new Set<string>([
-        "Summon/Spectral Jellyfish",
-      ]);
+      const nc_task_blacklist = new Set<string>(["Summon/Spectral Jellyfish"]);
       if (
         forceNCPossible() &&
         !(task.do instanceof Location && nc_blacklist.has(task.do)) &&
