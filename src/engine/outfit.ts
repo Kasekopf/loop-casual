@@ -248,6 +248,9 @@ export function equipDefaults(outfit: Outfit, force_charge_goose: boolean): void
     if (haveLoathingLegion()) {
       outfit.avoid.push($item`Loathing Legion defibrillator`);
     }
+    if (modifier.includes("item") && outfit.equippedAmount($item`Kramco Sausage-o-Matic™`) === 0) {
+      outfit.avoid.push($item`Kramco Sausage-o-Matic™`);
+    }
   }
 
   // Avoid burning CMG void fight just for the modifier
