@@ -746,6 +746,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
       requireBoxServants: false,
       autoAbortThreshold: "-0.05",
       recoveryScript: "",
+      removeMalignantEffects: false,
       mpAutoRecoveryItems: ensureRecovery(
         "mpAutoRecoveryItems",
         ["black cherry soda", "doc galaktik's invigorating tonic"],
