@@ -121,6 +121,12 @@ const banishSources: BanishSource[] = [
     do: $skill`Show them your ring`,
     equip: $item`mafia middle finger ring`,
   },
+  {
+    name: "Monkey Paw",
+    available: () => have($item`cursed monkey's paw`) && get("_monkeyPawWishesUsed", 0) === 0,
+    equip: $item`cursed monkey's paw`,
+    do: $skill`Monkey Slap`,
+  }
 ];
 
 export class BanishState {
