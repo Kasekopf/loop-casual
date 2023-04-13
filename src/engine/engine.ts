@@ -59,6 +59,7 @@ import {
   Macro,
   PropertiesManager,
   set,
+  undelay,
   uneffect,
 } from "libram";
 import {
@@ -66,7 +67,6 @@ import {
   CombatResources,
   CombatStrategy,
   Outfit,
-  undelay,
 } from "grimoire-kolmafia";
 import { CombatActions, MyActionDefaults } from "./combat";
 import {

@@ -3,13 +3,12 @@
  */
 
 import { familiarWeight, getCounter, Location, Monster, myAdventures, myDaycount } from "kolmafia";
-import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have } from "libram";
+import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have, undelay } from "libram";
 import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Priority, Task } from "./task";
 import { globalStateCache } from "./state";
 import { forceItemSources, forceNCPossible, yellowRaySources } from "./resources";
-import { undelay } from "grimoire-kolmafia";
 import { mayLaunchGooseForStats } from "./strategies";
 import { getModifiersFrom } from "./outfit";
 
