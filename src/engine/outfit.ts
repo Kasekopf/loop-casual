@@ -1,7 +1,7 @@
 import { cliExecute, equippedAmount, Familiar, Item, myBasestat, totalTurnsPlayed } from "kolmafia";
 import { $familiar, $item, $stat, get, have } from "libram";
 import { Resource } from "./resources";
-import { Outfit } from "grimoire-kolmafia";
+import { Outfit, OutfitSpec } from "grimoire-kolmafia";
 
 export function equipFirst<T extends Resource>(outfit: Outfit, resources: T[]): T | undefined {
   for (const resource of resources) {
@@ -78,17 +78,18 @@ export function equipDefaults(outfit: Outfit): void {
 }
 
 export function fixFoldables(outfit: Outfit) {
+  const modifiers = getModifiersFrom(outfit);
+
   // Libram outfit cache may not autofold umbrella, so we need to
   if (equippedAmount($item`unbreakable umbrella`) > 0) {
-    if (outfit.modifier?.includes("-combat")) {
+    if (modifiers.includes("-combat")) {
       if (get("umbrellaState") !== "cocoon") cliExecute("umbrella cocoon");
     } else if (
-      (outfit.modifier?.includes("ML") ||
-        outfit.modifier?.toLowerCase().includes("monster level percent")) &&
-      !outfit.modifier.match("-[\\d .]*ML")
+      (modifiers.includes("ML") || modifiers.toLowerCase().includes("monster level percent")) &&
+      !modifiers.match("-[\\d .]*ML")
     ) {
       if (get("umbrellaState") !== "broken") cliExecute("umbrella broken");
-    } else if (outfit.modifier?.includes("item")) {
+    } else if (modifiers.includes("item")) {
       if (get("umbrellaState") !== "bucket style") cliExecute("umbrella bucket");
     } else {
       if (get("umbrellaState") !== "forward-facing") cliExecute("umbrella forward");
@@ -98,8 +99,8 @@ export function fixFoldables(outfit: Outfit) {
   // Libram outfit cache may not autofold camera, so we need to
   if (equippedAmount($item`backup camera`) > 0) {
     if (
-      (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) ||
-      outfit.modifier?.includes("exp")
+      (modifiers.includes("ML") && !modifiers.match("-[\\d .]*ML")) ||
+      modifiers.includes("exp")
     ) {
       if (get("backupCameraMode").toLowerCase() !== "ml") cliExecute("backupcamera ml");
     } else if (outfit.modifier?.includes("init")) {
@@ -119,10 +120,10 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
     } else if (outfit.modifier?.includes("stench res")) {
       if (get("parkaMode").toLowerCase() !== "dilophosaur") cliExecute("parka dilophosaur");
-    } else if (outfit.modifier?.includes("ML") && !outfit.modifier.match("-[\\d .]*ML")) {
+    } else if (outfit.modifier?.includes("ML") && !modifiers.match("-[\\d .]*ML")) {
       if (get("parkaMode").toLowerCase() !== "spikolodon") cliExecute("parka spikolodon");
     } else if (
-      (outfit.modifier?.includes("init") && !outfit.modifier.match("-[\\d .]*init")) ||
+      (outfit.modifier?.includes("init") && !modifiers.match("-[\\d .]*init")) ||
       outfit.modifier?.includes("-combat")
     ) {
       if (get("parkaMode").toLowerCase() !== "pterodactyl") cliExecute("parka pterodactyl");
@@ -131,4 +132,10 @@ export function fixFoldables(outfit: Outfit) {
       if (get("parkaMode").toLowerCase() !== "kachungasaur") cliExecute("parka kachungasaur");
     }
   }
+}
+
+export function getModifiersFrom(outfit: OutfitSpec | Outfit | undefined): string {
+  if (!outfit?.modifier) return "";
+  if (Array.isArray(outfit.modifier)) return outfit.modifier.join(",");
+  return outfit.modifier;
 }

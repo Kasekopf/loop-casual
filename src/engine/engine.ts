@@ -1,4 +1,4 @@
-import { cliExecute, Location, Monster, myAdventures } from "kolmafia";
+import { Location, Monster, myAdventures } from "kolmafia";
 import { Task } from "./task";
 import {
   $effect,
@@ -206,17 +206,9 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   dress(task: Task, outfit: Outfit): void {
-    try {
-      outfit.dress();
-    } catch {
-      // If we fail to dress, this is maybe just a mafia desync.
-      // So refresh our inventory and try again (once).
-      debug("Possible mafia desync detected; refreshing...");
-      cliExecute("refresh all");
-      outfit.dress({ forceUpdate: true });
-    }
+    outfit.dress();
     fixFoldables(outfit);
-    applyEffects(outfit.modifier ?? "");
+    applyEffects(outfit.modifier.join(", "));
 
     // HP/MP upkeep
     if (!task.freeaction) {
