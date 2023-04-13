@@ -3,7 +3,16 @@
  */
 
 import { familiarWeight, getCounter, Location, Monster, myAdventures, myDaycount } from "kolmafia";
-import { $effect, $familiar, $item, $skill, get, getTodaysHolidayWanderers, have, undelay } from "libram";
+import {
+  $effect,
+  $familiar,
+  $item,
+  $skill,
+  get,
+  getTodaysHolidayWanderers,
+  have,
+  undelay,
+} from "libram";
 import { CombatStrategy } from "./combat";
 import { moodCompatible } from "./moods";
 import { Priority, Task } from "./task";

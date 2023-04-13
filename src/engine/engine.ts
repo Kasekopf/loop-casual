@@ -62,12 +62,7 @@ import {
   undelay,
   uneffect,
 } from "libram";
-import {
-  Engine as BaseEngine,
-  CombatResources,
-  CombatStrategy,
-  Outfit,
-} from "grimoire-kolmafia";
+import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import { CombatActions, MyActionDefaults } from "./combat";
 import {
   cacheDress,
