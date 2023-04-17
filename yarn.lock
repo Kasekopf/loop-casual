@@ -2040,10 +2040,10 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-grimoire-kolmafia@0.3.16:
-  version "0.3.16"
-  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.16.tgz#0c5373591564f12b0289f5f82495573d88335bd9"
-  integrity sha512-BN3vBAspsw3jjAV5uMrffok7IcxBVmJBOqxqpm5nXftS4+kCUnLnoVdKQwKR2PRGXVmU0FrFHdnYXxeBxedq0w==
+grimoire-kolmafia@0.3.17:
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/grimoire-kolmafia/-/grimoire-kolmafia-0.3.17.tgz#3d87328afacc82f9da7f43c044d3a33402add57a"
+  integrity sha512-7Hi/iCG2oTUsoAxe5hRD5rKXIQYlbegZhA9fKAIasA+KXOR/Nme0lgGOfzIFcmfayo0VpyC442UxNzm2S66xfw==
   dependencies:
     core-js "^3.16.4"
 
@@ -2249,10 +2249,10 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kolmafia@^5.27260.0:
-  version "5.27323.0"
-  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27323.0.tgz#9ae0b21477172b940dfc1ecbc7f45ac5fe9ae481"
-  integrity sha512-DR1azOfZ70Gd1fWyU122MRxSKLBq5ne8+M0mmnYgyFl7gj3mJcV0vKc1DV0nEHEvhkwefJFb31BQXyFRaVoJcA==
+kolmafia@^5.27321.0:
+  version "5.27326.0"
+  resolved "https://registry.yarnpkg.com/kolmafia/-/kolmafia-5.27326.0.tgz#24237f6f89e9cd3871710b1c1db7b02030d14146"
+  integrity sha512-rbRa8D6QSsy4m8+3KCO/g28RnOMEajEb7JPKQCMQMkzr+CMXzlVhQWvkyn/2XmLC06PjrDIk/FF7/FQs4ngJ+g==
 
 levn@^0.4.1:
   version "0.4.1"
@@ -2262,10 +2262,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libram@^0.7.15:
-  version "0.7.15"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.7.15.tgz#c7c4b5a9adfc1af334384c17176f1fda6c4e24ce"
-  integrity sha512-+ZybJTdnBUaFBOmRz+W9T/pidC3eDKLWclhm/8MZgI2uURgFMhZjYZajdyFRiZcqzpsRmM6TORx1/cjss9ijRQ==
+libram@^0.7.17:
+  version "0.7.17"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.7.17.tgz#6168ae10b94da098ed97c345fad47b19b18915ae"
+  integrity sha512-LrtFC+fbnDtXAZH6fdaLg452Ce3sUM5vqy3rBmCmKHqrqOrP0f4qMFTaEF/YoEp6Wt7HncNt+Jakt8eQS5YHGQ==
 
 loader-runner@^4.2.0:
   version "4.3.0"
