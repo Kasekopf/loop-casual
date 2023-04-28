@@ -1001,7 +1001,6 @@ function combat_createClass(Constructor, protoProps, staticProps) { if (protoPro
 
 
 
-
 /**
  * The strategy to use for combat for a task, which indicates what to do
  * for each monster.
@@ -1596,6 +1595,8 @@ var combat_CombatResources = /*#__PURE__*/(/* unused pure expression or super */
   return CombatResources;
 }()));
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/logger.js
+var _defaultHandlers;
+
 function logger_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function logger_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1605,20 +1606,33 @@ function logger_createClass(Constructor, protoProps, staticProps) { if (protoPro
 function logger_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var defaultHandlers = {
-  info: message => {
-    (0,external_kolmafia_.printHtml)("<b>[Libram]</b> ".concat(message));
-    (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
-  },
-  warning: message => {
-    (0,external_kolmafia_.printHtml)("<span style=\"background: orange; color: white;\"><b>[Libram]</b> ".concat(message, "</span>"));
-    (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
-  },
-  error: _error => {
-    (0,external_kolmafia_.printHtml)("<span style=\"background: red; color: white;\"><b>[Libram]</b> ".concat(_error.toString(), "</span>"));
-    (0,external_kolmafia_.logprint)("[Libram] ".concat(_error.toString()));
-  }
-};
+var LogLevels;
+
+(function (LogLevels) {
+  LogLevels[LogLevels["NONE"] = 0] = "NONE";
+  LogLevels[LogLevels["ERROR"] = 1] = "ERROR";
+  LogLevels[LogLevels["WARNING"] = 2] = "WARNING";
+  LogLevels[LogLevels["INFO"] = 3] = "INFO";
+  LogLevels[LogLevels["DEBUG"] = 4] = "DEBUG";
+})(LogLevels || (LogLevels = {}));
+
+var defaultHandlers = (_defaultHandlers = {}, logger_defineProperty(_defaultHandlers, LogLevels.INFO, message => {
+  (0,external_kolmafia_.printHtml)("<b>[Libram Info]</b> ".concat(message));
+  (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
+  return;
+}), logger_defineProperty(_defaultHandlers, LogLevels.WARNING, message => {
+  (0,external_kolmafia_.printHtml)("<span style=\"background: orange; color: white;\"><b>[Libram Warning]</b> ".concat(message, "</span>"));
+  (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
+  return;
+}), logger_defineProperty(_defaultHandlers, LogLevels.ERROR, error => {
+  (0,external_kolmafia_.printHtml)("<span style=\"background: red; color: white;\"><b>[Libram Error]</b> ".concat(error.toString(), "</span>"));
+  (0,external_kolmafia_.logprint)("[Libram] ".concat(error));
+  return;
+}), logger_defineProperty(_defaultHandlers, LogLevels.DEBUG, message => {
+  (0,external_kolmafia_.printHtml)("<span style=\"background: red; color: white;\"><b>[Libram Debug]</b> ".concat(message, "</span>"));
+  (0,external_kolmafia_.logprint)("[Libram] ".concat(message));
+  return;
+}), _defaultHandlers);
 
 var Logger = /*#__PURE__*/function () {
   function Logger() {
@@ -1628,36 +1642,52 @@ var Logger = /*#__PURE__*/function () {
   }
 
   logger_createClass(Logger, [{
+    key: "level",
+    get: function get() {
+      return Logger.currentLevel;
+    }
+  }, {
+    key: "setLevel",
+    value: function setLevel(level) {
+      Logger.currentLevel = level;
+    }
+  }, {
     key: "setHandler",
-    value: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function setHandler(level, callback) {
+    value: function setHandler(level, callback) {
       this.handlers[level] = callback;
     } // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
   }, {
     key: "log",
     value: function log(level, message) {
-      this.handlers[level](message);
+      if (this.level >= level) this.handlers[level](message);
     }
   }, {
     key: "info",
     value: function info(message) {
-      this.log("info", message);
+      this.log(LogLevels.INFO, message);
     }
   }, {
     key: "warning",
     value: function warning(message) {
-      this.log("warning", message);
+      this.log(LogLevels.WARNING, message);
     }
   }, {
     key: "error",
     value: function error(message) {
-      this.log("error", message);
+      this.log(LogLevels.ERROR, message);
+    }
+  }, {
+    key: "debug",
+    value: function debug(message) {
+      this.log(LogLevels.DEBUG, message);
     }
   }]);
 
   return Logger;
 }();
+
+logger_defineProperty(Logger, "currentLevel", LogLevels.ERROR);
 
 /* harmony default export */ const logger = (new Logger());
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/utils.js
@@ -1683,9 +1713,22 @@ function utils_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return utils_arr
 
 function utils_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+/**
+ * Type guard against null value
+ *
+ * @param value Value that can be null
+ * @returns Whether the value is not null or... not
+ */
 function notNull(value) {
   return value !== null;
 }
+/**
+ * Parse string to number, stripping commas
+ *
+ * @param n Numberical string to parse
+ * @returns Numerical value of string
+ */
+
 function parseNumber(n) {
   return Number.parseInt(n.replace(/,/g, ""));
 }
@@ -1695,6 +1738,7 @@ function parseNumber(n) {
  * @param n Number to clamp.
  * @param min Lower bound.
  * @param max Upper bound.
+ * @returns Clamped value
  */
 
 function clamp(n, min, max) {
@@ -1705,6 +1749,7 @@ function clamp(n, min, max) {
  *
  * @param array Array to split
  * @param chunkSize Size of chunk
+ * @returns Split array
  */
 
 function chunk(array, chunkSize) {
@@ -1716,6 +1761,13 @@ function chunk(array, chunkSize) {
 
   return result;
 }
+/**
+ * Count distinct values in an array
+ *
+ * @param array Array of values
+ * @returns Map of distinct values to count
+ */
+
 function arrayToCountedMap(array) {
   if (!Array.isArray(array)) return array;
   var map = new Map();
@@ -1724,6 +1776,13 @@ function arrayToCountedMap(array) {
   });
   return map;
 }
+/**
+ * Turn map of distinct values to count into array of values
+ *
+ * @param map Map to turn into array
+ * @returns Array of values
+ */
+
 function countedMapToArray(map) {
   var _ref;
 
@@ -1735,6 +1794,13 @@ function countedMapToArray(map) {
     return Array(quantity).fill(item);
   })));
 }
+/**
+ * Stringify a counted map
+ *
+ * @param map Map of counted values
+ * @returns String representing map of counted values
+ */
+
 function countedMapToString(map) {
   return utils_toConsumableArray(map).map(_ref4 => {
     var _ref5 = _slicedToArray(_ref4, 2),
@@ -1744,14 +1810,30 @@ function countedMapToString(map) {
     return "".concat(quantity, " x ").concat(item);
   }).join(", ");
 }
+/**
+ * Sum an array of numbers.
+ *
+ * @param addends Addends to sum.
+ * @param x Property or mapping function of addends to sum
+ * @returns Sum of numbers
+ */
+
 function sum(addends, x) {
   return addends.reduce((subtotal, element) => subtotal + (typeof x === "function" ? x(element) : element[x]), 0);
 }
+/**
+ * Sum array of numbers
+ *
+ * @param addends Numbers to sum
+ * @returns Sum of numbers
+ */
+
 function sumNumbers(addends) {
   return sum(addends, x => x);
 }
 /**
  * Checks if a given item is in a readonly array, acting as a typeguard.
+ *
  * @param item Needle
  * @param array Readonly array haystack
  * @returns Whether the item is in the array, and narrows the type of the item.
@@ -1762,6 +1844,7 @@ function arrayContains(item, array) {
 }
 /**
  * Checks if two arrays contain the same elements in the same quantity.
+ *
  * @param a First array for comparison
  * @param b Second array for comparison
  * @returns Whether the two arrays are equal, irrespective of order.
@@ -1776,7 +1859,9 @@ function setEqual(a, b) {
 }
 /**
  * Reverses keys and values for a given map
+ *
  * @param map Map to invert
+ * @returns Inverted map
  */
 
 function invertMap(map) {
@@ -1803,6 +1888,7 @@ function invertMap(map) {
 }
 /**
  * Splits a string by commas while also respecting escaping commas with a backslash
+ *
  * @param str String to split
  * @returns List of tokens
  */
@@ -1841,6 +1927,15 @@ function splitByCommasWithEscapes(str) {
   returnValue.push(currentString.trim());
   return returnValue;
 }
+/**
+ * Find the best element of an array, where "best" is defined by some given criteria.
+ *
+ * @param array The array to traverse and find the best element of.
+ * @param optimizer Either a key on the objects we're looking at that corresponds to numerical values, or a function for mapping these objects to numbers. Essentially, some way of assigning value to the elements of the array.
+ * @param reverse Make this true to find the worst element of the array, and false to find the best. Defaults to false.
+ * @returns Best element by optimizer function
+ */
+
 function maxBy(array, optimizer) {
   var reverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   if (!array.length) throw new Error("Cannot call maxBy on an empty array!");
@@ -1865,9 +1960,77 @@ function maxBy(array, optimizer) {
     return array.reduce((a, b) => a[optimizer] >= b[optimizer] !== reverse ? a : b);
   }
 }
+/**
+ * Compare arrays shallowly
+ *
+ * @param left One array to compare
+ * @param right The other array to compare
+ * @returns Whether the two arrays are shallowly equal
+ */
+
 function arrayEquals(left, right) {
   if (left.length !== right.length) return false;
   return left.every((element, index) => element === right[index]);
+}
+/**
+ * Used to collapse a Delayed<T> object into an entity of type "T" as represented by the object.
+ *
+ * @param delayedObject Object of type Delayed<T> that represents either a value of type T or a function returning a value of type T.
+ * @returns The return value of the function, if delayedObject is a function. Otherwise, this returns the original element.
+ */
+
+function utils_undelay(delayedObject) {
+  return typeof delayedObject === "function" ? delayedObject() : delayedObject;
+}
+/**
+ * Makes a byX function, like byStat or byClass
+ *
+ * @param source A method for finding your stat, or class, or whatever X is in this context
+ * @returns A function akin to byStat or byClass; it accepts an object that either is "complete" in the sense that it has a key for every conceivable value, or contains a `default` parameter. If an inappropriate input is provided, returns undefined.
+ */
+
+function makeByXFunction(source) {
+  return function (options) {
+    var _options$val;
+
+    var val = utils_undelay(source);
+    if ("default" in options) return (_options$val = options[val]) !== null && _options$val !== void 0 ? _options$val : options.default;
+    return options[val];
+  };
+}
+/**
+ * Flattens an array. Basically replacing Array.prototype.flat for which Rhino doesn't yet have an implementation
+ *
+ * @param arr Array to flatten
+ * @param depth Number of layers to flatten by; Infinity for a fully flat array
+ * @returns Flattened array
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+function flat(arr) {
+  var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Infinity;
+  var flatArray = [];
+
+  var _iterator3 = utils_createForOfIteratorHelper(arr),
+      _step3;
+
+  try {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var item = _step3.value;
+
+      if (Array.isArray(item) && depth > 0) {
+        flatArray = flatArray.concat(flat(item, depth - 1));
+      } else {
+        flatArray.push(item);
+      }
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
+  }
+
+  return flatArray;
 }
 ;// CONCATENATED MODULE: ./node_modules/libram/dist/template-string.js
 
@@ -2211,9 +2374,11 @@ function maximize_arrayLikeToArray(arr, len) { if (len == null || len > arr.leng
 
 
 /**
- * Merges a Partial<MaximizeOptions> onto a MaximizeOptions. We merge via overriding for all boolean properties and for onlySlot, and concat all other array properties.
+ * Merges a partial set of maximizer options onto a full set maximizer options. We merge via overriding for all boolean properties and for onlySlot, and concat all other array properties.
+ *
  * @param defaultOptions MaximizeOptions to use as a "base."
  * @param addendums Options to attempt to merge onto defaultOptions.
+ * @returns Merged maximizer options
  */
 
 function mergeMaximizeOptions(defaultOptions, addendums) {
@@ -2278,6 +2443,12 @@ var modeableState = {
   retrocape: () => (0,external_kolmafia_.getProperty)("retroCapeSuperhero") + " " + (0,external_kolmafia_.getProperty)("retroCapeWashingInstructions"),
   parka: () => (0,external_kolmafia_.getProperty)("parkaMode")
 };
+/**
+ * Get set of current modes for modeables
+ *
+ * @returns Set of modes
+ */
+
 function getCurrentModes() {
   var modes = {};
 
@@ -2300,6 +2471,12 @@ function getCurrentModes() {
 
   return modes;
 }
+/**
+ * Apply set of modes
+ *
+ * @param modes Modes to apply
+ */
+
 function maximize_applyModes(modes) {
   var _iterator2 = maximize_createForOfIteratorHelper(modeableCommands),
       _step2;
@@ -2435,6 +2612,7 @@ var OutfitLRUCache = /*#__PURE__*/function () {
 }();
 /**
  * Save current equipment as KoL-native outfit.
+ *
  * @param name Name of new outfit.
  */
 
@@ -2454,6 +2632,7 @@ var cachedStats = [0, 0, 0];
 var cachedCanEquipItemCount = 0;
 /**
  * Count the number of unique items that can be equipped.
+ *
  * @returns The count of unique items.
  */
 
@@ -2470,9 +2649,9 @@ function canEquipItemCount() {
 }
 /**
  * Checks the objective cache for a valid entry.
+ *
  * @param cacheKey The cache key to check.
- * @param updateOnFamiliarChange Ignore cache if familiar has changed.
- * @param updateOnCanEquipChanged Ignore cache if stats have changed what can be equipped.
+ * @param options Set of maximizer options
  * @returns A valid CacheEntry or null.
  */
 
@@ -2498,7 +2677,9 @@ function checkCache(cacheKey, options) {
 }
 /**
  * Applies equipment that was found in the cache.
+ *
  * @param entry The CacheEntry to apply
+ * @param options Set of maximizer options
  */
 
 
@@ -2554,7 +2735,9 @@ function applyCached(entry, options) {
 var slotStructure = [template_string_$slots(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["hat"]))), template_string_$slots(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["back"]))), template_string_$slots(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["shirt"]))), template_string_$slots(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["weapon, off-hand"]))), template_string_$slots(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["pants"]))), template_string_$slots(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["acc1, acc2, acc3"]))), template_string_$slots(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["familiar"])))];
 /**
  * Verifies that a CacheEntry was applied successfully.
+ *
  * @param entry The CacheEntry to verify
+ * @param warn Whether to warn if the cache could not be applied
  * @returns If all desired equipment was appliedn in the correct slots.
  */
 
@@ -2629,7 +2812,9 @@ function verifyCached(entry) {
 }
 /**
  * Save current equipment to the objective cache.
+ *
  * @param cacheKey The cache key to save.
+ * @param options Set of maximizer options
  */
 
 
@@ -2725,6 +2910,7 @@ function saveCached(cacheKey, options) {
 }
 /**
  * Run the maximizer, but only if the objective and certain pieces of game state haven't changed since it was last run.
+ *
  * @param objectives Objectives to maximize for.
  * @param options Options for this run of the maximizer.
  * @param options.updateOnFamiliarChange Re-run the maximizer if familiar has changed. Default true.
@@ -2789,6 +2975,7 @@ var _maximizeOptions = /*#__PURE__*/new WeakMap();
 var maximize_Requirement = /*#__PURE__*/function () {
   /**
    * A convenient way of combining maximization parameters and options
+   *
    * @param maximizeParameters Parameters you're attempting to maximize
    * @param maximizeOptions Object potentially containing forceEquips, bonusEquips, preventEquips, and preventSlots
    */
@@ -2822,6 +3009,7 @@ var maximize_Requirement = /*#__PURE__*/function () {
     }
     /**
      * Merges two requirements, concanating relevant arrays. Typically used in static form.
+     *
      * @param other Requirement to merge with.
      */
 
@@ -2853,7 +3041,9 @@ var maximize_Requirement = /*#__PURE__*/function () {
     }
     /**
      * Merges a set of requirements together, starting with an empty requirement.
+     *
      * @param allRequirements Requirements to merge
+     * @returns Merged requirements
      */
 
   }, {
@@ -2861,6 +3051,7 @@ var maximize_Requirement = /*#__PURE__*/function () {
     value:
     /**
      * Runs maximizeCached, using the maximizeParameters and maximizeOptions contained by this requirement.
+     *
      * @returns Whether the maximize call succeeded.
      */
     function maximize() {
@@ -2868,6 +3059,7 @@ var maximize_Requirement = /*#__PURE__*/function () {
     }
     /**
      * Merges requirements, and then runs maximizeCached on the combined requirement.
+     *
      * @param requirements Requirements to maximize on
      */
 
@@ -3693,12 +3885,12 @@ var outfit_Outfit = /*#__PURE__*/(/* unused pure expression or super */ null && 
 
       var result = {
         modifier: outfit_toConsumableArray(this.modifier),
-        familiar: this.familiar,
         avoid: outfit_toConsumableArray(this.avoid),
         skipDefaults: this.skipDefaults,
         modes: outfit_objectSpread({}, this.modes),
         bonuses: new Map(this.bonuses)
-      }; // Add all equipment forced in a particular slot
+      };
+      if (this.familiar) result.familiar = this.familiar; // Add all equipment forced in a particular slot
 
       var _iterator10 = outfit_createForOfIteratorHelper(outfitSlots),
           _step10;
@@ -3706,7 +3898,8 @@ var outfit_Outfit = /*#__PURE__*/(/* unused pure expression or super */ null && 
       try {
         for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
           var slotName = _step10.value;
-          result[slotName] = this.equips.get((_a = new Map([["famequip", $slot(_templateObject53 || (_templateObject53 = outfit_taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject54 || (_templateObject54 = outfit_taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName));
+          var entry = this.equips.get((_a = new Map([["famequip", $slot(_templateObject53 || (_templateObject53 = outfit_taggedTemplateLiteral(["familiar"])))], ["offhand", $slot(_templateObject54 || (_templateObject54 = outfit_taggedTemplateLiteral(["off-hand"])))]]).get(slotName)) !== null && _a !== void 0 ? _a : toSlot(slotName));
+          if (entry) result[slotName] = entry;
         } // Include the riders
 
       } catch (err) {
@@ -3834,6 +4027,14 @@ function engine_iterableToArray(iter) { if (typeof Symbol !== "undefined" && ite
 
 function engine_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return engine_arrayLikeToArray(arr); }
 
+function engine_slicedToArray(arr, i) { return engine_arrayWithHoles(arr) || engine_iterableToArrayLimit(arr, i) || engine_unsupportedIterableToArray(arr, i) || engine_nonIterableRest(); }
+
+function engine_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function engine_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function engine_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function engine_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = engine_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function engine_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return engine_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return engine_arrayLikeToArray(o, minLen); }
@@ -3845,7 +4046,6 @@ function engine_defineProperties(target, props) { for (var i = 0; i < props.leng
 function engine_createClass(Constructor, protoProps, staticProps) { if (protoProps) engine_defineProperties(Constructor.prototype, protoProps); if (staticProps) engine_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function engine_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 
 
 
@@ -4107,7 +4307,7 @@ var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (functi
       var outfit = new Outfit();
 
       if (spec !== undefined) {
-        if (!outfit.equip(spec)) {
+        if (!outfit.equip(spec) && !this.options.allow_partial_outfits) {
           throw "Unable to equip all items for ".concat(task.name);
         }
       }
@@ -4156,15 +4356,16 @@ var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (functi
   }, {
     key: "setChoices",
     value: function setChoices(task, manager) {
-      var choices = {};
+      var _a;
 
-      for (var choice_id_str in task.choices) {
-        var choice_id = parseInt(choice_id_str);
-        var choice = task.choices[choice_id];
-        choices[choice_id] = undelay(choice);
+      for (var _i = 0, _Object$entries = Object.entries((_a = task.choices) !== null && _a !== void 0 ? _a : {}); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = engine_slicedToArray(_Object$entries[_i], 2),
+            key = _Object$entries$_i[0],
+            func = _Object$entries$_i[1];
+
+        if (func === undefined) continue;
+        manager.setChoice(parseInt(key), undelay(func));
       }
-
-      manager.setChoices(choices);
     }
     /**
      * Save the combat macro for this task.
@@ -4227,12 +4428,8 @@ var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (functi
   }, {
     key: "do",
     value: function _do(task) {
-      if (typeof task.do === "function") {
-        task.do();
-      } else {
-        adv1(task.do, 0, "");
-      }
-
+      var result = typeof task.do === "function" ? task.do() : task.do;
+      if (result instanceof Location) adv1(result, -1, "");
       runCombat();
 
       while (inMultiFight()) {
@@ -4246,8 +4443,9 @@ var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (functi
      *
      * By default, this is only used to repeat a task if we hit one of:
      *   1. Halloweener dog noncombats,
-     *   2. June cleaver noncombats, or
-     *   3. Lil' Doctor™ bag noncombt.
+     *   2. June cleaver noncombats,
+     *   3. Lil' Doctor™ bag noncombat, or
+     *   4. Turtle taming noncombats.
      * @param task The current executing task.
      * @returns True if the task should be immediately repeated.
      */
@@ -4361,19 +4559,35 @@ var Engine = /*#__PURE__*/(/* unused pure expression or super */ null && (functi
 function maxSongs() {
   return have($skill(engine_templateObject || (engine_templateObject = engine_taggedTemplateLiteral(["Mariachi Memory"])))) ? 4 : 3;
 }
-var wanderingNCs = new Set(["Wooof! Wooooooof!", "Playing Fetch*", "A Pound of Cure", "Aunts not Ants", "Bath Time", "Beware of Aligator", "Delicious Sprouts", "Hypnotic Master", "Lost and Found", "Poetic Justice", "Summer Days", "Teacher's Pet"]);
+var wanderingNCs = new Set([// Halloweener dog noncombats
+"Wooof! Wooooooof!", "Playing Fetch*", // June cleaver noncombats
+"Aunts not Ants", "Bath Time", "Beware of Aligator", "Delicious Sprouts", "Hypnotic Master", "Lost and Found", "Poetic Justice", "Summer Days", "Teacher's Pet", // Lil' Doctor™ bag noncombat
+"A Pound of Cure", // Turtle taming noncombats
+"Nantucket Snapper", "Blue Monday", "Capital!", "Training Day", "Boxed In", "Duel Nature", "Slow Food", "A Rolling Turtle Gathers No Moss", "Slow Road to Hell", "C'mere, Little Fella", "The Real Victims", "Like That Time in Tortuga", "Cleansing your Palette", "Harem Scarum", "Turtle in peril", "No Man, No Hole", "Slow and Steady Wins the Brawl", "Stormy Weather", "Turtles of the Universe", "O Turtle Were Art Thou", "Allow 6-8 Weeks For Delivery", "Kick the Can", "Turtles All The Way Around", "More eXtreme Than Usual", "Jewel in the Rough", "The worst kind of drowning", "Even Tamer Than Usual", "Never Break the Chain", "Close, but Yes Cigar", "Armchair Quarterback", "This Turtle Rocks!", "Really Sticking Her Neck Out", "It Came from Beneath the Sewer? Great!", "Don't Be Alarmed, Now", "Puttin' it on Wax", "More Like... Hurtle", "Musk! Musk! Musk!", "Silent Strolling"]);
+var zoneSpecificNCs = new Map([["The Horror...", ["Frat House"]] // Duplicate choice name
+]);
 /**
  * Return true if the last adv was one of:
  *   1. Halloweener dog noncombats,
- *   2. June cleaver noncombats, or
- *   3. Lil' Doctor™ bag noncombt.
+ *   2. June cleaver noncombats,
+ *   3. Lil' Doctor™ bag noncombat, or
+ *   4. Turtle taming noncombats.
  */
 
 function lastEncounterWasWanderingNC() {
-  return wanderingNCs.has(get("lastEncounter"));
+  var _a;
+
+  var last = get("lastEncounter");
+
+  if (zoneSpecificNCs.has(last)) {
+    // Handle NCs with a duplicated name
+    var zones = (_a = zoneSpecificNCs.get(last)) !== null && _a !== void 0 ? _a : [];
+    return zones.includes(get("lastAdventure"));
+  } else {
+    return wanderingNCs.has(last);
+  }
 }
 ;// CONCATENATED MODULE: ./node_modules/grimoire-kolmafia/dist/index.js
-
 
 
 
