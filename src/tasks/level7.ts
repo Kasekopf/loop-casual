@@ -49,9 +49,7 @@ function tryCape(sword: Item, ...rest: Item[]) {
 }
 
 const slay_macro = new Macro()
-  .trySkill($skill`Slay the Dead`)
-  .attack()
-  .repeat();
+  .trySkill($skill`Slay the Dead`);
 
 const Alcove: Task[] = [
   {
@@ -78,7 +76,7 @@ const Alcove: Task[] = [
     // Modern zmobie does not show up in orb
     orbtargets: () => [],
     choices: { 153: 4 },
-    combat: new CombatStrategy().macro(slay_macro),
+    combat: new CombatStrategy().macro(slay_macro).kill(),
     limit: { turns: 37 },
   },
   {
@@ -167,6 +165,7 @@ const Niche: Task[] = [
     },
     combat: new CombatStrategy()
       .macro(slay_macro, $monster`dirty old lihc`)
+      .kill($monster`dirty old lihc`)
       .macro(
         // Don't use the fire extinguisher if we want to absorb the lihc
         () =>
@@ -229,6 +228,7 @@ const Nook: Task[] = [
     },
     combat: new CombatStrategy()
       .macro(slay_macro, $monsters`spiny skelelton, toothy sklelton`)
+      .kill($monsters`spiny skelelton, toothy sklelton`)
       .banish($monster`party skelteon`),
     limit: {
       soft: 37,
