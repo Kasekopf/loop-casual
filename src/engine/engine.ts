@@ -157,7 +157,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   public hasDelay(task: Task): boolean {
     if (!task.delay) return false;
     if (!(task.do instanceof Location)) return false;
-    return task.do.turnsSpent < task.delay;
+    return task.do.turnsSpent < undelay(task.delay);
   }
 
   public getNextTask(): ActiveTask | undefined {
