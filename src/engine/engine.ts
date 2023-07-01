@@ -709,10 +709,14 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
         (haveEffect($effect`Beaten Up`) === beaten_turns &&
           // Turns of beaten-up was constant but adventures went down, so we lost fight while already beaten up
           (myAdventures() < start_advs || reprocessed))
-      )
+      ) {
+        print(`Fight was lost (debug info: ${beaten_turns} => ${haveEffect(
+          $effect`Beaten Up`
+        )}, (${start_advs} => ${myAdventures()}); stop.`);
         throw `Fight was lost (debug info: ${beaten_turns} => ${haveEffect(
           $effect`Beaten Up`
         )}, (${start_advs} => ${myAdventures()}); stop.`;
+      }
     }
   }
 
