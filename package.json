@@ -24,7 +24,7 @@
     "babel-loader": "^8.2.2",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-libram": "^0.2.30",
+    "eslint-plugin-libram": "^0.2.32",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2",
     "webpack": "^5.51.1",
@@ -32,9 +32,9 @@
   },
   "dependencies": {
     "core-js": "^3.16.4",
-    "grimoire-kolmafia": "0.3.17",
-    "kolmafia": "^5.27321.0",
-    "libram": "^0.7.17",
+    "grimoire-kolmafia": "^0.3.19",
+    "kolmafia": "^5.27339.0",
+    "libram": "^0.8.4",
     "mafia-shared-relay": "^0.0.7"
   },
   "author": "Kasekopf",
