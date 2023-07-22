@@ -48,8 +48,7 @@ function tryCape(sword: Item, ...rest: Item[]) {
   return rest;
 }
 
-const slay_macro = new Macro()
-  .trySkill($skill`Slay the Dead`);
+const slay_macro = new Macro().trySkill($skill`Slay the Dead`);
 
 const Alcove: Task[] = [
   {
