@@ -527,25 +527,15 @@ export const TowerQuest: Quest = {
       },
       completed: () => step("questL13Final") > 10,
       do: $location`Tower Level 5`,
-      outfit: () => {
-        if (have($item`unwrapped knock-off retro superhero cape`))
-          return {
-            equip: $items`unwrapped knock-off retro superhero cape`,
-            modes: { retrocape: ["heck", "hold"] },
-          };
-        else if (have($item`Jurassic Parka`))
-          return {
-            equip: $items`Jurassic Parka`,
-            modes: { parka: "kachungasaur" }
-          };
-        else if (have($item`attorney's badge`))
-          return {
-            modifier: "HP",
-            equip: $items`attorney's badge`,
-            avoid: $items`extra-wide head candle`,
-          };
-        else return { modifier: "HP", avoid: $items`extra-wide head candle` };
-      },
+      outfit: () => ({
+        equip: $items`unwrapped knock-off retro superhero cape, Jurassic Parka, attorney's badge`,
+        modes: {
+          modifier: "HP",
+          parka: "kachungasaur",
+          retrocape: ["heck", "hold"],
+          avoid: $items`extra-wide head candle`
+        }
+      }),
       combat: new CombatStrategy().macro(new Macro().item($item`gauze garter`).repeat()),
       boss: true,
       limit: { tries: 1 },
