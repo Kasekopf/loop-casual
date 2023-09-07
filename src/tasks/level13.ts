@@ -533,6 +533,11 @@ export const TowerQuest: Quest = {
             equip: $items`unwrapped knock-off retro superhero cape`,
             modes: { retrocape: ["heck", "hold"] },
           };
+        else if (have($item`Jurassic Parka`))
+          return {
+            equip: $items`Jurassic Parka`,
+            modes: { parka: "kachungasaur" }
+          };
         else if (have($item`attorney's badge`))
           return {
             modifier: "HP",
