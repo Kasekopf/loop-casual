@@ -530,11 +530,11 @@ export const TowerQuest: Quest = {
       outfit: () => ({
         equip: $items`unwrapped knock-off retro superhero cape, Jurassic Parka, attorney's badge`,
         modes: {
-          modifier: "HP",
           parka: "kachungasaur",
           retrocape: ["heck", "hold"],
-          avoid: $items`extra-wide head candle`
-        }
+        },
+        modifier: "HP",
+        avoid: $items`extra-wide head candle`,
       }),
       combat: new CombatStrategy().macro(new Macro().item($item`gauze garter`).repeat()),
       boss: true,
