@@ -27,6 +27,7 @@ import { OutfitSpec, step } from "grimoire-kolmafia";
 import { CombatStrategy } from "../engine/combat";
 import { Priorities } from "../engine/priority";
 import { tuneSnapper } from "../lib";
+import { globalStateCache } from "../engine/state";
 
 const Manor1: Task[] = [
   {
@@ -144,8 +145,19 @@ const Manor2: Task[] = [
     completed: () => have($item`Lady Spookyraven's powder puff`) || step("questM21Dance") >= 2,
     do: $location`The Haunted Bathroom`,
     choices: { 881: 1, 105: 1, 892: 1 },
-    outfit: { modifier: "-combat" },
-    combat: new CombatStrategy().killHard($monster`cosmetics wraith`),
+    outfit: () => {
+      if (
+        !have($effect`Citizen of a Zone`) &&
+        have($familiar`Patriotic Eagle`) &&
+        !globalStateCache.absorb().isReprocessTarget($monster`toilet papergeist`)
+      ) {
+        return { modifier: "-combat", familiar: $familiar`Patriotic Eagle` };
+      }
+      return { modifier: "-combat" };
+    },
+    combat: new CombatStrategy()
+      .startingMacro(Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`))
+      .killHard($monster`cosmetics wraith`),
     limit: { soft: 15 },
     // No need to search for cosmetics wraith
     orbtargets: () => [],

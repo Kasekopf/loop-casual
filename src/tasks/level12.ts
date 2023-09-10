@@ -564,11 +564,22 @@ export const WarQuest: Quest = {
       outfit: () =>
         <OutfitSpec>{
           equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
-          familiar: args.minor.jellies ? $familiar`Space Jellyfish` : undefined,
+          familiar:
+            !have($effect`Citizen of a Zone`) && have($familiar`Patriotic Eagle`)
+              ? $familiar`Patriotic Eagle`
+              : args.minor.jellies
+              ? $familiar`Space Jellyfish`
+              : undefined,
         },
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
-      combat: new CombatStrategy().kill().macro(Macro.trySkill($skill`Extract Jelly`)),
+      combat: new CombatStrategy()
+        .kill()
+        .macro(
+          Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`).trySkill(
+            $skill`Extract Jelly`
+          )
+        ),
       limit: { tries: 10 },
     },
     ...Orchard,

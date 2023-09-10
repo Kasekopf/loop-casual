@@ -25,9 +25,10 @@ import {
   Macro,
 } from "libram";
 import { Quest, Task } from "../engine/task";
-import { step } from "grimoire-kolmafia";
+import { OutfitSpec, step } from "grimoire-kolmafia";
 import { Priorities } from "../engine/priority";
 import { CombatStrategy } from "../engine/combat";
+import { globalStateCache } from "../engine/state";
 
 function manualChoice(whichchoice: number, option: number) {
   return visitUrl(`choice.php?whichchoice=${whichchoice}&pwd=${myHash()}&option=${option}`);
@@ -315,14 +316,23 @@ const Hospital: Task[] = [
     completed: () => get("hiddenHospitalProgress") >= 7,
     do: $location`The Hidden Hospital`,
     combat: new CombatStrategy()
+      .startingMacro(Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`))
       .killHard($monster`ancient protector spirit (The Hidden Hospital)`)
       .kill($monster`pygmy witch surgeon`)
       .banish($monsters`pygmy orderlies, pygmy janitor, pygmy witch nurse`),
     outfit: () => {
-      return {
+      const result = <OutfitSpec>{
         shirt: have($skill`Torso Awareness`) ? $item`surgical apron` : undefined,
         equip: $items`half-size scalpel, head mirror, surgical mask, bloodied surgical dungarees`,
       };
+      if (
+        !have($effect`Citizen of a Zone`) &&
+        have($familiar`Patriotic Eagle`) &&
+        !globalStateCache.absorb().isReprocessTarget($monster`pygmy orderlies`)
+      ) {
+        result.familiar = $familiar`Patriotic Eagle`;
+      }
+      return result;
     },
     choices: { 784: 1 },
     limit: { soft: 20 },

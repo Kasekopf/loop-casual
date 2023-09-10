@@ -1,5 +1,16 @@
 import { cliExecute, containsText, familiarWeight, myDaycount, use, visitUrl } from "kolmafia";
-import { $effect, $familiar, $item, $items, $location, $monster, $monsters, have } from "libram";
+import {
+  $effect,
+  $familiar,
+  $item,
+  $items,
+  $location,
+  $monster,
+  $monsters,
+  $skill,
+  have,
+  Macro,
+} from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { atLevel } from "../lib";
 import { Quest } from "../engine/task";
@@ -7,6 +18,7 @@ import { step } from "grimoire-kolmafia";
 import { Priorities } from "../engine/priority";
 import { councilSafe } from "./level12";
 import { forceItemPossible } from "../engine/resources";
+import { globalStateCache } from "../engine/state";
 
 export const GiantQuest: Quest = {
   name: "Giant",
@@ -99,7 +111,19 @@ export const GiantQuest: Quest = {
           "Mess Around with Gym"
         ) || step("questL10Garbage") >= 8,
       do: $location`The Castle in the Clouds in the Sky (Basement)`,
-      outfit: { modifier: "-combat" },
+      outfit: () => {
+        if (
+          !have($effect`Citizen of a Zone`) &&
+          have($familiar`Patriotic Eagle`) &&
+          !globalStateCache.absorb().isReprocessTarget($monster`Alphabet Giant`)
+        ) {
+          return { modifier: "-combat", familiar: $familiar`Patriotic Eagle` };
+        }
+        return { modifier: "-combat" };
+      },
+      combat: new CombatStrategy().startingMacro(
+        Macro.trySkill($skill`%fn, let's pledge allegiance to a Zone`)
+      ),
       choices: { 670: 5, 669: 1, 671: 4 },
       ncforce: true,
       limit: { soft: 20 },
