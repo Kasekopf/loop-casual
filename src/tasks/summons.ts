@@ -6,6 +6,7 @@ import {
   equippedAmount,
   inHardcore,
   initiativeModifier,
+  isOnline,
   Item,
   itemAmount,
   Monster,
@@ -227,12 +228,15 @@ const summonSources: SummonSource[] = [
       args.minor.fax && !get("_photocopyUsed") && have($item`Clan VIP Lounge key`) ? 1 : 0,
     canFight: (mon: Monster) => canFaxbot(mon),
     summon: (mon: Monster) => {
+      // Default to CheeseFax unless EasyFax is the only faxbot online
+      const faxbot = ["CheeseFax", "EasyFax"].find(bot => isOnline(bot)) ?? "CheeseFax";
+
       for (let i = 0; i < 6; i++) {
-        if (i % 3 === 0) chatPrivate("cheesefax", mon.name);
+        if (i % 3 === 0) chatPrivate(faxbot, mon.name);
         wait(10 + i);
         if (checkFax(mon)) break;
       }
-      if (!checkFax(mon)) throw `Failed to acquire photocopied ${mon.name}.`;
+      if (!checkFax(mon)) throw `Failed to acquire photocopied ${mon.name}.${!isOnline(faxbot) ? `Faxbot ${faxbot} appears to be offline.` : ""}`;
       use($item`photocopied monster`);
     },
   },
