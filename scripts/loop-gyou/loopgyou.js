@@ -10930,13 +10930,18 @@ var summonSources = [{
   available: () => args.minor.fax && !property_get("_photocopyUsed") && lib_have(template_string_$item(summons_templateObject59 || (summons_templateObject59 = summons_taggedTemplateLiteral(["Clan VIP Lounge key"])))) ? 1 : 0,
   canFight: mon => (0,external_kolmafia_namespaceObject.canFaxbot)(mon),
   summon: mon => {
+    var _find;
+
+    // Default to CheeseFax unless EasyFax is the only faxbot online
+    var faxbot = (_find = ["CheeseFax", "EasyFax"].find(bot => (0,external_kolmafia_namespaceObject.isOnline)(bot))) !== null && _find !== void 0 ? _find : "CheeseFax";
+
     for (var i = 0; i < 6; i++) {
-      if (i % 3 === 0) (0,external_kolmafia_namespaceObject.chatPrivate)("cheesefax", mon.name);
+      if (i % 3 === 0) (0,external_kolmafia_namespaceObject.chatPrivate)(faxbot, mon.name);
       (0,external_kolmafia_namespaceObject.wait)(10 + i);
       if (checkFax(mon)) break;
     }
 
-    if (!checkFax(mon)) throw "Failed to acquire photocopied ".concat(mon.name, ".");
+    if (!checkFax(mon)) throw "Failed to acquire photocopied ".concat(mon.name, ".").concat(!(0,external_kolmafia_namespaceObject.isOnline)(faxbot) ? "Faxbot ".concat(faxbot, " appears to be offline.") : "");
     (0,external_kolmafia_namespaceObject.use)(template_string_$item(summons_templateObject60 || (summons_templateObject60 = summons_taggedTemplateLiteral(["photocopied monster"]))));
   }
 }, {
@@ -21189,7 +21194,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "abea989";
+var lastCommitHash = "b7bd31c";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
