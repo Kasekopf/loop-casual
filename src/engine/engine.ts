@@ -1,6 +1,7 @@
 import {
   autosell,
   autosellPrice,
+  canAdventure,
   descToItem,
   equippedItem,
   familiarWeight,
@@ -895,17 +896,31 @@ function getExtros(): void {
 }
 
 function resetBadOrb(): boolean {
-  if (!have($item`bitchin' meatcar`) && !have($item`Desert Bus pass`)) return false;
+  if (get("hiddenBowlingAlleyProgress") !== 8) return false;
+
+  const shrine = $location`An Overgrown Shrine (Southeast)`;
+
+  if (!canAdventure(shrine)) return false;
+
   if (get("_juneCleaverFightsLeft") === 0 && haveEquipped($item`June cleaver`))
     cliExecute("unequip june cleaver");
-  // If we just adventured without the orb, visiting the shore will reset the prediction
-  const store = visitUrl(toUrl($location`The Shore, Inc. Travel Agency`));
-  if (!store.includes("Check out the gift shop")) {
-    print("Unable to stare longingly at toast");
-    return false;
+
+  try {
+    const encounter = visitUrl(toUrl(shrine));
+    if (!encounter.includes("Fire When Ready")) {
+      print("Unable to stare longingly at a shrine ball cradle");
+    }
+    // Walk away
+    runChoice(6);
+    return true;
+  } catch (e) {
+    print(
+      `We ran into an issue when gazing at a shrine for balls: ${e}.`,
+      "red"
+    );
   }
-  runChoice(4);
-  return true;
+
+  return false;
 }
 
 export function customRestoreMp(target: number) {
