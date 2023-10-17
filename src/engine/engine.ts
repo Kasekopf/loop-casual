@@ -2,15 +2,18 @@ import {
   autosell,
   autosellPrice,
   canAdventure,
+  currentRound,
   descToItem,
   equippedItem,
   familiarWeight,
   getInventory,
   getWorkshed,
+  handlingChoice,
   haveEffect,
   haveEquipped,
   historicalPrice,
   Item,
+  lastChoice,
   Location,
   logprint,
   Monster,
@@ -127,6 +130,51 @@ type ScoredTask = {
   score: number;
   index: number;
 };
+
+type CrystalResetTask = {
+  ready: () => boolean;
+  location: Location;
+  choices: {
+    [id: number]: number;
+  };
+};
+
+const crystalResetTasks: CrystalResetTask[] = [
+  {
+    ready: () =>
+      get("_questPartyFair") === "unstarted" &&
+      (get("neverendingPartyAlways") || get("_neverendingPartyToday")),
+    location: $location`The Neverending Party`,
+    choices: { 1322: 6 },
+  },
+  {
+    ready: () =>
+      canAdventure($location`An Overgrown Shrine (Southeast)`) &&
+      get("hiddenBowlingAlleyProgress") >= 1,
+    location: $location`An Overgrown Shrine (Southeast)`,
+    choices: { 787: 6 },
+  },
+  {
+    ready: () =>
+      canAdventure($location`An Overgrown Shrine (Southwest)`) &&
+      get("hiddenHospitalProgress") >= 1,
+    location: $location`An Overgrown Shrine (Southwest)`,
+    choices: { 783: 6 },
+  },
+  {
+    ready: () =>
+      canAdventure($location`An Overgrown Shrine (Northeast)`) && get("hiddenOfficeProgress") >= 1,
+    location: $location`An Overgrown Shrine (Northeast)`,
+    choices: { 785: 6 },
+  },
+  {
+    ready: () =>
+      canAdventure($location`An Overgrown Shrine (Northwest)`) &&
+      get("hiddenApartmentProgress") >= 1,
+    location: $location`An Overgrown Shrine (Northwest)`,
+    choices: { 781: 6 },
+  },
+];
 
 export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   constructor(tasks: Task[], ignoreTasks: string[], completedTasks: string[]) {
@@ -896,28 +944,34 @@ function getExtros(): void {
 }
 
 function resetBadOrb(): boolean {
-  if (get("hiddenBowlingAlleyProgress") !== 8) return false;
+  const crystalTask = crystalResetTasks.find((task) => task.ready());
 
-  const shrine = $location`An Overgrown Shrine (Southeast)`;
-
-  if (!canAdventure(shrine)) return false;
+  if (crystalTask === undefined) return false;
 
   if (get("_juneCleaverFightsLeft") === 0 && haveEquipped($item`June cleaver`))
     cliExecute("unequip june cleaver");
 
   try {
-    const encounter = visitUrl(toUrl(shrine));
-    if (!encounter.includes("Fire When Ready")) {
-      print("Unable to stare longingly at a shrine ball cradle");
+    visitUrl(toUrl(crystalTask.location));
+
+    if (!handlingChoice() || currentRound() !== 0) {
+      print(`We ran into an issue when trying to crystal reset, expected to be in a choice`, "red");
+      return false;
     }
+
+    const choice = crystalTask.choices[lastChoice()];
+
+    if ((choice ?? 0) <= 0) {
+      print(`We ran into an issue when trying to reset crystal ball, unrecognized choice!`, "red");
+      return false;
+    }
+
     // Walk away
-    runChoice(6);
-    return true;
+    runChoice(choice);
+
+    return currentRound() === 0 && !handlingChoice();
   } catch (e) {
-    print(
-      `We ran into an issue when gazing at a shrine for balls: ${e}.`,
-      "red"
-    );
+    print(`We ran into an issue when trying to crystal ball reset: ${e}.`, "red");
   }
 
   return false;
