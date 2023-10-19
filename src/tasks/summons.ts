@@ -236,7 +236,7 @@ const summonSources: SummonSource[] = [
     canFight: (mon: Monster) => canFaxbot(mon),
     summon: (mon: Monster) => {
       // Default to CheeseFax unless EasyFax is the only faxbot online
-      const faxbot = ["CheeseFax", "EasyFax"].find(bot => isOnline(bot)) ?? "CheeseFax";
+      const faxbot = ["CheeseFax", "EasyFax"].find(bot => isOnline(bot)) ?? "EasyFax";
       for (let i = 0; i < 6; i++) {
         if (i % 3 === 0) chatPrivate(faxbot, mon.name);
         wait(10 + i);
