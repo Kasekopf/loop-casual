@@ -10926,6 +10926,11 @@ var summonSources = [{
   // Only use for mountain man
   summon: () => (0,external_kolmafia_namespaceObject.use)(template_string_$item(summons_templateObject58 || (summons_templateObject58 = summons_taggedTemplateLiteral(["white page"]))))
 }, {
+  name: "Combat Locket",
+  available: () => CombatLoversLocket_have() ? reminiscesLeft() - args.minor.savelocket : 0,
+  canFight: mon => availableLocketMonsters().includes(mon),
+  summon: mon => reminisce(mon)
+}, {
   name: "Fax",
   available: () => args.minor.fax && !property_get("_photocopyUsed") && lib_have(template_string_$item(summons_templateObject59 || (summons_templateObject59 = summons_taggedTemplateLiteral(["Clan VIP Lounge key"])))) ? 1 : 0,
   canFight: mon => (0,external_kolmafia_namespaceObject.canFaxbot)(mon),
@@ -10933,7 +10938,7 @@ var summonSources = [{
     var _find;
 
     // Default to CheeseFax unless EasyFax is the only faxbot online
-    var faxbot = (_find = ["CheeseFax", "EasyFax"].find(bot => (0,external_kolmafia_namespaceObject.isOnline)(bot))) !== null && _find !== void 0 ? _find : "CheeseFax";
+    var faxbot = (_find = ["CheeseFax", "EasyFax"].find(bot => (0,external_kolmafia_namespaceObject.isOnline)(bot))) !== null && _find !== void 0 ? _find : "EasyFax";
 
     for (var i = 0; i < 6; i++) {
       if (i % 3 === 0) (0,external_kolmafia_namespaceObject.chatPrivate)(faxbot, mon.name);
@@ -10944,11 +10949,6 @@ var summonSources = [{
     if (!checkFax(mon)) throw "Failed to acquire photocopied ".concat(mon.name, ".").concat(!(0,external_kolmafia_namespaceObject.isOnline)(faxbot) ? "Faxbot ".concat(faxbot, " appears to be offline.") : "");
     (0,external_kolmafia_namespaceObject.use)(template_string_$item(summons_templateObject60 || (summons_templateObject60 = summons_taggedTemplateLiteral(["photocopied monster"]))));
   }
-}, {
-  name: "Combat Locket",
-  available: () => CombatLoversLocket_have() ? reminiscesLeft() - args.minor.savelocket : 0,
-  canFight: mon => availableLocketMonsters().includes(mon),
-  summon: mon => reminisce(mon)
 }, {
   name: "Wish",
   available: () => lib_have(template_string_$item(summons_templateObject61 || (summons_templateObject61 = summons_taggedTemplateLiteral(["genie bottle"])))) ? 3 - property_get("_genieWishesUsed") : 0,
@@ -15772,8 +15772,8 @@ var engine_Engine = /*#__PURE__*/function (_BaseEngine) {
   }, {
     key: "getNextTask",
     value: function getNextTask() {
-      var available_tasks = this.tasks.filter(task => this.available(task));
       this.updatePlan();
+      var available_tasks = this.tasks.filter(task => this.available(task));
       if ((0,external_kolmafia_namespaceObject.myPath)() !== $path(engine_templateObject2 || (engine_templateObject2 = engine_engine_taggedTemplateLiteral(["Grey You"])))) return undefined; // Prism broken
       // Teleportitis overrides all
 
@@ -21202,7 +21202,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "9b79a60";
+var lastCommitHash = "395c598";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
