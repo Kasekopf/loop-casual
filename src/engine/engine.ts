@@ -162,8 +162,8 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   public getNextTask(): ActiveTask | undefined {
-    const available_tasks = this.tasks.filter((task) => this.available(task));
     this.updatePlan();
+    const available_tasks = this.tasks.filter((task) => this.available(task));
 
     if (myPath() !== $path`Grey You`) return undefined; // Prism broken
 
