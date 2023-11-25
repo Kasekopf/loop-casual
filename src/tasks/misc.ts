@@ -48,6 +48,7 @@ import {
   $stat,
   AsdonMartin,
   AutumnAton,
+  BurningLeaves,
   ensureEffect,
   get,
   getSaleValue,
@@ -956,6 +957,22 @@ export const MiscQuest: Quest = {
       limit: { tries: 1 },
       freeaction: true,
     },
+    {
+      name: "Leaf Resin",
+      priority: () => Priorities.Free,
+      ready: () =>
+        BurningLeaves.have() && BurningLeaves.numberOfLeaves() >= 50 &&
+        step("questL13Final") !== -1,
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($effect`Resined`),
+      // eslint-disable-next-line libram/verify-constants
+      acquire: [{ item: $item`distilled resin` }],
+      do: () =>
+        // eslint-disable-next-line libram/verify-constants
+        use($item`distilled resin`)
+      ,
+      limit: { tries: 10 },
+    }
   ],
 };
 
