@@ -19443,7 +19443,7 @@ var Manor1 = [{
   combat: new combat_CombatStrategy().banish($monsters(level11_manor_templateObject14 || (level11_manor_templateObject14 = level11_manor_taggedTemplateLiteral(["banshee librarian, bookbat"])))).kill(),
   choices: {
     163: 4,
-    888: 4,
+    888: 5,
     889: 5,
     894: 1
   },
@@ -21202,7 +21202,7 @@ function checkRequirements() {
   }
 }
 ;// CONCATENATED MODULE: ./src/_git_commit.ts
-var lastCommitHash = "395c598";
+var lastCommitHash = "21ff8dd";
 ;// CONCATENATED MODULE: ./src/main.ts
 var main_templateObject, main_templateObject2, main_templateObject3;
 
