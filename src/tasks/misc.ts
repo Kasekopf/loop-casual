@@ -31,6 +31,7 @@ import {
   print,
   retrieveItem,
   runChoice,
+  turnsPlayed,
   use,
   visitUrl,
   weightAdjustment,
@@ -962,7 +963,7 @@ export const MiscQuest: Quest = {
       priority: () => Priorities.Free,
       ready: () =>
         BurningLeaves.have() && BurningLeaves.numberOfLeaves() >= 50 &&
-        step("questL13Final") !== -1,
+        turnsPlayed() <= 425,
       // eslint-disable-next-line libram/verify-constants
       completed: () => have($effect`Resined`),
       // eslint-disable-next-line libram/verify-constants
@@ -971,7 +972,7 @@ export const MiscQuest: Quest = {
         // eslint-disable-next-line libram/verify-constants
         use($item`distilled resin`)
       ,
-      limit: { tries: 10 },
+      limit: { tries: 5 },
     }
   ],
 };
