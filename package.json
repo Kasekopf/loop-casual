@@ -33,8 +33,8 @@
   "dependencies": {
     "core-js": "^3.16.4",
     "grimoire-kolmafia": "^0.3.20",
-    "kolmafia": "^5.27339.0",
-    "libram": "^0.8.4",
+    "kolmafia": "^5.27696.0",
+    "libram": "^0.8.17",
     "mafia-shared-relay": "^0.0.7"
   },
   "author": "Kasekopf",
