@@ -964,12 +964,9 @@ export const MiscQuest: Quest = {
       ready: () =>
         BurningLeaves.have() && BurningLeaves.numberOfLeaves() >= 50 &&
         turnsPlayed() <= 425,
-      // eslint-disable-next-line libram/verify-constants
       completed: () => have($effect`Resined`),
-      // eslint-disable-next-line libram/verify-constants
       acquire: [{ item: $item`distilled resin` }],
       do: () =>
-        // eslint-disable-next-line libram/verify-constants
         use($item`distilled resin`)
       ,
       limit: { tries: 5 },
