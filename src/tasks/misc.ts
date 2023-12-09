@@ -966,10 +966,17 @@ export const MiscQuest: Quest = {
         turnsPlayed() <= 425,
       completed: () => have($effect`Resined`),
       acquire: [{ item: $item`distilled resin` }],
-      do: () =>
-        use($item`distilled resin`)
-      ,
+      do: () => use($item`distilled resin`),
       limit: { tries: 5 },
+    },
+    {
+      name: "Wardrobe-O-Matic",
+      after: ["Naughty Sorceress"],
+      priority: () => Priorities.Free,
+      ready: () => have($item`wardrobe-o-matic`),
+      completed: () => have($item`futuristic hat`),
+      do: () => use($item`wardrobe-o-matic`),
+      limit: { tries: 1 },
     }
   ],
 };
