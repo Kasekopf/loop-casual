@@ -971,7 +971,7 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Wardrobe-O-Matic",
-      after: ["Naughty Sorceress"],
+      after: ["Tower/Naughty Sorceress"],
       priority: () => Priorities.Free,
       ready: () => have($item`wardrobe-o-matic`),
       completed: () => have($item`futuristic hat`),
