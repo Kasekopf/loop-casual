@@ -964,15 +964,19 @@ export const MiscQuest: Quest = {
       ready: () =>
         BurningLeaves.have() && BurningLeaves.numberOfLeaves() >= 50 &&
         turnsPlayed() <= 425,
-      // eslint-disable-next-line libram/verify-constants
       completed: () => have($effect`Resined`),
-      // eslint-disable-next-line libram/verify-constants
       acquire: [{ item: $item`distilled resin` }],
-      do: () =>
-        // eslint-disable-next-line libram/verify-constants
-        use($item`distilled resin`)
-      ,
+      do: () => use($item`distilled resin`),
       limit: { tries: 5 },
+    },
+    {
+      name: "Wardrobe-O-Matic",
+      after: ["Tower/Naughty Sorceress"],
+      priority: () => Priorities.Free,
+      ready: () => have($item`wardrobe-o-matic`),
+      completed: () => have($item`futuristic hat`),
+      do: () => use($item`wardrobe-o-matic`),
+      limit: { tries: 1 },
     }
   ],
 };
