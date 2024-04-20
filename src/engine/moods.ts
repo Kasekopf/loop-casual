@@ -2,6 +2,7 @@ import {
   cliExecute,
   Effect,
   getWorkshed,
+  haveSkill,
   myClass,
   myEffects,
   myMaxmp,
@@ -54,7 +55,10 @@ function getRelevantEffects(): { [modifier: string]: Effect[] } {
     result["mainstat"].push($effect`Total Protonic Reversal`);
 
   // Noncombat buffs
-  if (get("_feelLonelyUsed") < 3 || have($effect`Feeling Lonely`))
+  if (
+    haveSkill($skill`Feel Lonely`) &&
+    (get("_feelLonelyUsed") < 3 || have($effect`Feeling Lonely`))
+  )
     result["-combat"].push($effect`Feeling Lonely`);
   if (!get("_olympicSwimmingPool") || have($effect`Silent Running`))
     result["-combat"].push($effect`Silent Running`);
