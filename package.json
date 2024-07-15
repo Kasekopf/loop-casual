@@ -24,7 +24,7 @@
     "babel-loader": "^8.2.2",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-libram": "^0.2.30",
+    "eslint-plugin-libram": "^0.4.9",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2",
     "webpack": "^5.51.1",
@@ -48,5 +48,6 @@
     "url": "https://github.com/Kasekopf/loop-casual/issues"
   },
   "homepage": "https://github.com/Kasekopf/loop-casual",
-  "private": true
+  "private": true,
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
