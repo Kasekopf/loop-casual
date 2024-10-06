@@ -21,3 +21,7 @@ export function convertMilliseconds(milliseconds: number): string {
     (secondsLeft !== 0 ? `${secondsLeft} seconds` : "")
   );
 }
+
+export function getValue<T>(v: T | (() => T)): T {
+  return v instanceof Function ? v() : v;
+}
