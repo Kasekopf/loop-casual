@@ -1,5 +1,5 @@
-import { cliExecute, myHash, use, visitUrl } from "kolmafia";
-import { $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
+import { cliExecute, myHash, toInt, use, visitUrl } from "kolmafia";
+import { $effect, $effects, $item, $items, $location, $monster, $monsters, get, have, Macro } from "libram";
 import { Quest, Task } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { runawayValue } from "../engine/resources";
@@ -80,7 +80,7 @@ const Temple: Task[] = [
   },
 ];
 
-const use_writ = new Macro().tryItem($item`short writ of habeas corpus`);
+const use_writ = new Macro().if_(`!haseffect ${toInt($effect`Everything Looks Green`)}`, Macro.tryItem($item`short writ of habeas corpus`));
 
 const Apartment: Task[] = [
   {
