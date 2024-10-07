@@ -21,6 +21,7 @@ import {
   myAscensions,
   myBasestat,
   myHp,
+  myLevel,
   myMaxhp,
   myMaxmp,
   myMeat,
@@ -971,9 +972,8 @@ export const MiscQuest: Quest = {
     },
     {
       name: "Wardrobe-O-Matic",
-      after: ["Tower/Naughty Sorceress"],
       priority: () => Priorities.Free,
-      ready: () => have($item`wardrobe-o-matic`),
+      ready: () => have($item`wardrobe-o-matic`) && myLevel() >= 20,
       completed: () => have($item`futuristic hat`),
       do: () => use($item`wardrobe-o-matic`),
       limit: { tries: 1 },
