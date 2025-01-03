@@ -914,10 +914,7 @@ function resetBadOrb(): boolean {
     runChoice(6);
     return true;
   } catch (e) {
-    print(
-      `We ran into an issue when gazing at a shrine for balls: ${e}.`,
-      "red"
-    );
+    print(`We ran into an issue when gazing at a shrine for balls: ${e}.`, "red");
   }
 
   return false;
