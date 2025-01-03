@@ -1,5 +1,5 @@
 import { myLevel, visitUrl } from "kolmafia";
-import { $item, $location } from "libram";
+import { $item, $items, $location, get, have } from "libram";
 import { Quest } from "../engine/task";
 import { CombatStrategy } from "../engine/combat";
 import { step } from "grimoire-kolmafia";
@@ -34,19 +34,50 @@ export const McLargeHugeQuest: Quest = {
       freeaction: true,
     },
     {
-      name: "Climb",
+      name: "Extreme Snowboard",
       after: ["Ores"],
       acquire: [
-        { item: $item`ninja rope` },
-        { item: $item`ninja carabiner` },
-        { item: $item`ninja crampons` },
+        { item: $item`eXtreme mittens` },
+        { item: $item`snowboarder pants` },
+        { item: $item`eXtreme scarf` },
       ],
+      completed: () => get("currentExtremity") >= 3 || step("questL08Trapper") >= 3,
+      do: $location`The eXtreme Slope`,
+      outfit: () => {
+        if (haveHugeLarge())
+          return {
+            // eslint-disable-next-line libram/verify-constants
+            equip: $items`McHugeLarge left pole, McHugeLarge right pole, McHugeLarge left ski, McHugeLarge right ski, McHugeLarge duffel bag`,
+            modifier: "-combat",
+          };
+        return {
+          equip: $items`eXtreme mittens, snowboarder pants, eXtreme scarf`,
+          modifier: "-combat",
+        };
+      },
+      limit: { soft: 30 },
+    },
+    {
+      name: "Climb",
+      after: ["Ores", "Extreme Snowboard"],
       completed: () => step("questL08Trapper") >= 3,
       do: (): void => {
         visitUrl("place.php?whichplace=mclargehuge&action=cloudypeak");
       },
-      outfit: { modifier: "cold res 5min" },
+      outfit: () => {
+        if (haveHugeLarge())
+          return {
+            // eslint-disable-next-line libram/verify-constants
+            equip: $items`McHugeLarge left pole, McHugeLarge right pole, McHugeLarge left ski, McHugeLarge right ski, McHugeLarge duffel bag`,
+            modifier: "-combat",
+          };
+        return {
+          equip: $items`eXtreme mittens, snowboarder pants, eXtreme scarf`,
+          modifier: "-combat",
+        };
+      },
       limit: { tries: 1 },
+      freeaction: true,
     },
     {
       name: "Peak",
@@ -68,3 +99,18 @@ export const McLargeHugeQuest: Quest = {
     },
   ],
 };
+
+function haveHugeLarge() {
+  return (
+    // eslint-disable-next-line libram/verify-constants
+    have($item`McHugeLarge left pole`) &&
+    // eslint-disable-next-line libram/verify-constants
+    have($item`McHugeLarge right pole`) &&
+    // eslint-disable-next-line libram/verify-constants
+    have($item`McHugeLarge left ski`) &&
+    // eslint-disable-next-line libram/verify-constants
+    have($item`McHugeLarge right ski`) &&
+    // eslint-disable-next-line libram/verify-constants
+    have($item`McHugeLarge duffel bag`)
+  );
+}
