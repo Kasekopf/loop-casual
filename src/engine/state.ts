@@ -50,6 +50,7 @@ class OrbState {
       get("crystalBallPredictions")
         .split("|")
         .map((element) => element.split(":") as [string, string, string])
+        .filter((tuple) => tuple.length === 3)
         .map(
           ([, location, monster]) =>
             [toLocation(location), toMonster(monster)] as [Location, Monster]
