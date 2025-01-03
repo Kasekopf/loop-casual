@@ -79,19 +79,20 @@ export const routing: string[] = [
   "Palindome/Bat Snake",
   "Bat/Use Sonar 3", // Prepare for lobsterfrogman backups
   "Palindome/Cold Snake",
+  "McLargeHuge/Trapper Return", // ensure we don't need clovers for ore
 
   // Knock down -combats
   "Manor/Finish Floor2",
   "Giant/Unlock HITS",
   "Crypt/Cranny",
   "Mosquito/Finish",
+  "McLargeHuge/Climb",
 
   // The following 3 tasks should always stay in this order
   "Macguffin/Oasis", // Get ultrahydrated as soon as needed
   "Macguffin/Oasis Drum", // Get drum as soon as pages are gathered
   "Macguffin/Desert", // charge camel for protestors
 
-  "McLargeHuge/Trapper Return", // ensure we don't need clovers for ore
   "Palindome/Protesters",
 
   // Finish remaining quests

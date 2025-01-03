@@ -977,7 +977,19 @@ export const MiscQuest: Quest = {
       completed: () => have($item`futuristic hat`),
       do: () => use($item`wardrobe-o-matic`),
       limit: { tries: 1 },
-    }
+    },
+    {
+      name: "Open McHugeLarge Bag",
+      after: [],
+      priority: () => Priorities.Free,
+      completed: () =>
+        // eslint-disable-next-line libram/verify-constants
+        !have($item`McHugeLarge duffel bag`) || have($item`McHugeLarge right pole`),
+      // eslint-disable-next-line libram/verify-constants
+      do: () => visitUrl("inventory.php?action=skiduffel&pwd"),
+      freeaction: true,
+      limit: { tries: 1 },
+    },
   ],
 };
 

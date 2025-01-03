@@ -166,18 +166,6 @@ export const pulls: PullSpec[] = [
       !have($item`wet stew`) &&
       (!have($item`lion oil`) || !have($item`bird rib`)),
   },
-  {
-    pull: $item`ninja rope`,
-    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
-  },
-  {
-    pull: $item`ninja carabiner`,
-    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
-  },
-  {
-    pull: $item`ninja crampons`,
-    useful: () => step("questL08Trapper") < 3 && step("questL11Shen") > 3,
-  },
 ];
 
 class Pull {
