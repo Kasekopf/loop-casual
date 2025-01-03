@@ -14,7 +14,7 @@ import { CombatActions, MyActionDefaults } from "./combat";
 import { Engine as BaseEngine, CombatResources, CombatStrategy, Outfit } from "grimoire-kolmafia";
 import { applyEffects } from "./moods";
 import { myHp, myMaxhp, myMaxmp, restoreMp, useSkill } from "kolmafia";
-import { debug } from "../lib";
+import { debug, getValue } from "../lib";
 import {
   canChargeVoid,
   freekillSources,
@@ -43,7 +43,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   public hasDelay(task: Task): boolean {
     if (!task.delay) return false;
     if (!(task.do instanceof Location)) return false;
-    return task.do.turnsSpent < task.delay;
+    return task.do.turnsSpent < getValue(task.delay);
   }
 
   public getNextTask(): ActiveTask | undefined {
@@ -199,7 +199,7 @@ export class Engine extends BaseEngine<CombatActions, ActiveTask> {
   }
 
   createOutfit(task: Task): Outfit {
-    const spec = typeof task.outfit === "function" ? task.outfit() : task.outfit;
+    const spec = getValue(task.outfit);
     const outfit = new Outfit();
     if (spec !== undefined) outfit.equip(spec); // no error on failure
     return outfit;

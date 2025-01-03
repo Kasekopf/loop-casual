@@ -19,7 +19,7 @@ export const KnobQuest: Quest = {
     {
       name: "Outskirts",
       after: [],
-      completed: () => have($item`Knob Goblin encryption key`) || step("questL05Goblin") > 0,
+      completed: () => have($item`Knob Goblin Encryption Key`) || step("questL05Goblin") > 0,
       do: $location`The Outskirts of Cobb's Knob`,
       choices: { 111: 3, 113: 2, 118: 1 },
       limit: { tries: 13 },

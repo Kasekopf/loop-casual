@@ -1,4 +1,4 @@
-import { cliExecute, containsText, myLevel, use, visitUrl } from "kolmafia";
+import { cliExecute, containsText, haveEquipped, myLevel, use, visitUrl } from "kolmafia";
 import { $effect, $item, $items, $location, $monster, have } from "libram";
 import { CombatStrategy } from "../engine/combat";
 import { Quest } from "../engine/task";
@@ -31,14 +31,29 @@ export const GiantQuest: Quest = {
       after: ["Grow Beanstalk"],
       completed: () => have($item`S.O.C.K.`),
       do: $location`The Penultimate Fantasy Airship`,
-      choices: { 178: 2, 182: 1 },
+      choices: {
+        178: 2,
+        182: () => {
+          // eslint-disable-next-line libram/verify-constants
+          if (haveEquipped($item`bat wings`)) return 6;
+          if (haveEquipped($item`candy cane sword cane`)) return 5;
+          return 1;
+        },
+      },
       post: () => {
         if (have($effect`Temporary Amnesia`)) cliExecute("uneffect Temporary Amnesia");
       },
-      outfit: { modifier: "-combat" },
+      // eslint-disable-next-line libram/verify-constants
+      outfit: { modifier: "-combat", equip: $items`bat wings` },
       limit: { soft: 50 },
-      delay: () =>
-        have($item`Plastic Wrap Immateria`) ? 25 : have($item`Gauze Immateria`) ? 20 : 15, // After that, just look for noncombats
+      delay: () => {
+        // eslint-disable-next-line libram/verify-constants
+        const perStep = have($item`bat wings`) ? 4 : 5;
+        if (have($item`Plastic Wrap Immateria`)) return 5 * perStep;
+        if (have($item`Gauze Immateria`)) return 4 * perStep;
+        // After that, just look for noncombats
+        return 3 * perStep;
+      },
     },
     {
       name: "Basement Search",
